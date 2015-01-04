@@ -22,15 +22,15 @@ class Catalog(objects.Catalog):
     Objects catalog.
     """
 
-    database = objects.Singleton(sqlite3.Connection,
+    database = objects.Singleton(provides=sqlite3.Connection,
                                  database='example.db')
     """ :type: (objects.Provider) -> sqlite3.Connection """
 
-    object_a = objects.NewInstance(A,
+    object_a = objects.NewInstance(provides=A,
                                    db=database)
     """ :type: (objects.Provider) -> A """
 
-    object_b = objects.NewInstance(B,
+    object_b = objects.NewInstance(provides=B,
                                    a=object_a,
                                    db=database)
     """ :type: (objects.Provider) -> B """
