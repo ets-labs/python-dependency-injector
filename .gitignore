@@ -58,3 +58,6 @@ target/
 
 # Virtualenv
 venv/
+
+# SQLite
+*.db
