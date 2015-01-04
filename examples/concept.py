@@ -36,10 +36,15 @@ class Catalog(objects.Catalog):
     """ :type: (objects.Provider) -> B """
 
 
-catalog = Catalog(Catalog.object_a,
-                  Catalog.object_b)
-a1 = catalog.object_a()
-b1 = catalog.object_b()
+class Consumer(object):
+    catalog = Catalog(Catalog.object_a,
+                      Catalog.object_b)
+
+    def return_a_b(self):
+        return (self.catalog.object_a(),
+                self.catalog.object_b())
+
+a1, b1 = Consumer().return_a_b()
 
 a2 = Catalog.object_a()
 b2 = Catalog.object_b()
