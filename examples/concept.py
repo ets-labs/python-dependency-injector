@@ -6,6 +6,7 @@ import objects
 import sqlite3
 
 
+# Some example classes.
 class A(object):
     def __init__(self, db):
         self.db = db
@@ -17,6 +18,7 @@ class B(object):
         self.db = db
 
 
+# Catalog of objects providers.
 class Catalog(objects.Catalog):
     """
     Objects catalog.
@@ -36,6 +38,7 @@ class Catalog(objects.Catalog):
     """ :type: (objects.Provider) -> B """
 
 
+# Catalog injection into consumer class.
 class Consumer(object):
     catalog = Catalog(Catalog.object_a,
                       Catalog.object_b)
@@ -46,13 +49,12 @@ class Consumer(object):
 
 a1, b1 = Consumer().return_a_b()
 
+
+# Catalog static provides.
 a2 = Catalog.object_a()
 b2 = Catalog.object_b()
 
-print a1, a1.db
-print a2, a2.db
-print b1, b1.db
-print b2, b2.db
-
+# Some asserts.
 assert a1 is not a2
 assert b1 is not b2
+assert a1.db is a2.db is b1.db is b2.db
