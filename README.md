@@ -1,4 +1,4 @@
-objects
+Objects
 =======
 
-Python catalogs of objects providers
+Python catalogs of objects providers.
