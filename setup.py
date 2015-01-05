@@ -6,8 +6,14 @@ from setuptools import setup
 
 
 # Getting description.
-with open('README.md') as readme_file:
+try:
+    import pypandoc
+except (IOError, ImportError):
+    with open('README.md') as readme_file:
         description = readme_file.read()
+else:
+    description = pypandoc.convert('README.md', 'rst', format='markdown')
+
 
 # Getting requirements.
 with open('requirements.txt') as version:
@@ -45,21 +51,21 @@ setup(
     classifiers=[
         'Development Status :: 1 - Planning',
     #     'Development Status :: 4 - Beta',
-    #     'Intended Audience :: Developers',
-    #     'License :: OSI Approved :: BSD License',
-    #     'Operating System :: OS Independent',
-    #     'Programming Language :: Python',
-    #     'Programming Language :: Python :: 2',
-    #     'Programming Language :: Python :: 2.6',
-    #     'Programming Language :: Python :: 2.7',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.6',
+        'Programming Language :: Python :: 2.7',
     #     'Programming Language :: Python :: 3',
     #     'Programming Language :: Python :: 3.2',
     #     'Programming Language :: Python :: 3.3',
     #     'Programming Language :: Python :: 3.4',
-    #     'Programming Language :: Python :: Implementation :: CPython',
+        'Programming Language :: Python :: Implementation :: CPython',
     #     'Programming Language :: Python :: Implementation :: PyPy',
-    #     'Topic :: Software Development',
-    #     'Topic :: Software Development :: Libraries',
-    #     'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Software Development',
+        'Topic :: Software Development :: Libraries',
+        'Topic :: Software Development :: Libraries :: Python Modules',
     ]
 )
