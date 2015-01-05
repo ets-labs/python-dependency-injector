@@ -29,11 +29,11 @@ with open('VERSION') as version:
 # Helper commands.
 if sys.argv[-1] == 'publish':
     os.system('python setup.py sdist upload')
-    print('You probably want to also tag the version now:')
-    print('  git tag -a %s -m \'version %s\'' % (version, version))
-    print('  git push --tags')
     sys.exit()
-
+if sys.argv[-1] == 'tag':
+    os.system('git tag -a {0} -m \'version {0}\''.format(version))
+    os.system('git push --tags')
+    sys.exit()
 
 setup(
     name='Objects',
