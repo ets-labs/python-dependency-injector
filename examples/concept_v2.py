@@ -2,7 +2,7 @@
 Concept example of objects catalogs.
 """
 
-import objects
+from objects import Catalog, Singleton, NewInstance, KwArg, Attribute
 import sqlite3
 
 
@@ -19,30 +19,30 @@ class B(object):
 
 
 # Catalog of objects providers.
-class Catalog(objects.Catalog):
+class AppCatalog(Catalog):
     """
     Objects catalog.
     """
 
-    database = objects.Singleton(sqlite3.Connection,
-                                 objects.KwArg('database', ':memory:'),
-                                 objects.Attribute('row_factory', sqlite3.Row))
+    database = Singleton(sqlite3.Connection,
+                         KwArg('database', ':memory:'),
+                         Attribute('row_factory', sqlite3.Row))
     """ :type: (objects.Provider) -> sqlite3.Connection """
 
-    object_a = objects.NewInstance(A,
-                                   objects.KwArg('db', database))
+    object_a = NewInstance(A,
+                           KwArg('db', database))
     """ :type: (objects.Provider) -> A """
 
-    object_b = objects.NewInstance(B,
-                                   objects.KwArg('a', object_a),
-                                   objects.KwArg('db', database))
+    object_b = NewInstance(B,
+                           KwArg('a', object_a),
+                           KwArg('db', database))
     """ :type: (objects.Provider) -> B """
 
 
 # Catalog injection into consumer class.
 class Consumer(object):
-    catalog = Catalog(Catalog.object_a,
-                      Catalog.object_b)
+    catalog = AppCatalog(AppCatalog.object_a,
+                         AppCatalog.object_b)
 
     def return_a_b(self):
         return (self.catalog.object_a(),
@@ -52,8 +52,8 @@ a1, b1 = Consumer().return_a_b()
 
 
 # Catalog static provides.
-a2 = Catalog.object_a()
-b2 = Catalog.object_b()
+a2 = AppCatalog.object_a()
+b2 = AppCatalog.object_b()
 
 # Some asserts.
 assert a1 is not a2
