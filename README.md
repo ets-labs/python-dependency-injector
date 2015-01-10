@@ -11,7 +11,7 @@ Example:
 Concept example of objects catalogs.
 """
 
-import objects
+from objects import Catalog, Singleton, NewInstance, InitArg, Attribute
 import sqlite3
 
 
@@ -28,29 +28,30 @@ class B(object):
 
 
 # Catalog of objects providers.
-class Catalog(objects.Catalog):
+class AppCatalog(Catalog):
     """
     Objects catalog.
     """
 
-    database = objects.Singleton(provides=sqlite3.Connection,
-                                 database='example.db')
+    database = Singleton(sqlite3.Connection,
+                         InitArg('database', ':memory:'),
+                         Attribute('row_factory', sqlite3.Row))
     """ :type: (objects.Provider) -> sqlite3.Connection """
 
-    object_a = objects.NewInstance(provides=A,
-                                   db=database)
+    object_a = NewInstance(A,
+                           InitArg('db', database))
     """ :type: (objects.Provider) -> A """
 
-    object_b = objects.NewInstance(provides=B,
-                                   a=object_a,
-                                   db=database)
+    object_b = NewInstance(B,
+                           InitArg('a', object_a),
+                           InitArg('db', database))
     """ :type: (objects.Provider) -> B """
 
 
 # Catalog injection into consumer class.
 class Consumer(object):
-    catalog = Catalog(Catalog.object_a,
-                      Catalog.object_b)
+    catalog = AppCatalog(AppCatalog.object_a,
+                         AppCatalog.object_b)
 
     def return_a_b(self):
         return (self.catalog.object_a(),
@@ -60,8 +61,8 @@ a1, b1 = Consumer().return_a_b()
 
 
 # Catalog static provides.
-a2 = Catalog.object_a()
-b2 = Catalog.object_b()
+a2 = AppCatalog.object_a()
+b2 = AppCatalog.object_b()
 
 # Some asserts.
 assert a1 is not a2
