@@ -2,6 +2,8 @@
 Standard providers.
 """
 
+from .injections import InitArg, Attribute, Method
+
 
 class Provider(object):
     """
@@ -14,34 +16,54 @@ class Provider(object):
         """
         raise NotImplementedError()
 
+    @staticmethod
+    def prepare_injections(injections):
+        """
+        Prepares injections list to injection.
+        """
+        prepared_injections = dict()
+        for injection in injections:
+            if isinstance(injection.injectable, Provider):
+                value = injection.injectable.__call__()
+            else:
+                value = injection.injectable
+            prepared_injections[injection.name] = value
+        return prepared_injections
+
 
 class NewInstance(Provider):
     """
     New instance providers will create and return new instance on every call.
     """
 
-    def __init__(self, provides, **dependencies):
+    def __init__(self, provides, *injections):
         """
         Initializer.
         """
         self.provides = provides
-        self.dependencies = dependencies
+        self.init_injections = InitArg.fetch(injections)
+        self.attribute_injections = Attribute.fetch(injections)
+        self.method_injections = Method.fetch(injections)
 
     def __call__(self, *args, **kwargs):
         """
         Returns provided instance.
         """
-        for name, dependency in self.dependencies.iteritems():
-            if name in kwargs:
-                continue
+        init_injections = Provider.prepare_injections(self.init_injections)
+        init_injections.update(kwargs)
 
-            if isinstance(dependency, Provider):
-                value = dependency.__call__()
-            else:
-                value = dependency
+        provided = self.provides(*args, **init_injections)
 
-            kwargs[name] = value
-        return self.provides(*args, **kwargs)
+        attribute_injections = Provider.prepare_injections(
+            self.attribute_injections)
+        for name, injectable in attribute_injections.iteritems():
+            setattr(provided, name, injectable)
+
+        method_injections = Provider.prepare_injections(self.method_injections)
+        for name, injectable in method_injections.iteritems():
+            getattr(provided, name)(injectable)
+
+        return provided
 
 
 class Singleton(NewInstance):
