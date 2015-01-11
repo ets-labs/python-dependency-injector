@@ -48,36 +48,75 @@ class AppCatalog(Catalog):
     """ :type: (objects.Provider) -> ObjectB """
 
 
-# Catalog injection into consumer class.
-class Consumer(object):
-    catalog = AppCatalog(AppCatalog.object_a,
-                         AppCatalog.object_b)
-
-    def return_a_b(self):
-        return (self.catalog.object_a(),
-                self.catalog.object_b())
-
-a1, b1 = Consumer().return_a_b()
-
-
 # Catalog static provides.
-a2 = AppCatalog.object_a()
-b2 = AppCatalog.object_b()
+a1, a2 = AppCatalog.object_a(), AppCatalog.object_a()
+b1, b2 = AppCatalog.object_b(), AppCatalog.object_b()
 
 # Some asserts.
 assert a1 is not a2
 assert b1 is not b2
-assert a1.db is a2.db is b1.db is b2.db
+assert a1.db is a2.db is b1.db is b2.db is AppCatalog.database()
+
+
+# Dependency injection (The Python Way) into class.
+class Consumer(object):
+
+    dependencies = AppCatalog(AppCatalog.object_a,
+                              AppCatalog.object_b)
+
+    def test(self):
+        a1 = self.dependencies.object_a()
+        a2 = self.dependencies.object_a()
+
+        b1 = self.dependencies.object_b()
+        b2 = self.dependencies.object_b()
+
+        # Some asserts.
+        assert a1 is not a2
+        assert b1 is not b2
+        assert a1.db is a2.db is b1.db is b2.db
+
+        try:
+            self.dependencies.database()
+        except AttributeError:
+            pass
+        else:
+            raise Exception('Database is not listed as a dependency')
+
+Consumer().test()
+
+
+# Dependency injection (The Python Way) into a callback.
+def consumer_callback(dependencies=AppCatalog(AppCatalog.object_a,
+                                              AppCatalog.object_b)):
+    a1 = dependencies.object_a()
+    a2 = dependencies.object_a()
+
+    b1 = dependencies.object_b()
+    b2 = dependencies.object_b()
+
+    # Some asserts.
+    assert a1 is not a2
+    assert b1 is not b2
+    assert a1.db is a2.db is b1.db is b2.db
+
+    try:
+        dependencies.database()
+    except AttributeError:
+        pass
+    else:
+        raise Exception('Database is not listed as a dependency')
 ```
 
-Example of injections using objects.catalog:
+Example of overriding object providers:
 
 ```python
 """
-Concept example of objects injections.
+Concept example of objects overrides.
 """
 
-from objects import Catalog, Singleton, NewInstance, InitArg, Attribute, inject
+
+from objects import Catalog, Singleton, NewInstance, InitArg, Attribute, overrides
 import sqlite3
 
 
@@ -85,6 +124,10 @@ import sqlite3
 class ObjectA(object):
     def __init__(self, db):
         self.db = db
+
+
+class ObjectAMock(ObjectA):
+    pass
 
 
 # Catalog of objects providers.
@@ -103,57 +146,25 @@ class AppCatalog(Catalog):
     """ :type: (objects.Provider) -> ObjectA """
 
 
-# Class attributes injections.
-@inject(Attribute('a', AppCatalog.object_a))
-@inject(Attribute('database', AppCatalog.database))
-class Consumer(object):
+# Overriding AppCatalog by SandboxCatalog with some mocks.
+@overrides(AppCatalog)
+class SandboxCatalog(AppCatalog):
     """
-    Some consumer class with database dependency via attribute.
+    Sandbox objects catalog with some mocks.
     """
 
-    a = None
+    object_a = NewInstance(ObjectAMock,
+                           InitArg('db', AppCatalog.database))
     """ :type: (objects.Provider) -> ObjectA """
 
-    database = None
-    """ :type: (objects.Provider) -> sqlite3.Connection """
 
-    def tests(self):
-        a1, a2 = self.a(), self.a()
+# Catalog static provides.
+a1 = AppCatalog.object_a()
+a2 = AppCatalog.object_a()
 
-        assert a1 is not a2
-        assert a1.db is a2.db is self.database()
-
-
-consumer = Consumer()
-consumer.tests()
-
-
-# Class __init__ injections.
-@inject(InitArg('a1', AppCatalog.object_a))
-@inject(InitArg('a2', AppCatalog.object_a))
-@inject(InitArg('database', AppCatalog.database))
-class ConsumerWithInitArg(object):
-    """
-    Some consumer class with database dependency via init arg.
-    """
-
-    def __init__(self, a1, a2, database):
-        """
-        Initializer.
-
-        :param a1: ObjectA
-        :param a2: ObjectA
-        :param database: sqlite3.Connection
-        """
-        self.a1 = a1
-        self.a2 = a2
-        self.database = database
-
-    def tests(self):
-        assert self.a1 is not self.a2
-        assert self.a1.db is self.a2.db is self.database
-
-
-consumer = ConsumerWithInitArg()
-consumer.tests()
+# Some asserts.
+assert isinstance(a1, ObjectAMock)
+assert isinstance(a2, ObjectAMock)
+assert a1 is not a2
+assert a1.db is a2.db is AppCatalog.database()
 ```

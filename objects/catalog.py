@@ -14,19 +14,58 @@ class Catalog(object):
         """
         Initializer.
         """
-        self._clean_unused_providers(used_providers)
+        self.__used_providers__ = set(used_providers)
 
-    def _clean_unused_providers(self, used_providers):
+    def __getattribute__(self, item):
         """
-        Sets every catalog's provider in None except of `used_providers` list.
+        Returns providers.
 
-        :param list|tuple|set used_providers:
+        :param item:
         :return:
         """
-        used_providers = set(used_providers)
-        for attribute_name in set(dir(self.__class__)) - set(dir(Catalog)):
-            provider = getattr(self, attribute_name)
+        attribute = super(Catalog, self).__getattribute__(item)
+        if item in ('__used_providers__',):
+            return attribute
+
+        if attribute not in self.__used_providers__:
+            raise AttributeError('Provider \'{}\' is not listed in '
+                                 'dependencies'.format(item))
+        return attribute
+
+    @classmethod
+    def __all_providers__(cls):
+        """
+        Returns set of all class providers.
+        """
+        providers = set()
+        for attr_name in set(dir(cls)) - set(dir(Catalog)):
+            provider = getattr(cls, attr_name)
             if not isinstance(provider, Provider):
                 continue
-            if provider not in used_providers:
-                setattr(self, attribute_name, None)
+            providers.add((attr_name, provider))
+        return providers
+
+    @classmethod
+    def __override___(cls, overriding):
+        """
+        Overrides current catalog providers by overriding catalog providers.
+
+        :param overriding: Catalog
+        """
+        overriden = overriding.__all_providers__() - cls.__all_providers__()
+        for name, provider in overriden:
+            overridden_provider = getattr(cls, name)
+            overridden_provider.__override__(provider)
+
+
+def overrides(catalog):
+    """
+    Catalog overriding decorator.
+
+    :param catalog:
+    :return:
+    """
+    def decorator(overriding_catalog):
+        catalog.__override___(overriding_catalog)
+        return overriding_catalog
+    return decorator

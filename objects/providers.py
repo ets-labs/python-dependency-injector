@@ -11,12 +11,25 @@ class Provider(object):
     """
 
     __is_objects_provider__ = True
+    __overridden_by__ = list()
+
+    def __init__(self):
+        """
+        Initializer.
+        """
+        self.__overridden_by__ = list()
 
     def __call__(self, *args, **kwargs):
         """
         Returns provided instance.
         """
         raise NotImplementedError()
+
+    def __override__(self, provider):
+        """
+        Overrides provider with another provider.
+        """
+        self.__overridden_by__.append(provider)
 
 
 def prepare_injections(injections):
@@ -48,11 +61,15 @@ class NewInstance(Provider):
         self.init_injections = fetch_injections(injections, InitArg)
         self.attribute_injections = fetch_injections(injections, Attribute)
         self.method_injections = fetch_injections(injections, Method)
+        super(NewInstance, self).__init__()
 
     def __call__(self, *args, **kwargs):
         """
         Returns provided instance.
         """
+        if self.__overridden_by__:
+            return self.__overridden_by__[-1].__call__(*args, **kwargs)
+
         init_injections = prepare_injections(self.init_injections)
         init_injections = dict(init_injections)
         init_injections.update(kwargs)
@@ -102,11 +119,14 @@ class _StaticProvider(Provider):
         Initializer.
         """
         self.provides = provides
+        super(_StaticProvider, self).__init__()
 
     def __call__(self):
         """
         Returns provided instance.
         """
+        if self.__overridden_by__:
+            return self.__overridden_by__[-1].__call__()
         return self.provides
 
 

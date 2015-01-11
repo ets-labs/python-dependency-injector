@@ -46,25 +46,12 @@ class Method(Injection):
     """
 
 
-def inject(injection):
+def uses(provider):
     """
-    Injection decorator.
+    Providers usage decorator.
     """
-    def decorator(callback_or_cls):
-        if isclass(callback_or_cls):
-            cls = callback_or_cls
-            if isinstance(injection, Attribute):
-                setattr(cls, injection.name, injection.injectable)
-            elif isinstance(injection, InitArg):
-                cls.__init__ = decorator(cls.__init__)
-            return cls
-        else:
-            callback = callback_or_cls
-
-            @wraps(callback)
-            def wrapped(*args, **kwargs):
-                if injection.name not in kwargs:
-                    kwargs[injection.name] = injection.value
-                return callback(*args, **kwargs)
-            return wrapped
+    def decorator(cls):
+        catalog = getattr(cls, 'catalog')
+        # catalog.__add__provider__(provider)
+        return cls
     return decorator
