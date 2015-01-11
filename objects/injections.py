@@ -2,9 +2,6 @@
 Injections module.
 """
 
-from inspect import isclass
-from functools import wraps
-
 
 class Injection(object):
     """
@@ -44,14 +41,3 @@ class Method(Injection):
     """
     Method injection.
     """
-
-
-def uses(provider):
-    """
-    Providers usage decorator.
-    """
-    def decorator(cls):
-        catalog = getattr(cls, 'catalog')
-        # catalog.__add__provider__(provider)
-        return cls
-    return decorator

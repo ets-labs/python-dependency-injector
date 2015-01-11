@@ -5,7 +5,7 @@
 from .catalog import Catalog, overrides
 from .providers import (Provider, NewInstance, Singleton, Class, Object,
                         Function, Value)
-from .injections import InitArg, Attribute, Method, uses
+from .injections import InitArg, Attribute, Method
 
 
 __all__ = ['Catalog', 'overrides',
@@ -15,4 +15,4 @@ __all__ = ['Catalog', 'overrides',
            'Object', 'Function', 'Value',
 
            # Injections
-           'InitArg', 'Attribute', 'Method', 'uses']
+           'InitArg', 'Attribute', 'Method']
