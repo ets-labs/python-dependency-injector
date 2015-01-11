@@ -49,7 +49,7 @@ assert b1 is not b2
 assert a1.db is a2.db is b1.db is b2.db is AppCatalog.database()
 
 
-# Dependency injection (The Python Way) into class.
+# Dependencies injection (The Python Way) into class.
 class Consumer(object):
 
     dependencies = AppCatalog(AppCatalog.object_a,
@@ -77,7 +77,7 @@ class Consumer(object):
 Consumer().test()
 
 
-# Dependency injection (The Python Way) into a callback.
+# Dependencies injection (The Python Way) into a callback.
 def consumer_callback(dependencies=AppCatalog(AppCatalog.object_a,
                                               AppCatalog.object_b)):
     a1 = dependencies.object_a()
