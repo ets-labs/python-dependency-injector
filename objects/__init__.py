@@ -3,9 +3,9 @@
 """
 
 from .catalog import Catalog
-from .std_providers import (Provider, NewInstance, Singleton, Class, Object,
-                            Function, Value)
-from .injections import InitArg, Attribute, Method
+from .providers import (Provider, NewInstance, Singleton, Class, Object,
+                        Function, Value)
+from .injections import InitArg, Attribute, Method, inject
 
 
 __all__ = ['Catalog',
@@ -15,4 +15,4 @@ __all__ = ['Catalog',
            'Object', 'Function', 'Value',
 
            # Injections
-           'InitArg', 'Attribute', 'Method']
+           'InitArg', 'Attribute', 'Method', 'inject']

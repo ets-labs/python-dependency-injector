@@ -7,12 +7,12 @@ import sqlite3
 
 
 # Some example classes.
-class A(object):
+class ObjectA(object):
     def __init__(self, db):
         self.db = db
 
 
-class B(object):
+class ObjectB(object):
     def __init__(self, a, db):
         self.a = a
         self.db = db
@@ -29,14 +29,14 @@ class AppCatalog(Catalog):
                          Attribute('row_factory', sqlite3.Row))
     """ :type: (objects.Provider) -> sqlite3.Connection """
 
-    object_a = NewInstance(A,
+    object_a = NewInstance(ObjectA,
                            InitArg('db', database))
-    """ :type: (objects.Provider) -> A """
+    """ :type: (objects.Provider) -> ObjectA """
 
-    object_b = NewInstance(B,
+    object_b = NewInstance(ObjectB,
                            InitArg('a', object_a),
                            InitArg('db', database))
-    """ :type: (objects.Provider) -> B """
+    """ :type: (objects.Provider) -> ObjectB """
 
 
 # Catalog injection into consumer class.

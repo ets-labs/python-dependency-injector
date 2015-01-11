@@ -2,7 +2,7 @@
 Catalog module.
 """
 
-from .std_providers import Provider
+from .providers import Provider
 
 
 class Catalog(object):
