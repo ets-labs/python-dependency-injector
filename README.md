@@ -11,7 +11,9 @@ Example of objects catalog definition and usage:
 Concept example of objects catalogs.
 """
 
-from objects import Catalog, Singleton, NewInstance, InitArg, Attribute
+from objects import AbstractCatalog
+from objects.providers import Singleton, NewInstance
+from objects.injections import InitArg, Attribute
 import sqlite3
 
 
@@ -28,7 +30,7 @@ class ObjectB(object):
 
 
 # Catalog of objects providers.
-class AppCatalog(Catalog):
+class Catalog(AbstractCatalog):
     """
     Objects catalog.
     """
@@ -49,20 +51,20 @@ class AppCatalog(Catalog):
 
 
 # Catalog static provides.
-a1, a2 = AppCatalog.object_a(), AppCatalog.object_a()
-b1, b2 = AppCatalog.object_b(), AppCatalog.object_b()
+a1, a2 = Catalog.object_a(), Catalog.object_a()
+b1, b2 = Catalog.object_b(), Catalog.object_b()
 
 # Some asserts.
 assert a1 is not a2
 assert b1 is not b2
-assert a1.db is a2.db is b1.db is b2.db is AppCatalog.database()
+assert a1.db is a2.db is b1.db is b2.db is Catalog.database()
 
 
 # Dependencies injection (The Python Way) into class.
 class Consumer(object):
 
-    dependencies = AppCatalog(AppCatalog.object_a,
-                              AppCatalog.object_b)
+    dependencies = Catalog(Catalog.object_a,
+                           Catalog.object_b)
 
     def test(self):
         a1 = self.dependencies.object_a()
@@ -87,8 +89,8 @@ Consumer().test()
 
 
 # Dependencies injection (The Python Way) into a callback.
-def consumer_callback(dependencies=AppCatalog(AppCatalog.object_a,
-                                              AppCatalog.object_b)):
+def consumer_callback(dependencies=Catalog(Catalog.object_a,
+                                           Catalog.object_b)):
     a1 = dependencies.object_a()
     a2 = dependencies.object_a()
 
@@ -116,7 +118,9 @@ Concept example of objects overrides.
 """
 
 
-from objects import Catalog, Singleton, NewInstance, InitArg, Attribute, overrides
+from objects import AbstractCatalog, overrides
+from objects.providers import Singleton, NewInstance
+from objects.injections import InitArg, Attribute
 import sqlite3
 
 
@@ -131,7 +135,7 @@ class ObjectAMock(ObjectA):
 
 
 # Catalog of objects providers.
-class AppCatalog(Catalog):
+class Catalog(AbstractCatalog):
     """
     Objects catalog.
     """
@@ -146,25 +150,25 @@ class AppCatalog(Catalog):
     """ :type: (objects.Provider) -> ObjectA """
 
 
-# Overriding AppCatalog by SandboxCatalog with some mocks.
-@overrides(AppCatalog)
-class SandboxCatalog(AppCatalog):
+# Overriding Catalog by SandboxCatalog with some mocks.
+@overrides(Catalog)
+class SandboxCatalog(Catalog):
     """
     Sandbox objects catalog with some mocks.
     """
 
     object_a = NewInstance(ObjectAMock,
-                           InitArg('db', AppCatalog.database))
+                           InitArg('db', Catalog.database))
     """ :type: (objects.Provider) -> ObjectA """
 
 
 # Catalog static provides.
-a1 = AppCatalog.object_a()
-a2 = AppCatalog.object_a()
+a1 = Catalog.object_a()
+a2 = Catalog.object_a()
 
 # Some asserts.
 assert isinstance(a1, ObjectAMock)
 assert isinstance(a2, ObjectAMock)
 assert a1 is not a2
-assert a1.db is a2.db is AppCatalog.database()
+assert a1.db is a2.db is Catalog.database()
 ```

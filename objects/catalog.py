@@ -5,9 +5,9 @@ Catalog module.
 from .providers import Provider
 
 
-class Catalog(object):
+class AbstractCatalog(object):
     """
-    Object provides catalog.
+    Abstract object provides catalog.
     """
 
     def __init__(self, *used_providers):
@@ -23,7 +23,7 @@ class Catalog(object):
         :param item:
         :return:
         """
-        attribute = super(Catalog, self).__getattribute__(item)
+        attribute = super(AbstractCatalog, self).__getattribute__(item)
         if item in ('__used_providers__',):
             return attribute
 
@@ -38,7 +38,7 @@ class Catalog(object):
         Returns set of all class providers.
         """
         providers = set()
-        for attr_name in set(dir(cls)) - set(dir(Catalog)):
+        for attr_name in set(dir(cls)) - set(dir(AbstractCatalog)):
             provider = getattr(cls, attr_name)
             if not isinstance(provider, Provider):
                 continue
@@ -50,7 +50,7 @@ class Catalog(object):
         """
         Overrides current catalog providers by overriding catalog providers.
 
-        :param overriding: Catalog
+        :param overriding: AbstractCatalog
         """
         overriden = overriding.__all_providers__() - cls.__all_providers__()
         for name, provider in overriden:
