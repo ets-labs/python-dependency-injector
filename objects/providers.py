@@ -108,6 +108,44 @@ class Singleton(NewInstance):
         return self.instance
 
 
+class ExternalDependency(Provider):
+    """
+    External dependency provider.
+    """
+
+    def __init__(self, instance_of):
+        """
+        Initializer
+
+        :param instance_of: type
+        """
+        self.instance_of = instance_of
+        self.dependency = None
+        super(ExternalDependency, self).__init__()
+
+    def satisfy(self, provider):
+        """
+        Satisfies an external dependency.
+
+        :param provider: Provider
+        """
+        self.dependency = provider
+
+    def __call__(self, *args, **kwargs):
+        """
+        Returns provided instance.
+        """
+        if not self.dependency:
+            raise ValueError('Dependency is not satisfied')
+
+        result = self.dependency.__call__(*args, **kwargs)
+
+        if not isinstance(result, self.instance_of):
+            raise TypeError('{} is not an instance of {}'.format(result,
+                                                                 self.instance_of))
+        return result
+
+
 class _StaticProvider(Provider):
     """
     Static provider is base implementation that provides exactly the same as
