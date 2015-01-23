@@ -2,6 +2,7 @@
 Standard providers.
 """
 
+from collections import Iterable
 from .injections import InitArg, Attribute, Method
 
 
@@ -119,6 +120,8 @@ class ExternalDependency(Provider):
 
         :param instance_of: type
         """
+        if not isinstance(instance_of, Iterable):
+            instance_of = (instance_of,)
         self.instance_of = instance_of
         self.dependency = None
         super(ExternalDependency, self).__init__()
@@ -140,9 +143,9 @@ class ExternalDependency(Provider):
 
         result = self.dependency.__call__(*args, **kwargs)
 
-        if not isinstance(result, self.instance_of):
-            raise TypeError('{} is not an instance of {}'.format(result,
-                                                                 self.instance_of))
+        if not any((isinstance(result, possible_type) for possible_type in self.instance_of)):
+            raise TypeError('{} is not an instance of {}'.format(result, self.instance_of))
+
         return result
 
 
