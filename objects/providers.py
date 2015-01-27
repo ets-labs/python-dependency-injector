@@ -3,7 +3,7 @@ Standard providers.
 """
 
 from collections import Iterable
-from .injections import InitArg, Attribute, Method
+from .injections import Injection, InitArg, Attribute, Method
 
 
 class Provider(object):
@@ -247,3 +247,31 @@ class Value(_StaticProvider):
     """
     Value provider provides value.
     """
+
+
+class Callable(Provider):
+    """
+    Callable providers will provides callable calls with some predefined
+    dependencies injections.
+    """
+
+    def __init__(self, calls, *injections):
+        """
+        Initializer.
+        """
+        self.calls = calls
+        self.injections = fetch_injections(injections, Injection)
+        super(Callable, self).__init__()
+
+    def __call__(self, *args, **kwargs):
+        """
+        Returns provided instance.
+        """
+        if self.__overridden_by__:
+            return self.__overridden_by__[-1].__call__(*args, **kwargs)
+
+        injections = prepare_injections(self.injections)
+        injections = dict(injections)
+        injections.update(kwargs)
+
+        return self.calls(*args, **injections)
