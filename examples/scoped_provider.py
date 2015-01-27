@@ -5,6 +5,7 @@ Scoped provider examples.
 from objects import AbstractCatalog
 from objects.providers import Singleton, Scoped
 from objects.injections import InitArg, Attribute
+
 import sqlite3
 
 
@@ -29,6 +30,7 @@ class Catalog(AbstractCatalog):
     """ :type: (objects.Provider) -> ObjectA """
 
 
+# Making scope using `with` statement.
 with Catalog.object_a as object_a_provider:
     object_a1 = object_a_provider()
     object_a2 = object_a_provider()
@@ -36,6 +38,7 @@ with Catalog.object_a as object_a_provider:
     assert object_a1 is object_a2
     assert object_a1.db is object_a2.db
 
+# Making another one scope using `with` statement.
 with Catalog.object_a as object_a_provider:
     object_a3 = object_a_provider()
     object_a4 = object_a_provider()
@@ -49,6 +52,7 @@ with Catalog.object_a as object_a_provider:
            (object_a2 is not object_a4)
 
 
+# Making one more scope using provider methods.
 Catalog.object_a.in_scope()
 
 object_a5 = Catalog.object_a()

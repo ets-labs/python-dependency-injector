@@ -14,6 +14,7 @@ Concept example of objects catalogs.
 from objects import AbstractCatalog
 from objects.providers import Singleton, NewInstance
 from objects.injections import InitArg, Attribute
+
 import sqlite3
 
 
@@ -121,6 +122,7 @@ Concept example of objects overrides.
 from objects import AbstractCatalog, overrides
 from objects.providers import Singleton, NewInstance
 from objects.injections import InitArg, Attribute
+
 import sqlite3
 
 
@@ -183,6 +185,7 @@ Concept example of objects catalogs.
 from objects import AbstractCatalog
 from objects.providers import Singleton, NewInstance, ExternalDependency
 from objects.injections import InitArg, Attribute
+
 import sqlite3
 
 
@@ -230,4 +233,80 @@ b1, b2 = Catalog.object_b(), Catalog.object_b()
 assert a1 is not a2
 assert b1 is not b2
 assert a1.db is a2.db is b1.db is b2.db is Catalog.database()
+```
+
+Example of objects catalog with scoped provider:
+
+```python
+"""
+Scoped provider examples.
+"""
+
+from objects import AbstractCatalog
+from objects.providers import Singleton, Scoped
+from objects.injections import InitArg, Attribute
+
+import sqlite3
+
+
+class ObjectA(object):
+    def __init__(self, db):
+        self.db = db
+
+
+# Catalog of objects providers.
+class Catalog(AbstractCatalog):
+    """
+    Objects catalog.
+    """
+
+    database = Singleton(sqlite3.Connection,
+                         InitArg('database', ':memory:'),
+                         Attribute('row_factory', sqlite3.Row))
+    """ :type: (objects.Provider) -> sqlite3.Connection """
+
+    object_a = Scoped(ObjectA,
+                      InitArg('db', database))
+    """ :type: (objects.Provider) -> ObjectA """
+
+
+# Making scope using `with` statement.
+with Catalog.object_a as object_a_provider:
+    object_a1 = object_a_provider()
+    object_a2 = object_a_provider()
+
+    assert object_a1 is object_a2
+    assert object_a1.db is object_a2.db
+
+# Making another one scope using `with` statement.
+with Catalog.object_a as object_a_provider:
+    object_a3 = object_a_provider()
+    object_a4 = object_a_provider()
+
+    assert object_a3 is object_a4
+    assert object_a3.db is object_a4.db
+
+    assert (object_a1 is not object_a3) and \
+           (object_a1 is not object_a4)
+    assert (object_a2 is not object_a3) and \
+           (object_a2 is not object_a4)
+
+
+# Making one more scope using provider methods.
+Catalog.object_a.in_scope()
+
+object_a5 = Catalog.object_a()
+object_a6 = Catalog.object_a()
+
+assert object_a5 is object_a6
+assert object_a5.db is object_a6.db
+
+assert (object_a1 is not object_a3) and \
+       (object_a1 is not object_a4) and \
+       (object_a1 is not object_a5) and \
+       (object_a1 is not object_a6)
+assert (object_a2 is not object_a3) and \
+       (object_a2 is not object_a4) and \
+       (object_a2 is not object_a5) and \
+       (object_a2 is not object_a6)
 ```

@@ -6,6 +6,7 @@ Concept example of objects overrides.
 from objects import AbstractCatalog, overrides
 from objects.providers import Singleton, NewInstance
 from objects.injections import InitArg, Attribute
+
 import sqlite3
 
 
