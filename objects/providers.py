@@ -108,6 +108,60 @@ class Singleton(NewInstance):
             self.instance = super(Singleton, self).__call__(*args, **kwargs)
         return self.instance
 
+    def _reset_instance(self):
+        """
+        Resets instance.
+        """
+        self.instance = None
+
+
+class Scoped(Singleton):
+    """
+    Scoped provider will create instance once for every scope and return it on every call.
+    """
+
+    def __init__(self, *args, **kwargs):
+        """
+        Initializer.
+        """
+        self.is_in_scope = None
+        super(Scoped, self).__init__(*args, **kwargs)
+
+    def in_scope(self):
+        """
+        Sets provider in "in scope" state.
+        """
+        self.is_in_scope = True
+        self._reset_instance()
+
+    def out_of_scope(self):
+        """
+        Sets provider in "out of scope" state.
+        """
+        self.is_in_scope = False
+        self._reset_instance()
+
+    def __call__(self, *args, **kwargs):
+        """
+        Returns provided instance.
+        """
+        if not self.is_in_scope:
+            raise RuntimeError('Trying to provide {} while provider is not in scope'.format(self.provides))
+        return super(Scoped, self).__call__(*args, **kwargs)
+
+    def __enter__(self):
+        """
+        With __enter__() implementation. Makes provider to be in scope.
+        """
+        self.in_scope()
+        return self
+
+    def __exit__(self, *_):
+        """
+        With __exit__() implementation. Makes provider to be out of scope.
+        """
+        self.out_of_scope()
+
 
 class ExternalDependency(Provider):
     """
