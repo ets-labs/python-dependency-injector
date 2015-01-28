@@ -58,6 +58,8 @@ Catalog.object_a.in_scope()
 object_a5 = Catalog.object_a()
 object_a6 = Catalog.object_a()
 
+Catalog.object_a.out_of_scope()
+
 assert object_a5 is object_a6
 assert object_a5.db is object_a6.db
 
