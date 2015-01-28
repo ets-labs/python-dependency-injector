@@ -6,6 +6,7 @@ Concept example of objects overrides.
 from objects import AbstractCatalog, overrides
 from objects.providers import Singleton, NewInstance
 from objects.injections import InitArg, Attribute
+
 import sqlite3
 
 
@@ -15,6 +16,7 @@ class ObjectA(object):
         self.db = db
 
 
+# Mock of example class.
 class ObjectAMock(ObjectA):
     pass
 

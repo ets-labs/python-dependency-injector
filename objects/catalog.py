@@ -33,14 +33,14 @@ class AbstractCatalog(object):
         return attribute
 
     @classmethod
-    def __all_providers__(cls):
+    def __all_providers__(cls, provider_type=Provider):
         """
         Returns set of all class providers.
         """
         providers = set()
         for attr_name in set(dir(cls)) - set(dir(AbstractCatalog)):
             provider = getattr(cls, attr_name)
-            if not isinstance(provider, Provider):
+            if not isinstance(provider, provider_type):
                 continue
             providers.add((attr_name, provider))
         return providers
