@@ -251,7 +251,7 @@ class Value(_StaticProvider):
 
 class Callable(Provider):
     """
-    Callable providers will provides callable calls with some predefined
+    Callable provider will provide callable calls with some predefined
     dependencies injections.
     """
 
@@ -275,3 +275,69 @@ class Callable(Provider):
         injections.update(kwargs)
 
         return self.calls(*args, **injections)
+
+
+class _DeferredConfig(Provider):
+    """
+    Deferred config providers provide an value from the root config object.
+    """
+
+    def __init__(self, paths, root_config):
+        """
+        Initializer.
+        """
+        self.paths = paths
+        self.root_config = root_config
+        super(_DeferredConfig, self).__init__()
+
+    def __getattr__(self, item):
+        """
+        Returns instance of deferred config.
+        """
+        return _DeferredConfig(paths=self.paths + (item,),
+                               root_config=self.root_config)
+
+    def __call__(self, *args, **kwargs):
+        """
+        Returns provided instance.
+        """
+        return self.root_config(self.paths)
+
+
+class Config(Provider):
+    """
+    Config provider provides dict values. Also config provider creates
+    deferred config objects for all undefined attribute calls.
+    """
+
+    def __init__(self, value=None):
+        """
+        Initializer.
+        """
+        if not value:
+            value = dict()
+        self.value = value
+        super(Config, self).__init__()
+
+    def update_from(self, value):
+        """
+        Updates current value from another one.
+        """
+        self.value.update(value)
+
+    def __getattr__(self, item):
+        """
+        Returns instance of deferred config.
+        """
+        return _DeferredConfig(paths=(item,),
+                               root_config=self)
+
+    def __call__(self, paths=None):
+        """
+        Returns provided instance.
+        """
+        value = self.value
+        if paths:
+            for path in paths:
+                value = value[path]
+        return value

@@ -16,6 +16,7 @@ class ObjectA(object):
         self.db = db
 
 
+# Mock of example class.
 class ObjectAMock(ObjectA):
     pass
 
