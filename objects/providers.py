@@ -281,6 +281,7 @@ class _DeferredConfig(Provider):
     """
     Deferred config providers provide an value from the root config object.
     """
+
     def __init__(self, paths, root_config):
         """
         Initializer.
