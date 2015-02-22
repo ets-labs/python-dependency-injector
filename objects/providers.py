@@ -32,6 +32,12 @@ class Provider(object):
         """
         self.__overridden_by__.append(provider)
 
+    def delegate(self):
+        """
+        Returns provider delegate.
+        """
+        return lambda *args, **kwargs: self.__call__(*args, **kwargs)
+
 
 def prepare_injections(injections):
     """
