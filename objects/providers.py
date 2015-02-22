@@ -36,7 +36,7 @@ class Provider(object):
         """
         Returns provider delegate.
         """
-        return lambda *args, **kwargs: self.__call__(*args, **kwargs)
+        return self.__call__
 
 
 def prepare_injections(injections):
