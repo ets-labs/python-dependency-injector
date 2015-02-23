@@ -3,10 +3,14 @@ Example of providers delegate.
 """
 
 from objects import AbstractCatalog
-from objects.providers import Singleton
-from objects.providers import NewInstance
-from objects.injections import InitArg
-from objects.injections import Attribute
+from objects.providers import (
+    Singleton,
+    NewInstance,
+)
+from objects.injections import (
+    InitArg,
+    Attribute,
+)
 
 
 import sqlite3

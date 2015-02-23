@@ -3,8 +3,15 @@ Callable provider examples.
 """
 
 from objects import AbstractCatalog
-from objects.providers import Singleton, Callable
-from objects.injections import Injection, InitArg, Attribute
+from objects.providers import (
+    Singleton,
+    Callable,
+)
+from objects.injections import (
+    Injection,
+    InitArg,
+    Attribute,
+)
 
 import sqlite3
 

@@ -3,8 +3,11 @@ Concept example of objects catalogs.
 """
 
 from objects import AbstractCatalog
-from objects.providers import Singleton, NewInstance, ExternalDependency
-from objects.injections import InitArg, Attribute
+from objects.providers import Singleton
+from objects.providers import NewInstance
+from objects.providers import ExternalDependency
+from objects.injections import InitArg
+from objects.injections import Attribute
 
 import sqlite3
 

@@ -3,8 +3,14 @@ Scoped provider examples.
 """
 
 from objects import AbstractCatalog
-from objects.providers import Singleton, Scoped
-from objects.injections import InitArg, Attribute
+from objects.providers import (
+    Singleton,
+    Scoped,
+)
+from objects.injections import (
+    InitArg,
+    Attribute,
+)
 
 import sqlite3
 

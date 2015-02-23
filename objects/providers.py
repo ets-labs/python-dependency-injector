@@ -3,7 +3,12 @@ Standard providers.
 """
 
 from collections import Iterable
-from .injections import Injection, InitArg, Attribute, Method
+from .injections import (
+    Injection,
+    InitArg,
+    Attribute,
+    Method,
+)
 
 
 class Provider(object):

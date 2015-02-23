@@ -3,7 +3,10 @@ Config provider examples.
 """
 
 from objects import AbstractCatalog
-from objects.providers import Config, NewInstance
+from objects.providers import (
+    Config,
+    NewInstance,
+)
 from objects.injections import InitArg
 
 
