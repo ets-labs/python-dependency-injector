@@ -41,7 +41,28 @@ class Provider(object):
         """
         Returns provider delegate.
         """
-        return self.__call__
+        return ProviderDelegate(self)
+
+
+class ProviderDelegate(Provider):
+    """
+    Provider's delegate.
+    """
+
+    def __init__(self, delegated):
+        """
+        Initializer.
+
+        :type delegated: Provider
+        """
+        self.delegated = delegated
+        super(ProviderDelegate, self).__init__()
+
+    def __call__(self):
+        """
+        Returns provided instance.
+        """
+        return self.delegated.__call__
 
 
 def prepare_injections(injections):
