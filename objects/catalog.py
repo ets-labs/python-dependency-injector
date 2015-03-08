@@ -1,28 +1,18 @@
-"""
-Catalog module.
-"""
+"""Catalog module."""
 
 from .providers import Provider
 
 
 class AbstractCatalog(object):
-    """
-    Abstract object provides catalog.
-    """
+
+    """Abstract object provides catalog."""
 
     def __init__(self, *used_providers):
-        """
-        Initializer.
-        """
+        """Initializer."""
         self.__used_providers__ = set(used_providers)
 
     def __getattribute__(self, item):
-        """
-        Returns providers.
-
-        :param item:
-        :return:
-        """
+        """Return providers."""
         attribute = super(AbstractCatalog, self).__getattribute__(item)
         if item in ('__used_providers__',):
             return attribute
@@ -34,9 +24,7 @@ class AbstractCatalog(object):
 
     @classmethod
     def __all_providers__(cls, provider_type=Provider):
-        """
-        Returns set of all class providers.
-        """
+        """Return set of all class providers."""
         providers = set()
         for attr_name in set(dir(cls)) - set(dir(AbstractCatalog)):
             provider = getattr(cls, attr_name)
@@ -48,23 +36,18 @@ class AbstractCatalog(object):
     @classmethod
     def __override___(cls, overriding):
         """
-        Overrides current catalog providers by overriding catalog providers.
+        Override current catalog providers by overriding catalog providers.
 
         :param overriding: AbstractCatalog
         """
-        overriden = overriding.__all_providers__() - cls.__all_providers__()
-        for name, provider in overriden:
+        overridden = overriding.__all_providers__() - cls.__all_providers__()
+        for name, provider in overridden:
             overridden_provider = getattr(cls, name)
             overridden_provider.__override__(provider)
 
 
 def overrides(catalog):
-    """
-    Catalog overriding decorator.
-
-    :param catalog:
-    :return:
-    """
+    """Catalog overriding decorator."""
     def decorator(overriding_catalog):
         catalog.__override___(overriding_catalog)
         return overriding_catalog

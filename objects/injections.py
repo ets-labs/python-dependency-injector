@@ -1,43 +1,33 @@
-"""
-Injections module.
-"""
+"""Injections module."""
 
 
 class Injection(object):
-    """
-    Base injection class.
-    """
+
+    """Base injection class."""
 
     def __init__(self, name, injectable):
-        """
-        Initializer.
-        """
+        """Initializer."""
         self.name = name
         self.injectable = injectable
 
     @property
     def value(self):
-        """
-        Returns injectable value.
-        """
+        """Return injectable value."""
         if hasattr(self.injectable, '__is_objects_provider__'):
             return self.injectable()
         return self.injectable
 
 
 class InitArg(Injection):
-    """
-    Init argument injection.
-    """
+
+    """Init argument injection."""
 
 
 class Attribute(Injection):
-    """
-    Attribute injection.
-    """
+
+    """Attribute injection."""
 
 
 class Method(Injection):
-    """
-    Method injection.
-    """
+
+    """Method injection."""
