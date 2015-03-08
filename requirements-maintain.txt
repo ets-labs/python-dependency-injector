@@ -1,2 +1,5 @@
 manage.py
 pypandoc
+pep257
+flake8
+pylint
