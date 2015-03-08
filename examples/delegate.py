@@ -1,6 +1,4 @@
-"""
-Example of providers delegate.
-"""
+"""Example of providers delegate."""
 
 from objects import AbstractCatalog
 from objects.providers import (
@@ -29,9 +27,8 @@ class ObjectB(object):
 
 # Catalog of objects providers.
 class Catalog(AbstractCatalog):
-    """
-    Objects catalog.
-    """
+
+    """Objects catalog."""
 
     database = Singleton(sqlite3.Connection,
                          InitArg('database', ':memory:'),
