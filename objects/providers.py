@@ -47,7 +47,7 @@ class ProviderDelegate(Provider):
 
     def __call__(self):
         """Return provided instance."""
-        return self.delegated.__call__
+        return self.delegated
 
 
 class NewInstance(Provider):
