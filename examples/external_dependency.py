@@ -1,6 +1,5 @@
 """External dependency example."""
 
-
 from objects import AbstractCatalog
 
 from objects.providers import Singleton

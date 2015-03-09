@@ -1,6 +1,5 @@
 """Scoped provider examples."""
 
-
 from objects import AbstractCatalog
 
 from objects.providers import Singleton

@@ -1,6 +1,5 @@
 """Override example."""
 
-
 from objects import AbstractCatalog
 from objects import overrides
 
