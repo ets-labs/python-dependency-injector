@@ -1,51 +1,53 @@
-"""
-Concept example of objects catalogs.
-"""
+"""Concept example of objects catalogs."""
+
 
 from objects import AbstractCatalog
-from objects.providers import (
-    Singleton,
-    NewInstance,
-)
-from objects.injections import (
-    InitArg,
-    Attribute,
-)
+
+from objects.providers import Singleton
+from objects.providers import NewInstance
+
+from objects.injections import InitArg
+from objects.injections import Attribute
 
 import sqlite3
 
 
-# Some example classes.
 class ObjectA(object):
+
+    """Example class ObjectA, that has dependency on database."""
+
     def __init__(self, db):
+        """Initializer."""
         self.db = db
 
 
 class ObjectB(object):
+
+    """Example class ObjectB, that has dependencies on ObjectA and database."""
+
     def __init__(self, a, db):
+        """Initializer."""
         self.a = a
         self.db = db
 
 
-# Catalog of objects providers.
 class Catalog(AbstractCatalog):
-    """
-    Objects catalog.
-    """
+
+    """Catalog of objects providers."""
 
     database = Singleton(sqlite3.Connection,
                          InitArg('database', ':memory:'),
                          Attribute('row_factory', sqlite3.Row))
-    """ :type: (objects.Provider) -> sqlite3.Connection """
+    """:type: (objects.Provider) -> sqlite3.Connection"""
 
     object_a = NewInstance(ObjectA,
                            InitArg('db', database))
-    """ :type: (objects.Provider) -> ObjectA """
+    """:type: (objects.Provider) -> ObjectA"""
 
     object_b = NewInstance(ObjectB,
                            InitArg('a', object_a),
                            InitArg('db', database))
-    """ :type: (objects.Provider) -> ObjectB """
+    """:type: (objects.Provider) -> ObjectB"""
 
 
 # Catalog static provides.
@@ -61,10 +63,13 @@ assert a1.db is a2.db is b1.db is b2.db is Catalog.database()
 # Dependencies injection (The Python Way) into class.
 class Consumer(object):
 
+    """Example consumer class."""
+
     dependencies = Catalog(Catalog.object_a,
                            Catalog.object_b)
 
-    def test(self):
+    def example(self):
+        """Example method."""
         a1 = self.dependencies.object_a()
         a2 = self.dependencies.object_a()
 
@@ -83,12 +88,14 @@ class Consumer(object):
         else:
             raise Exception('Database is not listed as a dependency')
 
-Consumer().test()
+
+Consumer().example()
 
 
 # Dependencies injection (The Python Way) into a callback.
 def consumer_callback(dependencies=Catalog(Catalog.object_a,
                                            Catalog.object_b)):
+    """Example function."""
     a1 = dependencies.object_a()
     a2 = dependencies.object_a()
 

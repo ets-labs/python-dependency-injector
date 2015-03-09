@@ -1,40 +1,35 @@
-"""
-Callable provider examples.
-"""
+"""Callable provider examples."""
+
 
 from objects import AbstractCatalog
-from objects.providers import (
-    Singleton,
-    Callable,
-)
-from objects.injections import (
-    Injection,
-    InitArg,
-    Attribute,
-)
+
+from objects.providers import Singleton
+from objects.providers import Callable
+
+from objects.injections import InitArg
+from objects.injections import Attribute
+from objects.injections import Injection
 
 import sqlite3
 
 
-# Some example function.
 def consuming_function(arg, db):
+    """Example function that has input arg and dependency on database."""
     return arg, db
 
 
-# Catalog of objects providers.
 class Catalog(AbstractCatalog):
-    """
-    Objects catalog.
-    """
+
+    """Catalog of objects providers."""
 
     database = Singleton(sqlite3.Connection,
                          InitArg('database', ':memory:'),
                          Attribute('row_factory', sqlite3.Row))
-    """ :type: (objects.Provider) -> sqlite3.Connection """
+    """:type: (objects.Provider) -> sqlite3.Connection"""
 
     consuming_function = Callable(consuming_function,
                                   Injection('db', database))
-    """ :type: (objects.Provider) -> consuming_function """
+    """:type: (objects.Provider) -> consuming_function"""
 
 
 # Some calls.

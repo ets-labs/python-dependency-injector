@@ -1,6 +1,4 @@
-"""
-CLI Commands.
-"""
+"""CLI Commands."""
 
 import os
 from setup import version
@@ -12,9 +10,7 @@ manager = Manager()
 
 @manager.command
 def publish(with_tag=True):
-    """
-    Publishes current version to PyPi.
-    """
+    """Publish current version to PyPi."""
     os.system('python setup.py sdist upload')
     if with_tag:
         tag()
@@ -22,12 +18,21 @@ def publish(with_tag=True):
 
 @manager.command
 def tag():
-    """
-    Makes tag from current version.
-    """
+    """Make tag from current version."""
     os.system('git tag -a {0} -m \'version {0}\''.format(version))
     os.system('git push --tags')
 
+
+@manager.command
+def check():
+    """Check `objects` library and examples with code analyzers."""
+    os.system('pylint objects/')
+    os.system('flake8 objects/')
+    os.system('pep257 objects/')
+
+    os.system('pylint examples/')
+    os.system('flake8 examples/')
+    os.system('pep257 examples/')
 
 if __name__ == '__main__':
     manager.main()
