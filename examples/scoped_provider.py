@@ -1,39 +1,38 @@
-"""
-Scoped provider examples.
-"""
+"""Scoped provider examples."""
+
 
 from objects import AbstractCatalog
-from objects.providers import (
-    Singleton,
-    Scoped,
-)
-from objects.injections import (
-    InitArg,
-    Attribute,
-)
+
+from objects.providers import Singleton
+from objects.providers import Scoped
+
+from objects.injections import InitArg
+from objects.injections import Attribute
 
 import sqlite3
 
 
 class ObjectA(object):
+
+    """Example class ObjectA, that has dependency on database."""
+
     def __init__(self, db):
+        """Initializer."""
         self.db = db
 
 
-# Catalog of objects providers.
 class Catalog(AbstractCatalog):
-    """
-    Objects catalog.
-    """
+
+    """Catalog of objects providers."""
 
     database = Singleton(sqlite3.Connection,
                          InitArg('database', ':memory:'),
                          Attribute('row_factory', sqlite3.Row))
-    """ :type: (objects.Provider) -> sqlite3.Connection """
+    """:type: (objects.Provider) -> sqlite3.Connection"""
 
     object_a = Scoped(ObjectA,
                       InitArg('db', database))
-    """ :type: (objects.Provider) -> ObjectA """
+    """:type: (objects.Provider) -> ObjectA"""
 
 
 # Making scope using `with` statement.

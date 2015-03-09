@@ -49,6 +49,7 @@ class AbstractCatalog(object):
 def overrides(catalog):
     """Catalog overriding decorator."""
     def decorator(overriding_catalog):
+        """Overriding decorator."""
         catalog.__override___(overriding_catalog)
         return overriding_catalog
     return decorator

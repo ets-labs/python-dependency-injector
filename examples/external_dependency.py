@@ -1,46 +1,52 @@
-"""
-Concept example of objects catalogs.
-"""
+"""External dependency example."""
+
 
 from objects import AbstractCatalog
+
 from objects.providers import Singleton
 from objects.providers import NewInstance
 from objects.providers import ExternalDependency
+
 from objects.injections import InitArg
 from objects.injections import Attribute
 
 import sqlite3
 
 
-# Some example classes.
 class ObjectA(object):
+
+    """Example class ObjectA, that has dependency on database."""
+
     def __init__(self, db):
+        """Initializer."""
         self.db = db
 
 
 class ObjectB(object):
+
+    """Example class ObjectB, that has dependencies on ObjectA and database."""
+
     def __init__(self, a, db):
+        """Initializer."""
         self.a = a
         self.db = db
 
 
-# Catalog of objects providers.
 class Catalog(AbstractCatalog):
-    """
-    Objects catalog.
-    """
+
+    """Catalog of objects providers."""
 
     database = ExternalDependency(instance_of=sqlite3.Connection)
-    """ :type: (objects.Provider) -> sqlite3.Connection """
+    """:type: (objects.Provider) -> sqlite3.Connection"""
 
     object_a = NewInstance(ObjectA,
                            InitArg('db', database))
-    """ :type: (objects.Provider) -> ObjectA """
+    """:type: (objects.Provider) -> ObjectA"""
 
     object_b = NewInstance(ObjectB,
                            InitArg('a', object_a),
                            InitArg('db', database))
-    """ :type: (objects.Provider) -> ObjectB """
+    """:type: (objects.Provider) -> ObjectB"""
 
 
 # Satisfaction of external dependency.

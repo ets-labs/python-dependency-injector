@@ -1,61 +1,54 @@
-"""
-Concept example of objects overrides.
-"""
+"""Override example."""
 
 
-from objects import (
-    AbstractCatalog,
-    overrides,
-)
-from objects.providers import (
-    Singleton,
-    NewInstance,
-)
-from objects.injections import (
-    InitArg,
-    Attribute,
-)
+from objects import AbstractCatalog
+from objects import overrides
+
+from objects.providers import Singleton
+from objects.providers import NewInstance
+
+from objects.injections import InitArg
+from objects.injections import Attribute
 
 import sqlite3
 
 
-# Some example class.
 class ObjectA(object):
+
+    """Example class ObjectA, that has dependency on database."""
+
     def __init__(self, db):
+        """Initializer."""
         self.db = db
 
 
-# Mock of example class.
 class ObjectAMock(ObjectA):
-    pass
+
+    """Mock of ObjectA example class."""
 
 
-# Catalog of objects providers.
 class Catalog(AbstractCatalog):
-    """
-    Objects catalog.
-    """
+
+    """Catalog of objects providers."""
 
     database = Singleton(sqlite3.Connection,
                          InitArg('database', ':memory:'),
                          Attribute('row_factory', sqlite3.Row))
-    """ :type: (objects.Provider) -> sqlite3.Connection """
+    """:type: (objects.Provider) -> sqlite3.Connection"""
 
     object_a = NewInstance(ObjectA,
                            InitArg('db', database))
-    """ :type: (objects.Provider) -> ObjectA """
+    """:type: (objects.Provider) -> ObjectA"""
 
 
-# Overriding Catalog by SandboxCatalog with some mocks.
 @overrides(Catalog)
 class SandboxCatalog(Catalog):
-    """
-    Sandbox objects catalog with some mocks.
-    """
+
+    """Sandbox objects catalog with some mocks that overrides Catalog."""
 
     object_a = NewInstance(ObjectAMock,
                            InitArg('db', Catalog.database))
-    """ :type: (objects.Provider) -> ObjectA """
+    """:type: (objects.Provider) -> ObjectA"""
 
 
 # Catalog static provides.
