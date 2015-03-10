@@ -18,4 +18,3 @@ class InjectionTest(unittest.TestCase):
         """Test Injection value property."""
         injection = Injection('some_arg_name', 'some_value')
         self.assertEqual(injection.value, 'some_value')
-
