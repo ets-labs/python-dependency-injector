@@ -1,12 +1,11 @@
 """Standard providers."""
 
 from collections import Iterable
-from .injections import (
-    Injection,
-    InitArg,
-    Attribute,
-    Method,
-)
+
+from .injections import Injection
+from .injections import InitArg
+from .injections import Attribute
+from .injections import Method
 
 
 class Provider(object):
@@ -249,29 +248,6 @@ class Callable(Provider):
         return self.calls(*args, **injections)
 
 
-class _DeferredConfig(Provider):
-
-    """Deferred config provider.
-
-    Deferred config providers provide an value from the root config object.
-    """
-
-    def __init__(self, paths, root_config):
-        """Initializer."""
-        self.paths = paths
-        self.root_config = root_config
-        super(_DeferredConfig, self).__init__()
-
-    def __getattr__(self, item):
-        """Return instance of deferred config."""
-        return _DeferredConfig(paths=self.paths + (item,),
-                               root_config=self.root_config)
-
-    def __call__(self, *args, **kwargs):
-        """Return provided instance."""
-        return self.root_config(self.paths)
-
-
 class Config(Provider):
 
     """Config provider.
@@ -302,7 +278,30 @@ class Config(Provider):
         if paths:
             for path in paths:
                 value = value[path]
-        return value
+            return value
+
+
+class _DeferredConfig(Provider):
+
+    """Deferred config provider.
+
+    Deferred config providers provide an value from the root config object.
+    """
+
+    def __init__(self, paths, root_config):
+        """Initializer."""
+        self.paths = paths
+        self.root_config = root_config
+        super(_DeferredConfig, self).__init__()
+
+    def __getattr__(self, item):
+        """Return instance of deferred config."""
+        return _DeferredConfig(paths=self.paths + (item,),
+                               root_config=self.root_config)
+
+    def __call__(self, *args, **kwargs):
+        """Return provided instance."""
+        return self.root_config(self.paths)
 
 
 def _fetch_injections(injections, injection_type):
