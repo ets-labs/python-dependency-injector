@@ -3,9 +3,9 @@ Objects
 
 [![Version](https://img.shields.io/pypi/v/Objects.svg)](https://pypi.python.org/pypi/Objects)
 [![Version](https://img.shields.io/pypi/dm/Objects.svg)](https://pypi.python.org/pypi/Objects)
+[![Version](https://img.shields.io/pypi/l/Objects.svg)](https://pypi.python.org/pypi/Objects)
 
 **Python catalogs of objects providers**
-
 
 Example of objects catalog definition and usage:
 
