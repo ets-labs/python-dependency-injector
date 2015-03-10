@@ -34,5 +34,20 @@ def check():
     os.system('flake8 examples/')
     os.system('pep257 examples/')
 
+
+@manager.command
+def test():
+    """Run unittests."""
+    os.system('find ./objects -name "*.pyc" -exec rm -rf {} \\;')
+    os.system('find ./tests -name "*.pyc" -exec rm -rf {} \\;')
+
+    os.system('find ./objects -name "*.pyo" -exec rm -rf {} \\;')
+    os.system('find ./tests -name "*.pyo" -exec rm -rf {} \\;')
+
+    os.system('coverage run --rcfile=./.coveragerc `which unit2` discover')
+    os.system('coverage html --rcfile=./.coveragerc')
+    os.system('rm -f .coverage')
+
+
 if __name__ == '__main__':
     manager.main()
