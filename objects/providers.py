@@ -63,9 +63,15 @@ class NewInstance(Provider):
     def __init__(self, provides, *injections):
         """Initializer."""
         self.provides = provides
-        self.init_args = tuple(filter(is_init_arg_injection, injections))
-        self.attributes = tuple(filter(is_attribute_injection, injections))
-        self.methods = tuple(filter(is_method_injection, injections))
+        self.init_args = tuple((injection
+                                for injection in injections
+                                if is_init_arg_injection(injection)))
+        self.attributes = tuple((injection
+                                 for injection in injections
+                                 if is_attribute_injection(injection)))
+        self.methods = tuple((injection
+                              for injection in injections
+                              if is_method_injection(injection)))
         super(NewInstance, self).__init__()
 
     def __call__(self, *args, **kwargs):
@@ -247,7 +253,9 @@ class Callable(Provider):
     def __init__(self, calls, *injections):
         """Initializer."""
         self.calls = calls
-        self.injections = tuple(filter(is_injection, injections))
+        self.injections = tuple((injection
+                                 for injection in injections
+                                 if is_injection(injection)))
         super(Callable, self).__init__()
 
     def __call__(self, *args, **kwargs):
