@@ -2,18 +2,18 @@
 
 from collections import Iterable
 
-from .injections import Injection
-from .injections import InitArg
-from .injections import Attribute
-from .injections import Method
+from .utils import is_injection
+from .utils import is_init_arg_injection
+from .utils import is_attribute_injection
+from .utils import is_method_injection
 
 
 class Provider(object):
 
     """Base provider class."""
 
-    __is_objects_provider__ = True
-    __overridden_by__ = list()
+    __IS_OBJECTS_PROVIDER__ = True
+    __slots__ = ('__IS_OBJECTS_PROVIDER__', '__overridden_by__',)
 
     def __init__(self):
         """Initializer."""
@@ -36,6 +36,8 @@ class ProviderDelegate(Provider):
 
     """Provider's delegate."""
 
+    __slots__ = ('delegated',)
+
     def __init__(self, delegated):
         """Initializer.
 
@@ -56,12 +58,14 @@ class NewInstance(Provider):
     New instance providers will create and return new instance on every call.
     """
 
+    __slots__ = ('provides', 'init_args', 'attributes', 'methods')
+
     def __init__(self, provides, *injections):
         """Initializer."""
         self.provides = provides
-        self.init_injections = _fetch_injections(injections, InitArg)
-        self.attribute_injections = _fetch_injections(injections, Attribute)
-        self.method_injections = _fetch_injections(injections, Method)
+        self.init_args = tuple(filter(is_init_arg_injection, injections))
+        self.attributes = tuple(filter(is_attribute_injection, injections))
+        self.methods = tuple(filter(is_method_injection, injections))
         super(NewInstance, self).__init__()
 
     def __call__(self, *args, **kwargs):
@@ -70,17 +74,17 @@ class NewInstance(Provider):
             return self.__overridden_by__[-1].__call__(*args, **kwargs)
 
         init_injections = dict(((injection.name, injection.value)
-                                for injection in self.init_injections))
+                                for injection in self.init_args))
         init_injections.update(kwargs)
 
         instance = self.provides(*args, **init_injections)
 
-        if not self.attribute_injections:
-            for injection in self.attribute_injections:
+        if not self.attributes:
+            for injection in self.attributes:
                 setattr(instance, injection.name, injection.value)
 
-        if not self.method_injections:
-            for injection in self.method_injections:
+        if not self.methods:
+            for injection in self.methods:
                 getattr(instance, injection.name)(injection.value)
 
         return instance
@@ -92,6 +96,8 @@ class Singleton(NewInstance):
 
     Singleton provider will create instance once and return it on every call.
     """
+
+    __slots__ = ('instance',)
 
     def __init__(self, *args, **kwargs):
         """Initializer."""
@@ -116,6 +122,8 @@ class Scoped(Singleton):
     Scoped provider will create instance once for every scope and return it
     on every call.
     """
+
+    __slots__ = ('is_in_scope',)
 
     def __init__(self, *args, **kwargs):
         """Initializer."""
@@ -153,6 +161,8 @@ class ExternalDependency(Provider):
 
     """External dependency provider."""
 
+    __slots__ = ('instance_of', 'dependency')
+
     def __init__(self, instance_of):
         """Initializer."""
         if not isinstance(instance_of, Iterable):
@@ -189,6 +199,8 @@ class _StaticProvider(Provider):
     Static provider is base implementation that provides exactly the same as
     it got on input.
     """
+
+    __slots__ = ('provides',)
 
     def __init__(self, provides):
         """Initializer."""
@@ -230,10 +242,12 @@ class Callable(Provider):
     dependencies injections.
     """
 
+    __slots__ = ('calls', 'injections')
+
     def __init__(self, calls, *injections):
         """Initializer."""
         self.calls = calls
-        self.injections = _fetch_injections(injections, Injection)
+        self.injections = tuple(filter(is_injection, injections))
         super(Callable, self).__init__()
 
     def __call__(self, *args, **kwargs):
@@ -255,6 +269,8 @@ class Config(Provider):
     Config provider provides dict values. Also config provider creates
     deferred config objects for all undefined attribute calls.
     """
+
+    __slots__ = ('value',)
 
     def __init__(self, value=None):
         """Initializer."""
@@ -288,6 +304,8 @@ class _DeferredConfig(Provider):
     Deferred config providers provide an value from the root config object.
     """
 
+    __slots__ = ('paths', 'root_config')
+
     def __init__(self, paths, root_config):
         """Initializer."""
         self.paths = paths
@@ -302,10 +320,3 @@ class _DeferredConfig(Provider):
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
         return self.root_config(self.paths)
-
-
-def _fetch_injections(injections, injection_type):
-    """Fetch injections of injection type from list."""
-    return tuple([injection
-                  for injection in injections
-                  if isinstance(injection, injection_type)])

@@ -7,6 +7,8 @@ class AbstractCatalog(object):
 
     """Abstract object provides catalog."""
 
+    __slots__ = ('__used_providers__',)
+
     def __init__(self, *used_providers):
         """Initializer."""
         self.__used_providers__ = set(used_providers)
