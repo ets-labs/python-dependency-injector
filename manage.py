@@ -26,11 +26,11 @@ def tag():
 @manager.command
 def check():
     """Check `objects` library and examples with code analyzers."""
-    os.system('pylint objects/')
+    os.system('pylint objects/ --rcfile=./.pylintrc')
     os.system('flake8 objects/')
     os.system('pep257 objects/')
 
-    os.system('pylint examples/')
+    os.system('pylint examples/ --rcfile=./.pylintrc')
     os.system('flake8 examples/')
     os.system('pep257 examples/')
 
