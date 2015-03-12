@@ -1,7 +1,8 @@
-"""Standard providers."""
+"""Providers module."""
 
 from collections import Iterable
 
+from .utils import is_provider
 from .utils import is_injection
 from .utils import is_init_arg_injection
 from .utils import is_attribute_injection
@@ -13,23 +14,35 @@ class Provider(object):
     """Base provider class."""
 
     __IS_OBJECTS_PROVIDER__ = True
-    __slots__ = ('__IS_OBJECTS_PROVIDER__', '__overridden_by__',)
+    __slots__ = ('__IS_OBJECTS_PROVIDER__', 'overridden',)
 
     def __init__(self):
         """Initializer."""
-        self.__overridden_by__ = list()
+        self.overridden = list()
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
         raise NotImplementedError()
 
-    def __override__(self, provider):
-        """Override provider with another provider."""
-        self.__overridden_by__.append(provider)
-
     def delegate(self):
-        """Return provider delegate."""
+        """Return provider's delegate."""
         return ProviderDelegate(self)
+
+    def override(self, provider):
+        """Override provider with another provider."""
+        if not is_provider(provider):
+            raise TypeError('Expected provider as an overriding instance, '
+                            'got {}'.format(str(provider)))
+        self.overridden.append(provider)
+
+    @property
+    def last_overriding(self):
+        """Return last overriding provider."""
+        try:
+            return self.overridden[-1]
+        except IndexError:
+            raise AttributeError('Provider {} '.format(str(self)) +
+                                 'is not overridden')
 
 
 class ProviderDelegate(Provider):
@@ -58,7 +71,7 @@ class NewInstance(Provider):
     New instance providers will create and return new instance on every call.
     """
 
-    __slots__ = ('provides', 'init_args', 'attributes', 'methods')
+    __slots__ = ('provides', 'init_args', 'attributes', 'methods',)
 
     def __init__(self, provides, *injections):
         """Initializer."""
@@ -76,8 +89,8 @@ class NewInstance(Provider):
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
-        if self.__overridden_by__:
-            return self.__overridden_by__[-1].__call__(*args, **kwargs)
+        if self.overridden:
+            return self.last_overriding(*args, **kwargs)
 
         init_injections = dict(((injection.name, injection.value)
                                 for injection in self.init_args))
@@ -167,7 +180,7 @@ class ExternalDependency(Provider):
 
     """External dependency provider."""
 
-    __slots__ = ('instance_of', 'dependency')
+    __slots__ = ('instance_of', 'dependency',)
 
     def __init__(self, instance_of):
         """Initializer."""
@@ -215,8 +228,8 @@ class _StaticProvider(Provider):
 
     def __call__(self):
         """Return provided instance."""
-        if self.__overridden_by__:
-            return self.__overridden_by__[-1].__call__()
+        if self.overridden:
+            return self.last_overriding()
         return self.provides
 
 
@@ -248,7 +261,7 @@ class Callable(Provider):
     dependencies injections.
     """
 
-    __slots__ = ('calls', 'injections')
+    __slots__ = ('calls', 'injections',)
 
     def __init__(self, calls, *injections):
         """Initializer."""
@@ -260,8 +273,8 @@ class Callable(Provider):
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
-        if self.__overridden_by__:
-            return self.__overridden_by__[-1].__call__(*args, **kwargs)
+        if self.overridden:
+            return self.last_overriding()
 
         injections = dict(((injection.name, injection.value)
                            for injection in self.injections))
@@ -312,7 +325,7 @@ class _DeferredConfig(Provider):
     Deferred config providers provide an value from the root config object.
     """
 
-    __slots__ = ('paths', 'root_config')
+    __slots__ = ('paths', 'root_config',)
 
     def __init__(self, paths, root_config):
         """Initializer."""
