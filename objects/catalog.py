@@ -25,7 +25,7 @@ class AbstractCatalog(object):
         return attribute
 
     @classmethod
-    def __all_providers__(cls, provider_type=Provider):
+    def all_providers(cls, provider_type=Provider):
         """Return set of all class providers."""
         providers = set()
         for attr_name in set(dir(cls)) - set(dir(AbstractCatalog)):
@@ -36,22 +36,22 @@ class AbstractCatalog(object):
         return providers
 
     @classmethod
-    def __override___(cls, overriding):
+    def override(cls, overriding):
         """
         Override current catalog providers by overriding catalog providers.
 
         :param overriding: AbstractCatalog
         """
-        overridden = overriding.__all_providers__() - cls.__all_providers__()
+        overridden = overriding.all_providers() - cls.all_providers()
         for name, provider in overridden:
             overridden_provider = getattr(cls, name)
-            overridden_provider.__override__(provider)
+            overridden_provider.override(provider)
 
 
 def overrides(catalog):
     """Catalog overriding decorator."""
     def decorator(overriding_catalog):
         """Overriding decorator."""
-        catalog.__override___(overriding_catalog)
+        catalog.override(overriding_catalog)
         return overriding_catalog
     return decorator
