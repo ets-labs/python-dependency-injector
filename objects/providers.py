@@ -14,7 +14,7 @@ class Provider(object):
     """Base provider class."""
 
     __IS_OBJECTS_PROVIDER__ = True
-    __slots__ = ('__IS_OBJECTS_PROVIDER__', 'overridden',)
+    __slots__ = ('__IS_OBJECTS_PROVIDER__', 'overridden')
 
     def __init__(self):
         """Initializer."""
@@ -71,7 +71,7 @@ class NewInstance(Provider):
     New instance providers will create and return new instance on every call.
     """
 
-    __slots__ = ('provides', 'init_args', 'attributes', 'methods',)
+    __slots__ = ('provides', 'init_args', 'attributes', 'methods')
 
     def __init__(self, provides, *injections):
         """Initializer."""
@@ -180,7 +180,7 @@ class ExternalDependency(Provider):
 
     """External dependency provider."""
 
-    __slots__ = ('instance_of', 'dependency',)
+    __slots__ = ('instance_of', 'dependency')
 
     def __init__(self, instance_of):
         """Initializer."""
@@ -261,7 +261,7 @@ class Callable(Provider):
     dependencies injections.
     """
 
-    __slots__ = ('calls', 'injections',)
+    __slots__ = ('calls', 'injections')
 
     def __init__(self, calls, *injections):
         """Initializer."""
@@ -315,7 +315,7 @@ class Config(Provider):
         if paths:
             for path in paths:
                 value = value[path]
-            return value
+            return valueg
 
 
 class _DeferredConfig(Provider):
@@ -325,7 +325,7 @@ class _DeferredConfig(Provider):
     Deferred config providers provide an value from the root config object.
     """
 
-    __slots__ = ('paths', 'root_config',)
+    __slots__ = ('paths', 'root_config')
 
     def __init__(self, paths, root_config):
         """Initializer."""
