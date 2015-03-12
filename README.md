@@ -7,6 +7,8 @@ Objects
 [![Version](https://img.shields.io/pypi/dm/Objects.svg)](https://pypi.python.org/pypi/Objects)
 [![Version](https://img.shields.io/pypi/l/Objects.svg)](https://pypi.python.org/pypi/Objects)
 
+Example:
+
 ```python
 """Concept example of Objects."""
 
