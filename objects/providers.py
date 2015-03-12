@@ -315,7 +315,7 @@ class Config(Provider):
         if paths:
             for path in paths:
                 value = value[path]
-            return valueg
+            return value
 
 
 class _DeferredConfig(Provider):
