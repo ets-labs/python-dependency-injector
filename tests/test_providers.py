@@ -41,3 +41,36 @@ class ProviderTest(unittest.TestCase):
 
         self.assertIsInstance(delegate, ProviderDelegate)
         self.assertIs(delegate.delegated, provider)
+
+    def test_override(self):
+        """Test provider overriding."""
+        provider = Provider()
+        overriding_provider = Provider()
+        provider.override(overriding_provider)
+        self.assertTrue(provider.overridden)
+
+    def test_override_with_not_provider(self):
+        """Test provider overriding with not provider instance."""
+        self.assertRaises(TypeError, Provider().override, object())
+
+    def test_last_overriding(self):
+        """Test getting last overriding provider."""
+        provider = Provider()
+        overriding_provider1 = Provider()
+        overriding_provider2 = Provider()
+
+        provider.override(overriding_provider1)
+        self.assertIs(provider.last_overriding, overriding_provider1)
+
+        provider.override(overriding_provider2)
+        self.assertIs(provider.last_overriding, overriding_provider2)
+
+    def test_last_overriding_of_not_overridden_provider(self):
+        """Test getting last overriding from not overridden provider."""
+        try:
+            Provider().last_overriding
+        except AttributeError:
+            pass
+        else:
+            self.fail('Got en error in {}'.format(
+                str(self.test_last_overriding_of_not_overridden_provider)))
