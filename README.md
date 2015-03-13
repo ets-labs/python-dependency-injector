@@ -1,7 +1,7 @@
 Objects
 =======
 
-**Python catalogs of objects providers**
+Python catalogs of objects providers
 
 [![Version](https://img.shields.io/pypi/v/Objects.svg)](https://pypi.python.org/pypi/Objects)
 [![Version](https://img.shields.io/pypi/dm/Objects.svg)](https://pypi.python.org/pypi/Objects)
