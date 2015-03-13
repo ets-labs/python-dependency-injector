@@ -8,6 +8,8 @@ from objects.providers import NewInstance
 from objects.injections import InitArg
 from objects.injections import Attribute
 
+from objects.errors import Error
+
 import sqlite3
 
 
@@ -72,7 +74,7 @@ class Consumer(object):
 
         try:
             self.dependencies.database()
-        except AttributeError:
+        except Error:
             pass
         else:
             raise Exception('Database is not listed as a dependency')
@@ -98,7 +100,7 @@ def consumer_callback(dependencies=Catalog(Catalog.object_a,
 
     try:
         dependencies.database()
-    except AttributeError:
+    except Error:
         pass
     else:
         raise Exception('Database is not listed as a dependency')
