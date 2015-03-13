@@ -1,6 +1,7 @@
 """Catalog module."""
 
 from .providers import Provider
+from .errors import Error
 
 
 class AbstractCatalog(object):
@@ -20,8 +21,8 @@ class AbstractCatalog(object):
             return attribute
 
         if attribute not in self.__used_providers__:
-            raise AttributeError('Provider \'{}\' is not listed in '
-                                 'dependencies'.format(item))
+            raise Error('Provider \'{}\' '.format(item) +
+                        'is not listed in dependencies')
         return attribute
 
     @classmethod

@@ -17,6 +17,8 @@ from objects.providers import Config
 
 from objects.utils import is_provider
 
+from objects.errors import Error
+
 
 class ProviderTest(unittest.TestCase):
 
@@ -51,7 +53,7 @@ class ProviderTest(unittest.TestCase):
 
     def test_override_with_not_provider(self):
         """Test provider overriding with not provider instance."""
-        self.assertRaises(TypeError, Provider().override, object())
+        self.assertRaises(Error, Provider().override, object())
 
     def test_last_overriding(self):
         """Test getting last overriding provider."""
@@ -69,7 +71,7 @@ class ProviderTest(unittest.TestCase):
         """Test getting last overriding from not overridden provider."""
         try:
             Provider().last_overriding
-        except AttributeError:
+        except Error:
             pass
         else:
             self.fail('Got en error in {}'.format(

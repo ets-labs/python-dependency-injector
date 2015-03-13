@@ -8,6 +8,8 @@ from .utils import is_init_arg_injection
 from .utils import is_attribute_injection
 from .utils import is_method_injection
 
+from .errors import Error
+
 
 class Provider(object):
 
@@ -31,8 +33,8 @@ class Provider(object):
     def override(self, provider):
         """Override provider with another provider."""
         if not is_provider(provider):
-            raise TypeError('Expected provider as an overriding instance, '
-                            'got {}'.format(str(provider)))
+            raise Error('Expected provider as an overriding instance, '
+                        'got {}'.format(str(provider)))
         self.overridden.append(provider)
 
     @property
@@ -41,8 +43,8 @@ class Provider(object):
         try:
             return self.overridden[-1]
         except IndexError:
-            raise AttributeError('Provider {} '.format(str(self)) +
-                                 'is not overridden')
+            raise Error('Provider {} '.format(str(self)) +
+                        'is not overridden')
 
 
 class ProviderDelegate(Provider):
@@ -162,8 +164,8 @@ class Scoped(Singleton):
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
         if not self.is_in_scope:
-            raise RuntimeError('Trying to provide {} '.format(self.provides) +
-                               'while provider is not in scope')
+            raise Error('Trying to provide {} '.format(self.provides) +
+                        'while provider is not in scope')
         return super(Scoped, self).__call__(*args, **kwargs)
 
     def __enter__(self):
@@ -197,7 +199,7 @@ class ExternalDependency(Provider):
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
         if not self.dependency:
-            raise ValueError('Dependency is not satisfied')
+            raise Error('Dependency is not satisfied')
 
         result = self.dependency.__call__(*args, **kwargs)
 
@@ -205,8 +207,8 @@ class ExternalDependency(Provider):
                            for possible_type in self.instance_of))
 
         if not is_instance:
-            raise TypeError('{} is not an '.format(result) +
-                            'instance of {}'.format(self.instance_of))
+            raise Error('{} is not an '.format(result) +
+                        'instance of {}'.format(self.instance_of))
 
         return result
 
