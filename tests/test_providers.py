@@ -1,6 +1,7 @@
 """Objects providers unittests."""
 
 import unittest2 as unittest
+from collections import namedtuple
 
 from objects.providers import Provider
 from objects.providers import Delegate
@@ -14,6 +15,10 @@ from objects.providers import Function
 from objects.providers import Value
 from objects.providers import Callable
 from objects.providers import Config
+
+from objects.injections import InitArg
+from objects.injections import Attribute
+from objects.injections import Method
 
 from objects.utils import is_provider
 
@@ -82,9 +87,9 @@ class ProviderTest(unittest.TestCase):
                 str(self.test_last_overriding_of_not_overridden_provider)))
 
 
-class ProviderDelegateTest(unittest.TestCase):
+class DelegateTest(unittest.TestCase):
 
-    """ProviderDelegate test cases."""
+    """Delegate test cases."""
 
     def setUp(self):
         """Set test cases environment up."""
@@ -111,3 +116,54 @@ class ProviderDelegateTest(unittest.TestCase):
 class NewInstanceTest(unittest.TestCase):
 
     """NewInstance test cases."""
+
+    def test_is_provider(self):
+        """Test `is_provider` check."""
+        self.assertTrue(is_provider(NewInstance(object)))
+
+    def test_call(self):
+        """Test creation of new instances."""
+        provider = NewInstance(object)
+        instance1 = provider
+        instance2 = provider()
+
+        self.assertIsNot(instance1, instance2)
+        self.assertIsInstance(instance1, object)
+        self.assertIsInstance(instance2, object)
+
+    def test_call_overridden(self):
+        """Test creation of new instances on overridden provider."""
+        provider = NewInstance(object)
+        overriding_provider1 = NewInstance(dict)
+        overriding_provider2 = NewInstance(list)
+
+        provider.override(overriding_provider1)
+        provider.override(overriding_provider2)
+
+        instance1 = provider()
+        instance2 = provider()
+
+        self.assertIsNot(instance1, instance2)
+        self.assertIsInstance(instance1, list)
+        self.assertIsInstance(instance2, list)
+
+    # self.cls = namedtuple('Instance', ['arg1', 'arg2'])
+    # self.provider = NewInstance(self.cls,
+    #                             InitArg('arg1', 1),
+    #                             InitArg('arg2', 2))
+
+    # TODO: Test that NewInstance.provides takes only classes
+
+    # TODO: Test filtering of init arg injections
+    # TODO: Test filtering of attribute injections
+    # TODO: Test filtering of method injections
+
+    # TODO: Test call with applying of init arg injections
+    # TODO: Test call with applying of attribute injections
+    # TODO: Test call with applying of method injections
+
+    # TODO: Test call with applying of context args
+    # TODO: Test call with applying of context kwargs
+    # TODO: Test call with applying of context args & kwargs
+    # TODO: Test call with applying of context args & kwargs & init args
+    # TODO:     injections
