@@ -2,11 +2,21 @@
 
 from inspect import isclass
 
+from .errors import Error
+
 
 def is_provider(instance):
     """Check if instance is provider instance."""
     return (not isclass(instance) and
             hasattr(instance, '__IS_OBJECTS_PROVIDER__'))
+
+
+def ensure_is_provider(instance):
+    """Check if instance is provider instance, otherwise raise and error."""
+    if not is_provider(instance):
+        raise Error('Expected provider instance, '
+                    'got {}'.format(str(instance)))
+    return instance
 
 
 def is_injection(instance):

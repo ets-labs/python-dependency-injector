@@ -2,7 +2,7 @@
 
 from collections import Iterable
 
-from .utils import is_provider
+from .utils import ensure_is_provider
 from .utils import is_injection
 from .utils import is_init_arg_injection
 from .utils import is_attribute_injection
@@ -32,10 +32,7 @@ class Provider(object):
 
     def override(self, provider):
         """Override provider with another provider."""
-        if not is_provider(provider):
-            raise Error('Expected provider as an overriding instance, '
-                        'got {}'.format(str(provider)))
-        self.overridden.append(provider)
+        self.overridden.append(ensure_is_provider(provider))
 
     @property
     def last_overriding(self):
@@ -58,7 +55,7 @@ class ProviderDelegate(Provider):
 
         :type delegated: Provider
         """
-        self.delegated = delegated
+        self.delegated = ensure_is_provider(delegated)
         super(ProviderDelegate, self).__init__()
 
     def __call__(self):
