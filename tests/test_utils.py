@@ -3,6 +3,7 @@
 import unittest2 as unittest
 
 from objects.utils import is_provider
+from objects.utils import ensure_is_provider
 from objects.utils import is_injection
 from objects.utils import is_init_arg_injection
 from objects.utils import is_attribute_injection
@@ -14,6 +15,8 @@ from objects.injections import Injection
 from objects.injections import InitArg
 from objects.injections import Attribute
 from objects.injections import Method
+
+from objects.errors import Error
 
 
 class IsProviderTest(unittest.TestCase):
@@ -35,6 +38,28 @@ class IsProviderTest(unittest.TestCase):
     def test_with_object(self):
         """Test with object."""
         self.assertFalse(is_provider(object()))
+
+
+class EnsureIsProviderTest(unittest.TestCase):
+
+    """`ensure_is_provider` test cases."""
+
+    def test_with_instance(self):
+        """Test with instance."""
+        provider = Provider()
+        self.assertIs(ensure_is_provider(provider), provider)
+
+    def test_with_class(self):
+        """Test with class."""
+        self.assertRaises(Error, ensure_is_provider, Provider)
+
+    def test_with_string(self):
+        """Test with string."""
+        self.assertRaises(Error, ensure_is_provider, 'some_string')
+
+    def test_with_object(self):
+        """Test with object."""
+        self.assertRaises(Error, ensure_is_provider, object())
 
 
 class IsInjectionTest(unittest.TestCase):
