@@ -28,7 +28,7 @@ class Provider(object):
 
     def delegate(self):
         """Return provider's delegate."""
-        return ProviderDelegate(self)
+        return Delegate(self)
 
     def override(self, provider):
         """Override provider with another provider."""
@@ -44,7 +44,7 @@ class Provider(object):
                         'is not overridden')
 
 
-class ProviderDelegate(Provider):
+class Delegate(Provider):
 
     """Provider's delegate."""
 
@@ -56,7 +56,7 @@ class ProviderDelegate(Provider):
         :type delegated: Provider
         """
         self.delegated = ensure_is_provider(delegated)
-        super(ProviderDelegate, self).__init__()
+        super(Delegate, self).__init__()
 
     def __call__(self):
         """Return provided instance."""

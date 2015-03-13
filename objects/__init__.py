@@ -3,7 +3,7 @@
 from .catalog import AbstractCatalog, overrides
 
 from .providers import Provider
-from .providers import ProviderDelegate
+from .providers import Delegate
 from .providers import NewInstance
 from .providers import Singleton
 from .providers import Scoped
@@ -19,13 +19,15 @@ from .injections import InitArg
 from .injections import Attribute
 from .injections import Method
 
+from .errors import Error
+
 
 __all__ = ('AbstractCatalog',
            'overrides',
 
            # Providers
            'Provider',
-           'ProviderDelegate',
+           'Delegate',
            'NewInstance',
            'Singleton',
            'Scoped',
@@ -40,4 +42,7 @@ __all__ = ('AbstractCatalog',
            # Injections
            'InitArg',
            'Attribute',
-           'Method')
+           'Method',
+
+           # Errors
+           'Error')

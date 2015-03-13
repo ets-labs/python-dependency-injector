@@ -3,7 +3,7 @@
 import unittest2 as unittest
 
 from objects.providers import Provider
-from objects.providers import ProviderDelegate
+from objects.providers import Delegate
 from objects.providers import NewInstance
 from objects.providers import Singleton
 from objects.providers import Scoped
@@ -40,12 +40,12 @@ class ProviderTest(unittest.TestCase):
         """Test creating of provider delegation."""
         delegate1 = self.provider.delegate()
 
-        self.assertIsInstance(delegate1, ProviderDelegate)
+        self.assertIsInstance(delegate1, Delegate)
         self.assertIs(delegate1.delegated, self.provider)
 
         delegate2 = self.provider.delegate()
 
-        self.assertIsInstance(delegate2, ProviderDelegate)
+        self.assertIsInstance(delegate2, Delegate)
         self.assertIs(delegate2.delegated, self.provider)
 
         self.assertIsNot(delegate1, delegate2)
@@ -89,7 +89,7 @@ class ProviderDelegateTest(unittest.TestCase):
     def setUp(self):
         """Set test cases environment up."""
         self.delegated = Provider()
-        self.delegate = ProviderDelegate(delegated=self.delegated)
+        self.delegate = Delegate(delegated=self.delegated)
 
     def test_is_provider(self):
         """Test `is_provider` check."""
@@ -97,7 +97,7 @@ class ProviderDelegateTest(unittest.TestCase):
 
     def test_init_with_not_provider(self):
         """Test that delegate accepts only another provider as delegated."""
-        self.assertRaises(Error, ProviderDelegate, delegated=object())
+        self.assertRaises(Error, Delegate, delegated=object())
 
     def test_call(self):
         """ Test returning of delegated provider."""
@@ -106,3 +106,8 @@ class ProviderDelegateTest(unittest.TestCase):
 
         self.assertIs(delegated1, self.delegated)
         self.assertIs(delegated2, self.delegated)
+
+
+class NewInstanceTest(unittest.TestCase):
+
+    """NewInstance test cases."""
