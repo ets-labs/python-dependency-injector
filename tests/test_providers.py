@@ -220,6 +220,27 @@ class NewInstanceTest(unittest.TestCase):
         self.assertIsInstance(instance1, self.Example)
         self.assertIsInstance(instance2, self.Example)
 
+    def test_call_with_context_args(self):
+        """Test creation of new instances with context args."""
+        provider = NewInstance(self.Example)
+        instance = provider(11, 22)
+
+        self.assertEqual(instance.init_arg1, 11)
+        self.assertEqual(instance.init_arg2, 22)
+
+    def test_call_with_context_kwargs(self):
+        """Test creation of new instances with context kwargs."""
+        provider = NewInstance(self.Example,
+                               InitArg('init_arg1', 1))
+
+        instance1 = provider(init_arg2=22)
+        self.assertEqual(instance1.init_arg1, 1)
+        self.assertEqual(instance1.init_arg2, 22)
+
+        instance1 = provider(init_arg1=11, init_arg2=22)
+        self.assertEqual(instance1.init_arg1, 11)
+        self.assertEqual(instance1.init_arg2, 22)
+
     def test_call_overridden(self):
         """Test creation of new instances on overridden provider."""
         provider = NewInstance(self.Example)
@@ -235,24 +256,3 @@ class NewInstanceTest(unittest.TestCase):
         self.assertIsNot(instance1, instance2)
         self.assertIsInstance(instance1, list)
         self.assertIsInstance(instance2, list)
-
-    # self.cls = namedtuple('Instance', ['arg1', 'arg2'])
-    # self.provider = NewInstance(self.cls,
-    #                             InitArg('arg1', 1),
-    #                             InitArg('arg2', 2))
-
-    # TODO: Test that NewInstance.provides takes only classes
-
-    # TODO: Test filtering of init arg injections
-    # TODO: Test filtering of attribute injections
-    # TODO: Test filtering of method injections
-
-    # TODO: Test call with applying of init arg injections
-    # TODO: Test call with applying of attribute injections
-    # TODO: Test call with applying of method injections
-
-    # TODO: Test call with applying of context args
-    # TODO: Test call with applying of context kwargs
-    # TODO: Test call with applying of context args & kwargs
-    # TODO: Test call with applying of context args & kwargs & init args
-    # TODO:     injections
