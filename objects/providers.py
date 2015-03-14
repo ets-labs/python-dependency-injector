@@ -134,7 +134,7 @@ class Singleton(NewInstance):
         self.instance = None
 
 
-class Scoped(Singleton):
+class Scoped(NewInstance):
 
     """Scoped provider.
 
@@ -142,38 +142,38 @@ class Scoped(Singleton):
     on every call.
     """
 
-    __slots__ = ('is_in_scope',)
+    __slots__ = ('current_scope', 'scopes_to_instances')
 
     def __init__(self, *args, **kwargs):
         """Initializer."""
-        self.is_in_scope = None
+        self.current_scope = None
+        self.scopes_to_instances = dict()
         super(Scoped, self).__init__(*args, **kwargs)
 
-    def in_scope(self):
+    def in_scope(self, scope):
         """Set provider in "in scope" state."""
-        self.is_in_scope = True
-        self.reset()
+        self.current_scope = scope
 
-    def out_of_scope(self):
+    def out_of_scope(self, scope):
         """Set provider in "out of scope" state."""
-        self.is_in_scope = False
-        self.reset()
+        self.current_scope = None
+        try:
+            del self.scopes_to_instances[scope]
+        except KeyError:
+            raise Error('Trying to move out of undefined scope '
+                        '"{}"'.format(scope))
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
-        if not self.is_in_scope:
+        if not self.current_scope:
             raise Error('Trying to provide {} '.format(self.provides) +
                         'while provider is not in scope')
-        return super(Scoped, self).__call__(*args, **kwargs)
-
-    def __enter__(self):
-        """Make provider to be in scope."""
-        self.in_scope()
-        return self
-
-    def __exit__(self, *_):
-        """Make provider to be out of scope."""
-        self.out_of_scope()
+        try:
+            instance = self.scopes_to_instances[self.current_scope]
+        except KeyError:
+            instance = super(Scoped, self).__call__(*args, **kwargs)
+            self.scopes_to_instances[self.current_scope] = instance
+        return instance
 
 
 class ExternalDependency(Provider):
