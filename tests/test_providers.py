@@ -117,23 +117,112 @@ class NewInstanceTest(unittest.TestCase):
 
     """NewInstance test cases."""
 
+    class Example(object):
+
+        """Example class for NewInstance provider tests."""
+
+        def __init__(self, init_arg1=None, init_arg2=None):
+            """Initializer.
+
+            :param init_arg1:
+            :param init_arg2:
+            :return:
+            """
+            self.init_arg1 = init_arg1
+            self.init_arg2 = init_arg2
+
+            self.attribute1 = None
+            self.attribute2 = None
+
+            self.method1_value = None
+            self.method2_value = None
+
+        def method1(self, value):
+            """Setter method 1."""
+            self.method1_value = value
+
+        def method2(self, value):
+            """Setter method 2."""
+            self.method2_value = value
+
     def test_is_provider(self):
         """Test `is_provider` check."""
-        self.assertTrue(is_provider(NewInstance(object)))
+        self.assertTrue(is_provider(NewInstance(self.Example)))
+
+    def test_init_with_not_class(self):
+        """Test creation of provider with not a class."""
+        self.assertRaises(Error, NewInstance, 123)
 
     def test_call(self):
         """Test creation of new instances."""
-        provider = NewInstance(object)
-        instance1 = provider
+        provider = NewInstance(self.Example)
+        instance1 = provider()
         instance2 = provider()
 
         self.assertIsNot(instance1, instance2)
-        self.assertIsInstance(instance1, object)
-        self.assertIsInstance(instance2, object)
+        self.assertIsInstance(instance1, self.Example)
+        self.assertIsInstance(instance2, self.Example)
+
+    def test_call_with_init_args(self):
+        """Test creation of new instances with init args injections."""
+        provider = NewInstance(self.Example,
+                               InitArg('init_arg1', 'i1'),
+                               InitArg('init_arg2', 'i2'))
+
+        instance1 = provider()
+        instance2 = provider()
+
+        self.assertEqual(instance1.init_arg1, 'i1')
+        self.assertEqual(instance1.init_arg2, 'i2')
+
+        self.assertEqual(instance2.init_arg1, 'i1')
+        self.assertEqual(instance2.init_arg2, 'i2')
+
+        self.assertIsNot(instance1, instance2)
+        self.assertIsInstance(instance1, self.Example)
+        self.assertIsInstance(instance2, self.Example)
+
+    def test_call_with_attributes(self):
+        """Test creation of new instances with attribute injections."""
+        provider = NewInstance(self.Example,
+                               Attribute('attribute1', 'a1'),
+                               Attribute('attribute2', 'a2'))
+
+        instance1 = provider()
+        instance2 = provider()
+
+        self.assertEqual(instance1.attribute1, 'a1')
+        self.assertEqual(instance1.attribute2, 'a2')
+
+        self.assertEqual(instance2.attribute1, 'a1')
+        self.assertEqual(instance2.attribute2, 'a2')
+
+        self.assertIsNot(instance1, instance2)
+        self.assertIsInstance(instance1, self.Example)
+        self.assertIsInstance(instance2, self.Example)
+
+    def test_call_with_methods(self):
+        """Test creation of new instances with method injections."""
+        provider = NewInstance(self.Example,
+                               Method('method1', 'm1'),
+                               Method('method2', 'm2'))
+
+        instance1 = provider()
+        instance2 = provider()
+
+        self.assertEqual(instance1.method1_value, 'm1')
+        self.assertEqual(instance1.method2_value, 'm2')
+
+        self.assertEqual(instance2.method1_value, 'm1')
+        self.assertEqual(instance2.method2_value, 'm2')
+
+        self.assertIsNot(instance1, instance2)
+        self.assertIsInstance(instance1, self.Example)
+        self.assertIsInstance(instance2, self.Example)
 
     def test_call_overridden(self):
         """Test creation of new instances on overridden provider."""
-        provider = NewInstance(object)
+        provider = NewInstance(self.Example)
         overriding_provider1 = NewInstance(dict)
         overriding_provider2 = NewInstance(list)
 

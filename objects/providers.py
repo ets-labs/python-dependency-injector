@@ -1,5 +1,6 @@
 """Providers module."""
 
+from inspect import isclass
 from collections import Iterable
 
 from .utils import ensure_is_provider
@@ -74,6 +75,9 @@ class NewInstance(Provider):
 
     def __init__(self, provides, *injections):
         """Initializer."""
+        if not isclass(provides):
+            raise Error('NewInstance provider expects to get class, ' +
+                        'got {} instead'.format(str(provides)))
         self.provides = provides
         self.init_args = tuple((injection
                                 for injection in injections
@@ -91,19 +95,16 @@ class NewInstance(Provider):
         if self.overridden:
             return self.last_overriding(*args, **kwargs)
 
-        init_injections = dict(((injection.name, injection.value)
-                                for injection in self.init_args))
-        init_injections.update(kwargs)
+        init_kwargs = dict(((injection.name, injection.value)
+                            for injection in self.init_args))
+        init_kwargs.update(kwargs)
 
-        instance = self.provides(*args, **init_injections)
+        instance = self.provides(*args, **init_kwargs)
 
-        if not self.attributes:
-            for injection in self.attributes:
-                setattr(instance, injection.name, injection.value)
-
-        if not self.methods:
-            for injection in self.methods:
-                getattr(instance, injection.name)(injection.value)
+        for attribute in self.attributes:
+            setattr(instance, attribute.name, attribute.value)
+        for method in self.methods:
+            getattr(instance, method.name)(method.value)
 
         return instance
 
