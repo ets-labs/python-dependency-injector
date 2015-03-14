@@ -256,3 +256,33 @@ class NewInstanceTest(unittest.TestCase):
         self.assertIsNot(instance1, instance2)
         self.assertIsInstance(instance1, list)
         self.assertIsInstance(instance2, list)
+
+
+class SingletonTest(unittest.TestCase):
+
+    """Singleton test cases."""
+
+    def test_call(self):
+        """Test creation and returning of single object."""
+        provider = Singleton(object)
+
+        instance1 = provider()
+        instance2 = provider()
+
+        self.assertIsInstance(instance1, object)
+        self.assertIsInstance(instance2, object)
+        self.assertIs(instance1, instance2)
+
+    def test_reset(self):
+        """Test creation and reset of single object."""
+        provider = Singleton(object)
+
+        instance1 = provider()
+        self.assertIsInstance(instance1, object)
+
+        provider.reset()
+
+        instance2 = provider()
+        self.assertIsInstance(instance1, object)
+
+        self.assertIsNot(instance1, instance2)

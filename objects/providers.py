@@ -129,7 +129,7 @@ class Singleton(NewInstance):
             self.instance = super(Singleton, self).__call__(*args, **kwargs)
         return self.instance
 
-    def _reset_instance(self):
+    def reset(self):
         """Reset instance."""
         self.instance = None
 
@@ -152,12 +152,12 @@ class Scoped(Singleton):
     def in_scope(self):
         """Set provider in "in scope" state."""
         self.is_in_scope = True
-        self._reset_instance()
+        self.reset()
 
     def out_of_scope(self):
         """Set provider in "out of scope" state."""
         self.is_in_scope = False
-        self._reset_instance()
+        self.reset()
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
