@@ -252,8 +252,8 @@ class Callable(Provider):
 
     """Callable provider.
 
-    Callable provider will provide callable calls with some predefined
-    dependencies injections.
+    Callable provider provides callable that is called on every provider call
+    with some predefined dependency injections.
     """
 
     __slots__ = ('calls', 'injections')

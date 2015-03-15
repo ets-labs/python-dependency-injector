@@ -16,6 +16,7 @@ from objects.providers import Value
 from objects.providers import Callable
 from objects.providers import Config
 
+from objects.injections import Injection
 from objects.injections import InitArg
 from objects.injections import Attribute
 from objects.injections import Method
@@ -398,6 +399,13 @@ class StaticProvidersTests(unittest.TestCase):
 
     """Static providers test cases."""
 
+    def test_is_provider(self):
+        """Test `is_provider` check."""
+        self.assertTrue(is_provider(Class(object)))
+        self.assertTrue(is_provider(Object(object())))
+        self.assertTrue(is_provider(Function(map)))
+        self.assertTrue(is_provider(Value(123)))
+
     def test_call_class_provider(self):
         """Test Class provider call."""
         self.assertIs(Class(dict)(), dict)
@@ -440,3 +448,47 @@ class StaticProvidersTests(unittest.TestCase):
         value_provider = Value(123)
         value_provider.override(Value(321))
         self.assertEqual(value_provider(), 321)
+
+
+class CallableTests(unittest.TestCase):
+
+    """Callable test cases."""
+
+    def example(self, arg1, arg2, arg3):
+        """Example callback."""
+        return arg1, arg2, arg3
+
+    def setUp(self):
+        """Set test cases environment up."""
+        self.provider = Callable(self.example,
+                                 Injection('arg1', 'a1'),
+                                 Injection('arg2', 'a2'),
+                                 Injection('arg3', 'a3'))
+
+    def test_call(self):
+        """Test provider call."""
+        self.assertEqual(self.provider(), ('a1', 'a2', 'a3'))
+
+    def test_call_with_args(self):
+        """Test provider call with kwargs priority."""
+        provider = Callable(self.example,
+                            Injection('arg3', 'a3'))
+        self.assertEqual(provider(1, 2), (1, 2, 'a3'))
+
+    def test_call_with_kwargs_priority(self):
+        """Test provider call with kwargs priority."""
+        self.assertEqual(self.provider(arg1=1, arg3=3), (1, 'a2', 3))
+
+    def test_call_overridden(self):
+        """Test overridden provider call."""
+        overriding_provider1 = Value((1, 2, 3))
+        overriding_provider2 = Value((3, 2, 1))
+
+        self.provider.override(overriding_provider1)
+        self.provider.override(overriding_provider2)
+
+        result1 = self.provider()
+        result2 = self.provider()
+
+        self.assertEqual(result1, (3, 2, 1))
+        self.assertEqual(result2, (3, 2, 1))
