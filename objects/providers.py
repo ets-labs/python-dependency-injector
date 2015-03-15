@@ -167,7 +167,7 @@ class Scoped(NewInstance):
         """Return provided instance."""
         if not self.current_scope:
             raise Error('Trying to provide {} '.format(self.provides) +
-                        'while provider is not in scope')
+                        'while provider has no active scope')
         try:
             instance = self.scopes_to_instances[self.current_scope]
         except KeyError:

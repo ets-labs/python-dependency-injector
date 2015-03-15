@@ -25,7 +25,7 @@ from objects.utils import is_provider
 from objects.errors import Error
 
 
-class ProviderTest(unittest.TestCase):
+class ProviderTests(unittest.TestCase):
 
     """Provider test cases."""
 
@@ -87,7 +87,7 @@ class ProviderTest(unittest.TestCase):
                 str(self.test_last_overriding_of_not_overridden_provider)))
 
 
-class DelegateTest(unittest.TestCase):
+class DelegateTests(unittest.TestCase):
 
     """Delegate test cases."""
 
@@ -113,7 +113,7 @@ class DelegateTest(unittest.TestCase):
         self.assertIs(delegated2, self.delegated)
 
 
-class NewInstanceTest(unittest.TestCase):
+class NewInstanceTests(unittest.TestCase):
 
     """NewInstance test cases."""
 
@@ -258,7 +258,7 @@ class NewInstanceTest(unittest.TestCase):
         self.assertIsInstance(instance2, list)
 
 
-class SingletonTest(unittest.TestCase):
+class SingletonTests(unittest.TestCase):
 
     """Singleton test cases."""
 
@@ -286,3 +286,89 @@ class SingletonTest(unittest.TestCase):
         self.assertIsInstance(instance1, object)
 
         self.assertIsNot(instance1, instance2)
+
+
+class ScopedTests(unittest.TestCase):
+
+    """Scoped test cases."""
+
+    APPLICATION_SCOPE = 'application'
+    REQUEST_SCOPE = 'request'
+
+    def test_call(self):
+        """Test creation and returning of scope single object."""
+        provider = Scoped(object)
+
+        provider.in_scope(self.APPLICATION_SCOPE)
+
+        instance1 = provider()
+        instance2 = provider()
+
+        self.assertIsInstance(instance1, object)
+        self.assertIsInstance(instance2, object)
+        self.assertIs(instance1, instance2)
+
+    def test_call_several_scopes(self):
+        """Test creation of several scopes instances."""
+        provider = Scoped(object)
+
+        provider.in_scope(self.APPLICATION_SCOPE)
+        app_instance1 = provider()
+        app_instance2 = provider()
+
+        provider.in_scope(self.REQUEST_SCOPE)
+        request_instance1 = provider()
+        request_instance2 = provider()
+
+        self.assertIsInstance(app_instance1, object)
+        self.assertIsInstance(app_instance2, object)
+        self.assertIs(app_instance1, app_instance2)
+
+        self.assertIsInstance(request_instance1, object)
+        self.assertIsInstance(request_instance2, object)
+        self.assertIs(request_instance1, request_instance2)
+
+        provider.in_scope(self.APPLICATION_SCOPE)
+        app_instance3 = provider()
+        self.assertIsInstance(app_instance3, object)
+        self.assertIs(app_instance3, app_instance1)
+        self.assertIs(app_instance3, app_instance2)
+
+        provider.in_scope(self.REQUEST_SCOPE)
+        request_instance3 = provider()
+        self.assertIsInstance(request_instance3, object)
+        self.assertIs(request_instance3, request_instance1)
+        self.assertIs(request_instance3, request_instance2)
+
+    def test_call_not_in_scope(self):
+        """Test creation of instance with no active scope."""
+        provider = Scoped(object)
+        self.assertRaises(Error, provider)
+
+    def test_call_in_out_scope(self):
+        """Test creation of instances within in and out of scope."""
+        provider = Scoped(object)
+
+        provider.in_scope(self.REQUEST_SCOPE)
+        instance1 = provider()
+        instance2 = provider()
+        provider.out_of_scope(self.REQUEST_SCOPE)
+
+        provider.in_scope(self.REQUEST_SCOPE)
+        instance3 = provider()
+        instance4 = provider()
+        provider.out_of_scope(self.REQUEST_SCOPE)
+
+        self.assertIs(instance1, instance2)
+        self.assertIs(instance3, instance4)
+
+        self.assertIsNot(instance1, instance3)
+        self.assertIsNot(instance2, instance3)
+
+        self.assertIsNot(instance1, instance4)
+        self.assertIsNot(instance2, instance4)
+
+    def test_out_of_scope(self):
+        """Test call `out_of_scope()` on provider that has no such scope."""
+        provider = Scoped(object)
+        self.assertRaises(Error, provider.out_of_scope, self.REQUEST_SCOPE)

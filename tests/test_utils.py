@@ -19,7 +19,7 @@ from objects.injections import Method
 from objects.errors import Error
 
 
-class IsProviderTest(unittest.TestCase):
+class IsProviderTests(unittest.TestCase):
 
     """`is_provider()` test cases."""
 
@@ -40,7 +40,7 @@ class IsProviderTest(unittest.TestCase):
         self.assertFalse(is_provider(object()))
 
 
-class EnsureIsProviderTest(unittest.TestCase):
+class EnsureIsProviderTests(unittest.TestCase):
 
     """`ensure_is_provider` test cases."""
 
@@ -62,7 +62,7 @@ class EnsureIsProviderTest(unittest.TestCase):
         self.assertRaises(Error, ensure_is_provider, object())
 
 
-class IsInjectionTest(unittest.TestCase):
+class IsInjectionTests(unittest.TestCase):
 
     """`is_injection()` test cases."""
 
@@ -89,7 +89,7 @@ class IsInjectionTest(unittest.TestCase):
         self.assertFalse(is_injection(object()))
 
 
-class IsInitArgInjectionTest(unittest.TestCase):
+class IsInitArgInjectionTests(unittest.TestCase):
 
     """`is_init_arg_injection()` test cases."""
 
@@ -114,7 +114,7 @@ class IsInitArgInjectionTest(unittest.TestCase):
         self.assertFalse(is_init_arg_injection(object()))
 
 
-class IsAttributeInjectionTest(unittest.TestCase):
+class IsAttributeInjectionTests(unittest.TestCase):
 
     """`is_attribute_injection()` test cases."""
 
@@ -139,7 +139,7 @@ class IsAttributeInjectionTest(unittest.TestCase):
         self.assertFalse(is_attribute_injection(object()))
 
 
-class IsMethodInjectionTest(unittest.TestCase):
+class IsMethodInjectionTests(unittest.TestCase):
 
     """`is_method_injection()` test cases."""
 

@@ -10,7 +10,7 @@ from objects.injections import Method
 from objects.providers import NewInstance
 
 
-class InjectionTest(unittest.TestCase):
+class InjectionTests(unittest.TestCase):
 
     """Injection test cases."""
 
@@ -31,7 +31,7 @@ class InjectionTest(unittest.TestCase):
         self.assertIsInstance(injection.value, object)
 
 
-class InitArgTest(unittest.TestCase):
+class InitArgTests(unittest.TestCase):
 
     """Init arg injection test cases."""
 
@@ -42,7 +42,7 @@ class InitArgTest(unittest.TestCase):
         self.assertEqual(injection.injectable, 'some_value')
 
 
-class AttributeTest(unittest.TestCase):
+class AttributeTests(unittest.TestCase):
 
     """Attribute injection test cases."""
 
@@ -53,7 +53,7 @@ class AttributeTest(unittest.TestCase):
         self.assertEqual(injection.injectable, 'some_value')
 
 
-class MethodTest(unittest.TestCase):
+class MethodTests(unittest.TestCase):
 
     """Method injection test cases."""
 
