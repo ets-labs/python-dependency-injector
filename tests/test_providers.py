@@ -370,3 +370,56 @@ class ScopedTests(unittest.TestCase):
         self.assertRaises(Error,
                           self.provider.out_of_scope,
                           self.REQUEST_SCOPE)
+
+
+class ExternalDependencyTests(unittest.TestCase):
+
+    """ExternalDependency test cases."""
+
+
+class StaticProvidersTests(unittest.TestCase):
+
+    """Static providers test cases."""
+
+    def test_call_class_provider(self):
+        """Test Class provider call."""
+        self.assertIs(Class(dict)(), dict)
+
+    def test_call_object_provider(self):
+        """Test Object provider call."""
+        obj = object()
+        self.assertIs(Object(obj)(), obj)
+
+    def test_call_function_provider(self):
+        """Test Function provider call."""
+        self.assertIs(Function(map)(), map)
+
+    def test_call_value_provider(self):
+        """Test Value provider call."""
+        self.assertEqual(Value(123)(), 123)
+
+    def test_call_overridden_class_provider(self):
+        """Test overridden Class provider call."""
+        cls_provider = Class(dict)
+        cls_provider.override(Object(list))
+        self.assertIs(cls_provider(), list)
+
+    def test_call_overridden_object_provider(self):
+        """Test overridden Object provider call."""
+        obj1 = object()
+        obj2 = object()
+        obj_provider = Object(obj1)
+        obj_provider.override(Object(obj2))
+        self.assertIs(obj_provider(), obj2)
+
+    def test_call_overridden_function_provider(self):
+        """Test overridden Function provider call."""
+        function_provider = Function(map)
+        function_provider.override(Function(reduce))
+        self.assertIs(function_provider(), reduce)
+
+    def test_call_overridden_value_provider(self):
+        """Test overridden Value provider call."""
+        value_provider = Value(123)
+        value_provider.override(Value(321))
+        self.assertEqual(value_provider(), 321)
