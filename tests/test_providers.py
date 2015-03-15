@@ -295,14 +295,16 @@ class ScopedTests(unittest.TestCase):
     APPLICATION_SCOPE = 'application'
     REQUEST_SCOPE = 'request'
 
+    def setUp(self):
+        """Set test cases environment up."""
+        self.provider = Scoped(object)
+
     def test_call(self):
         """Test creation and returning of scope single object."""
-        provider = Scoped(object)
+        self.provider.in_scope(self.APPLICATION_SCOPE)
 
-        provider.in_scope(self.APPLICATION_SCOPE)
-
-        instance1 = provider()
-        instance2 = provider()
+        instance1 = self.provider()
+        instance2 = self.provider()
 
         self.assertIsInstance(instance1, object)
         self.assertIsInstance(instance2, object)
@@ -310,15 +312,13 @@ class ScopedTests(unittest.TestCase):
 
     def test_call_several_scopes(self):
         """Test creation of several scopes instances."""
-        provider = Scoped(object)
+        self.provider.in_scope(self.APPLICATION_SCOPE)
+        app_instance1 = self.provider()
+        app_instance2 = self.provider()
 
-        provider.in_scope(self.APPLICATION_SCOPE)
-        app_instance1 = provider()
-        app_instance2 = provider()
-
-        provider.in_scope(self.REQUEST_SCOPE)
-        request_instance1 = provider()
-        request_instance2 = provider()
+        self.provider.in_scope(self.REQUEST_SCOPE)
+        request_instance1 = self.provider()
+        request_instance2 = self.provider()
 
         self.assertIsInstance(app_instance1, object)
         self.assertIsInstance(app_instance2, object)
@@ -328,36 +328,33 @@ class ScopedTests(unittest.TestCase):
         self.assertIsInstance(request_instance2, object)
         self.assertIs(request_instance1, request_instance2)
 
-        provider.in_scope(self.APPLICATION_SCOPE)
-        app_instance3 = provider()
+        self.provider.in_scope(self.APPLICATION_SCOPE)
+        app_instance3 = self.provider()
         self.assertIsInstance(app_instance3, object)
         self.assertIs(app_instance3, app_instance1)
         self.assertIs(app_instance3, app_instance2)
 
-        provider.in_scope(self.REQUEST_SCOPE)
-        request_instance3 = provider()
+        self.provider.in_scope(self.REQUEST_SCOPE)
+        request_instance3 = self.provider()
         self.assertIsInstance(request_instance3, object)
         self.assertIs(request_instance3, request_instance1)
         self.assertIs(request_instance3, request_instance2)
 
     def test_call_not_in_scope(self):
         """Test creation of instance with no active scope."""
-        provider = Scoped(object)
-        self.assertRaises(Error, provider)
+        self.assertRaises(Error, self.provider)
 
     def test_call_in_out_scope(self):
         """Test creation of instances within in and out of scope."""
-        provider = Scoped(object)
+        self.provider.in_scope(self.REQUEST_SCOPE)
+        instance1 = self.provider()
+        instance2 = self.provider()
+        self.provider.out_of_scope(self.REQUEST_SCOPE)
 
-        provider.in_scope(self.REQUEST_SCOPE)
-        instance1 = provider()
-        instance2 = provider()
-        provider.out_of_scope(self.REQUEST_SCOPE)
-
-        provider.in_scope(self.REQUEST_SCOPE)
-        instance3 = provider()
-        instance4 = provider()
-        provider.out_of_scope(self.REQUEST_SCOPE)
+        self.provider.in_scope(self.REQUEST_SCOPE)
+        instance3 = self.provider()
+        instance4 = self.provider()
+        self.provider.out_of_scope(self.REQUEST_SCOPE)
 
         self.assertIs(instance1, instance2)
         self.assertIs(instance3, instance4)
@@ -370,5 +367,6 @@ class ScopedTests(unittest.TestCase):
 
     def test_out_of_scope(self):
         """Test call `out_of_scope()` on provider that has no such scope."""
-        provider = Scoped(object)
-        self.assertRaises(Error, provider.out_of_scope, self.REQUEST_SCOPE)
+        self.assertRaises(Error,
+                          self.provider.out_of_scope,
+                          self.REQUEST_SCOPE)
