@@ -376,6 +376,23 @@ class ExternalDependencyTests(unittest.TestCase):
 
     """ExternalDependency test cases."""
 
+    def test_call_satisfied(self):
+        """Test call of satisfied external dependency."""
+        provider = ExternalDependency(instance_of=object)
+        provider.satisfy(NewInstance(object))
+        self.assertIsInstance(provider(), object)
+
+    def test_call_satisfied_but_not_instance_of(self):
+        """Test call of satisfied external dependency, but not instance of."""
+        provider = ExternalDependency(instance_of=list)
+        provider.satisfy(NewInstance(dict))
+        self.assertRaises(Error, provider)
+
+    def test_call_not_satisfied(self):
+        """Test call of not satisfied external dependency."""
+        provider = ExternalDependency(instance_of=object)
+        self.assertRaises(Error, provider)
+
 
 class StaticProvidersTests(unittest.TestCase):
 

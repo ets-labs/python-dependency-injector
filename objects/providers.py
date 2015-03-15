@@ -184,31 +184,26 @@ class ExternalDependency(Provider):
 
     def __init__(self, instance_of):
         """Initializer."""
-        if not isinstance(instance_of, Iterable):
-            instance_of = (instance_of,)
         self.instance_of = instance_of
         self.dependency = None
         super(ExternalDependency, self).__init__()
 
     def satisfy(self, provider):
         """Satisfy an external dependency."""
-        self.dependency = provider
+        self.dependency = ensure_is_provider(provider)
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
         if not self.dependency:
             raise Error('Dependency is not satisfied')
 
-        result = self.dependency.__call__(*args, **kwargs)
+        instance = self.dependency.__call__(*args, **kwargs)
 
-        is_instance = any((isinstance(result, possible_type)
-                           for possible_type in self.instance_of))
-
-        if not is_instance:
-            raise Error('{} is not an '.format(result) +
+        if not isinstance(instance, self.instance_of):
+            raise Error('{} is not an '.format(instance) +
                         'instance of {}'.format(self.instance_of))
 
-        return result
+        return instance
 
 
 class _StaticProvider(Provider):
