@@ -30,7 +30,6 @@ def check():
     os.system('flake8 objects/')
     os.system('pep257 objects/')
 
-    os.system('pylint examples/ --rcfile=./.pylintrc')
     os.system('flake8 examples/')
     os.system('pep257 examples/')
 
