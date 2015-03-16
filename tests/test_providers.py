@@ -1,7 +1,6 @@
 """Objects providers unittests."""
 
 import unittest2 as unittest
-from collections import namedtuple
 
 from objects.providers import Provider
 from objects.providers import Delegate
