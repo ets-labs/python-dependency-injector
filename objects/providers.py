@@ -1,7 +1,6 @@
 """Providers module."""
 
 from inspect import isclass
-from collections import Iterable
 
 from .utils import ensure_is_provider
 from .utils import is_injection
