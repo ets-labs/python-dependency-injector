@@ -4,8 +4,8 @@ Objects
 Python catalogs of objects providers
 
 [![Version](https://img.shields.io/pypi/v/Objects.svg)](https://pypi.python.org/pypi/Objects)
-[![Version](https://img.shields.io/pypi/dm/Objects.svg)](https://pypi.python.org/pypi/Objects)
-[![Version](https://img.shields.io/pypi/l/Objects.svg)](https://pypi.python.org/pypi/Objects)
+[![Downloads](https://img.shields.io/pypi/dm/Objects.svg)](https://pypi.python.org/pypi/Objects)
+[![License](https://img.shields.io/pypi/l/Objects.svg)](https://pypi.python.org/pypi/Objects)
 
 Example:
 
