@@ -300,6 +300,10 @@ class ScopedTests(unittest.TestCase):
         """Set test cases environment up."""
         self.provider = Scoped(object)
 
+    def test_is_provider(self):
+        """Test `is_provider` check."""
+        self.assertTrue(is_provider(self.provider))
+
     def test_call(self):
         """Test creation and returning of scope single object."""
         self.provider.in_scope(self.APPLICATION_SCOPE)
@@ -377,26 +381,27 @@ class ExternalDependencyTests(unittest.TestCase):
 
     """ExternalDependency test cases."""
 
+    def setUp(self):
+        """Set test cases environment up."""
+        self.provider = ExternalDependency(instance_of=list)
+
     def test_is_provider(self):
         """Test `is_provider` check."""
-        self.assertTrue(is_provider(ExternalDependency(instance_of=object)))
+        self.assertTrue(is_provider(self.provider))
 
     def test_call_satisfied(self):
         """Test call of satisfied external dependency."""
-        provider = ExternalDependency(instance_of=object)
-        provider.satisfy(NewInstance(object))
-        self.assertIsInstance(provider(), object)
+        self.provider.satisfy(NewInstance(list))
+        self.assertIsInstance(self.provider(), list)
 
     def test_call_satisfied_but_not_instance_of(self):
         """Test call of satisfied external dependency, but not instance of."""
-        provider = ExternalDependency(instance_of=list)
-        provider.satisfy(NewInstance(dict))
-        self.assertRaises(Error, provider)
+        self.provider.satisfy(NewInstance(dict))
+        self.assertRaises(Error, self.provider)
 
     def test_call_not_satisfied(self):
         """Test call of not satisfied external dependency."""
-        provider = ExternalDependency(instance_of=object)
-        self.assertRaises(Error, provider)
+        self.assertRaises(Error, self.provider)
 
 
 class StaticProvidersTests(unittest.TestCase):
