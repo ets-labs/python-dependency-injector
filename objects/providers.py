@@ -303,23 +303,27 @@ class Config(Provider):
 
     def __getattr__(self, item):
         """Return instance of deferred config."""
-        return _DeferredConfig(parents=(item,),
-                               root_config=self)
+        return _ChildConfig(parents=(item,), root_config=self)
 
     def __call__(self, paths=None):
         """Return provided instance."""
         value = self.value
         if paths:
             for path in paths:
-                value = value[path]
-            return value
+                try:
+                    value = value[path]
+                except KeyError:
+                    raise Error('Config key '
+                                '"{}" is undefined'.format('.'.join(paths)))
+        return value
 
 
-class _DeferredConfig(Provider):
+class _ChildConfig(Provider):
 
-    """Deferred config provider.
+    """Child config provider.
 
-    Deferred config providers provide an value from the root config object.
+    Child config provide an value from the root config object according to
+    the current path in the config tree.
     """
 
     __slots__ = ('parents', 'root_config')
@@ -328,12 +332,12 @@ class _DeferredConfig(Provider):
         """Initializer."""
         self.parents = parents
         self.root_config = root_config
-        super(_DeferredConfig, self).__init__()
+        super(_ChildConfig, self).__init__()
 
     def __getattr__(self, item):
         """Return instance of deferred config."""
-        return _DeferredConfig(parents=self.parents + (item,),
-                               root_config=self.root_config)
+        return _ChildConfig(parents=self.parents + (item,),
+                            root_config=self.root_config)
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
