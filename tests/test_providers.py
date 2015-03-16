@@ -474,6 +474,10 @@ class CallableTests(unittest.TestCase):
                                  Injection('arg2', 'a2'),
                                  Injection('arg3', 'a3'))
 
+    def test_init_with_not_callable(self):
+        """Test creation of provider with not callable."""
+        self.assertRaises(Error, Callable, 123)
+
     def test_is_provider(self):
         """Test `is_provider` check."""
         self.assertTrue(is_provider(Callable(map)))
@@ -505,3 +509,12 @@ class CallableTests(unittest.TestCase):
 
         self.assertEqual(result1, (3, 2, 1))
         self.assertEqual(result2, (3, 2, 1))
+
+
+class ConfigTests(unittest.TestCase):
+
+    """Config test cases."""
+
+    def setUp(self):
+        """Set test cases environment up."""
+        self.provider = Config()
