@@ -465,6 +465,10 @@ class CallableTests(unittest.TestCase):
                                  Injection('arg2', 'a2'),
                                  Injection('arg3', 'a3'))
 
+    def test_is_provider(self):
+        """Test `is_provider` check."""
+        self.assertTrue(is_provider(Callable(map)))
+
     def test_call(self):
         """Test provider call."""
         self.assertEqual(self.provider(), ('a1', 'a2', 'a3'))
