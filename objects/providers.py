@@ -285,7 +285,8 @@ class Config(Provider):
     """Config provider.
 
     Config provider provides dict values. Also config provider creates
-    deferred config objects for all undefined attribute calls.
+    child config objects for all undefined attribute calls. It makes possible
+    to create deferred config value provider.
     """
 
     __slots__ = ('value',)
