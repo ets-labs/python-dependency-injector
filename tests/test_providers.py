@@ -377,6 +377,10 @@ class ExternalDependencyTests(unittest.TestCase):
 
     """ExternalDependency test cases."""
 
+    def test_is_provider(self):
+        """Test `is_provider` check."""
+        self.assertTrue(is_provider(ExternalDependency(instance_of=object)))
+
     def test_call_satisfied(self):
         """Test call of satisfied external dependency."""
         provider = ExternalDependency(instance_of=object)
