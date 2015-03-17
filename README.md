@@ -70,3 +70,4 @@ assert a1 is not a2
 assert b1 is not b2
 assert a1.db is a2.db is b1.db is b2.db is Catalog.database()
 ```
+
