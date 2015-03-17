@@ -5,9 +5,9 @@ Python catalogs of objects providers
 
 [![Latest Version](https://pypip.in/version/Objects/badge.svg)](https://pypi.python.org/pypi/Objects/)
 [![Downloads](https://pypip.in/download/Objects/badge.svg)](https://pypi.python.org/pypi/Objects/)
-[![License](https://pypip.in/license/Objects/badge.svg)](https://pypi.python.org/pypi/Objects/)
 [![Build Status](https://travis-ci.org/rmk135/objects.svg?branch=master)](https://travis-ci.org/rmk135/objects)
 [![Coverage Status](https://coveralls.io/repos/rmk135/objects/badge.svg)](https://coveralls.io/r/rmk135/objects)
+[![License](https://pypip.in/license/Objects/badge.svg)](https://pypi.python.org/pypi/Objects/)
 
 Example:
 
