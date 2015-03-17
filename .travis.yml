@@ -4,5 +4,6 @@ install:
   - "pip install -r requirements-tests.txt"
 script:
   - tox
+  - coveralls
 env:
   - TOXENV=py27
