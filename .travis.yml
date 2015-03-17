@@ -1,9 +1,8 @@
 language: python
 install:
   - "pip install ."
-  - "pip install -r requirements-tests.txt"
+  - "pip install tox"
 script:
   - tox
-  - coveralls
 env:
   - TOXENV=py27
