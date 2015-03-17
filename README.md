@@ -70,13 +70,3 @@ assert a1 is not a2
 assert b1 is not b2
 assert a1.db is a2.db is b1.db is b2.db is Catalog.database()
 ```
-
-More examples:
-
-- [Callable provider.](examples/callable_provider.py)
-- [Config provider.](examples/config_provider.py)
-- [Delegate.](examples/delegate.py)
-- [External dependency.](examples/external_dependency.py)
-- [Scoped provider.](examples/scoped_provider.py)
-- [Overrides.](examples/overrides.py)
-- [Usage.](examples/usage.py)
