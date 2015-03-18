@@ -6,4 +6,4 @@ script:
 env:
   - TOXENV=py26
   - TOXENV=py27
-  - TOXENV=coverage
+  - TOXENV=coveralls
