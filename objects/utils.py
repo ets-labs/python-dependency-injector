@@ -15,7 +15,7 @@ def ensure_is_provider(instance):
     """Check if instance is provider instance, otherwise raise and error."""
     if not is_provider(instance):
         raise Error('Expected provider instance, '
-                    'got {}'.format(str(instance)))
+                    'got {0}'.format(str(instance)))
     return instance
 
 

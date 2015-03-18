@@ -21,7 +21,7 @@ class AbstractCatalog(object):
             return attribute
 
         if attribute not in self.__used_providers__:
-            raise Error('Provider \'{}\' '.format(item) +
+            raise Error('Provider \'{0}\' '.format(item) +
                         'is not listed in dependencies')
         return attribute
 

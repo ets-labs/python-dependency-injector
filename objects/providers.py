@@ -40,7 +40,7 @@ class Provider(object):
         try:
             return self.overridden[-1]
         except IndexError:
-            raise Error('Provider {} '.format(str(self)) +
+            raise Error('Provider {0} '.format(str(self)) +
                         'is not overridden')
 
 
@@ -76,7 +76,7 @@ class NewInstance(Provider):
         """Initializer."""
         if not isclass(provides):
             raise Error('NewInstance provider expects to get class, ' +
-                        'got {} instead'.format(str(provides)))
+                        'got {0} instead'.format(str(provides)))
         self.provides = provides
         self.init_args = tuple((injection
                                 for injection in injections
@@ -160,12 +160,12 @@ class Scoped(NewInstance):
             del self.scopes_to_instances[scope]
         except KeyError:
             raise Error('Trying to move out of undefined scope '
-                        '"{}"'.format(scope))
+                        '"{0}"'.format(scope))
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
         if not self.current_scope:
-            raise Error('Trying to provide {} '.format(self.provides) +
+            raise Error('Trying to provide {0} '.format(self.provides) +
                         'while provider has no active scope')
         try:
             instance = self.scopes_to_instances[self.current_scope]
@@ -199,8 +199,8 @@ class ExternalDependency(Provider):
         instance = self.dependency.__call__(*args, **kwargs)
 
         if not isinstance(instance, self.instance_of):
-            raise Error('{} is not an '.format(instance) +
-                        'instance of {}'.format(self.instance_of))
+            raise Error('{0} is not an '.format(instance) +
+                        'instance of {0}'.format(self.instance_of))
 
         return instance
 
@@ -260,7 +260,7 @@ class Callable(Provider):
     def __init__(self, callback, *injections):
         """Initializer."""
         if not callable(callback):
-            raise Error('Callable expected, got {}'.format(str(callback)))
+            raise Error('Callable expected, got {0}'.format(str(callback)))
         self.callback = callback
         self.injections = tuple((injection
                                  for injection in injections
@@ -314,7 +314,7 @@ class Config(Provider):
                     value = value[path]
                 except KeyError:
                     raise Error('Config key '
-                                '"{}" is undefined'.format('.'.join(paths)))
+                                '"{0}" is undefined'.format('.'.join(paths)))
         return value
 
 
