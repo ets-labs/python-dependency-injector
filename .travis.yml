@@ -1,8 +1,9 @@
 language: python
 install:
-  - "pip install ."
-  - "pip install tox"
+  - pip install tox
 script:
   - tox
 env:
+  - TOXENV=py26
   - TOXENV=py27
+  - TOXENV=coverage
