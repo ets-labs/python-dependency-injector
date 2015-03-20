@@ -34,6 +34,10 @@ class Provider(object):
         """Override provider with another provider."""
         self.overridden.append(ensure_is_provider(provider))
 
+    def reset_override(self):
+        """Reset all overriding providers."""
+        self.overridden = list()
+
     @property
     def last_overriding(self):
         """Return last overriding provider."""
