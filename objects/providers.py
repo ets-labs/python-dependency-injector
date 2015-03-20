@@ -20,7 +20,7 @@ class Provider(object):
 
     def __init__(self):
         """Initializer."""
-        self.overridden = list()
+        self.overridden = None
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
@@ -32,18 +32,21 @@ class Provider(object):
 
     def override(self, provider):
         """Override provider with another provider."""
-        self.overridden.append(ensure_is_provider(provider))
+        if not self.overridden:
+            self.overridden = (ensure_is_provider(provider),)
+        else:
+            self.overridden = self.overridden + (ensure_is_provider(provider),)
 
     def reset_override(self):
         """Reset all overriding providers."""
-        self.overridden = list()
+        self.overridden = None
 
     @property
     def last_overriding(self):
         """Return last overriding provider."""
         try:
             return self.overridden[-1]
-        except IndexError:
+        except (TypeError, IndexError):
             raise Error('Provider {0} '.format(str(self)) +
                         'is not overridden')
 
