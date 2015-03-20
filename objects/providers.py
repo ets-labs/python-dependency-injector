@@ -181,26 +181,25 @@ class Scoped(NewInstance):
 
 class ExternalDependency(Provider):
 
-    """External dependency provider."""
+    """External dependency provider.
 
-    __slots__ = ('instance_of', 'dependency')
+    Those provider is used when dependency obviously have to be overridden by
+    the client's code, but it's interface is known.
+    """
+
+    __slots__ = ('instance_of',)
 
     def __init__(self, instance_of):
         """Initializer."""
         self.instance_of = instance_of
-        self.dependency = None
         super(ExternalDependency, self).__init__()
-
-    def satisfy(self, provider):
-        """Satisfy an external dependency."""
-        self.dependency = ensure_is_provider(provider)
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
-        if not self.dependency:
-            raise Error('Dependency is not satisfied')
+        if not self.overridden:
+            raise Error('Dependency is not defined')
 
-        instance = self.dependency.__call__(*args, **kwargs)
+        instance = self.last_overriding(*args, **kwargs)
 
         if not isinstance(instance, self.instance_of):
             raise Error('{0} is not an '.format(instance) +

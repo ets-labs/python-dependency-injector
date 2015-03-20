@@ -407,17 +407,17 @@ class ExternalDependencyTests(unittest.TestCase):
         """Test `is_provider` check."""
         self.assertTrue(is_provider(self.provider))
 
-    def test_call_satisfied(self):
-        """Test call of satisfied external dependency."""
-        self.provider.satisfy(NewInstance(list))
+    def test_call_overridden(self):
+        """Test call of overridden external dependency."""
+        self.provider.override(NewInstance(list))
         self.assertIsInstance(self.provider(), list)
 
-    def test_call_satisfied_but_not_instance_of(self):
-        """Test call of satisfied external dependency, but not instance of."""
-        self.provider.satisfy(NewInstance(dict))
+    def test_call_overridden_but_not_instance_of(self):
+        """Test call of overridden external dependency, but not instance of."""
+        self.provider.override(NewInstance(dict))
         self.assertRaises(Error, self.provider)
 
-    def test_call_not_satisfied(self):
+    def test_call_not_overridden(self):
         """Test call of not satisfied external dependency."""
         self.assertRaises(Error, self.provider)
 

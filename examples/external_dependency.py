@@ -49,9 +49,9 @@ class Catalog(AbstractCatalog):
 
 
 # Satisfaction of external dependency.
-Catalog.database.satisfy(Singleton(sqlite3.Connection,
-                                   InitArg('database', ':memory:'),
-                                   Attribute('row_factory', sqlite3.Row)))
+Catalog.database.override(Singleton(sqlite3.Connection,
+                                    InitArg('database', ':memory:'),
+                                    Attribute('row_factory', sqlite3.Row)))
 
 # Catalog static provides.
 a1, a2 = Catalog.object_a(), Catalog.object_a()
