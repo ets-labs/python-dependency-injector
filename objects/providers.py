@@ -140,48 +140,6 @@ class Singleton(NewInstance):
         self.instance = None
 
 
-class Scoped(NewInstance):
-
-    """Scoped provider.
-
-    Scoped provider will create instance once for every scope and return it
-    on every call.
-    """
-
-    __slots__ = ('current_scope', 'scopes_to_instances')
-
-    def __init__(self, *args, **kwargs):
-        """Initializer."""
-        self.current_scope = None
-        self.scopes_to_instances = dict()
-        super(Scoped, self).__init__(*args, **kwargs)
-
-    def in_scope(self, scope):
-        """Set provider in "in scope" state."""
-        self.current_scope = scope
-
-    def out_of_scope(self, scope):
-        """Set provider in "out of scope" state."""
-        self.current_scope = None
-        try:
-            del self.scopes_to_instances[scope]
-        except KeyError:
-            raise Error('Trying to move out of undefined scope '
-                        '"{0}"'.format(scope))
-
-    def __call__(self, *args, **kwargs):
-        """Return provided instance."""
-        if not self.current_scope:
-            raise Error('Trying to provide {0} '.format(self.provides) +
-                        'while provider has no active scope')
-        try:
-            instance = self.scopes_to_instances[self.current_scope]
-        except KeyError:
-            instance = super(Scoped, self).__call__(*args, **kwargs)
-            self.scopes_to_instances[self.current_scope] = instance
-        return instance
-
-
 class ExternalDependency(Provider):
 
     """External dependency provider.

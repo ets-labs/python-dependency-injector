@@ -6,7 +6,6 @@ from .providers import Provider
 from .providers import Delegate
 from .providers import NewInstance
 from .providers import Singleton
-from .providers import Scoped
 from .providers import ExternalDependency
 from .providers import Class
 from .providers import Object
@@ -30,7 +29,6 @@ __all__ = ('AbstractCatalog',
            'Delegate',
            'NewInstance',
            'Singleton',
-           'Scoped',
            'ExternalDependency',
            'Class',
            'Object',

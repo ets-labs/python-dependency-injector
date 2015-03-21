@@ -6,7 +6,6 @@ from objects.providers import Provider
 from objects.providers import Delegate
 from objects.providers import NewInstance
 from objects.providers import Singleton
-from objects.providers import Scoped
 from objects.providers import ExternalDependency
 from objects.providers import Class
 from objects.providers import Object
@@ -305,94 +304,6 @@ class SingletonTests(unittest.TestCase):
         self.assertIsInstance(instance1, object)
 
         self.assertIsNot(instance1, instance2)
-
-
-class ScopedTests(unittest.TestCase):
-
-    """Scoped test cases."""
-
-    APPLICATION_SCOPE = 'application'
-    REQUEST_SCOPE = 'request'
-
-    def setUp(self):
-        """Set test cases environment up."""
-        self.provider = Scoped(object)
-
-    def test_is_provider(self):
-        """Test `is_provider` check."""
-        self.assertTrue(is_provider(self.provider))
-
-    def test_call(self):
-        """Test creation and returning of scope single object."""
-        self.provider.in_scope(self.APPLICATION_SCOPE)
-
-        instance1 = self.provider()
-        instance2 = self.provider()
-
-        self.assertIsInstance(instance1, object)
-        self.assertIsInstance(instance2, object)
-        self.assertIs(instance1, instance2)
-
-    def test_call_several_scopes(self):
-        """Test creation of several scopes instances."""
-        self.provider.in_scope(self.APPLICATION_SCOPE)
-        app_instance1 = self.provider()
-        app_instance2 = self.provider()
-
-        self.provider.in_scope(self.REQUEST_SCOPE)
-        request_instance1 = self.provider()
-        request_instance2 = self.provider()
-
-        self.assertIsInstance(app_instance1, object)
-        self.assertIsInstance(app_instance2, object)
-        self.assertIs(app_instance1, app_instance2)
-
-        self.assertIsInstance(request_instance1, object)
-        self.assertIsInstance(request_instance2, object)
-        self.assertIs(request_instance1, request_instance2)
-
-        self.provider.in_scope(self.APPLICATION_SCOPE)
-        app_instance3 = self.provider()
-        self.assertIsInstance(app_instance3, object)
-        self.assertIs(app_instance3, app_instance1)
-        self.assertIs(app_instance3, app_instance2)
-
-        self.provider.in_scope(self.REQUEST_SCOPE)
-        request_instance3 = self.provider()
-        self.assertIsInstance(request_instance3, object)
-        self.assertIs(request_instance3, request_instance1)
-        self.assertIs(request_instance3, request_instance2)
-
-    def test_call_not_in_scope(self):
-        """Test creation of instance with no active scope."""
-        self.assertRaises(Error, self.provider)
-
-    def test_call_in_out_scope(self):
-        """Test creation of instances within in and out of scope."""
-        self.provider.in_scope(self.REQUEST_SCOPE)
-        instance1 = self.provider()
-        instance2 = self.provider()
-        self.provider.out_of_scope(self.REQUEST_SCOPE)
-
-        self.provider.in_scope(self.REQUEST_SCOPE)
-        instance3 = self.provider()
-        instance4 = self.provider()
-        self.provider.out_of_scope(self.REQUEST_SCOPE)
-
-        self.assertIs(instance1, instance2)
-        self.assertIs(instance3, instance4)
-
-        self.assertIsNot(instance1, instance3)
-        self.assertIsNot(instance2, instance3)
-
-        self.assertIsNot(instance1, instance4)
-        self.assertIsNot(instance2, instance4)
-
-    def test_out_of_scope(self):
-        """Test call `out_of_scope()` on provider that has no such scope."""
-        self.assertRaises(Error,
-                          self.provider.out_of_scope,
-                          self.REQUEST_SCOPE)
 
 
 class ExternalDependencyTests(unittest.TestCase):
