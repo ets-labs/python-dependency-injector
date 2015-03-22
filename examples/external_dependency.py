@@ -1,12 +1,12 @@
 """External dependency example."""
 
-from objects import AbstractCatalog
+from objects.catalog import AbstractCatalog
 
 from objects.providers import Singleton
 from objects.providers import NewInstance
 from objects.providers import ExternalDependency
 
-from objects.injections import InitArg
+from objects.injections import KwArg
 from objects.injections import Attribute
 
 import sqlite3
@@ -39,18 +39,18 @@ class Catalog(AbstractCatalog):
     """:type: (objects.Provider) -> sqlite3.Connection"""
 
     object_a = NewInstance(ObjectA,
-                           InitArg('db', database))
+                           KwArg('db', database))
     """:type: (objects.Provider) -> ObjectA"""
 
     object_b = NewInstance(ObjectB,
-                           InitArg('a', object_a),
-                           InitArg('db', database))
+                           KwArg('a', object_a),
+                           KwArg('db', database))
     """:type: (objects.Provider) -> ObjectB"""
 
 
 # Satisfaction of external dependency.
 Catalog.database.override(Singleton(sqlite3.Connection,
-                                    InitArg('database', ':memory:'),
+                                    KwArg('database', ':memory:'),
                                     Attribute('row_factory', sqlite3.Row)))
 
 # Catalog static provides.

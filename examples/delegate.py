@@ -1,11 +1,11 @@
 """Provider delegation example."""
 
-from objects import AbstractCatalog
+from objects.catalog import AbstractCatalog
 
 from objects.providers import Singleton
 from objects.providers import NewInstance
 
-from objects.injections import InitArg
+from objects.injections import KwArg
 from objects.injections import Attribute
 
 import sqlite3
@@ -34,16 +34,16 @@ class Catalog(AbstractCatalog):
     """Catalog of objects providers."""
 
     database = Singleton(sqlite3.Connection,
-                         InitArg('database', ':memory:'),
+                         KwArg('database', ':memory:'),
                          Attribute('row_factory', sqlite3.Row))
     """:type: (objects.Provider) -> sqlite3.Connection"""
 
     object_a = NewInstance(ObjectA,
-                           InitArg('db', database))
+                           KwArg('db', database))
     """:type: (objects.Provider) -> ObjectA"""
 
     object_b = Singleton(ObjectB,
-                         InitArg('a_provider', object_a.delegate()))
+                         KwArg('a_provider', object_a.delegate()))
     """:type: (objects.Provider) -> ObjectB"""
 
 

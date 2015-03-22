@@ -1,13 +1,12 @@
 """Callable provider examples."""
 
-from objects import AbstractCatalog
+from objects.catalog import AbstractCatalog
 
 from objects.providers import Singleton
 from objects.providers import Callable
 
-from objects.injections import InitArg
+from objects.injections import KwArg
 from objects.injections import Attribute
-from objects.injections import Injection
 
 import sqlite3
 
@@ -22,12 +21,12 @@ class Catalog(AbstractCatalog):
     """Catalog of objects providers."""
 
     database = Singleton(sqlite3.Connection,
-                         InitArg('database', ':memory:'),
+                         KwArg('database', ':memory:'),
                          Attribute('row_factory', sqlite3.Row))
     """:type: (objects.Provider) -> sqlite3.Connection"""
 
     consuming_function = Callable(consuming_function,
-                                  Injection('db', database))
+                                  KwArg('db', database))
     """:type: (objects.Provider) -> consuming_function"""
 
 

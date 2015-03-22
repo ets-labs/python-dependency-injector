@@ -1,6 +1,7 @@
 """Injections module."""
 
 from .utils import is_provider
+from .utils import ensure_is_injection
 
 
 class Injection(object):
@@ -23,12 +24,12 @@ class Injection(object):
         return self.injectable
 
 
-class InitArg(Injection):
+class KwArg(Injection):
 
-    """Init argument injection."""
+    """Keyword argument injection."""
 
-    __IS_OBJECTS_INIT_ARG_INJECTION__ = True
-    __slots__ = ('__IS_OBJECTS_INIT_ARG_INJECTION__',)
+    __IS_OBJECTS_KWARG_INJECTION__ = True
+    __slots__ = ('__IS_OBJECTS_KWARG_INJECTION__',)
 
 
 class Attribute(Injection):
@@ -45,3 +46,22 @@ class Method(Injection):
 
     __IS_OBJECTS_METHOD_INJECTION__ = True
     __slots__ = ('__IS_OBJECTS_METHOD_INJECTION__',)
+
+
+def inject(injection):
+    """Inject decorator.
+
+    :type injection: Injection
+    :return: (callable) -> (callable)
+    """
+    injection = ensure_is_injection(injection)
+
+    def decorator(callback):
+        """Decorator."""
+        def decorated(*args, **kwargs):
+            """Decorated."""
+            if injection.name not in kwargs:
+                kwargs[injection.name] = injection.value
+            return callback(*args, **kwargs)
+        return decorated
+    return decorator

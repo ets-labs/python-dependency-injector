@@ -1,6 +1,7 @@
 """Objects."""
 
-from .catalog import AbstractCatalog, overrides
+from .catalog import AbstractCatalog
+from .catalog import override
 
 from .providers import Provider
 from .providers import Delegate
@@ -14,7 +15,7 @@ from .providers import Value
 from .providers import Callable
 from .providers import Config
 
-from .injections import InitArg
+from .injections import KwArg
 from .injections import Attribute
 from .injections import Method
 
@@ -22,7 +23,7 @@ from .errors import Error
 
 
 __all__ = ('AbstractCatalog',
-           'overrides',
+           'override',
 
            # Providers
            'Provider',
@@ -38,7 +39,7 @@ __all__ = ('AbstractCatalog',
            'Config',
 
            # Injections
-           'InitArg',
+           'KwArg',
            'Attribute',
            'Method',
 

@@ -14,8 +14,7 @@ from objects.providers import Value
 from objects.providers import Callable
 from objects.providers import Config
 
-from objects.injections import Injection
-from objects.injections import InitArg
+from objects.injections import KwArg
 from objects.injections import Attribute
 from objects.injections import Method
 
@@ -184,8 +183,8 @@ class NewInstanceTests(unittest.TestCase):
     def test_call_with_init_args(self):
         """Test creation of new instances with init args injections."""
         provider = NewInstance(self.Example,
-                               InitArg('init_arg1', 'i1'),
-                               InitArg('init_arg2', 'i2'))
+                               KwArg('init_arg1', 'i1'),
+                               KwArg('init_arg2', 'i2'))
 
         instance1 = provider()
         instance2 = provider()
@@ -249,7 +248,7 @@ class NewInstanceTests(unittest.TestCase):
     def test_call_with_context_kwargs(self):
         """Test creation of new instances with context kwargs."""
         provider = NewInstance(self.Example,
-                               InitArg('init_arg1', 1))
+                               KwArg('init_arg1', 1))
 
         instance1 = provider(init_arg2=22)
         self.assertEqual(instance1.init_arg1, 1)
@@ -399,9 +398,9 @@ class CallableTests(unittest.TestCase):
     def setUp(self):
         """Set test cases environment up."""
         self.provider = Callable(self.example,
-                                 Injection('arg1', 'a1'),
-                                 Injection('arg2', 'a2'),
-                                 Injection('arg3', 'a3'))
+                                 KwArg('arg1', 'a1'),
+                                 KwArg('arg2', 'a2'),
+                                 KwArg('arg3', 'a3'))
 
     def test_init_with_not_callable(self):
         """Test creation of provider with not callable."""
@@ -418,7 +417,7 @@ class CallableTests(unittest.TestCase):
     def test_call_with_args(self):
         """Test provider call with kwargs priority."""
         provider = Callable(self.example,
-                            Injection('arg3', 'a3'))
+                            KwArg('arg3', 'a3'))
         self.assertEqual(provider(1, 2), (1, 2, 'a3'))
 
     def test_call_with_kwargs_priority(self):

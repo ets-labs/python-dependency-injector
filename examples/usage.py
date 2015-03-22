@@ -1,11 +1,11 @@
 """Concept example of objects catalogs."""
 
-from objects import AbstractCatalog
+from objects.catalog import AbstractCatalog
 
 from objects.providers import Singleton
 from objects.providers import NewInstance
 
-from objects.injections import InitArg
+from objects.injections import KwArg
 from objects.injections import Attribute
 
 from objects.errors import Error
@@ -37,17 +37,17 @@ class Catalog(AbstractCatalog):
     """Catalog of objects providers."""
 
     database = Singleton(sqlite3.Connection,
-                         InitArg('database', ':memory:'),
+                         KwArg('database', ':memory:'),
                          Attribute('row_factory', sqlite3.Row))
     """:type: (objects.Provider) -> sqlite3.Connection"""
 
     object_a = NewInstance(ObjectA,
-                           InitArg('db', database))
+                           KwArg('db', database))
     """:type: (objects.Provider) -> ObjectA"""
 
     object_b = NewInstance(ObjectB,
-                           InitArg('a', object_a),
-                           InitArg('db', database))
+                           KwArg('a', object_a),
+                           KwArg('db', database))
     """:type: (objects.Provider) -> ObjectB"""
 
 

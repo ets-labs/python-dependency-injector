@@ -25,10 +25,18 @@ def is_injection(instance):
             hasattr(instance, '__IS_OBJECTS_INJECTION__'))
 
 
-def is_init_arg_injection(instance):
-    """Check if instance is init arg injection instance."""
+def ensure_is_injection(instance):
+    """Check if instance is injection instance, otherwise raise and error."""
+    if not is_injection(instance):
+        raise Error('Expected injection instance, '
+                    'got {0}'.format(str(instance)))
+    return instance
+
+
+def is_kwarg_injection(instance):
+    """Check if instance is keyword argument injection instance."""
     return (not isinstance(instance, class_types) and
-            hasattr(instance, '__IS_OBJECTS_INIT_ARG_INJECTION__'))
+            hasattr(instance, '__IS_OBJECTS_KWARG_INJECTION__'))
 
 
 def is_attribute_injection(instance):

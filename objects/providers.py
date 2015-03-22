@@ -3,8 +3,7 @@
 from inspect import isclass
 
 from .utils import ensure_is_provider
-from .utils import is_injection
-from .utils import is_init_arg_injection
+from .utils import is_kwarg_injection
 from .utils import is_attribute_injection
 from .utils import is_method_injection
 
@@ -77,7 +76,7 @@ class NewInstance(Provider):
     New instance providers will create and return new instance on every call.
     """
 
-    __slots__ = ('provides', 'init_args', 'attributes', 'methods')
+    __slots__ = ('provides', 'kwargs', 'attributes', 'methods')
 
     def __init__(self, provides, *injections):
         """Initializer."""
@@ -85,9 +84,9 @@ class NewInstance(Provider):
             raise Error('NewInstance provider expects to get class, ' +
                         'got {0} instead'.format(str(provides)))
         self.provides = provides
-        self.init_args = tuple((injection
-                                for injection in injections
-                                if is_init_arg_injection(injection)))
+        self.kwargs = tuple((injection
+                             for injection in injections
+                             if is_kwarg_injection(injection)))
         self.attributes = tuple((injection
                                  for injection in injections
                                  if is_attribute_injection(injection)))
@@ -102,7 +101,7 @@ class NewInstance(Provider):
             return self.last_overriding(*args, **kwargs)
 
         init_kwargs = dict(((injection.name, injection.value)
-                            for injection in self.init_args))
+                            for injection in self.kwargs))
         init_kwargs.update(kwargs)
 
         instance = self.provides(*args, **init_kwargs)
@@ -228,7 +227,7 @@ class Callable(Provider):
         self.callback = callback
         self.injections = tuple((injection
                                  for injection in injections
-                                 if is_injection(injection)))
+                                 if is_kwarg_injection(injection)))
         super(Callable, self).__init__()
 
     def __call__(self, *args, **kwargs):

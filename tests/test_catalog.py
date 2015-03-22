@@ -3,7 +3,7 @@
 import unittest2 as unittest
 
 from objects.catalog import AbstractCatalog
-from objects.catalog import overrides
+from objects.catalog import override
 
 from objects.providers import Object
 from objects.providers import Value
@@ -53,7 +53,7 @@ class CatalogTests(unittest.TestCase):
 
     def test_overriding(self):
         """Test catalog overriding with another catalog."""
-        @overrides(self.Catalog)
+        @override(self.Catalog)
         class OverridingCatalog(self.Catalog):
 
             """Overriding catalog."""

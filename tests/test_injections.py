@@ -3,7 +3,7 @@
 import unittest2 as unittest
 
 from objects.injections import Injection
-from objects.injections import InitArg
+from objects.injections import KwArg
 from objects.injections import Attribute
 from objects.injections import Method
 
@@ -36,8 +36,8 @@ class InitArgTests(unittest.TestCase):
     """Init arg injection test cases."""
 
     def test_init(self):
-        """Test InitArg creation and initialization."""
-        injection = InitArg('some_arg_name', 'some_value')
+        """Test KwArg creation and initialization."""
+        injection = KwArg('some_arg_name', 'some_value')
         self.assertEqual(injection.name, 'some_arg_name')
         self.assertEqual(injection.injectable, 'some_value')
 

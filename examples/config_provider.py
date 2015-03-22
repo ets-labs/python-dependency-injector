@@ -1,11 +1,11 @@
 """Config provider examples."""
 
-from objects import AbstractCatalog
+from objects.catalog import AbstractCatalog
 
 from objects.providers import Config
 from objects.providers import NewInstance
 
-from objects.injections import InitArg
+from objects.injections import KwArg
 
 
 class ObjectA(object):
@@ -27,9 +27,9 @@ class Catalog(AbstractCatalog):
     """:type: (objects.Config)"""
 
     object_a = NewInstance(ObjectA,
-                           InitArg('fee', config.FEE),
-                           InitArg('price', config.PRICE),
-                           InitArg('timezone', config.GLOBAL.TIMEZONE))
+                           KwArg('fee', config.FEE),
+                           KwArg('price', config.PRICE),
+                           KwArg('timezone', config.GLOBAL.TIMEZONE))
     """:type: (objects.Provider) -> ObjectA"""
 
 

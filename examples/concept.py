@@ -1,12 +1,13 @@
 """Concept example of `Objects`."""
 
-from objects import AbstractCatalog
+from objects.catalog import AbstractCatalog
 
 from objects.providers import Singleton
 from objects.providers import NewInstance
 
-from objects.injections import InitArg
+from objects.injections import KwArg
 from objects.injections import Attribute
+from objects.injections import inject
 
 import sqlite3
 
@@ -35,17 +36,17 @@ class Catalog(AbstractCatalog):
     """Catalog of objects providers."""
 
     database = Singleton(sqlite3.Connection,
-                         InitArg('database', ':memory:'),
+                         KwArg('database', ':memory:'),
                          Attribute('row_factory', sqlite3.Row))
     """:type: (objects.Provider) -> sqlite3.Connection"""
 
     object_a = NewInstance(ObjectA,
-                           InitArg('db', database))
+                           KwArg('db', database))
     """:type: (objects.Provider) -> ObjectA"""
 
     object_b = NewInstance(ObjectB,
-                           InitArg('a', object_a),
-                           InitArg('db', database))
+                           KwArg('a', object_a),
+                           KwArg('db', database))
     """:type: (objects.Provider) -> ObjectB"""
 
 
@@ -53,7 +54,17 @@ class Catalog(AbstractCatalog):
 a1, a2 = Catalog.object_a(), Catalog.object_a()
 b1, b2 = Catalog.object_b(), Catalog.object_b()
 
-# Some asserts.
 assert a1 is not a2
 assert b1 is not b2
 assert a1.db is a2.db is b1.db is b2.db is Catalog.database()
+
+
+# Example of inline injections.
+@inject(KwArg('a', Catalog.object_a))
+@inject(KwArg('b', Catalog.object_b))
+@inject(KwArg('database', Catalog.database))
+def example(a, b, database):
+    assert a.db is b.db is database is Catalog.database()
+
+
+example()
