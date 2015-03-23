@@ -1,5 +1,7 @@
 """Injections module."""
 
+from six import wraps
+
 from .utils import is_provider
 from .utils import ensure_is_injection
 
@@ -58,6 +60,7 @@ def inject(injection):
 
     def decorator(callback):
         """Decorator."""
+        @wraps(callback)
         def decorated(*args, **kwargs):
             """Decorated."""
             if injection.name not in kwargs:
