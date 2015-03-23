@@ -8,6 +8,8 @@ Python catalogs of objects providers
 [![Build Status](https://travis-ci.org/rmk135/objects.svg?branch=master)](https://travis-ci.org/rmk135/objects)
 [![Coverage Status](https://coveralls.io/repos/rmk135/objects/badge.svg)](https://coveralls.io/r/rmk135/objects)
 [![License](https://pypip.in/license/Objects/badge.svg)](https://pypi.python.org/pypi/Objects/)
+[![Supported Python versions](https://pypip.in/py_versions/Objects/badge.svg)](https://pypi.python.org/pypi/Objects/)
+[![Supported Python implementations](https://pypip.in/implementation/Objects/badge.svg)](https://pypi.python.org/pypi/Objects/)
 
 Example:
 
