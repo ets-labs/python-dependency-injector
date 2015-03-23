@@ -313,6 +313,10 @@ class ExternalDependencyTests(unittest.TestCase):
         """Set test cases environment up."""
         self.provider = ExternalDependency(instance_of=list)
 
+    def test_init_with_not_class(self):
+        """Test creation with not a class."""
+        self.assertRaises(Error, ExternalDependency, object())
+
     def test_is_provider(self):
         """Test `is_provider` check."""
         self.assertTrue(is_provider(self.provider))

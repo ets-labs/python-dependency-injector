@@ -1,6 +1,6 @@
 """Providers module."""
 
-from inspect import isclass
+from six import class_types
 
 from .utils import ensure_is_provider
 from .utils import is_kwarg_injection
@@ -80,7 +80,7 @@ class NewInstance(Provider):
 
     def __init__(self, provides, *injections):
         """Initializer."""
-        if not isclass(provides):
+        if not isinstance(provides, class_types):
             raise Error('NewInstance provider expects to get class, ' +
                         'got {0} instead'.format(str(provides)))
         self.provides = provides
@@ -151,6 +151,9 @@ class ExternalDependency(Provider):
 
     def __init__(self, instance_of):
         """Initializer."""
+        if not isinstance(instance_of, class_types):
+            raise Error('ExternalDependency provider expects to get class, ' +
+                        'got {0} instead'.format(str(instance_of)))
         self.instance_of = instance_of
         super(ExternalDependency, self).__init__()
 
@@ -260,14 +263,6 @@ class Config(Provider):
         self.value = value
         super(Config, self).__init__()
 
-    def update_from(self, value):
-        """Update current value from another one."""
-        self.value.update(value)
-
-    def __getattr__(self, item):
-        """Return instance of deferred config."""
-        return _ChildConfig(parents=(item,), root_config=self)
-
     def __call__(self, paths=None):
         """Return provided instance."""
         value = self.value
@@ -279,6 +274,14 @@ class Config(Provider):
                     raise Error('Config key '
                                 '"{0}" is undefined'.format('.'.join(paths)))
         return value
+
+    def __getattr__(self, item):
+        """Return instance of deferred config."""
+        return _ChildConfig(parents=(item,), root_config=self)
+
+    def update_from(self, value):
+        """Update current value from another one."""
+        self.value.update(value)
 
 
 class _ChildConfig(Provider):
@@ -297,11 +300,11 @@ class _ChildConfig(Provider):
         self.root_config = root_config
         super(_ChildConfig, self).__init__()
 
+    def __call__(self, *args, **kwargs):
+        """Return provided instance."""
+        return self.root_config(self.parents)
+
     def __getattr__(self, item):
         """Return instance of deferred config."""
         return _ChildConfig(parents=self.parents + (item,),
                             root_config=self.root_config)
-
-    def __call__(self, *args, **kwargs):
-        """Return provided instance."""
-        return self.root_config(self.parents)
