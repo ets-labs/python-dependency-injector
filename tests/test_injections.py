@@ -10,6 +10,8 @@ from objects.injections import inject
 
 from objects.providers import NewInstance
 
+from objects.providers import Error
+
 
 class InjectionTests(unittest.TestCase):
 
@@ -133,3 +135,7 @@ class InjectTests(unittest.TestCase):
         self.assertIsInstance(b1, list)
         self.assertIsInstance(b2, list)
         self.assertIsNot(b1, b2)
+
+    def test_decorate_with_not_injection(self):
+        """Test `inject()` decorator with not an injection instance."""
+        self.assertRaises(Error, inject, object)
