@@ -50,8 +50,7 @@ if __name__ == '__main__':
         #           'IoC',
         #           'IoC container'],
         classifiers=[
-            'Development Status :: 1 - Planning',
-        #     'Development Status :: 4 - Beta',
+            'Development Status :: 3 - Alpha',
             'Intended Audience :: Developers',
             'License :: OSI Approved :: BSD License',
             'Operating System :: OS Independent',
