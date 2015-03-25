@@ -10,3 +10,4 @@ env:
   - TOXENV=pep257
   - TOXENV=py26
   - TOXENV=py27
+  - TOXENV=py32
