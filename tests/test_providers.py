@@ -380,9 +380,9 @@ class StaticProvidersTests(unittest.TestCase):
 
     def test_call_overridden_function_provider(self):
         """Test overridden Function provider call."""
-        function_provider = Function(map)
-        function_provider.override(Function(reduce))
-        self.assertIs(function_provider(), reduce)
+        function_provider = Function(len)
+        function_provider.override(Function(sum))
+        self.assertIs(function_provider(), sum)
 
     def test_call_overridden_value_provider(self):
         """Test overridden Value provider call."""
