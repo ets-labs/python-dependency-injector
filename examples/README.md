@@ -9,4 +9,3 @@ Examples:
 - [Delegate.](examples/delegate.py)
 - [External dependency.](examples/external_dependency.py)
 - [Overrides.](examples/overrides.py)
-- [Usage.](examples/usage.py)
