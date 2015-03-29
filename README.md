@@ -31,9 +31,9 @@ keep dependencies under control.
 Entities
 --------
 
-- Providers are strategies of accessing to objects.
-- Injections are additional instructions, that are used for determining objects 
-dependencies.
+- Providers are strategies of accessing objects.
+- Injections are additional instructions, that are used for determining 
+dependencies of objects.
 - Catalogs are named set of providers.
 
 Example
