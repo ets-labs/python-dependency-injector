@@ -26,7 +26,7 @@ also increased extremely fast and became hard to maintain.
 
 `Objects` is designed to be developer's friendly tool for managing objects 
 and their dependencies in formal, pretty way. Main idea of `Objects` is to 
-keep dependencies of Python projects under control.
+keep dependencies under control.
 
 Entities
 --------
