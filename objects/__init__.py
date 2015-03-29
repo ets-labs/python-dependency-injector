@@ -1,4 +1,7 @@
-"""Objects."""
+"""Objects.
+
+Dependency management tool for Python projects.
+"""
 
 from .catalog import AbstractCatalog
 from .catalog import override

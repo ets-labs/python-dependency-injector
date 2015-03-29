@@ -1,7 +1,7 @@
 Objects
 =======
 
-Python catalogs of objects providers
+Dependency management tool for Python projects.
 
 [![Latest Version](https://pypip.in/version/Objects/badge.svg)](https://pypi.python.org/pypi/Objects/)
 [![Downloads](https://pypip.in/download/Objects/badge.svg)](https://pypi.python.org/pypi/Objects/)
@@ -11,7 +11,33 @@ Python catalogs of objects providers
 [![Supported Python versions](https://pypip.in/py_versions/Objects/badge.svg)](https://pypi.python.org/pypi/Objects/)
 [![Supported Python implementations](https://pypip.in/implementation/Objects/badge.svg)](https://pypi.python.org/pypi/Objects/)
 
-Example:
+Introduction
+------------
+
+Python ecosystem consists of a big amount of various classes, functions and 
+objects that could be used for applications development. Each of them has its 
+own role.
+
+Modern Python applications are mostly the composition of well-known open 
+source systems, frameworks, libraries and some turnkey functionality.
+
+When application goes bigger, an amount of objects and dependencies in it also 
+increased extremely fast and became hard to maintain.
+
+`Objects` is designed to be developer's friendly tool for managing objects 
+and their dependencies in formal, pretty way. Main idea of `Objects` is to 
+keep dependencies of Python projects under control.
+
+Entities
+--------
+
+- Providers are strategies of accessing to objects.
+- Injections are additional instructions, that are used for determining objects 
+dependencies.
+- Catalogs are named set of providers.
+
+Example
+-------
 
 ```python
 """Concept example of `Objects`."""
