@@ -1,5 +1,4 @@
-Objects
-=======
+# Objects
 
 Dependency management tool for Python projects.
 
@@ -11,8 +10,7 @@ Dependency management tool for Python projects.
 [![Supported Python versions](https://pypip.in/py_versions/Objects/badge.svg)](https://pypi.python.org/pypi/Objects/)
 [![Supported Python implementations](https://pypip.in/implementation/Objects/badge.svg)](https://pypi.python.org/pypi/Objects/)
 
-Introduction
-------------
+## Introduction
 
 Python ecosystem consists of a big amount of various classes, functions and 
 objects that could be used for applications development. Each of them has its 
@@ -28,16 +26,24 @@ also increased extremely fast and became hard to maintain.
 and their dependencies in formal, pretty way. Main idea of `Objects` is to 
 keep dependencies under control.
 
-Entities
---------
+## Entities
 
-- Providers are strategies of accessing objects.
-- Injections are additional instructions, that are used for determining 
+Current section describes main `Objects` entities and their interaction.
+
+### Providers
+
+Providers are strategies of accessing objects.
+
+### Injections
+
+Injections are additional instructions, that are used for determining 
 dependencies of objects.
-- Catalogs are named set of providers.
 
-Example
--------
+### Catalogs
+
+Catalogs are named set of providers.
+
+## Example
 
 ```python
 """Concept example of `Objects`."""
