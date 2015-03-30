@@ -34,7 +34,7 @@ Current section describes main `Objects` entities and their interaction.
 
 Providers are strategies of accessing objects.
 
-All providers are callable. They describe how particular object will be 
+All providers are callable. They describe how particular objects will be 
 provided. For example:
 
 ```python
