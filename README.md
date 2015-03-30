@@ -45,7 +45,6 @@ from objects.providers import Singleton
 
 # NewInstance provider will create new instance of specified class
 # on every call.
-
 new_object = NewInstance(object)
 
 object_1 = new_object()
@@ -55,7 +54,6 @@ assert object_1 is not object_2
 
 # Singleton provider will create new instance of specified class on first call,
 # and return same instance on every next call.
-
 single_object = Singleton(object)
 
 single_object_1 = single_object()
