@@ -34,14 +34,17 @@ Current section describes main `Objects` entities and their interaction.
 
 Providers are strategies of accessing objects.
 
-They describe how particular object need to be provided. For example:
+They describe how particular object will be provided. For example:
 
 ```python
+"""`NewInstance` and `Singleton` providers example."""
+
 from objects.providers import NewInstance
 from objects.providers import Singleton
 
 
-# NewInstance provider will create new instance of specified class on every call.
+# NewInstance provider will create new instance of specified class
+# on every call.
 
 new_object = NewInstance(object)
 
@@ -50,7 +53,8 @@ object_2 = new_object()
 
 assert object_1 is not object_2
 
-# Singleton provider will create new instance of specified class on first call, and return same instance on every next call.
+# Singleton provider will create new instance of specified class on first call,
+# and return same instance on every next call.
 
 single_object = Singleton(object)
 
@@ -64,6 +68,17 @@ assert single_object_1 is single_object_2
 
 Injections are additional instructions, that are used for determining 
 dependencies of objects.
+
+Objects can take dependencies in various forms. Some objects take init 
+arguments, other are using attributes or methods to be initialized. Injection, 
+in terms of `Objects`, is an instruction how to provide dependency for the 
+particular object.
+
+Every Python object could be an injection value. Special case is a `Objects` 
+provider as an injection value. In such case, injection value is a result of 
+injectable provider call (every time injection is done).
+
+Injections are used by providers.
 
 ### Catalogs
 
