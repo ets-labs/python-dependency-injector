@@ -131,6 +131,85 @@ assert object_a_1.get_one() == object_a_2.get_one() == 1
 
 Catalogs are named set of providers.
 
+`Objects` catalogs can be used for grouping of providers by some 
+kind of rules. In example below, there are two catalogs: 
+`Resources` and `Models`.
+
+`Resources` catalog is used to group all common application resources like 
+database connection and various api clients, while `Models` catalog is used 
+for application model providers only.
+
+```python
+"""Catalogs example."""
+
+import sqlite3
+import httplib
+
+from objects.catalog import AbstractCatalog
+
+from objects.providers import Singleton
+from objects.providers import NewInstance
+
+from objects.injections import KwArg
+from objects.injections import Attribute
+
+
+class SomeModel(object):
+
+    """SomeModel has dependency on database and api client.
+
+    Dependencies need to be injected via init args.
+    """
+
+    def __init__(self, database, api_client):
+        """Initializer."""
+        self.database = database
+        self.api_client = api_client
+
+    def api_request(self):
+        """Make api request."""
+        self.api_client.request('GET', '/')
+        return self.api_client.getresponse()
+
+    def get_one(self):
+        """Select one from database and return it."""
+        return self.database.execute('SELECT 1').fetchone()[0]
+
+
+class Resources(AbstractCatalog):
+
+    """Resource providers catalog."""
+
+    database = Singleton(sqlite3.Connection,
+                         KwArg('database', ':memory:'),
+                         KwArg('timeout', 30),
+                         KwArg('detect_types', True),
+                         KwArg('isolation_level', 'EXCLUSIVE'),
+                         Attribute('row_factory', sqlite3.Row))
+
+    api_client = Singleton(httplib.HTTPConnection,
+                           KwArg('host', 'example.com'),
+                           KwArg('port', 80),
+                           KwArg('timeout', 10))
+
+
+class Models(AbstractCatalog):
+
+    """Model providers catalog."""
+
+    some_model = NewInstance(SomeModel,
+                             KwArg('database', Resources.database),
+                             KwArg('api_client', Resources.api_client))
+
+
+# Creating `SomeModel` instance.
+some_model = Models.some_model()
+
+# Making some asserts.
+assert some_model.get_one() == 1
+assert some_model.api_request().status == 200
+```
+
 ## Advanced usage
 
 Below you can find some variants of advanced usage of `Objects`.
@@ -171,4 +250,161 @@ example_callback()
 
 ### Overriding providers
 
+Any provider can be overridden by another provider.
+
+Example:
+
+```python
+"""Provider overriding example."""
+
+import sqlite3
+
+from objects.providers import Singleton
+from objects.providers import NewInstance
+
+from objects.injections import KwArg
+from objects.injections import Attribute
+
+
+class ObjectA(object):
+
+    """ObjectA has dependency on database."""
+
+    def __init__(self, database):
+        """Initializer.
+
+        Database dependency need to be injected via init arg."""
+        self.database = database
+
+    def get_one(self):
+        """Select one from database and return it."""
+        return self.database.execute('SELECT 1')
+
+
+class ObjectAMock(ObjectA):
+
+    """Mock of ObjectA.
+
+    Has no dependency on database.
+    """
+
+    def __init__(self):
+        """Initializer."""
+
+    def get_one(self):
+        """Select one from database and return it.
+
+        Mock makes no database queries and always returns two instead of one.
+        """
+        return 2
+
+
+# Database and `ObjectA` providers.
+database = Singleton(sqlite3.Connection,
+                     KwArg('database', ':memory:'),
+                     KwArg('timeout', 30),
+                     KwArg('detect_types', True),
+                     KwArg('isolation_level', 'EXCLUSIVE'),
+                     Attribute('row_factory', sqlite3.Row))
+
+object_a = NewInstance(ObjectA,
+                       KwArg('database', database))
+
+
+# Overriding `ObjectA` provider with `ObjectAMock` provider.
+object_a.override(NewInstance(ObjectAMock))
+
+# Creating several `ObjectA` instances.
+object_a_1 = object_a()
+object_a_2 = object_a()
+
+# Making some asserts.
+assert object_a_1 is not object_a_2
+assert object_a_1.get_one() == object_a_2.get_one() == 2
+```
+
 ### Overriding catalogs
+
+Any catalog can be overridden by another catalog.
+
+Example:
+
+```python
+"""Catalog overriding example."""
+
+import sqlite3
+
+from objects.catalog import AbstractCatalog
+from objects.catalog import override
+
+from objects.providers import Singleton
+from objects.providers import NewInstance
+
+from objects.injections import KwArg
+from objects.injections import Attribute
+
+
+class ObjectA(object):
+
+    """ObjectA has dependency on database."""
+
+    def __init__(self, database):
+        """Initializer.
+
+        Database dependency need to be injected via init arg."""
+        self.database = database
+
+    def get_one(self):
+        """Select one from database and return it."""
+        return self.database.execute('SELECT 1')
+
+
+class ObjectAMock(ObjectA):
+
+    """Mock of ObjectA.
+
+    Has no dependency on database.
+    """
+
+    def __init__(self):
+        """Initializer."""
+
+    def get_one(self):
+        """Select one from database and return it.
+
+        Mock makes no database queries and always returns two instead of one.
+        """
+        return 2
+
+
+class Catalog(AbstractCatalog):
+
+    """Catalog of objects providers."""
+
+    database = Singleton(sqlite3.Connection,
+                         KwArg('database', ':memory:'),
+                         KwArg('timeout', 30),
+                         KwArg('detect_types', True),
+                         KwArg('isolation_level', 'EXCLUSIVE'),
+                         Attribute('row_factory', sqlite3.Row))
+
+    object_a = NewInstance(ObjectA,
+                           KwArg('database', database))
+
+
+@override(Catalog)
+class SandboxCatalog(Catalog):
+
+    """Sandbox objects catalog with some mocks that overrides Catalog."""
+
+    object_a = NewInstance(ObjectAMock)
+
+
+# Creating several `ObjectA` instances.
+object_a_1 = Catalog.object_a()
+object_a_2 = Catalog.object_a()
+
+# Making some asserts.
+assert object_a_1 is not object_a_2
+assert object_a_1.get_one() == object_a_2.get_one() == 2
+```
