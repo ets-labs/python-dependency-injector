@@ -127,7 +127,20 @@ assert object_a_1.database is object_a_2.database
 assert object_a_1.get_one() == object_a_2.get_one() == 1
 ```
 
-Also injections could be used by any callable with `@inject` decorator:
+### Catalogs
+
+Catalogs are named set of providers.
+
+## Advanced usage
+
+Below you can find some variants of advanced usage of `Objects`.
+
+### Inject decorator
+
+`@inject` decorator could be used for patching any callable with injection.
+Any Python object will be injected 'as is', except `Objects` providers, 
+that will be called to provide injectable value.
+
 
 ```python
 """`@inject` decorator example."""
@@ -138,25 +151,24 @@ from objects.injections import KwArg
 from objects.injections import inject
 
 
-object_a = NewInstance(object)
-object_b = NewInstance(object)
+new_object = NewInstance(object)
 
 
-@inject(KwArg('a', object_a))
-@inject(KwArg('b', object_b))
-def example_callback(a, b):
+@inject(KwArg('object_a', new_object))
+@inject(KwArg('some_setting', 1334))
+def example_callback(object_a, some_setting):
     """This function has dependencies on object a and b.
 
     Dependencies are injected using `@inject` decorator.
     """
-    assert a is not b
-    assert isinstance(a, object)
-    assert isinstance(b, object)
+    assert isinstance(object_a, object)
+    assert some_setting == 1334
 
 
 example_callback()
+example_callback()
 ```
 
-### Catalogs
+### Overriding providers
 
-Catalogs are named set of providers.
+### Overriding catalogs

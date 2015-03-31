@@ -6,20 +6,19 @@ from objects.injections import KwArg
 from objects.injections import inject
 
 
-object_a = NewInstance(object)
-object_b = NewInstance(object)
+new_object = NewInstance(object)
 
 
-@inject(KwArg('a', object_a))
-@inject(KwArg('b', object_b))
-def example_callback(a, b):
+@inject(KwArg('object_a', new_object))
+@inject(KwArg('some_setting', 1334))
+def example_callback(object_a, some_setting):
     """This function has dependencies on object a and b.
 
     Dependencies are injected using `@inject` decorator.
     """
-    assert a is not b
-    assert isinstance(a, object)
-    assert isinstance(b, object)
+    assert isinstance(object_a, object)
+    assert some_setting == 1334
 
 
+example_callback()
 example_callback()
