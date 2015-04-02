@@ -1,12 +1,14 @@
-.. objects documentation master file, created by
+.. Objects documentation master file, created by
    sphinx-quickstart on Wed Apr  1 17:36:06 2015.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to objects's documentation!
-===================================
+Welcome to Objects documentation!
+=================================
 
 Contents:
+
+asdadas
 
 .. toctree::
    :maxdepth: 2
