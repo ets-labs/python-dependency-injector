@@ -137,14 +137,15 @@ Examples
 
     example()
 
-You can get more **Objects** examples in ``/examples`` directory.
+You can get more **Objects** examples in ``/examples`` directory on
+GitHub: https://github.com/rmk135/objects
 
 
 Feedback
 --------
 
 Feel free to post questions, bugs, feature requests, proposals etc. on
-**Objects**  Issues:
+**Objects**  GitHub Issues:
 
     https://github.com/rmk135/objects/issues
 
