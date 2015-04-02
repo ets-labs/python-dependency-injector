@@ -1,7 +1,6 @@
 Feedback
 ========
 
-
 Feel free to post questions, bugs, feature requests, proposals etc. on
 **Objects**  GitHub Issues:
 
