@@ -6,13 +6,8 @@ from setuptools import setup
 
 
 # Getting description.
-try:
-    import pypandoc
-except (IOError, ImportError):
-    with open('README.md') as readme_file:
-        description = readme_file.read()
-else:
-    description = pypandoc.convert('README.md', 'rst', format='markdown')
+with open('README.rst') as readme_file:
+    description = readme_file.read()
 
 
 # Getting requirements.
