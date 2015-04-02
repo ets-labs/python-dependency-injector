@@ -41,3 +41,4 @@ Contents
     entities
     advanced_usage
     examples
+    feedback
