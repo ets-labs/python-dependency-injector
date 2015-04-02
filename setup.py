@@ -5,9 +5,15 @@
 from setuptools import setup
 
 
+DESCRIPTION = 'Dependency management tool for Python projects'
+
+
 # Getting description.
 with open('README.rst') as readme_file:
     description = readme_file.read()
+
+    # Removing duplicated description
+    description = description.replace(DESCRIPTION, '')
 
 
 # Getting requirements.
