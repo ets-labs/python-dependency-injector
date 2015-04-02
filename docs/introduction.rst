@@ -11,6 +11,6 @@ source systems, frameworks, libraries and some turnkey functionality.
 When application goes bigger, its amount of objects and their dependencies
 also increased extremely fast and became hard to maintain.
 
-`Objects` is designed to be developer's friendly tool for managing objects
-and their dependencies in formal, pretty way. Main idea of `Objects` is to
+**Objects** is designed to be developer's friendly tool for managing objects
+and their dependencies in formal, pretty way. Main idea of **Objects** is to
 keep dependencies under control.

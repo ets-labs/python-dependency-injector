@@ -1,13 +1,13 @@
 Advanced usage
 ==============
 
-Below you can find some variants of advanced usage of `Objects`.
+Below you can find some variants of advanced usage of **Objects**.
 
 @inject decorator
 -----------------
 
-`@inject` decorator could be used for patching any callable with injection.
-Any Python object will be injected 'as is', except `Objects` providers,
+``@inject`` decorator could be used for patching any callable with injection.
+Any Python object will be injected *as is*, except **Objects** providers,
 that will be called to provide injectable value.
 
 .. code-block:: python
