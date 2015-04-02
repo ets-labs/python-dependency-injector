@@ -44,10 +44,3 @@ Contents
     introduction
     entities
     advanced_usage
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
