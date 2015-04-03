@@ -33,7 +33,7 @@ class PublishCommand(Command):
     """Setuptools `publish` command."""
 
     description = "Publish current distribution to PyPi and create tag"
-    user_options = tuple()
+    user_options = []
 
     def initialize_options(self):
         """Init options."""
@@ -43,7 +43,8 @@ class PublishCommand(Command):
 
     def run(self):
         """Command execution."""
-        os.system('python setup.py sdist upload')
+        self.run_command('sdist')
+        self.run_command('upload')
         os.system('git tag -a {0} -m \'version {0}\''.format(version))
         os.system('git push --tags')
 
