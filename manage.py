@@ -10,7 +10,7 @@ manager = Manager()
 
 @manager.command
 def publish(with_tag=True):
-    """Publish current version to PyPi."""
+    """Publishg current version to PyPi."""
     os.system('python setup.py sdist upload')
     if with_tag:
         tag()
