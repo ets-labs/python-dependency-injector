@@ -47,12 +47,3 @@ class AbstractCatalog(object):
         for name, provider in overridden:
             overridden_provider = getattr(cls, name)
             overridden_provider.override(provider)
-
-
-def override(catalog):
-    """Catalog overriding decorator."""
-    def decorator(overriding_catalog):
-        """Overriding decorator."""
-        catalog.override(overriding_catalog)
-        return overriding_catalog
-    return decorator

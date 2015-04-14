@@ -1,9 +1,6 @@
 """Injections module."""
 
-from six import wraps
-
 from .utils import is_provider
-from .utils import ensure_is_injection
 
 
 class Injection(object):
@@ -45,23 +42,3 @@ class Method(Injection):
     """Method injection."""
 
     __IS_OBJECTS_METHOD_INJECTION__ = True
-
-
-def inject(injection):
-    """Inject decorator.
-
-    :type injection: Injection
-    :return: (callable) -> (callable)
-    """
-    injection = ensure_is_injection(injection)
-
-    def decorator(callback):
-        """Decorator."""
-        @wraps(callback)
-        def decorated(*args, **kwargs):
-            """Decorated."""
-            if injection.name not in kwargs:
-                kwargs[injection.name] = injection.value
-            return callback(*args, **kwargs)
-        return decorated
-    return decorator

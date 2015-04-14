@@ -38,6 +38,7 @@ Contents
 
     introduction
     installation
+    providers
     entities
     advanced_usage
     examples

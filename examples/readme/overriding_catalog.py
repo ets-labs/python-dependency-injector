@@ -3,13 +3,14 @@
 import sqlite3
 
 from objects.catalog import AbstractCatalog
-from objects.catalog import override
 
 from objects.providers import Singleton
 from objects.providers import NewInstance
 
 from objects.injections import KwArg
 from objects.injections import Attribute
+
+from objects.decorators import override
 
 
 class ObjectA(object):

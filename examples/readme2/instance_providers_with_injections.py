@@ -1,4 +1,4 @@
-"""`KwArg` and `Attribute` injections example."""
+"""`NewInstance` and `Singleton` providers with injections example."""
 
 import sqlite3
 
@@ -41,5 +41,5 @@ object_a_2 = object_a()
 
 # Making some asserts.
 assert object_a_1 is not object_a_2
-assert object_a_1.database is object_a_2.database
+assert object_a_1.database is object_a_2.database is database()
 assert object_a_1.get_one() == object_a_2.get_one() == 1
