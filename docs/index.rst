@@ -1,7 +1,7 @@
 Objects
 =======
 
-Dependency management tool for Python projects.
+Dependency injector for Python projects.
 
 +---------------------------------------+-------------------------------------------------------------------+
 | *PyPi*                                | .. image:: https://pypip.in/version/Objects/badge.svg             |
