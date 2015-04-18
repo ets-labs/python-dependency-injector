@@ -42,21 +42,21 @@ source systems, frameworks, libraries and some turnkey functionality.
 When application goes bigger, its amount of objects and their dependencies
 also increased extremely fast and became hard to maintain.
 
-**Objects** is designed to be developer's friendly tool for managing objects
-and their dependencies in formal, pretty way. Main idea of **Objects** is to
+*Objects* is designed to be developer's friendly tool for managing objects
+and their dependencies in formal, pretty way. Main idea of *Objects* is to
 keep dependencies under control.
 
 Installation
 ------------
 
-**Objects** library is available on PyPi_::
+*Objects* library is available on PyPi_::
 
     pip install objects
 
 Documentation
 -------------
 
-**Objects** documentation is hosted on ReadTheDocs:
+*Objects* documentation is hosted on ReadTheDocs:
 
 - `Stable version`_
 - `Latest version`_
@@ -137,7 +137,7 @@ Examples
 
     example()
 
-You can get more **Objects** examples in ``/examples`` directory on
+You can get more *Objects* examples in ``/examples`` directory on
 GitHub:
 
     https://github.com/rmk135/objects
@@ -147,7 +147,7 @@ Feedback
 --------
 
 Feel free to post questions, bugs, feature requests, proposals etc. on
-**Objects**  GitHub Issues:
+*Objects*  GitHub Issues:
 
     https://github.com/rmk135/objects/issues
 

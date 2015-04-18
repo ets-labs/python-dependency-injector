@@ -51,15 +51,15 @@ There are few *Instance* providers:
 Objects can take dependencies in various forms. Some objects take init
 arguments, other are using attributes or methods to be initialized. It affects
 how such objects need to be created and initialized, and that is the place
-where **Injections** need to be used.
+where *Injections* need to be used.
 
-In terms of computer science, **Injection** of dependency is a way how
+In terms of computer science, *Injection* of dependency is a way how
 dependency can be coupled with dependent object.
 
-In terms of **Objects**, **Injection** is an instruction how to provide
+In terms of *Objects*, *Injection* is an instruction how to provide
 dependency for the particular object.
 
-Every Python object could be an injection's value. Special case is an **Objects**
+Every Python object could be an injection's value. Special case is an *Objects*
 provider as an injection's value. In such case, injection value is a result of
 injectable provider call (every time injection is done).
 
@@ -126,7 +126,7 @@ Example:
 Static providers
 ----------------
 
-Static providers are family of providers that returns its values "as is".
+Static providers are family of providers that return their values "as is".
 There are four of static providers: ``Class``, ``Object``, ``Function`` and
 ``Value``. All of them has the same behaviour, but usage of anyone is
 predicted by readability and providable object's type.
@@ -193,6 +193,8 @@ callable.
 
 External dependency provider
 ----------------------------
+
+``ExternalDependency`` provider can be useful for 
 
 Config provider
 ---------------
