@@ -194,7 +194,7 @@ callable.
 External dependency provider
 ----------------------------
 
-``ExternalDependency`` provider can be useful for 
+``ExternalDependency`` provider can be useful for
 
 Config provider
 ---------------
