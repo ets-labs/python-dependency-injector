@@ -1,4 +1,4 @@
-"""External dependency example."""
+"""External dependency providers example."""
 
 from objects.catalog import AbstractCatalog
 

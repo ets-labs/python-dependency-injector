@@ -1,4 +1,4 @@
-"""Provider overriding example."""
+"""Providers overriding example."""
 
 import sqlite3
 

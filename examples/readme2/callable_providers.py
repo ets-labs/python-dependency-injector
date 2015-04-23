@@ -1,4 +1,4 @@
-"""`Callable` provider examples."""
+"""`Callable` providers examples."""
 
 from objects.providers import Callable
 from objects.providers import Singleton

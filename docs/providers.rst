@@ -20,6 +20,8 @@ There are few *Instance* providers:
     - ``Singleton`` provider creates new instance of specified class on first
       call and returns same instance on every next call.
 
+Example:
+
 .. code-block:: python
 
     """`NewInstance` and `Singleton` providers example."""
@@ -131,6 +133,8 @@ There are four of static providers: ``Class``, ``Object``, ``Function`` and
 ``Value``. All of them has the same behaviour, but usage of anyone is
 predicted by readability and providable object's type.
 
+Example:
+
 .. code-block:: python
 
     """Static providers example."""
@@ -153,18 +157,18 @@ predicted by readability and providable object's type.
     value_provider = Value(123)
     assert value_provider() == 123
 
-Callable provider
------------------
+Callable providers
+------------------
 
 ``Callable`` provider is a provider that decorates particular callable with
 some injections. Every call of this provider returns result of call of initial
 callable.
 
- Example:
+Example:
 
  .. code-block:: python
 
-    """`Callable` provider examples."""
+    """`Callable` providers examples."""
 
     from objects.providers import Callable
     from objects.providers import Singleton
@@ -191,13 +195,31 @@ callable.
     assert some_function(2) == 2
     assert some_function(2231) == 2231
 
-External dependency provider
-----------------------------
 
-``ExternalDependency`` provider can be useful for
+External dependency providers
+-----------------------------
 
-Config provider
----------------
+``ExternalDependency`` provider can be useful for development of self-sufficient
+libraries / modules / applications, that has required external dependencies.
+
+For example, you have created self-sufficient library / module / application,
+that has dependency on *SQLAlchemy*. Second step you want to do is to make this
+software component to be easy reusable by wide amount of developers and to be
+easily integrated into many applications. It may be good idea, to move all
+external dependencies (like *SQLAlchemy*) to the top level and make them to be
+injected on your software component's initialization. It will make third party
+developers feel themselves more free about integration of yours component in
+their applications because of they would be able to find right place / right
+way for doing this in their application's architectures.
+
+Example:
+
+.. code-block:: python
+
+    import this
+
+Config providers
+----------------
 
 Providers delegation
 --------------------
@@ -211,7 +233,7 @@ Example:
 
 .. code-block:: python
 
-    """Provider overriding example."""
+    """Providers overriding example."""
 
     import sqlite3
 
