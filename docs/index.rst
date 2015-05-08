@@ -39,7 +39,7 @@ Contents
     introduction
     installation
     providers
-    entities
-    advanced_usage
+    catalogs
+    decorators
     examples
     feedback
