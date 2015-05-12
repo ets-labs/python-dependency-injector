@@ -1,11 +1,15 @@
 Installation
 ============
 
-Latest stable version of *Objects* library can be installed from PyPi_::
+Latest stable version of *Objects* framework can be installed from PyPi_:
+
+.. code-block:: bash
 
     pip install objects
 
-Sources can be cloned from GitHub_::
+Sources can be cloned from GitHub_:
+
+.. code-block:: bash
 
     git clone https://github.com/rmk135/objects.git
 
