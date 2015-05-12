@@ -7,7 +7,7 @@ from setuptools import setup
 from setuptools import Command
 
 
-SHORT_DESCRIPTION = 'Dependency injector for Python projects'
+SHORT_DESCRIPTION = 'Dependency injection framework for Python projects'
 
 
 # Getting description.

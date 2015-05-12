@@ -1,7 +1,7 @@
 Objects
 =======
 
-Dependency injector for Python projects.
+Dependency injection framework for Python projects.
 
 +---------------------------------------+-------------------------------------------------------------------+
 | *PyPi*                                | .. image:: https://pypip.in/version/Objects/badge.svg             |
