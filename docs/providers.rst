@@ -211,7 +211,7 @@ reusable by wide amount of developers and to be easily integrated into many
 applications.
 
 It may be good idea, to move all external dependencies (like
-*dabase connection*)  to the top level and make them to be injected on your
+*database connection*)  to the top level and make them to be injected on your
 software component's initialization. It will make third party developers feel
 themselves free about integration of yours component in their applications,
 because of they would be able to find right place / right way for doing this
