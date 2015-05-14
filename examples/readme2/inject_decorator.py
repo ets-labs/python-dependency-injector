@@ -7,7 +7,7 @@ import sqlite3
 
 from flask import Flask
 
-from objects.providers import NewInstance
+from objects.providers import Factory
 from objects.providers import Singleton
 from objects.injections import KwArg
 from objects.injections import Attribute
@@ -37,8 +37,8 @@ database = Singleton(sqlite3.Connection,
                      KwArg('isolation_level', 'EXCLUSIVE'),
                      Attribute('row_factory', sqlite3.Row))
 
-object_a = NewInstance(ObjectA,
-                       KwArg('database', database))
+object_a_factory = Factory(ObjectA,
+                           KwArg('database', database))
 
 
 # Flask application.
@@ -48,7 +48,7 @@ app = Flask(__name__)
 # Flask view with inject decorator.
 @app.route('/')
 @inject(KwArg('database', database))
-@inject(KwArg('object_a', object_a))
+@inject(KwArg('object_a', object_a_factory))
 def hello(database):
     one = database.execute('SELECT 1').fetchone()[0]
     return 'Query returned {0}, db connection {1}'.format(one, database)

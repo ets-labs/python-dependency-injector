@@ -3,7 +3,7 @@
 import sqlite3
 
 from objects.providers import Singleton
-from objects.providers import NewInstance
+from objects.providers import Factory
 from objects.providers import ExternalDependency
 
 from objects.injections import KwArg
@@ -28,8 +28,8 @@ class ObjectA(object):
 # Database and `ObjectA` providers.
 database = ExternalDependency(instance_of=sqlite3.Connection)
 
-object_a = NewInstance(ObjectA,
-                       KwArg('database', database))
+object_a_factory = Factory(ObjectA,
+                           KwArg('database', database))
 
 # Satisfaction of external dependency.
 database.override(Singleton(sqlite3.Connection,
@@ -40,8 +40,8 @@ database.override(Singleton(sqlite3.Connection,
                             Attribute('row_factory', sqlite3.Row)))
 
 # Creating several `ObjectA` instances.
-object_a_1 = object_a()
-object_a_2 = object_a()
+object_a_1 = object_a_factory()
+object_a_2 = object_a_factory()
 
 # Making some asserts.
 assert object_a_1 is not object_a_2

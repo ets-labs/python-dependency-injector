@@ -1,11 +1,11 @@
-"""`NewInstance` and `Singleton` providers example."""
+"""`Factory` and `Singleton` providers example."""
 
-from objects.providers import NewInstance
+from objects.providers import Factory
 from objects.providers import Singleton
 
 
-# NewInstance provider creates new instance of specified class on every call.
-new_object = NewInstance(object)
+# Factory provider creates new instance of specified class on every call.
+new_object = Factory(object)
 
 object_1 = new_object()
 object_2 = new_object()

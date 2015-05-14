@@ -2,8 +2,8 @@
 
 import sqlite3
 
+from objects.providers import Factory
 from objects.providers import Singleton
-from objects.providers import NewInstance
 
 from objects.injections import KwArg
 from objects.injections import Attribute
@@ -50,16 +50,16 @@ database = Singleton(sqlite3.Connection,
                      KwArg('isolation_level', 'EXCLUSIVE'),
                      Attribute('row_factory', sqlite3.Row))
 
-object_a = NewInstance(ObjectA,
-                       KwArg('database', database))
+object_a_factory = Factory(ObjectA,
+                           KwArg('database', database))
 
 
 # Overriding `ObjectA` provider with `ObjectAMock` provider.
-object_a.override(NewInstance(ObjectAMock))
+object_a_factory.override(Factory(ObjectAMock))
 
 # Creating several `ObjectA` instances.
-object_a_1 = object_a()
-object_a_2 = object_a()
+object_a_1 = object_a_factory()
+object_a_2 = object_a_factory()
 
 # Making some asserts.
 assert object_a_1 is not object_a_2
