@@ -18,7 +18,7 @@ initialization.
 
 There are few *Instance* providers:
 
-    - ``NewInstance`` provider creates new instance of specified class on every
+    - ``Factory`` provider creates new instance of specified class on every
       call.
     - ``Singleton`` provider creates new instance of specified class on first
       call and returns same instance on every next call.
@@ -27,14 +27,14 @@ Example:
 
 .. code-block:: python
 
-    """`NewInstance` and `Singleton` providers example."""
+    """`Factory` and `Singleton` providers example."""
 
-    from objects.providers import NewInstance
+    from objects.providers import Factory
     from objects.providers import Singleton
 
 
-    # NewInstance provider creates new instance of specified class on every call.
-    new_object = NewInstance(object)
+    # Factory provider creates new instance of specified class on every call.
+    new_object = Factory(object)
 
     object_1 = new_object()
     object_2 = new_object()
@@ -85,12 +85,12 @@ Example:
 
 .. code-block:: python
 
-    """`NewInstance` and `Singleton` providers with injections example."""
+    """`Factory` and `Singleton` providers with injections example."""
 
     import sqlite3
 
     from objects.providers import Singleton
-    from objects.providers import NewInstance
+    from objects.providers import Factory
 
     from objects.injections import KwArg
     from objects.injections import Attribute
@@ -119,17 +119,18 @@ Example:
                          KwArg('isolation_level', 'EXCLUSIVE'),
                          Attribute('row_factory', sqlite3.Row))
 
-    object_a = NewInstance(ObjectA,
-                           KwArg('database', database))
+    object_a_factory = Factory(ObjectA,
+                               KwArg('database', database))
 
     # Creating several `ObjectA` instances.
-    object_a_1 = object_a()
-    object_a_2 = object_a()
+    object_a_1 = object_a_factory()
+    object_a_2 = object_a_factory()
 
     # Making some asserts.
     assert object_a_1 is not object_a_2
     assert object_a_1.database is object_a_2.database is database()
     assert object_a_1.get_one() == object_a_2.get_one() == 1
+
 
 Static providers
 ----------------
@@ -163,6 +164,7 @@ Example:
     value_provider = Value(123)
     assert value_provider() == 123
 
+
 Callable providers
 ------------------
 
@@ -172,7 +174,7 @@ callable.
 
 Example:
 
- .. code-block:: python
+.. code-block:: python
 
     """`Callable` providers examples."""
 
@@ -236,7 +238,7 @@ Example:
     import sqlite3
 
     from objects.providers import Singleton
-    from objects.providers import NewInstance
+    from objects.providers import Factory
     from objects.providers import ExternalDependency
 
     from objects.injections import KwArg
@@ -261,8 +263,8 @@ Example:
     # Database and `ObjectA` providers.
     database = ExternalDependency(instance_of=sqlite3.Connection)
 
-    object_a = NewInstance(ObjectA,
-                           KwArg('database', database))
+    object_a_factory = Factory(ObjectA,
+                               KwArg('database', database))
 
     # Satisfaction of external dependency.
     database.override(Singleton(sqlite3.Connection,
@@ -273,12 +275,13 @@ Example:
                                 Attribute('row_factory', sqlite3.Row)))
 
     # Creating several `ObjectA` instances.
-    object_a_1 = object_a()
-    object_a_2 = object_a()
+    object_a_1 = object_a_factory()
+    object_a_2 = object_a_factory()
 
     # Making some asserts.
     assert object_a_1 is not object_a_2
     assert object_a_1.database is object_a_2.database is database()
+
 
 
 Config providers
@@ -300,8 +303,8 @@ Example:
 
     import sqlite3
 
+    from objects.providers import Factory
     from objects.providers import Singleton
-    from objects.providers import NewInstance
 
     from objects.injections import KwArg
     from objects.injections import Attribute
@@ -348,17 +351,18 @@ Example:
                          KwArg('isolation_level', 'EXCLUSIVE'),
                          Attribute('row_factory', sqlite3.Row))
 
-    object_a = NewInstance(ObjectA,
-                           KwArg('database', database))
+    object_a_factory = Factory(ObjectA,
+                               KwArg('database', database))
 
 
     # Overriding `ObjectA` provider with `ObjectAMock` provider.
-    object_a.override(NewInstance(ObjectAMock))
+    object_a_factory.override(Factory(ObjectAMock))
 
     # Creating several `ObjectA` instances.
-    object_a_1 = object_a()
-    object_a_2 = object_a()
+    object_a_1 = object_a_factory()
+    object_a_2 = object_a_factory()
 
     # Making some asserts.
     assert object_a_1 is not object_a_2
     assert object_a_1.get_one() == object_a_2.get_one() == 2
+

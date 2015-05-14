@@ -73,7 +73,7 @@ class Factory(Provider):
 
     """Factory provider.
 
-    Factory providers will create and return new instance on every call.
+    Factory provider creates new instance of specified class on every call.
     """
 
     __slots__ = ('provides', 'kwargs', 'attributes', 'methods')
