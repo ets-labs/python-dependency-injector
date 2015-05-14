@@ -10,6 +10,9 @@ provided.
 Instance providers & Injections
 -------------------------------
 
+Providers
+~~~~~~~~~
+
 *Instance* providers are providers that deal with object's creation and
 initialization.
 
@@ -50,16 +53,19 @@ Example:
     assert isinstance(object_1, object) and isinstance(object_2, object)
 
 
+Injections
+~~~~~~~~~~
+
 Objects can take dependencies in various forms. Some objects take init
 arguments, other are using attributes or methods to be initialized. It affects
 how such objects need to be created and initialized, and that is the place
 where *Injections* need to be used.
 
-In terms of computer science, *Injection* of dependency is a way how
+In terms of computer science, *Injection of dependency* is a way how
 dependency can be coupled with dependent object.
 
 In terms of *Objects*, *Injection* is an instruction how to provide
-dependency for the particular object.
+dependency for the particular provider.
 
 Every Python object could be an injection's value. Special case is an *Objects*
 provider as an injection's value. In such case, injection value is a result of
