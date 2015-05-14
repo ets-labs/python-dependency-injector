@@ -7,7 +7,7 @@ from .catalog import AbstractCatalog
 
 from .providers import Provider
 from .providers import Delegate
-from .providers import NewInstance
+from .providers import Factory
 from .providers import Singleton
 from .providers import ExternalDependency
 from .providers import Class
@@ -32,7 +32,7 @@ __all__ = ('AbstractCatalog',
            # Providers
            'Provider',
            'Delegate',
-           'NewInstance',
+           'Factory',
            'Singleton',
            'ExternalDependency',
            'Class',

@@ -7,7 +7,7 @@ from objects.injections import KwArg
 from objects.injections import Attribute
 from objects.injections import Method
 
-from objects.providers import NewInstance
+from objects.providers import Factory
 
 
 class InjectionTests(unittest.TestCase):
@@ -27,7 +27,7 @@ class InjectionTests(unittest.TestCase):
 
     def test_value_with_provider_injectable(self):
         """Test Injection value property with provider."""
-        injection = Injection('some_arg_name', NewInstance(object))
+        injection = Injection('some_arg_name', Factory(object))
         self.assertIsInstance(injection.value, object)
 
 

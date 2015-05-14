@@ -69,11 +69,11 @@ class Delegate(Provider):
         return self.delegated
 
 
-class NewInstance(Provider):
+class Factory(Provider):
 
-    """New instance provider.
+    """Factory provider.
 
-    New instance providers will create and return new instance on every call.
+    Factory providers will create and return new instance on every call.
     """
 
     __slots__ = ('provides', 'kwargs', 'attributes', 'methods')
@@ -81,7 +81,7 @@ class NewInstance(Provider):
     def __init__(self, provides, *injections):
         """Initializer."""
         if not isinstance(provides, class_types):
-            raise Error('NewInstance provider expects to get class, ' +
+            raise Error('Factory provider expects to get class, ' +
                         'got {0} instead'.format(str(provides)))
         self.provides = provides
         self.kwargs = tuple((injection
@@ -93,7 +93,7 @@ class NewInstance(Provider):
         self.methods = tuple((injection
                               for injection in injections
                               if is_method_injection(injection)))
-        super(NewInstance, self).__init__()
+        super(Factory, self).__init__()
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
@@ -114,24 +114,35 @@ class NewInstance(Provider):
         return instance
 
 
-class Singleton(NewInstance):
+class NewInstance(Factory):
+
+    """NewInstance provider.
+
+    It is synonym of Factory provider. NewInstance provider is considered to
+    be deprecated, but will be able to use for further backward
+    compatibility.
+    """
+
+
+class Singleton(Provider):
 
     """Singleton provider.
 
     Singleton provider will create instance once and return it on every call.
     """
 
-    __slots__ = ('instance',)
+    __slots__ = ('instance', 'factory')
 
     def __init__(self, *args, **kwargs):
         """Initializer."""
         self.instance = None
-        super(Singleton, self).__init__(*args, **kwargs)
+        self.factory = Factory(*args, **kwargs)
+        super(Singleton, self).__init__()
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
         if not self.instance:
-            self.instance = super(Singleton, self).__call__(*args, **kwargs)
+            self.instance = self.factory(*args, **kwargs)
         return self.instance
 
     def reset(self):

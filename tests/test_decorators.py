@@ -7,7 +7,7 @@ from objects.decorators import inject
 
 from objects.catalog import AbstractCatalog
 
-from objects.providers import NewInstance
+from objects.providers import Factory
 from objects.providers import Object
 from objects.providers import Value
 
@@ -40,14 +40,15 @@ class OverrideTests(unittest.TestCase):
         self.assertEqual(self.Catalog.obj(), 1)
         self.assertEqual(self.Catalog.another_obj(), 2)
 
+
 class InjectTests(unittest.TestCase):
 
     """Inject decorator test cases."""
 
     def test_decorated(self):
         """Test `inject()` decorated callback."""
-        provider1 = NewInstance(object)
-        provider2 = NewInstance(list)
+        provider1 = Factory(object)
+        provider2 = Factory(list)
 
         @inject(KwArg('a', provider1))
         @inject(KwArg('b', provider2))
@@ -67,8 +68,8 @@ class InjectTests(unittest.TestCase):
 
     def test_decorated_kwargs_priority(self):
         """Test `inject()` decorated callback kwargs priority."""
-        provider1 = NewInstance(object)
-        provider2 = NewInstance(list)
+        provider1 = Factory(object)
+        provider2 = Factory(list)
         object_a = object()
 
         @inject(KwArg('a', provider1))
@@ -90,7 +91,7 @@ class InjectTests(unittest.TestCase):
 
     def test_decorated_with_args(self):
         """Test `inject()` decorated callback with args."""
-        provider = NewInstance(list)
+        provider = Factory(list)
         object_a = object()
 
         @inject(KwArg('b', provider))
