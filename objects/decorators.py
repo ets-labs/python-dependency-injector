@@ -15,7 +15,7 @@ def override(catalog):
 
 
 def inject(injection):
-    """Inject decorator.
+    """Dependency injection decorator.
 
     :type injection: Injection
     :return: (callable) -> (callable)
@@ -23,12 +23,19 @@ def inject(injection):
     injection = ensure_is_injection(injection)
 
     def decorator(callback):
-        """Decorator."""
+        """Dependency injection decorator."""
+        if hasattr(callback, '__injections__'):
+            callback.__injections__ += (injection,)
+
         @wraps(callback)
         def decorated(*args, **kwargs):
-            """Decorated."""
-            if injection.name not in kwargs:
-                kwargs[injection.name] = injection.value
+            """Decorated with dependency injection callback."""
+            for injection in getattr(decorated, '__injections__'):
+                if injection.name not in kwargs:
+                    kwargs[injection.name] = injection.value
             return callback(*args, **kwargs)
+
+        setattr(decorated, '__injections__', (injection,))
+
         return decorated
     return decorator
