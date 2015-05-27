@@ -39,6 +39,7 @@ Contents
     introduction
     installation
     providers
+    injections
     catalogs
     decorators
     examples

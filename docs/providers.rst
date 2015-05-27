@@ -3,9 +3,76 @@ Providers
 
 Providers are strategies of accessing objects.
 
-All providers are callable. They describe how particular objects will be
-provided.
+All providers are callable. They describe how particular objects are provided.
 
+
+Factory providers
+-----------------
+
+``Factory`` provider creates new instance of specified class on every call.
+
+Nothing could be better than brief example:
+
+.. code-block:: python
+
+    """`Factory` providers example."""
+
+    from objects.providers import Factory
+
+
+    # Factory provider creates new instance of specified class on every call.
+    object_factory = Factory(object)
+
+    object_1 = object_factory()
+    object_2 = object_factory()
+
+    assert object_1 is not object_2
+    assert isinstance(object_1, object) and isinstance(object_2, object)
+
+Factory providers and injections
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Objects can take dependencies in different forms. Some objects take init
+arguments, other are using attributes setting or method calls to be
+initialized. It affects how such objects need to be created and initialized,
+and that is the place where ``objects.injections`` need to be used.
+
+``Factory`` provider takes various number of positional arguments, that define
+what kind of dependency injections need to be done.
+
+All of those instructions are defined in ``objects.injections`` module and are
+subclasses of ``objects.injections.Injection``. There  are several types of
+injections that are used by ``Factory`` provider:
+
+    - ``KwArg`` - injection is done by passing injectable value in object's
+      ``__init__()`` method in time of object's creation via keyword argument.
+      Takes keyword name of ``__init__()`` argument and injectable value.
+    - ``Attribute`` - injection is done by setting specified attribute with
+      injectable value right after object's creation. Takes attribute name and
+      injectable value.
+    - ``Method`` - injection is done by calling of specified method with
+      injectable value right after object's creation and attribute injections
+      are done. Takes method name and injectable value.
+
+All ``Injection``'s injectable values are provided *"as is"*, except of
+providers. Providers will be called every time, when injection needs to be
+done.
+
+Factory providers and __init__ injections
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    - KwArg example.
+    - Context args priority example.
+
+Factory providers and attribute injections
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    - Attributes example.
+
+Factory providers and method injections
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    - Method example.
 
 Instance providers & Injections
 -------------------------------
@@ -367,3 +434,7 @@ Example:
     assert object_a_1 is not object_a_2
     assert object_a_1.get_one() == object_a_2.get_one() == 2
 
+
+
+
+.. _Constructor injection: http://en.wikipedia.org/wiki/Dependency_injection#Constructor_injection
