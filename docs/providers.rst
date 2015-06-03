@@ -58,11 +58,74 @@ All ``Injection``'s injectable values are provided *"as is"*, except of
 providers. Providers will be called every time, when injection needs to be
 done.
 
+
 Factory providers and __init__ injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    - KwArg example.
-    - Context args priority example.
+Example below shows how to create ``Factory`` of particular class with several
+``__init__`` keyword argument injections which injectable values are also
+provided by another factories:
+
+.. code-block:: python
+
+    """`Factory` providers with init injections example."""
+
+    from objects.providers import Factory
+    from objects.injections import KwArg
+
+
+    class A(object):
+
+        """Example class A.
+
+        Class A has dependencies on class B and class C objects, that have to be
+        provided as init arguments.
+        """
+
+        def __init__(self, object_b, object_c):
+            self.object_b = object_b
+            self.object_c = object_c
+            super(A, self).__init__()
+
+
+    class B(object):
+
+        """Example class B."""
+
+
+    class C(object):
+
+        """Example class C."""
+
+
+    # A, B, C factories:
+    c_factory = Factory(C)
+    b_factory = Factory(B)
+    a_factory = Factory(A,
+                        KwArg('object_b', b_factory),
+                        KwArg('object_c', c_factory))
+
+    # Creating several A objects:
+    object_a_1 = a_factory()  # Same as: A(object_b=B(), object_c=C())
+    object_a_2 = a_factory()  # Same as: A(object_b=B(), object_c=C())
+
+    # Making some asserts:
+    assert object_a_1 is not object_a_2
+    assert object_a_1.object_b is not object_a_2.object_b
+    assert object_a_1.object_c is not object_a_2.object_c
+
+
+Need to make examples for:
+
+    - Several KwArgs usage. +
+    - Factory depends on another factory. +
+
+    - KwArg usage with not provider injectable value.
+
+    - Context positional arguments usage with KwArgs.
+    - Context keyword arguments priority on KwArgs.
+
+    - Context keyword arguments usage with KwArgs ???
 
 Factory providers and attribute injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

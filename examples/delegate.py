@@ -2,8 +2,8 @@
 
 from objects.catalog import AbstractCatalog
 
+from objects.providers import Factory
 from objects.providers import Singleton
-from objects.providers import NewInstance
 
 from objects.injections import KwArg
 from objects.injections import Attribute
@@ -38,8 +38,8 @@ class Catalog(AbstractCatalog):
                          Attribute('row_factory', sqlite3.Row))
     """:type: (objects.Provider) -> sqlite3.Connection"""
 
-    object_a = NewInstance(ObjectA,
-                           KwArg('db', database))
+    object_a = Factory(ObjectA,
+                       KwArg('db', database))
     """:type: (objects.Provider) -> ObjectA"""
 
     object_b = Singleton(ObjectB,
