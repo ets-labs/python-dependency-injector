@@ -35,7 +35,6 @@ Nothing could be better than brief example:
     assert isinstance(user1, User) and isinstance(user2, User)
 
 
-
 Factory providers and injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -69,7 +68,7 @@ done.
 Factory providers and __init__ injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Example below shows how to create ``Factory`` of particular class with several
+Example below shows how to create ``Factory`` of particular class with
 ``__init__`` keyword argument injections which injectable values are also
 provided by another factories:
 
@@ -83,19 +82,78 @@ provided by another factories:
 
     class User(object):
 
-        """Example class User.
+        """Example class User."""
 
-        Class User has dependencies on class Photo and class CreditCard objects,
-        that have to be provided as init arguments.
-        """
-
-        def __init__(self, main_photo, credit_card):
+        def __init__(self, main_photo):
             """Initializer.
 
+            :param main_photo: Photo
+            :return:
+            """
+            self.main_photo = main_photo
+            super(User, self).__init__()
+
+
+    class Photo(object):
+
+        """Example class Photo."""
+
+
+    # User and Photo factories:
+    photos_factory = Factory(Photo)
+    users_factory = Factory(User,
+                            KwArg('main_photo', photos_factory))
+
+    # Creating several User objects:
+    user1 = users_factory()  # Same as: User(main_photo=Photo())
+    user2 = users_factory()  # Same as: User(main_photo=Photo())
+
+    # Making some asserts:
+    assert isinstance(user1, User)
+    assert isinstance(user1.main_photo, Photo)
+
+    assert isinstance(user2, User)
+    assert isinstance(user2.main_photo, Photo)
+
+    assert user1 is not user2
+    assert user1.main_photo is not user2.main_photo
+
+
+Next example shows how ``Factory`` provider deals with positional and keyword
+``__init__`` context arguments. In few words, ``Factory`` provider fully
+passes positional context arguments to class's ``__init__`` method, but
+keyword context arguments have priority on ``KwArg`` injections (this could be
+useful for testing). So, please, follow the example below:
+
+.. code-block:: python
+
+    """`Factory` providers with init injections and context arguments example."""
+
+    from objects.providers import Factory
+    from objects.injections import KwArg
+
+
+    class User(object):
+
+        """Example class User.
+
+        Class User has to be provided with user id.
+
+        Also Class User has dependencies on class Photo and class CreditCard
+        objects.
+
+        All of the dependencies have to be provided like __init__ arguments.
+        """
+
+        def __init__(self, id, main_photo, credit_card):
+            """Initializer.
+
+            :param id: int
             :param main_photo: Photo
             :param credit_card: CreditCard
             :return:
             """
+            self.id = id
             self.main_photo = main_photo
             self.credit_card = credit_card
             super(User, self).__init__()
@@ -119,77 +177,35 @@ provided by another factories:
                             KwArg('credit_card', credit_cards_factory))
 
     # Creating several User objects:
-    user1 = users_factory()  # Same as: User(main_photo=Photo(),
-                             #               credit_card=CreditCard())
-    user2 = users_factory()  # Same as: User(main_photo=Photo(),
-                             #               credit_card=CreditCard())
-
-    # Making some asserts:
-    assert user1 is not user2
-    assert user1.main_photo is not user2.main_photo
-    assert user1.credit_card is not user2.credit_card
-
-
-Next example shows how ``Factory`` provider deals with positional and keyword
-``__init__`` context arguments. In few words, ``Factory`` provider fully
-passes positional context arguments to class's ``__init__`` method, but
-keyword context arguments have priority on ``KwArg`` injections (this could be
-useful for testing). So, please, follow the example below:
-
-.. code-block:: python
-
-    """`Factory` providers with init injections and context arguments example."""
-
-    from objects.providers import Factory
-    from objects.injections import KwArg
-
-
-    class User(object):
-
-        """Example class User."""
-
-        def __init__(self, id, main_photo):
-            """Initializer.
-
-            :param id: int
-            :param main_photo: Photo
-            :return:
-            """
-            self.id = id
-            self.main_photo = main_photo
-            super(User, self).__init__()
-
-
-    class Photo(object):
-
-        """Example class Photo."""
-
-
-    # User and Photo factories:
-    photos_factory = Factory(Photo)
-    users_factory = Factory(User,
-                            KwArg('main_photo', photos_factory))
-
-    # Creating several User objects:
-    user1 = users_factory(1)  # Same as: User(1, main_photo=Photo())
-    user2 = users_factory(2)  # Same as: User(2, main_photo=Photo())
+    user1 = users_factory(1)  # Same as: User(1,
+                              #               main_photo=Photo(),
+                              #               credit_card=CreditCard())
+    user2 = users_factory(2)  # Same as: User(2,
+                              #               main_photo=Photo(),
+                              #               credit_card=CreditCard())
 
     # Making some asserts:
     assert user1.id == 1
-    assert user2.id == 2
-    assert user1 is not user2
     assert isinstance(user1.main_photo, Photo)
+    assert isinstance(user1.credit_card, CreditCard)
+
+    assert user2.id == 2
     assert isinstance(user2.main_photo, Photo)
+    assert isinstance(user2.credit_card, CreditCard)
+
     assert user1.main_photo is not user2.main_photo
+    assert user1.credit_card is not user2.credit_card
 
     # Context keyword arguments have priority on KwArg injections priority:
-    photo_mock = Photo()
+    main_photo_mock = Photo()
+    credit_card_mock = CreditCard()
 
-    user3 = users_factory(3, main_photo=photo_mock)
+    user3 = users_factory(3, main_photo=main_photo_mock,
+                          credit_card=credit_card_mock)
 
     assert user3.id == 3
-    assert user3 not in (user2, user1)
-    assert user3.main_photo is photo_mock
+    assert user3.main_photo is main_photo_mock
+    assert user3.credit_card is credit_card_mock
 
 
 Factory providers and attribute injections
