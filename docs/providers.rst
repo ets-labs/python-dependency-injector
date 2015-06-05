@@ -20,14 +20,21 @@ Nothing could be better than brief example:
     from objects.providers import Factory
 
 
+    class User(object):
+
+        """Example class User."""
+
+
     # Factory provider creates new instance of specified class on every call.
-    object_factory = Factory(object)
+    users_factory = Factory(User)
 
-    object_1 = object_factory()
-    object_2 = object_factory()
+    user1 = users_factory()
+    user2 = users_factory()
 
-    assert object_1 is not object_2
-    assert isinstance(object_1, object) and isinstance(object_2, object)
+    assert user1 is not user2
+    assert isinstance(user1, User) and isinstance(user2, User)
+
+
 
 Factory providers and injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -74,58 +81,116 @@ provided by another factories:
     from objects.injections import KwArg
 
 
-    class A(object):
+    class User(object):
 
-        """Example class A.
+        """Example class User.
 
-        Class A has dependencies on class B and class C objects, that have to be
-        provided as init arguments.
+        Class User has dependencies on class Photo and class CreditCard objects,
+        that have to be provided as init arguments.
         """
 
-        def __init__(self, object_b, object_c):
-            self.object_b = object_b
-            self.object_c = object_c
-            super(A, self).__init__()
+        def __init__(self, main_photo, credit_card):
+            """Initializer.
+
+            :param main_photo: Photo
+            :param credit_card: CreditCard
+            :return:
+            """
+            self.main_photo = main_photo
+            self.credit_card = credit_card
+            super(User, self).__init__()
 
 
-    class B(object):
+    class Photo(object):
 
-        """Example class B."""
-
-
-    class C(object):
-
-        """Example class C."""
+        """Example class Photo."""
 
 
-    # A, B, C factories:
-    c_factory = Factory(C)
-    b_factory = Factory(B)
-    a_factory = Factory(A,
-                        KwArg('object_b', b_factory),
-                        KwArg('object_c', c_factory))
+    class CreditCard(object):
 
-    # Creating several A objects:
-    object_a_1 = a_factory()  # Same as: A(object_b=B(), object_c=C())
-    object_a_2 = a_factory()  # Same as: A(object_b=B(), object_c=C())
+        """Example class CreditCard."""
+
+
+    # User, Photo and CreditCard factories:
+    credit_cards_factory = Factory(CreditCard)
+    photos_factory = Factory(Photo)
+    users_factory = Factory(User,
+                            KwArg('main_photo', photos_factory),
+                            KwArg('credit_card', credit_cards_factory))
+
+    # Creating several User objects:
+    user1 = users_factory()  # Same as: User(main_photo=Photo(),
+                             #               credit_card=CreditCard())
+    user2 = users_factory()  # Same as: User(main_photo=Photo(),
+                             #               credit_card=CreditCard())
 
     # Making some asserts:
-    assert object_a_1 is not object_a_2
-    assert object_a_1.object_b is not object_a_2.object_b
-    assert object_a_1.object_c is not object_a_2.object_c
+    assert user1 is not user2
+    assert user1.main_photo is not user2.main_photo
+    assert user1.credit_card is not user2.credit_card
 
 
-Need to make examples for:
+Next example shows how ``Factory`` provider deals with positional and keyword
+``__init__`` context arguments. In few words, ``Factory`` provider fully
+passes positional context arguments to class's ``__init__`` method, but
+keyword context arguments have priority on ``KwArg`` injections (this could be
+useful for testing). So, please, follow the example below:
 
-    - Several KwArgs usage. +
-    - Factory depends on another factory. +
+.. code-block:: python
 
-    - KwArg usage with not provider injectable value.
+    """`Factory` providers with init injections and context arguments example."""
 
-    - Context positional arguments usage with KwArgs.
-    - Context keyword arguments priority on KwArgs.
+    from objects.providers import Factory
+    from objects.injections import KwArg
 
-    - Context keyword arguments usage with KwArgs ???
+
+    class User(object):
+
+        """Example class User."""
+
+        def __init__(self, id, main_photo):
+            """Initializer.
+
+            :param id: int
+            :param main_photo: Photo
+            :return:
+            """
+            self.id = id
+            self.main_photo = main_photo
+            super(User, self).__init__()
+
+
+    class Photo(object):
+
+        """Example class Photo."""
+
+
+    # User and Photo factories:
+    photos_factory = Factory(Photo)
+    users_factory = Factory(User,
+                            KwArg('main_photo', photos_factory))
+
+    # Creating several User objects:
+    user1 = users_factory(1)  # Same as: User(1, main_photo=Photo())
+    user2 = users_factory(2)  # Same as: User(1, main_photo=Photo())
+
+    # Making some asserts:
+    assert user1.id == 1
+    assert user2.id == 2
+    assert user1 is not user2
+    assert isinstance(user1.main_photo, Photo)
+    assert isinstance(user2.main_photo, Photo)
+    assert user1.main_photo is not user2.main_photo
+
+    # Context keyword arguments have priority on KwArg injections priority:
+    photo_mock = Photo()
+
+    user3 = users_factory(3, main_photo=photo_mock)
+
+    assert user3.id == 3
+    assert user3 not in (user2, user1)
+    assert user3.main_photo is photo_mock
+
 
 Factory providers and attribute injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
