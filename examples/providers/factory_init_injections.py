@@ -29,8 +29,8 @@ users_factory = Factory(User,
                         KwArg('main_photo', photos_factory))
 
 # Creating several User objects:
-user1 = users_factory()  # Same as: User(main_photo=Photo())
-user2 = users_factory()  # Same as: User(main_photo=Photo())
+user1 = users_factory()  # Same as: user1 = User(main_photo=Photo())
+user2 = users_factory()  # Same as: user2 = User(main_photo=Photo())
 
 # Making some asserts:
 assert isinstance(user1, User)

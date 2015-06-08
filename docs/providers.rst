@@ -72,6 +72,8 @@ Example below shows how to create ``Factory`` of particular class with
 ``__init__`` keyword argument injections which injectable values are also
 provided by another factories:
 
+.. image:: images/factory_init_injections.png
+
 .. code-block:: python
 
     """`Factory` providers with init injections example."""
@@ -105,8 +107,8 @@ provided by another factories:
                             KwArg('main_photo', photos_factory))
 
     # Creating several User objects:
-    user1 = users_factory()  # Same as: User(main_photo=Photo())
-    user2 = users_factory()  # Same as: User(main_photo=Photo())
+    user1 = users_factory()  # Same as: user1 = User(main_photo=Photo())
+    user2 = users_factory()  # Same as: user2 = User(main_photo=Photo())
 
     # Making some asserts:
     assert isinstance(user1, User)
@@ -124,6 +126,8 @@ Next example shows how ``Factory`` provider deals with positional and keyword
 passes positional context arguments to class's ``__init__`` method, but
 keyword context arguments have priority on ``KwArg`` injections (this could be
 useful for testing). So, please, follow the example below:
+
+.. image:: images/factory_init_injections_and_contexts.png
 
 .. code-block:: python
 
@@ -177,12 +181,12 @@ useful for testing). So, please, follow the example below:
                             KwArg('credit_card', credit_cards_factory))
 
     # Creating several User objects:
-    user1 = users_factory(1)  # Same as: User(1,
-                              #               main_photo=Photo(),
-                              #               credit_card=CreditCard())
-    user2 = users_factory(2)  # Same as: User(2,
-                              #               main_photo=Photo(),
-                              #               credit_card=CreditCard())
+    user1 = users_factory(1)  # Same as: user1 = User(1,
+                              #                       main_photo=Photo(),
+                              #                       credit_card=CreditCard())
+    user2 = users_factory(2)  # Same as: user2 = User(2,
+                              #                       main_photo=Photo(),
+                              #                       credit_card=CreditCard())
 
     # Making some asserts:
     assert user1.id == 1
@@ -211,12 +215,146 @@ useful for testing). So, please, follow the example below:
 Factory providers and attribute injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    - Attributes example.
+Example below shows how to create ``Factory`` of particular class with
+attribute injections. Those injections are done by setting specified attributes
+with injectable values right after object's creation.
+
+.. image:: images/factory_attribute_injections.png
+
+.. code-block:: python
+
+    """`Factory` providers with attribute injections example."""
+
+    from objects.providers import Factory
+    from objects.injections import Attribute
+
+
+    class User(object):
+
+        """Example class User."""
+
+        def __init__(self):
+            """Initializer."""
+            self.main_photo = None
+            self.credit_card = None
+
+
+    class Photo(object):
+
+        """Example class Photo."""
+
+
+    class CreditCard(object):
+
+        """Example class CreditCard."""
+
+
+    # User, Photo and CreditCard factories:
+    credit_cards_factory = Factory(CreditCard)
+    photos_factory = Factory(Photo)
+    users_factory = Factory(User,
+                            Attribute('main_photo', photos_factory),
+                            Attribute('credit_card', credit_cards_factory))
+
+    # Creating several User objects:
+    user1 = users_factory()  # Same as: user1 = User()
+                             #          user1.main_photo = Photo()
+                             #          user1.credit_card = CreditCard()
+    user2 = users_factory()  # Same as: user2 = User()
+                             #          user2.main_photo = Photo()
+                             #          user2.credit_card = CreditCard()
+
+    # Making some asserts:
+    assert user1 is not user2
+
+    assert isinstance(user1.main_photo, Photo)
+    assert isinstance(user1.credit_card, CreditCard)
+
+    assert isinstance(user2.main_photo, Photo)
+    assert isinstance(user2.credit_card, CreditCard)
+
+    assert user1.main_photo is not user2.main_photo
+    assert user1.credit_card is not user2.credit_card
+
 
 Factory providers and method injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    - Method example.
+Current example shows how to create ``Factory`` of particular class with
+method injections. Those injections are done by calling of specified method
+with injectable value right after object's creation and attribute injections
+are done.
+
+Method injections are not very popular in Python due Python best practices
+(usage of public attributes instead of setter methods), but it may appear in
+some cases.
+
+.. image:: images/factory_method_injections.png
+
+.. code-block:: python
+
+    """`Factory` providers with method injections example."""
+
+    from objects.providers import Factory
+    from objects.injections import Method
+
+
+    class User(object):
+
+        """Example class User."""
+
+        def __init__(self):
+            """Initializer."""
+            self.main_photo = None
+            self.credit_card = None
+
+        def set_main_photo(self, photo):
+            """Set user's main photo."""
+            self.main_photo = photo
+
+        def set_credit_card(self, credit_card):
+            """Set user's credit card."""
+            self.credit_card = credit_card
+
+
+    class Photo(object):
+
+        """Example class Photo."""
+
+
+    class CreditCard(object):
+
+        """Example class CreditCard."""
+
+
+    # User, Photo and CreditCard factories:
+    credit_cards_factory = Factory(CreditCard)
+    photos_factory = Factory(Photo)
+    users_factory = Factory(User,
+                            Method('set_main_photo', photos_factory),
+                            Method('set_credit_card', credit_cards_factory))
+
+    # Creating several User objects:
+    user1 = users_factory()  # Same as: user1 = User()
+                             #          user1.set_main_photo(Photo())
+                             #          user1.set_credit_card(CreditCard())
+    user2 = users_factory()  # Same as: user2 = User()
+                             #          user2.set_main_photo(Photo())
+                             #          user2.set_credit_card(CreditCard())
+
+    # Making some asserts:
+    assert user1 is not user2
+
+    assert isinstance(user1.main_photo, Photo)
+    assert isinstance(user1.credit_card, CreditCard)
+
+    assert isinstance(user2.main_photo, Photo)
+    assert isinstance(user2.credit_card, CreditCard)
+
+    assert user1.main_photo is not user2.main_photo
+    assert user1.credit_card is not user2.credit_card
+
+
 
 Instance providers & Injections
 -------------------------------
