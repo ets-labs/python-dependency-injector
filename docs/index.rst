@@ -38,7 +38,7 @@ Contents
 
     introduction
     installation
-    providers
+    providers/index
     injections
     catalogs
     decorators

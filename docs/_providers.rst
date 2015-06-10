@@ -72,7 +72,7 @@ Example below shows how to create ``Factory`` of particular class with
 ``__init__`` keyword argument injections which injectable values are also
 provided by another factories:
 
-.. image:: images/factory_init_injections.png
+.. image:: ../images/factory_init_injections.png
 
 .. code-block:: python
 
@@ -127,7 +127,7 @@ passes positional context arguments to class's ``__init__`` method, but
 keyword context arguments have priority on ``KwArg`` injections (this could be
 useful for testing). So, please, follow the example below:
 
-.. image:: images/factory_init_injections_and_contexts.png
+.. image:: ../images/factory_init_injections_and_contexts.png
 
 .. code-block:: python
 
@@ -219,7 +219,7 @@ Example below shows how to create ``Factory`` of particular class with
 attribute injections. Those injections are done by setting specified attributes
 with injectable values right after object's creation.
 
-.. image:: images/factory_attribute_injections.png
+.. image:: ../images/factory_attribute_injections.png
 
 .. code-block:: python
 
@@ -289,7 +289,7 @@ Method injections are not very popular in Python due Python best practices
 (usage of public attributes instead of setter methods), but it may appear in
 some cases.
 
-.. image:: images/factory_method_injections.png
+.. image:: ../images/factory_method_injections.png
 
 .. code-block:: python
 
@@ -355,6 +355,11 @@ some cases.
     assert user1.credit_card is not user2.credit_card
 
 
+Singleton providers
+-------------------
+
+``Singleton`` provider creates new instance of specified class on first call
+and returns same instance on every next call.
 
 Instance providers & Injections
 -------------------------------
