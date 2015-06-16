@@ -48,8 +48,8 @@ injections that are used by ``Factory`` provider:
       ``__init__()`` method in time of object's creation via keyword argument.
       Takes keyword name of ``__init__()`` argument and injectable value.
     - ``Attribute`` - injection is done by setting specified attribute with
-      injectable value right after object's creation. Takes attribute name and
-      injectable value.
+      injectable value right after object's creation. Takes attribute's name
+      and injectable value.
     - ``Method`` - injection is done by calling of specified method with
       injectable value right after object's creation and attribute injections
       are done. Takes method name and injectable value.

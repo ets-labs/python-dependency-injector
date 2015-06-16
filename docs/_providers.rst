@@ -164,7 +164,3 @@ Example:
     assert object_a_1 is not object_a_2
     assert object_a_1.get_one() == object_a_2.get_one() == 2
 
-
-
-
-.. _Constructor injection: http://en.wikipedia.org/wiki/Dependency_injection#Constructor_injection
