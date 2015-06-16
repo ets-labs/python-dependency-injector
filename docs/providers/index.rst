@@ -7,6 +7,7 @@ All providers are callable. They describe how particular objects are provided.
 
 ..  toctree::
     :maxdepth: 2
-    :glob:
 
-    *
+    factory
+    singleton
+    static
