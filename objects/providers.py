@@ -189,6 +189,10 @@ class ExternalDependency(Provider):
 
         return instance
 
+    def provided_by(self, provider):
+        """Set external dependency provider."""
+        return self.override(provider)
+
 
 class _StaticProvider(Provider):
 

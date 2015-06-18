@@ -12,3 +12,4 @@ All providers are callable. They describe how particular objects are provided.
     singleton
     static
     callable
+    external_dependency

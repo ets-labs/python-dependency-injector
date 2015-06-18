@@ -323,12 +323,12 @@ class ExternalDependencyTests(unittest.TestCase):
 
     def test_call_overridden(self):
         """Test call of overridden external dependency."""
-        self.provider.override(Factory(list))
+        self.provider.provided_by(Factory(list))
         self.assertIsInstance(self.provider(), list)
 
     def test_call_overridden_but_not_instance_of(self):
         """Test call of overridden external dependency, but not instance of."""
-        self.provider.override(Factory(dict))
+        self.provider.provided_by(Factory(dict))
         self.assertRaises(Error, self.provider)
 
     def test_call_not_overridden(self):
