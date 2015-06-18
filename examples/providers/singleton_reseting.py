@@ -8,8 +8,7 @@ class UserService(object):
     """Example class UserService."""
 
 
-# Singleton provider creates new instance of specified class on first call and
-# returns same instance on every next call.
+# Users service singleton provider:
 users_service_provider = Singleton(UserService)
 
 # Retrieving several UserService objects:
