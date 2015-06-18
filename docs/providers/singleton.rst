@@ -61,6 +61,8 @@ Created and memorized by ``Singleton`` instance can be reset. Reset of
 ``Singleton``'s memorized instance is done by clearing reference to it. Further
 lifecycle of memorized instance is out of ``Singleton`` provider's control.
 
+Example:
+
 .. code-block:: python
 
     """`Singleton` providers resetting example."""

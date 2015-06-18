@@ -119,7 +119,9 @@ Next example shows how ``Factory`` provider deals with positional and keyword
 ``__init__`` context arguments. In few words, ``Factory`` provider fully
 passes positional context arguments to class's ``__init__`` method, but
 keyword context arguments have priority on ``KwArg`` injections (this could be
-useful for testing). So, please, follow the example below:
+useful for testing).
+
+So, please, follow the example below:
 
 .. image:: /images/factory_init_injections_and_contexts.png
 
@@ -213,6 +215,8 @@ Example below shows how to create ``Factory`` of particular class with
 attribute injections. Those injections are done by setting specified attributes
 with injectable values right after object's creation.
 
+Example:
+
 .. image:: /images/factory_attribute_injections.png
 
 .. code-block:: python
@@ -282,6 +286,8 @@ are done.
 Method injections are not very popular in Python due Python best practices
 (usage of public attributes instead of setter methods), but it may appear in
 some cases.
+
+Example:
 
 .. image:: /images/factory_method_injections.png
 
