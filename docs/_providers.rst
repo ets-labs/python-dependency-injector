@@ -2,9 +2,6 @@ Providers
 =========
 
 
-Config providers
-----------------
-
 Providers delegation
 --------------------
 
