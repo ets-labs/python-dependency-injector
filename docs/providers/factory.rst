@@ -5,6 +5,8 @@ Factory providers
 
 Nothing could be better than brief example:
 
+.. image:: /images/factory.png
+
 .. code-block:: python
 
     """`Factory` providers example."""
