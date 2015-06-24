@@ -4,6 +4,10 @@ Singleton providers
 ``Singleton`` provider creates new instance of specified class on first call
 and returns same instance on every next call.
 
+Example:
+
+.. image:: /images/singleton.png
+
 .. code-block:: python
 
     """`Singleton` providers example."""
@@ -36,6 +40,8 @@ Singleton providers and injections
 ``Singleton`` providers use ``Factory`` providers for first creation of
 specified class instance, so, all of the rules about injections are the same,
 as for ``Factory`` providers.
+
+.. image:: /images/singleton_internals.png
 
 .. note::
 
