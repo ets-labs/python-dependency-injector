@@ -7,6 +7,8 @@ and returns same instance on every next call.
 Example:
 
 .. image:: /images/singleton.png
+    :width: 80%
+    :align: center
 
 .. code-block:: python
 
@@ -42,6 +44,8 @@ specified class instance, so, all of the rules about injections are the same,
 as for ``Factory`` providers.
 
 .. image:: /images/singleton_internals.png
+    :width: 80%
+    :align: center
 
 .. note::
 

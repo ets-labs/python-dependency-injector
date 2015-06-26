@@ -6,6 +6,8 @@ Factory providers
 Nothing could be better than brief example:
 
 .. image:: /images/factory.png
+    :width: 80%
+    :align: center
 
 .. code-block:: python
 
