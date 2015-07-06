@@ -64,3 +64,6 @@ venv/
 
 # JointJS Experiments
 jointjs/
+
+# Vim Rope
+.ropeproject/
