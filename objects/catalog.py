@@ -38,10 +38,9 @@ class AbstractCatalog(object):
 
     @classmethod
     def override(cls, overriding):
-        """
-        Override current catalog providers by overriding catalog providers.
+        """Override current catalog providers by overriding catalog providers.
 
-        :param overriding: AbstractCatalog
+        :type overriding: AbstractCatalog
         """
         overridden = overriding.all_providers() - cls.all_providers()
         for name, provider in overridden:
