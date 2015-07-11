@@ -2,6 +2,7 @@
 
 from objects.providers import Factory
 from objects.providers import Singleton
+from objects.providers import Delegate
 
 from objects.injections import KwArg
 
@@ -53,8 +54,7 @@ class UserService(object):
 # Users factory and UserService provider:
 users_service = Singleton(UserService,
                           KwArg('users_factory',
-                                Factory(User),
-                                delegate=True))
+                                Delegate(Factory(User))))
 
 
 # Creating several User objects:
