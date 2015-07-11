@@ -8,18 +8,17 @@ class Injection(object):
     """Base injection class."""
 
     __IS_OBJECTS_INJECTION__ = True
-    __slots__ = ('name', 'injectable', 'delegate')
+    __slots__ = ('name', 'injectable')
 
-    def __init__(self, name, injectable, delegate=False):
+    def __init__(self, name, injectable):
         """Initializer."""
         self.name = name
         self.injectable = injectable
-        self.delegate = delegate
 
     @property
     def value(self):
         """Return injectable value."""
-        if is_provider(self.injectable) and not self.delegate:
+        if is_provider(self.injectable):
             return self.injectable()
         return self.injectable
 

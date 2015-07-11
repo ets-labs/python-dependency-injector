@@ -52,10 +52,9 @@ class UserService(object):
 
 
 # Users factory and UserService provider:
+users_factory = Factory(User)
 users_service = Singleton(UserService,
-                          KwArg('users_factory',
-                                Delegate(Factory(User))))
-
+                          KwArg('users_factory', Delegate(users_factory)))
 
 # Creating several User objects:
 user1 = users_service().get_by_id(1)
