@@ -1,47 +1,40 @@
 """`Callable` providers examples."""
 
 from objects.providers import Callable
-from objects.providers import Singleton
-
 from objects.injections import KwArg
 
 
-class UserService(object):
+class SomeCrypt(object):
 
-    """Example class UserService."""
+    """Example class SomeCrypt."""
 
-    def get_by_id(self, id):
-        """Return user info by user id."""
-        return {'id': id, 'login': 'example_user'}
+    @staticmethod
+    def encrypt(data, password):
+        """Encypt data using password."""
+        return ''.join((password, data, password))
+
+    @staticmethod
+    def decrypt(data, password):
+        """Decrypt data using password."""
+        return data[len(password):-len(password)]
 
 
-def get_user_by_id(user_id, users_service):
-    """Example function that has input arg and dependency on database."""
-    return users_service.get_by_id(user_id)
-
-
-# UserService and get_user_by_id providers:
-users_service = Singleton(UserService)
-get_user_by_id = Callable(get_user_by_id,
-                          KwArg('users_service', users_service))
+# Encrypt and decrypt function providers:
+encrypt = Callable(SomeCrypt.encrypt,
+                   KwArg('password', 'secret123'))
+decrypt = Callable(SomeCrypt.decrypt,
+                   KwArg('password', 'secret123'))
 
 # Making some asserts:
-assert get_user_by_id(1) == {'id': 1, 'login': 'example_user'}
-assert get_user_by_id(2) == {'id': 2, 'login': 'example_user'}
+initial_data = 'some_data'
 
+encrypted1 = encrypt(initial_data)
+decrypted1 = decrypt(encrypted1)
+
+assert decrypted1 == initial_data
 
 # Context keyword arguments priority example:
-class UserServiceMock(object):
+encrypted2 = encrypt(initial_data, password='another_secret')
+decrypted2 = decrypt(encrypted2)
 
-    """Example class UserService."""
-
-    def get_by_id(self, id):
-        """Return user info by user id."""
-        return {'id': id, 'login': 'mock'}
-
-
-user_service_mock = UserServiceMock()
-
-user3 = get_user_by_id(1, users_service=user_service_mock)
-
-assert user3 == {'id': 1, 'login': 'mock'}
+assert decrypted2 != initial_data
