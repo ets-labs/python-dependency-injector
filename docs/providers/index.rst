@@ -11,6 +11,5 @@ All providers are callable. They describe how particular objects are provided.
     factory
     singleton
     static
-    callable
     external_dependency
     delegation
