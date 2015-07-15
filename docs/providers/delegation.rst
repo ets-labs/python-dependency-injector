@@ -9,6 +9,7 @@ Example:
 
     from objects.providers import Factory
     from objects.providers import Singleton
+    from objects.providers import Delegate
 
     from objects.injections import KwArg
 
@@ -38,7 +39,7 @@ Example:
         def __init__(self, users_factory):
             """Initializer.
 
-            :param users_factory: objects.providers.Factory
+            :param users_factory: (objects.providers.Factory) -> User
             :return:
             """
             self.users_factory = users_factory
@@ -60,7 +61,7 @@ Example:
     # Users factory and UserService provider:
     users_factory = Factory(User)
     users_service = Singleton(UserService,
-                              KwArg('users_factory', users_factory.delegate()))
+                              KwArg('users_factory', Delegate(users_factory)))
 
 
     # Creating several User objects:
