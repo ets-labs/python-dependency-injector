@@ -15,7 +15,7 @@ class CatalogMetaClass(type):
         """Meta class factory."""
         providers = dict()
         new_attributes = dict()
-        for name, value in attributes.iteritems():
+        for name, value in iteritems(attributes):
             if is_provider(value):
                 providers[name] = value
             new_attributes[name] = value
