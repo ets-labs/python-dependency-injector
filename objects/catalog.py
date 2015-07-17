@@ -1,6 +1,7 @@
 """Catalog module."""
 
 from six import iteritems
+from six import add_metaclass
 
 from .errors import Error
 from .utils import is_provider
@@ -25,14 +26,14 @@ class CatalogMetaClass(type):
         return cls
 
 
+@add_metaclass(CatalogMetaClass)
 class AbstractCatalog(object):
 
     """Abstract providers catalog."""
 
     providers = dict()
 
-    __slots__ = ('providers', '__used_providers__',)
-    __metaclass__ = CatalogMetaClass
+    __slots__ = ('__used_providers__',)
 
     def __init__(self, *used_providers):
         """Initializer."""
