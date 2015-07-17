@@ -14,3 +14,4 @@ All providers are callable. They describe how particular objects are provided.
     callable
     external_dependency
     delegation
+    extending

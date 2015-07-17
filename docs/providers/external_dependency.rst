@@ -20,7 +20,7 @@ because they would be able to find right place / right way for doing this
 in their application's architectures.
 
 At the same time, you can be sure, that your external dependency will be
-satisfied by appropriate instance.
+satisfied with appropriate instance.
 
 
 Example:
@@ -32,8 +32,8 @@ Example:
     dependency on database connection, which can be satisfied with any
     DBAPI 2.0 database connection. Being a self-sufficient library,
     ``UserService`` doesn't hardcode any kind of database management logic.
-    Instead of this, ``UserService`` provides external dependency, that has to
-    be satisfied out of library's scope.
+    Instead of this, ``UserService`` has external dependency, that has to
+    be satisfied by cleint's code, out of library's scope.
 
 .. image:: /images/external_dependency.png
 
@@ -58,12 +58,14 @@ Example:
 
         """Example class UserService.
 
-        UserService has dependency on DBAPI 2.0 database connection."""
+        UserService has dependency on DBAPI 2.0 database connection.
+        """
 
         def __init__(self, database):
             """Initializer.
 
-            Database dependency need to be injected via init arg."""
+            Database dependency need to be injected via init arg.
+            """
             self.database = database
 
         def init_database(self):
@@ -90,14 +92,14 @@ Example:
 
 
     # Database and UserService providers:
-    database = ExternalDependency(instance_of=sqlite3.Connection)
+    database = ExternalDependency(instance_of=sqlite3.dbapi2.Connection)
     users_service_factory = Factory(UserService,
                                     KwArg('database', database))
 
     # Out of library's scope.
     #
     # Setting database provider:
-    database.provided_by(Singleton(sqlite3.Connection,
+    database.provided_by(Singleton(sqlite3.dbapi2.Connection,
                                    KwArg('database', ':memory:'),
                                    KwArg('timeout', 30),
                                    KwArg('detect_types', True),
@@ -117,4 +119,3 @@ Example:
     # Making some asserts:
     assert test_user['id'] == 1
     assert test_user['name'] == 'test_user'
-

@@ -17,12 +17,14 @@ class UserService(object):
 
     """Example class UserService.
 
-    UserService has dependency on DBAPI 2.0 database connection."""
+    UserService has dependency on DBAPI 2.0 database connection.
+    """
 
     def __init__(self, database):
         """Initializer.
 
-        Database dependency need to be injected via init arg."""
+        Database dependency need to be injected via init arg.
+        """
         self.database = database
 
     def init_database(self):
@@ -49,14 +51,14 @@ class UserService(object):
 
 
 # Database and UserService providers:
-database = ExternalDependency(instance_of=sqlite3.Connection)
+database = ExternalDependency(instance_of=sqlite3.dbapi2.Connection)
 users_service_factory = Factory(UserService,
                                 KwArg('database', database))
 
 # Out of library's scope.
 #
 # Setting database provider:
-database.provided_by(Singleton(sqlite3.Connection,
+database.provided_by(Singleton(sqlite3.dbapi2.Connection,
                                KwArg('database', ':memory:'),
                                KwArg('timeout', 30),
                                KwArg('detect_types', True),
