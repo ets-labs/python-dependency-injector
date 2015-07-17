@@ -1,14 +1,38 @@
 """Catalog module."""
 
-from .providers import Provider
+from six import iteritems
+
 from .errors import Error
+from .utils import is_provider
+
+
+class CatalogMetaClass(type):
+
+    """Providers catalog meta class."""
+
+    def __new__(mcs, class_name, bases, attributes):
+        """Meta class factory."""
+        providers = dict()
+        new_attributes = dict()
+        for name, value in attributes.iteritems():
+            if is_provider(value):
+                providers[name] = value
+            new_attributes[name] = value
+
+        cls = type.__new__(mcs, class_name, bases, new_attributes)
+        cls.providers = cls.providers.copy()
+        cls.providers.update(providers)
+        return cls
 
 
 class AbstractCatalog(object):
 
-    """Abstract object provides catalog."""
+    """Abstract providers catalog."""
 
-    __slots__ = ('__used_providers__',)
+    providers = dict()
+
+    __slots__ = ('providers', '__used_providers__',)
+    __metaclass__ = CatalogMetaClass
 
     def __init__(self, *used_providers):
         """Initializer."""
@@ -17,7 +41,7 @@ class AbstractCatalog(object):
     def __getattribute__(self, item):
         """Return providers."""
         attribute = super(AbstractCatalog, self).__getattribute__(item)
-        if item in ('__used_providers__',):
+        if item in ('providers', '__used_providers__',):
             return attribute
 
         if attribute not in self.__used_providers__:
@@ -26,15 +50,11 @@ class AbstractCatalog(object):
         return attribute
 
     @classmethod
-    def all_providers(cls, provider_type=Provider):
-        """Return set of all class providers."""
-        providers = set()
-        for attr_name in set(dir(cls)) - set(dir(AbstractCatalog)):
-            provider = getattr(cls, attr_name)
-            if not isinstance(provider, provider_type):
-                continue
-            providers.add((attr_name, provider))
-        return providers
+    def filter(cls, provider_type):
+        """Return dict of providers, that are instance of provided type."""
+        return dict([(name, provider)
+                     for name, provider in iteritems(cls.providers)
+                     if isinstance(provider, provider_type)])
 
     @classmethod
     def override(cls, overriding):
@@ -42,7 +62,5 @@ class AbstractCatalog(object):
 
         :type overriding: AbstractCatalog
         """
-        overridden = overriding.all_providers() - cls.all_providers()
-        for name, provider in overridden:
-            overridden_provider = getattr(cls, name)
-            overridden_provider.override(provider)
+        for name, provider in iteritems(overriding.providers):
+            cls.providers[name].override(provider)
