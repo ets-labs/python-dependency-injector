@@ -39,7 +39,6 @@ class CreditCard(object):
 
     """Example class CreditCard."""
 
-
 # User, Photo and CreditCard factories:
 credit_cards_factory = Factory(CreditCard)
 photos_factory = Factory(Photo)
@@ -48,12 +47,14 @@ users_factory = Factory(User,
                         KwArg('credit_card', credit_cards_factory))
 
 # Creating several User objects:
-user1 = users_factory(1)  # Same as: user1 = User(1,
-                          #                       main_photo=Photo(),
-                          #                       credit_card=CreditCard())
-user2 = users_factory(2)  # Same as: user2 = User(2,
-                          #                       main_photo=Photo(),
-                          #                       credit_card=CreditCard())
+user1 = users_factory(1)
+# Same as: user1 = User(1,
+#                       main_photo=Photo(),
+#                       credit_card=CreditCard())
+user2 = users_factory(2)
+# Same as: user2 = User(2,
+#                       main_photo=Photo(),
+#                       credit_card=CreditCard())
 
 # Making some asserts:
 assert user1.id == 1

@@ -7,7 +7,6 @@ class User(object):
 
     """Example class User."""
 
-
 # Factory provider creates new instance of specified class on every call.
 users_factory = Factory(User)
 

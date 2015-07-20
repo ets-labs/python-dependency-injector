@@ -20,7 +20,6 @@ Nothing could be better than brief example:
 
         """Example class User."""
 
-
     # Factory provider creates new instance of specified class on every call.
     users_factory = Factory(User)
 
@@ -98,7 +97,6 @@ provided by another factories:
 
         """Example class Photo."""
 
-
     # User and Photo factories:
     photos_factory = Factory(Photo)
     users_factory = Factory(User,
@@ -117,7 +115,6 @@ provided by another factories:
 
     assert user1 is not user2
     assert user1.main_photo is not user2.main_photo
-
 
 Next example shows how ``Factory`` provider deals with positional and keyword
 ``__init__`` context arguments. In few words, ``Factory`` provider fully
@@ -172,7 +169,6 @@ So, please, follow the example below:
 
         """Example class CreditCard."""
 
-
     # User, Photo and CreditCard factories:
     credit_cards_factory = Factory(CreditCard)
     photos_factory = Factory(Photo)
@@ -181,12 +177,14 @@ So, please, follow the example below:
                             KwArg('credit_card', credit_cards_factory))
 
     # Creating several User objects:
-    user1 = users_factory(1)  # Same as: user1 = User(1,
-                              #                       main_photo=Photo(),
-                              #                       credit_card=CreditCard())
-    user2 = users_factory(2)  # Same as: user2 = User(2,
-                              #                       main_photo=Photo(),
-                              #                       credit_card=CreditCard())
+    user1 = users_factory(1)
+    # Same as: user1 = User(1,
+    #                       main_photo=Photo(),
+    #                       credit_card=CreditCard())
+    user2 = users_factory(2)
+    # Same as: user2 = User(2,
+    #                       main_photo=Photo(),
+    #                       credit_card=CreditCard())
 
     # Making some asserts:
     assert user1.id == 1
@@ -210,7 +208,6 @@ So, please, follow the example below:
     assert user3.id == 3
     assert user3.main_photo is main_photo_mock
     assert user3.credit_card is credit_card_mock
-
 
 Factory providers and attribute injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -250,7 +247,6 @@ Example:
 
         """Example class CreditCard."""
 
-
     # User, Photo and CreditCard factories:
     credit_cards_factory = Factory(CreditCard)
     photos_factory = Factory(Photo)
@@ -259,12 +255,14 @@ Example:
                             Attribute('credit_card', credit_cards_factory))
 
     # Creating several User objects:
-    user1 = users_factory()  # Same as: user1 = User()
-                             #          user1.main_photo = Photo()
-                             #          user1.credit_card = CreditCard()
-    user2 = users_factory()  # Same as: user2 = User()
-                             #          user2.main_photo = Photo()
-                             #          user2.credit_card = CreditCard()
+    user1 = users_factory()
+    # Same as: user1 = User()
+    #          user1.main_photo = Photo()
+    #          user1.credit_card = CreditCard()
+    user2 = users_factory()
+    # Same as: user2 = User()
+    #          user2.main_photo = Photo()
+    #          user2.credit_card = CreditCard()
 
     # Making some asserts:
     assert user1 is not user2
@@ -277,7 +275,6 @@ Example:
 
     assert user1.main_photo is not user2.main_photo
     assert user1.credit_card is not user2.credit_card
-
 
 Factory providers and method injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -330,7 +327,6 @@ Example:
 
         """Example class CreditCard."""
 
-
     # User, Photo and CreditCard factories:
     credit_cards_factory = Factory(CreditCard)
     photos_factory = Factory(Photo)
@@ -339,12 +335,14 @@ Example:
                             Method('set_credit_card', credit_cards_factory))
 
     # Creating several User objects:
-    user1 = users_factory()  # Same as: user1 = User()
-                             #          user1.set_main_photo(Photo())
-                             #          user1.set_credit_card(CreditCard())
-    user2 = users_factory()  # Same as: user2 = User()
-                             #          user2.set_main_photo(Photo())
-                             #          user2.set_credit_card(CreditCard())
+    user1 = users_factory()
+    # Same as: user1 = User()
+    #          user1.set_main_photo(Photo())
+    #          user1.set_credit_card(CreditCard())
+    user2 = users_factory()
+    # Same as: user2 = User()
+    #          user2.set_main_photo(Photo())
+    #          user2.set_credit_card(CreditCard())
 
     # Making some asserts:
     assert user1 is not user2
@@ -358,3 +356,75 @@ Example:
     assert user1.main_photo is not user2.main_photo
     assert user1.credit_card is not user2.credit_card
 
+Factory providers delegation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``Factory`` provider could be delegated to any other provider via any kind of 
+injection. Saying in other words, delegation of factories - is a way to inject
+factories themselves, instead of results of their calls. 
+
+As it was mentioned earlier, ``Injection`` calls ``Factory`` if ``Factory`` is
+injectable value. ``Factory`` delegation is performed by wrapping delegated 
+``Factory`` into special provider type -  ``Delegate``, that just returns 
+``Factory`` itself.
+
+Another one, more *convenient*, method of creating ``Delegate`` for ``Factory``
+is just calling ``Factory.delegate()`` method that returns delegate for current
+factory. 
+
+Example:
+
+.. image:: /images/factory_delegation.png
+
+.. code-block:: python
+
+    """`Factory` providers delegation example."""
+
+    from objects.providers import Factory
+    from objects.injections import KwArg
+
+
+    class User(object):
+
+        """Example class User."""
+
+        def __init__(self, photos_factory):
+            """Initializer.
+
+            :param photos_factory: objects.providers.Factory
+            :return:
+            """
+            self.photos_factory = photos_factory
+            self._main_photo = None
+            super(User, self).__init__()
+
+        @property
+        def main_photo(self):
+            """Return user's main photo."""
+            if not self._main_photo:
+                self._main_photo = self.photos_factory()
+            return self._main_photo
+
+
+    class Photo(object):
+
+        """Example class Photo."""
+
+    # User and Photo factories:
+    photos_factory = Factory(Photo)
+    users_factory = Factory(User,
+                            KwArg('photos_factory', photos_factory.delegate()))
+
+    # Creating several User objects:
+    user1 = users_factory()
+    user2 = users_factory()
+
+    # Making some asserts:
+    assert isinstance(user1, User)
+    assert isinstance(user1.main_photo, Photo)
+
+    assert isinstance(user2, User)
+    assert isinstance(user2.main_photo, Photo)
+
+    assert user1 is not user2
+    assert user1.main_photo is not user2.main_photo
