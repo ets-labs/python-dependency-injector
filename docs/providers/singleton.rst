@@ -21,7 +21,6 @@ Example:
 
         """Example class UserService."""
 
-
     # Singleton provider creates new instance of specified class on first call and
     # returns same instance on every next call.
     users_service_provider = Singleton(UserService)
@@ -34,7 +33,6 @@ Example:
     assert user_service1 is user_service2
     assert isinstance(user_service1, UserService)
     assert isinstance(user_service2, UserService)
-
 
 Singleton providers and injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -84,7 +82,6 @@ Example:
 
         """Example class UserService."""
 
-
     # Users service singleton provider:
     users_service_provider = Singleton(UserService)
 
@@ -105,4 +102,3 @@ Example:
 
     # Making some asserts:
     assert user_service3 is not user_service1
-

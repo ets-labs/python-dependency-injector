@@ -7,7 +7,6 @@ class UserService(object):
 
     """Example class UserService."""
 
-
 # Users service singleton provider:
 users_service_provider = Singleton(UserService)
 
