@@ -21,7 +21,7 @@ Dependency injection framework for Python projects.
 |                                       |    :target: https://pypi.python.org/pypi/Objects/                 |
 |                                       |    :alt: Supported Python implementations                         |
 +---------------------------------------+-------------------------------------------------------------------+
-| *Builds and test coverage*            | .. image:: https://travis-ci.org/rmk135/objects.svg?branch=master |
+| *Builds and tests coverage*           | .. image:: https://travis-ci.org/rmk135/objects.svg?branch=master |
 |                                       |    :target: https://travis-ci.org/rmk135/objects                  |
 |                                       |    :alt: Build Status                                             |
 |                                       | .. image:: https://coveralls.io/repos/rmk135/objects/badge.svg    |
