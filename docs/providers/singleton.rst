@@ -102,3 +102,33 @@ Example:
 
     # Making some asserts:
     assert user_service3 is not user_service1
+
+Singleton providers delegation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``Singleton`` provider could be delegated to any other provider via any kind of
+injection. Delegation of ``Singleton`` providers is the same as ``Factory``
+providers delegation, please follow *Factory providers delegation* section for
+example.
+
+``Singleton`` delegate could be created obviously using 
+``Delegate(Singleton())`` or by calling ``Singleton.delegate()`` method.
+
+Example:
+
+.. code-block:: python
+
+    """`Singleton` providers delegation example."""
+
+    from objects.providers import Singleton
+    from objects.providers import Delegate
+
+
+    # Some singleton provider and few delegates of it:
+    singleton_provider = Singleton(object)
+    singleton_provider_delegate1 = singleton_provider.delegate()
+    singleton_provider_delegate2 = Delegate(singleton_provider)
+
+    # Making some asserts:
+    assert singleton_provider_delegate1() is singleton_provider
+    assert singleton_provider_delegate2() is singleton_provider

@@ -5,6 +5,9 @@ Callable providers
 some injections. Every call of this provider returns result of call of initial
 callable.
 
+Callable providers and injections
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 ``Callable`` provider uses ``KwArg`` injections. ``KwArg`` injections are
 done by passing injectable values as keyword arguments during call time.
 
@@ -36,3 +39,35 @@ Example:
     # Making some asserts (client's code):
     hashed_password = password_hasher('super secret')
     assert password_verifier('super secret', hashed_password)
+
+Callable providers delegation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``Callable`` provider could be delegated to any other provider via any kind of
+injection. Delegation of ``Callable`` providers is the same as ``Factory`` and
+``Singleton`` providers delegation, please follow *Factory providers 
+delegation* section for example.
+
+``Callable`` delegate could be created obviously using 
+``Delegate(Callable())`` or by calling ``Callable.delegate()`` method.
+
+Example:
+
+.. code-block:: python
+
+    """`Callable` providers delegation example."""
+
+    import sys
+
+    from objects.providers import Callable
+    from objects.providers import Delegate
+
+
+    # Some callable provider and few delegates of it:
+    callable_provider = Callable(sys.exit)
+    callable_provider_delegate1 = callable_provider.delegate()
+    callable_provider_delegate2 = Delegate(callable_provider)
+
+    # Making some asserts:
+    assert callable_provider_delegate1() is callable_provider
+    assert callable_provider_delegate2() is callable_provider
