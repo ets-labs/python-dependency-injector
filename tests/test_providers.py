@@ -63,25 +63,6 @@ class ProviderTests(unittest.TestCase):
         """Test provider overriding with not provider instance."""
         self.assertRaises(Error, self.provider.override, object())
 
-    def test_reset_override(self):
-        """Test reset of provider's override."""
-        overriding_provider = Provider()
-        self.provider.override(overriding_provider)
-
-        self.assertTrue(self.provider.overridden)
-        self.assertIs(self.provider.last_overriding, overriding_provider)
-
-        self.provider.reset_override()
-
-        self.assertFalse(self.provider.overridden)
-        try:
-            self.provider.last_overriding
-        except Error:
-            pass
-        else:
-            self.fail('Got en error in {}'.format(
-                str(self.test_last_overriding_of_not_overridden_provider)))
-
     def test_last_overriding(self):
         """Test getting last overriding provider."""
         overriding_provider1 = Provider()
@@ -95,6 +76,45 @@ class ProviderTests(unittest.TestCase):
 
     def test_last_overriding_of_not_overridden_provider(self):
         """Test getting last overriding from not overridden provider."""
+        try:
+            self.provider.last_overriding
+        except Error:
+            pass
+        else:
+            self.fail('Got en error in {}'.format(
+                str(self.test_last_overriding_of_not_overridden_provider)))
+
+    def test_reset_last_overriding(self):
+        """Test reseting of last overriding provider."""
+        overriding_provider1 = Provider()
+        overriding_provider2 = Provider()
+
+        self.provider.override(overriding_provider1)
+        self.provider.override(overriding_provider2)
+
+        self.assertIs(self.provider.last_overriding, overriding_provider2)
+
+        self.provider.reset_last_overriding()
+        self.assertIs(self.provider.last_overriding, overriding_provider1)
+
+        self.provider.reset_last_overriding()
+        self.assertFalse(self.provider.overridden)
+
+    def test_reset_last_overriding_of_not_overridden_provider(self):
+        """Test resetting of last overriding on not overridden provier."""
+        self.assertRaises(Error, self.provider.reset_last_overriding)
+
+    def test_reset_override(self):
+        """Test reset of provider's override."""
+        overriding_provider = Provider()
+        self.provider.override(overriding_provider)
+
+        self.assertTrue(self.provider.overridden)
+        self.assertIs(self.provider.last_overriding, overriding_provider)
+
+        self.provider.reset_override()
+
+        self.assertFalse(self.provider.overridden)
         try:
             self.provider.last_overriding
         except Error:

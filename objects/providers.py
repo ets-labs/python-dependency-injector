@@ -47,18 +47,23 @@ class Provider(object):
         else:
             self.overridden = self.overridden + (ensure_is_provider(provider),)
 
-    def reset_override(self):
-        """Reset all overriding providers."""
-        self.overridden = None
-
     @property
     def last_overriding(self):
         """Return last overriding provider."""
         try:
             return self.overridden[-1]
         except (TypeError, IndexError):
-            raise Error('Provider {0} '.format(str(self)) +
-                        'is not overridden')
+            raise Error('Provider {0} is not overridden'.format(str(self)))
+
+    def reset_last_overriding(self):
+        """Reset last overriding provider."""
+        if not self.overridden:
+            raise Error('Provider {0} is not overridden'.format(str(self)))
+        self.overridden = self.overridden[:-1]
+
+    def reset_override(self):
+        """Reset all overriding providers."""
+        self.overridden = None
 
 
 class Delegate(Provider):
