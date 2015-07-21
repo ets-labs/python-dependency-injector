@@ -13,4 +13,5 @@ All providers are callable. They describe how particular objects are provided.
     static
     callable
     external_dependency
+    overriding
     extending
