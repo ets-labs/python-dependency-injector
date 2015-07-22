@@ -14,7 +14,7 @@ class Provider(object):
 
     """Base provider class."""
 
-    __IS_OBJECTS_PROVIDER__ = True
+    __IS_PROVIDER__ = True
     __slots__ = ('overridden',)
 
     def __init__(self):

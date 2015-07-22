@@ -7,7 +7,7 @@ class Injection(object):
 
     """Base injection class."""
 
-    __IS_OBJECTS_INJECTION__ = True
+    __IS_INJECTION__ = True
     __slots__ = ('name', 'injectable')
 
     def __init__(self, name, injectable):
@@ -27,18 +27,18 @@ class KwArg(Injection):
 
     """Keyword argument injection."""
 
-    __IS_OBJECTS_KWARG_INJECTION__ = True
+    __IS_KWARG_INJECTION__ = True
 
 
 class Attribute(Injection):
 
     """Attribute injection."""
 
-    __IS_OBJECTS_ATTRIBUTE_INJECTION__ = True
+    __IS_ATTRIBUTE_INJECTION__ = True
 
 
 class Method(Injection):
 
     """Method injection."""
 
-    __IS_OBJECTS_METHOD_INJECTION__ = True
+    __IS_METHOD_INJECTION__ = True
