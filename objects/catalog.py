@@ -33,19 +33,19 @@ class AbstractCatalog(object):
 
     providers = dict()
 
-    __slots__ = ('__used_providers__',)
+    __slots__ = ('_used_providers',)
 
     def __init__(self, *used_providers):
         """Initializer."""
-        self.__used_providers__ = set(used_providers)
+        self._used_providers = set(used_providers)
 
     def __getattribute__(self, item):
         """Return providers."""
         attribute = super(AbstractCatalog, self).__getattribute__(item)
-        if item in ('providers', '__used_providers__',):
+        if item in ('providers', '_used_providers',):
             return attribute
 
-        if attribute not in self.__used_providers__:
+        if attribute not in self._used_providers:
             raise Error('Provider \'{0}\' '.format(item) +
                         'is not listed in dependencies')
         return attribute

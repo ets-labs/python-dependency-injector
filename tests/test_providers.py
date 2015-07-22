@@ -44,12 +44,12 @@ class ProviderTests(unittest.TestCase):
         delegate1 = self.provider.delegate()
 
         self.assertIsInstance(delegate1, Delegate)
-        self.assertIs(delegate1.delegated, self.provider)
+        self.assertIs(delegate1(), self.provider)
 
         delegate2 = self.provider.delegate()
 
         self.assertIsInstance(delegate2, Delegate)
-        self.assertIs(delegate2.delegated, self.provider)
+        self.assertIs(delegate2(), self.provider)
 
         self.assertIsNot(delegate1, delegate2)
 
@@ -57,7 +57,7 @@ class ProviderTests(unittest.TestCase):
         """Test provider overriding."""
         overriding_provider = Provider()
         self.provider.override(overriding_provider)
-        self.assertTrue(self.provider.overridden)
+        self.assertTrue(self.provider.is_overridden)
 
     def test_override_with_not_provider(self):
         """Test provider overriding with not provider instance."""
@@ -98,7 +98,7 @@ class ProviderTests(unittest.TestCase):
         self.assertIs(self.provider.last_overriding, overriding_provider1)
 
         self.provider.reset_last_overriding()
-        self.assertFalse(self.provider.overridden)
+        self.assertFalse(self.provider.is_overridden)
 
     def test_reset_last_overriding_of_not_overridden_provider(self):
         """Test resetting of last overriding on not overridden provier."""
@@ -109,12 +109,12 @@ class ProviderTests(unittest.TestCase):
         overriding_provider = Provider()
         self.provider.override(overriding_provider)
 
-        self.assertTrue(self.provider.overridden)
+        self.assertTrue(self.provider.is_overridden)
         self.assertIs(self.provider.last_overriding, overriding_provider)
 
         self.provider.reset_override()
 
-        self.assertFalse(self.provider.overridden)
+        self.assertFalse(self.provider.is_overridden)
         try:
             self.provider.last_overriding
         except Error:
