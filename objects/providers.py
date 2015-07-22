@@ -25,9 +25,9 @@ class Provider(object):
         """Return provided instance."""
         if self.overridden:
             return self.last_overriding(*args, **kwargs)
-        return self.__provide__(*args, **kwargs)
+        return self._provide(*args, **kwargs)
 
-    def __provide__(self, *args, **kwargs):
+    def _provide(self, *args, **kwargs):
         """Providing strategy implementation.
 
         Abstract protected method that implements providing strategy of
@@ -80,7 +80,7 @@ class Delegate(Provider):
         self.delegated = ensure_is_provider(delegated)
         super(Delegate, self).__init__()
 
-    def __provide__(self, *args, **kwargs):
+    def _provide(self, *args, **kwargs):
         """Return provided instance."""
         return self.delegated
 
@@ -111,7 +111,7 @@ class Factory(Provider):
                               if is_method_injection(injection)))
         super(Factory, self).__init__()
 
-    def __provide__(self, *args, **kwargs):
+    def _provide(self, *args, **kwargs):
         """Return provided instance."""
         init_kwargs = dict(((injection.name, injection.value)
                             for injection in self.kwargs))
@@ -152,7 +152,7 @@ class Singleton(Provider):
         self.factory = Factory(*args, **kwargs)
         super(Singleton, self).__init__()
 
-    def __provide__(self, *args, **kwargs):
+    def _provide(self, *args, **kwargs):
         """Return provided instance."""
         if not self.instance:
             self.instance = self.factory(*args, **kwargs)
@@ -214,7 +214,7 @@ class _StaticProvider(Provider):
         self.provides = provides
         super(_StaticProvider, self).__init__()
 
-    def __provide__(self, *args, **kwargs):
+    def _provide(self, *args, **kwargs):
         """Return provided instance."""
         return self.provides
 
@@ -259,7 +259,7 @@ class Callable(Provider):
                                  if is_kwarg_injection(injection)))
         super(Callable, self).__init__()
 
-    def __provide__(self, *args, **kwargs):
+    def _provide(self, *args, **kwargs):
         """Return provided instance."""
         injections = dict(((injection.name, injection.value)
                            for injection in self.injections))
@@ -286,7 +286,11 @@ class Config(Provider):
         self.value = value
         super(Config, self).__init__()
 
-    def __provide__(self, paths=None):
+    def __getattr__(self, item):
+        """Return instance of deferred config."""
+        return _ChildConfig(parents=(item,), root_config=self)
+
+    def _provide(self, paths=None):
         """Return provided instance."""
         value = self.value
         if paths:
@@ -297,10 +301,6 @@ class Config(Provider):
                     raise Error('Config key '
                                 '"{0}" is undefined'.format('.'.join(paths)))
         return value
-
-    def __getattr__(self, item):
-        """Return instance of deferred config."""
-        return _ChildConfig(parents=(item,), root_config=self)
 
     def update_from(self, value):
         """Update current value from another one."""
@@ -323,11 +323,11 @@ class _ChildConfig(Provider):
         self.root_config = root_config
         super(_ChildConfig, self).__init__()
 
-    def __provide__(self, *args, **kwargs):
-        """Return provided instance."""
-        return self.root_config(self.parents)
-
     def __getattr__(self, item):
         """Return instance of deferred config."""
         return _ChildConfig(parents=self.parents + (item,),
                             root_config=self.root_config)
+
+    def _provide(self, *args, **kwargs):
+        """Return provided instance."""
+        return self.root_config(self.parents)
