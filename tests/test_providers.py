@@ -186,8 +186,12 @@ class FactoryTests(unittest.TestCase):
         """Test `is_provider` check."""
         self.assertTrue(is_provider(Factory(self.Example)))
 
-    def test_init_with_not_class(self):
-        """Test creation of provider with not a class."""
+    def test_init_with_callable(self):
+        """Test creation of provider with a callable."""
+        self.assertTrue(Factory(credits))
+
+    def test_init_with_not_callable(self):
+        """Test creation of provider with not a callable."""
         self.assertRaises(Error, Factory, 123)
 
     def test_call(self):

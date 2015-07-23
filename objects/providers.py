@@ -101,8 +101,8 @@ class Factory(Provider):
 
     def __init__(self, provides, *injections):
         """Initializer."""
-        if not isinstance(provides, class_types):
-            raise Error('Factory provider expects to get class, ' +
+        if not callable(provides):
+            raise Error('Factory provider expects to get callable, ' +
                         'got {0} instead'.format(str(provides)))
         self._provides = provides
         self._kwargs = tuple((injection
@@ -151,10 +151,10 @@ class Singleton(Provider):
 
     __slots__ = ('_instance', '_factory')
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, provides, *injections):
         """Initializer."""
         self._instance = None
-        self._factory = Factory(*args, **kwargs)
+        self._factory = Factory(provides, *injections)
         super(Singleton, self).__init__()
 
     def _provide(self, *args, **kwargs):
