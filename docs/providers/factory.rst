@@ -5,7 +5,7 @@ Factory providers
 
 Nothing could be better than brief example:
 
-.. image:: /images/factory.png
+.. image:: /images/providers/factory.png
     :width: 80%
     :align: center
 
@@ -69,7 +69,7 @@ Example below shows how to create ``Factory`` of particular class with
 ``__init__`` keyword argument injections which injectable values are also
 provided by another factories:
 
-.. image:: /images/factory_init_injections.png
+.. image:: /images/providers/factory_init_injections.png
 
 .. code-block:: python
 
@@ -120,7 +120,7 @@ useful for testing).
 
 So, please, follow the example below:
 
-.. image:: /images/factory_init_injections_and_contexts.png
+.. image:: /images/providers/factory_init_injections_and_contexts.png
 
 .. code-block:: python
 
@@ -208,7 +208,7 @@ with injectable values right after object's creation.
 
 Example:
 
-.. image:: /images/factory_attribute_injections.png
+.. image:: /images/providers/factory_attribute_injections.png
 
 .. code-block:: python
 
@@ -280,7 +280,7 @@ some cases.
 
 Example:
 
-.. image:: /images/factory_method_injections.png
+.. image:: /images/providers/factory_method_injections.png
 
 .. code-block:: python
 
@@ -364,7 +364,7 @@ factory.
 
 Example:
 
-.. image:: /images/factory_delegation.png
+.. image:: /images/providers/factory_delegation.png
 
 .. code-block:: python
 

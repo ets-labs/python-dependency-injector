@@ -15,7 +15,7 @@ Context keyword arguments have higher priority than ``KwArg`` injections.
 
 Example:
 
-.. image:: /images/callable.png
+.. image:: /images/providers/callable.png
     :width: 100%
     :align: center
 

@@ -6,7 +6,7 @@ and returns same instance on every next call.
 
 Example:
 
-.. image:: /images/singleton.png
+.. image:: /images/providers/singleton.png
     :width: 80%
     :align: center
 
@@ -41,7 +41,7 @@ Singleton providers and injections
 specified class instance, so, all of the rules about injections are the same,
 as for ``Factory`` providers.
 
-.. image:: /images/singleton_internals.png
+.. image:: /images/providers/singleton_internals.png
     :width: 80%
     :align: center
 

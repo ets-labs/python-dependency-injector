@@ -35,7 +35,7 @@ Example:
     Instead of this, ``UserService`` has external dependency, that has to
     be satisfied by cleint's code, out of library's scope.
 
-.. image:: /images/external_dependency.png
+.. image:: /images/providers/external_dependency.png
 
 .. code-block:: python
 
