@@ -40,6 +40,26 @@ class IsProviderTests(unittest.TestCase):
         """Test with object."""
         self.assertFalse(is_provider(object()))
 
+    def test_with_subclass_instance(self):
+        """Test with subclass of provider instance."""
+        class SomeProvider(Provider):
+
+            """Some provider for test."""
+
+        self.assertTrue(is_provider(SomeProvider()))
+
+    def test_with_class_with_getattr(self):
+        """Test with class that has __getattr__() method implementation."""
+        class SomeClass(object):
+
+            """Some test class with __getattr__() method implementation."""
+
+            def __getattr__(self, _):
+                """Test implementation that just returns False."""
+                return False
+
+        self.assertFalse(is_provider(SomeClass()))
+
 
 class EnsureIsProviderTests(unittest.TestCase):
 

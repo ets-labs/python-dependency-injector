@@ -1,12 +1,17 @@
-"""`KwArg` and `Attribute` injections example."""
+"""`@inject` decorator example.
+
+Flask is required to make this example work.
+"""
 
 import sqlite3
 
-from objects.providers import Singleton
-from objects.providers import NewInstance
+from flask import Flask
 
+from objects.providers import Factory
+from objects.providers import Singleton
 from objects.injections import KwArg
 from objects.injections import Attribute
+from objects.decorators import inject
 
 
 class ObjectA(object):
@@ -32,14 +37,25 @@ database = Singleton(sqlite3.Connection,
                      KwArg('isolation_level', 'EXCLUSIVE'),
                      Attribute('row_factory', sqlite3.Row))
 
-object_a = NewInstance(ObjectA,
-                       KwArg('database', database))
+object_a_factory = Factory(ObjectA,
+                           KwArg('database', database))
 
-# Creating several `ObjectA` instances.
-object_a_1 = object_a()
-object_a_2 = object_a()
 
-# Making some asserts.
-assert object_a_1 is not object_a_2
-assert object_a_1.database is object_a_2.database
-assert object_a_1.get_one() == object_a_2.get_one() == 1
+# Flask application.
+app = Flask(__name__)
+
+
+# Flask view with inject decorator.
+@app.route('/')
+@inject(KwArg('database', database))
+@inject(KwArg('object_a', object_a_factory))
+def hello(database):
+    one = database.execute('SELECT 1').fetchone()[0]
+    return 'Query returned {0}, db connection {1}'.format(one, database)
+
+
+if __name__ == '__main__':
+    app.run()
+
+# Example output of "GET / HTTP/1.1" is:
+# Query returned 1, db connection <sqlite3.Connection object at 0x1057e4030>

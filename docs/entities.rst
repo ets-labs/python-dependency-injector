@@ -1,7 +1,7 @@
 Entities
 ========
 
-Current section describes main **Objects** entities and their interaction.
+Current section describes main *Objects* entities and their interaction.
 
 Providers
 ---------
@@ -45,10 +45,10 @@ dependencies of objects.
 
 Objects can take dependencies in various forms. Some objects take init
 arguments, other are using attributes or methods to be initialized. Injection,
-in terms of **Objects**, is an instruction how to provide dependency for the
+in terms of *Objects*, is an instruction how to provide dependency for the
 particular object.
 
-Every Python object could be an injection's value. Special case is a **Objects**
+Every Python object could be an injection's value. Special case is a *Objects*
 provider as an injection's value. In such case, injection value is a result of
 injectable provider call (every time injection is done).
 
@@ -107,7 +107,7 @@ Catalogs
 
 Catalogs are named set of providers.
 
-**Objects** catalogs can be used for grouping of providers by some
+*Objects* catalogs can be used for grouping of providers by some
 kind of rules. In example below, there are two catalogs:
 ``Resources`` and ``Models``.
 

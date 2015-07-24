@@ -7,7 +7,7 @@ from setuptools import setup
 from setuptools import Command
 
 
-SHORT_DESCRIPTION = 'Dependency management tool for Python projects'
+SHORT_DESCRIPTION = 'Dependency injection framework for Python projects'
 
 
 # Getting description.
@@ -47,8 +47,6 @@ class PublishCommand(Command):
         self.run_command('upload')
         os.system('git tag -a {0} -m \'version {0}\''.format(version))
         os.system('git push --tags')
-
-
 setup(name='Objects',
       version=version,
       description=SHORT_DESCRIPTION,
@@ -69,9 +67,9 @@ setup(name='Objects',
           'Dependency management',
           'Dependency injection',
           'Dependency injection container',
+          'Dependency injector',
           'DI',
           'DIC',
-          'Dependency injector',
           'Inversion of Control',
           'Inversion of Control container',
           'IoC',

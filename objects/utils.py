@@ -8,7 +8,7 @@ from .errors import Error
 def is_provider(instance):
     """Check if instance is provider instance."""
     return (not isinstance(instance, class_types) and
-            hasattr(instance, '__IS_OBJECTS_PROVIDER__'))
+            getattr(instance, '__IS_PROVIDER__', False) is True)
 
 
 def ensure_is_provider(instance):
@@ -22,7 +22,7 @@ def ensure_is_provider(instance):
 def is_injection(instance):
     """Check if instance is injection instance."""
     return (not isinstance(instance, class_types) and
-            hasattr(instance, '__IS_OBJECTS_INJECTION__'))
+            getattr(instance, '__IS_INJECTION__', False) is True)
 
 
 def ensure_is_injection(instance):
@@ -36,16 +36,16 @@ def ensure_is_injection(instance):
 def is_kwarg_injection(instance):
     """Check if instance is keyword argument injection instance."""
     return (not isinstance(instance, class_types) and
-            hasattr(instance, '__IS_OBJECTS_KWARG_INJECTION__'))
+            getattr(instance, '__IS_KWARG_INJECTION__', False) is True)
 
 
 def is_attribute_injection(instance):
     """Check if instance is attribute injection instance."""
     return (not isinstance(instance, class_types) and
-            hasattr(instance, '__IS_OBJECTS_ATTRIBUTE_INJECTION__'))
+            getattr(instance, '__IS_ATTRIBUTE_INJECTION__', False) is True)
 
 
 def is_method_injection(instance):
     """Check if instance is method injection instance."""
     return (not isinstance(instance, class_types) and
-            hasattr(instance, '__IS_OBJECTS_METHOD_INJECTION__'))
+            getattr(instance, '__IS_METHOD_INJECTION__', False) is True)

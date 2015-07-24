@@ -1,9 +1,8 @@
 """`@inject` decorator example."""
 
 from objects.providers import NewInstance
-
 from objects.injections import KwArg
-from objects.injections import inject
+from objects.decorators import inject
 
 
 new_object = NewInstance(object)

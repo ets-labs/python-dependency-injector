@@ -4,7 +4,7 @@ import unittest2 as unittest
 
 from objects.providers import Provider
 from objects.providers import Delegate
-from objects.providers import NewInstance
+from objects.providers import Factory
 from objects.providers import Singleton
 from objects.providers import ExternalDependency
 from objects.providers import Class
@@ -44,12 +44,12 @@ class ProviderTests(unittest.TestCase):
         delegate1 = self.provider.delegate()
 
         self.assertIsInstance(delegate1, Delegate)
-        self.assertIs(delegate1.delegated, self.provider)
+        self.assertIs(delegate1(), self.provider)
 
         delegate2 = self.provider.delegate()
 
         self.assertIsInstance(delegate2, Delegate)
-        self.assertIs(delegate2.delegated, self.provider)
+        self.assertIs(delegate2(), self.provider)
 
         self.assertIsNot(delegate1, delegate2)
 
@@ -57,30 +57,11 @@ class ProviderTests(unittest.TestCase):
         """Test provider overriding."""
         overriding_provider = Provider()
         self.provider.override(overriding_provider)
-        self.assertTrue(self.provider.overridden)
+        self.assertTrue(self.provider.is_overridden)
 
     def test_override_with_not_provider(self):
         """Test provider overriding with not provider instance."""
         self.assertRaises(Error, self.provider.override, object())
-
-    def test_reset_override(self):
-        """Test reset of provider's override."""
-        overriding_provider = Provider()
-        self.provider.override(overriding_provider)
-
-        self.assertTrue(self.provider.overridden)
-        self.assertIs(self.provider.last_overriding, overriding_provider)
-
-        self.provider.reset_override()
-
-        self.assertFalse(self.provider.overridden)
-        try:
-            self.provider.last_overriding
-        except Error:
-            pass
-        else:
-            self.fail('Got en error in {}'.format(
-                str(self.test_last_overriding_of_not_overridden_provider)))
 
     def test_last_overriding(self):
         """Test getting last overriding provider."""
@@ -95,6 +76,45 @@ class ProviderTests(unittest.TestCase):
 
     def test_last_overriding_of_not_overridden_provider(self):
         """Test getting last overriding from not overridden provider."""
+        try:
+            self.provider.last_overriding
+        except Error:
+            pass
+        else:
+            self.fail('Got en error in {}'.format(
+                str(self.test_last_overriding_of_not_overridden_provider)))
+
+    def test_reset_last_overriding(self):
+        """Test reseting of last overriding provider."""
+        overriding_provider1 = Provider()
+        overriding_provider2 = Provider()
+
+        self.provider.override(overriding_provider1)
+        self.provider.override(overriding_provider2)
+
+        self.assertIs(self.provider.last_overriding, overriding_provider2)
+
+        self.provider.reset_last_overriding()
+        self.assertIs(self.provider.last_overriding, overriding_provider1)
+
+        self.provider.reset_last_overriding()
+        self.assertFalse(self.provider.is_overridden)
+
+    def test_reset_last_overriding_of_not_overridden_provider(self):
+        """Test resetting of last overriding on not overridden provier."""
+        self.assertRaises(Error, self.provider.reset_last_overriding)
+
+    def test_reset_override(self):
+        """Test reset of provider's override."""
+        overriding_provider = Provider()
+        self.provider.override(overriding_provider)
+
+        self.assertTrue(self.provider.is_overridden)
+        self.assertIs(self.provider.last_overriding, overriding_provider)
+
+        self.provider.reset_override()
+
+        self.assertFalse(self.provider.is_overridden)
         try:
             self.provider.last_overriding
         except Error:
@@ -130,13 +150,13 @@ class DelegateTests(unittest.TestCase):
         self.assertIs(delegated2, self.delegated)
 
 
-class NewInstanceTests(unittest.TestCase):
+class FactoryTests(unittest.TestCase):
 
-    """NewInstance test cases."""
+    """Factory test cases."""
 
     class Example(object):
 
-        """Example class for NewInstance provider tests."""
+        """Example class for Factory provider tests."""
 
         def __init__(self, init_arg1=None, init_arg2=None):
             """Initializer.
@@ -164,15 +184,19 @@ class NewInstanceTests(unittest.TestCase):
 
     def test_is_provider(self):
         """Test `is_provider` check."""
-        self.assertTrue(is_provider(NewInstance(self.Example)))
+        self.assertTrue(is_provider(Factory(self.Example)))
 
-    def test_init_with_not_class(self):
-        """Test creation of provider with not a class."""
-        self.assertRaises(Error, NewInstance, 123)
+    def test_init_with_callable(self):
+        """Test creation of provider with a callable."""
+        self.assertTrue(Factory(credits))
+
+    def test_init_with_not_callable(self):
+        """Test creation of provider with not a callable."""
+        self.assertRaises(Error, Factory, 123)
 
     def test_call(self):
         """Test creation of new instances."""
-        provider = NewInstance(self.Example)
+        provider = Factory(self.Example)
         instance1 = provider()
         instance2 = provider()
 
@@ -182,9 +206,9 @@ class NewInstanceTests(unittest.TestCase):
 
     def test_call_with_init_args(self):
         """Test creation of new instances with init args injections."""
-        provider = NewInstance(self.Example,
-                               KwArg('init_arg1', 'i1'),
-                               KwArg('init_arg2', 'i2'))
+        provider = Factory(self.Example,
+                           KwArg('init_arg1', 'i1'),
+                           KwArg('init_arg2', 'i2'))
 
         instance1 = provider()
         instance2 = provider()
@@ -201,9 +225,9 @@ class NewInstanceTests(unittest.TestCase):
 
     def test_call_with_attributes(self):
         """Test creation of new instances with attribute injections."""
-        provider = NewInstance(self.Example,
-                               Attribute('attribute1', 'a1'),
-                               Attribute('attribute2', 'a2'))
+        provider = Factory(self.Example,
+                           Attribute('attribute1', 'a1'),
+                           Attribute('attribute2', 'a2'))
 
         instance1 = provider()
         instance2 = provider()
@@ -220,9 +244,9 @@ class NewInstanceTests(unittest.TestCase):
 
     def test_call_with_methods(self):
         """Test creation of new instances with method injections."""
-        provider = NewInstance(self.Example,
-                               Method('method1', 'm1'),
-                               Method('method2', 'm2'))
+        provider = Factory(self.Example,
+                           Method('method1', 'm1'),
+                           Method('method2', 'm2'))
 
         instance1 = provider()
         instance2 = provider()
@@ -239,7 +263,7 @@ class NewInstanceTests(unittest.TestCase):
 
     def test_call_with_context_args(self):
         """Test creation of new instances with context args."""
-        provider = NewInstance(self.Example)
+        provider = Factory(self.Example)
         instance = provider(11, 22)
 
         self.assertEqual(instance.init_arg1, 11)
@@ -247,8 +271,8 @@ class NewInstanceTests(unittest.TestCase):
 
     def test_call_with_context_kwargs(self):
         """Test creation of new instances with context kwargs."""
-        provider = NewInstance(self.Example,
-                               KwArg('init_arg1', 1))
+        provider = Factory(self.Example,
+                           KwArg('init_arg1', 1))
 
         instance1 = provider(init_arg2=22)
         self.assertEqual(instance1.init_arg1, 1)
@@ -260,9 +284,9 @@ class NewInstanceTests(unittest.TestCase):
 
     def test_call_overridden(self):
         """Test creation of new instances on overridden provider."""
-        provider = NewInstance(self.Example)
-        overriding_provider1 = NewInstance(dict)
-        overriding_provider2 = NewInstance(list)
+        provider = Factory(self.Example)
+        overriding_provider1 = Factory(dict)
+        overriding_provider2 = Factory(list)
 
         provider.override(overriding_provider1)
         provider.override(overriding_provider2)
@@ -323,12 +347,12 @@ class ExternalDependencyTests(unittest.TestCase):
 
     def test_call_overridden(self):
         """Test call of overridden external dependency."""
-        self.provider.override(NewInstance(list))
+        self.provider.provided_by(Factory(list))
         self.assertIsInstance(self.provider(), list)
 
     def test_call_overridden_but_not_instance_of(self):
         """Test call of overridden external dependency, but not instance of."""
-        self.provider.override(NewInstance(dict))
+        self.provider.provided_by(Factory(dict))
         self.assertRaises(Error, self.provider)
 
     def test_call_not_overridden(self):
