@@ -11,8 +11,7 @@ class User(object):
     def __init__(self, photos_factory):
         """Initializer.
 
-        :param photos_factory: objects.providers.Factory
-        :return:
+        :param photos_factory: (objects.providers.Factory) -> Photo
         """
         self.photos_factory = photos_factory
         self._main_photo = None

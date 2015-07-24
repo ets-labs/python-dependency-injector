@@ -17,13 +17,7 @@ class User(object):
     """
 
     def __init__(self, id, main_photo, credit_card):
-        """Initializer.
-
-        :param id: int
-        :param main_photo: Photo
-        :param credit_card: CreditCard
-        :return:
-        """
+        """Initializer."""
         self.id = id
         self.main_photo = main_photo
         self.credit_card = credit_card

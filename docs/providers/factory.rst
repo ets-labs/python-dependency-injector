@@ -84,11 +84,7 @@ provided by another factories:
         """Example class User."""
 
         def __init__(self, main_photo):
-            """Initializer.
-
-            :param main_photo: Photo
-            :return:
-            """
+            """Initializer."""
             self.main_photo = main_photo
             super(User, self).__init__()
 
@@ -147,13 +143,7 @@ So, please, follow the example below:
         """
 
         def __init__(self, id, main_photo, credit_card):
-            """Initializer.
-
-            :param id: int
-            :param main_photo: Photo
-            :param credit_card: CreditCard
-            :return:
-            """
+            """Initializer."""
             self.id = id
             self.main_photo = main_photo
             self.credit_card = credit_card
@@ -391,8 +381,7 @@ Example:
         def __init__(self, photos_factory):
             """Initializer.
 
-            :param photos_factory: objects.providers.Factory
-            :return:
+            :param photos_factory: (objects.providers.Factory) -> Photo
             """
             self.photos_factory = photos_factory
             self._main_photo = None

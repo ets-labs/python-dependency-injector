@@ -9,11 +9,7 @@ class User(object):
     """Example class User."""
 
     def __init__(self, main_photo):
-        """Initializer.
-
-        :param main_photo: Photo
-        :return:
-        """
+        """Initializer."""
         self.main_photo = main_photo
         super(User, self).__init__()
 
