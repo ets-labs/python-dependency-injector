@@ -9,11 +9,7 @@ class User(object):
     """Example class User."""
 
     def __init__(self, id, password):
-        """Initializer.
-
-        :param id: int
-        :param password: str
-        """
+        """Initializer."""
         self.id = id
         self.password = password
         super(User, self).__init__()
@@ -24,10 +20,7 @@ class UserService(object):
     """Example class UserService."""
 
     def __init__(self, user_cls):
-        """Initializer.
-
-        :param user_cls: User
-        """
+        """Initializer."""
         self.user_cls = user_cls
         super(UserService, self).__init__()
 
@@ -63,14 +56,7 @@ class ExtendedUser(User):
 
     def __init__(self, id, password, first_name=None, last_name=None,
                  gender=None):
-        """Initializer.
-
-        :param id: int
-        :param password: str
-        :param first_name: str
-        :param last_name: str
-        :param gender: str
-        """
+        """Initializer."""
         self.first_name = first_name
         self.last_name = last_name
         self.gender = gender
