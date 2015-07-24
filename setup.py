@@ -1,11 +1,8 @@
-"""
-`Objects` setup script.
-"""
+"""`Objects` setup script."""
 
 import os
 from setuptools import setup
 from setuptools import Command
-
 
 SHORT_DESCRIPTION = 'Dependency injection framework for Python projects'
 
@@ -17,11 +14,9 @@ with open('README.rst') as readme_file:
     # Removing duplicated short description.
     description = description.replace(SHORT_DESCRIPTION, '')
 
-
 # Getting requirements.
 with open('requirements.txt') as version:
     requirements = version.readlines()
-
 
 # Getting version.
 with open('VERSION') as version:
@@ -47,6 +42,8 @@ class PublishCommand(Command):
         self.run_command('upload')
         os.system('git tag -a {0} -m \'version {0}\''.format(version))
         os.system('git push --tags')
+
+
 setup(name='Objects',
       version=version,
       description=SHORT_DESCRIPTION,
@@ -64,19 +61,20 @@ setup(name='Objects',
           'publish': PublishCommand,
       },
       keywords=[
-          'Dependency management',
           'Dependency injection',
+          'Dependency injection framework',
           'Dependency injection container',
           'Dependency injector',
+          'Dependency management',
           'DI',
-          'DIC',
+          'DI Container',
           'Inversion of Control',
           'Inversion of Control container',
           'IoC',
           'IoC container',
       ],
       classifiers=[
-          'Development Status :: 3 - Alpha',
+          'Development Status :: 4 - Beta',
           'Intended Audience :: Developers',
           'License :: OSI Approved :: BSD License',
           'Operating System :: OS Independent',
