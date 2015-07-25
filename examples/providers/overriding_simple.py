@@ -19,12 +19,12 @@ assert user1 is not user2
 assert isinstance(user1, User) and isinstance(user2, User)
 
 
-# Overriding users factory:
+# Extending User:
 class SuperUser(User):
 
     """Example class SuperUser."""
 
-
+# Overriding users factory:
 users_factory.override(Factory(SuperUser))
 
 # Creating some more User objects using overridden users factory:

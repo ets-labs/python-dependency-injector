@@ -6,7 +6,7 @@ Factory providers
 Nothing could be better than brief example:
 
 .. image:: /images/providers/factory.png
-    :width: 80%
+    :width: 75%
     :align: center
 
 .. code-block:: python
@@ -47,15 +47,15 @@ All of those instructions are defined in ``objects.injections`` module and are
 subclasses of ``objects.injections.Injection``. There  are several types of
 injections that are used by ``Factory`` provider:
 
-    - ``KwArg`` - injection is done by passing injectable value in object's
-      ``__init__()`` method in time of object's creation via keyword argument.
-      Takes keyword name of ``__init__()`` argument and injectable value.
-    - ``Attribute`` - injection is done by setting specified attribute with
-      injectable value right after object's creation. Takes attribute's name
-      and injectable value.
-    - ``Method`` - injection is done by calling of specified method with
-      injectable value right after object's creation and attribute injections
-      are done. Takes method name and injectable value.
++ ``KwArg`` - injection is done by passing injectable value in object's
+  ``__init__()`` method in time of object's creation via keyword argument.
+  Takes keyword name of ``__init__()`` argument and injectable value.
++ ``Attribute`` - injection is done by setting specified attribute with
+  injectable value right after object's creation. Takes attribute's name
+  and injectable value.
++ ``Method`` - injection is done by calling of specified method with
+  injectable value right after object's creation and attribute injections
+  are done. Takes method name and injectable value.
 
 All ``Injection``'s injectable values are provided *"as is"*, except of
 providers. Providers will be called every time, when injection needs to be
@@ -70,6 +70,8 @@ Example below shows how to create ``Factory`` of particular class with
 provided by another factories:
 
 .. image:: /images/providers/factory_init_injections.png
+    :width: 85%
+    :align: center
 
 .. code-block:: python
 
@@ -358,13 +360,18 @@ injectable value. ``Factory`` delegation is performed by wrapping delegated
 ``Factory`` into special provider type -  ``Delegate``, that just returns 
 ``Factory`` itself.
 
-Another one, more *convenient*, method of creating ``Delegate`` for ``Factory``
-is just calling ``Factory.delegate()`` method that returns delegate for current
-factory. 
+Actually, there are two ways of creating factory delegates:
+
++ ``Delegate(Factory(...))`` - obviously wrapping factory into ``Delegate`` 
+  provider.
++ ``Factory().delegate()`` - calling factory ``delegate()`` method, that 
+  returns delegate wrapper for current factory.
 
 Example:
 
 .. image:: /images/providers/factory_delegation.png
+    :width: 85%
+    :align: center
 
 .. code-block:: python
 
