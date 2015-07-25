@@ -364,7 +364,7 @@ Actually, there are two ways of creating factory delegates:
 
 + ``Delegate(Factory(...))`` - obviously wrapping factory into ``Delegate`` 
   provider.
-+ ``Factory().delegate()`` - calling factory ``delegate()`` method, that 
++ ``Factory(...).delegate()`` - calling factory ``delegate()`` method, that 
   returns delegate wrapper for current factory.
 
 Example:
