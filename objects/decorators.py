@@ -3,6 +3,7 @@
 from six import wraps
 
 from .utils import ensure_is_injection
+from .utils import get_injectable_kwargs
 
 
 def override(catalog):
@@ -30,10 +31,10 @@ def inject(injection):
         @wraps(callback)
         def decorated(*args, **kwargs):
             """Decorated with dependency injection callback."""
-            for injection in getattr(decorated, '_injections'):
-                if injection.name not in kwargs:
-                    kwargs[injection.name] = injection.value
-            return callback(*args, **kwargs)
+            return callback(*args,
+                            **get_injectable_kwargs(kwargs,
+                                                    getattr(decorated,
+                                                            '_injections')))
 
         setattr(decorated, '_injections', (injection,))
 

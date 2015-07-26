@@ -49,3 +49,11 @@ def is_method_injection(instance):
     """Check if instance is method injection instance."""
     return (not isinstance(instance, class_types) and
             getattr(instance, '__IS_METHOD_INJECTION__', False) is True)
+
+
+def get_injectable_kwargs(kwargs, injections):
+    """Return dictionary of kwargs, patched with injections."""
+    init_kwargs = dict(((injection.name, injection.value)
+                        for injection in injections))
+    init_kwargs.update(kwargs)
+    return init_kwargs

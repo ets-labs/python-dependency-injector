@@ -6,6 +6,7 @@ from .utils import ensure_is_provider
 from .utils import is_kwarg_injection
 from .utils import is_attribute_injection
 from .utils import is_method_injection
+from .utils import get_injectable_kwargs
 
 from .errors import Error
 
@@ -118,12 +119,9 @@ class Factory(Provider):
 
     def _provide(self, *args, **kwargs):
         """Return provided instance."""
-        init_kwargs = dict(((injection.name, injection.value)
-                            for injection in self._kwargs))
-        init_kwargs.update(kwargs)
-
-        instance = self._provides(*args, **init_kwargs)
-
+        instance = self._provides(*args,
+                                  **get_injectable_kwargs(kwargs,
+                                                          self._kwargs))
         for attribute in self._attributes:
             setattr(instance, attribute.name, attribute.value)
         for method in self._methods:
