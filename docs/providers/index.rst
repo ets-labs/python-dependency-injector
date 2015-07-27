@@ -1,9 +1,16 @@
 Providers
 =========
 
-Providers are strategies of accessing objects.
+Providers are strategies of accessing objects. They describe how particular 
+objects are provided.
 
-All providers are callable. They describe how particular objects are provided.
+Every provider is callable (implements ``__call__()``). Every call to provider 
+instance returns provided result, according to the providing strategy of 
+particular provider. 
+
+Current documentation section consists from description of standard providers
+library and some useful information like overriding of providers and writing 
+custom providers.
 
 ..  toctree::
     :maxdepth: 2
@@ -14,4 +21,4 @@ All providers are callable. They describe how particular objects are provided.
     callable
     external_dependency
     overriding
-    extending
+    custom
