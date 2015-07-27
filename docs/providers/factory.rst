@@ -70,7 +70,7 @@ Example below shows how to create ``Factory`` of particular class with
 provided by another factories:
 
 .. image:: /images/providers/factory_init_injections.png
-    :width: 85%
+    :width: 90%
     :align: center
 
 .. code-block:: python
