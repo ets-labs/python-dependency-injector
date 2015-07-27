@@ -1,2 +1,0 @@
-Extending of providers
-----------------------
