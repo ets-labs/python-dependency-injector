@@ -264,11 +264,8 @@ class Callable(Provider):
 
     def _provide(self, *args, **kwargs):
         """Return provided instance."""
-        injections = dict(((injection.name, injection.value)
-                           for injection in self._injections))
-        injections.update(kwargs)
-
-        return self._callback(*args, **injections)
+        return self._callback(*args, **get_injectable_kwargs(kwargs,
+                                                             self._injections))
 
 
 class Config(Provider):
