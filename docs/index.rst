@@ -39,8 +39,8 @@ Contents
     introduction
     installation
     providers/index
-    injections
     catalogs
     decorators
     examples
     feedback
+    changelog

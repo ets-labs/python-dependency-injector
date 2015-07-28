@@ -1,7 +1,5 @@
-Decorators
-==========
-
-Current section of *Objects* documentation describes several useful decorators.
+Inline injections
+=================
 
 @inject decorator
 -----------------
@@ -46,6 +44,3 @@ decorator:
     example_callback()
     example_callback()
 
-
-@override decorator
--------------------
