@@ -1,6 +1,10 @@
 """Injections module."""
 
+from six import wraps
+
 from .utils import is_provider
+from .utils import ensure_is_injection
+from .utils import get_injectable_kwargs
 
 
 class Injection(object):
@@ -42,3 +46,30 @@ class Method(Injection):
     """Method injection."""
 
     __IS_METHOD_INJECTION__ = True
+
+
+def inject(injection):
+    """Dependency injection decorator.
+
+    :type injection: Injection
+    :return: (callable) -> (callable)
+    """
+    injection = ensure_is_injection(injection)
+
+    def decorator(callback):
+        """Dependency injection decorator."""
+        if hasattr(callback, '_injections'):
+            callback._injections += (injection,)
+
+        @wraps(callback)
+        def decorated(*args, **kwargs):
+            """Decorated with dependency injection callback."""
+            return callback(*args,
+                            **get_injectable_kwargs(kwargs,
+                                                    getattr(decorated,
+                                                            '_injections')))
+
+        setattr(decorated, '_injections', (injection,))
+
+        return decorated
+    return decorator

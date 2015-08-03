@@ -3,6 +3,7 @@
 import unittest2 as unittest
 
 from objects.catalog import AbstractCatalog
+from objects.catalog import override
 
 from objects.providers import Object
 from objects.providers import Value
@@ -68,3 +69,29 @@ class CatalogTests(unittest.TestCase):
         self.assertIs(Catalog2.provider, Catalog2.providers['provider'])
 
         self.assertIsNot(Catalog1.provider, Catalog2.provider)
+
+
+class OverrideTests(unittest.TestCase):
+
+    """Override decorator test cases."""
+
+    class Catalog(AbstractCatalog):
+
+        """Test catalog."""
+
+        obj = Object(object())
+        another_obj = Object(object())
+
+    def test_overriding(self):
+        """Test catalog overriding with another catalog."""
+        @override(self.Catalog)
+        class OverridingCatalog(self.Catalog):
+
+            """Overriding catalog."""
+
+            obj = Value(1)
+            another_obj = Value(2)
+
+        self.assertEqual(self.Catalog.obj(), 1)
+        self.assertEqual(self.Catalog.another_obj(), 2)
+

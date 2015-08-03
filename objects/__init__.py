@@ -4,6 +4,7 @@ Dependency management tool for Python projects.
 """
 
 from .catalog import AbstractCatalog
+from .catalog import override
 
 from .providers import Provider
 from .providers import Delegate
@@ -20,9 +21,7 @@ from .providers import Config
 from .injections import KwArg
 from .injections import Attribute
 from .injections import Method
-
-from .decorators import override
-from .decorators import inject
+from .injections import inject
 
 from .errors import Error
 

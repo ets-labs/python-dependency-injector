@@ -65,3 +65,12 @@ class AbstractCatalog(object):
         """
         for name, provider in iteritems(overriding.providers):
             cls.providers[name].override(provider)
+
+
+def override(catalog):
+    """Catalog overriding decorator."""
+    def decorator(overriding_catalog):
+        """Overriding decorator."""
+        catalog.override(overriding_catalog)
+        return overriding_catalog
+    return decorator
