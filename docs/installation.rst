@@ -1,14 +1,18 @@
 Installation
 ============
 
-Latest stable version
----------------------
+*Objects* framework is distributed by PyPi_.
 
-Latest stable version of *Objects* framework can be installed from PyPi_:
+Latest stable version (and all previous versions) of *Objects* framework can be
+installed from PyPi_:
 
 .. code-block:: bash
 
+    # Installing latest version:
     pip install objects
+
+    # Installing particular version:
+    pip install objects==0.7.5
     
 Sources can be cloned from GitHub_:
 
@@ -16,10 +20,8 @@ Sources can be cloned from GitHub_:
 
     git clone https://github.com/rmk135/objects.git
 
-Previous releases
------------------
-
-All *Objects* releases can be found on GitHub: https://github.com/rmk135/objects/releases
+Also all *Objects* releases can be downloaded from `GitHub releases page`_.
 
 .. _PyPi: https://pypi.python.org/pypi/Objects
 .. _GitHub: https://github.com/rmk135/objects
+.. _GitHub releases page: https://github.com/rmk135/objects/releases
