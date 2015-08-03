@@ -9,28 +9,8 @@ Nothing could be better than brief example:
     :width: 80%
     :align: center
 
-.. code-block:: python
-
-    """`Factory` providers example."""
-
-    from objects.providers import Factory
-
-
-    class User(object):
-
-        """Example class User."""
-
-    # Factory provider creates new instance of specified class on every call.
-    users_factory = Factory(User)
-
-    # Creating several User objects:
-    user1 = users_factory()
-    user2 = users_factory()
-
-    # Making some asserts:
-    assert user1 is not user2
-    assert isinstance(user1, User) and isinstance(user2, User)
-
+.. literalinclude:: ../../examples/providers/factory.py
+   :language: python
 
 Factory providers and injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,46 +53,8 @@ provided by another factories:
     :width: 90%
     :align: center
 
-.. code-block:: python
-
-    """`Factory` providers with init injections example."""
-
-    from objects.providers import Factory
-    from objects.injections import KwArg
-
-
-    class User(object):
-
-        """Example class User."""
-
-        def __init__(self, main_photo):
-            """Initializer."""
-            self.main_photo = main_photo
-            super(User, self).__init__()
-
-
-    class Photo(object):
-
-        """Example class Photo."""
-
-    # User and Photo factories:
-    photos_factory = Factory(Photo)
-    users_factory = Factory(User,
-                            KwArg('main_photo', photos_factory))
-
-    # Creating several User objects:
-    user1 = users_factory()  # Same as: user1 = User(main_photo=Photo())
-    user2 = users_factory()  # Same as: user2 = User(main_photo=Photo())
-
-    # Making some asserts:
-    assert isinstance(user1, User)
-    assert isinstance(user1.main_photo, Photo)
-
-    assert isinstance(user2, User)
-    assert isinstance(user2.main_photo, Photo)
-
-    assert user1 is not user2
-    assert user1.main_photo is not user2.main_photo
+.. literalinclude:: ../../examples/providers/factory_init_injections.py
+   :language: python
 
 Next example shows how ``Factory`` provider deals with positional and keyword
 ``__init__`` context arguments. In few words, ``Factory`` provider fully
@@ -124,82 +66,8 @@ So, please, follow the example below:
 
 .. image:: /images/providers/factory_init_injections_and_contexts.png
 
-.. code-block:: python
-
-    """`Factory` providers with init injections and context arguments example."""
-
-    from objects.providers import Factory
-    from objects.injections import KwArg
-
-
-    class User(object):
-
-        """Example class User.
-
-        Class User has to be provided with user id.
-
-        Also Class User has dependencies on class Photo and class CreditCard
-        objects.
-
-        All of the dependencies have to be provided like __init__ arguments.
-        """
-
-        def __init__(self, id, main_photo, credit_card):
-            """Initializer."""
-            self.id = id
-            self.main_photo = main_photo
-            self.credit_card = credit_card
-            super(User, self).__init__()
-
-
-    class Photo(object):
-
-        """Example class Photo."""
-
-
-    class CreditCard(object):
-
-        """Example class CreditCard."""
-
-    # User, Photo and CreditCard factories:
-    credit_cards_factory = Factory(CreditCard)
-    photos_factory = Factory(Photo)
-    users_factory = Factory(User,
-                            KwArg('main_photo', photos_factory),
-                            KwArg('credit_card', credit_cards_factory))
-
-    # Creating several User objects:
-    user1 = users_factory(1)
-    # Same as: user1 = User(1,
-    #                       main_photo=Photo(),
-    #                       credit_card=CreditCard())
-    user2 = users_factory(2)
-    # Same as: user2 = User(2,
-    #                       main_photo=Photo(),
-    #                       credit_card=CreditCard())
-
-    # Making some asserts:
-    assert user1.id == 1
-    assert isinstance(user1.main_photo, Photo)
-    assert isinstance(user1.credit_card, CreditCard)
-
-    assert user2.id == 2
-    assert isinstance(user2.main_photo, Photo)
-    assert isinstance(user2.credit_card, CreditCard)
-
-    assert user1.main_photo is not user2.main_photo
-    assert user1.credit_card is not user2.credit_card
-
-    # Context keyword arguments have priority on KwArg injections priority:
-    main_photo_mock = Photo()
-    credit_card_mock = CreditCard()
-
-    user3 = users_factory(3, main_photo=main_photo_mock,
-                          credit_card=credit_card_mock)
-
-    assert user3.id == 3
-    assert user3.main_photo is main_photo_mock
-    assert user3.credit_card is credit_card_mock
+.. literalinclude:: ../../examples/providers/factory_init_injections_and_contexts.py
+   :language: python
 
 Factory providers and attribute injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -212,61 +80,8 @@ Example:
 
 .. image:: /images/providers/factory_attribute_injections.png
 
-.. code-block:: python
-
-    """`Factory` providers with attribute injections example."""
-
-    from objects.providers import Factory
-    from objects.injections import Attribute
-
-
-    class User(object):
-
-        """Example class User."""
-
-        def __init__(self):
-            """Initializer."""
-            self.main_photo = None
-            self.credit_card = None
-
-
-    class Photo(object):
-
-        """Example class Photo."""
-
-
-    class CreditCard(object):
-
-        """Example class CreditCard."""
-
-    # User, Photo and CreditCard factories:
-    credit_cards_factory = Factory(CreditCard)
-    photos_factory = Factory(Photo)
-    users_factory = Factory(User,
-                            Attribute('main_photo', photos_factory),
-                            Attribute('credit_card', credit_cards_factory))
-
-    # Creating several User objects:
-    user1 = users_factory()
-    # Same as: user1 = User()
-    #          user1.main_photo = Photo()
-    #          user1.credit_card = CreditCard()
-    user2 = users_factory()
-    # Same as: user2 = User()
-    #          user2.main_photo = Photo()
-    #          user2.credit_card = CreditCard()
-
-    # Making some asserts:
-    assert user1 is not user2
-
-    assert isinstance(user1.main_photo, Photo)
-    assert isinstance(user1.credit_card, CreditCard)
-
-    assert isinstance(user2.main_photo, Photo)
-    assert isinstance(user2.credit_card, CreditCard)
-
-    assert user1.main_photo is not user2.main_photo
-    assert user1.credit_card is not user2.credit_card
+.. literalinclude:: ../../examples/providers/factory_attribute_injections.py
+   :language: python
 
 Factory providers and method injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -284,69 +99,8 @@ Example:
 
 .. image:: /images/providers/factory_method_injections.png
 
-.. code-block:: python
-
-    """`Factory` providers with method injections example."""
-
-    from objects.providers import Factory
-    from objects.injections import Method
-
-
-    class User(object):
-
-        """Example class User."""
-
-        def __init__(self):
-            """Initializer."""
-            self.main_photo = None
-            self.credit_card = None
-
-        def set_main_photo(self, photo):
-            """Set user's main photo."""
-            self.main_photo = photo
-
-        def set_credit_card(self, credit_card):
-            """Set user's credit card."""
-            self.credit_card = credit_card
-
-
-    class Photo(object):
-
-        """Example class Photo."""
-
-
-    class CreditCard(object):
-
-        """Example class CreditCard."""
-
-    # User, Photo and CreditCard factories:
-    credit_cards_factory = Factory(CreditCard)
-    photos_factory = Factory(Photo)
-    users_factory = Factory(User,
-                            Method('set_main_photo', photos_factory),
-                            Method('set_credit_card', credit_cards_factory))
-
-    # Creating several User objects:
-    user1 = users_factory()
-    # Same as: user1 = User()
-    #          user1.set_main_photo(Photo())
-    #          user1.set_credit_card(CreditCard())
-    user2 = users_factory()
-    # Same as: user2 = User()
-    #          user2.set_main_photo(Photo())
-    #          user2.set_credit_card(CreditCard())
-
-    # Making some asserts:
-    assert user1 is not user2
-
-    assert isinstance(user1.main_photo, Photo)
-    assert isinstance(user1.credit_card, CreditCard)
-
-    assert isinstance(user2.main_photo, Photo)
-    assert isinstance(user2.credit_card, CreditCard)
-
-    assert user1.main_photo is not user2.main_photo
-    assert user1.credit_card is not user2.credit_card
+.. literalinclude:: ../../examples/providers/factory_method_injections.py
+   :language: python
 
 Factory providers delegation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -373,54 +127,5 @@ Example:
     :width: 85%
     :align: center
 
-.. code-block:: python
-
-    """`Factory` providers delegation example."""
-
-    from objects.providers import Factory
-    from objects.injections import KwArg
-
-
-    class User(object):
-
-        """Example class User."""
-
-        def __init__(self, photos_factory):
-            """Initializer.
-
-            :param photos_factory: (objects.providers.Factory) -> Photo
-            """
-            self.photos_factory = photos_factory
-            self._main_photo = None
-            super(User, self).__init__()
-
-        @property
-        def main_photo(self):
-            """Return user's main photo."""
-            if not self._main_photo:
-                self._main_photo = self.photos_factory()
-            return self._main_photo
-
-
-    class Photo(object):
-
-        """Example class Photo."""
-
-    # User and Photo factories:
-    photos_factory = Factory(Photo)
-    users_factory = Factory(User,
-                            KwArg('photos_factory', photos_factory.delegate()))
-
-    # Creating several User objects:
-    user1 = users_factory()
-    user2 = users_factory()
-
-    # Making some asserts:
-    assert isinstance(user1, User)
-    assert isinstance(user1.main_photo, Photo)
-
-    assert isinstance(user2, User)
-    assert isinstance(user2.main_photo, Photo)
-
-    assert user1 is not user2
-    assert user1.main_photo is not user2.main_photo
+.. literalinclude:: ../../examples/providers/factory_delegation.py
+   :language: python
