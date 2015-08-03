@@ -10,29 +10,8 @@ Example:
     :width: 80%
     :align: center
 
-.. code-block:: python
-
-    """`Singleton` providers example."""
-
-    from objects.providers import Singleton
-
-
-    class UserService(object):
-
-        """Example class UserService."""
-
-    # Singleton provider creates new instance of specified class on first call and
-    # returns same instance on every next call.
-    users_service_provider = Singleton(UserService)
-
-    # Retrieving several UserService objects:
-    user_service1 = users_service_provider()
-    user_service2 = users_service_provider()
-
-    # Making some asserts:
-    assert user_service1 is user_service2
-    assert isinstance(user_service1, UserService)
-    assert isinstance(user_service2, UserService)
+.. literalinclude:: ../../examples/providers/singleton.py
+   :language: python
 
 Singleton providers and injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -71,37 +50,8 @@ lifecycle of memorized instance is out of ``Singleton`` provider's control.
 
 Example:
 
-.. code-block:: python
-
-    """`Singleton` providers resetting example."""
-
-    from objects.providers import Singleton
-
-
-    class UserService(object):
-
-        """Example class UserService."""
-
-    # Users service singleton provider:
-    users_service_provider = Singleton(UserService)
-
-    # Retrieving several UserService objects:
-    user_service1 = users_service_provider()
-    user_service2 = users_service_provider()
-
-    # Making some asserts:
-    assert user_service1 is user_service2
-    assert isinstance(user_service1, UserService)
-    assert isinstance(user_service2, UserService)
-
-    # Resetting of memorized instance:
-    users_service_provider.reset()
-
-    # Retrieving one more UserService object:
-    user_service3 = users_service_provider()
-
-    # Making some asserts:
-    assert user_service3 is not user_service1
+.. literalinclude:: ../../examples/providers/singleton_reseting.py
+   :language: python
 
 Singleton providers delegation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -116,19 +66,5 @@ example.
 
 Example:
 
-.. code-block:: python
-
-    """`Singleton` providers delegation example."""
-
-    from objects.providers import Singleton
-    from objects.providers import Delegate
-
-
-    # Some singleton provider and few delegates of it:
-    singleton_provider = Singleton(object)
-    singleton_provider_delegate1 = singleton_provider.delegate()
-    singleton_provider_delegate2 = Delegate(singleton_provider)
-
-    # Making some asserts:
-    assert singleton_provider_delegate1() is singleton_provider
-    assert singleton_provider_delegate2() is singleton_provider
+.. literalinclude:: ../../examples/providers/singleton_delegation.py
+   :language: python
