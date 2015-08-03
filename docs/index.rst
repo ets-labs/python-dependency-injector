@@ -41,6 +41,5 @@ Contents
     providers/index
     catalogs
     decorators
-    examples
     feedback
     changelog
