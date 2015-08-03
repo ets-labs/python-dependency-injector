@@ -19,26 +19,8 @@ Example:
     :width: 100%
     :align: center
 
-.. code-block:: python
-
-    """`Callable` providers example."""
-
-    from passlib.hash import sha256_crypt
-
-    from objects.providers import Callable
-    from objects.injections import KwArg
-
-
-    # Password hasher and verifier providers (hash function could be changed
-    # anytime (for example, to sha512) without any changes in client's code):
-    password_hasher = Callable(sha256_crypt.encrypt,
-                               KwArg('salt_size', 16),
-                               KwArg('rounds', 10000))
-    password_verifier = Callable(sha256_crypt.verify)
-
-    # Making some asserts (client's code):
-    hashed_password = password_hasher('super secret')
-    assert password_verifier('super secret', hashed_password)
+.. literalinclude:: ../../examples/providers/callable_injections.py
+   :language: python
 
 Callable providers delegation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,21 +35,5 @@ delegation* section for example.
 
 Example:
 
-.. code-block:: python
-
-    """`Callable` providers delegation example."""
-
-    import sys
-
-    from objects.providers import Callable
-    from objects.providers import Delegate
-
-
-    # Some callable provider and few delegates of it:
-    callable_provider = Callable(sys.exit)
-    callable_provider_delegate1 = callable_provider.delegate()
-    callable_provider_delegate2 = Delegate(callable_provider)
-
-    # Making some asserts:
-    assert callable_provider_delegate1() is callable_provider
-    assert callable_provider_delegate2() is callable_provider
+.. literalinclude:: ../../examples/providers/callable_delegation.py
+   :language: python
