@@ -29,7 +29,6 @@ Dependency injection framework for Python projects.
 |                                       |    :alt: Coverage Status                                          |
 +---------------------------------------+-------------------------------------------------------------------+
 
-
 Contents
 --------
 
