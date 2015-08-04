@@ -56,6 +56,33 @@ Below is a list of some key features and points of *Objects* framework:
 
 Main idea of *Objects* is to keep dependencies under control.
 
+Main entities
+-------------
+
+Current section describes *Objects* main entities and their interaction with
+each other.
+
+.. image:: /images/internals.png
+    :width: 100%
+    :align: center
+
+There are 3 main entities:
+
+- Providers. Providers are strategies of accesing objects. For example, 
+  ``objects.providers.Factory`` creates new instance of provided class every
+  time it is called. ``objects.providers.Singleton`` creates provided instance
+  once and returns it on every next call. Providers could be overridden by 
+  another providers. Base class is - ``objects.providers.Provider``.
+- Injections. Injections are instructions for making dependency injections 
+  (there are several ways how they could be done). Injections are used mostly
+  by ``objects.providers.Factory`` and ``objects.providers.Singleton`` 
+  providers, but these are not only cases. Base class is - 
+  ``objects.injections.Injection``.
+- Catalogs. Catalogs are collections of providers. They are used for grouping 
+  of providers by some principles. Base class is - 
+  ``objects.catalog.AbstractCatalog``.
+
+
 .. _SLOC: http://en.wikipedia.org/wiki/Source_lines_of_code
 .. _SOLID: http://en.wikipedia.org/wiki/SOLID_%28object-oriented_design%29
 .. _IoC: http://en.wikipedia.org/wiki/Inversion_of_control
