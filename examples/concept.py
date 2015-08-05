@@ -7,7 +7,7 @@ from objects.providers import Singleton
 
 from objects.injections import KwArg
 from objects.injections import Attribute
-from objects.decorators import inject
+from objects.injections import inject
 
 import sqlite3
 
