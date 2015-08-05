@@ -12,6 +12,10 @@ Development version
 
 - No features.
 
+0.7.7
+-----
+- Fixing minor bug in concept example.
+
 0.7.6
 -----
 
