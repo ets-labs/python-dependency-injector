@@ -35,10 +35,10 @@ Contents
 ..  toctree::
     :maxdepth: 2
 
-    introduction
-    installation
+    main/introduction
+    main/installation
     providers/index
-    catalogs
-    decorators
-    feedback
-    changelog
+    catalogs/index
+    advanced_usage/index
+    main/feedback
+    main/changelog

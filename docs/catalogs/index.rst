@@ -40,7 +40,7 @@ Example:
     :width: 100%
     :align: center
 
-.. literalinclude:: ../examples/catalogs/simple.py
+.. literalinclude:: ../../examples/catalogs/simple.py
    :language: python
 
 Operating with catalog providers
@@ -59,7 +59,7 @@ providers:
 
 Example:
 
-.. literalinclude:: ../examples/catalogs/operating_with_providers.py
+.. literalinclude:: ../../examples/catalogs/operating_with_providers.py
    :language: python
 
 Overriding of catalogs
@@ -76,10 +76,10 @@ There are two ways to override catalog by another catalog:
 
 Example of overriding catalog using ``Catalog.override()`` method:
 
-.. literalinclude:: ../examples/catalogs/override.py
+.. literalinclude:: ../../examples/catalogs/override.py
    :language: python
 
 Example of overriding catalog using ``@override()`` decorator:
 
-.. literalinclude:: ../examples/catalogs/override_decorator.py
+.. literalinclude:: ../../examples/catalogs/override_decorator.py
    :language: python
