@@ -12,6 +12,10 @@ There are, actually, several popular use cases of catalogs:
   catalog ``Users``, that contains all functional parts of ``Users``
   component).
 
+Als, for both of these and some other cases, it might be useful to attach 
+some init / shutdown functionality or something else, that deals with group 
+of providers.
+
 Writing catalogs
 ----------------
 
@@ -32,7 +36,30 @@ standard naming convention for names of attributes in Python.
 
 Example:
 
+.. image:: /images/catalogs/simple.png
+    :width: 100%
+    :align: center
+
 .. literalinclude:: ../examples/catalogs/simple.py
+   :language: python
+
+Operating with catalog providers
+--------------------------------
+
+There are several things that could be useful for operating with catalog
+providers:
+
+- First of all, ``Catalog.providers`` attribute contains ``dict`` with all
+  catalog providers and their catalog names. This dictionary could be used
+  for any kind of operations that could be done with providers. The only note,
+  is that ``Catalog.providers`` attribute is read-only.
+- Second one, ``Catalog.filter(provider_type=Provider)`` method could be
+  used for filtering catalog providers by provider types (for example, for 
+  getting all ``Factory`` providers).
+
+Example:
+
+.. literalinclude:: ../examples/catalogs/operating_with_providers.py
    :language: python
 
 Overriding of catalogs
