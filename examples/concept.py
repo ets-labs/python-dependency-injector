@@ -64,6 +64,7 @@ assert a1.db is a2.db is b1.db is b2.db is Catalog.database()
 @inject(KwArg('b', Catalog.object_b_factory))
 @inject(KwArg('database', Catalog.database))
 def example(a, b, database):
+    """Example callback."""
     assert a.db is b.db is database is Catalog.database()
 
 
