@@ -29,6 +29,19 @@ Dependency injection framework for Python projects.
 |                                       |    :alt: Coverage Status                                          |
 +---------------------------------------+-------------------------------------------------------------------+
 
+*Objects* is a dependency injection framework for Python projects. 
+It was designed to be unified, developer's friendly tool for managing any kind
+of Python objects and their dependencies in formal, pretty way.
+
+Below is a list of some key features and points of *Objects* framework:
+
+- Easy, smart, pythonic style.
+- Obvious, clear structure.
+- Memory efficiency.
+- Semantic versioning.
+
+Main idea of *Objects* is to keep dependencies under control.
+
 Contents
 --------
 
