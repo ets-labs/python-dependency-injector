@@ -1,4 +1,4 @@
-"""`@inject()` decorator simple example."""
+"""`@inject` decorator simple example."""
 
 from objects.providers import Factory
 from objects.injections import KwArg
