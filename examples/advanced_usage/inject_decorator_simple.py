@@ -2,7 +2,7 @@
 
 from objects.providers import Factory
 from objects.injections import KwArg
-from objects.decorators import inject
+from objects.injections import inject
 
 
 objects_factory = Factory(object)
