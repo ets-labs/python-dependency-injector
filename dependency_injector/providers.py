@@ -1,6 +1,8 @@
 """Providers module."""
 
-from six import class_types
+import six
+
+from .injections import KwArg
 
 from .utils import ensure_is_provider
 from .utils import is_kwarg_injection
@@ -100,7 +102,7 @@ class Factory(Provider):
 
     __slots__ = ('_provides', '_kwargs', '_attributes', '_methods')
 
-    def __init__(self, provides, *injections):
+    def __init__(self, provides, *injections, **kwargs):
         """Initializer."""
         if not callable(provides):
             raise Error('Factory provider expects to get callable, ' +
@@ -109,6 +111,9 @@ class Factory(Provider):
         self._kwargs = tuple((injection
                               for injection in injections
                               if is_kwarg_injection(injection)))
+        if kwargs:
+            self._kwargs += tuple((KwArg(name, value)
+                                  for name, value in six.iteritems(kwargs)))
         self._attributes = tuple((injection
                                   for injection in injections
                                   if is_attribute_injection(injection)))
@@ -149,10 +154,10 @@ class Singleton(Provider):
 
     __slots__ = ('_instance', '_factory')
 
-    def __init__(self, provides, *injections):
+    def __init__(self, provides, *injections, **kwargs):
         """Initializer."""
         self._instance = None
-        self._factory = Factory(provides, *injections)
+        self._factory = Factory(provides, *injections, **kwargs)
         super(Singleton, self).__init__()
 
     def _provide(self, *args, **kwargs):
@@ -178,7 +183,7 @@ class ExternalDependency(Provider):
 
     def __init__(self, instance_of):
         """Initializer."""
-        if not isinstance(instance_of, class_types):
+        if not isinstance(instance_of, six.class_types):
             raise Error('ExternalDependency provider expects to get class, ' +
                         'got {0} instead'.format(str(instance_of)))
         self._instance_of = instance_of

@@ -28,17 +28,16 @@ class Catalog(di.AbstractCatalog):
     """Catalog of providers."""
 
     database = di.Singleton(sqlite3.Connection,
-                            di.KwArg('database', ':memory:'),
-                            di.Attribute('row_factory', sqlite3.Row))
+                            database=':memory:')
     """:type: (di.Provider) -> sqlite3.Connection"""
 
     object_a_factory = di.Factory(ObjectA,
-                                  di.KwArg('db', database))
+                                  db=database)
     """:type: (di.Provider) -> ObjectA"""
 
     object_b_factory = di.Factory(ObjectB,
-                                  di.KwArg('a', object_a_factory),
-                                  di.KwArg('db', database))
+                                  a=object_a_factory,
+                                  db=database)
     """:type: (di.Provider) -> ObjectB"""
 
 

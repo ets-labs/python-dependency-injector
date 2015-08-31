@@ -223,6 +223,28 @@ class FactoryTests(unittest.TestCase):
         self.assertIsInstance(instance1, self.Example)
         self.assertIsInstance(instance2, self.Example)
 
+    def test_call_with_init_args_simplified_syntax(self):
+        """Test creation of new instances with init args injections.
+
+        Simplified syntax.
+        """
+        provider = Factory(self.Example,
+                           init_arg1='i1',
+                           init_arg2='i2')
+
+        instance1 = provider()
+        instance2 = provider()
+
+        self.assertEqual(instance1.init_arg1, 'i1')
+        self.assertEqual(instance1.init_arg2, 'i2')
+
+        self.assertEqual(instance2.init_arg1, 'i1')
+        self.assertEqual(instance2.init_arg2, 'i2')
+
+        self.assertIsNot(instance1, instance2)
+        self.assertIsInstance(instance1, self.Example)
+        self.assertIsInstance(instance2, self.Example)
+
     def test_call_with_attributes(self):
         """Test creation of new instances with attribute injections."""
         provider = Factory(self.Example,
