@@ -24,7 +24,7 @@ The name of this problem is - "Dependency hell!". It sounds like "I have so
 many classes and functions! They are great, now I can understand each of them,
 but it is so hard to see the whole picture! How are they linked with each 
 other? What dependencies does this class have?". And this is a key question:
-"What dependencies do certain class / function have?". To resolve this issues 
+"What dependencies does certain class / function have?". To resolve this issues 
 developers have to go inside with IoC_ principles and implementation patterns.
 
 One of such IoC_ implementation patterns is called `dependency injection`_.
