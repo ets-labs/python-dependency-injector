@@ -11,7 +11,12 @@ follows `Semantic versioning`_
 Development version
 -------------------
 
-- No features.
+- Add simplified syntax of kwarg injections for ``Factory`` and ``Singleton`` 
+  providers: ``Factory(SomeClass, dependency1=injectable_provider_or_value)``.
+- Add simplified syntax of kwarg injections for ``@inject`` decorator:
+  ``@inject(dependency1=injectable_provider_or_value)``.
+- Add minor refactorings.
+- Fix of minor documentation issues.
 
 0.8.1
 -----
