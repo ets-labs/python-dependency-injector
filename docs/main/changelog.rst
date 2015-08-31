@@ -15,6 +15,8 @@ Development version
   providers: ``Factory(SomeClass, dependency1=injectable_provider_or_value)``.
 - Add simplified syntax of kwarg injections for ``@inject`` decorator:
   ``@inject(dependency1=injectable_provider_or_value)``.
+- Optimize ``@inject`` decorations when they were made several times for the 
+  same callback.
 - Add minor refactorings.
 - Fix of minor documentation issues.
 
