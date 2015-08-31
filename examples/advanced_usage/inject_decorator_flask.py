@@ -4,10 +4,10 @@ import sqlite3
 
 from flask import Flask
 
-from objects.providers import Singleton
-from objects.injections import KwArg
-from objects.injections import Attribute
-from objects.injections import inject
+from dependency_injector.providers import Singleton
+from dependency_injector.injections import KwArg
+from dependency_injector.injections import Attribute
+from dependency_injector.injections import inject
 
 
 # Database and `ObjectA` providers.

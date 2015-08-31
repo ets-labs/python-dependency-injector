@@ -1,16 +1,16 @@
-"""Objects injections unittests."""
+"""Dependency injector injections unittests."""
 
 import unittest2 as unittest
 
-from objects.injections import Injection
-from objects.injections import KwArg
-from objects.injections import Attribute
-from objects.injections import Method
-from objects.injections import inject
+from dependency_injector.injections import Injection
+from dependency_injector.injections import KwArg
+from dependency_injector.injections import Attribute
+from dependency_injector.injections import Method
+from dependency_injector.injections import inject
 
-from objects.providers import Factory
+from dependency_injector.providers import Factory
 
-from objects.errors import Error
+from dependency_injector.errors import Error
 
 
 class InjectionTests(unittest.TestCase):

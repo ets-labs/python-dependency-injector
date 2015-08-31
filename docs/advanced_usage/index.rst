@@ -2,7 +2,8 @@
 Advanced usage
 ==============
 
-Current section of documentation describes advanced usage of *Objects*.
+Current section of documentation describes advanced usage of 
+*Dependency Injector*.
 
 @inject decorator
 -----------------
@@ -12,10 +13,10 @@ It *patches* decorated callable in such way that dependency injection will be
 done during every call of decorated callable.
 
 ``@inject`` decorator takes only argument that is supposed to be an
-``objects.injections.KwArg`` injection.
+``dependency_injector.injections.KwArg`` injection.
 
-Any Python object will be injected *as is*, except *Objects* providers,
-that will be called to provide injectable value.
+Any Python object will be injected *as is*, except *Dependency Injector* 
+providers, that will be called to provide injectable value.
 
 Example:
 

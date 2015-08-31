@@ -1,6 +1,6 @@
 """`Singleton` providers example."""
 
-from objects.providers import Singleton
+from dependency_injector.providers import Singleton
 
 
 class UserService(object):

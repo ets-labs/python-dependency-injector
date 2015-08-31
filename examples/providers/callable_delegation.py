@@ -2,11 +2,11 @@
 
 import sys
 
-from objects.providers import Callable
-from objects.providers import Delegate
+from dependency_injector.providers import Callable
+from dependency_injector.providers import Delegate
 
 
-# Some callable provider and few delegates of it:
+# Creating some callable provider and few delegates of it:
 callable_provider = Callable(sys.exit)
 callable_provider_delegate1 = callable_provider.delegate()
 callable_provider_delegate2 = Delegate(callable_provider)

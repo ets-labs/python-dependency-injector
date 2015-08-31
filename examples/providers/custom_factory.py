@@ -1,7 +1,7 @@
 """Custom `Factory` example."""
 
-from objects.providers import Provider
-from objects.providers import Factory
+from dependency_injector.providers import Provider
+from dependency_injector.providers import Factory
 
 
 class User(object):

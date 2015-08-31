@@ -1,8 +1,8 @@
 Introduction
 ============
 
-Before you have started with *Objects* framework and dependecy injection, there
-are a couple of introduction notes that might be useful.
+Before you have started with *Dependency Injector* framework and dependecy 
+injection, there are a couple of introduction notes that might be useful.
 
 What is DI and why is it needed?
 --------------------------------
@@ -43,24 +43,25 @@ ways to do dependency injection container.
 Key features
 ------------
 
-*Objects* is a dependency injection framework for Python projects. 
+*Dependency Injector* is a dependency injection framework for Python projects. 
 It was designed to be unified, developer's friendly tool for managing any kind
 of Python objects and their dependencies in formal, pretty way.
 
-Below is a list of some key features and points of *Objects* framework:
+Below is a list of some key features and points of *Dependency Injector*
+framework:
 
 - Easy, smart, pythonic style.
 - Obvious, clear structure.
 - Memory efficiency.
 - Semantic versioning.
 
-Main idea of *Objects* is to keep dependencies under control.
+Main idea of *Dependency Injector* is to keep dependencies under control.
 
 Main entities
 -------------
 
-Current section describes *Objects* main entities and their interaction with
-each other.
+Current section describes *Dependency Injector* main entities and their 
+interaction with each other.
 
 .. image:: /images/internals.png
     :width: 100%
@@ -69,18 +70,20 @@ each other.
 There are 3 main entities:
 
 - Providers. Providers are strategies of accesing objects. For example, 
-  ``objects.providers.Factory`` creates new instance of provided class every
-  time it is called. ``objects.providers.Singleton`` creates provided instance
-  once and returns it on every next call. Providers could be overridden by 
-  another providers. Base class is - ``objects.providers.Provider``.
+  ``dependency_injector.providers.Factory`` creates new instance of provided 
+  class every time it is called. ``dependency_injector.providers.Singleton`` 
+  creates provided instance once and returns it on every next call. Providers 
+  could be overridden by another providers. Base class is - 
+  ``dependency_injector.providers.Provider``.
 - Injections. Injections are instructions for making dependency injections 
   (there are several ways how they could be done). Injections are used mostly
-  by ``objects.providers.Factory`` and ``objects.providers.Singleton`` 
-  providers, but these are not only cases. Base class is - 
-  ``objects.injections.Injection``.
+  by ``dependency_injector.providers.Factory`` and 
+  ``dependency_injector.providers.Singleton`` providers, but these are not only 
+  cases. Base class is - 
+  ``dependency_injector.injections.Injection``.
 - Catalogs. Catalogs are collections of providers. They are used for grouping 
   of providers by some principles. Base class is - 
-  ``objects.catalog.AbstractCatalog``.
+  ``dependency_injector.catalog.AbstractCatalog``.
 
 
 .. _SLOC: http://en.wikipedia.org/wiki/Source_lines_of_code

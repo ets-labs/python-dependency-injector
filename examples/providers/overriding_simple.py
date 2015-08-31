@@ -1,6 +1,6 @@
 """Simple providers overriding example."""
 
-from objects.providers import Factory
+from dependency_injector.providers import Factory
 
 
 class User(object):

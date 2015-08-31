@@ -1,11 +1,11 @@
 """`ExternalDependency` providers example."""
 
-from objects.providers import ExternalDependency
-from objects.providers import Factory
-from objects.providers import Singleton
+from dependency_injector.providers import ExternalDependency
+from dependency_injector.providers import Factory
+from dependency_injector.providers import Singleton
 
-from objects.injections import KwArg
-from objects.injections import Attribute
+from dependency_injector.injections import KwArg
+from dependency_injector.injections import Attribute
 
 # Importing SQLITE3 and contextlib.closing for working with cursors:
 import sqlite3

@@ -1,13 +1,13 @@
-"""Concept example of `Objects`."""
+"""Concept example of `Dependency Injector`."""
 
-from objects.catalog import AbstractCatalog
+from dependency_injector.catalog import AbstractCatalog
 
-from objects.providers import Factory
-from objects.providers import Singleton
+from dependency_injector.providers import Factory
+from dependency_injector.providers import Singleton
 
-from objects.injections import KwArg
-from objects.injections import Attribute
-from objects.injections import inject
+from dependency_injector.injections import KwArg
+from dependency_injector.injections import Attribute
+from dependency_injector.injections import inject
 
 import sqlite3
 
@@ -33,21 +33,21 @@ class ObjectB(object):
 
 class Catalog(AbstractCatalog):
 
-    """Catalog of objects providers."""
+    """Catalog of dependency_injector providers."""
 
     database = Singleton(sqlite3.Connection,
                          KwArg('database', ':memory:'),
                          Attribute('row_factory', sqlite3.Row))
-    """:type: (objects.Provider) -> sqlite3.Connection"""
+    """:type: (dependency_injector.Provider) -> sqlite3.Connection"""
 
     object_a_factory = Factory(ObjectA,
                                KwArg('db', database))
-    """:type: (objects.Provider) -> ObjectA"""
+    """:type: (dependency_injector.Provider) -> ObjectA"""
 
     object_b_factory = Factory(ObjectB,
                                KwArg('a', object_a_factory),
                                KwArg('db', database))
-    """:type: (objects.Provider) -> ObjectB"""
+    """:type: (dependency_injector.Provider) -> ObjectB"""
 
 
 # Catalog static provides.

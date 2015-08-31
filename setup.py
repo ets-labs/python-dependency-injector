@@ -1,4 +1,4 @@
-"""`Objects` setup script."""
+"""`Dependency injector` setup script."""
 
 import os
 from setuptools import setup
@@ -44,7 +44,7 @@ class PublishCommand(Command):
         os.system('git push --tags')
 
 
-setup(name='Objects',
+setup(name='dependency_injector',
       version=version,
       description=SHORT_DESCRIPTION,
       long_description=description,
@@ -52,9 +52,9 @@ setup(name='Objects',
       author_email='rmogilatov@gmail.com',
       maintainer='Roman Mogilatov',
       maintainer_email='rmogilatov@gmail.com',
-      url='https://github.com/rmk135/objects',
+      url='https://github.com/rmk135/dependency_injector',
       license='BSD New',
-      packages=['objects'],
+      packages=['dependency_injector'],
       zip_safe=True,
       install_requires=requirements,
       cmdclass={

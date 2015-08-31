@@ -1,1 +1,1 @@
-"""Objects unittests."""
+"""Dependency injector unittests."""

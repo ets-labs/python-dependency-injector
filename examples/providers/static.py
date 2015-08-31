@@ -1,9 +1,9 @@
 """`Static` providers example."""
 
-from objects.providers import Class
-from objects.providers import Object
-from objects.providers import Function
-from objects.providers import Value
+from dependency_injector.providers import Class
+from dependency_injector.providers import Object
+from dependency_injector.providers import Function
+from dependency_injector.providers import Value
 
 
 # Provides class - `object`:

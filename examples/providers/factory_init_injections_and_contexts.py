@@ -1,7 +1,7 @@
 """`Factory` providers with init injections and context arguments example."""
 
-from objects.providers import Factory
-from objects.injections import KwArg
+from dependency_injector.providers import Factory
+from dependency_injector.injections import KwArg
 
 
 class User(object):

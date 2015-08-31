@@ -1,7 +1,7 @@
 """`Factory` providers with method injections example."""
 
-from objects.providers import Factory
-from objects.injections import Method
+from dependency_injector.providers import Factory
+from dependency_injector.injections import Method
 
 
 class User(object):

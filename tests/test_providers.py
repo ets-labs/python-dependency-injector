@@ -1,26 +1,26 @@
-"""Objects providers unittests."""
+"""Dependency injector providers unittests."""
 
 import unittest2 as unittest
 
-from objects.providers import Provider
-from objects.providers import Delegate
-from objects.providers import Factory
-from objects.providers import Singleton
-from objects.providers import ExternalDependency
-from objects.providers import Class
-from objects.providers import Object
-from objects.providers import Function
-from objects.providers import Value
-from objects.providers import Callable
-from objects.providers import Config
+from dependency_injector.providers import Provider
+from dependency_injector.providers import Delegate
+from dependency_injector.providers import Factory
+from dependency_injector.providers import Singleton
+from dependency_injector.providers import ExternalDependency
+from dependency_injector.providers import Class
+from dependency_injector.providers import Object
+from dependency_injector.providers import Function
+from dependency_injector.providers import Value
+from dependency_injector.providers import Callable
+from dependency_injector.providers import Config
 
-from objects.injections import KwArg
-from objects.injections import Attribute
-from objects.injections import Method
+from dependency_injector.injections import KwArg
+from dependency_injector.injections import Attribute
+from dependency_injector.injections import Method
 
-from objects.utils import is_provider
+from dependency_injector.utils import is_provider
 
-from objects.errors import Error
+from dependency_injector.errors import Error
 
 
 class ProviderTests(unittest.TestCase):
@@ -142,7 +142,7 @@ class DelegateTests(unittest.TestCase):
         self.assertRaises(Error, Delegate, delegated=object())
 
     def test_call(self):
-        """ Test returning of delegated provider."""
+        """Test returning of delegated provider."""
         delegated1 = self.delegate()
         delegated2 = self.delegate()
 

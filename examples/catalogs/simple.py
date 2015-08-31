@@ -2,9 +2,9 @@
 
 from collections import namedtuple
 
-from objects.catalog import AbstractCatalog
-from objects.providers import Factory
-from objects.injections import KwArg
+from dependency_injector.catalog import AbstractCatalog
+from dependency_injector.providers import Factory
+from dependency_injector.injections import KwArg
 
 
 # Creating some example classes:
@@ -19,13 +19,13 @@ class Catalog(AbstractCatalog):
     object1_factory = Factory(Object1,
                               KwArg('arg1', 1),
                               KwArg('arg2', 2))
-    """:type: (objects.Provider) -> Object1"""
+    """:type: (dependency_injector.Provider) -> Object1"""
 
     object2_factory = Factory(Object2,
                               KwArg('object1', object1_factory))
-    """:type: (objects.Provider) -> Object2"""
+    """:type: (dependency_injector.Provider) -> Object2"""
 
-# Creating some objects:
+# Creating some dependency_injector:
 object2_1 = Catalog.object2_factory()
 object2_2 = Catalog.object2_factory()
 

@@ -1,23 +1,23 @@
-"""Objects utils unittests."""
+"""Dependency injector utils unittests."""
 
 import unittest2 as unittest
 
-from objects.utils import is_provider
-from objects.utils import ensure_is_provider
-from objects.utils import is_injection
-from objects.utils import ensure_is_injection
-from objects.utils import is_kwarg_injection
-from objects.utils import is_attribute_injection
-from objects.utils import is_method_injection
+from dependency_injector.utils import is_provider
+from dependency_injector.utils import ensure_is_provider
+from dependency_injector.utils import is_injection
+from dependency_injector.utils import ensure_is_injection
+from dependency_injector.utils import is_kwarg_injection
+from dependency_injector.utils import is_attribute_injection
+from dependency_injector.utils import is_method_injection
 
-from objects.providers import Provider
+from dependency_injector.providers import Provider
 
-from objects.injections import Injection
-from objects.injections import KwArg
-from objects.injections import Attribute
-from objects.injections import Method
+from dependency_injector.injections import Injection
+from dependency_injector.injections import KwArg
+from dependency_injector.injections import Attribute
+from dependency_injector.injections import Method
 
-from objects.errors import Error
+from dependency_injector.errors import Error
 
 
 class IsProviderTests(unittest.TestCase):

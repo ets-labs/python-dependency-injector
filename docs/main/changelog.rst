@@ -1,16 +1,21 @@
 Changelog
 =========
 
-This document describes all the changes in *Objects* framework that were made
-in every particular version.
+This document describes all the changes in *Dependency Injector* framework 
+that were made in every particular version.
 
-From version 0.7.6 *Objects* framework strictly follows `Semantic versioning`_
+From version 0.7.6 *Dependency Injector* framework strictly 
+follows `Semantic versioning`_
 
 
 Development version
 -------------------
 
 - No features.
+
+0.8.0
+-----
+- ``Objects`` is renamed to ``Dependency Injector``.
 
 0.7.8
 -----

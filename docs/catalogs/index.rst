@@ -20,7 +20,7 @@ Writing catalogs
 ----------------
 
 Catalogs have to be created by extending base catalog class 
-``objects.catalog.AbstractCatalog``.
+``dependency_injector.catalog.AbstractCatalog``.
 
 Providers have to be defined like catalog's attributes. Every provider in
 catalog has name. This name should follow ``some_provider`` manner, that is 
@@ -29,10 +29,10 @@ standard naming convention for names of attributes in Python.
 .. note::
 
     It might be useful to add such 
-    ``""":type: (objects.Provider) -> Object1"""`` documentation blocks one 
-    line after provider definition for every provider. It will help code 
-    analysis tools and IDE's to understand that variable above contains some 
-    callable object, that returns particular instance as a result of call.
+    ``""":type: (dependency_injector.Provider) -> Object1"""`` documentation 
+    blocks one line after provider definition for every provider. It will help 
+    code analysis tools and IDE's to understand that variable above contains 
+    some callable object, that returns particular instance as a result of call.
 
 Example:
 

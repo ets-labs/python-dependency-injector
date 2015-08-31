@@ -1,7 +1,4 @@
-"""Objects.
-
-Dependency management tool for Python projects.
-"""
+"""Dependency injector."""
 
 from .catalog import AbstractCatalog
 from .catalog import override

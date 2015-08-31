@@ -1,4 +1,4 @@
-include objects/*
+include dependency_injector/*
 include README.rst
 include LICENSE
 include VERSION

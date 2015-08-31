@@ -2,8 +2,8 @@
 
 from passlib.hash import sha256_crypt
 
-from objects.providers import Callable
-from objects.injections import KwArg
+from dependency_injector.providers import Callable
+from dependency_injector.injections import KwArg
 
 
 # Password hasher and verifier providers (hash function could be changed

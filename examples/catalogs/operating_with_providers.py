@@ -1,8 +1,8 @@
 """Operating with catalog providers example."""
 
-from objects.catalog import AbstractCatalog
-from objects.providers import Factory
-from objects.providers import Singleton
+from dependency_injector.catalog import AbstractCatalog
+from dependency_injector.providers import Factory
+from dependency_injector.providers import Singleton
 
 
 class Catalog(AbstractCatalog):
@@ -10,16 +10,16 @@ class Catalog(AbstractCatalog):
     """Providers catalog."""
 
     provider1 = Factory(object)
-    """:type: (objects.Provider) -> object"""
+    """:type: (dependency_injector.Provider) -> object"""
 
     provider2 = Factory(object)
-    """:type: (objects.Provider) -> object"""
+    """:type: (dependency_injector.Provider) -> object"""
 
     provider3 = Singleton(object)
-    """:type: (objects.Provider) -> object"""
+    """:type: (dependency_injector.Provider) -> object"""
 
     provider4 = Singleton(object)
-    """:type: (objects.Provider) -> object"""
+    """:type: (dependency_injector.Provider) -> object"""
 
 
 # Making some asserts:

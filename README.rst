@@ -1,58 +1,59 @@
-Objects
-=======
+Dependency Injector
+===================
 
 Dependency injection framework for Python projects.
 
-+---------------------------------------+-------------------------------------------------------------------+
-| *PyPi*                                | .. image:: https://img.shields.io/pypi/v/Objects.svg              |
-|                                       |    :target: https://pypi.python.org/pypi/Objects/                 |
-|                                       |    :alt: Latest Version                                           |
-|                                       | .. image:: https://img.shields.io/pypi/dm/Objects.svg             |
-|                                       |    :target: https://pypi.python.org/pypi/Objects/                 |
-|                                       |    :alt: Downloads                                                |
-|                                       | .. image:: https://img.shields.io/pypi/l/Objects.svg              |
-|                                       |    :target: https://pypi.python.org/pypi/Objects/                 |
-|                                       |    :alt: License                                                  |
-+---------------------------------------+-------------------------------------------------------------------+
-| *Python versions and implementations* | .. image:: https://img.shields.io/pypi/pyversions/Objects.svg     |
-|                                       |    :target: https://pypi.python.org/pypi/Objects/                 |
-|                                       |    :alt: Supported Python versions                                |
-|                                       | .. image:: https://img.shields.io/pypi/implementation/Objects.svg |
-|                                       |    :target: https://pypi.python.org/pypi/Objects/                 |
-|                                       |    :alt: Supported Python implementations                         |
-+---------------------------------------+-------------------------------------------------------------------+
-| *Builds and tests coverage*           | .. image:: https://travis-ci.org/rmk135/objects.svg?branch=master |
-|                                       |    :target: https://travis-ci.org/rmk135/objects                  |
-|                                       |    :alt: Build Status                                             |
-|                                       | .. image:: https://coveralls.io/repos/rmk135/objects/badge.svg    |
-|                                       |    :target: https://coveralls.io/r/rmk135/objects                 |
-|                                       |    :alt: Coverage Status                                          |
-+---------------------------------------+-------------------------------------------------------------------+
++---------------------------------------+-------------------------------------------------------------------------------+
+| *PyPi*                                | .. image:: https://img.shields.io/pypi/v/dependency_injector.svg              |
+|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                 |
+|                                       |    :alt: Latest Version                                                       |
+|                                       | .. image:: https://img.shields.io/pypi/dm/dependency_injector.svg             |
+|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                 |
+|                                       |    :alt: Downloads                                                            |
+|                                       | .. image:: https://img.shields.io/pypi/l/dependency_injector.svg              |
+|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                 |
+|                                       |    :alt: License                                                              |
++---------------------------------------+-------------------------------------------------------------------------------+
+| *Python versions and implementations* | .. image:: https://img.shields.io/pypi/pyversions/dependency_injector.svg     |
+|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                 |
+|                                       |    :alt: Supported Python versions                                            |
+|                                       | .. image:: https://img.shields.io/pypi/implementation/dependency_injector.svg |
+|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                 |
+|                                       |    :alt: Supported Python implementations                                     |
++---------------------------------------+-------------------------------------------------------------------------------+
+| *Builds and tests coverage*           | .. image:: https://travis-ci.org/rmk135/dependency_injector.svg?branch=master |
+|                                       |    :target: https://travis-ci.org/rmk135/dependency_injector                  |
+|                                       |    :alt: Build Status                                                         |
+|                                       | .. image:: https://coveralls.io/repos/rmk135/dependency_injector/badge.svg    |
+|                                       |    :target: https://coveralls.io/r/rmk135/dependency_injector                 |
+|                                       |    :alt: Coverage Status                                                      |
++---------------------------------------+-------------------------------------------------------------------------------+
 
-*Objects* is a dependency injection framework for Python projects. 
+*Dependency Injector* is a dependency injection framework for Python projects. 
 It was designed to be unified, developer's friendly tool for managing any kind
 of Python objects and their dependencies in formal, pretty way.
 
-Below is a list of some key features and points of *Objects* framework:
+Below is a list of some key features and points of *Dependency Injector*
+framework:
 
 - Easy, smart, pythonic style.
 - Obvious, clear structure.
 - Memory efficiency.
 - Semantic versioning.
 
-Main idea of *Objects* is to keep dependencies under control.
+Main idea of *Dependency Injector* is to keep dependencies under control.
 
 Installation
 ------------
 
-*Objects* library is available on PyPi_::
+*Dependency Injector* library is available on PyPi_::
 
-    pip install objects
+    pip install dependency_injector
 
 Documentation
 -------------
 
-*Objects* documentation is hosted on ReadTheDocs:
+*Dependency Injector* documentation is hosted on ReadTheDocs:
 
 - `Stable version`_
 - `Latest version`_
@@ -62,16 +63,16 @@ Examples
 
 .. code-block:: python
 
-    """Concept example of `Objects`."""
+    """Concept example of `Dependency Injector`."""
 
-    from objects.catalog import AbstractCatalog
+    from dependency_injector.catalog import AbstractCatalog
 
-    from objects.providers import Factory
-    from objects.providers import Singleton
+    from dependency_injector.providers import Factory
+    from dependency_injector.providers import Singleton
 
-    from objects.injections import KwArg
-    from objects.injections import Attribute
-    from objects.injections import inject
+    from dependency_injector.injections import KwArg
+    from dependency_injector.injections import Attribute
+    from dependency_injector.injections import inject
 
     import sqlite3
 
@@ -97,21 +98,21 @@ Examples
 
     class Catalog(AbstractCatalog):
 
-        """Catalog of objects providers."""
+        """Catalog of dependency_injector providers."""
 
         database = Singleton(sqlite3.Connection,
                              KwArg('database', ':memory:'),
                              Attribute('row_factory', sqlite3.Row))
-        """:type: (objects.Provider) -> sqlite3.Connection"""
+        """:type: (dependency_injector.Provider) -> sqlite3.Connection"""
 
         object_a_factory = Factory(ObjectA,
                                    KwArg('db', database))
-        """:type: (objects.Provider) -> ObjectA"""
+        """:type: (dependency_injector.Provider) -> ObjectA"""
 
         object_b_factory = Factory(ObjectB,
                                    KwArg('a', object_a_factory),
                                    KwArg('db', database))
-        """:type: (objects.Provider) -> ObjectB"""
+        """:type: (dependency_injector.Provider) -> ObjectB"""
 
 
     # Catalog static provides.
@@ -134,26 +135,26 @@ Examples
 
     example()
 
-You can get more *Objects* examples in ``/examples`` directory on
+You can get more *Dependency Injector* examples in ``/examples`` directory on
 GitHub:
 
-    https://github.com/rmk135/objects
+    https://github.com/rmk135/dependency_injector
 
 
 Feedback
 --------
 
 Feel free to post questions, bugs, feature requests, proposals etc. on
-*Objects*  GitHub Issues:
+*Dependency Injector*  GitHub Issues:
 
-    https://github.com/rmk135/objects/issues
+    https://github.com/rmk135/dependency_injector/issues
 
 Your feedback is quite important!
 
 
-.. _PyPi: https://pypi.python.org/pypi/Objects
-.. _Stable version: http://objects.readthedocs.org/en/stable/
-.. _Latest version: http://objects.readthedocs.org/en/latest/
+.. _PyPi: https://pypi.python.org/pypi/dependency_injector
+.. _Stable version: http://dependency_injector.readthedocs.org/en/stable/
+.. _Latest version: http://dependency_injector.readthedocs.org/en/latest/
 .. _SLOC: http://en.wikipedia.org/wiki/Source_lines_of_code
 .. _SOLID: http://en.wikipedia.org/wiki/SOLID_%28object-oriented_design%29
 .. _IoC: http://en.wikipedia.org/wiki/Inversion_of_control

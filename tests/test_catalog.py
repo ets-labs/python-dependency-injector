@@ -1,14 +1,14 @@
-"""Objects catalog unittests."""
+"""Dependency injector catalog unittests."""
 
 import unittest2 as unittest
 
-from objects.catalog import AbstractCatalog
-from objects.catalog import override
+from dependency_injector.catalog import AbstractCatalog
+from dependency_injector.catalog import override
 
-from objects.providers import Object
-from objects.providers import Value
+from dependency_injector.providers import Object
+from dependency_injector.providers import Value
 
-from objects.errors import Error
+from dependency_injector.errors import Error
 
 
 class CatalogTests(unittest.TestCase):
@@ -94,4 +94,3 @@ class OverrideTests(unittest.TestCase):
 
         self.assertEqual(self.Catalog.obj(), 1)
         self.assertEqual(self.Catalog.another_obj(), 2)
-

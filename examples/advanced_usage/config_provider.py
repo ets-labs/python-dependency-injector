@@ -1,9 +1,9 @@
 """Config provider examples."""
 
-from objects.catalog import AbstractCatalog
-from objects.providers import Config
-from objects.providers import Factory
-from objects.injections import KwArg
+from dependency_injector.catalog import AbstractCatalog
+from dependency_injector.providers import Config
+from dependency_injector.providers import Factory
+from dependency_injector.injections import KwArg
 
 
 class ObjectA(object):
@@ -19,16 +19,16 @@ class ObjectA(object):
 
 class Catalog(AbstractCatalog):
 
-    """Catalog of objects providers."""
+    """Catalog of dependency_injector providers."""
 
     config = Config()
-    """:type: (objects.Config)"""
+    """:type: (dependency_injector.Config)"""
 
     object_a = Factory(ObjectA,
                        KwArg('fee', config.FEE),
                        KwArg('price', config.PRICE),
                        KwArg('timezone', config.GLOBAL.TIMEZONE))
-    """:type: (objects.Provider) -> ObjectA"""
+    """:type: (dependency_injector.Provider) -> ObjectA"""
 
 
 # Setting config value and making some tests.

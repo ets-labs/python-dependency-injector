@@ -18,14 +18,14 @@ Factory providers and injections
 Objects can take dependencies in different forms. Some objects take init
 arguments, other are using attributes setting or method calls to be
 initialized. It affects how such objects need to be created and initialized,
-and that is the place where ``objects.injections`` need to be used.
+and that is the place where ``dependency_injector.injections`` need to be used.
 
 ``Factory`` provider takes various number of positional arguments, that define
 what kind of dependency injections need to be done.
 
-All of those instructions are defined in ``objects.injections`` module and are
-subclasses of ``objects.injections.Injection``. There  are several types of
-injections that are used by ``Factory`` provider:
+All of those instructions are defined in ``dependency_injector.injections`` 
+module and are subclasses of ``dependency_injector.injections.Injection``. 
+There  are several types of injections that are used by ``Factory`` provider:
 
 + ``KwArg`` - injection is done by passing injectable value in object's
   ``__init__()`` method in time of object's creation via keyword argument.

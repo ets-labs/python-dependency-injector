@@ -1,7 +1,7 @@
 """`Factory` providers delegation example."""
 
-from objects.providers import Factory
-from objects.injections import KwArg
+from dependency_injector.providers import Factory
+from dependency_injector.injections import KwArg
 
 
 class User(object):
@@ -11,7 +11,7 @@ class User(object):
     def __init__(self, photos_factory):
         """Initializer.
 
-        :param photos_factory: (objects.providers.Factory) -> Photo
+        :param photos_factory: (dependency_injector.providers.Factory) -> Photo
         """
         self.photos_factory = photos_factory
         self._main_photo = None
