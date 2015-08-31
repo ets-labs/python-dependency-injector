@@ -76,8 +76,8 @@ class InjectTests(unittest.TestCase):
         provider1 = Factory(object)
         provider2 = Factory(list)
 
-        @inject(KwArg('a', provider1))
-        @inject(KwArg('b', provider2))
+        @inject(a=provider1)
+        @inject(b=provider2)
         def test(a, b):
             return a, b
 
@@ -98,8 +98,8 @@ class InjectTests(unittest.TestCase):
         provider2 = Factory(list)
         object_a = object()
 
-        @inject(KwArg('a', provider1))
-        @inject(KwArg('b', provider2))
+        @inject(a=provider1)
+        @inject(b=provider2)
         def test(a, b):
             return a, b
 
@@ -117,6 +117,27 @@ class InjectTests(unittest.TestCase):
 
     def test_decorated_with_args(self):
         """Test `inject()` decorated callback with args."""
+        provider = Factory(list)
+        object_a = object()
+
+        @inject(b=provider)
+        def test(a, b):
+            return a, b
+
+        a1, b1 = test(object_a)
+        a2, b2 = test(object_a)
+
+        self.assertIsInstance(a1, object)
+        self.assertIsInstance(a2, object)
+        self.assertIs(a1, object_a)
+        self.assertIs(a2, object_a)
+
+        self.assertIsInstance(b1, list)
+        self.assertIsInstance(b2, list)
+        self.assertIsNot(b1, b2)
+
+    def test_injection_kwarg_syntax(self):
+        """Test `inject()` decorated callback with "old" style using KwArg."""
         provider = Factory(list)
         object_a = object()
 

@@ -1,15 +1,7 @@
 """Concept example of `Dependency Injector`."""
 
-from dependency_injector.catalog import AbstractCatalog
-
-from dependency_injector.providers import Factory
-from dependency_injector.providers import Singleton
-
-from dependency_injector.injections import KwArg
-from dependency_injector.injections import Attribute
-from dependency_injector.injections import inject
-
 import sqlite3
+import dependency_injector as di
 
 
 class ObjectA(object):
@@ -31,23 +23,23 @@ class ObjectB(object):
         self.db = db
 
 
-class Catalog(AbstractCatalog):
+class Catalog(di.AbstractCatalog):
 
-    """Catalog of dependency_injector providers."""
+    """Catalog of providers."""
 
-    database = Singleton(sqlite3.Connection,
-                         KwArg('database', ':memory:'),
-                         Attribute('row_factory', sqlite3.Row))
-    """:type: (dependency_injector.Provider) -> sqlite3.Connection"""
+    database = di.Singleton(sqlite3.Connection,
+                            di.KwArg('database', ':memory:'),
+                            di.Attribute('row_factory', sqlite3.Row))
+    """:type: (di.Provider) -> sqlite3.Connection"""
 
-    object_a_factory = Factory(ObjectA,
-                               KwArg('db', database))
-    """:type: (dependency_injector.Provider) -> ObjectA"""
+    object_a_factory = di.Factory(ObjectA,
+                                  di.KwArg('db', database))
+    """:type: (di.Provider) -> ObjectA"""
 
-    object_b_factory = Factory(ObjectB,
-                               KwArg('a', object_a_factory),
-                               KwArg('db', database))
-    """:type: (dependency_injector.Provider) -> ObjectB"""
+    object_b_factory = di.Factory(ObjectB,
+                                  di.KwArg('a', object_a_factory),
+                                  di.KwArg('db', database))
+    """:type: (di.Provider) -> ObjectB"""
 
 
 # Catalog static provides.
@@ -60,9 +52,9 @@ assert a1.db is a2.db is b1.db is b2.db is Catalog.database()
 
 
 # Example of inline injections.
-@inject(KwArg('a', Catalog.object_a_factory))
-@inject(KwArg('b', Catalog.object_b_factory))
-@inject(KwArg('database', Catalog.database))
+@di.inject(a=Catalog.object_a_factory)
+@di.inject(b=Catalog.object_b_factory)
+@di.inject(database=Catalog.database)
 def example(a, b, database):
     """Example callback."""
     assert a.db is b.db is database is Catalog.database()

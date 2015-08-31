@@ -1,6 +1,6 @@
 """Injections module."""
 
-from six import wraps
+import six
 
 from .utils import is_provider
 from .utils import ensure_is_injection
@@ -48,28 +48,32 @@ class Method(Injection):
     __IS_METHOD_INJECTION__ = True
 
 
-def inject(injection):
+def inject(*args, **kwargs):
     """Dependency injection decorator.
 
     :type injection: Injection
     :return: (callable) -> (callable)
     """
-    injection = ensure_is_injection(injection)
+    injections = tuple((KwArg(name, value)
+                        for name, value in six.iteritems(kwargs)))
+    if args:
+        injections += tuple((ensure_is_injection(injection)
+                             for injection in args))
 
     def decorator(callback):
         """Dependency injection decorator."""
         if hasattr(callback, '_injections'):
-            callback._injections += (injection,)
+            callback._injections += injections
+            return callback
 
-        @wraps(callback)
+        @six.wraps(callback)
         def decorated(*args, **kwargs):
             """Decorated with dependency injection callback."""
             return callback(*args,
                             **get_injectable_kwargs(kwargs,
-                                                    getattr(decorated,
-                                                            '_injections')))
+                                                    decorated._injections))
 
-        setattr(decorated, '_injections', (injection,))
+        decorated._injections = injections
 
         return decorated
     return decorator
