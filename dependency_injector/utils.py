@@ -1,13 +1,13 @@
 """Utils module."""
 
-from six import class_types
+import six
 
 from .errors import Error
 
 
 def is_provider(instance):
     """Check if instance is provider instance."""
-    return (not isinstance(instance, class_types) and
+    return (not isinstance(instance, six.class_types) and
             getattr(instance, '__IS_PROVIDER__', False) is True)
 
 
@@ -21,7 +21,7 @@ def ensure_is_provider(instance):
 
 def is_injection(instance):
     """Check if instance is injection instance."""
-    return (not isinstance(instance, class_types) and
+    return (not isinstance(instance, six.class_types) and
             getattr(instance, '__IS_INJECTION__', False) is True)
 
 
@@ -35,19 +35,19 @@ def ensure_is_injection(instance):
 
 def is_kwarg_injection(instance):
     """Check if instance is keyword argument injection instance."""
-    return (not isinstance(instance, class_types) and
+    return (not isinstance(instance, six.class_types) and
             getattr(instance, '__IS_KWARG_INJECTION__', False) is True)
 
 
 def is_attribute_injection(instance):
     """Check if instance is attribute injection instance."""
-    return (not isinstance(instance, class_types) and
+    return (not isinstance(instance, six.class_types) and
             getattr(instance, '__IS_ATTRIBUTE_INJECTION__', False) is True)
 
 
 def is_method_injection(instance):
     """Check if instance is method injection instance."""
-    return (not isinstance(instance, class_types) and
+    return (not isinstance(instance, six.class_types) and
             getattr(instance, '__IS_METHOD_INJECTION__', False) is True)
 
 

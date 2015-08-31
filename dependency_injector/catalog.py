@@ -1,7 +1,6 @@
 """Catalog module."""
 
-from six import iteritems
-from six import add_metaclass
+import six
 
 from .errors import Error
 from .utils import is_provider
@@ -15,7 +14,7 @@ class CatalogMetaClass(type):
         """Meta class factory."""
         providers = dict()
         new_attributes = dict()
-        for name, value in iteritems(attributes):
+        for name, value in six.iteritems(attributes):
             if is_provider(value):
                 providers[name] = value
             new_attributes[name] = value
@@ -26,7 +25,7 @@ class CatalogMetaClass(type):
         return cls
 
 
-@add_metaclass(CatalogMetaClass)
+@six.add_metaclass(CatalogMetaClass)
 class AbstractCatalog(object):
 
     """Abstract providers catalog."""
@@ -54,7 +53,7 @@ class AbstractCatalog(object):
     def filter(cls, provider_type):
         """Return dict of providers, that are instance of provided type."""
         return dict([(name, provider)
-                     for name, provider in iteritems(cls.providers)
+                     for name, provider in six.iteritems(cls.providers)
                      if isinstance(provider, provider_type)])
 
     @classmethod
@@ -63,7 +62,7 @@ class AbstractCatalog(object):
 
         :type overriding: AbstractCatalog
         """
-        for name, provider in iteritems(overriding.providers):
+        for name, provider in six.iteritems(overriding.providers):
             cls.providers[name].override(provider)
 
 
