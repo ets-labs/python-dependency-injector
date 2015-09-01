@@ -1,16 +1,7 @@
 """Dependency injector injections unittests."""
 
 import unittest2 as unittest
-
-from dependency_injector.injections import Injection
-from dependency_injector.injections import KwArg
-from dependency_injector.injections import Attribute
-from dependency_injector.injections import Method
-from dependency_injector.injections import inject
-
-from dependency_injector.providers import Factory
-
-from dependency_injector.errors import Error
+import dependency_injector as di
 
 
 class InjectionTests(unittest.TestCase):
@@ -19,18 +10,18 @@ class InjectionTests(unittest.TestCase):
 
     def test_init(self):
         """Test Injection creation and initialization."""
-        injection = Injection('some_arg_name', 'some_value')
+        injection = di.Injection('some_arg_name', 'some_value')
         self.assertEqual(injection.name, 'some_arg_name')
         self.assertEqual(injection.injectable, 'some_value')
 
     def test_value_with_scalar_injectable(self):
         """Test Injection value property with scalar value."""
-        injection = Injection('some_arg_name', 'some_value')
+        injection = di.Injection('some_arg_name', 'some_value')
         self.assertEqual(injection.value, 'some_value')
 
     def test_value_with_provider_injectable(self):
         """Test Injection value property with provider."""
-        injection = Injection('some_arg_name', Factory(object))
+        injection = di.Injection('some_arg_name', di.Factory(object))
         self.assertIsInstance(injection.value, object)
 
 
@@ -40,7 +31,7 @@ class KwArgTests(unittest.TestCase):
 
     def test_init(self):
         """Test KwArg creation and initialization."""
-        injection = KwArg('some_arg_name', 'some_value')
+        injection = di.KwArg('some_arg_name', 'some_value')
         self.assertEqual(injection.name, 'some_arg_name')
         self.assertEqual(injection.injectable, 'some_value')
 
@@ -51,7 +42,7 @@ class AttributeTests(unittest.TestCase):
 
     def test_init(self):
         """Test Attribute creation and initialization."""
-        injection = Attribute('some_arg_name', 'some_value')
+        injection = di.Attribute('some_arg_name', 'some_value')
         self.assertEqual(injection.name, 'some_arg_name')
         self.assertEqual(injection.injectable, 'some_value')
 
@@ -62,7 +53,7 @@ class MethodTests(unittest.TestCase):
 
     def test_init(self):
         """Test Method creation and initialization."""
-        injection = Method('some_arg_name', 'some_value')
+        injection = di.Method('some_arg_name', 'some_value')
         self.assertEqual(injection.name, 'some_arg_name')
         self.assertEqual(injection.injectable, 'some_value')
 
@@ -73,11 +64,11 @@ class InjectTests(unittest.TestCase):
 
     def test_decorated(self):
         """Test `inject()` decorated callback."""
-        provider1 = Factory(object)
-        provider2 = Factory(list)
+        provider1 = di.Factory(object)
+        provider2 = di.Factory(list)
 
-        @inject(a=provider1)
-        @inject(b=provider2)
+        @di.inject(a=provider1)
+        @di.inject(b=provider2)
         def test(a, b):
             return a, b
 
@@ -94,12 +85,12 @@ class InjectTests(unittest.TestCase):
 
     def test_decorated_kwargs_priority(self):
         """Test `inject()` decorated callback kwargs priority."""
-        provider1 = Factory(object)
-        provider2 = Factory(list)
+        provider1 = di.Factory(object)
+        provider2 = di.Factory(list)
         object_a = object()
 
-        @inject(a=provider1)
-        @inject(b=provider2)
+        @di.inject(a=provider1)
+        @di.inject(b=provider2)
         def test(a, b):
             return a, b
 
@@ -117,10 +108,10 @@ class InjectTests(unittest.TestCase):
 
     def test_decorated_with_args(self):
         """Test `inject()` decorated callback with args."""
-        provider = Factory(list)
+        provider = di.Factory(list)
         object_a = object()
 
-        @inject(b=provider)
+        @di.inject(b=provider)
         def test(a, b):
             return a, b
 
@@ -138,10 +129,10 @@ class InjectTests(unittest.TestCase):
 
     def test_injection_kwarg_syntax(self):
         """Test `inject()` decorated callback with "old" style using KwArg."""
-        provider = Factory(list)
+        provider = di.Factory(list)
         object_a = object()
 
-        @inject(KwArg('b', provider))
+        @di.inject(di.KwArg('b', provider))
         def test(a, b):
             return a, b
 
@@ -159,4 +150,4 @@ class InjectTests(unittest.TestCase):
 
     def test_decorate_with_not_injection(self):
         """Test `inject()` decorator with not an injection instance."""
-        self.assertRaises(Error, inject, object)
+        self.assertRaises(di.Error, di.inject, object)

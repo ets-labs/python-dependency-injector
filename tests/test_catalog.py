@@ -1,26 +1,19 @@
 """Dependency injector catalog unittests."""
 
 import unittest2 as unittest
-
-from dependency_injector.catalog import AbstractCatalog
-from dependency_injector.catalog import override
-
-from dependency_injector.providers import Object
-from dependency_injector.providers import Value
-
-from dependency_injector.errors import Error
+import dependency_injector as di
 
 
 class CatalogTests(unittest.TestCase):
 
     """Catalog test cases."""
 
-    class Catalog(AbstractCatalog):
+    class Catalog(di.AbstractCatalog):
 
         """Test catalog."""
 
-        obj = Object(object())
-        another_obj = Object(object())
+        obj = di.Object(object())
+        another_obj = di.Object(object())
 
     def test_get_used(self):
         """Test retrieving used provider."""
@@ -30,7 +23,7 @@ class CatalogTests(unittest.TestCase):
     def test_get_unused(self):
         """Test retrieving unused provider."""
         catalog = self.Catalog()
-        self.assertRaises(Error, getattr, catalog, 'obj')
+        self.assertRaises(di.Error, getattr, catalog, 'obj')
 
     def test_all_providers(self):
         """Test getting of all catalog providers."""
@@ -45,22 +38,22 @@ class CatalogTests(unittest.TestCase):
 
     def test_all_providers_by_type(self):
         """Test getting of all catalog providers of specific type."""
-        self.assertTrue(len(self.Catalog.filter(Object)) == 2)
-        self.assertTrue(len(self.Catalog.filter(Value)) == 0)
+        self.assertTrue(len(self.Catalog.filter(di.Object)) == 2)
+        self.assertTrue(len(self.Catalog.filter(di.Value)) == 0)
 
     def test_metaclass_with_several_catalogs(self):
         """Test that metaclass work well with several catalogs."""
-        class Catalog1(AbstractCatalog):
+        class Catalog1(di.AbstractCatalog):
 
             """Catalog1."""
 
-            provider = Object(object())
+            provider = di.Object(object())
 
-        class Catalog2(AbstractCatalog):
+        class Catalog2(di.AbstractCatalog):
 
             """Catalog2."""
 
-            provider = Object(object())
+            provider = di.Object(object())
 
         self.assertTrue(len(Catalog1.providers) == 1)
         self.assertIs(Catalog1.provider, Catalog1.providers['provider'])
@@ -75,22 +68,22 @@ class OverrideTests(unittest.TestCase):
 
     """Override decorator test cases."""
 
-    class Catalog(AbstractCatalog):
+    class Catalog(di.AbstractCatalog):
 
         """Test catalog."""
 
-        obj = Object(object())
-        another_obj = Object(object())
+        obj = di.Object(object())
+        another_obj = di.Object(object())
 
     def test_overriding(self):
         """Test catalog overriding with another catalog."""
-        @override(self.Catalog)
+        @di.override(self.Catalog)
         class OverridingCatalog(self.Catalog):
 
             """Overriding catalog."""
 
-            obj = Value(1)
-            another_obj = Value(2)
+            obj = di.Value(1)
+            another_obj = di.Value(2)
 
         self.assertEqual(self.Catalog.obj(), 1)
         self.assertEqual(self.Catalog.another_obj(), 2)
