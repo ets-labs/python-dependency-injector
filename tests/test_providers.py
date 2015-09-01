@@ -429,9 +429,9 @@ class CallableTests(unittest.TestCase):
     def setUp(self):
         """Set test cases environment up."""
         self.provider = di.Callable(self.example,
-                                    di.KwArg('arg1', 'a1'),
-                                    di.KwArg('arg2', 'a2'),
-                                    di.KwArg('arg3', 'a3'))
+                                    arg1='a1',
+                                    arg2='a2',
+                                    arg3='a3')
 
     def test_init_with_not_callable(self):
         """Test creation of provider with not callable."""
@@ -448,7 +448,7 @@ class CallableTests(unittest.TestCase):
     def test_call_with_args(self):
         """Test provider call with kwargs priority."""
         provider = di.Callable(self.example,
-                               di.KwArg('arg3', 'a3'))
+                               arg3='a3')
         self.assertEqual(provider(1, 2), (1, 2, 'a3'))
 
     def test_call_with_kwargs_priority(self):

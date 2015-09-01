@@ -255,22 +255,21 @@ class Callable(Provider):
     with some predefined dependency injections.
     """
 
-    __slots__ = ('_callback', '_injections')
+    __slots__ = ('_callback', '_kwargs')
 
-    def __init__(self, callback, *injections):
+    def __init__(self, callback, **kwargs):
         """Initializer."""
         if not callable(callback):
             raise Error('Callable expected, got {0}'.format(str(callback)))
         self._callback = callback
-        self._injections = tuple((injection
-                                  for injection in injections
-                                  if is_kwarg_injection(injection)))
+        self._kwargs = tuple((KwArg(name, value)
+                              for name, value in six.iteritems(kwargs)))
         super(Callable, self).__init__()
 
     def _provide(self, *args, **kwargs):
         """Return provided instance."""
         return self._callback(*args, **get_injectable_kwargs(kwargs,
-                                                             self._injections))
+                                                             self._kwargs))
 
 
 class Config(Provider):
