@@ -13,6 +13,8 @@ Development version
 
 - Add simplified syntax of kwarg injections for ``Factory`` and ``Singleton`` 
   providers: ``Factory(SomeClass, dependency1=injectable_provider_or_value)``.
+- Add simplified syntax of kwarg injections for ``Callable`` provider:
+  ``Callable(some_callable, dependency1=injectable_provider_or_value)``
 - Add simplified syntax of kwarg injections for ``@inject`` decorator:
   ``@inject(dependency1=injectable_provider_or_value)``.
 - Optimize ``@inject`` decorations when they were made several times for the 
