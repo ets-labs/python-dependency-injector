@@ -1,44 +1,40 @@
 """Catalog `@override()` decorator example."""
 
-from collections import namedtuple
-
-from dependency_injector.catalog import AbstractCatalog
-from dependency_injector.catalog import override
-from dependency_injector.providers import Factory
-from dependency_injector.injections import KwArg
+import collections
+import dependency_injector as di
 
 
 # Creating some example classes:
-Object1 = namedtuple('Object1', ['arg1', 'arg2'])
-Object2 = namedtuple('Object2', ['object1'])
-ExtendedObject2 = namedtuple('ExtendedObject2', [])
+Object1 = collections.namedtuple('Object1', ['arg1', 'arg2'])
+Object2 = collections.namedtuple('Object2', ['object1'])
+ExtendedObject2 = collections.namedtuple('ExtendedObject2', [])
 
 
-class Catalog(AbstractCatalog):
+class Catalog(di.AbstractCatalog):
 
     """Providers catalog."""
 
-    object1_factory = Factory(Object1,
-                              KwArg('arg1', 1),
-                              KwArg('arg2', 2))
-    """:type: (dependency_injector.Provider) -> Object1"""
+    object1_factory = di.Factory(Object1,
+                                 arg1=1,
+                                 arg2=2)
+    """:type: (di.Provider) -> Object1"""
 
-    object2_factory = Factory(Object2,
-                              KwArg('object1', object1_factory))
-    """:type: (dependency_injector.Provider) -> Object2"""
+    object2_factory = di.Factory(Object2,
+                                 object1=object1_factory)
+    """:type: (di.Provider) -> Object2"""
 
 
 # Overriding `Catalog` with `AnotherCatalog`:
-@override(Catalog)
-class AnotherCatalog(AbstractCatalog):
+@di.override(Catalog)
+class AnotherCatalog(di.AbstractCatalog):
 
     """Another providers catalog."""
 
-    object2_factory = Factory(ExtendedObject2)
-    """:type: (dependency_injector.Provider) -> ExtendedObject2"""
+    object2_factory = di.Factory(ExtendedObject2)
+    """:type: (di.Provider) -> ExtendedObject2"""
 
 
-# Creating some dependency_injector using overridden catalog:
+# Creating some objects using overridden catalog:
 object2_1 = Catalog.object2_factory()
 object2_2 = Catalog.object2_factory()
 
