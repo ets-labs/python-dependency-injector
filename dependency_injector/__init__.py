@@ -51,6 +51,7 @@ __all__ = (
     'Config',
 
     # Injections
+    'Injection',
     'KwArg',
     'Attribute',
     'Method',
