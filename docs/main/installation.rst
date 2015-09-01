@@ -12,7 +12,7 @@ framework can be installed from PyPi_:
     pip install dependency_injector
 
     # Installing particular version:
-    pip install dependency_injector==0.7.5
+    pip install dependency_injector==0.9.0
     
 Sources can be cloned from GitHub_:
 
