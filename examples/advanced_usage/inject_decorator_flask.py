@@ -1,30 +1,24 @@
-"""`@inject` decorator and Flask view example."""
+"""`@di.inject` decorator and Flask view example."""
 
 import sqlite3
-
-from flask import Flask
-
-from dependency_injector.providers import Singleton
-from dependency_injector.injections import KwArg
-from dependency_injector.injections import Attribute
-from dependency_injector.injections import inject
+import flask
+import dependency_injector as di
 
 
 # Database and `ObjectA` providers.
-database = Singleton(sqlite3.Connection,
-                     KwArg('database', ':memory:'),
-                     KwArg('timeout', 30),
-                     KwArg('detect_types', True),
-                     KwArg('isolation_level', 'EXCLUSIVE'),
-                     Attribute('row_factory', sqlite3.Row))
+database = di.Singleton(sqlite3.Connection,
+                        database=':memory:',
+                        timeout=30,
+                        detect_types=True,
+                        isolation_level='EXCLUSIVE')
 
 # Flask application:
-app = Flask(__name__)
+app = flask.Flask(__name__)
 
 
 # Flask view with @inject decorator:
 @app.route('/')
-@inject(KwArg('database', database))
+@di.inject(database=database)
 def hello(database):
     """Example Flask view."""
     one = database.execute('SELECT 1').fetchone()[0]

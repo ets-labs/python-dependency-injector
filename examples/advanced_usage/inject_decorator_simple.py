@@ -1,15 +1,13 @@
-"""`@inject` decorator simple example."""
+"""`@di.inject` decorator simple example."""
 
-from dependency_injector.providers import Factory
-from dependency_injector.injections import KwArg
-from dependency_injector.injections import inject
+import dependency_injector as di
 
 
-dependency_injector_factory = Factory(object)
+dependency_injector_factory = di.Factory(object)
 
 
-@inject(KwArg('new_object', dependency_injector_factory))
-@inject(KwArg('some_setting', 1334))
+@di.inject(new_object=dependency_injector_factory)
+@di.inject(some_setting=1334)
 def example_callback(new_object, some_setting):
     """Example callback that does some asserts with input args."""
     assert isinstance(new_object, object)
