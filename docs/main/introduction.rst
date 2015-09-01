@@ -57,6 +57,27 @@ framework:
 
 Main idea of *Dependency Injector* is to keep dependencies under control.
 
+Shortcuts
+---------
+
+*Dependency Injector* recommends to use such kind of import shortcut:
+
+.. code-block:: python
+
+   import dependency_injector as di
+
+- All *Dependency Injector* entities could be used just from top-level package 
+  (like ``di.Factory``, ``di.inject``, ``di.AbstractCatalog`` and so on).
+- Another one way is to use second level packages (like 
+  ``di.providers.Factory``, ``di.injections.inject``, 
+  ``di.catalog.AbstractCatalog`` and so on). It might be useful for improving 
+  of readability in some cases.
+
+.. note::
+
+    ``import dependency_injector as di`` shortcut is used among current 
+    documentation, images and examples.
+
 Main entities
 -------------
 
@@ -70,20 +91,18 @@ interaction with each other.
 There are 3 main entities:
 
 - Providers. Providers are strategies of accesing objects. For example, 
-  ``dependency_injector.providers.Factory`` creates new instance of provided 
-  class every time it is called. ``dependency_injector.providers.Singleton`` 
-  creates provided instance once and returns it on every next call. Providers 
+  ``di.providers.Factory`` creates new instance of provided 
+  class every time it is called. ``di.providers.Singleton`` creates 
+  provided instance once and returns it on every next call. Providers 
   could be overridden by another providers. Base class is - 
-  ``dependency_injector.providers.Provider``.
+  ``di.providers.Provider``.
 - Injections. Injections are instructions for making dependency injections 
   (there are several ways how they could be done). Injections are used mostly
-  by ``dependency_injector.providers.Factory`` and 
-  ``dependency_injector.providers.Singleton`` providers, but these are not only 
-  cases. Base class is - 
-  ``dependency_injector.injections.Injection``.
+  by ``di.providers.Factory`` and ``di.providers.Singleton`` providers, but 
+  these are not only cases. Base class is - ``di.injections.Injection``.
 - Catalogs. Catalogs are collections of providers. They are used for grouping 
   of providers by some principles. Base class is - 
-  ``dependency_injector.catalog.AbstractCatalog``.
+  ``di.catalog.AbstractCatalog``.
 
 
 .. _SLOC: http://en.wikipedia.org/wiki/Source_lines_of_code
