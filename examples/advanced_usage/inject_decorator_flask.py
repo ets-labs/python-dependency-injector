@@ -5,18 +5,15 @@ import flask
 import dependency_injector as di
 
 
-# Database and `ObjectA` providers.
 database = di.Singleton(sqlite3.Connection,
                         database=':memory:',
                         timeout=30,
                         detect_types=True,
                         isolation_level='EXCLUSIVE')
 
-# Flask application:
 app = flask.Flask(__name__)
 
 
-# Flask view with @inject decorator:
 @app.route('/')
 @di.inject(database=database)
 def hello(database):
