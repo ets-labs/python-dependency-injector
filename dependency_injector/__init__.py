@@ -15,37 +15,56 @@ from .providers import Value
 from .providers import Callable
 from .providers import Config
 
+from .injections import Injection
 from .injections import KwArg
 from .injections import Attribute
 from .injections import Method
 from .injections import inject
 
+from .utils import is_provider
+from .utils import ensure_is_provider
+from .utils import is_injection
+from .utils import ensure_is_injection
+from .utils import is_kwarg_injection
+from .utils import is_attribute_injection
+from .utils import is_method_injection
+
 from .errors import Error
 
 
-__all__ = ('AbstractCatalog',
+__all__ = (
+    # Catalogs
+    'AbstractCatalog',
+    'override',
 
-           # Providers
-           'Provider',
-           'Delegate',
-           'Factory',
-           'Singleton',
-           'ExternalDependency',
-           'Class',
-           'Object',
-           'Function',
-           'Value',
-           'Callable',
-           'Config',
+    # Providers
+    'Provider',
+    'Delegate',
+    'Factory',
+    'Singleton',
+    'ExternalDependency',
+    'Class',
+    'Object',
+    'Function',
+    'Value',
+    'Callable',
+    'Config',
 
-           # Injections
-           'KwArg',
-           'Attribute',
-           'Method',
+    # Injections
+    'KwArg',
+    'Attribute',
+    'Method',
+    'inject',
 
-           # Decorators
-           'override',
-           'inject',
+    # Utils
+    'is_provider',
+    'ensure_is_provider',
+    'is_injection',
+    'ensure_is_injection',
+    'is_kwarg_injection',
+    'is_attribute_injection',
+    'is_method_injection',
 
-           # Errors
-           'Error')
+    # Errors
+    'Error',
+)
