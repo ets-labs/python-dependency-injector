@@ -1,7 +1,6 @@
 """Overriding user's model example."""
 
-from dependency_injector.providers import Factory
-from dependency_injector.injections import KwArg
+import dependency_injector as di
 
 
 class User(object):
@@ -29,8 +28,8 @@ class UserService(object):
         return self.user_cls(id=id, password='secret' + str(id))
 
 # Users factory and UserService provider:
-users_service = Factory(UserService,
-                        KwArg('user_cls', User))
+users_service = di.Factory(UserService,
+                           user_cls=User)
 
 # Getting several users and making some asserts:
 user1 = users_service().get_by_id(1)
@@ -76,8 +75,8 @@ class ExtendedUserService(UserService):
         return user
 
 # Overriding users_service provider:
-extended_users_service = Factory(ExtendedUserService,
-                                 KwArg('user_cls', ExtendedUser))
+extended_users_service = di.Factory(ExtendedUserService,
+                                    user_cls=ExtendedUser)
 users_service.override(extended_users_service)
 
 # Getting few other users users and making some asserts:

@@ -1,6 +1,6 @@
 """Simple providers overriding example."""
 
-from dependency_injector.providers import Factory
+import dependency_injector as di
 
 
 class User(object):
@@ -8,7 +8,7 @@ class User(object):
     """Example class User."""
 
 # Users factory:
-users_factory = Factory(User)
+users_factory = di.Factory(User)
 
 # Creating several User objects:
 user1 = users_factory()
@@ -25,7 +25,7 @@ class SuperUser(User):
     """Example class SuperUser."""
 
 # Overriding users factory:
-users_factory.override(Factory(SuperUser))
+users_factory.override(di.Factory(SuperUser))
 
 # Creating some more User objects using overridden users factory:
 user3 = users_factory()
