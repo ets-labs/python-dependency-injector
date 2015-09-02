@@ -1,4 +1,4 @@
-"""`ExternalDependency` providers example."""
+"""`di.ExternalDependency` providers example."""
 
 import sqlite3
 import contextlib
@@ -18,6 +18,7 @@ class UserService(object):
         Database dependency need to be injected via init arg.
         """
         self.database = database
+        self.database.row_factory = sqlite3.dbapi2.Row
 
     def init_database(self):
         """Initialize database, if it has not been initialized yet."""
