@@ -72,7 +72,7 @@ So, please, follow the example below:
 Factory providers and attribute injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Example below shows how to create ``Factory`` of particular class with
+Example below shows how to create ``di.Factory`` of particular class with
 attribute injections. Those injections are done by setting specified attributes
 with injectable values right after object's creation.
 

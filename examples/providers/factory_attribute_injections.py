@@ -1,7 +1,6 @@
-"""`Factory` providers with attribute injections example."""
+"""`di.Factory` providers with attribute injections example."""
 
-from dependency_injector.providers import Factory
-from dependency_injector.injections import Attribute
+import dependency_injector as di
 
 
 class User(object):
@@ -24,11 +23,11 @@ class CreditCard(object):
     """Example class CreditCard."""
 
 # User, Photo and CreditCard factories:
-credit_cards_factory = Factory(CreditCard)
-photos_factory = Factory(Photo)
-users_factory = Factory(User,
-                        Attribute('main_photo', photos_factory),
-                        Attribute('credit_card', credit_cards_factory))
+credit_cards_factory = di.Factory(CreditCard)
+photos_factory = di.Factory(Photo)
+users_factory = di.Factory(User,
+                           di.Attribute('main_photo', photos_factory),
+                           di.Attribute('credit_card', credit_cards_factory))
 
 # Creating several User objects:
 user1 = users_factory()
