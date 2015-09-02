@@ -1,13 +1,12 @@
-"""`Singleton` providers delegation example."""
+"""`di.Singleton` providers delegation example."""
 
-from dependency_injector.providers import Singleton
-from dependency_injector.providers import Delegate
+import dependency_injector as di
 
 
 # Some singleton provider and few delegates of it:
-singleton_provider = Singleton(object)
+singleton_provider = di.Singleton(object)
 singleton_provider_delegate1 = singleton_provider.delegate()
-singleton_provider_delegate2 = Delegate(singleton_provider)
+singleton_provider_delegate2 = di.Delegate(singleton_provider)
 
 # Making some asserts:
 assert singleton_provider_delegate1() is singleton_provider
