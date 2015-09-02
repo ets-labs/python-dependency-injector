@@ -1,4 +1,4 @@
-"""`Static` providers example."""
+"""Static providers example."""
 
 import dependency_injector as di
 
