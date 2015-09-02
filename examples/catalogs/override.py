@@ -1,4 +1,4 @@
-"""`Catalog.override()` example."""
+"""Catalog overriding example."""
 
 import collections
 import dependency_injector as di

@@ -1,4 +1,4 @@
-"""Catalog `@override()` decorator example."""
+"""Catalog overriding using `@di.override()` decorator example."""
 
 import collections
 import dependency_injector as di
