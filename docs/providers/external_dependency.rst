@@ -1,7 +1,7 @@
 External dependency providers
 -----------------------------
 
-``ExternalDependency`` provider can be useful for development of
+``di.ExternalDependency`` provider can be useful for development of
 self-sufficient libraries / modules / applications that has required external
 dependencies.
 
@@ -22,9 +22,7 @@ in their application's architectures.
 At the same time, you can be sure, that your external dependency will be
 satisfied with appropriate instance.
 
-
 Example:
-
 
 .. note::
 

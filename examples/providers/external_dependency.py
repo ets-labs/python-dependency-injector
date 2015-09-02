@@ -1,18 +1,10 @@
 """`ExternalDependency` providers example."""
 
-from dependency_injector.providers import ExternalDependency
-from dependency_injector.providers import Factory
-from dependency_injector.providers import Singleton
-
-from dependency_injector.injections import KwArg
-from dependency_injector.injections import Attribute
-
-# Importing SQLITE3 and contextlib.closing for working with cursors:
 import sqlite3
-from contextlib import closing
+import contextlib
+import dependency_injector as di
 
 
-# Definition of example UserService:
 class UserService(object):
 
     """Example class UserService.
@@ -29,7 +21,7 @@ class UserService(object):
 
     def init_database(self):
         """Initialize database, if it has not been initialized yet."""
-        with closing(self.database.cursor()) as cursor:
+        with contextlib.closing(self.database.cursor()) as cursor:
             cursor.execute("""
               CREATE TABLE IF NOT EXISTS users(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -39,31 +31,30 @@ class UserService(object):
 
     def create(self, name):
         """Create user with provided name and return his id."""
-        with closing(self.database.cursor()) as cursor:
+        with contextlib.closing(self.database.cursor()) as cursor:
             cursor.execute('INSERT INTO users(name) VALUES (?)', (name,))
             return cursor.lastrowid
 
     def get_by_id(self, id):
         """Return user info by user id."""
-        with closing(self.database.cursor()) as cursor:
+        with contextlib.closing(self.database.cursor()) as cursor:
             cursor.execute('SELECT id, name FROM users WHERE id=?', (id,))
             return cursor.fetchone()
 
 
 # Database and UserService providers:
-database = ExternalDependency(instance_of=sqlite3.dbapi2.Connection)
-users_service_factory = Factory(UserService,
-                                KwArg('database', database))
+database = di.ExternalDependency(instance_of=sqlite3.dbapi2.Connection)
+users_service_factory = di.Factory(UserService,
+                                   database=database)
 
 # Out of library's scope.
 #
 # Setting database provider:
-database.provided_by(Singleton(sqlite3.dbapi2.Connection,
-                               KwArg('database', ':memory:'),
-                               KwArg('timeout', 30),
-                               KwArg('detect_types', True),
-                               KwArg('isolation_level', 'EXCLUSIVE'),
-                               Attribute('row_factory', sqlite3.Row)))
+database.provided_by(di.Singleton(sqlite3.dbapi2.Connection,
+                                  database=':memory:',
+                                  timeout=30,
+                                  detect_types=True,
+                                  isolation_level='EXCLUSIVE'))
 
 # Creating UserService instance:
 users_service = users_service_factory()
