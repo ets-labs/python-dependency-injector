@@ -11,14 +11,19 @@ follows `Semantic versioning`_
 Development version
 -------------------
 
-- Add simplified syntax of kwarg injections for ``Factory`` and ``Singleton`` 
-  providers: ``Factory(SomeClass, dependency1=injectable_provider_or_value)``.
-- Add simplified syntax of kwarg injections for ``Callable`` provider:
-  ``Callable(some_callable, dependency1=injectable_provider_or_value)``
-- Add simplified syntax of kwarg injections for ``@inject`` decorator:
-  ``@inject(dependency1=injectable_provider_or_value)``.
-- Optimize ``@inject`` decorations when they were made several times for the 
-  same callback.
+- No featues.
+
+0.9.1
+-----
+- Add simplified syntax of kwarg injections for ``di.Factory`` and 
+  ``di.Singleton`` providers: 
+  ``di.Factory(SomeClass, dependency1=injectable_provider_or_value)``.
+- Add simplified syntax of kwarg injections for ``di.Callable`` provider:
+  ``di.Callable(some_callable, dependency1=injectable_provider_or_value)``
+- Add simplified syntax of kwarg injections for ``@di.inject`` decorator:
+  ``@di.inject(dependency1=injectable_provider_or_value)``.
+- Optimize ``@di.inject()`` decorations when they were made several times for 
+  the same callback.
 - Add minor refactorings.
 - Fix of minor documentation issues.
 
