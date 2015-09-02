@@ -1,17 +1,19 @@
 Callable providers
 ------------------
 
-``Callable`` provider is a provider that wraps particular callable with
+``di.Callable`` provider is a provider that wraps particular callable with
 some injections. Every call of this provider returns result of call of initial
 callable.
 
 Callable providers and injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``Callable`` provider uses ``KwArg`` injections. ``KwArg`` injections are
-done by passing injectable values as keyword arguments during call time.
+``di.Callable`` provider uses keyword argument injections. Keyword argument 
+injections are done by passing injectable values as keyword arguments during 
+call time.
 
-Context keyword arguments have higher priority than ``KwArg`` injections.
+Context keyword arguments have higher priority than keyword argument 
+injections.
 
 Example:
 
@@ -25,13 +27,13 @@ Example:
 Callable providers delegation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``Callable`` provider could be delegated to any other provider via any kind of
-injection. Delegation of ``Callable`` providers is the same as ``Factory`` and
-``Singleton`` providers delegation, please follow *Factory providers 
-delegation* section for example.
+``di.Callable`` provider could be delegated to any other provider via any kind 
+of injection. Delegation of ``di.Callable`` providers is the same as 
+``di.Factory`` and ``di.Singleton`` providers delegation, please follow 
+*Factory providers delegation* section for example.
 
-``Callable`` delegate could be created obviously using 
-``Delegate(Callable())`` or by calling ``Callable.delegate()`` method.
+``di.Callable`` delegate could be created obviously using 
+``di.Delegate(di.Callable())`` or by calling ``di.Callable.delegate()`` method.
 
 Example:
 
