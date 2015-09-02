@@ -1,4 +1,4 @@
-"""`@di.inject` decorator and Flask view example."""
+"""`@di.inject()` decorator and Flask view example."""
 
 import sqlite3
 import flask

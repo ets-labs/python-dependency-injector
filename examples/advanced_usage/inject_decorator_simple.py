@@ -1,4 +1,4 @@
-"""`@di.inject` decorator simple example."""
+"""`@di.inject()` decorator simple example."""
 
 import dependency_injector as di
 
