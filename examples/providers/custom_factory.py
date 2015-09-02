@@ -1,7 +1,6 @@
-"""Custom `Factory` example."""
+"""Custom `di.Factory` example."""
 
-from dependency_injector.providers import Provider
-from dependency_injector.providers import Factory
+import dependency_injector as di
 
 
 class User(object):
@@ -9,7 +8,7 @@ class User(object):
     """Example class User."""
 
 
-class UsersFactory(Provider):
+class UsersFactory(di.Provider):
 
     """Example users factory."""
 
@@ -17,7 +16,7 @@ class UsersFactory(Provider):
 
     def __init__(self):
         """Initializer."""
-        self._factory = Factory(User)
+        self._factory = di.Factory(User)
         super(UsersFactory, self).__init__()
 
     def _provide(self, *args, **kwargs):
