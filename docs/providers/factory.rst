@@ -1,7 +1,7 @@
 Factory providers
 -----------------
 
-``Factory`` provider creates new instance of specified class on every call.
+``di.Factory`` provider creates new instance of specified class on every call.
 
 Nothing could be better than brief example:
 
