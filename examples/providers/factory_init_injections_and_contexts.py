@@ -1,7 +1,6 @@
-"""`Factory` providers with init injections and context arguments example."""
+"""`di.Factory` providers with init injections priority example."""
 
-from dependency_injector.providers import Factory
-from dependency_injector.injections import KwArg
+import dependency_injector as di
 
 
 class User(object):
@@ -34,11 +33,11 @@ class CreditCard(object):
     """Example class CreditCard."""
 
 # User, Photo and CreditCard factories:
-credit_cards_factory = Factory(CreditCard)
-photos_factory = Factory(Photo)
-users_factory = Factory(User,
-                        KwArg('main_photo', photos_factory),
-                        KwArg('credit_card', credit_cards_factory))
+credit_cards_factory = di.Factory(CreditCard)
+photos_factory = di.Factory(Photo)
+users_factory = di.Factory(User,
+                           main_photo=photos_factory,
+                           credit_card=credit_cards_factory)
 
 # Creating several User objects:
 user1 = users_factory(1)
@@ -62,7 +61,7 @@ assert isinstance(user2.credit_card, CreditCard)
 assert user1.main_photo is not user2.main_photo
 assert user1.credit_card is not user2.credit_card
 
-# Context keyword arguments have priority on KwArg injections priority:
+# Context keyword arguments have priority on keyword argument injections:
 main_photo_mock = Photo()
 credit_card_mock = CreditCard()
 

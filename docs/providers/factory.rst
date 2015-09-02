@@ -12,42 +12,33 @@ Nothing could be better than brief example:
 .. literalinclude:: ../../examples/providers/factory.py
    :language: python
 
-Factory providers and injections
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Objects can take dependencies in different forms. Some objects take init
-arguments, other are using attributes setting or method calls to be
-initialized. It affects how such objects need to be created and initialized,
-and that is the place where ``dependency_injector.injections`` need to be used.
-
-``Factory`` provider takes various number of positional arguments, that define
-what kind of dependency injections need to be done.
-
-All of those instructions are defined in ``dependency_injector.injections`` 
-module and are subclasses of ``dependency_injector.injections.Injection``. 
-There  are several types of injections that are used by ``Factory`` provider:
-
-+ ``KwArg`` - injection is done by passing injectable value in object's
-  ``__init__()`` method in time of object's creation via keyword argument.
-  Takes keyword name of ``__init__()`` argument and injectable value.
-+ ``Attribute`` - injection is done by setting specified attribute with
-  injectable value right after object's creation. Takes attribute's name
-  and injectable value.
-+ ``Method`` - injection is done by calling of specified method with
-  injectable value right after object's creation and attribute injections
-  are done. Takes method name and injectable value.
-
-All ``Injection``'s injectable values are provided *"as is"*, except of
-providers. Providers will be called every time, when injection needs to be
-done.
-
-
 Factory providers and __init__ injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Example below shows how to create ``Factory`` of particular class with
-``__init__`` keyword argument injections which injectable values are also
-provided by another factories:
+``di.Factory`` takes a various number of keyword arguments that are 
+transformed into keyword argument injections. Every time, when ``di.Factory`` 
+creates new one instance, keyword argument injections would be passed as an
+instance's keyword arguments. 
+
+All injectable values are provided *"as is"*, except of providers (subclasses 
+of ``di.Provider``). Providers will be called every time, when injection needs 
+to be done. For example, if injectable value of keyword argument injection is a
+``di.Factory``, it will provide new one instance (as a result of its call) as 
+an injectable value every time, when injection needs to be done.
+
+Example below is a little bit more complicated. It shows how to create 
+``di.Factory`` of particular class with ``__init__`` keyword argument 
+injections which injectable values are also provided by another factories:
+
+.. note:: 
+
+    Current keyword argument injections syntax (in an example below) is a 
+    **simplified one**. Full syntax and other types of injections could be 
+    found in sections below.
+
+    While keyword argument injections may be the best way of passing 
+    injections, current simplified syntax might be the preferable one and 
+    could be widely used.
 
 .. image:: /images/providers/factory_init_injections.png
     :width: 90%
@@ -56,11 +47,14 @@ provided by another factories:
 .. literalinclude:: ../../examples/providers/factory_init_injections.py
    :language: python
 
-Next example shows how ``Factory`` provider deals with positional and keyword
-``__init__`` context arguments. In few words, ``Factory`` provider fully
-passes positional context arguments to class's ``__init__`` method, but
-keyword context arguments have priority on ``KwArg`` injections (this could be
-useful for testing).
+Factory providers and __init__ injections priority
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Next example shows how ``di.Factory`` provider deals with positional and 
+keyword ``__init__`` context arguments. In few words, ``di.Factory`` 
+provider fully passes positional context arguments to class's ``__init__`` 
+method, but keyword context arguments have priority on predefined keyword 
+argument injections.
 
 So, please, follow the example below:
 
@@ -68,6 +62,35 @@ So, please, follow the example below:
 
 .. literalinclude:: ../../examples/providers/factory_init_injections_and_contexts.py
    :language: python
+
+
+Factory providers and other types of injections
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Objects can take dependencies in different forms(some objects take init
+arguments, other use attributes setting or method calls). It affects how 
+such objects are created and initialized.
+
+``di.Factory`` provider takes various number of positional and keyword 
+arguments, that define what kinds of dependency injections have to be used.
+
+All of those instructions are defined in ``di.injections`` module and are 
+subclasses of ``di.injections.Injection`` (shortcut ``di.Injection``). There 
+are several types of injections that are used by ``di.Factory`` provider:
+
++ ``di.KwArg`` - injection is done by passing injectable value in object's
+  ``__init__()`` method in time of object's creation via keyword argument.
+  Takes keyword name of ``__init__()`` argument and injectable value.
++ ``di.Attribute`` - injection is done by setting specified attribute with
+  injectable value right after object's creation. Takes attribute's name
+  and injectable value.
++ ``di.Method`` - injection is done by calling of specified method with
+  injectable value right after object's creation and attribute injections
+  are done. Takes method name and injectable value.
+
+All ``di.Injection``'s injectable values are provided *"as is"*, except of
+providers (subclasses of ``di.Provider``). Providers will be called every time,
+when injection needs to be done.
 
 Factory providers and attribute injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

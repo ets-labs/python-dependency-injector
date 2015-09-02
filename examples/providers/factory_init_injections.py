@@ -1,7 +1,6 @@
-"""`Factory` providers with init injections example."""
+"""`di.Factory` providers with init injections example."""
 
-from dependency_injector.providers import Factory
-from dependency_injector.injections import KwArg
+import dependency_injector as di
 
 
 class User(object):
@@ -19,9 +18,9 @@ class Photo(object):
     """Example class Photo."""
 
 # User and Photo factories:
-photos_factory = Factory(Photo)
-users_factory = Factory(User,
-                        KwArg('main_photo', photos_factory))
+photos_factory = di.Factory(Photo)
+users_factory = di.Factory(User,
+                           main_photo=photos_factory)
 
 # Creating several User objects:
 user1 = users_factory()  # Same as: user1 = User(main_photo=Photo())
