@@ -105,20 +105,20 @@ Example:
 Factory providers delegation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``Factory`` provider could be delegated to any other provider via any kind of 
-injection. Saying in other words, delegation of factories - is a way to inject
-factories themselves, instead of results of their calls. 
+``di.Factory`` provider could be delegated to any other provider via any kind 
+of injection. As it was mentioned earlier, if ``di.Factory`` is injectable 
+value, it will be called every time when injection is done. ``di.Factory`` 
+delegation is performed by wrapping delegated ``di.Factory`` into special 
+provider type - ``di.Delegate``, that just returns wrapped ``di.Factory``. 
+Saying in other words, delegation of factories - is a way to inject factories 
+themselves, instead of results of their calls. 
 
-As it was mentioned earlier, ``Injection`` calls ``Factory`` if ``Factory`` is
-injectable value. ``Factory`` delegation is performed by wrapping delegated 
-``Factory`` into special provider type -  ``Delegate``, that just returns 
-``Factory`` itself.
 
 Actually, there are two ways of creating factory delegates:
 
-+ ``Delegate(Factory(...))`` - obviously wrapping factory into ``Delegate`` 
-  provider.
-+ ``Factory(...).delegate()`` - calling factory ``delegate()`` method, that 
++ ``di.Delegate(di.Factory(...))`` - obviously wrapping factory into 
+  ``di.Delegate`` provider.
++ ``di.Factory(...).delegate()`` - calling factory ``delegate()`` method, that 
   returns delegate wrapper for current factory.
 
 Example:

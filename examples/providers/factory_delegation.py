@@ -1,7 +1,6 @@
-"""`Factory` providers delegation example."""
+"""`di.Factory` providers delegation example."""
 
-from dependency_injector.providers import Factory
-from dependency_injector.injections import KwArg
+import dependency_injector as di
 
 
 class User(object):
@@ -11,7 +10,7 @@ class User(object):
     def __init__(self, photos_factory):
         """Initializer.
 
-        :param photos_factory: (dependency_injector.providers.Factory) -> Photo
+        :param photos_factory: (di.Factory) -> Photo
         """
         self.photos_factory = photos_factory
         self._main_photo = None
@@ -30,9 +29,9 @@ class Photo(object):
     """Example class Photo."""
 
 # User and Photo factories:
-photos_factory = Factory(Photo)
-users_factory = Factory(User,
-                        KwArg('photos_factory', photos_factory.delegate()))
+photos_factory = di.Factory(Photo)
+users_factory = di.Factory(User,
+                           photos_factory=di.Delegate(photos_factory))
 
 # Creating several User objects:
 user1 = users_factory()
