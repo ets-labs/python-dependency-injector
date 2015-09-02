@@ -86,13 +86,13 @@ Example:
 Factory providers and method injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Current example shows how to create ``Factory`` of particular class with
+Current example shows how to create ``di.Factory`` of particular class with
 method injections. Those injections are done by calling of specified method
 with injectable value right after object's creation and attribute injections
 are done.
 
 Method injections are not very popular in Python due Python best practices
-(usage of public attributes instead of setter methods), but it may appear in
+(usage of public attributes instead of setter methods), but they may appear in
 some cases.
 
 Example:
