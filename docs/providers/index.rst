@@ -12,6 +12,9 @@ Current documentation section consists from description of standard providers
 library and some useful information like overriding of providers and writing 
 custom providers.
 
+All providers are validated in multithreading environment and considered to 
+be thread-safe.
+
 ..  toctree::
     :maxdepth: 2
 

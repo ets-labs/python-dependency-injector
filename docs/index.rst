@@ -39,6 +39,7 @@ framework:
 - Easy, smart, pythonic style.
 - Obvious, clear structure.
 - Memory efficiency.
+- Thread safety.
 - Semantic versioning.
 
 Main idea of *Dependency Injector* is to keep dependencies under control.

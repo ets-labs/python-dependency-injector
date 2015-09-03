@@ -1,8 +1,13 @@
 """Utils module."""
 
+import threading
+
 import six
 
 from .errors import Error
+
+
+GLOBAL_LOCK = threading.RLock()
 
 
 def is_provider(instance):

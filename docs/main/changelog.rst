@@ -13,6 +13,10 @@ Development version
 
 - No featues.
 
+0.9.3
+-----
+- Implement thread-safety.
+
 0.9.2
 -----
 - Add minor refactorings.

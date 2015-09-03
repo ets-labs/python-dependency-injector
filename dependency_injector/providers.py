@@ -9,6 +9,7 @@ from .utils import is_kwarg_injection
 from .utils import is_attribute_injection
 from .utils import is_method_injection
 from .utils import get_injectable_kwargs
+from .utils import GLOBAL_LOCK
 
 from .errors import Error
 
@@ -162,8 +163,9 @@ class Singleton(Provider):
 
     def _provide(self, *args, **kwargs):
         """Return provided instance."""
-        if not self._instance:
-            self._instance = self._factory(*args, **kwargs)
+        with GLOBAL_LOCK:
+            if not self._instance:
+                self._instance = self._factory(*args, **kwargs)
         return self._instance
 
     def reset(self):
