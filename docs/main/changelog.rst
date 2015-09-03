@@ -13,6 +13,10 @@ Development version
 
 - No featues.
 
+0.9.2
+-----
+- Add minor refactorings.
+
 0.9.1
 -----
 - Add simplified syntax of kwarg injections for ``di.Factory`` and 

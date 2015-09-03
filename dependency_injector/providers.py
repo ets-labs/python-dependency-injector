@@ -108,18 +108,18 @@ class Factory(Provider):
             raise Error('Factory provider expects to get callable, ' +
                         'got {0} instead'.format(str(provides)))
         self._provides = provides
-        self._kwargs = tuple((injection
-                              for injection in injections
-                              if is_kwarg_injection(injection)))
+        self._kwargs = tuple(injection
+                             for injection in injections
+                             if is_kwarg_injection(injection))
         if kwargs:
-            self._kwargs += tuple((KwArg(name, value)
-                                  for name, value in six.iteritems(kwargs)))
-        self._attributes = tuple((injection
-                                  for injection in injections
-                                  if is_attribute_injection(injection)))
-        self._methods = tuple((injection
-                               for injection in injections
-                               if is_method_injection(injection)))
+            self._kwargs += tuple(KwArg(name, value)
+                                  for name, value in six.iteritems(kwargs))
+        self._attributes = tuple(injection
+                                 for injection in injections
+                                 if is_attribute_injection(injection))
+        self._methods = tuple(injection
+                              for injection in injections
+                              if is_method_injection(injection))
         super(Factory, self).__init__()
 
     def _provide(self, *args, **kwargs):
@@ -262,8 +262,8 @@ class Callable(Provider):
         if not callable(callback):
             raise Error('Callable expected, got {0}'.format(str(callback)))
         self._callback = callback
-        self._kwargs = tuple((KwArg(name, value)
-                              for name, value in six.iteritems(kwargs)))
+        self._kwargs = tuple(KwArg(name, value)
+                             for name, value in six.iteritems(kwargs))
         super(Callable, self).__init__()
 
     def _provide(self, *args, **kwargs):

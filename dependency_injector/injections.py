@@ -54,11 +54,11 @@ def inject(*args, **kwargs):
     :type injection: Injection
     :return: (callable) -> (callable)
     """
-    injections = tuple((KwArg(name, value)
-                        for name, value in six.iteritems(kwargs)))
+    injections = tuple(KwArg(name, value)
+                       for name, value in six.iteritems(kwargs))
     if args:
-        injections += tuple((ensure_is_injection(injection)
-                             for injection in args))
+        injections += tuple(ensure_is_injection(injection)
+                            for injection in args)
 
     def decorator(callback):
         """Dependency injection decorator."""

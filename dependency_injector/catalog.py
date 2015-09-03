@@ -52,9 +52,9 @@ class AbstractCatalog(object):
     @classmethod
     def filter(cls, provider_type):
         """Return dict of providers, that are instance of provided type."""
-        return dict([(name, provider)
-                     for name, provider in six.iteritems(cls.providers)
-                     if isinstance(provider, provider_type)])
+        return dict((name, provider)
+                    for name, provider in six.iteritems(cls.providers)
+                    if isinstance(provider, provider_type))
 
     @classmethod
     def override(cls, overriding):
