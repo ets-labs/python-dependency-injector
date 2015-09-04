@@ -13,9 +13,13 @@ Development version
 
 - No featues.
 
+0.9.4
+-----
+- Add minor documentation fixes.
+
 0.9.3
 -----
-- Implement thread-safety.
+- Implement thread safety.
 
 0.9.2
 -----
