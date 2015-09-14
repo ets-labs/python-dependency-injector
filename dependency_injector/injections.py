@@ -62,8 +62,8 @@ def inject(*args, **kwargs):
 
     def decorator(callback):
         """Dependency injection decorator."""
-        if hasattr(callback, '_injections'):
-            callback._injections += injections
+        if hasattr(callback, 'injections'):
+            callback.injections += injections
             return callback
 
         @six.wraps(callback)
@@ -71,9 +71,9 @@ def inject(*args, **kwargs):
             """Decorated with dependency injection callback."""
             return callback(*args,
                             **get_injectable_kwargs(kwargs,
-                                                    decorated._injections))
+                                                    decorated.injections))
 
-        decorated._injections = injections
+        decorated.injections = injections
 
         return decorated
     return decorator

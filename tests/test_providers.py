@@ -301,6 +301,20 @@ class FactoryTests(unittest.TestCase):
         self.assertIsInstance(instance1, list)
         self.assertIsInstance(instance2, list)
 
+    def test_injections(self):
+        """Test getting a full list of injections using Factory.injections."""
+        provider = di.Factory(self.Example,
+                              di.KwArg('init_arg1', 1),
+                              di.KwArg('init_arg2', 2),
+                              di.Attribute('attribute1', 3),
+                              di.Attribute('attribute2', 4),
+                              di.Method('method1', 5),
+                              di.Method('method2', 6))
+
+        injections = provider.injections
+
+        self.assertEquals(len(injections), 6)
+
 
 class SingletonTests(unittest.TestCase):
 

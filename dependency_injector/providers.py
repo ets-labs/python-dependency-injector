@@ -19,15 +19,15 @@ class Provider(object):
     """Base provider class."""
 
     __IS_PROVIDER__ = True
-    __slots__ = ('_overridden',)
+    __slots__ = ('overridden_by',)
 
     def __init__(self):
         """Initializer."""
-        self._overridden = None
+        self.overridden_by = None
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
-        if self._overridden:
+        if self.overridden_by:
             return self.last_overriding(*args, **kwargs)
         return self._provide(*args, **kwargs)
 
@@ -46,52 +46,52 @@ class Provider(object):
 
     def override(self, provider):
         """Override provider with another provider."""
-        if not self._overridden:
-            self._overridden = (ensure_is_provider(provider),)
+        if not self.is_overridden:
+            self.overridden_by = (ensure_is_provider(provider),)
         else:
-            self._overridden += (ensure_is_provider(provider),)
+            self.overridden_by += (ensure_is_provider(provider),)
 
     @property
     def is_overridden(self):
         """Check if provider is overridden by another provider."""
-        return bool(self._overridden)
+        return bool(self.overridden_by)
 
     @property
     def last_overriding(self):
         """Return last overriding provider."""
         try:
-            return self._overridden[-1]
+            return self.overridden_by[-1]
         except (TypeError, IndexError):
             raise Error('Provider {0} is not overridden'.format(str(self)))
 
     def reset_last_overriding(self):
         """Reset last overriding provider."""
-        if not self._overridden:
+        if not self.is_overridden:
             raise Error('Provider {0} is not overridden'.format(str(self)))
-        self._overridden = self._overridden[:-1]
+        self.overridden_by = self.overridden_by[:-1]
 
     def reset_override(self):
         """Reset all overriding providers."""
-        self._overridden = None
+        self.overridden_by = None
 
 
 class Delegate(Provider):
 
     """Provider's delegate."""
 
-    __slots__ = ('_delegated',)
+    __slots__ = ('delegated',)
 
     def __init__(self, delegated):
         """Initializer.
 
         :type delegated: Provider
         """
-        self._delegated = ensure_is_provider(delegated)
+        self.delegated = ensure_is_provider(delegated)
         super(Delegate, self).__init__()
 
     def _provide(self, *args, **kwargs):
         """Return provided instance."""
-        return self._delegated
+        return self.delegated
 
 
 class Factory(Provider):
@@ -101,49 +101,44 @@ class Factory(Provider):
     Factory provider creates new instance of specified class on every call.
     """
 
-    __slots__ = ('_provides', '_kwargs', '_attributes', '_methods')
+    __slots__ = ('provides', 'kwargs', 'attributes', 'methods')
 
     def __init__(self, provides, *injections, **kwargs):
         """Initializer."""
         if not callable(provides):
             raise Error('Factory provider expects to get callable, ' +
                         'got {0} instead'.format(str(provides)))
-        self._provides = provides
-        self._kwargs = tuple(injection
-                             for injection in injections
-                             if is_kwarg_injection(injection))
+        self.provides = provides
+        self.kwargs = tuple(injection
+                            for injection in injections
+                            if is_kwarg_injection(injection))
         if kwargs:
-            self._kwargs += tuple(KwArg(name, value)
-                                  for name, value in six.iteritems(kwargs))
-        self._attributes = tuple(injection
-                                 for injection in injections
-                                 if is_attribute_injection(injection))
-        self._methods = tuple(injection
-                              for injection in injections
-                              if is_method_injection(injection))
+            self.kwargs += tuple(KwArg(name, value)
+                                 for name, value in six.iteritems(kwargs))
+        self.attributes = tuple(injection
+                                for injection in injections
+                                if is_attribute_injection(injection))
+        self.methods = tuple(injection
+                             for injection in injections
+                             if is_method_injection(injection))
         super(Factory, self).__init__()
 
     def _provide(self, *args, **kwargs):
         """Return provided instance."""
-        instance = self._provides(*args,
-                                  **get_injectable_kwargs(kwargs,
-                                                          self._kwargs))
-        for attribute in self._attributes:
+        instance = self.provides(*args,
+                                 **get_injectable_kwargs(kwargs,
+                                                         self.kwargs))
+        for attribute in self.attributes:
             setattr(instance, attribute.name, attribute.value)
-        for method in self._methods:
+        for method in self.methods:
             getattr(instance, method.name)(method.value)
 
         return instance
 
-
-class NewInstance(Factory):
-
-    """NewInstance provider.
-
-    It is synonym of Factory provider. NewInstance provider is considered to
-    be deprecated, but will be able to use for further backward
-    compatibility.
-    """
+    @property
+    def injections(self):
+        """Return tuple of all injections."""
+        return self.kwargs + self.attributes + self.methods
 
 
 class Singleton(Provider):
@@ -153,24 +148,24 @@ class Singleton(Provider):
     Singleton provider will create instance once and return it on every call.
     """
 
-    __slots__ = ('_instance', '_factory')
+    __slots__ = ('instance', 'factory')
 
     def __init__(self, provides, *injections, **kwargs):
         """Initializer."""
-        self._instance = None
-        self._factory = Factory(provides, *injections, **kwargs)
+        self.instance = None
+        self.factory = Factory(provides, *injections, **kwargs)
         super(Singleton, self).__init__()
 
     def _provide(self, *args, **kwargs):
         """Return provided instance."""
         with GLOBAL_LOCK:
-            if not self._instance:
-                self._instance = self._factory(*args, **kwargs)
-        return self._instance
+            if not self.instance:
+                self.instance = self.factory(*args, **kwargs)
+        return self.instance
 
     def reset(self):
         """Reset instance."""
-        self._instance = None
+        self.instance = None
 
 
 class ExternalDependency(Provider):
@@ -181,26 +176,26 @@ class ExternalDependency(Provider):
     the client's code, but it's interface is known.
     """
 
-    __slots__ = ('_instance_of',)
+    __slots__ = ('instance_of',)
 
     def __init__(self, instance_of):
         """Initializer."""
         if not isinstance(instance_of, six.class_types):
             raise Error('ExternalDependency provider expects to get class, ' +
                         'got {0} instead'.format(str(instance_of)))
-        self._instance_of = instance_of
+        self.instance_of = instance_of
         super(ExternalDependency, self).__init__()
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
-        if not self._overridden:
+        if not self.is_overridden:
             raise Error('Dependency is not defined')
 
         instance = self.last_overriding(*args, **kwargs)
 
-        if not isinstance(instance, self._instance_of):
+        if not isinstance(instance, self.instance_of):
             raise Error('{0} is not an '.format(instance) +
-                        'instance of {0}'.format(self._instance_of))
+                        'instance of {0}'.format(self.instance_of))
 
         return instance
 
@@ -209,7 +204,7 @@ class ExternalDependency(Provider):
         return self.override(provider)
 
 
-class _StaticProvider(Provider):
+class StaticProvider(Provider):
 
     """Static provider.
 
@@ -217,34 +212,34 @@ class _StaticProvider(Provider):
     it got on input.
     """
 
-    __slots__ = ('_provides',)
+    __slots__ = ('provides',)
 
     def __init__(self, provides):
         """Initializer."""
-        self._provides = provides
-        super(_StaticProvider, self).__init__()
+        self.provides = provides
+        super(StaticProvider, self).__init__()
 
     def _provide(self, *args, **kwargs):
         """Return provided instance."""
-        return self._provides
+        return self.provides
 
 
-class Class(_StaticProvider):
+class Class(StaticProvider):
 
     """Class provider provides class."""
 
 
-class Object(_StaticProvider):
+class Object(StaticProvider):
 
     """Object provider provides object."""
 
 
-class Function(_StaticProvider):
+class Function(StaticProvider):
 
     """Function provider provides function."""
 
 
-class Value(_StaticProvider):
+class Value(StaticProvider):
 
     """Value provider provides value."""
 
@@ -257,21 +252,21 @@ class Callable(Provider):
     with some predefined dependency injections.
     """
 
-    __slots__ = ('_callback', '_kwargs')
+    __slots__ = ('callback', 'kwargs')
 
     def __init__(self, callback, **kwargs):
         """Initializer."""
         if not callable(callback):
             raise Error('Callable expected, got {0}'.format(str(callback)))
-        self._callback = callback
-        self._kwargs = tuple(KwArg(name, value)
-                             for name, value in six.iteritems(kwargs))
+        self.callback = callback
+        self.kwargs = tuple(KwArg(name, value)
+                            for name, value in six.iteritems(kwargs))
         super(Callable, self).__init__()
 
     def _provide(self, *args, **kwargs):
         """Return provided instance."""
-        return self._callback(*args, **get_injectable_kwargs(kwargs,
-                                                             self._kwargs))
+        return self.callback(*args, **get_injectable_kwargs(kwargs,
+                                                            self.kwargs))
 
 
 class Config(Provider):
@@ -283,22 +278,22 @@ class Config(Provider):
     to create deferred config value provider.
     """
 
-    __slots__ = ('_value',)
+    __slots__ = ('value',)
 
     def __init__(self, value=None):
         """Initializer."""
         if not value:
             value = dict()
-        self._value = value
+        self.value = value
         super(Config, self).__init__()
 
     def __getattr__(self, item):
         """Return instance of deferred config."""
-        return _ChildConfig(parents=(item,), root_config=self)
+        return ChildConfig(parents=(item,), root_config=self)
 
     def _provide(self, paths=None):
         """Return provided instance."""
-        value = self._value
+        value = self.value
         if paths:
             for path in paths:
                 try:
@@ -310,10 +305,10 @@ class Config(Provider):
 
     def update_from(self, value):
         """Update current value from another one."""
-        self._value.update(value)
+        self.value.update(value)
 
 
-class _ChildConfig(Provider):
+class ChildConfig(Provider):
 
     """Child config provider.
 
@@ -321,19 +316,19 @@ class _ChildConfig(Provider):
     the current path in the config tree.
     """
 
-    __slots__ = ('_parents', '_root_config')
+    __slots__ = ('parents', 'root_config')
 
     def __init__(self, parents, root_config):
         """Initializer."""
-        self._parents = parents
-        self._root_config = root_config
-        super(_ChildConfig, self).__init__()
+        self.parents = parents
+        self.root_config = root_config
+        super(ChildConfig, self).__init__()
 
     def __getattr__(self, item):
         """Return instance of deferred config."""
-        return _ChildConfig(parents=self._parents + (item,),
-                            root_config=self._root_config)
+        return ChildConfig(parents=self.parents + (item,),
+                           root_config=self.root_config)
 
     def _provide(self, *args, **kwargs):
         """Return provided instance."""
-        return self._root_config(self._parents)
+        return self.root_config(self.parents)

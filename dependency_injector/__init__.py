@@ -8,6 +8,7 @@ from .providers import Delegate
 from .providers import Factory
 from .providers import Singleton
 from .providers import ExternalDependency
+from .providers import StaticProvider
 from .providers import Class
 from .providers import Object
 from .providers import Function
@@ -43,6 +44,7 @@ __all__ = (
     'Factory',
     'Singleton',
     'ExternalDependency',
+    'StaticProvider',
     'Class',
     'Object',
     'Function',

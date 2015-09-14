@@ -13,6 +13,12 @@ Development version
 
 - No featues.
 
+0.9.5
+-----
+- Change provider attributes scope to public.
+- Add ``di.Factory.injections`` attribute that represents a tuple of all 
+  ``di.Factory`` injections (including kwargs, attributes and methods).
+
 0.9.4
 -----
 - Add minor documentation fixes.
