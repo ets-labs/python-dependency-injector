@@ -6,6 +6,8 @@ from .utils import is_provider
 from .utils import ensure_is_injection
 from .utils import get_injectable_kwargs
 
+from .errors import Error
+
 
 class Injection(object):
 
@@ -60,8 +62,20 @@ def inject(*args, **kwargs):
         injections += tuple(ensure_is_injection(injection)
                             for injection in args)
 
-    def decorator(callback):
+    def decorator(callback, cls=None):
         """Dependency injection decorator."""
+        if isinstance(callback, six.class_types):
+            cls = callback
+            try:
+                cls_init = six.get_unbound_function(getattr(cls, '__init__'))
+            except AttributeError:
+                raise Error(
+                    'Class {0} has no __init__() '.format(cls.__module__,
+                                                          cls.__name__) +
+                    'method and could not be decorated with @inject decorator')
+            cls.__init__ = decorator(cls_init)
+            return cls
+
         if hasattr(callback, 'injections'):
             callback.injections += injections
             return callback

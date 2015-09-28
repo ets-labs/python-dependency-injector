@@ -151,3 +151,47 @@ class InjectTests(unittest.TestCase):
     def test_decorate_with_not_injection(self):
         """Test `inject()` decorator with not an injection instance."""
         self.assertRaises(di.Error, di.inject, object)
+
+    def test_decorate_class_method(self):
+        """Test `inject()` decorator with class method."""
+        class Test(object):
+
+            """Test class."""
+
+            @di.inject(arg1=123)
+            @di.inject(arg2=456)
+            def some_method(self, arg1, arg2):
+                """Some test method."""
+                return arg1, arg2
+
+        test_object = Test()
+        arg1, arg2 = test_object.some_method()
+
+        self.assertEquals(arg1, 123)
+        self.assertEquals(arg2, 456)
+
+    def test_decorate_class_with_init(self):
+        """Test `inject()` decorator that decorate class with __init__."""
+        @di.inject(arg1=123)
+        @di.inject(arg2=456)
+        class Test(object):
+
+            """Test class."""
+
+            def __init__(self, arg1, arg2):
+                """Init."""
+                self.arg1 = arg1
+                self.arg2 = arg2
+
+        test_object = Test()
+
+        self.assertEquals(test_object.arg1, 123)
+        self.assertEquals(test_object.arg2, 456)
+
+    def test_decorate_class_without_init(self):
+        """Test `inject()` decorator that decorate class without __init__."""
+        with self.assertRaises(di.Error):
+            @di.inject(arg1=123)
+            class Test(object):
+
+                """Test class."""
