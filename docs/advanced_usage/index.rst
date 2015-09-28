@@ -18,10 +18,23 @@ called to provide injectable values.
 
 Example:
 
-.. literalinclude:: ../../examples/advanced_usage/inject_decorator_simple.py
+.. literalinclude:: ../../examples/advanced_usage/inject_simple.py
    :language: python
 
 Example of usage ``@di.inject()`` decorator with Flask:
 
-.. literalinclude:: ../../examples/advanced_usage/inject_decorator_flask.py
+.. literalinclude:: ../../examples/advanced_usage/inject_flask.py
+   :language: python
+
+
+@inject decorator with classes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``@di.inject()`` could be applied for classes. In such case, it will look for 
+class's ``__init__()`` method and pass injection to it. If decorated class has 
+no ``__init__()`` method, appropriate ``di.Error`` will be raised.
+
+Example of usage ``@di.inject()`` with Flask class-based view:
+
+.. literalinclude:: ../../examples/advanced_usage/inject_flask_class_based.py
    :language: python
