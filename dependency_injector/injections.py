@@ -67,8 +67,9 @@ def inject(*args, **kwargs):
         if isinstance(callback, six.class_types):
             cls = callback
             try:
-                cls_init = six.get_unbound_function(getattr(cls, '__init__'))
-            except AttributeError:
+                cls_init = six.get_unbound_function(cls.__init__)
+                assert cls_init is not object.__init__
+            except (AttributeError, AssertionError):
                 raise Error(
                     'Class {0} has no __init__() '.format(cls.__module__,
                                                           cls.__name__) +
