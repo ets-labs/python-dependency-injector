@@ -11,7 +11,7 @@ follows `Semantic versioning`_
 Development version
 -------------------
 
-- No featues.
+- Add functionality for decorating classes with ``@di.inject``.
 
 0.9.5
 -----
