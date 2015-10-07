@@ -4,6 +4,74 @@ import unittest2 as unittest
 import dependency_injector as di
 
 
+class CatalogsInheritanceTests(unittest.TestCase):
+
+    """Catalogs inheritance tests."""
+
+    class CatalogA(di.AbstractCatalog):
+
+        """Test catalog A."""
+
+        p11 = di.Provider()
+        p12 = di.Provider()
+
+    class CatalogB(CatalogA):
+
+        """Test catalog B."""
+
+        p21 = di.Provider()
+        p22 = di.Provider()
+
+    class CatalogC(CatalogB):
+
+        """Test catalog C."""
+
+        p31 = di.Provider()
+        p32 = di.Provider()
+
+    def test_cls_providers(self):
+        """Test `di.AbstractCatalog.cls_providers` contents."""
+        self.assertDictEqual(self.CatalogA.cls_providers,
+                             dict(p11=self.CatalogA.p11,
+                                  p12=self.CatalogA.p12))
+        self.assertDictEqual(self.CatalogB.cls_providers,
+                             dict(p21=self.CatalogB.p21,
+                                  p22=self.CatalogB.p22))
+        self.assertDictEqual(self.CatalogC.cls_providers,
+                             dict(p31=self.CatalogC.p31,
+                                  p32=self.CatalogC.p32))
+
+    def test_inherited_providers(self):
+        """Test `di.AbstractCatalog.inherited_providers` contents."""
+        self.assertDictEqual(self.CatalogA.inherited_providers, dict())
+        self.assertDictEqual(self.CatalogB.inherited_providers,
+                             dict(p11=self.CatalogA.p11,
+                                  p12=self.CatalogA.p12))
+        self.assertDictEqual(self.CatalogC.inherited_providers,
+                             dict(p11=self.CatalogA.p11,
+                                  p12=self.CatalogA.p12,
+                                  p21=self.CatalogB.p21,
+                                  p22=self.CatalogB.p22))
+
+    def test_providers(self):
+        """Test `di.AbstractCatalog.inherited_providers` contents."""
+        self.assertDictEqual(self.CatalogA.providers,
+                             dict(p11=self.CatalogA.p11,
+                                  p12=self.CatalogA.p12))
+        self.assertDictEqual(self.CatalogB.providers,
+                             dict(p11=self.CatalogA.p11,
+                                  p12=self.CatalogA.p12,
+                                  p21=self.CatalogB.p21,
+                                  p22=self.CatalogB.p22))
+        self.assertDictEqual(self.CatalogC.providers,
+                             dict(p11=self.CatalogA.p11,
+                                  p12=self.CatalogA.p12,
+                                  p21=self.CatalogB.p21,
+                                  p22=self.CatalogB.p22,
+                                  p31=self.CatalogC.p31,
+                                  p32=self.CatalogC.p32))
+
+
 class CatalogTests(unittest.TestCase):
 
     """Catalog test cases."""
@@ -25,43 +93,10 @@ class CatalogTests(unittest.TestCase):
         catalog = self.Catalog()
         self.assertRaises(di.Error, getattr, catalog, 'obj')
 
-    def test_all_providers(self):
-        """Test getting of all catalog providers."""
-        self.assertTrue(len(self.Catalog.providers) == 2)
-
-        self.assertIn('obj', self.Catalog.providers)
-        self.assertIn(self.Catalog.obj, self.Catalog.providers.values())
-
-        self.assertIn('another_obj', self.Catalog.providers)
-        self.assertIn(self.Catalog.another_obj,
-                      self.Catalog.providers.values())
-
     def test_all_providers_by_type(self):
         """Test getting of all catalog providers of specific type."""
         self.assertTrue(len(self.Catalog.filter(di.Object)) == 2)
         self.assertTrue(len(self.Catalog.filter(di.Value)) == 0)
-
-    def test_metaclass_with_several_catalogs(self):
-        """Test that metaclass work well with several catalogs."""
-        class Catalog1(di.AbstractCatalog):
-
-            """Catalog1."""
-
-            provider = di.Object(object())
-
-        class Catalog2(di.AbstractCatalog):
-
-            """Catalog2."""
-
-            provider = di.Object(object())
-
-        self.assertTrue(len(Catalog1.providers) == 1)
-        self.assertIs(Catalog1.provider, Catalog1.providers['provider'])
-
-        self.assertTrue(len(Catalog2.providers) == 1)
-        self.assertIs(Catalog2.provider, Catalog2.providers['provider'])
-
-        self.assertIsNot(Catalog1.provider, Catalog2.provider)
 
 
 class OverrideTests(unittest.TestCase):

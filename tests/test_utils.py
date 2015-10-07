@@ -190,3 +190,32 @@ class IsMethodInjectionTests(unittest.TestCase):
     def test_with_object(self):
         """Test with object."""
         self.assertFalse(di.is_method_injection(object()))
+
+
+class IsCatalogTests(unittest.TestCase):
+
+    """`is_catalog()` test cases."""
+
+    def test_with_cls(self):
+        """Test with class."""
+        self.assertTrue(di.is_catalog(di.AbstractCatalog))
+
+    def test_with_instance(self):
+        """Test with class."""
+        self.assertFalse(di.is_catalog(di.AbstractCatalog()))
+
+    def test_with_child_class(self):
+        """Test with parent class."""
+        class Catalog(di.AbstractCatalog):
+
+            """Example catalog child class."""
+
+        self.assertTrue(di.is_catalog(Catalog))
+
+    def test_with_string(self):
+        """Test with string."""
+        self.assertFalse(di.is_catalog('some_string'))
+
+    def test_with_object(self):
+        """Test with object."""
+        self.assertFalse(di.is_catalog(object()))

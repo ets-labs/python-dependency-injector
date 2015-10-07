@@ -29,6 +29,7 @@ from .utils import ensure_is_injection
 from .utils import is_kwarg_injection
 from .utils import is_attribute_injection
 from .utils import is_method_injection
+from .utils import is_catalog
 
 from .errors import Error
 
@@ -67,6 +68,7 @@ __all__ = (
     'is_kwarg_injection',
     'is_attribute_injection',
     'is_method_injection',
+    'is_catalog',
 
     # Errors
     'Error',

@@ -56,6 +56,12 @@ def is_method_injection(instance):
             getattr(instance, '__IS_METHOD_INJECTION__', False) is True)
 
 
+def is_catalog(instance):
+    """Check if instance is catalog instance."""
+    return (isinstance(instance, six.class_types) and
+            getattr(instance, '__IS_CATALOG__', False) is True)
+
+
 def get_injectable_kwargs(kwargs, injections):
     """Return dictionary of kwargs, patched with injections."""
     init_kwargs = dict(((injection.name, injection.value)
