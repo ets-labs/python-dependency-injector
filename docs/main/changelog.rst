@@ -12,6 +12,7 @@ Development version
 -------------------
 
 - Add functionality for decorating classes with ``@di.inject``.
+- Add enhancement for ``di.AbstractCatalog`` inheritance.
 
 0.9.5
 -----

@@ -45,16 +45,23 @@ Example:
 Operating with catalog providers
 --------------------------------
 
-There are several things that could be useful for operating with catalog
-providers:
+``di.AbstractCatalog`` has several features that could be useful for some kind 
+of operations on catalog's providers:
 
-- First of all, ``di.AbstractCatalog.providers`` attribute contains ``dict`` 
-  with all catalog providers. This dictionary could be used for any kind of 
-  operations that could be done with providers. The only note, is that 
-  ``di.AbstractCatalog.providers`` attribute is read-only.
-- Second one, ``di.AbstractCatalog.filter(provider_type=di.Provider)`` method 
-  could be used for filtering catalog providers by provider types (for example,
-  for getting all ``di.Factory`` providers).
+- ``di.AbstractCatalog.providers`` is read-only attribute that contains 
+  ``dict`` of all catalog providers, including providers that are inherited 
+  from parent catalogs, where key is the name of provider and value is 
+  provider itself.
+- ``di.AbstractCatalog.cls_providers`` is read-only attribute contains ``dict``
+  of current catalog providers, where key is the name of provider and value is 
+  provider itself.
+- ``di.AbstractCatalog.inherited_providers`` is read-only attribute contains 
+  ``dict`` of all providers that are inherited from parent catalogs, where key 
+  is the name of provider and value is provider itself. 
+- ``di.AbstractCatalog.filter(provider_type=di.Provider)`` is a class method 
+  that could be used for filtering catalog providers by provider types 
+  (for example, for getting all ``di.Factory`` providers). 
+  ``di.AbstractCatalog.filter()`` method use ``di.AbstractCatalog.providers``.
 
 Example:
 
