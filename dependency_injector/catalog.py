@@ -9,7 +9,6 @@ from .utils import is_catalog
 
 
 class CatalogMetaClass(type):
-
     """Providers catalog meta class."""
 
     def __new__(mcs, class_name, bases, attributes):
@@ -35,7 +34,6 @@ class CatalogMetaClass(type):
 
 @six.add_metaclass(CatalogMetaClass)
 class AbstractCatalog(object):
-
     """Abstract providers catalog.
 
     :type providers: dict[str, dependency_injector.Provider]

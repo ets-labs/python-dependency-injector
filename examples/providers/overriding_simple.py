@@ -4,7 +4,6 @@ import dependency_injector as di
 
 
 class User(object):
-
     """Example class User."""
 
 # Users factory:
@@ -21,7 +20,6 @@ assert isinstance(user1, User) and isinstance(user2, User)
 
 # Extending User:
 class SuperUser(User):
-
     """Example class SuperUser."""
 
 # Overriding users factory:

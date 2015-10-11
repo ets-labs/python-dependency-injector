@@ -4,7 +4,6 @@ import dependency_injector as di
 
 
 class User(object):
-
     """Example class User.
 
     Class User has to be provided with user id.
@@ -24,12 +23,10 @@ class User(object):
 
 
 class Photo(object):
-
     """Example class Photo."""
 
 
 class CreditCard(object):
-
     """Example class CreditCard."""
 
 # User, Photo and CreditCard factories:

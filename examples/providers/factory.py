@@ -4,7 +4,6 @@ import dependency_injector as di
 
 
 class User(object):
-
     """Example class User."""
 
 # Factory provider creates new instance of specified class on every call.

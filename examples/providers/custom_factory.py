@@ -4,12 +4,10 @@ import dependency_injector as di
 
 
 class User(object):
-
     """Example class User."""
 
 
 class UsersFactory(di.Provider):
-
     """Example users factory."""
 
     __slots__ = ('_factory',)

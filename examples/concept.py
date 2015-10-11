@@ -5,7 +5,6 @@ import dependency_injector as di
 
 
 class ObjectA(object):
-
     """Example class ObjectA, that has dependency on database."""
 
     def __init__(self, db):
@@ -14,7 +13,6 @@ class ObjectA(object):
 
 
 class ObjectB(object):
-
     """Example class ObjectB, that has dependencies on ObjectA and database."""
 
     def __init__(self, a, db):
@@ -24,7 +22,6 @@ class ObjectB(object):
 
 
 class Catalog(di.AbstractCatalog):
-
     """Catalog of providers."""
 
     database = di.Singleton(sqlite3.Connection,

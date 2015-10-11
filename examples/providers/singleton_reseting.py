@@ -4,7 +4,6 @@ import dependency_injector as di
 
 
 class UserService(object):
-
     """Example class UserService."""
 
 # Users service singleton provider:

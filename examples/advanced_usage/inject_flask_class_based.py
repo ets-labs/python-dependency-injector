@@ -18,7 +18,6 @@ app = flask.Flask(__name__)
 @di.inject(database=database)
 @di.inject(some_setting=777)
 class HelloView(flask.views.View):
-
     """Example flask class-based view."""
 
     def __init__(self, database, some_setting):

@@ -4,7 +4,6 @@ import dependency_injector as di
 
 
 class User(object):
-
     """Example class User."""
 
     def __init__(self):
@@ -14,12 +13,10 @@ class User(object):
 
 
 class Photo(object):
-
     """Example class Photo."""
 
 
 class CreditCard(object):
-
     """Example class CreditCard."""
 
 # User, Photo and CreditCard factories:

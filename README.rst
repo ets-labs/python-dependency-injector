@@ -71,7 +71,6 @@ Examples
 
 
     class ObjectA(object):
-
         """Example class ObjectA, that has dependency on database."""
 
         def __init__(self, db):
@@ -80,7 +79,6 @@ Examples
 
 
     class ObjectB(object):
-
         """Example class ObjectB, that has dependencies on ObjectA and database."""
 
         def __init__(self, a, db):
@@ -90,7 +88,6 @@ Examples
 
 
     class Catalog(di.AbstractCatalog):
-
         """Catalog of providers."""
 
         database = di.Singleton(sqlite3.Connection,
