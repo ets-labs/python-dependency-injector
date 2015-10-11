@@ -12,7 +12,10 @@ Development version
 -------------------
 
 - Add functionality for decorating classes with ``@di.inject``.
+- Add functionality for creating ``di.AbstractCatalog`` subsets.
 - Add enhancement for ``di.AbstractCatalog`` inheritance.
+- Add images for catalog "Writing catalogs" and "Operating with catalogs" 
+  examples.
 - Add minor refactorings and code style fixes.
 
 0.9.5

@@ -62,6 +62,12 @@ def is_catalog(instance):
             getattr(instance, '__IS_CATALOG__', False) is True)
 
 
+def is_catalog_subset(instance):
+    """Check if instance is catalog subset instance."""
+    return (not isinstance(instance, six.class_types) and
+            getattr(instance, '__IS_SUBSET__', False) is True)
+
+
 def get_injectable_kwargs(kwargs, injections):
     """Return dictionary of kwargs, patched with injections."""
     init_kwargs = dict(((injection.name, injection.value)
