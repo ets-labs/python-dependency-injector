@@ -5,7 +5,6 @@ import dependency_injector as di
 
 
 class InjectionTests(unittest.TestCase):
-
     """Injection test cases."""
 
     def test_init(self):
@@ -26,7 +25,6 @@ class InjectionTests(unittest.TestCase):
 
 
 class KwArgTests(unittest.TestCase):
-
     """Keyword arg injection test cases."""
 
     def test_init(self):
@@ -37,7 +35,6 @@ class KwArgTests(unittest.TestCase):
 
 
 class AttributeTests(unittest.TestCase):
-
     """Attribute injection test cases."""
 
     def test_init(self):
@@ -48,7 +45,6 @@ class AttributeTests(unittest.TestCase):
 
 
 class MethodTests(unittest.TestCase):
-
     """Method injection test cases."""
 
     def test_init(self):
@@ -59,7 +55,6 @@ class MethodTests(unittest.TestCase):
 
 
 class InjectTests(unittest.TestCase):
-
     """Inject decorator test cases."""
 
     def test_decorated(self):
@@ -155,7 +150,6 @@ class InjectTests(unittest.TestCase):
     def test_decorate_class_method(self):
         """Test `inject()` decorator with class method."""
         class Test(object):
-
             """Test class."""
 
             @di.inject(arg1=123)
@@ -175,7 +169,6 @@ class InjectTests(unittest.TestCase):
         @di.inject(arg1=123)
         @di.inject(arg2=456)
         class Test(object):
-
             """Test class."""
 
             def __init__(self, arg1, arg2):
@@ -193,5 +186,4 @@ class InjectTests(unittest.TestCase):
         with self.assertRaises(di.Error):
             @di.inject(arg1=123)
             class Test(object):
-
                 """Test class."""

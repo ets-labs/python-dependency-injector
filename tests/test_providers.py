@@ -5,7 +5,6 @@ import dependency_injector as di
 
 
 class ProviderTests(unittest.TestCase):
-
     """Provider test cases."""
 
     def setUp(self):
@@ -106,7 +105,6 @@ class ProviderTests(unittest.TestCase):
 
 
 class DelegateTests(unittest.TestCase):
-
     """Delegate test cases."""
 
     def setUp(self):
@@ -132,11 +130,9 @@ class DelegateTests(unittest.TestCase):
 
 
 class FactoryTests(unittest.TestCase):
-
     """Factory test cases."""
 
     class Example(object):
-
         """Example class for Factory provider tests."""
 
         def __init__(self, init_arg1=None, init_arg2=None):
@@ -317,7 +313,6 @@ class FactoryTests(unittest.TestCase):
 
 
 class SingletonTests(unittest.TestCase):
-
     """Singleton test cases."""
 
     def test_call(self):
@@ -347,7 +342,6 @@ class SingletonTests(unittest.TestCase):
 
 
 class ExternalDependencyTests(unittest.TestCase):
-
     """ExternalDependency test cases."""
 
     def setUp(self):
@@ -378,7 +372,6 @@ class ExternalDependencyTests(unittest.TestCase):
 
 
 class StaticProvidersTests(unittest.TestCase):
-
     """Static providers test cases."""
 
     def test_is_provider(self):
@@ -433,7 +426,6 @@ class StaticProvidersTests(unittest.TestCase):
 
 
 class CallableTests(unittest.TestCase):
-
     """Callable test cases."""
 
     def example(self, arg1, arg2, arg3):
@@ -485,7 +477,6 @@ class CallableTests(unittest.TestCase):
 
 
 class ConfigTests(unittest.TestCase):
-
     """Config test cases."""
 
     def setUp(self):

@@ -4,7 +4,6 @@ import dependency_injector as di
 
 
 class User(object):
-
     """Example class User."""
 
     def __init__(self, id, password):
@@ -15,7 +14,6 @@ class User(object):
 
 
 class UserService(object):
-
     """Example class UserService."""
 
     def __init__(self, user_cls):
@@ -50,7 +48,6 @@ assert user1 is not user2
 
 
 class ExtendedUser(User):
-
     """Example class ExtendedUser."""
 
     def __init__(self, id, password, first_name=None, last_name=None,
@@ -63,7 +60,6 @@ class ExtendedUser(User):
 
 
 class ExtendedUserService(UserService):
-
     """Example class ExtendedUserService."""
 
     def get_by_id(self, id):

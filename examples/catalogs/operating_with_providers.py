@@ -4,7 +4,6 @@ import dependency_injector as di
 
 
 class CatalogA(di.AbstractCatalog):
-
     """Example catalog A."""
 
     provider1 = di.Factory(object)
@@ -12,7 +11,6 @@ class CatalogA(di.AbstractCatalog):
 
 
 class CatalogB(CatalogA):
-
     """Example catalog B."""
 
     provider2 = di.Singleton(object)

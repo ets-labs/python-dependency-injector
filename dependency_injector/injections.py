@@ -18,7 +18,6 @@ else:  # pragma: no cover
 
 
 class Injection(object):
-
     """Base injection class."""
 
     __IS_INJECTION__ = True
@@ -38,21 +37,18 @@ class Injection(object):
 
 
 class KwArg(Injection):
-
     """Keyword argument injection."""
 
     __IS_KWARG_INJECTION__ = True
 
 
 class Attribute(Injection):
-
     """Attribute injection."""
 
     __IS_ATTRIBUTE_INJECTION__ = True
 
 
 class Method(Injection):
-
     """Method injection."""
 
     __IS_METHOD_INJECTION__ = True

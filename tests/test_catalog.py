@@ -5,25 +5,21 @@ import dependency_injector as di
 
 
 class CatalogsInheritanceTests(unittest.TestCase):
-
     """Catalogs inheritance tests."""
 
     class CatalogA(di.AbstractCatalog):
-
         """Test catalog A."""
 
         p11 = di.Provider()
         p12 = di.Provider()
 
     class CatalogB(CatalogA):
-
         """Test catalog B."""
 
         p21 = di.Provider()
         p22 = di.Provider()
 
     class CatalogC(CatalogB):
-
         """Test catalog C."""
 
         p31 = di.Provider()
@@ -73,11 +69,9 @@ class CatalogsInheritanceTests(unittest.TestCase):
 
 
 class CatalogTests(unittest.TestCase):
-
     """Catalog test cases."""
 
     class Catalog(di.AbstractCatalog):
-
         """Test catalog."""
 
         obj = di.Object(object())
@@ -100,11 +94,9 @@ class CatalogTests(unittest.TestCase):
 
 
 class OverrideTests(unittest.TestCase):
-
     """Override decorator test cases."""
 
     class Catalog(di.AbstractCatalog):
-
         """Test catalog."""
 
         obj = di.Object(object())
@@ -114,7 +106,6 @@ class OverrideTests(unittest.TestCase):
         """Test catalog overriding with another catalog."""
         @di.override(self.Catalog)
         class OverridingCatalog(self.Catalog):
-
             """Overriding catalog."""
 
             obj = di.Value(1)

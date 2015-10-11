@@ -6,7 +6,6 @@ import dependency_injector as di
 
 
 class UserService(object):
-
     """Example class UserService.
 
     UserService has dependency on DBAPI 2.0 database connection.

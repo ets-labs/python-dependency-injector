@@ -11,7 +11,6 @@ ExtendedObject2 = collections.namedtuple('ExtendedObject2', [])
 
 
 class Catalog(di.AbstractCatalog):
-
     """Providers catalog."""
 
     object1_factory = di.Factory(Object1,
@@ -27,7 +26,6 @@ class Catalog(di.AbstractCatalog):
 # Overriding `Catalog` with `AnotherCatalog`:
 @di.override(Catalog)
 class AnotherCatalog(di.AbstractCatalog):
-
     """Another providers catalog."""
 
     object2_factory = di.Factory(ExtendedObject2)

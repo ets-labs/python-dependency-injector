@@ -4,7 +4,6 @@ import dependency_injector as di
 
 
 class UserService(object):
-
     """Example class UserService."""
 
 # Singleton provider creates new instance of specified class on first call and

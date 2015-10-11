@@ -15,7 +15,6 @@ from .errors import Error
 
 
 class Provider(object):
-
     """Base provider class."""
 
     __IS_PROVIDER__ = True
@@ -76,7 +75,6 @@ class Provider(object):
 
 
 class Delegate(Provider):
-
     """Provider's delegate."""
 
     __slots__ = ('delegated',)
@@ -95,7 +93,6 @@ class Delegate(Provider):
 
 
 class Factory(Provider):
-
     """Factory provider.
 
     Factory provider creates new instance of specified class on every call.
@@ -142,7 +139,6 @@ class Factory(Provider):
 
 
 class Singleton(Provider):
-
     """Singleton provider.
 
     Singleton provider will create instance once and return it on every call.
@@ -169,7 +165,6 @@ class Singleton(Provider):
 
 
 class ExternalDependency(Provider):
-
     """External dependency provider.
 
     Those provider is used when dependency obviously have to be overridden by
@@ -205,7 +200,6 @@ class ExternalDependency(Provider):
 
 
 class StaticProvider(Provider):
-
     """Static provider.
 
     Static provider is base implementation that provides exactly the same as
@@ -225,27 +219,22 @@ class StaticProvider(Provider):
 
 
 class Class(StaticProvider):
-
     """Class provider provides class."""
 
 
 class Object(StaticProvider):
-
     """Object provider provides object."""
 
 
 class Function(StaticProvider):
-
     """Function provider provides function."""
 
 
 class Value(StaticProvider):
-
     """Value provider provides value."""
 
 
 class Callable(Provider):
-
     """Callable provider.
 
     Callable provider provides callable that is called on every provider call
@@ -270,7 +259,6 @@ class Callable(Provider):
 
 
 class Config(Provider):
-
     """Config provider.
 
     Config provider provides dict values. Also config provider creates
@@ -309,7 +297,6 @@ class Config(Provider):
 
 
 class ChildConfig(Provider):
-
     """Child config provider.
 
     Child config provide an value from the root config object according to

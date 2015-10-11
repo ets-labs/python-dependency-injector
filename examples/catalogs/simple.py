@@ -10,7 +10,6 @@ Object2 = collections.namedtuple('Object2', ['object1'])
 
 
 class Catalog(di.AbstractCatalog):
-
     """Providers catalog."""
 
     object1_factory = di.Factory(Object1,

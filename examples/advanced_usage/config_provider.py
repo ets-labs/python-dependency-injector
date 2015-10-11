@@ -7,7 +7,6 @@ from dependency_injector.injections import KwArg
 
 
 class ObjectA(object):
-
     """Example class ObjectA, that has dependencies on some setting values."""
 
     def __init__(self, fee, price, timezone):
@@ -18,7 +17,6 @@ class ObjectA(object):
 
 
 class Catalog(AbstractCatalog):
-
     """Catalog of dependency_injector providers."""
 
     config = Config()
