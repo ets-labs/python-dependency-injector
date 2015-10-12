@@ -16,6 +16,7 @@ Development version
 - Add enhancement for ``di.AbstractCatalog`` inheritance.
 - Add images for catalog "Writing catalogs" and "Operating with catalogs" 
   examples.
+- Add support of Python 3.5.
 - Add minor refactorings and code style fixes.
 
 0.9.5
