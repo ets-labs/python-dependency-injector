@@ -3,6 +3,10 @@ install:
   - pip install tox
 script:
   - tox
+include:
+    - python: 3.5
+      env:
+          - TOXENV=py35
 env:
   - TOXENV=coveralls
   - TOXENV=pylint
