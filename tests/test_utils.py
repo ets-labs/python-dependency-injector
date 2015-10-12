@@ -5,7 +5,6 @@ import dependency_injector as di
 
 
 class IsProviderTests(unittest.TestCase):
-
     """`is_provider()` test cases."""
 
     def test_with_instance(self):
@@ -27,7 +26,6 @@ class IsProviderTests(unittest.TestCase):
     def test_with_subclass_instance(self):
         """Test with subclass of provider instance."""
         class SomeProvider(di.Provider):
-
             """Some provider for test."""
 
         self.assertTrue(di.is_provider(SomeProvider()))
@@ -35,7 +33,6 @@ class IsProviderTests(unittest.TestCase):
     def test_with_class_with_getattr(self):
         """Test with class that has __getattr__() method implementation."""
         class SomeClass(object):
-
             """Some test class with __getattr__() method implementation."""
 
             def __getattr__(self, _):
@@ -46,7 +43,6 @@ class IsProviderTests(unittest.TestCase):
 
 
 class EnsureIsProviderTests(unittest.TestCase):
-
     """`ensure_is_provider` test cases."""
 
     def test_with_instance(self):
@@ -68,7 +64,6 @@ class EnsureIsProviderTests(unittest.TestCase):
 
 
 class IsInjectionTests(unittest.TestCase):
-
     """`is_injection()` test cases."""
 
     def test_with_instance(self):
@@ -95,7 +90,6 @@ class IsInjectionTests(unittest.TestCase):
 
 
 class EnsureIsInjectionTests(unittest.TestCase):
-
     """`ensure_is_injection` test cases."""
 
     def test_with_instance(self):
@@ -117,7 +111,6 @@ class EnsureIsInjectionTests(unittest.TestCase):
 
 
 class IsKwArgInjectionTests(unittest.TestCase):
-
     """`is_kwarg_injection()` test cases."""
 
     def test_with_instance(self):
@@ -142,7 +135,6 @@ class IsKwArgInjectionTests(unittest.TestCase):
 
 
 class IsAttributeInjectionTests(unittest.TestCase):
-
     """`is_attribute_injection()` test cases."""
 
     def test_with_instance(self):
@@ -168,7 +160,6 @@ class IsAttributeInjectionTests(unittest.TestCase):
 
 
 class IsMethodInjectionTests(unittest.TestCase):
-
     """`is_method_injection()` test cases."""
 
     def test_with_instance(self):
@@ -193,7 +184,6 @@ class IsMethodInjectionTests(unittest.TestCase):
 
 
 class IsCatalogTests(unittest.TestCase):
-
     """`is_catalog()` test cases."""
 
     def test_with_cls(self):
@@ -207,7 +197,6 @@ class IsCatalogTests(unittest.TestCase):
     def test_with_child_class(self):
         """Test with parent class."""
         class Catalog(di.AbstractCatalog):
-
             """Example catalog child class."""
 
         self.assertTrue(di.is_catalog(Catalog))
@@ -219,3 +208,24 @@ class IsCatalogTests(unittest.TestCase):
     def test_with_object(self):
         """Test with object."""
         self.assertFalse(di.is_catalog(object()))
+
+
+class IsCatalogSubsetTests(unittest.TestCase):
+    """`is_catalog_subset()` test cases."""
+
+    def test_with_cls(self):
+        """Test with class."""
+        self.assertFalse(di.is_catalog_subset(di.CatalogSubset))
+
+    def test_with_instance(self):
+        """Test with class."""
+        self.assertTrue(di.is_catalog_subset(
+            di.CatalogSubset(catalog=di.AbstractCatalog, providers=tuple())))
+
+    def test_with_string(self):
+        """Test with string."""
+        self.assertFalse(di.is_catalog_subset('some_string'))
+
+    def test_with_object(self):
+        """Test with object."""
+        self.assertFalse(di.is_catalog_subset(object()))
