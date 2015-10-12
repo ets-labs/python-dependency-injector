@@ -17,6 +17,7 @@ Development version
 - Add images for catalog "Writing catalogs" and "Operating with catalogs" 
   examples.
 - Add support of Python 3.5.
+- Add support of six 1.10.0.
 - Add minor refactorings and code style fixes.
 
 0.9.5
