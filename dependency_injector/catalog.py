@@ -29,7 +29,13 @@ class CatalogMetaClass(type):
         attributes['cls_providers'] = cls_providers
         attributes['inherited_providers'] = inherited_providers
         attributes['providers'] = providers
-        return type.__new__(mcs, class_name, bases, attributes)
+
+        cls = type.__new__(mcs, class_name, bases, attributes)
+
+        for name, provider in six.iteritems(cls_providers):
+            provider.bind = ProviderBinding(cls, name)
+
+        return cls
 
     def __repr__(cls):
         """Return string representation of the catalog class."""
@@ -58,14 +64,15 @@ class AbstractCatalog(object):
 
     __IS_CATALOG__ = True
 
-    def __new__(cls, *providers):
-        """Catalog constructor.
+    @classmethod
+    def subset(cls, *provider_names):
+        """Catalog subset factory.
 
-        Catalogs are declaratives entities that could not be instantiated.
-        Catalog constructor is designed to produce subsets of catalog
-        providers.
+        Create subset of catalog providers using provider names.
         """
-        return CatalogSubset(catalog=cls, providers=providers)
+        return Subset(*(provider
+                        for name, provider in six.iteritems(cls.providers)
+                        if name in provider_names))
 
     @classmethod
     def is_subset_owner(cls, subset):
@@ -103,28 +110,42 @@ class AbstractCatalog(object):
         return name in cls.providers
 
 
-class CatalogSubset(object):
+class ProviderBinding(object):
+    """Catalog provider binding."""
+
+    __slots__ = ('catalog', 'name')
+
+    def __init__(self, catalog, name):
+        """Initializer."""
+        self.catalog = catalog
+        self.name = name
+
+
+class Subset(object):
     """Subset of catalog providers."""
 
     __IS_SUBSET__ = True
-    __slots__ = ('catalog', 'available_providers', 'providers', '__dict__')
+    __slots__ = ('catalog', 'providers', '__dict__')
 
-    def __init__(self, catalog, providers):
+    def __init__(self, *providers):
         """Initializer."""
-        self.catalog = catalog
-        self.available_providers = set(providers)
+        if not providers:
+            raise Error('Subset could not be initialized without providers')
+
+        first_provider = providers[0]
+        self.catalog = self._get_provider_binding(first_provider).catalog
+
         self.providers = dict()
-        for provider_name in self.available_providers:
-            try:
-                provider = self.catalog.providers[provider_name]
-            except KeyError:
-                raise Error('Subset could not add "{0}" provider in scope, '
-                            'because {1} has no provider with '
-                            'such name'.format(provider_name, self.catalog))
-            else:
-                self.providers[provider_name] = provider
-        self.__dict__.update(self.providers)
-        super(CatalogSubset, self).__init__()
+        for provider in providers:
+            provider_bind = self._get_provider_binding(provider)
+            if not self.catalog.get(provider_bind.name) is provider:
+                raise Error('Subset can contain providers from '
+                            'one catalog {0}, '
+                            'unknown provider - {1}'.format(self.catalog,
+                                                            provider))
+            self.providers[provider_bind.name] = provider
+            self.__dict__[provider_bind.name] = provider
+        super(Subset, self).__init__()
 
     def get(self, name):
         """Return provider with specified name or raises error."""
@@ -144,7 +165,14 @@ class CatalogSubset(object):
     def __repr__(self):
         """Return string representation of subset."""
         return '<Subset ({0}), {1}>'.format(
-            ', '.join(self.available_providers), self.catalog)
+            ', '.join(six.iterkeys(self.providers)), self.catalog)
+
+    def _get_provider_binding(self, provider):
+        """Return provider binding or raise error if provider is not boud."""
+        if not provider.bind:
+            raise Error('Provider {0} is not bound to '
+                        'any catalog'.format(provider))
+        return provider.bind
 
     def _raise_undefined_provider_error(self, name):
         """Raise error for cases when there is no such provider in subset."""

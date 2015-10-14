@@ -1,7 +1,7 @@
 """Dependency injector."""
 
 from .catalog import AbstractCatalog
-from .catalog import CatalogSubset
+from .catalog import Subset
 from .catalog import override
 
 from .providers import Provider
@@ -39,7 +39,7 @@ from .errors import Error
 __all__ = (
     # Catalogs
     'AbstractCatalog',
-    'CatalogSubset',
+    'Subset',
     'override',
 
     # Providers

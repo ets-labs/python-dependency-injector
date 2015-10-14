@@ -18,11 +18,12 @@ class Provider(object):
     """Base provider class."""
 
     __IS_PROVIDER__ = True
-    __slots__ = ('overridden_by',)
+    __slots__ = ('overridden_by', 'bind')
 
     def __init__(self):
         """Initializer."""
         self.overridden_by = None
+        self.bind = None
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
