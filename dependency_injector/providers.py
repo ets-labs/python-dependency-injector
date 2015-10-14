@@ -2,12 +2,16 @@
 
 import six
 
+from .injections import Arg
 from .injections import KwArg
 
 from .utils import ensure_is_provider
+from .utils import is_injection
+from .utils import is_arg_injection
 from .utils import is_kwarg_injection
 from .utils import is_attribute_injection
 from .utils import is_method_injection
+from .utils import get_injectable_args
 from .utils import get_injectable_kwargs
 from .utils import GLOBAL_LOCK
 
@@ -104,33 +108,35 @@ class Factory(Provider):
     Factory provider creates new instance of specified class on every call.
     """
 
-    __slots__ = ('provides', 'kwargs', 'attributes', 'methods')
+    __slots__ = ('provides', 'args', 'kwargs', 'attributes', 'methods')
 
-    def __init__(self, provides, *injections, **kwargs):
+    def __init__(self, provides, *args, **kwargs):
         """Initializer."""
         if not callable(provides):
             raise Error('Factory provider expects to get callable, ' +
                         'got {0} instead'.format(str(provides)))
         self.provides = provides
+        self.args = tuple(Arg(arg) if not is_injection(arg) else arg
+                          for arg in args
+                          if not is_injection(arg) or is_arg_injection(arg))
         self.kwargs = tuple(injection
-                            for injection in injections
+                            for injection in args
                             if is_kwarg_injection(injection))
         if kwargs:
             self.kwargs += tuple(KwArg(name, value)
                                  for name, value in six.iteritems(kwargs))
         self.attributes = tuple(injection
-                                for injection in injections
+                                for injection in args
                                 if is_attribute_injection(injection))
         self.methods = tuple(injection
-                             for injection in injections
+                             for injection in args
                              if is_method_injection(injection))
         super(Factory, self).__init__()
 
     def _provide(self, *args, **kwargs):
         """Return provided instance."""
-        instance = self.provides(*args,
-                                 **get_injectable_kwargs(kwargs,
-                                                         self.kwargs))
+        instance = self.provides(*get_injectable_args(args, self.args),
+                                 **get_injectable_kwargs(kwargs, self.kwargs))
         for attribute in self.attributes:
             setattr(instance, attribute.name, attribute.value)
         for method in self.methods:
@@ -141,7 +147,7 @@ class Factory(Provider):
     @property
     def injections(self):
         """Return tuple of all injections."""
-        return self.kwargs + self.attributes + self.methods
+        return self.args + self.kwargs + self.attributes + self.methods
 
 
 class Singleton(Provider):
@@ -152,10 +158,10 @@ class Singleton(Provider):
 
     __slots__ = ('instance', 'factory')
 
-    def __init__(self, provides, *injections, **kwargs):
+    def __init__(self, provides, *args, **kwargs):
         """Initializer."""
         self.instance = None
-        self.factory = Factory(provides, *injections, **kwargs)
+        self.factory = Factory(provides, *args, **kwargs)
         super(Singleton, self).__init__()
 
     def _provide(self, *args, **kwargs):

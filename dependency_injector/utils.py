@@ -1,6 +1,7 @@
 """Utils module."""
 
 import threading
+import itertools
 
 import six
 
@@ -39,6 +40,12 @@ def ensure_is_injection(instance):
         raise Error('Expected injection instance, '
                     'got {0}'.format(str(instance)))
     return instance
+
+
+def is_arg_injection(instance):
+    """Check if instance is positional argument injection instance."""
+    return (not isinstance(instance, six.class_types) and
+            getattr(instance, '__IS_ARG_INJECTION__', False) is True)
 
 
 def is_kwarg_injection(instance):
@@ -82,9 +89,14 @@ def ensure_is_catalog_bundle(instance):
     return instance
 
 
-def get_injectable_kwargs(kwargs, injections):
-    """Return dictionary of kwargs, patched with injections."""
-    init_kwargs = dict(((injection.name, injection.value)
-                        for injection in injections))
-    init_kwargs.update(kwargs)
-    return init_kwargs
+def get_injectable_args(context_args, arg_injections):
+    """Return tuple of positional args, patched with injections."""
+    return itertools.chain((arg.value for arg in arg_injections), context_args)
+
+
+def get_injectable_kwargs(context_kwargs, kwarg_injections):
+    """Return dictionary of keyword args, patched with injections."""
+    kwargs = dict((kwarg.name, kwarg.value)
+                  for kwarg in kwarg_injections)
+    kwargs.update(context_kwargs)
+    return kwargs

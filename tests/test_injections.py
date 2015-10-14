@@ -9,18 +9,17 @@ class InjectionTests(unittest.TestCase):
 
     def test_init(self):
         """Test Injection creation and initialization."""
-        injection = di.Injection('some_arg_name', 'some_value')
-        self.assertEqual(injection.name, 'some_arg_name')
+        injection = di.Injection('some_value')
         self.assertEqual(injection.injectable, 'some_value')
 
     def test_value_with_scalar_injectable(self):
         """Test Injection value property with scalar value."""
-        injection = di.Injection('some_arg_name', 'some_value')
+        injection = di.Injection('some_value')
         self.assertEqual(injection.value, 'some_value')
 
     def test_value_with_provider_injectable(self):
         """Test Injection value property with provider."""
-        injection = di.Injection('some_arg_name', di.Factory(object))
+        injection = di.Injection(di.Factory(object))
         self.assertIsInstance(injection.value, object)
 
     def test_value_with_catalog_bundle_injectable(self):
@@ -33,6 +32,15 @@ class InjectionTests(unittest.TestCase):
                                  TestCatalog.Bundle(TestCatalog.provider))
 
         self.assertIsInstance(injection.value, TestCatalog.Bundle)
+
+
+class ArgTests(unittest.TestCase):
+    """Positional arg injection test cases."""
+
+    def test_init(self):
+        """Test Arg creation and initialization."""
+        injection = di.Arg('some_value')
+        self.assertEqual(injection.injectable, 'some_value')
 
 
 class KwArgTests(unittest.TestCase):
