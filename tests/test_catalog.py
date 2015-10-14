@@ -71,14 +71,8 @@ class CatalogsInheritanceTests(unittest.TestCase):
                                   p32=CatalogC.p32))
 
 
-class CatalogSubsetTests(unittest.TestCase):
+class _BasicSubsetTests(object):
     """Catalog subset test cases."""
-
-    catalog = None
-
-    def setUp(self):
-        """Set test environment up."""
-        self.subset = CatalogC('p11', 'p12')
 
     def test_get_attr_from_subset(self):
         """Test get providers (attribute) from subset."""
@@ -114,9 +108,22 @@ class CatalogSubsetTests(unittest.TestCase):
         self.assertFalse(self.subset.has('p31'))
         self.assertFalse(self.subset.has('p32'))
 
-    def test_creating_with_undefined_provider(self):
-        """Test subset creation with provider that is not in catalog."""
-        self.assertRaises(di.Error, CatalogC, 'undefined_provider')
+
+class SubsetCatalogFactoryTests(_BasicSubsetTests, unittest.TestCase):
+    """Subset, that is created by catalog factory method, tests."""
+
+    def setUp(self):
+        """Set test environment up."""
+        self.subset = CatalogC.subset('p11', 'p12')
+
+
+class SubsetProvidersAggregationTests(_BasicSubsetTests, unittest.TestCase):
+    """Subset, that is created catalog providers aggregation method, tests."""
+
+    def setUp(self):
+        """Set test environment up."""
+        self.subset = di.Subset(CatalogC.p11,
+                                CatalogC.p12)
 
 
 class CatalogTests(unittest.TestCase):
@@ -147,11 +154,15 @@ class CatalogTests(unittest.TestCase):
 
     def test_is_subset_owner(self):
         """Test that catalog is subset owner."""
-        subset = CatalogA()
+        subset1 = CatalogA.subset('p11')
+        self.assertTrue(CatalogA.is_subset_owner(subset1))
+        self.assertFalse(CatalogB.is_subset_owner(subset1))
+        self.assertFalse(CatalogC.is_subset_owner(subset1))
 
-        self.assertTrue(CatalogA.is_subset_owner(subset))
-        self.assertFalse(CatalogB.is_subset_owner(subset))
-        self.assertFalse(CatalogC.is_subset_owner(subset))
+        subset2 = di.Subset(CatalogA.p11)
+        self.assertTrue(CatalogA.is_subset_owner(subset2))
+        self.assertFalse(CatalogB.is_subset_owner(subset2))
+        self.assertFalse(CatalogC.is_subset_owner(subset2))
 
     def test_filter_all_providers_by_type(self):
         """Test getting of all catalog providers of specific type."""
