@@ -70,9 +70,8 @@ class AbstractCatalog(object):
 
         Create subset of catalog providers using provider names.
         """
-        return Subset(*(provider
-                        for name, provider in six.iteritems(cls.providers)
-                        if name in provider_names))
+        return Subset(*(cls.get(provider_name)
+                        for provider_name in provider_names))
 
     @classmethod
     def is_subset_owner(cls, subset):
