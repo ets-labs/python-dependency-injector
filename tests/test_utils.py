@@ -208,28 +208,3 @@ class IsCatalogTests(unittest.TestCase):
     def test_with_object(self):
         """Test with object."""
         self.assertFalse(di.is_catalog(object()))
-
-
-class IsCatalogSubsetTests(unittest.TestCase):
-    """`is_catalog_subset()` test cases."""
-
-    def test_with_cls(self):
-        """Test with class."""
-        self.assertFalse(di.is_catalog_subset(di.Subset))
-
-    def test_with_instance(self):
-        """Test with class."""
-        class Catalog(di.AbstractCatalog):
-            """Example catalog child class."""
-
-            p1 = di.Provider()
-
-        self.assertTrue(di.is_catalog_subset(di.Subset(Catalog.p1)))
-
-    def test_with_string(self):
-        """Test with string."""
-        self.assertFalse(di.is_catalog_subset('some_string'))
-
-    def test_with_object(self):
-        """Test with object."""
-        self.assertFalse(di.is_catalog_subset(object()))

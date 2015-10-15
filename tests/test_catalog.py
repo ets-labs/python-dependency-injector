@@ -25,6 +25,13 @@ class CatalogC(CatalogB):
     p32 = di.Provider()
 
 
+class CatalogD(di.AbstractCatalog):
+    """Test catalog D."""
+
+    p11 = di.Provider()
+    p12 = di.Provider()
+
+
 class CatalogsInheritanceTests(unittest.TestCase):
     """Catalogs inheritance tests."""
 
@@ -71,59 +78,55 @@ class CatalogsInheritanceTests(unittest.TestCase):
                                   p32=CatalogC.p32))
 
 
-class _BasicSubsetTests(object):
-    """Catalog subset test cases."""
+class CatalogPackTests(unittest.TestCase):
+    """Catalog pack test cases."""
 
-    def test_get_attr_from_subset(self):
-        """Test get providers (attribute) from subset."""
-        self.assertIs(self.subset.p11, CatalogC.p11)
-        self.assertIs(self.subset.p12, CatalogC.p12)
+    def setUp(self):
+        """Set test environment up."""
+        self.pack = CatalogC.Pack(CatalogC.p11,
+                                  CatalogC.p12)
 
-    def test_get_attr_not_from_subset(self):
-        """Test get providers (attribute) that are not in subset."""
-        self.assertRaises(di.Error, getattr, self.subset, 'p21')
-        self.assertRaises(di.Error, getattr, self.subset, 'p22')
-        self.assertRaises(di.Error, getattr, self.subset, 'p31')
-        self.assertRaises(di.Error, getattr, self.subset, 'p32')
+    def test_get_attr_from_pack(self):
+        """Test get providers (attribute) from pack."""
+        self.assertIs(self.pack.p11, CatalogC.p11)
+        self.assertIs(self.pack.p12, CatalogC.p12)
 
-    def test_get_method_from_subset(self):
-        """Test get providers (get() method) from subset."""
-        self.assertIs(self.subset.get('p11'), CatalogC.p11)
-        self.assertIs(self.subset.get('p12'), CatalogC.p12)
+    def test_get_attr_not_from_pack(self):
+        """Test get providers (attribute) that are not in pack."""
+        self.assertRaises(di.Error, getattr, self.pack, 'p21')
+        self.assertRaises(di.Error, getattr, self.pack, 'p22')
+        self.assertRaises(di.Error, getattr, self.pack, 'p31')
+        self.assertRaises(di.Error, getattr, self.pack, 'p32')
 
-    def test_get_method_not_from_subset(self):
-        """Test get providers (get() method) that are not in subset."""
-        self.assertRaises(di.Error, self.subset.get, 'p21')
-        self.assertRaises(di.Error, self.subset.get, 'p22')
-        self.assertRaises(di.Error, self.subset.get, 'p31')
-        self.assertRaises(di.Error, self.subset.get, 'p32')
+    def test_get_method_from_pack(self):
+        """Test get providers (get() method) from pack."""
+        self.assertIs(self.pack.get('p11'), CatalogC.p11)
+        self.assertIs(self.pack.get('p12'), CatalogC.p12)
+
+    def test_get_method_not_from_pack(self):
+        """Test get providers (get() method) that are not in pack."""
+        self.assertRaises(di.Error, self.pack.get, 'p21')
+        self.assertRaises(di.Error, self.pack.get, 'p22')
+        self.assertRaises(di.Error, self.pack.get, 'p31')
+        self.assertRaises(di.Error, self.pack.get, 'p32')
 
     def test_has(self):
-        """Test checks of providers availability in subsets."""
-        self.assertTrue(self.subset.has('p11'))
-        self.assertTrue(self.subset.has('p12'))
+        """Test checks of providers availability in pack."""
+        self.assertTrue(self.pack.has('p11'))
+        self.assertTrue(self.pack.has('p12'))
 
-        self.assertFalse(self.subset.has('p21'))
-        self.assertFalse(self.subset.has('p22'))
-        self.assertFalse(self.subset.has('p31'))
-        self.assertFalse(self.subset.has('p32'))
+        self.assertFalse(self.pack.has('p21'))
+        self.assertFalse(self.pack.has('p22'))
+        self.assertFalse(self.pack.has('p31'))
+        self.assertFalse(self.pack.has('p32'))
 
+    def test_create_pack_with_another_catalog_provider(self):
+        """Test that pack is not created with provider from another catalog."""
+        self.assertRaises(di.Error, CatalogC.Pack, CatalogC.p31, CatalogD.p11)
 
-class SubsetCatalogFactoryTests(_BasicSubsetTests, unittest.TestCase):
-    """Subset, that is created by catalog factory method, tests."""
-
-    def setUp(self):
-        """Set test environment up."""
-        self.subset = CatalogC.subset('p11', 'p12')
-
-
-class SubsetProvidersAggregationTests(_BasicSubsetTests, unittest.TestCase):
-    """Subset, that is created catalog providers aggregation method, tests."""
-
-    def setUp(self):
-        """Set test environment up."""
-        self.subset = di.Subset(CatalogC.p11,
-                                CatalogC.p12)
+    def test_create_pack_with_unbound_provider(self):
+        """Test that pack is not created with unbound provider."""
+        self.assertRaises(di.Error, CatalogC.Pack, di.Provider())
 
 
 class CatalogTests(unittest.TestCase):
@@ -143,7 +146,7 @@ class CatalogTests(unittest.TestCase):
         self.assertRaises(di.Error, CatalogC.get, 'undefined')
 
     def test_has(self):
-        """Test checks of providers availability in subsets."""
+        """Test checks of providers availability in catalog."""
         self.assertTrue(CatalogC.has('p11'))
         self.assertTrue(CatalogC.has('p12'))
         self.assertTrue(CatalogC.has('p21'))
@@ -151,18 +154,6 @@ class CatalogTests(unittest.TestCase):
         self.assertTrue(CatalogC.has('p31'))
         self.assertTrue(CatalogC.has('p32'))
         self.assertFalse(CatalogC.has('undefined'))
-
-    def test_is_subset_owner(self):
-        """Test that catalog is subset owner."""
-        subset1 = CatalogA.subset('p11')
-        self.assertTrue(CatalogA.is_subset_owner(subset1))
-        self.assertFalse(CatalogB.is_subset_owner(subset1))
-        self.assertFalse(CatalogC.is_subset_owner(subset1))
-
-        subset2 = di.Subset(CatalogA.p11)
-        self.assertTrue(CatalogA.is_subset_owner(subset2))
-        self.assertFalse(CatalogB.is_subset_owner(subset2))
-        self.assertFalse(CatalogC.is_subset_owner(subset2))
 
     def test_filter_all_providers_by_type(self):
         """Test getting of all catalog providers of specific type."""

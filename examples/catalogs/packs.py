@@ -35,12 +35,11 @@ class AuthView(BaseWebView):
 class PhotosView(BaseWebView):
     """Example photo processing web view."""
 
-# Creating example views with appropriate service provider subsets:
-auth_view = AuthView(di.Subset(Services.users,
-                               Services.auth))
-photos_view = PhotosView(di.Subset(Services.users,
-                                   Services.photos))
-
+# Creating example views with appropriate service provider packs:
+auth_view = AuthView(Services.Pack(Services.users,
+                                   Services.auth))
+photos_view = PhotosView(Services.Pack(Services.users,
+                                       Services.photos))
 
 # Making some asserts:
 assert auth_view.services.users is Services.users
