@@ -86,6 +86,11 @@ class CatalogMetaClass(type):
         cls.Bundle = mcs.bundle_cls_factory(cls)
 
         for name, provider in six.iteritems(cls_providers):
+            if provider.is_bound:
+                raise Error('Provider {0} has been already bound to catalog'
+                            '{1} as "{2}"'.format(provider,
+                                                  provider.bind.catalog,
+                                                  provider.bind.name))
             provider.bind = ProviderBinding(cls, name)
 
         return cls

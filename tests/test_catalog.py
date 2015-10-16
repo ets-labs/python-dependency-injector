@@ -71,6 +71,23 @@ class CatalogsInheritanceTests(unittest.TestCase):
                                   p32=CatalogC.p32))
 
 
+class CatalogProvidersBindingTests(unittest.TestCase):
+    """Catalog providers binding test cases."""
+
+    def test_provider_is_bound(self):
+        """Test that providers are bound to the catalogs."""
+        self.assertIs(CatalogA.p11.bind.catalog, CatalogA)
+        self.assertEquals(CatalogA.p11.bind.name, 'p11')
+
+        self.assertIs(CatalogA.p12.bind.catalog, CatalogA)
+        self.assertEquals(CatalogA.p12.bind.name, 'p12')
+
+    def test_provider_rebinding(self):
+        """Test that provider could not be bound twice."""
+        self.assertRaises(di.Error, type, 'TestCatalog', (di.AbstractCatalog,),
+                          dict(some_name=CatalogA.p11))
+
+
 class CatalogBundleTests(unittest.TestCase):
     """Catalog bundle test cases."""
 
