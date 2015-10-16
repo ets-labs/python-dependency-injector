@@ -8,32 +8,21 @@ from .utils import is_provider
 from .utils import is_catalog
 
 
-class CatalogPackFactory(object):
-    """Factory of catalog packs."""
+class CatalogBundle(object):
+    """Bundle of catalog providers."""
 
-    def __init__(self, catalog):
+    catalog = None
+    """:type: AbstractCatalog"""
+
+    __slots__ = ('providers', '__dict__')
+
+    def __init__(self, *providers):
         """Initializer."""
-        self.catalog = catalog
-
-    def __call__(self, *providers):
-        """Create catalog pack with specified providers."""
-        return CatalogPack(self.catalog, *providers)
-
-
-class CatalogPack(object):
-    """Pack of catalog providers."""
-
-    __slots__ = ('catalog', 'providers', '__dict__')
-
-    def __init__(self, catalog, *providers):
-        """Initializer."""
-        self.catalog = catalog
-        self.providers = dict()
-        for provider in providers:
-            self._ensure_provider_is_bound(provider)
-            self.__dict__[provider.bind.name] = provider
-            self.providers[provider.bind.name] = provider
-        super(CatalogPack, self).__init__()
+        self.providers = dict((provider.bind.name, provider)
+                              for provider in providers
+                              if self._ensure_provider_is_bound(provider))
+        self.__dict__.update(self.providers)
+        super(CatalogBundle, self).__init__()
 
     def get(self, name):
         """Return provider with specified name or raises error."""
@@ -47,16 +36,17 @@ class CatalogPack(object):
         return name in self.providers
 
     def _ensure_provider_is_bound(self, provider):
-        """Check that provider is bound."""
-        if not provider.bind:
+        """Check that provider is bound to the bundle's catalog."""
+        if not provider.is_bound:
             raise Error('Provider {0} is not bound to '
                         'any catalog'.format(provider))
         if provider is not self.catalog.get(provider.bind.name):
             raise Error('{0} can contain providers from '
-                        'catalog {0}' .format(self, self.catalog))
+                        'catalog {0}'.format(self.__class__, self.catalog))
+        return True
 
     def _raise_undefined_provider_error(self, name):
-        """Raise error for cases when there is no such provider in pack."""
+        """Raise error for cases when there is no such provider in bundle."""
         raise Error('Provider "{0}" is not a part of {1}'.format(name, self))
 
     def __getattr__(self, item):
@@ -64,16 +54,16 @@ class CatalogPack(object):
         self._raise_undefined_provider_error(item)
 
     def __repr__(self):
-        """Return string representation of pack."""
-        return '<Catalog pack ({0}), {1}>'.format(
-            ', '.join(six.iterkeys(self.providers)), self.catalog)
+        """Return string representation of bundle."""
+        return '<Bundle of {0} providers ({1})>'.format(
+            self.catalog, ', '.join(six.iterkeys(self.providers)))
 
 
 class CatalogMetaClass(type):
-    """Providers catalog meta class."""
+    """Catalog meta class."""
 
     def __new__(mcs, class_name, bases, attributes):
-        """Meta class factory."""
+        """Catalog class factory."""
         cls_providers = dict((name, provider)
                              for name, provider in six.iteritems(attributes)
                              if is_provider(provider))
@@ -93,12 +83,17 @@ class CatalogMetaClass(type):
         cls.inherited_providers = inherited_providers
         cls.providers = providers
 
-        cls.Pack = CatalogPackFactory(cls)
+        cls.Bundle = mcs.bundle_cls_factory(cls)
 
         for name, provider in six.iteritems(cls_providers):
             provider.bind = ProviderBinding(cls, name)
 
         return cls
+
+    @classmethod
+    def bundle_cls_factory(mcs, cls):
+        """Create bundle class for catalog."""
+        return type('{0}Bundle', (CatalogBundle,), dict(catalog=cls))
 
     def __repr__(cls):
         """Return string representation of the catalog class."""
@@ -120,11 +115,11 @@ class AbstractCatalog(object):
     :param inherited_providers: Dict of providers, that are inherited from
         parent catalogs
 
-    :type Pack: CatalogPack
-    :param Pack: Catalog's pack class
+    :type Bundle: CatalogBundle
+    :param Bundle: Catalog's bundle class
     """
 
-    Pack = CatalogPackFactory
+    Bundle = CatalogBundle
 
     cls_providers = dict()
     inherited_providers = dict()

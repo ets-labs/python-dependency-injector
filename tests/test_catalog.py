@@ -25,13 +25,6 @@ class CatalogC(CatalogB):
     p32 = di.Provider()
 
 
-class CatalogD(di.AbstractCatalog):
-    """Test catalog D."""
-
-    p11 = di.Provider()
-    p12 = di.Provider()
-
-
 class CatalogsInheritanceTests(unittest.TestCase):
     """Catalogs inheritance tests."""
 
@@ -78,55 +71,71 @@ class CatalogsInheritanceTests(unittest.TestCase):
                                   p32=CatalogC.p32))
 
 
-class CatalogPackTests(unittest.TestCase):
-    """Catalog pack test cases."""
+class CatalogBundleTests(unittest.TestCase):
+    """Catalog bundle test cases."""
 
     def setUp(self):
         """Set test environment up."""
-        self.pack = CatalogC.Pack(CatalogC.p11,
-                                  CatalogC.p12)
+        self.bundle = CatalogC.Bundle(CatalogC.p11,
+                                      CatalogC.p12)
 
-    def test_get_attr_from_pack(self):
-        """Test get providers (attribute) from pack."""
-        self.assertIs(self.pack.p11, CatalogC.p11)
-        self.assertIs(self.pack.p12, CatalogC.p12)
+    def test_get_attr_from_bundle(self):
+        """Test get providers (attribute) from catalog bundle."""
+        self.assertIs(self.bundle.p11, CatalogC.p11)
+        self.assertIs(self.bundle.p12, CatalogC.p12)
 
-    def test_get_attr_not_from_pack(self):
-        """Test get providers (attribute) that are not in pack."""
-        self.assertRaises(di.Error, getattr, self.pack, 'p21')
-        self.assertRaises(di.Error, getattr, self.pack, 'p22')
-        self.assertRaises(di.Error, getattr, self.pack, 'p31')
-        self.assertRaises(di.Error, getattr, self.pack, 'p32')
+    def test_get_attr_not_from_bundle(self):
+        """Test get providers (attribute) that are not in bundle."""
+        self.assertRaises(di.Error, getattr, self.bundle, 'p21')
+        self.assertRaises(di.Error, getattr, self.bundle, 'p22')
+        self.assertRaises(di.Error, getattr, self.bundle, 'p31')
+        self.assertRaises(di.Error, getattr, self.bundle, 'p32')
 
-    def test_get_method_from_pack(self):
-        """Test get providers (get() method) from pack."""
-        self.assertIs(self.pack.get('p11'), CatalogC.p11)
-        self.assertIs(self.pack.get('p12'), CatalogC.p12)
+    def test_get_method_from_bundle(self):
+        """Test get providers (get() method) from bundle."""
+        self.assertIs(self.bundle.get('p11'), CatalogC.p11)
+        self.assertIs(self.bundle.get('p12'), CatalogC.p12)
 
-    def test_get_method_not_from_pack(self):
-        """Test get providers (get() method) that are not in pack."""
-        self.assertRaises(di.Error, self.pack.get, 'p21')
-        self.assertRaises(di.Error, self.pack.get, 'p22')
-        self.assertRaises(di.Error, self.pack.get, 'p31')
-        self.assertRaises(di.Error, self.pack.get, 'p32')
+    def test_get_method_not_from_bundle(self):
+        """Test get providers (get() method) that are not in bundle."""
+        self.assertRaises(di.Error, self.bundle.get, 'p21')
+        self.assertRaises(di.Error, self.bundle.get, 'p22')
+        self.assertRaises(di.Error, self.bundle.get, 'p31')
+        self.assertRaises(di.Error, self.bundle.get, 'p32')
 
     def test_has(self):
-        """Test checks of providers availability in pack."""
-        self.assertTrue(self.pack.has('p11'))
-        self.assertTrue(self.pack.has('p12'))
+        """Test checks of providers availability in bundle."""
+        self.assertTrue(self.bundle.has('p11'))
+        self.assertTrue(self.bundle.has('p12'))
 
-        self.assertFalse(self.pack.has('p21'))
-        self.assertFalse(self.pack.has('p22'))
-        self.assertFalse(self.pack.has('p31'))
-        self.assertFalse(self.pack.has('p32'))
+        self.assertFalse(self.bundle.has('p21'))
+        self.assertFalse(self.bundle.has('p22'))
+        self.assertFalse(self.bundle.has('p31'))
+        self.assertFalse(self.bundle.has('p32'))
 
-    def test_create_pack_with_another_catalog_provider(self):
-        """Test that pack is not created with provider from another catalog."""
-        self.assertRaises(di.Error, CatalogC.Pack, CatalogC.p31, CatalogD.p11)
+    def test_create_bundle_with_unbound_provider(self):
+        """Test that bundle is not created with unbound provider."""
+        self.assertRaises(di.Error, CatalogC.Bundle, di.Provider())
 
-    def test_create_pack_with_unbound_provider(self):
-        """Test that pack is not created with unbound provider."""
-        self.assertRaises(di.Error, CatalogC.Pack, di.Provider())
+    def test_create_bundle_with_another_catalog_provider(self):
+        """Test that bundle can not contain another catalog's provider."""
+        class TestCatalog(di.AbstractCatalog):
+            """Test catalog."""
+
+            provider = di.Provider()
+
+        self.assertRaises(di.Error,
+                          CatalogC.Bundle, CatalogC.p31, TestCatalog.provider)
+
+    def test_create_bundle_with_another_catalog_provider_with_same_name(self):
+        """Test that bundle can not contain another catalog's provider."""
+        class TestCatalog(di.AbstractCatalog):
+            """Test catalog."""
+
+            p31 = di.Provider()
+
+        self.assertRaises(di.Error,
+                          CatalogC.Bundle, CatalogC.p31, TestCatalog.p31)
 
 
 class CatalogTests(unittest.TestCase):

@@ -74,6 +74,11 @@ class Provider(object):
         """Reset all overriding providers."""
         self.overridden_by = None
 
+    @property
+    def is_bound(self):
+        """Check if provider is bound to any catalog."""
+        return bool(self.bind)
+
 
 class Delegate(Provider):
     """Provider's delegate."""
