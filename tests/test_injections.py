@@ -23,6 +23,17 @@ class InjectionTests(unittest.TestCase):
         injection = di.Injection('some_arg_name', di.Factory(object))
         self.assertIsInstance(injection.value, object)
 
+    def test_value_with_catalog_bundle_injectable(self):
+        """Test Injection value property with catalog bundle."""
+        class TestCatalog(di.AbstractCatalog):
+            """Test catalog."""
+
+            provider = di.Provider()
+        injection = di.Injection('some_arg_name',
+                                 TestCatalog.Bundle(TestCatalog.provider))
+
+        self.assertIsInstance(injection.value, TestCatalog.Bundle)
+
 
 class KwArgTests(unittest.TestCase):
     """Keyword arg injection test cases."""

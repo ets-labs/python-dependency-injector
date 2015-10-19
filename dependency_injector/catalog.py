@@ -51,6 +51,8 @@ class CatalogBundle(object):
 
     def __getattr__(self, item):
         """Raise an error on every attempt to get undefined provider."""
+        if item.startswith('__') and item.endswith('__'):
+            return super(CatalogBundle, self).__getattr__(item)
         self._raise_undefined_provider_error(item)
 
     def __repr__(self):
