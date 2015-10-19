@@ -18,6 +18,8 @@ Development version
   examples.
 - Add support of Python 3.5.
 - Add support of six 1.10.0.
+- Add optimization for ``di.Injection.value`` property that will compute 
+  type of injection once, instead of doing this on every call.
 - Add minor refactorings and code style fixes.
 
 0.9.5
