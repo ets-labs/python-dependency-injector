@@ -11,15 +11,17 @@ follows `Semantic versioning`_
 Development version
 -------------------
 
-- Add functionality for decorating classes with ``@di.inject``.
 - Add functionality for creating ``di.AbstractCatalog`` provider bundles.
-- Add enhancement for ``di.AbstractCatalog`` inheritance.
+- Enhance ``di.AbstractCatalog`` inheritance.
 - Add images for catalog "Writing catalogs" and "Operating with catalogs" 
   examples.
-- Add support of Python 3.5.
-- Add support of six 1.10.0.
+- Add functionality for using positional argument injections with 
+  ``di.Factory`` and ``di.Singleton`` providers.
 - Add optimization for ``di.Injection.value`` property that will compute 
   type of injection once, instead of doing this on every call.
+- Add functionality for decorating classes with ``@di.inject``.
+- Add support of Python 3.5.
+- Add support of six 1.10.0.
 - Add minor refactorings and code style fixes.
 
 0.9.5

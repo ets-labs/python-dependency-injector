@@ -1,4 +1,4 @@
-"""`di.Factory` providers with init injections example."""
+"""`di.Factory` providers with init keyword injections example."""
 
 import dependency_injector as di
 
@@ -17,8 +17,7 @@ class Photo(object):
 
 # User and Photo factories:
 photos_factory = di.Factory(Photo)
-users_factory = di.Factory(User,
-                           main_photo=photos_factory)
+users_factory = di.Factory(User, main_photo=photos_factory)
 
 # Creating several User objects:
 user1 = users_factory()  # Same as: user1 = User(main_photo=Photo())

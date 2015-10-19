@@ -68,10 +68,11 @@ class IsInjectionTests(unittest.TestCase):
 
     def test_with_instance(self):
         """Test with instance."""
-        self.assertTrue(di.is_injection(di.Injection('name', 'value')))
+        self.assertTrue(di.is_injection(di.Injection('value')))
 
     def test_with_subclass_instances(self):
         """Test with subclass instances."""
+        self.assertTrue(di.is_injection(di.Arg('value')))
         self.assertTrue(di.is_injection(di.KwArg('name', 'value')))
         self.assertTrue(di.is_injection(di.Attribute('name', 'value')))
         self.assertTrue(di.is_injection(di.Method('name', 'value')))
@@ -94,7 +95,7 @@ class EnsureIsInjectionTests(unittest.TestCase):
 
     def test_with_instance(self):
         """Test with instance."""
-        injection = di.Injection('name', 'value')
+        injection = di.Injection('value')
         self.assertIs(di.ensure_is_injection(injection), injection)
 
     def test_with_class(self):
@@ -108,6 +109,30 @@ class EnsureIsInjectionTests(unittest.TestCase):
     def test_with_object(self):
         """Test with object."""
         self.assertRaises(di.Error, di.ensure_is_injection, object())
+
+
+class IsArgInjectionTests(unittest.TestCase):
+    """`is_arg_injection()` test cases."""
+
+    def test_with_instance(self):
+        """Test with instance."""
+        self.assertTrue(di.is_arg_injection(di.Arg('value')))
+
+    def test_with_class(self):
+        """Test with class."""
+        self.assertFalse(di.is_arg_injection(di.Arg))
+
+    def test_with_parent_class(self):
+        """Test with parent class."""
+        self.assertFalse(di.is_arg_injection(di.Injection))
+
+    def test_with_string(self):
+        """Test with string."""
+        self.assertFalse(di.is_arg_injection('some_string'))
+
+    def test_with_object(self):
+        """Test with object."""
+        self.assertFalse(di.is_arg_injection(object()))
 
 
 class IsKwArgInjectionTests(unittest.TestCase):

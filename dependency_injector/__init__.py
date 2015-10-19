@@ -18,6 +18,7 @@ from .providers import Callable
 from .providers import Config
 
 from .injections import Injection
+from .injections import Arg
 from .injections import KwArg
 from .injections import Attribute
 from .injections import Method
@@ -27,6 +28,7 @@ from .utils import is_provider
 from .utils import ensure_is_provider
 from .utils import is_injection
 from .utils import ensure_is_injection
+from .utils import is_arg_injection
 from .utils import is_kwarg_injection
 from .utils import is_attribute_injection
 from .utils import is_method_injection
@@ -59,6 +61,7 @@ __all__ = (
 
     # Injections
     'Injection',
+    'Arg',
     'KwArg',
     'Attribute',
     'Method',
@@ -69,6 +72,7 @@ __all__ = (
     'ensure_is_provider',
     'is_injection',
     'ensure_is_injection',
+    'is_arg_injection',
     'is_kwarg_injection',
     'is_attribute_injection',
     'is_method_injection',
