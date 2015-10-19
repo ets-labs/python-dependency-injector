@@ -62,7 +62,8 @@ assert user1.credit_card is not user2.credit_card
 main_photo_mock = Photo()
 credit_card_mock = CreditCard()
 
-user3 = users_factory(3, main_photo=main_photo_mock,
+user3 = users_factory(3,
+                      main_photo=main_photo_mock,
                       credit_card=credit_card_mock)
 
 assert user3.id == 3
