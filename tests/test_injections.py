@@ -28,8 +28,7 @@ class InjectionTests(unittest.TestCase):
             """Test catalog."""
 
             provider = di.Provider()
-        injection = di.Injection('some_arg_name',
-                                 TestCatalog.Bundle(TestCatalog.provider))
+        injection = di.Injection(TestCatalog.Bundle(TestCatalog.provider))
 
         self.assertIsInstance(injection.value, TestCatalog.Bundle)
 
