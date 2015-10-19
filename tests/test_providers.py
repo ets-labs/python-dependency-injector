@@ -4,6 +4,34 @@ import unittest2 as unittest
 import dependency_injector as di
 
 
+class Example(object):
+    """Example class for Factory provider tests."""
+
+    def __init__(self, init_arg1=None, init_arg2=None):
+        """Initializer.
+
+        :param init_arg1:
+        :param init_arg2:
+        :return:
+        """
+        self.init_arg1 = init_arg1
+        self.init_arg2 = init_arg2
+
+        self.attribute1 = None
+        self.attribute2 = None
+
+        self.method1_value = None
+        self.method2_value = None
+
+    def method1(self, value):
+        """Setter method 1."""
+        self.method1_value = value
+
+    def method2(self, value):
+        """Setter method 2."""
+        self.method2_value = value
+
+
 class ProviderTests(unittest.TestCase):
     """Provider test cases."""
 
@@ -132,36 +160,9 @@ class DelegateTests(unittest.TestCase):
 class FactoryTests(unittest.TestCase):
     """Factory test cases."""
 
-    class Example(object):
-        """Example class for Factory provider tests."""
-
-        def __init__(self, init_arg1=None, init_arg2=None):
-            """Initializer.
-
-            :param init_arg1:
-            :param init_arg2:
-            :return:
-            """
-            self.init_arg1 = init_arg1
-            self.init_arg2 = init_arg2
-
-            self.attribute1 = None
-            self.attribute2 = None
-
-            self.method1_value = None
-            self.method2_value = None
-
-        def method1(self, value):
-            """Setter method 1."""
-            self.method1_value = value
-
-        def method2(self, value):
-            """Setter method 2."""
-            self.method2_value = value
-
     def test_is_provider(self):
         """Test `is_provider` check."""
-        self.assertTrue(di.is_provider(di.Factory(self.Example)))
+        self.assertTrue(di.is_provider(di.Factory(Example)))
 
     def test_init_with_callable(self):
         """Test creation of provider with a callable."""
@@ -173,20 +174,20 @@ class FactoryTests(unittest.TestCase):
 
     def test_call(self):
         """Test creation of new instances."""
-        provider = di.Factory(self.Example)
+        provider = di.Factory(Example)
         instance1 = provider()
         instance2 = provider()
 
         self.assertIsNot(instance1, instance2)
-        self.assertIsInstance(instance1, self.Example)
-        self.assertIsInstance(instance2, self.Example)
+        self.assertIsInstance(instance1, Example)
+        self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_positional_args(self):
         """Test creation of new instances with init positional args.
 
         New simplified syntax.
         """
-        provider = di.Factory(self.Example, 'i1', 'i2')
+        provider = di.Factory(Example, 'i1', 'i2')
 
         instance1 = provider()
         instance2 = provider()
@@ -198,15 +199,15 @@ class FactoryTests(unittest.TestCase):
         self.assertEqual(instance2.init_arg2, 'i2')
 
         self.assertIsNot(instance1, instance2)
-        self.assertIsInstance(instance1, self.Example)
-        self.assertIsInstance(instance2, self.Example)
+        self.assertIsInstance(instance1, Example)
+        self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_keyword_args(self):
         """Test creation of new instances with init keyword args.
 
         New simplified syntax.
         """
-        provider = di.Factory(self.Example, init_arg1='i1', init_arg2='i2')
+        provider = di.Factory(Example, init_arg1='i1', init_arg2='i2')
 
         instance1 = provider()
         instance2 = provider()
@@ -218,15 +219,15 @@ class FactoryTests(unittest.TestCase):
         self.assertEqual(instance2.init_arg2, 'i2')
 
         self.assertIsNot(instance1, instance2)
-        self.assertIsInstance(instance1, self.Example)
-        self.assertIsInstance(instance2, self.Example)
+        self.assertIsInstance(instance1, Example)
+        self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_positional_and_keyword_args(self):
         """Test creation of new instances with init positional and keyword args.
 
         Simplified syntax of positional and keyword arg injections.
         """
-        provider = di.Factory(self.Example,'i1', init_arg2='i2')
+        provider = di.Factory(Example, 'i1', init_arg2='i2')
 
         instance1 = provider()
         instance2 = provider()
@@ -238,15 +239,15 @@ class FactoryTests(unittest.TestCase):
         self.assertEqual(instance2.init_arg2, 'i2')
 
         self.assertIsNot(instance1, instance2)
-        self.assertIsInstance(instance1, self.Example)
-        self.assertIsInstance(instance2, self.Example)
+        self.assertIsInstance(instance1, Example)
+        self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_positional_and_keyword_args_extended_syntax(self):
         """Test creation of new instances with init positional and keyword args.
 
         Extended syntax of positional and keyword arg injections.
         """
-        provider = di.Factory(self.Example,
+        provider = di.Factory(Example,
                               di.Arg('i1'),
                               di.KwArg('init_arg2', 'i2'))
 
@@ -260,12 +261,12 @@ class FactoryTests(unittest.TestCase):
         self.assertEqual(instance2.init_arg2, 'i2')
 
         self.assertIsNot(instance1, instance2)
-        self.assertIsInstance(instance1, self.Example)
-        self.assertIsInstance(instance2, self.Example)
+        self.assertIsInstance(instance1, Example)
+        self.assertIsInstance(instance2, Example)
 
     def test_call_with_attributes(self):
         """Test creation of new instances with attribute injections."""
-        provider = di.Factory(self.Example,
+        provider = di.Factory(Example,
                               di.Attribute('attribute1', 'a1'),
                               di.Attribute('attribute2', 'a2'))
 
@@ -279,12 +280,12 @@ class FactoryTests(unittest.TestCase):
         self.assertEqual(instance2.attribute2, 'a2')
 
         self.assertIsNot(instance1, instance2)
-        self.assertIsInstance(instance1, self.Example)
-        self.assertIsInstance(instance2, self.Example)
+        self.assertIsInstance(instance1, Example)
+        self.assertIsInstance(instance2, Example)
 
     def test_call_with_methods(self):
         """Test creation of new instances with method injections."""
-        provider = di.Factory(self.Example,
+        provider = di.Factory(Example,
                               di.Method('method1', 'm1'),
                               di.Method('method2', 'm2'))
 
@@ -298,12 +299,12 @@ class FactoryTests(unittest.TestCase):
         self.assertEqual(instance2.method2_value, 'm2')
 
         self.assertIsNot(instance1, instance2)
-        self.assertIsInstance(instance1, self.Example)
-        self.assertIsInstance(instance2, self.Example)
+        self.assertIsInstance(instance1, Example)
+        self.assertIsInstance(instance2, Example)
 
     def test_call_with_context_args(self):
         """Test creation of new instances with context args."""
-        provider = di.Factory(self.Example)
+        provider = di.Factory(Example)
         instance = provider(11, 22)
 
         self.assertEqual(instance.init_arg1, 11)
@@ -311,7 +312,7 @@ class FactoryTests(unittest.TestCase):
 
     def test_call_with_context_kwargs(self):
         """Test creation of new instances with context kwargs."""
-        provider = di.Factory(self.Example,
+        provider = di.Factory(Example,
                               di.KwArg('init_arg1', 1))
 
         instance1 = provider(init_arg2=22)
@@ -324,7 +325,7 @@ class FactoryTests(unittest.TestCase):
 
     def test_call_overridden(self):
         """Test creation of new instances on overridden provider."""
-        provider = di.Factory(self.Example)
+        provider = di.Factory(Example)
         overriding_provider1 = di.Factory(dict)
         overriding_provider2 = di.Factory(list)
 
@@ -339,8 +340,8 @@ class FactoryTests(unittest.TestCase):
         self.assertIsInstance(instance2, list)
 
     def test_injections(self):
-        """Test getting a full list of injections using Factory.injections."""
-        provider = di.Factory(self.Example,
+        """Test getting a full list of injections using injections property."""
+        provider = di.Factory(Example,
                               di.Arg(1),
                               di.KwArg('init_arg2', 2),
                               di.Attribute('attribute1', 3),
@@ -356,16 +357,199 @@ class FactoryTests(unittest.TestCase):
 class SingletonTests(unittest.TestCase):
     """Singleton test cases."""
 
+    def test_is_provider(self):
+        """Test `is_provider` check."""
+        self.assertTrue(di.is_provider(di.Singleton(Example)))
+
+    def test_init_with_callable(self):
+        """Test creation of provider with a callable."""
+        self.assertTrue(di.Singleton(credits))
+
+    def test_init_with_not_callable(self):
+        """Test creation of provider with not a callable."""
+        self.assertRaises(di.Error, di.Singleton, 123)
+
     def test_call(self):
-        """Test creation and returning of single object."""
-        provider = di.Singleton(object)
+        """Test getting of instances."""
+        provider = di.Singleton(Example)
+        instance1 = provider()
+        instance2 = provider()
+
+        self.assertIs(instance1, instance2)
+        self.assertIsInstance(instance1, Example)
+        self.assertIsInstance(instance2, Example)
+
+    def test_call_with_init_positional_args(self):
+        """Test getting of instances with init positional args.
+
+        New simplified syntax.
+        """
+        provider = di.Singleton(Example, 'i1', 'i2')
 
         instance1 = provider()
         instance2 = provider()
 
+        self.assertEqual(instance1.init_arg1, 'i1')
+        self.assertEqual(instance1.init_arg2, 'i2')
+
+        self.assertEqual(instance2.init_arg1, 'i1')
+        self.assertEqual(instance2.init_arg2, 'i2')
+
+        self.assertIs(instance1, instance2)
+        self.assertIsInstance(instance1, Example)
+        self.assertIsInstance(instance2, Example)
+
+    def test_call_with_init_keyword_args(self):
+        """Test getting of instances with init keyword args.
+
+        New simplified syntax.
+        """
+        provider = di.Singleton(Example, init_arg1='i1', init_arg2='i2')
+
+        instance1 = provider()
+        instance2 = provider()
+
+        self.assertEqual(instance1.init_arg1, 'i1')
+        self.assertEqual(instance1.init_arg2, 'i2')
+
+        self.assertEqual(instance2.init_arg1, 'i1')
+        self.assertEqual(instance2.init_arg2, 'i2')
+
+        self.assertIs(instance1, instance2)
+        self.assertIsInstance(instance1, Example)
+        self.assertIsInstance(instance2, Example)
+
+    def test_call_with_init_positional_and_keyword_args(self):
+        """Test getting of instances with init positional and keyword args.
+
+        Simplified syntax of positional and keyword arg injections.
+        """
+        provider = di.Singleton(Example, 'i1', init_arg2='i2')
+
+        instance1 = provider()
+        instance2 = provider()
+
+        self.assertEqual(instance1.init_arg1, 'i1')
+        self.assertEqual(instance1.init_arg2, 'i2')
+
+        self.assertEqual(instance2.init_arg1, 'i1')
+        self.assertEqual(instance2.init_arg2, 'i2')
+
+        self.assertIs(instance1, instance2)
+        self.assertIsInstance(instance1, Example)
+        self.assertIsInstance(instance2, Example)
+
+    def test_call_with_init_positional_and_keyword_args_extended_syntax(self):
+        """Test getting of instances with init positional and keyword args.
+
+        Extended syntax of positional and keyword arg injections.
+        """
+        provider = di.Singleton(Example,
+                                di.Arg('i1'),
+                                di.KwArg('init_arg2', 'i2'))
+
+        instance1 = provider()
+        instance2 = provider()
+
+        self.assertEqual(instance1.init_arg1, 'i1')
+        self.assertEqual(instance1.init_arg2, 'i2')
+
+        self.assertEqual(instance2.init_arg1, 'i1')
+        self.assertEqual(instance2.init_arg2, 'i2')
+
+        self.assertIs(instance1, instance2)
+        self.assertIsInstance(instance1, Example)
+        self.assertIsInstance(instance2, Example)
+
+    def test_call_with_attributes(self):
+        """Test getting of instances with attribute injections."""
+        provider = di.Singleton(Example,
+                                di.Attribute('attribute1', 'a1'),
+                                di.Attribute('attribute2', 'a2'))
+
+        instance1 = provider()
+        instance2 = provider()
+
+        self.assertEqual(instance1.attribute1, 'a1')
+        self.assertEqual(instance1.attribute2, 'a2')
+
+        self.assertEqual(instance2.attribute1, 'a1')
+        self.assertEqual(instance2.attribute2, 'a2')
+
+        self.assertIs(instance1, instance2)
+        self.assertIsInstance(instance1, Example)
+        self.assertIsInstance(instance2, Example)
+
+    def test_call_with_methods(self):
+        """Test getting of instances with method injections."""
+        provider = di.Singleton(Example,
+                                di.Method('method1', 'm1'),
+                                di.Method('method2', 'm2'))
+
+        instance1 = provider()
+        instance2 = provider()
+
+        self.assertEqual(instance1.method1_value, 'm1')
+        self.assertEqual(instance1.method2_value, 'm2')
+
+        self.assertEqual(instance2.method1_value, 'm1')
+        self.assertEqual(instance2.method2_value, 'm2')
+
+        self.assertIs(instance1, instance2)
+        self.assertIsInstance(instance1, Example)
+        self.assertIsInstance(instance2, Example)
+
+    def test_call_with_context_args(self):
+        """Test getting of instances with context args."""
+        provider = di.Singleton(Example)
+        instance = provider(11, 22)
+
+        self.assertEqual(instance.init_arg1, 11)
+        self.assertEqual(instance.init_arg2, 22)
+
+    def test_call_with_context_kwargs(self):
+        """Test getting of instances with context kwargs."""
+        provider = di.Singleton(Example,
+                                di.KwArg('init_arg1', 1))
+
+        instance1 = provider(init_arg2=22)
+        self.assertEqual(instance1.init_arg1, 1)
+        self.assertEqual(instance1.init_arg2, 22)
+
+        # Instance is created earlier
+        instance1 = provider(init_arg1=11, init_arg2=22)
+        self.assertEqual(instance1.init_arg1, 1)
+        self.assertEqual(instance1.init_arg2, 22)
+
+    def test_call_overridden(self):
+        """Test getting of instances on overridden provider."""
+        provider = di.Singleton(Example)
+        overriding_provider1 = di.Singleton(dict)
+        overriding_provider2 = di.Singleton(object)
+
+        provider.override(overriding_provider1)
+        provider.override(overriding_provider2)
+
+        instance1 = provider()
+        instance2 = provider()
+
+        self.assertIs(instance1, instance2)
         self.assertIsInstance(instance1, object)
         self.assertIsInstance(instance2, object)
-        self.assertIs(instance1, instance2)
+
+    def test_injections(self):
+        """Test getting a full list of injections using injections property."""
+        provider = di.Singleton(Example,
+                                di.Arg(1),
+                                di.KwArg('init_arg2', 2),
+                                di.Attribute('attribute1', 3),
+                                di.Attribute('attribute2', 4),
+                                di.Method('method1', 5),
+                                di.Method('method2', 6))
+
+        injections = provider.injections
+
+        self.assertEquals(len(injections), 6)
 
     def test_reset(self):
         """Test creation and reset of single object."""

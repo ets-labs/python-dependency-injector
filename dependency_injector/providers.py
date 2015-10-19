@@ -175,6 +175,11 @@ class Singleton(Provider):
         """Reset instance."""
         self.instance = None
 
+    @property
+    def injections(self):
+        """Return tuple of all injections."""
+        return self.factory.injections
+
 
 class ExternalDependency(Provider):
     """External dependency provider.
