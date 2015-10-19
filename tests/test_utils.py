@@ -210,22 +210,43 @@ class IsCatalogTests(unittest.TestCase):
         self.assertFalse(di.is_catalog(object()))
 
 
-class IsCatalogSubsetTests(unittest.TestCase):
-    """`is_catalog_subset()` test cases."""
+class IsCatalogBundleTests(unittest.TestCase):
+    """`is_catalog_bundle()` test cases."""
+
+    def test_with_instance(self):
+        """Test with instance."""
+        self.assertTrue(di.is_catalog_bundle(di.CatalogBundle()))
 
     def test_with_cls(self):
         """Test with class."""
-        self.assertFalse(di.is_catalog_subset(di.CatalogSubset))
-
-    def test_with_instance(self):
-        """Test with class."""
-        self.assertTrue(di.is_catalog_subset(
-            di.CatalogSubset(catalog=di.AbstractCatalog, providers=tuple())))
+        self.assertFalse(di.is_catalog_bundle(di.CatalogBundle))
 
     def test_with_string(self):
         """Test with string."""
-        self.assertFalse(di.is_catalog_subset('some_string'))
+        self.assertFalse(di.is_catalog_bundle('some_string'))
 
     def test_with_object(self):
         """Test with object."""
-        self.assertFalse(di.is_catalog_subset(object()))
+        self.assertFalse(di.is_catalog_bundle(object()))
+
+
+class EnsureIsCatalogBundleTests(unittest.TestCase):
+    """`ensure_is_catalog_bundle` test cases."""
+
+    def test_with_instance(self):
+        """Test with instance."""
+        bundle = di.CatalogBundle()
+        self.assertIs(di.ensure_is_catalog_bundle(bundle), bundle)
+
+    def test_with_class(self):
+        """Test with class."""
+        self.assertRaises(di.Error, di.ensure_is_catalog_bundle,
+                          di.CatalogBundle)
+
+    def test_with_string(self):
+        """Test with string."""
+        self.assertRaises(di.Error, di.ensure_is_catalog_bundle, 'some_string')
+
+    def test_with_object(self):
+        """Test with object."""
+        self.assertRaises(di.Error, di.ensure_is_catalog_bundle, object())

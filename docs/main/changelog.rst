@@ -12,12 +12,14 @@ Development version
 -------------------
 
 - Add functionality for decorating classes with ``@di.inject``.
-- Add functionality for creating ``di.AbstractCatalog`` subsets.
+- Add functionality for creating ``di.AbstractCatalog`` provider bundles.
 - Add enhancement for ``di.AbstractCatalog`` inheritance.
 - Add images for catalog "Writing catalogs" and "Operating with catalogs" 
   examples.
 - Add support of Python 3.5.
 - Add support of six 1.10.0.
+- Add optimization for ``di.Injection.value`` property that will compute 
+  type of injection once, instead of doing this on every call.
 - Add minor refactorings and code style fixes.
 
 0.9.5

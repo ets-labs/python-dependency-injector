@@ -17,7 +17,10 @@ def is_provider(instance):
 
 
 def ensure_is_provider(instance):
-    """Check if instance is provider instance, otherwise raise and error."""
+    """Check if instance is provider instance and return it.
+
+    :raise: Error if provided instance is not provider.
+    """
     if not is_provider(instance):
         raise Error('Expected provider instance, '
                     'got {0}'.format(str(instance)))
@@ -62,10 +65,21 @@ def is_catalog(instance):
             getattr(instance, '__IS_CATALOG__', False) is True)
 
 
-def is_catalog_subset(instance):
-    """Check if instance is catalog subset instance."""
+def is_catalog_bundle(instance):
+    """Check if instance is catalog bundle instance."""
     return (not isinstance(instance, six.class_types) and
-            getattr(instance, '__IS_SUBSET__', False) is True)
+            getattr(instance, '__IS_CATALOG_BUNDLE__', False) is True)
+
+
+def ensure_is_catalog_bundle(instance):
+    """Check if instance is catalog bundle instance and return it.
+
+    :raise: Error if provided instance is not catalog bundle.
+    """
+    if not is_catalog_bundle(instance):
+        raise Error('Expected catalog bundle instance, '
+                    'got {0}'.format(str(instance)))
+    return instance
 
 
 def get_injectable_kwargs(kwargs, injections):

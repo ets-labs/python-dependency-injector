@@ -6,13 +6,68 @@ from .errors import Error
 
 from .utils import is_provider
 from .utils import is_catalog
+from .utils import ensure_is_catalog_bundle
+
+
+class CatalogBundle(object):
+    """Bundle of catalog providers."""
+
+    catalog = None
+    """:type: AbstractCatalog"""
+
+    __IS_CATALOG_BUNDLE__ = True
+    __slots__ = ('providers', '__dict__')
+
+    def __init__(self, *providers):
+        """Initializer."""
+        self.providers = dict((provider.bind.name, provider)
+                              for provider in providers
+                              if self._ensure_provider_is_bound(provider))
+        self.__dict__.update(self.providers)
+        super(CatalogBundle, self).__init__()
+
+    def get(self, name):
+        """Return provider with specified name or raises error."""
+        try:
+            return self.providers[name]
+        except KeyError:
+            self._raise_undefined_provider_error(name)
+
+    def has(self, name):
+        """Check if there is provider with certain name."""
+        return name in self.providers
+
+    def _ensure_provider_is_bound(self, provider):
+        """Check that provider is bound to the bundle's catalog."""
+        if not provider.is_bound:
+            raise Error('Provider {0} is not bound to '
+                        'any catalog'.format(provider))
+        if provider is not self.catalog.get(provider.bind.name):
+            raise Error('{0} can contain providers from '
+                        'catalog {0}'.format(self.__class__, self.catalog))
+        return True
+
+    def _raise_undefined_provider_error(self, name):
+        """Raise error for cases when there is no such provider in bundle."""
+        raise Error('Provider "{0}" is not a part of {1}'.format(name, self))
+
+    def __getattr__(self, item):
+        """Raise an error on every attempt to get undefined provider."""
+        if item.startswith('__') and item.endswith('__'):
+            return super(CatalogBundle, self).__getattr__(item)
+        self._raise_undefined_provider_error(item)
+
+    def __repr__(self):
+        """Return string representation of bundle."""
+        return '<Bundle of {0} providers ({1})>'.format(
+            self.catalog, ', '.join(six.iterkeys(self.providers)))
 
 
 class CatalogMetaClass(type):
-    """Providers catalog meta class."""
+    """Catalog meta class."""
 
     def __new__(mcs, class_name, bases, attributes):
-        """Meta class factory."""
+        """Catalog class factory."""
         cls_providers = dict((name, provider)
                              for name, provider in six.iteritems(attributes)
                              if is_provider(provider))
@@ -26,10 +81,28 @@ class CatalogMetaClass(type):
         providers.update(cls_providers)
         providers.update(inherited_providers)
 
-        attributes['cls_providers'] = cls_providers
-        attributes['inherited_providers'] = inherited_providers
-        attributes['providers'] = providers
-        return type.__new__(mcs, class_name, bases, attributes)
+        cls = type.__new__(mcs, class_name, bases, attributes)
+
+        cls.cls_providers = cls_providers
+        cls.inherited_providers = inherited_providers
+        cls.providers = providers
+
+        cls.Bundle = mcs.bundle_cls_factory(cls)
+
+        for name, provider in six.iteritems(cls_providers):
+            if provider.is_bound:
+                raise Error('Provider {0} has been already bound to catalog'
+                            '{1} as "{2}"'.format(provider,
+                                                  provider.bind.catalog,
+                                                  provider.bind.name))
+            provider.bind = ProviderBinding(cls, name)
+
+        return cls
+
+    @classmethod
+    def bundle_cls_factory(mcs, cls):
+        """Create bundle class for catalog."""
+        return type('{0}Bundle', (CatalogBundle,), dict(catalog=cls))
 
     def __repr__(cls):
         """Return string representation of the catalog class."""
@@ -50,27 +123,23 @@ class AbstractCatalog(object):
     :type inherited_providers: dict[str, dependency_injector.Provider]
     :param inherited_providers: Dict of providers, that are inherited from
         parent catalogs
+
+    :type Bundle: CatalogBundle
+    :param Bundle: Catalog's bundle class
     """
 
-    providers = dict()
+    Bundle = CatalogBundle
+
     cls_providers = dict()
     inherited_providers = dict()
+    providers = dict()
 
     __IS_CATALOG__ = True
 
-    def __new__(cls, *providers):
-        """Catalog constructor.
-
-        Catalogs are declaratives entities that could not be instantiated.
-        Catalog constructor is designed to produce subsets of catalog
-        providers.
-        """
-        return CatalogSubset(catalog=cls, providers=providers)
-
     @classmethod
-    def is_subset_owner(cls, subset):
-        """Check if catalog is subset owner."""
-        return subset.catalog is cls
+    def is_bundle_owner(cls, bundle):
+        """Check if catalog is bundle owner."""
+        return ensure_is_catalog_bundle(bundle) and bundle.catalog is cls
 
     @classmethod
     def filter(cls, provider_type):
@@ -103,52 +172,15 @@ class AbstractCatalog(object):
         return name in cls.providers
 
 
-class CatalogSubset(object):
-    """Subset of catalog providers."""
+class ProviderBinding(object):
+    """Catalog provider binding."""
 
-    __IS_SUBSET__ = True
-    __slots__ = ('catalog', 'available_providers', 'providers', '__dict__')
+    __slots__ = ('catalog', 'name')
 
-    def __init__(self, catalog, providers):
+    def __init__(self, catalog, name):
         """Initializer."""
         self.catalog = catalog
-        self.available_providers = set(providers)
-        self.providers = dict()
-        for provider_name in self.available_providers:
-            try:
-                provider = self.catalog.providers[provider_name]
-            except KeyError:
-                raise Error('Subset could not add "{0}" provider in scope, '
-                            'because {1} has no provider with '
-                            'such name'.format(provider_name, self.catalog))
-            else:
-                self.providers[provider_name] = provider
-        self.__dict__.update(self.providers)
-        super(CatalogSubset, self).__init__()
-
-    def get(self, name):
-        """Return provider with specified name or raises error."""
-        try:
-            return self.providers[name]
-        except KeyError:
-            self._raise_undefined_provider_error(name)
-
-    def has(self, name):
-        """Check if there is provider with certain name."""
-        return name in self.providers
-
-    def __getattr__(self, item):
-        """Raise an error on every attempt to get undefined provider."""
-        self._raise_undefined_provider_error(item)
-
-    def __repr__(self):
-        """Return string representation of subset."""
-        return '<Subset ({0}), {1}>'.format(
-            ', '.join(self.available_providers), self.catalog)
-
-    def _raise_undefined_provider_error(self, name):
-        """Raise error for cases when there is no such provider in subset."""
-        raise Error('Provider "{0}" is not a part of {1}'.format(name, self))
+        self.name = name
 
 
 def override(catalog):

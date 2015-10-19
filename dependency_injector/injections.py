@@ -21,17 +21,18 @@ class Injection(object):
     """Base injection class."""
 
     __IS_INJECTION__ = True
-    __slots__ = ('name', 'injectable')
+    __slots__ = ('name', 'injectable', 'is_provider')
 
     def __init__(self, name, injectable):
         """Initializer."""
         self.name = name
         self.injectable = injectable
+        self.is_provider = is_provider(injectable)
 
     @property
     def value(self):
         """Return injectable value."""
-        if is_provider(self.injectable):
+        if self.is_provider:
             return self.injectable()
         return self.injectable
 
