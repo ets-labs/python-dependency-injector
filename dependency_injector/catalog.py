@@ -6,6 +6,7 @@ from .errors import Error
 
 from .utils import is_provider
 from .utils import is_catalog
+from .utils import ensure_is_catalog_bundle
 
 
 class CatalogBundle(object):
@@ -14,6 +15,7 @@ class CatalogBundle(object):
     catalog = None
     """:type: AbstractCatalog"""
 
+    __IS_CATALOG_BUNDLE__ = True
     __slots__ = ('providers', '__dict__')
 
     def __init__(self, *providers):
@@ -133,6 +135,11 @@ class AbstractCatalog(object):
     providers = dict()
 
     __IS_CATALOG__ = True
+
+    @classmethod
+    def is_bundle_owner(cls, bundle):
+        """Check if catalog is bundle owner."""
+        return ensure_is_catalog_bundle(bundle) and bundle.catalog is cls
 
     @classmethod
     def filter(cls, provider_type):

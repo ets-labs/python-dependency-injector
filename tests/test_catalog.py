@@ -154,6 +154,16 @@ class CatalogBundleTests(unittest.TestCase):
         self.assertRaises(di.Error,
                           CatalogC.Bundle, CatalogC.p31, TestCatalog.p31)
 
+    def test_is_bundle_owner(self):
+        """Test that catalog bundle is owned by catalog."""
+        self.assertTrue(CatalogC.is_bundle_owner(self.bundle))
+        self.assertFalse(CatalogB.is_bundle_owner(self.bundle))
+        self.assertFalse(CatalogA.is_bundle_owner(self.bundle))
+
+    def test_is_bundle_owner_with_not_bundle_instance(self):
+        """Test that check of bundle ownership raises error with not bundle."""
+        self.assertRaises(di.Error, CatalogC.is_bundle_owner, object())
+
 
 class CatalogTests(unittest.TestCase):
     """Catalog test cases."""

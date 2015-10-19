@@ -1,6 +1,7 @@
 """Dependency injector."""
 
 from .catalog import AbstractCatalog
+from .catalog import CatalogBundle
 from .catalog import override
 
 from .providers import Provider
@@ -30,6 +31,8 @@ from .utils import is_kwarg_injection
 from .utils import is_attribute_injection
 from .utils import is_method_injection
 from .utils import is_catalog
+from .utils import is_catalog_bundle
+from .utils import ensure_is_catalog_bundle
 
 from .errors import Error
 
@@ -37,6 +40,7 @@ from .errors import Error
 __all__ = (
     # Catalogs
     'AbstractCatalog',
+    'CatalogBundle',
     'override',
 
     # Providers
@@ -69,6 +73,8 @@ __all__ = (
     'is_attribute_injection',
     'is_method_injection',
     'is_catalog',
+    'is_catalog_bundle',
+    'ensure_is_catalog_bundle',
 
     # Errors
     'Error',
