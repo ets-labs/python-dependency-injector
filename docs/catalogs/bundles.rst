@@ -24,5 +24,17 @@ Example:
     :width: 100%
     :align: center
 
-.. literalinclude:: ../../examples/catalogs/bundles.py
+Listing of `services.py`:
+
+.. literalinclude:: ../../examples/catalogs/bundles/services.py
+   :language: python
+
+Listing of `views.py`:
+
+.. literalinclude:: ../../examples/catalogs/bundles/views.py
+   :language: python
+
+Listing of `catalogs.py`:
+
+.. literalinclude:: ../../examples/catalogs/bundles/catalogs.py
    :language: python
