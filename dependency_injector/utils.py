@@ -1,7 +1,6 @@
 """Utils module."""
 
 import threading
-import itertools
 
 import six
 
@@ -87,16 +86,3 @@ def ensure_is_catalog_bundle(instance):
         raise Error('Expected catalog bundle instance, '
                     'got {0}'.format(str(instance)))
     return instance
-
-
-def get_injectable_args(context_args, arg_injections):
-    """Return tuple of positional args, patched with injections."""
-    return itertools.chain((arg.value for arg in arg_injections), context_args)
-
-
-def get_injectable_kwargs(context_kwargs, kwarg_injections):
-    """Return dictionary of keyword args, patched with injections."""
-    kwargs = dict((kwarg.name, kwarg.value)
-                  for kwarg in kwarg_injections)
-    kwargs.update(context_kwargs)
-    return kwargs

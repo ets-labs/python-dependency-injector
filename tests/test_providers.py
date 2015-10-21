@@ -7,7 +7,8 @@ import dependency_injector as di
 class Example(object):
     """Example class for Factory provider tests."""
 
-    def __init__(self, init_arg1=None, init_arg2=None):
+    def __init__(self, init_arg1=None, init_arg2=None, init_arg3=None,
+                 init_arg4=None):
         """Initializer.
 
         :param init_arg1:
@@ -16,6 +17,8 @@ class Example(object):
         """
         self.init_arg1 = init_arg1
         self.init_arg2 = init_arg2
+        self.init_arg3 = init_arg3
+        self.init_arg4 = init_arg4
 
         self.attribute1 = None
         self.attribute2 = None
@@ -304,11 +307,13 @@ class FactoryTests(unittest.TestCase):
 
     def test_call_with_context_args(self):
         """Test creation of new instances with context args."""
-        provider = di.Factory(Example)
-        instance = provider(11, 22)
+        provider = di.Factory(Example, 11, 22)
+        instance = provider(33, 44)
 
         self.assertEqual(instance.init_arg1, 11)
         self.assertEqual(instance.init_arg2, 22)
+        self.assertEqual(instance.init_arg3, 33)
+        self.assertEqual(instance.init_arg4, 44)
 
     def test_call_with_context_kwargs(self):
         """Test creation of new instances with context kwargs."""
@@ -319,9 +324,19 @@ class FactoryTests(unittest.TestCase):
         self.assertEqual(instance1.init_arg1, 1)
         self.assertEqual(instance1.init_arg2, 22)
 
-        instance1 = provider(init_arg1=11, init_arg2=22)
-        self.assertEqual(instance1.init_arg1, 11)
-        self.assertEqual(instance1.init_arg2, 22)
+        instance2 = provider(init_arg1=11, init_arg2=22)
+        self.assertEqual(instance2.init_arg1, 11)
+        self.assertEqual(instance2.init_arg2, 22)
+
+    def test_call_with_context_args_and_kwargs(self):
+        """Test creation of new instances with context args and kwargs."""
+        provider = di.Factory(Example, 11)
+        instance = provider(22, init_arg3=33, init_arg4=44)
+
+        self.assertEqual(instance.init_arg1, 11)
+        self.assertEqual(instance.init_arg2, 22)
+        self.assertEqual(instance.init_arg3, 33)
+        self.assertEqual(instance.init_arg4, 44)
 
     def test_call_overridden(self):
         """Test creation of new instances on overridden provider."""
@@ -521,6 +536,16 @@ class SingletonTests(unittest.TestCase):
         self.assertEqual(instance1.init_arg1, 1)
         self.assertEqual(instance1.init_arg2, 22)
 
+    def test_call_with_context_args_and_kwargs(self):
+        """Test getting of instances with context args and kwargs."""
+        provider = di.Singleton(Example, 11)
+        instance = provider(22, init_arg3=33, init_arg4=44)
+
+        self.assertEqual(instance.init_arg1, 11)
+        self.assertEqual(instance.init_arg2, 22)
+        self.assertEqual(instance.init_arg3, 33)
+        self.assertEqual(instance.init_arg4, 44)
+
     def test_call_overridden(self):
         """Test getting of instances on overridden provider."""
         provider = di.Singleton(Example)
@@ -653,52 +678,82 @@ class StaticProvidersTests(unittest.TestCase):
 class CallableTests(unittest.TestCase):
     """Callable test cases."""
 
-    def example(self, arg1, arg2, arg3):
+    def example(self, arg1, arg2, arg3, arg4):
         """Example callback."""
-        return arg1, arg2, arg3
+        return arg1, arg2, arg3, arg4
 
-    def setUp(self):
-        """Set test cases environment up."""
-        self.provider = di.Callable(self.example,
-                                    arg1='a1',
-                                    arg2='a2',
-                                    arg3='a3')
+    def test_init_with_callable(self):
+        """Test creation of provider with a callable."""
+        self.assertTrue(di.Callable(self.example))
 
     def test_init_with_not_callable(self):
-        """Test creation of provider with not callable."""
+        """Test creation of provider with not a callable."""
         self.assertRaises(di.Error, di.Callable, 123)
 
-    def test_is_provider(self):
-        """Test `is_provider` check."""
-        self.assertTrue(di.is_provider(self.provider))
-
     def test_call(self):
-        """Test provider call."""
-        self.assertEqual(self.provider(), ('a1', 'a2', 'a3'))
+        """Test call."""
+        provider = di.Callable(lambda: True)
+        self.assertTrue(provider())
 
-    def test_call_with_args(self):
-        """Test provider call with kwargs priority."""
+    def test_call_with_positional_args(self):
+        """Test call with positional args.
+
+        New simplified syntax.
+        """
+        provider = di.Callable(self.example, 1, 2, 3, 4)
+        self.assertTupleEqual(provider(), (1, 2, 3, 4))
+
+    def test_call_with_keyword_args(self):
+        """Test call with keyword args.
+
+        New simplified syntax.
+        """
+        provider = di.Callable(self.example, arg1=1, arg2=2, arg3=3, arg4=4)
+        self.assertTupleEqual(provider(), (1, 2, 3, 4))
+
+    def test_call_with_positional_and_keyword_args(self):
+        """Test call with positional and keyword args.
+
+        Simplified syntax of positional and keyword arg injections.
+        """
+        provider = di.Callable(self.example, 1, 2, arg3=3, arg4=4)
+        self.assertTupleEqual(provider(), (1, 2, 3, 4))
+
+    def test_call_with_positional_and_keyword_args_extended_syntax(self):
+        """Test call with positional and keyword args.
+
+        Extended syntax of positional and keyword arg injections.
+        """
         provider = di.Callable(self.example,
-                               arg3='a3')
-        self.assertEqual(provider(1, 2), (1, 2, 'a3'))
+                               di.Arg(1),
+                               di.Arg(2),
+                               di.KwArg('arg3', 3),
+                               di.KwArg('arg4', 4))
+        self.assertTupleEqual(provider(), (1, 2, 3, 4))
 
-    def test_call_with_kwargs_priority(self):
-        """Test provider call with kwargs priority."""
-        self.assertEqual(self.provider(arg1=1, arg3=3), (1, 'a2', 3))
+    def test_call_with_context_args(self):
+        """Test call with context args."""
+        provider = di.Callable(self.example, 1, 2)
+        self.assertTupleEqual(provider(3, 4), (1, 2, 3, 4))
+
+    def test_call_with_context_kwargs(self):
+        """Test call with context kwargs."""
+        provider = di.Callable(self.example,
+                               di.KwArg('arg1', 1))
+        self.assertTupleEqual(provider(arg2=2, arg3=3, arg4=4), (1, 2, 3, 4))
+
+    def test_call_with_context_args_and_kwargs(self):
+        """Test call with context args and kwargs."""
+        provider = di.Callable(self.example, 1)
+        self.assertTupleEqual(provider(2, arg3=3, arg4=4), (1, 2, 3, 4))
 
     def test_call_overridden(self):
-        """Test overridden provider call."""
-        overriding_provider1 = di.Value((1, 2, 3))
-        overriding_provider2 = di.Value((3, 2, 1))
+        """Test creation of new instances on overridden provider."""
+        provider = di.Callable(self.example)
+        provider.override(di.Value((4, 3, 2, 1)))
+        provider.override(di.Value((1, 2, 3, 4)))
 
-        self.provider.override(overriding_provider1)
-        self.provider.override(overriding_provider2)
-
-        result1 = self.provider()
-        result2 = self.provider()
-
-        self.assertEqual(result1, (3, 2, 1))
-        self.assertEqual(result2, (3, 2, 1))
+        self.assertTupleEqual(provider(), (1, 2, 3, 4))
 
 
 class ConfigTests(unittest.TestCase):

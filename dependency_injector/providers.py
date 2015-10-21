@@ -2,17 +2,14 @@
 
 import six
 
-from .injections import Arg
-from .injections import KwArg
+from .injections import _parse_args_injections
+from .injections import _parse_kwargs_injections
+from .injections import _get_injectable_args
+from .injections import _get_injectable_kwargs
 
 from .utils import ensure_is_provider
-from .utils import is_injection
-from .utils import is_arg_injection
-from .utils import is_kwarg_injection
 from .utils import is_attribute_injection
 from .utils import is_method_injection
-from .utils import get_injectable_args
-from .utils import get_injectable_kwargs
 from .utils import GLOBAL_LOCK
 
 from .errors import Error
@@ -116,15 +113,8 @@ class Factory(Provider):
             raise Error('Factory provider expects to get callable, ' +
                         'got {0} instead'.format(str(provides)))
         self.provides = provides
-        self.args = tuple(Arg(arg) if not is_injection(arg) else arg
-                          for arg in args
-                          if not is_injection(arg) or is_arg_injection(arg))
-        self.kwargs = tuple(injection
-                            for injection in args
-                            if is_kwarg_injection(injection))
-        if kwargs:
-            self.kwargs += tuple(KwArg(name, value)
-                                 for name, value in six.iteritems(kwargs))
+        self.args = _parse_args_injections(args)
+        self.kwargs = _parse_kwargs_injections(args, kwargs)
         self.attributes = tuple(injection
                                 for injection in args
                                 if is_attribute_injection(injection))
@@ -135,8 +125,8 @@ class Factory(Provider):
 
     def _provide(self, *args, **kwargs):
         """Return provided instance."""
-        instance = self.provides(*get_injectable_args(args, self.args),
-                                 **get_injectable_kwargs(kwargs, self.kwargs))
+        instance = self.provides(*_get_injectable_args(args, self.args),
+                                 **_get_injectable_kwargs(kwargs, self.kwargs))
         for attribute in self.attributes:
             setattr(instance, attribute.name, attribute.value)
         for method in self.methods:
@@ -258,21 +248,21 @@ class Callable(Provider):
     with some predefined dependency injections.
     """
 
-    __slots__ = ('callback', 'kwargs')
+    __slots__ = ('callback', 'args', 'kwargs')
 
-    def __init__(self, callback, **kwargs):
+    def __init__(self, callback, *args, **kwargs):
         """Initializer."""
         if not callable(callback):
             raise Error('Callable expected, got {0}'.format(str(callback)))
         self.callback = callback
-        self.kwargs = tuple(KwArg(name, value)
-                            for name, value in six.iteritems(kwargs))
+        self.args = _parse_args_injections(args)
+        self.kwargs = _parse_kwargs_injections(args, kwargs)
         super(Callable, self).__init__()
 
     def _provide(self, *args, **kwargs):
         """Return provided instance."""
-        return self.callback(*args, **get_injectable_kwargs(kwargs,
-                                                            self.kwargs))
+        return self.callback(*_get_injectable_args(args, self.args),
+                             **_get_injectable_kwargs(kwargs, self.kwargs))
 
 
 class Config(Provider):
