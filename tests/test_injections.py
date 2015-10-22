@@ -161,10 +161,6 @@ class InjectTests(unittest.TestCase):
         self.assertIsInstance(b2, list)
         self.assertIsNot(b1, b2)
 
-    def test_decorate_with_not_injection(self):
-        """Test `inject()` decorator with not an injection instance."""
-        self.assertRaises(di.Error, di.inject, object)
-
     def test_decorate_class_method(self):
         """Test `inject()` decorator with class method."""
         class Test(object):

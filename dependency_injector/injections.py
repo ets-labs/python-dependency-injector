@@ -1,11 +1,14 @@
 """Injections module."""
 
 import sys
+import itertools
+
 import six
 
 from .utils import is_provider
-from .utils import ensure_is_injection
-from .utils import get_injectable_kwargs
+from .utils import is_injection
+from .utils import is_arg_injection
+from .utils import is_kwarg_injection
 
 from .errors import Error
 
@@ -77,11 +80,7 @@ def inject(*args, **kwargs):
     :type injection: Injection
     :return: (callable) -> (callable)
     """
-    injections = tuple(KwArg(name, value)
-                       for name, value in six.iteritems(kwargs))
-    if args:
-        injections += tuple(ensure_is_injection(injection)
-                            for injection in args)
+    injections = _parse_kwargs_injections(args, kwargs)
 
     def decorator(callback_or_cls):
         """Dependency injection decorator."""
@@ -107,10 +106,41 @@ def inject(*args, **kwargs):
         def decorated(*args, **kwargs):
             """Decorated with dependency injection callback."""
             return callback(*args,
-                            **get_injectable_kwargs(kwargs,
-                                                    decorated.injections))
+                            **_get_injectable_kwargs(kwargs,
+                                                     decorated.injections))
 
         decorated.injections = injections
 
         return decorated
     return decorator
+
+
+def _parse_args_injections(args):
+    """Parse positional argument injections according to current syntax."""
+    return tuple(Arg(arg) if not is_injection(arg) else arg
+                 for arg in args
+                 if not is_injection(arg) or is_arg_injection(arg))
+
+
+def _parse_kwargs_injections(args, kwargs):
+    """Parse keyword argument injections according to current syntax."""
+    kwarg_injections = tuple(injection
+                             for injection in args
+                             if is_kwarg_injection(injection))
+    if kwargs:
+        kwarg_injections += tuple(KwArg(name, value)
+                                  for name, value in six.iteritems(kwargs))
+    return kwarg_injections
+
+
+def _get_injectable_args(context_args, arg_injections):
+    """Return tuple of positional arguments, patched with injections."""
+    return itertools.chain((arg.value for arg in arg_injections), context_args)
+
+
+def _get_injectable_kwargs(context_kwargs, kwarg_injections):
+    """Return dictionary of keyword arguments, patched with injections."""
+    injectable_kwargs = dict((kwarg.name, kwarg.value)
+                             for kwarg in kwarg_injections)
+    injectable_kwargs.update(context_kwargs)
+    return injectable_kwargs
