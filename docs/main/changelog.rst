@@ -17,9 +17,13 @@ Development version
   examples.
 - Add functionality for using positional argument injections with 
   ``di.Factory``, ``di.Singleton`` and ``di.Callable`` providers.
+- Add functionality for decorating classes with ``@di.inject``.
+- Add ``di.Singleton.injections`` attribute that represents a tuple of all 
+  ``di.Singleton`` injections (including args, kwargs, attributes and methods).
+- Add ``di.Callable.injections`` attribute that represents a tuple of all 
+  ``di.Callable`` injections (including args and kwargs).
 - Add optimization for ``di.Injection.value`` property that will compute 
   type of injection once, instead of doing this on every call.
-- Add functionality for decorating classes with ``@di.inject``.
 - Add support of Python 3.5.
 - Add support of six 1.10.0.
 - Add minor refactorings and code style fixes.
