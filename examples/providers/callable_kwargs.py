@@ -1,4 +1,4 @@
-"""`di.Callable` providers example."""
+"""`di.Callable` providers with keyword arguments example."""
 
 import passlib.hash
 import dependency_injector as di
@@ -10,6 +10,6 @@ password_hasher = di.Callable(passlib.hash.sha256_crypt.encrypt,
                               rounds=10000)
 password_verifier = di.Callable(passlib.hash.sha256_crypt.verify)
 
-# Making some asserts (client's code):
+# Making some asserts:
 hashed_password = password_hasher('super secret')
 assert password_verifier('super secret', hashed_password)

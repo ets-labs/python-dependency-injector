@@ -8,20 +8,40 @@ callable.
 Callable providers and injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-``di.Callable`` provider uses keyword argument injections. Keyword argument 
-injections are done by passing injectable values as keyword arguments during 
-call time.
+``di.Callable`` takes a various number of positional and keyword arguments 
+that are used as decorated callable injections. Every time, when 
+``di.Callable`` is called, positional and keyword argument injections would be 
+passed as an callable arguments.
 
-Context keyword arguments have higher priority than keyword argument 
-injections.
+Such behaviour is very similar to the standard Python ``functools.partial`` 
+object, except of one thing: all injectable values are provided 
+*"as is"*, except of providers (subclasses of ``di.Provider``). Providers 
+will be called every time, when injection needs to be done. For example, 
+if injectable value of injection is a ``di.Factory``, it will provide new one 
+instance (as a result of its call) every time, when injection needs to be done.
 
-Example:
+``di.Callable`` behaviour with context positional and keyword arguments is 
+very like a standard Python ``functools.partial``:
+
+- Positional context arguments will be appended after ``di.Callable`` 
+  positional injections.
+- Keyword context arguments have priority on ``di.Callable`` keyword 
+  injections and will be merged over them.
+
+Example that shows usage of ``di.Callable`` with positional argument 
+injections:
+
+.. literalinclude:: ../../examples/providers/callable_args.py
+   :language: python
+
+Next one example shows usage of ``di.Callable`` with keyword argument 
+injections:
 
 .. image:: /images/providers/callable.png
     :width: 100%
     :align: center
 
-.. literalinclude:: ../../examples/providers/callable_injections.py
+.. literalinclude:: ../../examples/providers/callable_kwargs.py
    :language: python
 
 Callable providers delegation
