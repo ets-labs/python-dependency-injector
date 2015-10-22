@@ -755,6 +755,11 @@ class CallableTests(unittest.TestCase):
 
         self.assertTupleEqual(provider(), (1, 2, 3, 4))
 
+    def test_injections(self):
+        """Test getting a full list of injections using injections property."""
+        provider = di.Factory(self.example, 1, 2, arg3=3, arg4=4)
+        self.assertEquals(len(provider.injections), 4)
+
 
 class ConfigTests(unittest.TestCase):
     """Config test cases."""

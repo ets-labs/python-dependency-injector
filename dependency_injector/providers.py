@@ -264,6 +264,11 @@ class Callable(Provider):
         return self.callback(*_get_injectable_args(args, self.args),
                              **_get_injectable_kwargs(kwargs, self.kwargs))
 
+    @property
+    def injections(self):
+        """Return tuple of all injections."""
+        return self.args + self.kwargs
+
 
 class Config(Provider):
     """Config provider.
