@@ -8,9 +8,8 @@ From version 0.7.6 *Dependency Injector* framework strictly
 follows `Semantic versioning`_
 
 
-Development version
--------------------
-
+0.10.0
+------
 - Add functionality for creating ``di.AbstractCatalog`` provider bundles.
 - Improve ``di.AbstractCatalog`` inheritance.
 - Improve ``di.AbstractCatalog`` overriding.
