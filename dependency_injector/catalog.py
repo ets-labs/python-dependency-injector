@@ -87,6 +87,8 @@ class CatalogMetaClass(type):
         cls.inherited_providers = inherited_providers
         cls.providers = providers
 
+        cls.overridden_by = tuple()
+
         cls.Bundle = mcs.bundle_cls_factory(cls)
 
         for name, provider in six.iteritems(cls_providers):
@@ -104,6 +106,19 @@ class CatalogMetaClass(type):
         """Create bundle class for catalog."""
         return type('{0}Bundle', (CatalogBundle,), dict(catalog=cls))
 
+    @property
+    def is_overridden(cls):
+        """Check if catalog is overridden by another catalog."""
+        return bool(cls.overridden_by)
+
+    @property
+    def last_overriding(cls):
+        """Return last overriding catalog."""
+        try:
+            return cls.overridden_by[-1]
+        except (TypeError, IndexError):
+            raise Error('Catalog {0} is not overridden'.format(str(cls)))
+
     def __repr__(cls):
         """Return string representation of the catalog class."""
         return '<Catalog "' + '.'.join((cls.__module__, cls.__name__)) + '">'
@@ -112,6 +127,9 @@ class CatalogMetaClass(type):
 @six.add_metaclass(CatalogMetaClass)
 class AbstractCatalog(object):
     """Abstract providers catalog.
+
+    :type Bundle: CatalogBundle
+    :param Bundle: Catalog's bundle class
 
     :type providers: dict[str, dependency_injector.Provider]
     :param providers: Dict of all catalog providers, including inherited from
@@ -124,8 +142,15 @@ class AbstractCatalog(object):
     :param inherited_providers: Dict of providers, that are inherited from
         parent catalogs
 
-    :type Bundle: CatalogBundle
-    :param Bundle: Catalog's bundle class
+    :type overridden_by: tuple[AbstractCatalog]
+    :param overridden_by: Tuple of overriding catalogs
+
+    :type is_overridden: bool
+    :param is_overridden: Read-only, evaluated in runtime, property that is
+        set to True if catalog is overridden
+
+    :type last_overriding: AbstractCatalog | None
+    :param last_overriding: Reference to the last overriding catalog, if any
     """
 
     Bundle = CatalogBundle
@@ -133,6 +158,10 @@ class AbstractCatalog(object):
     cls_providers = dict()
     inherited_providers = dict()
     providers = dict()
+
+    overridden_by = tuple()
+    is_overridden = bool
+    last_overriding = None
 
     __IS_CATALOG__ = True
 
@@ -154,8 +183,25 @@ class AbstractCatalog(object):
 
         :type overriding: AbstractCatalog
         """
+        cls.overridden_by += (overriding,)
         for name, provider in six.iteritems(overriding.cls_providers):
             cls.providers[name].override(provider)
+
+    @classmethod
+    def reset_last_overriding(cls):
+        """Reset last overriding catalog."""
+        if not cls.is_overridden:
+            raise Error('Catalog {0} is not overridden'.format(str(cls)))
+        cls.overridden_by = cls.overridden_by[:-1]
+        for provider in six.itervalues(cls.providers):
+            provider.reset_last_overriding()
+
+    @classmethod
+    def reset_override(cls):
+        """Reset all overridings for all catalog providers."""
+        cls.overridden_by = tuple()
+        for provider in six.itervalues(cls.providers):
+            provider.reset_override()
 
     @classmethod
     def get(cls, name):
