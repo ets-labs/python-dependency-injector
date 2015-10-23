@@ -198,13 +198,17 @@ class CatalogTests(unittest.TestCase):
 
 
 class OverrideTests(unittest.TestCase):
-    """Override decorator test cases."""
+    """Catalog overriding and override decorator test cases."""
 
     class Catalog(di.AbstractCatalog):
         """Test catalog."""
 
         obj = di.Object(object())
         another_obj = di.Object(object())
+
+    def tearDown(self):
+        """Tear test environment down."""
+        self.Catalog.reset_override()
 
     def test_overriding(self):
         """Test catalog overriding with another catalog."""
@@ -217,3 +221,77 @@ class OverrideTests(unittest.TestCase):
 
         self.assertEqual(self.Catalog.obj(), 1)
         self.assertEqual(self.Catalog.another_obj(), 2)
+
+    def test_is_overridden(self):
+        """Test catalog is_overridden property."""
+        self.assertFalse(self.Catalog.is_overridden)
+
+        @di.override(self.Catalog)
+        class OverridingCatalog(self.Catalog):
+            """Overriding catalog."""
+
+        self.assertTrue(self.Catalog.is_overridden)
+
+    def test_last_overriding(self):
+        """Test catalog last_overriding property."""
+        @di.override(self.Catalog)
+        class OverridingCatalog1(self.Catalog):
+            """Overriding catalog."""
+
+        @di.override(self.Catalog)
+        class OverridingCatalog2(self.Catalog):
+            """Overriding catalog."""
+
+        self.assertIs(self.Catalog.last_overriding, OverridingCatalog2)
+
+    def test_last_overriding_on_not_overridden(self):
+        """Test catalog last_overriding property on not overridden catalog."""
+        with self.assertRaises(di.Error):
+            self.Catalog.last_overriding
+
+    def test_reset_last_overriding(self):
+        """Test resetting last overriding catalog."""
+        @di.override(self.Catalog)
+        class OverridingCatalog1(self.Catalog):
+            """Overriding catalog."""
+
+            obj = di.Value(1)
+            another_obj = di.Value(2)
+
+        @di.override(self.Catalog)
+        class OverridingCatalog2(self.Catalog):
+            """Overriding catalog."""
+
+            obj = di.Value(3)
+            another_obj = di.Value(4)
+
+        self.Catalog.reset_last_overriding()
+
+        self.assertEqual(self.Catalog.obj(), 1)
+        self.assertEqual(self.Catalog.another_obj(), 2)
+
+    def test_reset_last_overriding_when_not_overridden(self):
+        """Test resetting last overriding catalog when it is not overridden."""
+        with self.assertRaises(di.Error):
+            self.Catalog.reset_last_overriding()
+
+    def test_reset_override(self):
+        """Test resetting all catalog overrides."""
+        @di.override(self.Catalog)
+        class OverridingCatalog1(self.Catalog):
+            """Overriding catalog."""
+
+            obj = di.Value(1)
+            another_obj = di.Value(2)
+
+        @di.override(self.Catalog)
+        class OverridingCatalog2(self.Catalog):
+            """Overriding catalog."""
+
+            obj = di.Value(3)
+            another_obj = di.Value(4)
+
+        self.Catalog.reset_override()
+
+        self.assertIsInstance(self.Catalog.obj(), object)
+        self.assertIsInstance(self.Catalog.another_obj(), object)

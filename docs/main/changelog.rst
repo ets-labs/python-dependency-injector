@@ -12,7 +12,8 @@ Development version
 -------------------
 
 - Add functionality for creating ``di.AbstractCatalog`` provider bundles.
-- Enhance ``di.AbstractCatalog`` inheritance.
+- Improve ``di.AbstractCatalog`` inheritance.
+- Improve ``di.AbstractCatalog`` overriding.
 - Add images for catalog "Writing catalogs" and "Operating with catalogs" 
   examples.
 - Add functionality for using positional argument injections with 
