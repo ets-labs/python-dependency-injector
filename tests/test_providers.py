@@ -757,7 +757,7 @@ class CallableTests(unittest.TestCase):
 
     def test_injections(self):
         """Test getting a full list of injections using injections property."""
-        provider = di.Factory(self.example, 1, 2, arg3=3, arg4=4)
+        provider = di.Callable(self.example, 1, 2, arg3=3, arg4=4)
         self.assertEquals(len(provider.injections), 4)
 
 
