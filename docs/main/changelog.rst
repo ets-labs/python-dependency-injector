@@ -7,6 +7,9 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+0.10.1
+------
+- Update some examples.
 
 0.10.0
 ------

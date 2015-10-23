@@ -39,7 +39,7 @@ from .utils import ensure_is_catalog_bundle
 from .errors import Error
 
 
-VERSION = '0.10.0'
+VERSION = '0.10.1'
 
 
 __all__ = (

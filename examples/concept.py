@@ -4,56 +4,60 @@ import sqlite3
 import dependency_injector as di
 
 
-class ObjectA(object):
-    """Example class ObjectA, that has dependency on database."""
+class UsersService(object):
+    """Users service, that has dependency on database."""
 
     def __init__(self, db):
         """Initializer."""
         self.db = db
 
 
-class ObjectB(object):
-    """Example class ObjectB, that has dependencies on ObjectA and database."""
+class AuthService(object):
+    """Auth service, that has dependencies on users service and database."""
 
-    def __init__(self, a, db):
+    def __init__(self, db, users_service):
         """Initializer."""
-        self.a = a
         self.db = db
+        self.users_service = users_service
 
 
-class Catalog(di.AbstractCatalog):
-    """Catalog of providers."""
+class Services(di.AbstractCatalog):
+    """Catalog of service providers."""
 
-    database = di.Singleton(sqlite3.Connection,
-                            database=':memory:')
-    """:type: (di.Provider) -> sqlite3.Connection"""
+    database = di.Singleton(sqlite3.connect, ':memory:')
+    """:type: () -> sqlite3.Connection"""
 
-    object_a_factory = di.Factory(ObjectA,
-                                  db=database)
-    """:type: (di.Provider) -> ObjectA"""
+    users = di.Factory(UsersService,
+                       db=database)
+    """:type: () -> UsersService"""
 
-    object_b_factory = di.Factory(ObjectB,
-                                  a=object_a_factory,
-                                  db=database)
-    """:type: (di.Provider) -> ObjectB"""
-
-
-# Catalog static provides.
-a1, a2 = Catalog.object_a_factory(), Catalog.object_a_factory()
-b1, b2 = Catalog.object_b_factory(), Catalog.object_b_factory()
-
-assert a1 is not a2
-assert b1 is not b2
-assert a1.db is a2.db is b1.db is b2.db is Catalog.database()
+    auth = di.Factory(AuthService,
+                      db=database,
+                      users_service=users)
+    """:type: () -> AuthService"""
 
 
-# Example of inline injections.
-@di.inject(a=Catalog.object_a_factory)
-@di.inject(b=Catalog.object_b_factory)
-@di.inject(database=Catalog.database)
-def example(a, b, database):
+# Retrieving catalog providers:
+users_service = Services.users()
+auth_service = Services.auth()
+
+# Making some asserts:
+assert users_service.db is auth_service.db is Services.database()
+assert isinstance(auth_service.users_service, UsersService)
+assert users_service is not Services.users()
+assert auth_service is not Services.auth()
+
+
+# Making some "inline" injections:
+@di.inject(users_service=Services.users)
+@di.inject(auth_service=Services.auth)
+@di.inject(database=Services.database)
+def example(users_service, auth_service, database):
     """Example callback."""
-    assert a.db is b.db is database is Catalog.database()
+    assert users_service.db is auth_service.db
+    assert auth_service.db is database
+    assert database is Services.database()
 
 
+# Making a call of decorated callback:
 example()
