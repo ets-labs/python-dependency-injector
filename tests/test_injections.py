@@ -75,8 +75,89 @@ class MethodTests(unittest.TestCase):
 class InjectTests(unittest.TestCase):
     """Inject decorator test cases."""
 
-    def test_decorated(self):
-        """Test `inject()` decorated callback."""
+    def test_decorated_args(self):
+        """Test `inject()` decoration with args."""
+        provider1 = di.Factory(object)
+        provider2 = di.Factory(list)
+
+        @di.inject(provider1, provider2)
+        def test(a, b):
+            return a, b
+
+        a1, b1 = test()
+        a2, b2 = test()
+
+        self.assertIsInstance(a1, object)
+        self.assertIsInstance(a2, object)
+        self.assertIsNot(a1, a2)
+
+        self.assertIsInstance(b1, list)
+        self.assertIsInstance(b2, list)
+        self.assertIsNot(b1, b2)
+
+    def test_decorated_args_extended_syntax(self):
+        """Test `inject()` decoration with args."""
+        provider1 = di.Factory(object)
+        provider2 = di.Factory(list)
+
+        @di.inject(di.Arg(provider1), di.Arg(provider2))
+        def test(a, b):
+            return a, b
+
+        a1, b1 = test()
+        a2, b2 = test()
+
+        self.assertIsInstance(a1, object)
+        self.assertIsInstance(a2, object)
+        self.assertIsNot(a1, a2)
+
+        self.assertIsInstance(b1, list)
+        self.assertIsInstance(b2, list)
+        self.assertIsNot(b1, b2)
+
+    def test_decorated_args_several_times(self):
+        """Test `inject()` decoration with args several times."""
+        provider1 = di.Factory(object)
+        provider2 = di.Factory(list)
+
+        @di.inject(provider2)
+        @di.inject(provider1)
+        def test(a, b):
+            return a, b
+
+        a1, b1 = test()
+        a2, b2 = test()
+
+        self.assertIsInstance(a1, object)
+        self.assertIsInstance(a2, object)
+        self.assertIsNot(a1, a2)
+
+        self.assertIsInstance(b1, list)
+        self.assertIsInstance(b2, list)
+        self.assertIsNot(b1, b2)
+
+    def test_decorated_context_args(self):
+        """Test `inject()` decoration with context args."""
+        provider1 = di.Factory(object)
+        provider2 = di.Factory(list)
+
+        @di.inject(provider1)
+        def test(a, b):
+            return a, b
+
+        a1, b1 = test(provider2())
+        a2, b2 = test(provider2())
+
+        self.assertIsInstance(a1, object)
+        self.assertIsInstance(a2, object)
+        self.assertIsNot(a1, a2)
+
+        self.assertIsInstance(b1, list)
+        self.assertIsInstance(b2, list)
+        self.assertIsNot(b1, b2)
+
+    def test_decorated_kwargs(self):
+        """Test `inject()` decoration with kwargs."""
         provider1 = di.Factory(object)
         provider2 = di.Factory(list)
 
