@@ -16,8 +16,10 @@ app = flask.Flask(__name__)
 
 @app.route('/')
 @di.inject(database)
-def hello(database):
+@di.inject(flask.request)
+def hello(request, database):
     """Example Flask view."""
+    print request
     one = database.execute('SELECT 1').fetchone()[0]
     return 'Query returned {0}, db connection {1}'.format(one, database)
 
