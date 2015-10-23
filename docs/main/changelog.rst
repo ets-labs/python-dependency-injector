@@ -25,6 +25,7 @@ Development version
   ``di.Callable`` injections (including args and kwargs).
 - Add optimization for ``di.Injection.value`` property that will compute 
   type of injection once, instead of doing this on every call.
+- Add ``di.VERSION`` constant for verification of currently installed version.
 - Add support of Python 3.5.
 - Add support of six 1.10.0.
 - Add minor refactorings and code style fixes.

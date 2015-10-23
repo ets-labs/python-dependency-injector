@@ -39,6 +39,9 @@ from .utils import ensure_is_catalog_bundle
 from .errors import Error
 
 
+VERSION = '0.10.0'
+
+
 __all__ = (
     # Catalogs
     'AbstractCatalog',
@@ -82,4 +85,7 @@ __all__ = (
 
     # Errors
     'Error',
+
+    # Version
+    'VERSION'
 )

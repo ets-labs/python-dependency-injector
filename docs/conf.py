@@ -13,6 +13,7 @@
 # serve to show the default.
 
 import os
+import re
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -53,9 +54,9 @@ author = u'Roman Mogilatov'
 # built documents.
 #
 # The short X.Y version.
-# Getting version.
-with open('../VERSION') as version:
-    version = version.read().strip()
+# Getting version:
+with open('../dependency_injector/__init__.py') as init_file:
+    version = re.search('VERSION = \'(.*?)\'', init_file.read()).group(1)
 
 # The full version, including alpha/beta/rc tags.
 release = version
