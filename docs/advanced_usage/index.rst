@@ -11,10 +11,25 @@ Current section of documentation describes advanced usage of
 injections.  It *patches* decorated callable in such way that dependency 
 injection will be done during every call of decorated callable.
 
-``@di.inject()`` decorator takes keyword argument, that will be injected 
-during every next call of decorated callback with the same name. Any Python 
-object will be injected *as is*, except ``di.Provider``'s, which will be 
-called to provide injectable values.
+``di.inject()`` takes a various number of positional and keyword arguments 
+that are used as decorated callable injections. Every time, when 
+``di.inject()`` is called, positional and keyword argument injections would be 
+passed as an callable arguments.
+
+Such behaviour is very similar to the standard Python ``functools.partial`` 
+object, except of one thing: all injectable values are provided 
+*"as is"*, except of providers (subclasses of ``di.Provider``). Providers 
+will be called every time, when injection needs to be done. For example, 
+if injectable value of injection is a ``di.Factory``, it will provide new one 
+instance (as a result of its call) every time, when injection needs to be done.
+
+``di.inject()`` behaviour with context positional and keyword arguments is 
+very like a standard Python ``functools.partial``:
+
+- Positional context arguments will be appended after ``di.inject()`` 
+  positional injections.
+- Keyword context arguments have priority on ``di.inject()`` keyword 
+  injections and will be merged over them.
 
 Example:
 

@@ -9,12 +9,7 @@ class Example(object):
 
     def __init__(self, init_arg1=None, init_arg2=None, init_arg3=None,
                  init_arg4=None):
-        """Initializer.
-
-        :param init_arg1:
-        :param init_arg2:
-        :return:
-        """
+        """Initializer."""
         self.init_arg1 = init_arg1
         self.init_arg2 = init_arg2
         self.init_arg3 = init_arg3

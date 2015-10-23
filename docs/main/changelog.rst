@@ -16,7 +16,8 @@ Development version
 - Add images for catalog "Writing catalogs" and "Operating with catalogs" 
   examples.
 - Add functionality for using positional argument injections with 
-  ``di.Factory``, ``di.Singleton`` and ``di.Callable`` providers.
+  ``di.Factory``, ``di.Singleton``, ``di.Callable`` providers and 
+  ``di.inject`` decorator.
 - Add functionality for decorating classes with ``@di.inject``.
 - Add ``di.Singleton.injections`` attribute that represents a tuple of all 
   ``di.Singleton`` injections (including args, kwargs, attributes and methods).

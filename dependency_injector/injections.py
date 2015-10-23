@@ -77,10 +77,10 @@ class Method(NamedInjection):
 def inject(*args, **kwargs):
     """Dependency injection decorator.
 
-    :type injection: Injection
     :return: (callable) -> (callable)
     """
-    injections = _parse_kwargs_injections(args, kwargs)
+    arg_injections = _parse_args_injections(args)
+    kwarg_injections = _parse_kwargs_injections(args, kwargs)
 
     def decorator(callback_or_cls):
         """Dependency injection decorator."""
@@ -99,17 +99,20 @@ def inject(*args, **kwargs):
 
         callback = callback_or_cls
         if hasattr(callback, 'injections'):
-            callback.injections += injections
+            callback.args += arg_injections
+            callback.kwargs += kwarg_injections
+            callback.injections += arg_injections + kwarg_injections
             return callback
 
         @six.wraps(callback)
         def decorated(*args, **kwargs):
             """Decorated with dependency injection callback."""
-            return callback(*args,
-                            **_get_injectable_kwargs(kwargs,
-                                                     decorated.injections))
+            return callback(*_get_injectable_args(args, decorated.args),
+                            **_get_injectable_kwargs(kwargs, decorated.kwargs))
 
-        decorated.injections = injections
+        decorated.args = arg_injections
+        decorated.kwargs = kwarg_injections
+        decorated.injections = arg_injections + kwarg_injections
 
         return decorated
     return decorator
