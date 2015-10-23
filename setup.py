@@ -1,30 +1,31 @@
 """`Dependency injector` setup script."""
 
 import os
+import re
+
 from setuptools import setup
 from setuptools import Command
 
 SHORT_DESCRIPTION = 'Dependency injection framework for Python projects'
 
 
-# Getting description.
+# Getting description:
 with open('README.rst') as readme_file:
     description = readme_file.read()
 
     # Removing duplicated short description.
     description = description.replace(SHORT_DESCRIPTION, '')
 
-# Getting requirements.
+# Getting requirements:
 with open('requirements.txt') as version:
     requirements = version.readlines()
 
-# Getting version.
-with open('VERSION') as version:
-    version = version.read().strip()
+# Getting version:
+with open('dependency_injector/__init__.py') as init_file:
+    version = re.search('VERSION = \'(.*?)\'', init_file.read()).group(1)
 
 
 class PublishCommand(Command):
-
     """Setuptools `publish` command."""
 
     description = "Publish current distribution to PyPi and create tag"

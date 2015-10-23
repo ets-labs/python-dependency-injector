@@ -23,6 +23,15 @@ Sources can be cloned from GitHub_:
 Also all *Dependency Injector* releases can be downloaded from 
 `GitHub releases page`_.
 
+Verification of currently installed version could be done using ``di.VERSION`` 
+constant:
+
+.. code-block:: bash
+
+    >>> import dependency_injector as di
+    >>> di.VERSION
+    '0.10.0'
+
 .. _PyPi: https://pypi.python.org/pypi/dependency_injector
 .. _GitHub: https://github.com/rmk135/dependency_injector
 .. _GitHub releases page: https://github.com/rmk135/dependency_injector/releases
