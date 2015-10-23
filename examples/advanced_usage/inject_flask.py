@@ -5,8 +5,8 @@ import flask
 import dependency_injector as di
 
 
-database = di.Singleton(sqlite3.Connection,
-                        database=':memory:',
+database = di.Singleton(sqlite3.connect,
+                        ':memory:',
                         timeout=30,
                         detect_types=True,
                         isolation_level='EXCLUSIVE')
@@ -15,7 +15,7 @@ app = flask.Flask(__name__)
 
 
 @app.route('/')
-@di.inject(database=database)
+@di.inject(database)
 def hello(database):
     """Example Flask view."""
     one = database.execute('SELECT 1').fetchone()[0]
