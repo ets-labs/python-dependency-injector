@@ -25,16 +25,16 @@ class Services(di.AbstractCatalog):
     """Catalog of service providers."""
 
     database = di.Singleton(sqlite3.connect, ':memory:')
-    """:type: () -> sqlite3.Connection"""
+    """:type: di.Provider -> sqlite3.Connection"""
 
     users = di.Factory(UsersService,
                        db=database)
-    """:type: () -> UsersService"""
+    """:type: di.Provider -> UsersService"""
 
     auth = di.Factory(AuthService,
                       db=database,
                       users_service=users)
-    """:type: () -> AuthService"""
+    """:type: di.Provider -> AuthService"""
 
 
 # Retrieving catalog providers:

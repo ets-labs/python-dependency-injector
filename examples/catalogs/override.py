@@ -16,18 +16,18 @@ class Catalog(di.AbstractCatalog):
     object1_factory = di.Factory(Object1,
                                  arg1=1,
                                  arg2=2)
-    """:type: (di.Provider) -> Object1"""
+    """:type: di.Provider -> Object1"""
 
     object2_factory = di.Factory(Object2,
                                  object1=object1_factory)
-    """:type: (di.Provider) -> Object2"""
+    """:type: di.Provider -> Object2"""
 
 
 class AnotherCatalog(di.AbstractCatalog):
     """Another providers catalog."""
 
     object2_factory = di.Factory(ExtendedObject2)
-    """:type: (di.Provider) -> ExtendedObject2"""
+    """:type: di.Provider -> ExtendedObject2"""
 
 
 # Overriding `Catalog` with `AnotherCatalog`:

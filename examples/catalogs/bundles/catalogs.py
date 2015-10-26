@@ -11,13 +11,13 @@ class Services(di.AbstractCatalog):
     """Example catalog of service providers."""
 
     users = di.Factory(services.UsersService)
-    """:type: (di.Provider) -> services.UsersService"""
+    """:type: di.Provider -> services.UsersService"""
 
     auth = di.Factory(services.AuthService)
-    """:type: (di.Provider) -> services.AuthService"""
+    """:type: di.Provider -> services.AuthService"""
 
     photos = di.Factory(services.PhotosService)
-    """:type: (di.Provider) -> services.PhotosService"""
+    """:type: di.Provider -> services.PhotosService"""
 
 
 # Declaring views catalog:
@@ -27,12 +27,12 @@ class Views(di.AbstractCatalog):
     auth = di.Factory(views.AuthView,
                       services=Services.Bundle(Services.users,
                                                Services.auth))
-    """:type: (di.Provider) -> views.AuthView"""
+    """:type: di.Provider -> views.AuthView"""
 
     photos = di.Factory(views.PhotosView,
                         services=Services.Bundle(Services.users,
                                                  Services.photos))
-    """:type: (di.Provider) -> views.PhotosView"""
+    """:type: di.Provider -> views.PhotosView"""
 
 
 # Creating example views:

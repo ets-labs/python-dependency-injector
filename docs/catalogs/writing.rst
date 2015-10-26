@@ -9,7 +9,7 @@ that is standard naming convention for attribute names in Python.
 
 .. note::
 
-    It might be useful to add such ``""":type: (di.Provider) -> Object1"""`` 
+    It might be useful to add such ``""":type: di.Provider -> Object1"""`` 
     docstrings just on the next line after provider's definition.  It will 
     help code analyzing tools and IDE's to understand that variable above 
     contains some callable object, that returns particular instance as a 

@@ -1,9 +1,6 @@
 """Config provider examples."""
 
-from dependency_injector.catalog import AbstractCatalog
-from dependency_injector.providers import Config
-from dependency_injector.providers import Factory
-from dependency_injector.injections import KwArg
+import dependency_injector as di
 
 
 class ObjectA(object):
@@ -16,17 +13,17 @@ class ObjectA(object):
         self.timezone = timezone
 
 
-class Catalog(AbstractCatalog):
-    """Catalog of dependency_injector providers."""
+class Catalog(di.AbstractCatalog):
+    """Catalog of providers."""
 
-    config = Config()
-    """:type: (dependency_injector.Config)"""
+    config = di.Config()
+    """:type: di.Config"""
 
-    object_a = Factory(ObjectA,
-                       KwArg('fee', config.FEE),
-                       KwArg('price', config.PRICE),
-                       KwArg('timezone', config.GLOBAL.TIMEZONE))
-    """:type: (dependency_injector.Provider) -> ObjectA"""
+    object_a = di.Factory(ObjectA,
+                          fee=config.FEE,
+                          price=config.PRICE,
+                          timezone=config.GLOBAL.TIMEZONE)
+    """:type: di.Provider -> ObjectA"""
 
 
 # Setting config value and making some tests.

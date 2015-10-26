@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+0.10.3
+------
+- Update example docblocks.
+
 0.10.2
 ------
 - Fix bug with injecting entities that implement ``__getattr__``.

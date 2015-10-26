@@ -7,10 +7,10 @@ class Catalog(di.AbstractCatalog):
     """Providers catalog."""
 
     factory1 = di.Factory(object)
-    """:type: (di.Provider) -> object"""
+    """:type: di.Provider -> object"""
 
     factory2 = di.Factory(object)
-    """:type: (di.Provider) -> object"""
+    """:type: di.Provider -> object"""
 
 # Creating some objects:
 object1 = Catalog.factory1()

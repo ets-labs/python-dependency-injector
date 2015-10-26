@@ -7,14 +7,14 @@ class CatalogA(di.AbstractCatalog):
     """Example catalog A."""
 
     provider1 = di.Factory(object)
-    """:type: (di.Provider) -> object"""
+    """:type: di.Provider -> object"""
 
 
 class CatalogB(CatalogA):
     """Example catalog B."""
 
     provider2 = di.Singleton(object)
-    """:type: (di.Provider) -> object"""
+    """:type: di.Provider -> object"""
 
 
 # Making some asserts for `providers` attribute:
