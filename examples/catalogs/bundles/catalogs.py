@@ -39,6 +39,9 @@ class Views(di.AbstractCatalog):
 auth_view = Views.auth()
 photos_view = Views.photos()
 
+print auth_view.services    # prints: <__main__.Services.Bundle(users, auth)>
+print photos_view.services  # prints <__main__.Services.Bundle(photos, users)>
+
 # Making some asserts:
 assert auth_view.services.users is Services.users
 assert auth_view.services.auth is Services.auth

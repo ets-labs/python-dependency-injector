@@ -9,6 +9,7 @@ from .utils import is_catalog
 from .utils import ensure_is_catalog_bundle
 
 
+@six.python_2_unicode_compatible
 class CatalogBundle(object):
     """Bundle of catalog providers."""
 
@@ -58,11 +59,15 @@ class CatalogBundle(object):
         self._raise_undefined_provider_error(item)
 
     def __repr__(self):
-        """Return string representation of bundle."""
-        return '<Bundle of {0} providers ({1})>'.format(
-            self.catalog, ', '.join(six.iterkeys(self.providers)))
+        """Return string representation of catalog bundle."""
+        return '<{0}.{1}.Bundle({2})>'.format(
+            self.catalog.__module__, self.catalog.__name__,
+            ', '.join(six.iterkeys(self.providers)))
+
+    __str__ = __repr__
 
 
+@six.python_2_unicode_compatible
 class CatalogMetaClass(type):
     """Catalog meta class."""
 
@@ -121,7 +126,9 @@ class CatalogMetaClass(type):
 
     def __repr__(cls):
         """Return string representation of the catalog class."""
-        return '<Catalog "' + '.'.join((cls.__module__, cls.__name__)) + '">'
+        return '<{0}.{1}>'.format(cls.__module__, cls.__name__)
+
+    __str__ = __repr__
 
 
 @six.add_metaclass(CatalogMetaClass)

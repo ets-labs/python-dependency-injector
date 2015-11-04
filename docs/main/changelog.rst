@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+0.10.5
+------
+- Add more representable implementation for ``di.AbstractCatalog`` and 
+  ``di.AbstractCatalog.Bundle``.
+
 0.10.4
 ------
 - Remove VERSION file from MANIFEST.in.
