@@ -7,7 +7,7 @@ class BaseWebView(object):
     def __init__(self, services):
         """Initializer.
 
-        :type services: Services
+        :type services: catalogs.Services
         :param services: Bundle of service providers
         """
         self.services = services
