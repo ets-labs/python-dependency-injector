@@ -7,7 +7,7 @@ import views
 
 
 # Declaring services catalog:
-class Services(di.AbstractCatalog):
+class Services(di.DeclarativeCatalog):
     """Example catalog of service providers."""
 
     users = di.Factory(services.UsersService)
@@ -21,7 +21,7 @@ class Services(di.AbstractCatalog):
 
 
 # Declaring views catalog:
-class Views(di.AbstractCatalog):
+class Views(di.DeclarativeCatalog):
     """Example catalog of web views."""
 
     auth = di.Factory(views.AuthView,

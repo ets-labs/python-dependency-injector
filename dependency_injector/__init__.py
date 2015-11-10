@@ -1,5 +1,6 @@
 """Dependency injector."""
 
+from .catalog import DeclarativeCatalog
 from .catalog import AbstractCatalog
 from .catalog import CatalogBundle
 from .catalog import override
@@ -44,6 +45,7 @@ VERSION = '0.10.5'
 
 __all__ = (
     # Catalogs
+    'DeclarativeCatalog',
     'AbstractCatalog',
     'CatalogBundle',
     'override',
