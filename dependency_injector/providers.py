@@ -19,12 +19,11 @@ class Provider(object):
     """Base provider class."""
 
     __IS_PROVIDER__ = True
-    __slots__ = ('overridden_by', 'bind')
+    __slots__ = ('overridden_by',)
 
     def __init__(self):
         """Initializer."""
         self.overridden_by = None
-        self.bind = None
 
     def __call__(self, *args, **kwargs):
         """Return provided instance."""
@@ -74,11 +73,6 @@ class Provider(object):
     def reset_override(self):
         """Reset all overriding providers."""
         self.overridden_by = None
-
-    @property
-    def is_bound(self):
-        """Check if provider is bound to any catalog."""
-        return bool(self.bind)
 
 
 class Delegate(Provider):

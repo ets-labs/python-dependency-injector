@@ -76,17 +76,64 @@ class CatalogProvidersBindingTests(unittest.TestCase):
 
     def test_provider_is_bound(self):
         """Test that providers are bound to the catalogs."""
-        self.assertIs(CatalogA.p11.bind.catalog, CatalogA)
-        self.assertEquals(CatalogA.p11.bind.name, 'p11')
+        self.assertTrue(CatalogA.is_provider_bound(CatalogA.p11))
+        self.assertEquals(CatalogA.get_provider_bind_name(CatalogA.p11), 'p11')
 
-        self.assertIs(CatalogA.p12.bind.catalog, CatalogA)
-        self.assertEquals(CatalogA.p12.bind.name, 'p12')
+        self.assertTrue(CatalogA.is_provider_bound(CatalogA.p12))
+        self.assertEquals(CatalogA.get_provider_bind_name(CatalogA.p12), 'p12')
 
-    def test_provider_rebinding(self):
-        """Test that provider could not be bound twice."""
-        self.assertRaises(di.Error, type, 'TestCatalog',
-                          (di.DeclarativeCatalog,),
-                          dict(some_name=CatalogA.p11))
+    def test_provider_binding_to_different_catalogs(self):
+        """Test that provider could be bound to different catalogs."""
+        p11 = CatalogA.p11
+        p12 = CatalogA.p12
+
+        class CatalogD(di.DeclarativeCatalog):
+            """Test catalog."""
+
+            pd1 = p11
+            pd2 = p12
+
+        class CatalogE(di.DeclarativeCatalog):
+            """Test catalog."""
+
+            pe1 = p11
+            pe2 = p12
+
+        self.assertTrue(CatalogA.is_provider_bound(p11))
+        self.assertTrue(CatalogD.is_provider_bound(p11))
+        self.assertTrue(CatalogE.is_provider_bound(p11))
+        self.assertEquals(CatalogA.get_provider_bind_name(p11), 'p11')
+        self.assertEquals(CatalogD.get_provider_bind_name(p11), 'pd1')
+        self.assertEquals(CatalogE.get_provider_bind_name(p11), 'pe1')
+
+        self.assertTrue(CatalogA.is_provider_bound(p12))
+        self.assertTrue(CatalogD.is_provider_bound(p12))
+        self.assertTrue(CatalogE.is_provider_bound(p12))
+        self.assertEquals(CatalogA.get_provider_bind_name(p12), 'p12')
+        self.assertEquals(CatalogD.get_provider_bind_name(p12), 'pd2')
+        self.assertEquals(CatalogE.get_provider_bind_name(p12), 'pe2')
+
+    def test_provider_rebinding_to_the_same_catalog(self):
+        """Test provider rebinding to the same catalog."""
+        with self.assertRaises(di.Error):
+            class TestCatalog(di.DeclarativeCatalog):
+                """Test catalog."""
+
+                p1 = di.Provider()
+                p2 = p1
+
+    def test_provider_rebinding_to_the_same_catalogs_hierarchy(self):
+        """Test provider rebinding to the same catalogs hierarchy."""
+        class TestCatalog1(di.DeclarativeCatalog):
+            """Test catalog."""
+
+            p1 = di.Provider()
+
+        with self.assertRaises(di.Error):
+            class TestCatalog2(TestCatalog1):
+                """Test catalog."""
+
+                p2 = TestCatalog1.p1
 
 
 class CatalogBundleTests(unittest.TestCase):
