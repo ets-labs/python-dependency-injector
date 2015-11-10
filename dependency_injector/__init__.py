@@ -42,7 +42,7 @@ from .utils import ensure_is_catalog_bundle
 
 from .errors import Error
 
-# Backward compatimility fix for versions < 0.11.*
+# Backward compatibility for versions < 0.11.*
 from . import catalogs
 catalog = catalogs
 

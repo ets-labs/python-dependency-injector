@@ -273,8 +273,7 @@ class OverrideTests(unittest.TestCase):
 
     def test_overriding_with_dynamic_catalog(self):
         """Test catalog overriding with another dynamic catalog."""
-        self.Catalog.override(di.DynamicCatalog('OverridingCatalog',
-                                                obj=di.Value(1),
+        self.Catalog.override(di.DynamicCatalog(obj=di.Value(1),
                                                 another_obj=di.Value(2)))
         self.assertEqual(self.Catalog.obj(), 1)
         self.assertEqual(self.Catalog.another_obj(), 2)

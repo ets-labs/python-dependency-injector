@@ -217,7 +217,7 @@ class IsCatalogTests(unittest.TestCase):
 
     def test_with_dynamic_catalog(self):
         """Test with class."""
-        self.assertTrue(di.is_catalog(di.DynamicCatalog('TestCatalog')))
+        self.assertTrue(di.is_catalog(di.DynamicCatalog()))
 
     def test_with_child_class(self):
         """Test with parent class."""
@@ -244,8 +244,7 @@ class IsDynamicCatalogTests(unittest.TestCase):
 
     def test_with_dynamic_catalog(self):
         """Test with dynamic catalog."""
-        self.assertTrue(di.is_dynamic_catalog(di.DynamicCatalog(
-            'TestCatalog')))
+        self.assertTrue(di.is_dynamic_catalog(di.DynamicCatalog()))
 
 
 class IsDeclarativeCatalogTests(unittest.TestCase):
@@ -257,8 +256,7 @@ class IsDeclarativeCatalogTests(unittest.TestCase):
 
     def test_with_dynamic_catalog(self):
         """Test with dynamic catalog."""
-        self.assertFalse(di.is_declarative_catalog(di.DynamicCatalog(
-            'TestCatalog')))
+        self.assertFalse(di.is_declarative_catalog(di.DynamicCatalog()))
 
 
 class IsCatalogBundleTests(unittest.TestCase):

@@ -35,8 +35,7 @@ class CatalogBundle(object):
         :rtype: CatalogBundle
         :return: Subclass of CatalogBundle
         """
-        return type('{0}Bundle'.format(catalog.name), (cls,),
-                    dict(catalog=catalog))
+        return type('BundleSubclass', (cls,), dict(catalog=catalog))
 
     def get(self, name):
         """Return provider with specified name or raise an error."""
@@ -69,19 +68,17 @@ class DynamicCatalog(object):
     """Catalog of providers."""
 
     __IS_CATALOG__ = True
-    __slots__ = ('name', 'Bundle', 'providers', 'provider_names',
-                 'overridden_by')
+    __slots__ = ('Bundle', 'providers', 'provider_names',
+                 'overridden_by', 'name')
 
-    def __init__(self, name, **providers):
+    def __init__(self, **providers):
         """Initializer.
 
         :param name: Catalog's name
         :type name: str
 
-        :param kwargs: Dict of providers with their catalog names
         :type kwargs: dict[str, dependency_injector.providers.Provider]
         """
-        self.name = name
         self.Bundle = CatalogBundle.sub_cls_factory(self)
         self.providers = dict()
         self.provider_names = dict()
@@ -94,6 +91,8 @@ class DynamicCatalog(object):
             self.provider_names[provider] = name
             self.providers[name] = provider
         self.overridden_by = tuple()
+        self.name = '.'.join((self.__class__.__module__,
+                              self.__class__.__name__))
 
     def is_bundle_owner(self, bundle):
         """Check if catalog is bundle owner."""
@@ -191,9 +190,9 @@ class DeclarativeCatalogMetaClass(type):
         providers = cls_providers + inherited_providers
 
         cls.name = '.'.join((cls.__module__, cls.__name__))
-        cls.catalog = DynamicCatalog(cls.name, **dict(providers))
+        cls.catalog = DynamicCatalog(**dict(providers))
+        cls.catalog.name = cls.name
         cls.Bundle = cls.catalog.Bundle
-
         cls.cls_providers = dict(cls_providers)
         cls.inherited_providers = dict(inherited_providers)
 
