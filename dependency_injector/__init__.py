@@ -2,6 +2,7 @@
 
 from .catalog import DeclarativeCatalog
 from .catalog import AbstractCatalog
+from .catalog import DynamicCatalog
 from .catalog import CatalogBundle
 from .catalog import override
 
@@ -47,6 +48,7 @@ __all__ = (
     # Catalogs
     'DeclarativeCatalog',
     'AbstractCatalog',
+    'DynamicCatalog',
     'CatalogBundle',
     'override',
 

@@ -261,7 +261,7 @@ class OverrideTests(unittest.TestCase):
     def test_overriding(self):
         """Test catalog overriding with another catalog."""
         @di.override(self.Catalog)
-        class OverridingCatalog(self.Catalog):
+        class OverridingCatalog(di.DeclarativeCatalog):
             """Overriding catalog."""
 
             obj = di.Value(1)
@@ -269,13 +269,23 @@ class OverrideTests(unittest.TestCase):
 
         self.assertEqual(self.Catalog.obj(), 1)
         self.assertEqual(self.Catalog.another_obj(), 2)
+        self.assertEqual(len(self.Catalog.overridden_by), 1)
+
+    def test_overriding_with_dynamic_catalog(self):
+        """Test catalog overriding with another dynamic catalog."""
+        self.Catalog.override(di.DynamicCatalog('OverridingCatalog',
+                                                obj=di.Value(1),
+                                                another_obj=di.Value(2)))
+        self.assertEqual(self.Catalog.obj(), 1)
+        self.assertEqual(self.Catalog.another_obj(), 2)
+        self.assertEqual(len(self.Catalog.overridden_by), 1)
 
     def test_is_overridden(self):
         """Test catalog is_overridden property."""
         self.assertFalse(self.Catalog.is_overridden)
 
         @di.override(self.Catalog)
-        class OverridingCatalog(self.Catalog):
+        class OverridingCatalog(di.DeclarativeCatalog):
             """Overriding catalog."""
 
         self.assertTrue(self.Catalog.is_overridden)
@@ -283,11 +293,11 @@ class OverrideTests(unittest.TestCase):
     def test_last_overriding(self):
         """Test catalog last_overriding property."""
         @di.override(self.Catalog)
-        class OverridingCatalog1(self.Catalog):
+        class OverridingCatalog1(di.DeclarativeCatalog):
             """Overriding catalog."""
 
         @di.override(self.Catalog)
-        class OverridingCatalog2(self.Catalog):
+        class OverridingCatalog2(di.DeclarativeCatalog):
             """Overriding catalog."""
 
         self.assertIs(self.Catalog.last_overriding, OverridingCatalog2)
@@ -300,14 +310,14 @@ class OverrideTests(unittest.TestCase):
     def test_reset_last_overriding(self):
         """Test resetting last overriding catalog."""
         @di.override(self.Catalog)
-        class OverridingCatalog1(self.Catalog):
+        class OverridingCatalog1(di.DeclarativeCatalog):
             """Overriding catalog."""
 
             obj = di.Value(1)
             another_obj = di.Value(2)
 
         @di.override(self.Catalog)
-        class OverridingCatalog2(self.Catalog):
+        class OverridingCatalog2(di.DeclarativeCatalog):
             """Overriding catalog."""
 
             obj = di.Value(3)
@@ -326,14 +336,14 @@ class OverrideTests(unittest.TestCase):
     def test_reset_override(self):
         """Test resetting all catalog overrides."""
         @di.override(self.Catalog)
-        class OverridingCatalog1(self.Catalog):
+        class OverridingCatalog1(di.DeclarativeCatalog):
             """Overriding catalog."""
 
             obj = di.Value(1)
             another_obj = di.Value(2)
 
         @di.override(self.Catalog)
-        class OverridingCatalog2(self.Catalog):
+        class OverridingCatalog2(di.DeclarativeCatalog):
             """Overriding catalog."""
 
             obj = di.Value(3)
@@ -343,6 +353,17 @@ class OverrideTests(unittest.TestCase):
 
         self.assertIsInstance(self.Catalog.obj(), object)
         self.assertIsInstance(self.Catalog.another_obj(), object)
+
+
+class DeclarativeCatalogReprTest(unittest.TestCase):
+    """Tests for declarative catalog representation."""
+
+    def test_repr(self):
+        """Test declarative catalog representation."""
+        class TestCatalog(di.DeclarativeCatalog):
+            """Test catalog."""
+
+        self.assertIn('TestCatalog', repr(TestCatalog))
 
 
 class AbstractCatalogCompatibilityTest(unittest.TestCase):
