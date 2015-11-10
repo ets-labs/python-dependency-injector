@@ -63,31 +63,27 @@ class DeclarativeCatalogMetaClass(type):
 
     def __new__(mcs, class_name, bases, attributes):
         """Declarative catalog class factory."""
-        cls_providers = dict((name, provider)
-                             for name, provider in six.iteritems(attributes)
-                             if is_provider(provider))
-
-        inherited_providers = dict((name, provider)
-                                   for base in bases if is_catalog(base)
-                                   for name, provider in six.iteritems(
-                                       base.providers))
-
-        providers = dict()
-        providers.update(cls_providers)
-        providers.update(inherited_providers)
-
         cls = type.__new__(mcs, class_name, bases, attributes)
 
-        cls.cls_providers = cls_providers
-        cls.inherited_providers = inherited_providers
-        cls.providers = providers
-
+        cls.Bundle = mcs.bundle_cls_factory(cls)
         cls.overridden_by = tuple()
 
-        cls.Bundle = mcs.bundle_cls_factory(cls)
+        cls_providers = tuple((name, provider)
+                              for name, provider in six.iteritems(attributes)
+                              if is_provider(provider))
 
+        inherited_providers = tuple((name, provider)
+                                    for base in bases if is_catalog(base)
+                                    for name, provider in six.iteritems(
+                                        base.providers))
+
+        providers = cls_providers + inherited_providers
+
+        cls.cls_providers = dict(cls_providers)
+        cls.inherited_providers = dict(inherited_providers)
+        cls.providers = dict(providers)
         cls.provider_names = dict()
-        for name, provider in six.iteritems(providers):
+        for name, provider in providers:
             if provider in cls.provider_names:
                 raise Error('Provider {0} could not be bound to the same '
                             'catalog (or catalogs hierarchy) more '
