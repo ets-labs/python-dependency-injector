@@ -73,9 +73,18 @@ def is_method_injection(instance):
 
 def is_catalog(instance):
     """Check if instance is catalog instance."""
-    return (isinstance(instance, six.class_types) and
-            hasattr(instance, '__IS_CATALOG__') and
+    return (hasattr(instance, '__IS_CATALOG__') and
             getattr(instance, '__IS_CATALOG__', False) is True)
+
+
+def is_dynamic_catalog(instance):
+    """Check if instance is dynamic catalog instance."""
+    return (not isinstance(instance, six.class_types) and is_catalog(instance))
+
+
+def is_declarative_catalog(instance):
+    """Check if instance is declarative catalog instance."""
+    return (isinstance(instance, six.class_types) and is_catalog(instance))
 
 
 def is_catalog_bundle(instance):

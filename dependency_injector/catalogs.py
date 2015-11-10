@@ -1,4 +1,4 @@
-"""Catalog module."""
+"""Catalogs module."""
 
 import six
 
@@ -8,6 +8,60 @@ from .utils import is_provider
 from .utils import is_catalog
 from .utils import ensure_is_provider
 from .utils import ensure_is_catalog_bundle
+
+
+@six.python_2_unicode_compatible
+class CatalogBundle(object):
+    """Bundle of catalog providers."""
+
+    catalog = None
+    """:type: DeclarativeCatalog"""
+
+    __IS_CATALOG_BUNDLE__ = True
+    __slots__ = ('providers', '__dict__')
+
+    def __init__(self, *providers):
+        """Initializer."""
+        self.providers = dict((self.catalog.get_provider_bind_name(provider),
+                               provider)
+                              for provider in providers)
+        self.__dict__.update(self.providers)
+        super(CatalogBundle, self).__init__()
+
+    @classmethod
+    def sub_cls_factory(cls, catalog):
+        """Create bundle class for catalog.
+
+        :rtype: CatalogBundle
+        :return: Subclass of CatalogBundle
+        """
+        return type('{0}Bundle'.format(catalog.name), (cls,),
+                    dict(catalog=catalog))
+
+    def get(self, name):
+        """Return provider with specified name or raise an error."""
+        try:
+            return self.providers[name]
+        except KeyError:
+            raise Error('Provider "{0}" is not a part of {1}'.format(name,
+                                                                     self))
+
+    def has(self, name):
+        """Check if there is provider with certain name."""
+        return name in self.providers
+
+    def __getattr__(self, item):
+        """Raise an error on every attempt to get undefined provider."""
+        if item.startswith('__') and item.endswith('__'):
+            return super(CatalogBundle, self).__getattr__(item)
+        raise Error('Provider "{0}" is not a part of {1}'.format(item, self))
+
+    def __repr__(self):
+        """Return string representation of catalog bundle."""
+        return '<{0}.Bundle({1})>'.format(
+            self.catalog.name, ', '.join(six.iterkeys(self.providers)))
+
+    __str__ = __repr__
 
 
 @six.python_2_unicode_compatible
@@ -113,56 +167,6 @@ class DynamicCatalog(object):
     def __repr__(self):
         """Return Python representation of catalog."""
         return '<DynamicCatalog {0}>'.format(self.name)
-
-    __str__ = __repr__
-
-
-@six.python_2_unicode_compatible
-class CatalogBundle(object):
-    """Bundle of catalog providers."""
-
-    catalog = None
-    """:type: DeclarativeCatalog"""
-
-    __IS_CATALOG_BUNDLE__ = True
-    __slots__ = ('providers', '__dict__')
-
-    def __init__(self, *providers):
-        """Initializer."""
-        self.providers = dict((self.catalog.get_provider_bind_name(provider),
-                               provider)
-                              for provider in providers)
-        self.__dict__.update(self.providers)
-        super(CatalogBundle, self).__init__()
-
-    @classmethod
-    def sub_cls_factory(cls, catalog):
-        """Create bundle class for catalog."""
-        return type('{0}Bundle'.format(catalog.name), (cls,),
-                    dict(catalog=catalog))
-
-    def get(self, name):
-        """Return provider with specified name or raise an error."""
-        try:
-            return self.providers[name]
-        except KeyError:
-            raise Error('Provider "{0}" is not a part of {1}'.format(name,
-                                                                     self))
-
-    def has(self, name):
-        """Check if there is provider with certain name."""
-        return name in self.providers
-
-    def __getattr__(self, item):
-        """Raise an error on every attempt to get undefined provider."""
-        if item.startswith('__') and item.endswith('__'):
-            return super(CatalogBundle, self).__getattr__(item)
-        raise Error('Provider "{0}" is not a part of {1}'.format(item, self))
-
-    def __repr__(self):
-        """Return string representation of catalog bundle."""
-        return '<{0}.Bundle({1})>'.format(
-            self.catalog.name, ', '.join(six.iterkeys(self.providers)))
 
     __str__ = __repr__
 

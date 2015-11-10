@@ -1,4 +1,4 @@
-"""Dependency injector catalog unittests."""
+"""Dependency injector catalogs unittests."""
 
 import unittest2 as unittest
 import dependency_injector as di
