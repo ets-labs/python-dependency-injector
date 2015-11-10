@@ -1,7 +1,7 @@
 Writing catalogs
 ----------------
 
-Catalogs have to extend base catalog class ``di.AbstractCatalog``.
+Catalogs have to extend base catalog class ``di.DeclarativeCatalog``.
 
 Providers have to be defined like catalog's attributes. Every provider in
 catalog has name. This name should follow ``some_provider`` convention, 

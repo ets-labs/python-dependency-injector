@@ -1,23 +1,24 @@
 Operating with catalogs
 -----------------------
 
-``di.AbstractCatalog`` has several features that could be useful for some kind 
-of operations on catalog's providers:
+``di.DeclarativeCatalog`` has several features that could be useful for some 
+kind of operations on catalog's providers:
 
-- ``di.AbstractCatalog.providers`` is read-only attribute that contains 
+- ``di.DeclarativeCatalog.providers`` is read-only attribute that contains 
   ``dict`` of all catalog providers, including providers that are inherited 
   from parent catalogs, where key is the name of provider and value is 
   provider itself.
-- ``di.AbstractCatalog.cls_providers`` is read-only attribute contains ``dict``
-  of current catalog providers, where key is the name of provider and value is 
-  provider itself.
-- ``di.AbstractCatalog.inherited_providers`` is read-only attribute contains 
-  ``dict`` of all providers that are inherited from parent catalogs, where key 
-  is the name of provider and value is provider itself. 
-- ``di.AbstractCatalog.filter(provider_type=di.Provider)`` is a class method 
-  that could be used for filtering catalog providers by provider types 
+- ``di.DeclarativeCatalog.cls_providers`` is read-only attribute contains 
+  ``dict`` of current catalog providers, where key is the name of provider 
+  and value is provider itself.
+- ``di.DeclarativeCatalog.inherited_providers`` is read-only attribute 
+  contains ``dict`` of all providers that are inherited from parent catalogs, 
+  where key is the name of provider and value is provider itself. 
+- ``di.DeclarativeCatalog.filter(provider_type=di.Provider)`` is a class 
+  method that could be used for filtering catalog providers by provider types 
   (for example, for getting all ``di.Factory`` providers). 
-  ``di.AbstractCatalog.filter()`` method use ``di.AbstractCatalog.providers``.
+  ``di.DeclarativeCatalog.filter()`` method use 
+  ``di.DeclarativeCatalog.providers``.
 
 Example:
 

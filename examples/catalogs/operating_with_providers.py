@@ -3,7 +3,7 @@
 import dependency_injector as di
 
 
-class CatalogA(di.AbstractCatalog):
+class CatalogA(di.DeclarativeCatalog):
     """Example catalog A."""
 
     provider1 = di.Factory(object)

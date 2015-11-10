@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Rename ``di.AbstractCatalog`` to ``di.DeclarativeCatalog`` 
+  (with backward compatibility).
+
 0.10.5
 ------
 - Add more representable implementation for ``di.AbstractCatalog`` and 

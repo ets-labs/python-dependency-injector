@@ -4,7 +4,7 @@ import unittest2 as unittest
 import dependency_injector as di
 
 
-class CatalogA(di.AbstractCatalog):
+class CatalogA(di.DeclarativeCatalog):
     """Test catalog A."""
 
     p11 = di.Provider()
@@ -29,7 +29,7 @@ class CatalogsInheritanceTests(unittest.TestCase):
     """Catalogs inheritance tests."""
 
     def test_cls_providers(self):
-        """Test `di.AbstractCatalog.cls_providers` contents."""
+        """Test `di.DeclarativeCatalog.cls_providers` contents."""
         self.assertDictEqual(CatalogA.cls_providers,
                              dict(p11=CatalogA.p11,
                                   p12=CatalogA.p12))
@@ -41,7 +41,7 @@ class CatalogsInheritanceTests(unittest.TestCase):
                                   p32=CatalogC.p32))
 
     def test_inherited_providers(self):
-        """Test `di.AbstractCatalog.inherited_providers` contents."""
+        """Test `di.DeclarativeCatalog.inherited_providers` contents."""
         self.assertDictEqual(CatalogA.inherited_providers, dict())
         self.assertDictEqual(CatalogB.inherited_providers,
                              dict(p11=CatalogA.p11,
@@ -53,7 +53,7 @@ class CatalogsInheritanceTests(unittest.TestCase):
                                   p22=CatalogB.p22))
 
     def test_providers(self):
-        """Test `di.AbstractCatalog.inherited_providers` contents."""
+        """Test `di.DeclarativeCatalog.inherited_providers` contents."""
         self.assertDictEqual(CatalogA.providers,
                              dict(p11=CatalogA.p11,
                                   p12=CatalogA.p12))
@@ -84,7 +84,8 @@ class CatalogProvidersBindingTests(unittest.TestCase):
 
     def test_provider_rebinding(self):
         """Test that provider could not be bound twice."""
-        self.assertRaises(di.Error, type, 'TestCatalog', (di.AbstractCatalog,),
+        self.assertRaises(di.Error, type, 'TestCatalog',
+                          (di.DeclarativeCatalog,),
                           dict(some_name=CatalogA.p11))
 
 
@@ -136,7 +137,7 @@ class CatalogBundleTests(unittest.TestCase):
 
     def test_create_bundle_with_another_catalog_provider(self):
         """Test that bundle can not contain another catalog's provider."""
-        class TestCatalog(di.AbstractCatalog):
+        class TestCatalog(di.DeclarativeCatalog):
             """Test catalog."""
 
             provider = di.Provider()
@@ -146,7 +147,7 @@ class CatalogBundleTests(unittest.TestCase):
 
     def test_create_bundle_with_another_catalog_provider_with_same_name(self):
         """Test that bundle can not contain another catalog's provider."""
-        class TestCatalog(di.AbstractCatalog):
+        class TestCatalog(di.DeclarativeCatalog):
             """Test catalog."""
 
             p31 = di.Provider()
@@ -200,7 +201,7 @@ class CatalogTests(unittest.TestCase):
 class OverrideTests(unittest.TestCase):
     """Catalog overriding and override decorator test cases."""
 
-    class Catalog(di.AbstractCatalog):
+    class Catalog(di.DeclarativeCatalog):
         """Test catalog."""
 
         obj = di.Object(object())
@@ -295,3 +296,11 @@ class OverrideTests(unittest.TestCase):
 
         self.assertIsInstance(self.Catalog.obj(), object)
         self.assertIsInstance(self.Catalog.another_obj(), object)
+
+
+class AbstractCatalogCompatibilityTest(unittest.TestCase):
+    """Test backward compatibility with di.AbstractCatalog."""
+
+    def test_compatibility(self):
+        """Test that di.AbstractCatalog is available."""
+        self.assertIs(di.DeclarativeCatalog, di.AbstractCatalog)

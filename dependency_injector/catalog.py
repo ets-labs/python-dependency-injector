@@ -14,7 +14,7 @@ class CatalogBundle(object):
     """Bundle of catalog providers."""
 
     catalog = None
-    """:type: AbstractCatalog"""
+    """:type: DeclarativeCatalog"""
 
     __IS_CATALOG_BUNDLE__ = True
     __slots__ = ('providers', '__dict__')
@@ -67,12 +67,21 @@ class CatalogBundle(object):
     __str__ = __repr__
 
 
+class Catalog(object):
+    """Catalog of providers."""
+
+    def __init__(self, name, **providers):
+        """Initializer."""
+        self.name = name
+        self.providers = providers
+
+
 @six.python_2_unicode_compatible
-class CatalogMetaClass(type):
-    """Catalog meta class."""
+class DeclarativeCatalogMetaClass(type):
+    """Declarative catalog meta class."""
 
     def __new__(mcs, class_name, bases, attributes):
-        """Catalog class factory."""
+        """Declarative catalog class factory."""
         cls_providers = dict((name, provider)
                              for name, provider in six.iteritems(attributes)
                              if is_provider(provider))
@@ -131,9 +140,9 @@ class CatalogMetaClass(type):
     __str__ = __repr__
 
 
-@six.add_metaclass(CatalogMetaClass)
-class AbstractCatalog(object):
-    """Abstract providers catalog.
+@six.add_metaclass(DeclarativeCatalogMetaClass)
+class DeclarativeCatalog(object):
+    """Declarative catalog catalog of providers.
 
     :type Bundle: CatalogBundle
     :param Bundle: Catalog's bundle class
@@ -149,14 +158,14 @@ class AbstractCatalog(object):
     :param inherited_providers: Dict of providers, that are inherited from
         parent catalogs
 
-    :type overridden_by: tuple[AbstractCatalog]
+    :type overridden_by: tuple[DeclarativeCatalog]
     :param overridden_by: Tuple of overriding catalogs
 
     :type is_overridden: bool
     :param is_overridden: Read-only, evaluated in runtime, property that is
         set to True if catalog is overridden
 
-    :type last_overriding: AbstractCatalog | None
+    :type last_overriding: DeclarativeCatalog | None
     :param last_overriding: Reference to the last overriding catalog, if any
     """
 
@@ -188,7 +197,7 @@ class AbstractCatalog(object):
     def override(cls, overriding):
         """Override current catalog providers by overriding catalog providers.
 
-        :type overriding: AbstractCatalog
+        :type overriding: DeclarativeCatalog
         """
         cls.overridden_by += (overriding,)
         for name, provider in six.iteritems(overriding.cls_providers):
@@ -223,6 +232,10 @@ class AbstractCatalog(object):
     def has(cls, name):
         """Check if there is provider with certain name."""
         return name in cls.providers
+
+
+# Backward compatibility for versions < 0.11.*
+AbstractCatalog = DeclarativeCatalog
 
 
 class ProviderBinding(object):

@@ -10,7 +10,7 @@ Object2 = collections.namedtuple('Object2', ['object1'])
 ExtendedObject2 = collections.namedtuple('ExtendedObject2', [])
 
 
-class Catalog(di.AbstractCatalog):
+class Catalog(di.DeclarativeCatalog):
     """Providers catalog."""
 
     object1_factory = di.Factory(Object1,
@@ -23,7 +23,7 @@ class Catalog(di.AbstractCatalog):
     """:type: di.Provider -> Object2"""
 
 
-class AnotherCatalog(di.AbstractCatalog):
+class AnotherCatalog(di.DeclarativeCatalog):
     """Another providers catalog."""
 
     object2_factory = di.Factory(ExtendedObject2)

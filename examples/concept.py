@@ -21,7 +21,7 @@ class AuthService(object):
         self.users_service = users_service
 
 
-class Services(di.AbstractCatalog):
+class Services(di.DeclarativeCatalog):
     """Catalog of service providers."""
 
     database = di.Singleton(sqlite3.connect, ':memory:')
