@@ -21,14 +21,14 @@ class CatalogBundle(object):
 
     def __init__(self, *providers):
         """Initializer."""
-        self.providers = dict((provider.bind.name, provider)
-                              for provider in providers
-                              if self._ensure_provider_is_bound(provider))
+        self.providers = dict((self.catalog.get_provider_bind_name(provider),
+                               provider)
+                              for provider in providers)
         self.__dict__.update(self.providers)
         super(CatalogBundle, self).__init__()
 
     def get(self, name):
-        """Return provider with specified name or raises error."""
+        """Return provider with specified name or raise an error."""
         try:
             return self.providers[name]
         except KeyError:
@@ -37,16 +37,6 @@ class CatalogBundle(object):
     def has(self, name):
         """Check if there is provider with certain name."""
         return name in self.providers
-
-    def _ensure_provider_is_bound(self, provider):
-        """Check that provider is bound to the bundle's catalog."""
-        if not provider.is_bound:
-            raise Error('Provider {0} is not bound to '
-                        'any catalog'.format(provider))
-        if provider is not self.catalog.get(provider.bind.name):
-            raise Error('{0} can contain providers from '
-                        'catalog {0}'.format(self.__class__, self.catalog))
-        return True
 
     def _raise_undefined_provider_error(self, name):
         """Raise error for cases when there is no such provider in bundle."""
@@ -65,15 +55,6 @@ class CatalogBundle(object):
             ', '.join(six.iterkeys(self.providers)))
 
     __str__ = __repr__
-
-
-class Catalog(object):
-    """Catalog of providers."""
-
-    def __init__(self, name, **providers):
-        """Initializer."""
-        self.name = name
-        self.providers = providers
 
 
 @six.python_2_unicode_compatible
@@ -105,13 +86,13 @@ class DeclarativeCatalogMetaClass(type):
 
         cls.Bundle = mcs.bundle_cls_factory(cls)
 
-        for name, provider in six.iteritems(cls_providers):
-            if provider.is_bound:
-                raise Error('Provider {0} has been already bound to catalog'
-                            '{1} as "{2}"'.format(provider,
-                                                  provider.bind.catalog,
-                                                  provider.bind.name))
-            provider.bind = ProviderBinding(cls, name)
+        cls.provider_names = dict()
+        for name, provider in six.iteritems(providers):
+            if provider in cls.provider_names:
+                raise Error('Provider {0} could not be bound to the same '
+                            'catalog (or catalogs hierarchy) more '
+                            'than once'.format(provider))
+            cls.provider_names[provider] = name
 
         return cls
 
@@ -151,6 +132,10 @@ class DeclarativeCatalog(object):
     :param providers: Dict of all catalog providers, including inherited from
         parent catalogs
 
+    :type provider_names: dict[dependency_injector.Provider, str]
+    :param provider_names: Dict of all catalog providers, including inherited
+        from parent catalogs
+
     :type cls_providers: dict[str, dependency_injector.Provider]
     :param cls_providers: Dict of current catalog providers
 
@@ -174,6 +159,7 @@ class DeclarativeCatalog(object):
     cls_providers = dict()
     inherited_providers = dict()
     providers = dict()
+    provider_names = dict()
 
     overridden_by = tuple()
     is_overridden = bool
@@ -185,6 +171,19 @@ class DeclarativeCatalog(object):
     def is_bundle_owner(cls, bundle):
         """Check if catalog is bundle owner."""
         return ensure_is_catalog_bundle(bundle) and bundle.catalog is cls
+
+    @classmethod
+    def get_provider_bind_name(cls, provider):
+        """Return provider's name in catalog."""
+        if not cls.is_provider_bound(provider):
+            raise Error('Can not find bind name for {0} in catalog {1}'.format(
+                provider, cls))
+        return cls.provider_names[provider]
+
+    @classmethod
+    def is_provider_bound(cls, provider):
+        """Check if provider is bound to the catalog."""
+        return provider in cls.provider_names
 
     @classmethod
     def filter(cls, provider_type):
@@ -236,17 +235,6 @@ class DeclarativeCatalog(object):
 
 # Backward compatibility for versions < 0.11.*
 AbstractCatalog = DeclarativeCatalog
-
-
-class ProviderBinding(object):
-    """Catalog provider binding."""
-
-    __slots__ = ('catalog', 'name')
-
-    def __init__(self, catalog, name):
-        """Initializer."""
-        self.catalog = catalog
-        self.name = name
 
 
 def override(catalog):
