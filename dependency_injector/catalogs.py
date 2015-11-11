@@ -3,6 +3,7 @@
 import six
 
 from .errors import Error
+from .errors import UndefinedProviderError
 
 from .utils import is_provider
 from .utils import is_catalog
@@ -54,7 +55,8 @@ class CatalogBundle(object):
         """Raise an error on every attempt to get undefined provider."""
         if item.startswith('__') and item.endswith('__'):
             return super(CatalogBundle, self).__getattr__(item)
-        raise Error('Provider "{0}" is not a part of {1}'.format(item, self))
+        raise UndefinedProviderError('Provider "{0}" is not a part '
+                                     'of {1}'.format(item, self))
 
     def __repr__(self):
         """Return string representation of catalog bundle."""
@@ -149,8 +151,8 @@ class DynamicCatalog(object):
         try:
             return self.providers[name]
         except KeyError:
-            raise Error('{0} has no provider with such name - {1}'.format(
-                self, name))
+            raise UndefinedProviderError('{0} has no provider with such '
+                                         'name - {1}'.format(self, name))
 
     def bind_provider(self, name, provider):
         """Bind provider to catalog with specified name."""
