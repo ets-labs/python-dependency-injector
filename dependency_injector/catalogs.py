@@ -243,7 +243,8 @@ class DeclarativeCatalogMetaClass(type):
 
     def __repr__(cls):
         """Return string representation of the catalog."""
-        return '<DeclarativeCatalog {0}>'.format(cls.name)
+        return '<{0}({1})>'.format(cls.name,
+                                   ', '.join(six.iterkeys(cls.providers)))
 
     __str__ = __repr__
 
@@ -283,9 +284,9 @@ class DeclarativeCatalog(object):
     :param last_overriding: Reference to the last overriding catalog, if any
     """
 
-    name = str()
-    catalog = DynamicCatalog
     Bundle = CatalogBundle
+
+    name = str()
 
     cls_providers = dict()
     inherited_providers = dict()
@@ -294,6 +295,8 @@ class DeclarativeCatalog(object):
     overridden_by = tuple()
     is_overridden = bool
     last_overriding = None
+
+    catalog = DynamicCatalog
 
     __IS_CATALOG__ = True
 

@@ -248,6 +248,23 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
     def test_repr(self):
         """Test declarative catalog representation."""
+        self.assertIn('CatalogA', repr(CatalogA))
+        self.assertIn('p11', repr(CatalogA))
+        self.assertIn('p12', repr(CatalogA))
+
+        self.assertIn('CatalogB', repr(CatalogB))
+        self.assertIn('p11', repr(CatalogB))
+        self.assertIn('p12', repr(CatalogB))
+        self.assertIn('p21', repr(CatalogB))
+        self.assertIn('p22', repr(CatalogB))
+
+        self.assertIn('CatalogC', repr(CatalogC))
+        self.assertIn('p11', repr(CatalogC))
+        self.assertIn('p12', repr(CatalogC))
+        self.assertIn('p21', repr(CatalogC))
+        self.assertIn('p22', repr(CatalogC))
+        self.assertIn('p31', repr(CatalogC))
+        self.assertIn('p32', repr(CatalogC))
 
     def test_abstract_catalog_backward_compatibility(self):
         """Test that di.AbstractCatalog is available."""
