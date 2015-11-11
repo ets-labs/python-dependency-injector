@@ -38,7 +38,7 @@ class CatalogBundle(object):
         """
         return type('BundleSubclass', (cls,), dict(catalog=catalog))
 
-    def get(self, name):
+    def get_provider(self, name):
         """Return provider with specified name or raise an error."""
         try:
             return self.providers[name]
@@ -46,7 +46,7 @@ class CatalogBundle(object):
             raise Error('Provider "{0}" is not a part of {1}'.format(name,
                                                                      self))
 
-    def has(self, name):
+    def has_provider(self, name):
         """Check if there is provider with certain name."""
         return name in self.providers
 

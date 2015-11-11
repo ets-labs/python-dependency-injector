@@ -158,25 +158,35 @@ class CatalogBundleTests(unittest.TestCase):
 
     def test_get_method_from_bundle(self):
         """Test get providers (get() method) from bundle."""
-        self.assertIs(self.bundle.get('p11'), CatalogC.p11)
-        self.assertIs(self.bundle.get('p12'), CatalogC.p12)
+        self.assertIs(self.bundle.get_provider('p11'), CatalogC.p11)
+        self.assertIs(self.bundle.get_provider('p12'), CatalogC.p12)
 
     def test_get_method_not_from_bundle(self):
         """Test get providers (get() method) that are not in bundle."""
-        self.assertRaises(di.Error, self.bundle.get, 'p21')
-        self.assertRaises(di.Error, self.bundle.get, 'p22')
-        self.assertRaises(di.Error, self.bundle.get, 'p31')
-        self.assertRaises(di.Error, self.bundle.get, 'p32')
+        self.assertRaises(di.Error, self.bundle.get_provider, 'p21')
+        self.assertRaises(di.Error, self.bundle.get_provider, 'p22')
+        self.assertRaises(di.Error, self.bundle.get_provider, 'p31')
+        self.assertRaises(di.Error, self.bundle.get_provider, 'p32')
 
     def test_has(self):
         """Test checks of providers availability in bundle."""
-        self.assertTrue(self.bundle.has('p11'))
-        self.assertTrue(self.bundle.has('p12'))
+        self.assertTrue(self.bundle.has_provider('p11'))
+        self.assertTrue(self.bundle.has_provider('p12'))
 
-        self.assertFalse(self.bundle.has('p21'))
-        self.assertFalse(self.bundle.has('p22'))
-        self.assertFalse(self.bundle.has('p31'))
-        self.assertFalse(self.bundle.has('p32'))
+        self.assertFalse(self.bundle.has_provider('p21'))
+        self.assertFalse(self.bundle.has_provider('p22'))
+        self.assertFalse(self.bundle.has_provider('p31'))
+        self.assertFalse(self.bundle.has_provider('p32'))
+
+    def test_hasattr(self):
+        """Test checks of providers availability in bundle."""
+        self.assertTrue(hasattr(self.bundle, 'p11'))
+        self.assertTrue(hasattr(self.bundle, 'p12'))
+
+        self.assertFalse(hasattr(self.bundle, 'p21'))
+        self.assertFalse(hasattr(self.bundle, 'p22'))
+        self.assertFalse(hasattr(self.bundle, 'p31'))
+        self.assertFalse(hasattr(self.bundle, 'p31'))
 
     def test_create_bundle_with_unbound_provider(self):
         """Test that bundle is not created with unbound provider."""
