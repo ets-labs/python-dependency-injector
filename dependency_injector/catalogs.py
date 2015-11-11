@@ -22,9 +22,10 @@ class CatalogBundle(object):
 
     def __init__(self, *providers):
         """Initializer."""
-        self.providers = dict((self.catalog.get_provider_bind_name(provider),
-                               provider)
-                              for provider in providers)
+        self.providers = dict()
+        for provider in providers:
+            provider_name = self.catalog.get_provider_bind_name(provider)
+            self.providers[provider_name] = provider
         self.__dict__.update(self.providers)
         super(CatalogBundle, self).__init__()
 
@@ -68,8 +69,8 @@ class DynamicCatalog(object):
     """Catalog of providers."""
 
     __IS_CATALOG__ = True
-    __slots__ = ('Bundle', 'providers', 'provider_names',
-                 'overridden_by', 'name')
+    __slots__ = ('Bundle', 'name', 'providers', 'provider_names',
+                 'overridden_by')
 
     def __init__(self, **providers):
         """Initializer.
@@ -80,6 +81,8 @@ class DynamicCatalog(object):
         :type kwargs: dict[str, dependency_injector.providers.Provider]
         """
         self.Bundle = CatalogBundle.sub_cls_factory(self)
+        self.name = '.'.join((self.__class__.__module__,
+                              self.__class__.__name__))
         self.providers = dict()
         self.provider_names = dict()
         for name, provider in six.iteritems(providers):
@@ -91,8 +94,6 @@ class DynamicCatalog(object):
             self.provider_names[provider] = name
             self.providers[name] = provider
         self.overridden_by = tuple()
-        self.name = '.'.join((self.__class__.__module__,
-                              self.__class__.__name__))
 
     def is_bundle_owner(self, bundle):
         """Check if catalog is bundle owner."""
