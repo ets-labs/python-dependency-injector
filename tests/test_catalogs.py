@@ -18,44 +18,33 @@ class CatalogB(CatalogA):
     p22 = di.Provider()
 
 
-class CatalogC(CatalogB):
-    """Test catalog C."""
-
-    p31 = di.Provider()
-    p32 = di.Provider()
-
-
 class CatalogBundleTests(unittest.TestCase):
     """Catalog bundle test cases."""
 
     def setUp(self):
         """Set test environment up."""
-        self.bundle = CatalogC.Bundle(CatalogC.p11,
-                                      CatalogC.p12)
+        self.bundle = CatalogB.Bundle(CatalogB.p11,
+                                      CatalogB.p12)
 
     def test_get_attr_from_bundle(self):
         """Test get providers (attribute) from catalog bundle."""
-        self.assertIs(self.bundle.p11, CatalogC.p11)
-        self.assertIs(self.bundle.p12, CatalogC.p12)
+        self.assertIs(self.bundle.p11, CatalogA.p11)
+        self.assertIs(self.bundle.p12, CatalogA.p12)
 
     def test_get_attr_not_from_bundle(self):
         """Test get providers (attribute) that are not in bundle."""
         self.assertRaises(di.Error, getattr, self.bundle, 'p21')
         self.assertRaises(di.Error, getattr, self.bundle, 'p22')
-        self.assertRaises(di.Error, getattr, self.bundle, 'p31')
-        self.assertRaises(di.Error, getattr, self.bundle, 'p32')
 
     def test_get_method_from_bundle(self):
         """Test get providers (get() method) from bundle."""
-        self.assertIs(self.bundle.get_provider('p11'), CatalogC.p11)
-        self.assertIs(self.bundle.get_provider('p12'), CatalogC.p12)
+        self.assertIs(self.bundle.get_provider('p11'), CatalogB.p11)
+        self.assertIs(self.bundle.get_provider('p12'), CatalogB.p12)
 
     def test_get_method_not_from_bundle(self):
         """Test get providers (get() method) that are not in bundle."""
         self.assertRaises(di.Error, self.bundle.get_provider, 'p21')
         self.assertRaises(di.Error, self.bundle.get_provider, 'p22')
-        self.assertRaises(di.Error, self.bundle.get_provider, 'p31')
-        self.assertRaises(di.Error, self.bundle.get_provider, 'p32')
 
     def test_has(self):
         """Test checks of providers availability in bundle."""
@@ -64,8 +53,6 @@ class CatalogBundleTests(unittest.TestCase):
 
         self.assertFalse(self.bundle.has_provider('p21'))
         self.assertFalse(self.bundle.has_provider('p22'))
-        self.assertFalse(self.bundle.has_provider('p31'))
-        self.assertFalse(self.bundle.has_provider('p32'))
 
     def test_hasattr(self):
         """Test checks of providers availability in bundle."""
@@ -74,12 +61,10 @@ class CatalogBundleTests(unittest.TestCase):
 
         self.assertFalse(hasattr(self.bundle, 'p21'))
         self.assertFalse(hasattr(self.bundle, 'p22'))
-        self.assertFalse(hasattr(self.bundle, 'p31'))
-        self.assertFalse(hasattr(self.bundle, 'p31'))
 
     def test_create_bundle_with_unbound_provider(self):
         """Test that bundle is not created with unbound provider."""
-        self.assertRaises(di.Error, CatalogC.Bundle, di.Provider())
+        self.assertRaises(di.Error, CatalogB.Bundle, di.Provider())
 
     def test_create_bundle_with_another_catalog_provider(self):
         """Test that bundle can not contain another catalog's provider."""
@@ -89,27 +74,169 @@ class CatalogBundleTests(unittest.TestCase):
             provider = di.Provider()
 
         self.assertRaises(di.Error,
-                          CatalogC.Bundle, CatalogC.p31, TestCatalog.provider)
+                          CatalogB.Bundle, CatalogB.p21, TestCatalog.provider)
 
     def test_create_bundle_with_another_catalog_provider_with_same_name(self):
         """Test that bundle can not contain another catalog's provider."""
         class TestCatalog(di.DeclarativeCatalog):
             """Test catalog."""
 
-            p31 = di.Provider()
+            p21 = di.Provider()
 
         self.assertRaises(di.Error,
-                          CatalogC.Bundle, CatalogC.p31, TestCatalog.p31)
+                          CatalogB.Bundle, CatalogB.p21, TestCatalog.p21)
 
     def test_is_bundle_owner(self):
         """Test that catalog bundle is owned by catalog."""
-        self.assertTrue(CatalogC.is_bundle_owner(self.bundle))
-        self.assertFalse(CatalogB.is_bundle_owner(self.bundle))
+        self.assertTrue(CatalogB.is_bundle_owner(self.bundle))
         self.assertFalse(CatalogA.is_bundle_owner(self.bundle))
 
     def test_is_bundle_owner_with_not_bundle_instance(self):
         """Test that check of bundle ownership raises error with not bundle."""
-        self.assertRaises(di.Error, CatalogC.is_bundle_owner, object())
+        self.assertRaises(di.Error, CatalogB.is_bundle_owner, object())
+
+
+class DynamicCatalogTests(unittest.TestCase):
+    """Dynamic catalog tests."""
+
+    catalog = None
+    """:type: di.DynamicCatalog"""
+
+    def setUp(self):
+        """Set test environment up."""
+        self.catalog = di.DynamicCatalog(p1=di.Provider(),
+                                         p2=di.Provider())
+        self.catalog.name = 'TestCatalog'
+
+    def test_providers(self):
+        """Test `di.DeclarativeCatalog.inherited_providers` contents."""
+        self.assertDictEqual(self.catalog.providers,
+                             dict(p1=self.catalog.p1,
+                                  p2=self.catalog.p2))
+
+    def test_bind_provider(self):
+        """Test setting of provider via bind_provider() to catalog."""
+        px = di.Provider()
+        py = di.Provider()
+
+        self.catalog.bind_provider('px', px)
+        self.catalog.bind_provider('py', py)
+
+        self.assertIs(self.catalog.px, px)
+        self.assertIs(self.catalog.get_provider('px'), px)
+
+        self.assertIs(self.catalog.py, py)
+        self.assertIs(self.catalog.get_provider('py'), py)
+
+    def test_bind_providers(self):
+        """Test setting of provider via bind_providers() to catalog."""
+        px = di.Provider()
+        py = di.Provider()
+
+        self.catalog.bind_providers(dict(px=px, py=py))
+
+        self.assertIs(self.catalog.px, px)
+        self.assertIs(self.catalog.get_provider('px'), px)
+
+        self.assertIs(self.catalog.py, py)
+        self.assertIs(self.catalog.get_provider('py'), py)
+
+    def test_setattr(self):
+        """Test setting of providers via attributes to catalog."""
+        px = di.Provider()
+        py = di.Provider()
+
+        self.catalog.px = px
+        self.catalog.py = py
+
+        self.assertIs(self.catalog.px, px)
+        self.assertIs(self.catalog.get_provider('px'), px)
+
+        self.assertIs(self.catalog.py, py)
+        self.assertIs(self.catalog.get_provider('py'), py)
+
+    def test_unbind_provider(self):
+        """Test that catalog unbinds provider correct."""
+        self.catalog.px = di.Provider()
+        self.catalog.unbind_provider('px')
+        self.assertFalse(self.catalog.has_provider('px'))
+
+    def test_unbind_via_delattr(self):
+        """Test that catalog unbinds provider correct."""
+        self.catalog.px = di.Provider()
+        del self.catalog.px
+        self.assertFalse(self.catalog.has_provider('px'))
+
+    def test_provider_is_bound(self):
+        """Test that providers are bound to the catalogs."""
+        self.assertTrue(self.catalog.is_provider_bound(self.catalog.p1))
+        self.assertEquals(
+            self.catalog.get_provider_bind_name(self.catalog.p1), 'p1')
+        self.assertTrue(self.catalog.is_provider_bound(self.catalog.p2))
+        self.assertEquals(
+            self.catalog.get_provider_bind_name(self.catalog.p2), 'p2')
+
+    def test_provider_binding_to_different_catalogs(self):
+        """Test that provider could be bound to different catalogs."""
+        p1 = self.catalog.p1
+        p2 = self.catalog.p2
+
+        catalog_a = di.DynamicCatalog(pa1=p1, pa2=p2)
+        catalog_b = di.DynamicCatalog(pb1=p1, pb2=p2)
+
+        self.assertTrue(self.catalog.is_provider_bound(p1))
+        self.assertTrue(catalog_a.is_provider_bound(p1))
+        self.assertTrue(catalog_b.is_provider_bound(p1))
+        self.assertEquals(self.catalog.get_provider_bind_name(p1), 'p1')
+        self.assertEquals(catalog_a.get_provider_bind_name(p1), 'pa1')
+        self.assertEquals(catalog_b.get_provider_bind_name(p1), 'pb1')
+
+        self.assertTrue(self.catalog.is_provider_bound(p2))
+        self.assertTrue(catalog_a.is_provider_bound(p2))
+        self.assertTrue(catalog_b.is_provider_bound(p2))
+        self.assertEquals(self.catalog.get_provider_bind_name(p2), 'p2')
+        self.assertEquals(catalog_a.get_provider_bind_name(p2), 'pa2')
+        self.assertEquals(catalog_b.get_provider_bind_name(p2), 'pb2')
+
+    def test_provider_rebinding_to_the_same_catalog(self):
+        """Test provider rebinding to the same catalog."""
+        with self.assertRaises(di.Error):
+            self.catalog.p3 = self.catalog.p1
+
+    def test_provider_binding_with_the_same_name(self):
+        """Test binding of provider with the same name."""
+        with self.assertRaises(di.Error):
+            self.catalog.bind_provider('p1', di.Provider())
+
+    def test_get(self):
+        """Test getting of providers using get() method."""
+        self.assertIs(self.catalog.get_provider('p1'), self.catalog.p1)
+        self.assertIs(self.catalog.get_provider('p2'), self.catalog.p2)
+
+    def test_get_undefined(self):
+        """Test getting of undefined providers using get() method."""
+        with self.assertRaises(di.UndefinedProviderError):
+            self.catalog.get_provider('undefined')
+
+        with self.assertRaises(di.UndefinedProviderError):
+            self.catalog.undefined
+
+    def test_has_provider(self):
+        """Test checks of providers availability in catalog."""
+        self.assertTrue(self.catalog.has_provider('p1'))
+        self.assertTrue(self.catalog.has_provider('p2'))
+        self.assertFalse(self.catalog.has_provider('undefined'))
+
+    def test_filter_all_providers_by_type(self):
+        """Test getting of all catalog providers of specific type."""
+        self.assertTrue(len(self.catalog.filter(di.Provider)) == 2)
+        self.assertTrue(len(self.catalog.filter(di.Value)) == 0)
+
+    def test_repr(self):
+        """Test catalog representation."""
+        self.assertIn('TestCatalog', repr(self.catalog))
+        self.assertIn('p1', repr(self.catalog))
+        self.assertIn('p2', repr(self.catalog))
 
 
 class DeclarativeCatalogTests(unittest.TestCase):
@@ -123,9 +250,6 @@ class DeclarativeCatalogTests(unittest.TestCase):
         self.assertDictEqual(CatalogB.cls_providers,
                              dict(p21=CatalogB.p21,
                                   p22=CatalogB.p22))
-        self.assertDictEqual(CatalogC.cls_providers,
-                             dict(p31=CatalogC.p31,
-                                  p32=CatalogC.p32))
 
     def test_inherited_providers(self):
         """Test `di.DeclarativeCatalog.inherited_providers` contents."""
@@ -133,11 +257,6 @@ class DeclarativeCatalogTests(unittest.TestCase):
         self.assertDictEqual(CatalogB.inherited_providers,
                              dict(p11=CatalogA.p11,
                                   p12=CatalogA.p12))
-        self.assertDictEqual(CatalogC.inherited_providers,
-                             dict(p11=CatalogA.p11,
-                                  p12=CatalogA.p12,
-                                  p21=CatalogB.p21,
-                                  p22=CatalogB.p22))
 
     def test_providers(self):
         """Test `di.DeclarativeCatalog.inherited_providers` contents."""
@@ -149,81 +268,74 @@ class DeclarativeCatalogTests(unittest.TestCase):
                                   p12=CatalogA.p12,
                                   p21=CatalogB.p21,
                                   p22=CatalogB.p22))
-        self.assertDictEqual(CatalogC.providers,
-                             dict(p11=CatalogA.p11,
-                                  p12=CatalogA.p12,
-                                  p21=CatalogB.p21,
-                                  p22=CatalogB.p22,
-                                  p31=CatalogC.p31,
-                                  p32=CatalogC.p32))
 
     def test_bind_provider(self):
         """Test setting of provider via bind_provider() to catalog."""
         px = di.Provider()
         py = di.Provider()
 
-        CatalogC.bind_provider('px', px)
-        CatalogC.bind_provider('py', py)
+        CatalogA.bind_provider('px', px)
+        CatalogA.bind_provider('py', py)
 
-        self.assertIs(CatalogC.px, px)
-        self.assertIs(CatalogC.get_provider('px'), px)
-        self.assertIs(CatalogC.catalog.px, px)
+        self.assertIs(CatalogA.px, px)
+        self.assertIs(CatalogA.get_provider('px'), px)
+        self.assertIs(CatalogA.catalog.px, px)
 
-        self.assertIs(CatalogC.py, py)
-        self.assertIs(CatalogC.get_provider('py'), py)
-        self.assertIs(CatalogC.catalog.py, py)
+        self.assertIs(CatalogA.py, py)
+        self.assertIs(CatalogA.get_provider('py'), py)
+        self.assertIs(CatalogA.catalog.py, py)
 
-        del CatalogC.px
-        del CatalogC.py
+        del CatalogA.px
+        del CatalogA.py
 
     def test_bind_providers(self):
         """Test setting of provider via bind_providers() to catalog."""
         px = di.Provider()
         py = di.Provider()
 
-        CatalogC.bind_providers(dict(px=px, py=py))
+        CatalogB.bind_providers(dict(px=px, py=py))
 
-        self.assertIs(CatalogC.px, px)
-        self.assertIs(CatalogC.get_provider('px'), px)
-        self.assertIs(CatalogC.catalog.px, px)
+        self.assertIs(CatalogB.px, px)
+        self.assertIs(CatalogB.get_provider('px'), px)
+        self.assertIs(CatalogB.catalog.px, px)
 
-        self.assertIs(CatalogC.py, py)
-        self.assertIs(CatalogC.get_provider('py'), py)
-        self.assertIs(CatalogC.catalog.py, py)
+        self.assertIs(CatalogB.py, py)
+        self.assertIs(CatalogB.get_provider('py'), py)
+        self.assertIs(CatalogB.catalog.py, py)
 
-        del CatalogC.px
-        del CatalogC.py
+        del CatalogB.px
+        del CatalogB.py
 
     def test_setattr(self):
         """Test setting of providers via attributes to catalog."""
         px = di.Provider()
         py = di.Provider()
 
-        CatalogC.px = px
-        CatalogC.py = py
+        CatalogB.px = px
+        CatalogB.py = py
 
-        self.assertIs(CatalogC.px, px)
-        self.assertIs(CatalogC.get_provider('px'), px)
-        self.assertIs(CatalogC.catalog.px, px)
+        self.assertIs(CatalogB.px, px)
+        self.assertIs(CatalogB.get_provider('px'), px)
+        self.assertIs(CatalogB.catalog.px, px)
 
-        self.assertIs(CatalogC.py, py)
-        self.assertIs(CatalogC.get_provider('py'), py)
-        self.assertIs(CatalogC.catalog.py, py)
+        self.assertIs(CatalogB.py, py)
+        self.assertIs(CatalogB.get_provider('py'), py)
+        self.assertIs(CatalogB.catalog.py, py)
 
-        del CatalogC.px
-        del CatalogC.py
+        del CatalogB.px
+        del CatalogB.py
 
     def test_unbind_provider(self):
         """Test that catalog unbinds provider correct."""
-        CatalogC.px = di.Provider()
-        CatalogC.unbind_provider('px')
-        self.assertFalse(CatalogC.has_provider('px'))
+        CatalogB.px = di.Provider()
+        CatalogB.unbind_provider('px')
+        self.assertFalse(CatalogB.has_provider('px'))
 
     def test_unbind_via_delattr(self):
         """Test that catalog unbinds provider correct."""
-        CatalogC.px = di.Provider()
-        del CatalogC.px
-        self.assertFalse(CatalogC.has_provider('px'))
+        CatalogB.px = di.Provider()
+        del CatalogB.px
+        self.assertFalse(CatalogB.has_provider('px'))
 
     def test_provider_is_bound(self):
         """Test that providers are bound to the catalogs."""
@@ -288,56 +400,48 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
     def test_get(self):
         """Test getting of providers using get() method."""
-        self.assertIs(CatalogC.get('p11'), CatalogC.p11)
-        self.assertIs(CatalogC.get('p12'), CatalogC.p12)
-        self.assertIs(CatalogC.get('p22'), CatalogC.p22)
-        self.assertIs(CatalogC.get('p22'), CatalogC.p22)
-        self.assertIs(CatalogC.get('p32'), CatalogC.p32)
-        self.assertIs(CatalogC.get('p32'), CatalogC.p32)
+        self.assertIs(CatalogB.get('p11'), CatalogB.p11)
+        self.assertIs(CatalogB.get('p12'), CatalogB.p12)
+        self.assertIs(CatalogB.get('p22'), CatalogB.p22)
+        self.assertIs(CatalogB.get('p22'), CatalogB.p22)
 
-        self.assertIs(CatalogC.get_provider('p11'), CatalogC.p11)
-        self.assertIs(CatalogC.get_provider('p12'), CatalogC.p12)
-        self.assertIs(CatalogC.get_provider('p22'), CatalogC.p22)
-        self.assertIs(CatalogC.get_provider('p22'), CatalogC.p22)
-        self.assertIs(CatalogC.get_provider('p32'), CatalogC.p32)
-        self.assertIs(CatalogC.get_provider('p32'), CatalogC.p32)
+        self.assertIs(CatalogB.get_provider('p11'), CatalogB.p11)
+        self.assertIs(CatalogB.get_provider('p12'), CatalogB.p12)
+        self.assertIs(CatalogB.get_provider('p22'), CatalogB.p22)
+        self.assertIs(CatalogB.get_provider('p22'), CatalogB.p22)
 
     def test_get_undefined(self):
         """Test getting of undefined providers using get() method."""
         with self.assertRaises(di.UndefinedProviderError):
-            CatalogC.get('undefined')
+            CatalogB.get('undefined')
 
         with self.assertRaises(di.UndefinedProviderError):
-            CatalogC.get_provider('undefined')
+            CatalogB.get_provider('undefined')
 
         with self.assertRaises(di.UndefinedProviderError):
-            CatalogC.undefined
+            CatalogB.undefined
 
     def test_has(self):
         """Test checks of providers availability in catalog."""
-        self.assertTrue(CatalogC.has('p11'))
-        self.assertTrue(CatalogC.has('p12'))
-        self.assertTrue(CatalogC.has('p21'))
-        self.assertTrue(CatalogC.has('p22'))
-        self.assertTrue(CatalogC.has('p31'))
-        self.assertTrue(CatalogC.has('p32'))
-        self.assertFalse(CatalogC.has('undefined'))
+        self.assertTrue(CatalogB.has('p11'))
+        self.assertTrue(CatalogB.has('p12'))
+        self.assertTrue(CatalogB.has('p21'))
+        self.assertTrue(CatalogB.has('p22'))
+        self.assertFalse(CatalogB.has('undefined'))
 
-        self.assertTrue(CatalogC.has_provider('p11'))
-        self.assertTrue(CatalogC.has_provider('p12'))
-        self.assertTrue(CatalogC.has_provider('p21'))
-        self.assertTrue(CatalogC.has_provider('p22'))
-        self.assertTrue(CatalogC.has_provider('p31'))
-        self.assertTrue(CatalogC.has_provider('p32'))
-        self.assertFalse(CatalogC.has_provider('undefined'))
+        self.assertTrue(CatalogB.has_provider('p11'))
+        self.assertTrue(CatalogB.has_provider('p12'))
+        self.assertTrue(CatalogB.has_provider('p21'))
+        self.assertTrue(CatalogB.has_provider('p22'))
+        self.assertFalse(CatalogB.has_provider('undefined'))
 
     def test_filter_all_providers_by_type(self):
         """Test getting of all catalog providers of specific type."""
-        self.assertTrue(len(CatalogC.filter(di.Provider)) == 6)
-        self.assertTrue(len(CatalogC.filter(di.Value)) == 0)
+        self.assertTrue(len(CatalogB.filter(di.Provider)) == 4)
+        self.assertTrue(len(CatalogB.filter(di.Value)) == 0)
 
     def test_repr(self):
-        """Test declarative catalog representation."""
+        """Test catalog representation."""
         self.assertIn('CatalogA', repr(CatalogA))
         self.assertIn('p11', repr(CatalogA))
         self.assertIn('p12', repr(CatalogA))
@@ -347,14 +451,6 @@ class DeclarativeCatalogTests(unittest.TestCase):
         self.assertIn('p12', repr(CatalogB))
         self.assertIn('p21', repr(CatalogB))
         self.assertIn('p22', repr(CatalogB))
-
-        self.assertIn('CatalogC', repr(CatalogC))
-        self.assertIn('p11', repr(CatalogC))
-        self.assertIn('p12', repr(CatalogC))
-        self.assertIn('p21', repr(CatalogC))
-        self.assertIn('p22', repr(CatalogC))
-        self.assertIn('p31', repr(CatalogC))
-        self.assertIn('p32', repr(CatalogC))
 
     def test_abstract_catalog_backward_compatibility(self):
         """Test that di.AbstractCatalog is available."""
