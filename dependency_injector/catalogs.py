@@ -178,6 +178,12 @@ class DynamicCatalog(object):
         """Check if there is provider with certain name."""
         return name in self.providers
 
+    def unbind_provider(self, name):
+        """Remove provider binding."""
+        provider = self.get_provider(name)
+        del self.providers[name]
+        del self.provider_names[provider]
+
     def __getattr__(self, name):
         """Return provider with specified name or raise en error."""
         return self.get_provider(name)
@@ -191,6 +197,14 @@ class DynamicCatalog(object):
         if is_provider(value):
             return self.bind_provider(name, value)
         return super(DynamicCatalog, self).__setattr__(name, value)
+
+    def __delattr__(self, name):
+        """Handle deleting of catalog attibute.
+
+        Deleting of attributes works as usual, but if value of attribute is
+        provider, this provider will be unbound from catalog correctly.
+        """
+        self.unbind_provider(name)
 
     def __repr__(self):
         """Return Python representation of catalog."""
@@ -269,6 +283,16 @@ class DeclarativeCatalogMetaClass(type):
         if is_provider(value):
             setattr(cls.catalog, name, value)
         return super(DeclarativeCatalogMetaClass, cls).__setattr__(name, value)
+
+    def __delattr__(cls, name):
+        """Handle deleting of catalog attibute.
+
+        Deleting of attributes works as usual, but if value of attribute is
+        provider, this provider will be unbound from catalog correctly.
+        """
+        if is_provider(getattr(cls, name)):
+            delattr(cls.catalog, name)
+        return super(DeclarativeCatalogMetaClass, cls).__delattr__(name)
 
     def __repr__(cls):
         """Return string representation of the catalog."""
@@ -360,12 +384,12 @@ class DeclarativeCatalog(object):
     @classmethod
     def reset_last_overriding(cls):
         """Reset last overriding catalog."""
-        return cls.catalog.reset_last_overriding()
+        cls.catalog.reset_last_overriding()
 
     @classmethod
     def reset_override(cls):
         """Reset all overridings for all catalog providers."""
-        return cls.catalog.reset_override()
+        cls.catalog.reset_override()
 
     @classmethod
     def get_provider(cls, name):
@@ -375,17 +399,23 @@ class DeclarativeCatalog(object):
     @classmethod
     def bind_provider(cls, name, provider):
         """Bind provider to catalog with specified name."""
-        return cls.catalog.bind_provider(name, provider)
+        setattr(cls, name, provider)
 
     @classmethod
     def bind_providers(cls, providers):
         """Bind providers dictionary to catalog."""
-        return cls.catalog.bind_providers(providers)
+        for name, provider in six.iteritems(providers):
+            setattr(cls, name, provider)
 
     @classmethod
     def has_provider(cls, name):
         """Check if there is provider with certain name."""
-        return cls.catalog.has_provider(name)
+        return hasattr(cls, name)
+
+    @classmethod
+    def unbind_provider(cls, name):
+        """Remove provider binding."""
+        delattr(cls, name)
 
     get = get_provider  # Backward compatibility for versions < 0.11.*
     has = has_provider  # Backward compatibility for versions < 0.11.*

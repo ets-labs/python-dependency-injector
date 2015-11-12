@@ -157,8 +157,45 @@ class DeclarativeCatalogTests(unittest.TestCase):
                                   p31=CatalogC.p31,
                                   p32=CatalogC.p32))
 
+    def test_bind_provider(self):
+        """Test setting of provider via bind_provider() to catalog."""
+        px = di.Provider()
+        py = di.Provider()
+
+        CatalogC.bind_provider('px', px)
+        CatalogC.bind_provider('py', py)
+
+        self.assertIs(CatalogC.px, px)
+        self.assertIs(CatalogC.get_provider('px'), px)
+        self.assertIs(CatalogC.catalog.px, px)
+
+        self.assertIs(CatalogC.py, py)
+        self.assertIs(CatalogC.get_provider('py'), py)
+        self.assertIs(CatalogC.catalog.py, py)
+
+        del CatalogC.px
+        del CatalogC.py
+
+    def test_bind_providers(self):
+        """Test setting of provider via bind_providers() to catalog."""
+        px = di.Provider()
+        py = di.Provider()
+
+        CatalogC.bind_providers(dict(px=px, py=py))
+
+        self.assertIs(CatalogC.px, px)
+        self.assertIs(CatalogC.get_provider('px'), px)
+        self.assertIs(CatalogC.catalog.px, px)
+
+        self.assertIs(CatalogC.py, py)
+        self.assertIs(CatalogC.get_provider('py'), py)
+        self.assertIs(CatalogC.catalog.py, py)
+
+        del CatalogC.px
+        del CatalogC.py
+
     def test_setattr(self):
-        """Test setting of provider attributes to catalog."""
+        """Test setting of providers via attributes to catalog."""
         px = di.Provider()
         py = di.Provider()
 
@@ -172,6 +209,21 @@ class DeclarativeCatalogTests(unittest.TestCase):
         self.assertIs(CatalogC.py, py)
         self.assertIs(CatalogC.get_provider('py'), py)
         self.assertIs(CatalogC.catalog.py, py)
+
+        del CatalogC.px
+        del CatalogC.py
+
+    def test_unbind_provider(self):
+        """Test that catalog unbinds provider correct."""
+        CatalogC.px = di.Provider()
+        CatalogC.unbind_provider('px')
+        self.assertFalse(CatalogC.has_provider('px'))
+
+    def test_unbind_via_delattr(self):
+        """Test that catalog unbinds provider correct."""
+        CatalogC.px = di.Provider()
+        del CatalogC.px
+        self.assertFalse(CatalogC.has_provider('px'))
 
     def test_provider_is_bound(self):
         """Test that providers are bound to the catalogs."""
