@@ -157,6 +157,22 @@ class DeclarativeCatalogTests(unittest.TestCase):
                                   p31=CatalogC.p31,
                                   p32=CatalogC.p32))
 
+    def test_setattr(self):
+        """Test setting of provider attributes to catalog."""
+        px = di.Provider()
+        py = di.Provider()
+
+        CatalogC.px = px
+        CatalogC.py = py
+
+        self.assertIs(CatalogC.px, px)
+        self.assertIs(CatalogC.get_provider('px'), px)
+        self.assertIs(CatalogC.catalog.px, px)
+
+        self.assertIs(CatalogC.py, py)
+        self.assertIs(CatalogC.get_provider('py'), py)
+        self.assertIs(CatalogC.catalog.py, py)
+
     def test_provider_is_bound(self):
         """Test that providers are bound to the catalogs."""
         self.assertTrue(CatalogA.is_provider_bound(CatalogA.p11))
@@ -227,9 +243,23 @@ class DeclarativeCatalogTests(unittest.TestCase):
         self.assertIs(CatalogC.get('p32'), CatalogC.p32)
         self.assertIs(CatalogC.get('p32'), CatalogC.p32)
 
+        self.assertIs(CatalogC.get_provider('p11'), CatalogC.p11)
+        self.assertIs(CatalogC.get_provider('p12'), CatalogC.p12)
+        self.assertIs(CatalogC.get_provider('p22'), CatalogC.p22)
+        self.assertIs(CatalogC.get_provider('p22'), CatalogC.p22)
+        self.assertIs(CatalogC.get_provider('p32'), CatalogC.p32)
+        self.assertIs(CatalogC.get_provider('p32'), CatalogC.p32)
+
     def test_get_undefined(self):
         """Test getting of undefined providers using get() method."""
-        self.assertRaises(di.Error, CatalogC.get, 'undefined')
+        with self.assertRaises(di.UndefinedProviderError):
+            CatalogC.get('undefined')
+
+        with self.assertRaises(di.UndefinedProviderError):
+            CatalogC.get_provider('undefined')
+
+        with self.assertRaises(di.UndefinedProviderError):
+            CatalogC.undefined
 
     def test_has(self):
         """Test checks of providers availability in catalog."""
@@ -240,6 +270,14 @@ class DeclarativeCatalogTests(unittest.TestCase):
         self.assertTrue(CatalogC.has('p31'))
         self.assertTrue(CatalogC.has('p32'))
         self.assertFalse(CatalogC.has('undefined'))
+
+        self.assertTrue(CatalogC.has_provider('p11'))
+        self.assertTrue(CatalogC.has_provider('p12'))
+        self.assertTrue(CatalogC.has_provider('p21'))
+        self.assertTrue(CatalogC.has_provider('p22'))
+        self.assertTrue(CatalogC.has_provider('p31'))
+        self.assertTrue(CatalogC.has_provider('p32'))
+        self.assertFalse(CatalogC.has_provider('undefined'))
 
     def test_filter_all_providers_by_type(self):
         """Test getting of all catalog providers of specific type."""

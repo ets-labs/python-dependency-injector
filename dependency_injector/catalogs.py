@@ -88,6 +88,7 @@ class DynamicCatalog(object):
         self.Bundle = CatalogBundle.sub_cls_factory(self)
 
         self.bind_providers(providers)
+        super(DynamicCatalog, self).__init__()
 
     def is_bundle_owner(self, bundle):
         """Check if catalog is bundle owner."""
@@ -181,6 +182,16 @@ class DynamicCatalog(object):
         """Return provider with specified name or raise en error."""
         return self.get_provider(name)
 
+    def __setattr__(self, name, value):
+        """Handle setting of catalog attributes.
+
+        Setting of attributes works as usual, but if value of attribute is
+        provider, this provider will be bound to catalog correctly.
+        """
+        if is_provider(value):
+            return self.bind_provider(name, value)
+        return super(DynamicCatalog, self).__setattr__(name, value)
+
     def __repr__(self):
         """Return Python representation of catalog."""
         return '<{0}({1})>'.format(self.name,
@@ -195,8 +206,6 @@ class DeclarativeCatalogMetaClass(type):
 
     def __new__(mcs, class_name, bases, attributes):
         """Declarative catalog class factory."""
-        cls = type.__new__(mcs, class_name, bases, attributes)
-
         cls_providers = tuple((name, provider)
                               for name, provider in six.iteritems(attributes)
                               if is_provider(provider))
@@ -208,10 +217,10 @@ class DeclarativeCatalogMetaClass(type):
 
         providers = cls_providers + inherited_providers
 
-        cls.name = '.'.join((cls.__module__, cls.__name__))
+        cls = type.__new__(mcs, class_name, bases, attributes)
 
         cls.catalog = DynamicCatalog()
-        cls.catalog.name = cls.name
+        cls.catalog.name = '.'.join((cls.__module__, cls.__name__))
         cls.catalog.bind_providers(dict(providers))
 
         cls.cls_providers = dict(cls_providers)
@@ -220,6 +229,11 @@ class DeclarativeCatalogMetaClass(type):
         cls.Bundle = cls.catalog.Bundle
 
         return cls
+
+    @property
+    def name(cls):
+        """Return catalog's name."""
+        return cls.catalog.name
 
     @property
     def providers(cls):
@@ -240,6 +254,21 @@ class DeclarativeCatalogMetaClass(type):
     def last_overriding(cls):
         """Return last overriding catalog."""
         return cls.catalog.last_overriding
+
+    def __getattr__(cls, name):
+        """Return provider with specified name or raise en error."""
+        raise UndefinedProviderError('There is no provider "{0}" in '
+                                     'catalog {1}'.format(name, cls))
+
+    def __setattr__(cls, name, value):
+        """Handle setting of catalog attributes.
+
+        Setting of attributes works as usual, but if value of attribute is
+        provider, this provider will be bound to catalog correctly.
+        """
+        if is_provider(value):
+            setattr(cls.catalog, name, value)
+        return super(DeclarativeCatalogMetaClass, cls).__setattr__(name, value)
 
     def __repr__(cls):
         """Return string representation of the catalog."""
@@ -326,27 +355,40 @@ class DeclarativeCatalog(object):
 
         :type overriding: DeclarativeCatalog | DynamicCatalog
         """
-        cls.catalog.override(overriding)
+        return cls.catalog.override(overriding)
 
     @classmethod
     def reset_last_overriding(cls):
         """Reset last overriding catalog."""
-        cls.catalog.reset_last_overriding()
+        return cls.catalog.reset_last_overriding()
 
     @classmethod
     def reset_override(cls):
         """Reset all overridings for all catalog providers."""
-        cls.catalog.reset_override()
+        return cls.catalog.reset_override()
 
     @classmethod
-    def get(cls, name):
-        """Return provider with specified name or raises error."""
+    def get_provider(cls, name):
+        """Return provider with specified name or raise an error."""
         return cls.catalog.get_provider(name)
 
     @classmethod
-    def has(cls, name):
+    def bind_provider(cls, name, provider):
+        """Bind provider to catalog with specified name."""
+        return cls.catalog.bind_provider(name, provider)
+
+    @classmethod
+    def bind_providers(cls, providers):
+        """Bind providers dictionary to catalog."""
+        return cls.catalog.bind_providers(providers)
+
+    @classmethod
+    def has_provider(cls, name):
         """Check if there is provider with certain name."""
         return cls.catalog.has_provider(name)
+
+    get = get_provider  # Backward compatibility for versions < 0.11.*
+    has = has_provider  # Backward compatibility for versions < 0.11.*
 
 
 # Backward compatibility for versions < 0.11.*

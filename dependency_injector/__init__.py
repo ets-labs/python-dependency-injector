@@ -41,6 +41,7 @@ from .utils import is_catalog_bundle
 from .utils import ensure_is_catalog_bundle
 
 from .errors import Error
+from .errors import UndefinedProviderError
 
 # Backward compatibility for versions < 0.11.*
 from . import catalogs
@@ -96,6 +97,7 @@ __all__ = (
 
     # Errors
     'Error',
+    'UndefinedProviderError',
 
     # Version
     'VERSION'
