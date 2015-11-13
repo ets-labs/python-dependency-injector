@@ -55,5 +55,6 @@ Contents
     providers/index
     catalogs/index
     advanced_usage/index
+    api/index
     main/feedback
     main/changelog

@@ -6,9 +6,6 @@ declarative manner. It should cover most of the cases when list of providers
 that would be included in catalog is deterministic (catalog will not change 
 its structure in runtime).
 
-Definition of declarative catalogs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 Declarative catalogs have to extend base declarative catalog class - 
 ``di.DeclarativeCatalog``.
 
@@ -33,27 +30,10 @@ Here is an simple example of declarative catalog with several factories:
 .. literalinclude:: ../../examples/catalogs/declarative.py
    :language: python
 
-Declarative catalogs API
-~~~~~~~~~~~~~~~~~~~~~~~~
-
 ``di.DeclarativeCatalog`` has several features that could be useful for some 
-kind of operations on catalog's providers:
-
-- ``di.DeclarativeCatalog.providers`` is read-only attribute that contains 
-  ``dict`` of all catalog providers, including providers that are inherited 
-  from parent catalogs, where key is the name of provider and value is 
-  provider itself.
-- ``di.DeclarativeCatalog.cls_providers`` is read-only attribute contains 
-  ``dict`` of current catalog providers, where key is the name of provider 
-  and value is provider itself.
-- ``di.DeclarativeCatalog.inherited_providers`` is read-only attribute 
-  contains ``dict`` of all providers that are inherited from parent catalogs, 
-  where key is the name of provider and value is provider itself. 
-- ``di.DeclarativeCatalog.filter(provider_type=di.Provider)`` is a class 
-  method that could be used for filtering catalog providers by provider types 
-  (for example, for getting all ``di.Factory`` providers). 
-  ``di.DeclarativeCatalog.filter()`` method use 
-  ``di.DeclarativeCatalog.providers``.
+kind of operations on catalog's providers (please visit API docs for 
+getting full list of feautes - 
+:py:class:`dependency_injector.catalogs.DeclarativeCatalog`):
 
 Example:
 

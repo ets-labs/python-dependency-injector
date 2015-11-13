@@ -282,11 +282,9 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
         self.assertIs(CatalogA.px, px)
         self.assertIs(CatalogA.get_provider('px'), px)
-        self.assertIs(CatalogA.catalog.px, px)
 
         self.assertIs(CatalogA.py, py)
         self.assertIs(CatalogA.get_provider('py'), py)
-        self.assertIs(CatalogA.catalog.py, py)
 
         del CatalogA.px
         del CatalogA.py
@@ -300,11 +298,9 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
         self.assertIs(CatalogB.px, px)
         self.assertIs(CatalogB.get_provider('px'), px)
-        self.assertIs(CatalogB.catalog.px, px)
 
         self.assertIs(CatalogB.py, py)
         self.assertIs(CatalogB.get_provider('py'), py)
-        self.assertIs(CatalogB.catalog.py, py)
 
         del CatalogB.px
         del CatalogB.py
@@ -319,11 +315,9 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
         self.assertIs(CatalogB.px, px)
         self.assertIs(CatalogB.get_provider('px'), px)
-        self.assertIs(CatalogB.catalog.px, px)
 
         self.assertIs(CatalogB.py, py)
         self.assertIs(CatalogB.get_provider('py'), py)
-        self.assertIs(CatalogB.catalog.py, py)
 
         del CatalogB.px
         del CatalogB.py
