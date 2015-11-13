@@ -1,4 +1,4 @@
-"""Operating with catalog providers example."""
+"""Declarative catalog API example."""
 
 import dependency_injector as di
 

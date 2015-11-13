@@ -19,7 +19,7 @@ of providers.
 ..  toctree::
     :maxdepth: 2
 
-    writing
-    operating
+    declarative
+    dynamic
     bundles
     overriding

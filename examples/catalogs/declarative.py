@@ -1,4 +1,4 @@
-"""Catalog example."""
+"""Declarative catalog example."""
 
 import dependency_injector as di
 

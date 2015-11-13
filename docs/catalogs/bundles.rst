@@ -1,5 +1,5 @@
-Creating catalog provider bundles
----------------------------------
+Catalog provider bundles
+------------------------
 
 ``di.DeclarativeCatalog.Bundle`` is a limited collection of catalog providers. 
 While catalog could be used as a centralized place for particular providers 

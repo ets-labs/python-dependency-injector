@@ -1,4 +1,4 @@
-Writing custom providers
+Writing of custom providers
 ------------------------
 
 List of *Dependency Injector* providers could be widened with custom providers.
