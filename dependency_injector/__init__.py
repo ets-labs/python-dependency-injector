@@ -1,9 +1,10 @@
 """Dependency injector."""
 
-from .catalog import DeclarativeCatalog
-from .catalog import AbstractCatalog
-from .catalog import CatalogBundle
-from .catalog import override
+from .catalogs import DeclarativeCatalog
+from .catalogs import AbstractCatalog
+from .catalogs import DynamicCatalog
+from .catalogs import CatalogBundle
+from .catalogs import override
 
 from .providers import Provider
 from .providers import Delegate
@@ -34,11 +35,17 @@ from .utils import is_kwarg_injection
 from .utils import is_attribute_injection
 from .utils import is_method_injection
 from .utils import is_catalog
+from .utils import is_dynamic_catalog
+from .utils import is_declarative_catalog
 from .utils import is_catalog_bundle
 from .utils import ensure_is_catalog_bundle
 
 from .errors import Error
+from .errors import UndefinedProviderError
 
+# Backward compatibility for versions < 0.11.*
+from . import catalogs
+catalog = catalogs
 
 VERSION = '0.10.5'
 
@@ -47,6 +54,7 @@ __all__ = (
     # Catalogs
     'DeclarativeCatalog',
     'AbstractCatalog',
+    'DynamicCatalog',
     'CatalogBundle',
     'override',
 
@@ -82,11 +90,14 @@ __all__ = (
     'is_attribute_injection',
     'is_method_injection',
     'is_catalog',
+    'is_dynamic_catalog',
+    'is_declarative_catalog',
     'is_catalog_bundle',
     'ensure_is_catalog_bundle',
 
     # Errors
     'Error',
+    'UndefinedProviderError',
 
     # Version
     'VERSION'
