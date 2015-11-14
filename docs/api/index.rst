@@ -3,7 +3,10 @@ API
 
 
 ..  toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
+    top_level
     providers
     catalogs
+    errors
+    utils

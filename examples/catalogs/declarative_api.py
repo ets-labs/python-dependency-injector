@@ -1,20 +1,21 @@
 """Declarative catalog API example."""
 
-import dependency_injector as di
+from dependency_injector import catalogs
+from dependency_injector import providers
 
 
-class CatalogA(di.DeclarativeCatalog):
+class CatalogA(catalogs.DeclarativeCatalog):
     """Example catalog A."""
 
-    provider1 = di.Factory(object)
-    """:type: di.Provider -> object"""
+    provider1 = providers.Factory(object)
+    """:type: providers.Provider -> object"""
 
 
 class CatalogB(CatalogA):
     """Example catalog B."""
 
-    provider2 = di.Singleton(object)
-    """:type: di.Provider -> object"""
+    provider2 = providers.Singleton(object)
+    """:type: providers.Provider -> object"""
 
 
 # Making some asserts for `providers` attribute:
@@ -29,7 +30,3 @@ assert CatalogB.cls_providers == dict(provider2=CatalogB.provider2)
 # Making some asserts for `inherited_providers` attribute:
 assert CatalogA.inherited_providers == dict()
 assert CatalogB.inherited_providers == dict(provider1=CatalogA.provider1)
-
-# Making some asserts for `filter()` method:
-assert CatalogB.filter(di.Factory) == dict(provider1=CatalogA.provider1)
-assert CatalogB.filter(di.Singleton) == dict(provider2=CatalogB.provider2)

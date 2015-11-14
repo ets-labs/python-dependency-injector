@@ -1,16 +1,17 @@
 """Declarative catalog example."""
 
-import dependency_injector as di
+from dependency_injector import catalogs
+from dependency_injector import providers
 
 
-class Catalog(di.DeclarativeCatalog):
+class Catalog(catalogs.DeclarativeCatalog):
     """Providers catalog."""
 
-    factory1 = di.Factory(object)
-    """:type: di.Provider -> object"""
+    factory1 = providers.Factory(object)
+    """:type: providers.Provider -> object"""
 
-    factory2 = di.Factory(object)
-    """:type: di.Provider -> object"""
+    factory2 = providers.Factory(object)
+    """:type: providers.Provider -> object"""
 
 # Creating some objects:
 object1 = Catalog.factory1()
