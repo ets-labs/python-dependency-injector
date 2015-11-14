@@ -2,4 +2,5 @@
 ------------------------------
 
 .. automodule:: dependency_injector.errors
-   :members:
+    :members:
+    :member-order: bysource
