@@ -1,17 +1,27 @@
 Declarative catalogs
 --------------------
 
-:py:class:`dependency_injector.catalogs.DeclarativeCatalog` is a catalog of 
-providers that could be defined in declarative manner. It should cover most 
-of the cases when list of providers that would be included in catalog is 
-deterministic (catalog will not change its structure in runtime).
+.. module:: dependency_injector.catalogs
+
+:py:class:`DeclarativeCatalog` is a catalog of providers that could be 
+defined in declarative manner. It should cover most of the cases when 
+list of providers that would be included in catalog is deterministic 
+(catalog will not change its structure in runtime).
 
 Declarative catalogs have to extend base declarative catalog class - 
 :py:class:`dependency_injector.catalogs.DeclarativeCatalog`.
 
-Providers have to be defined like catalog's class attributes. Every provider in
-catalog has name. This name should follow ``some_provider`` convention, 
-that is standard naming convention for attribute names in Python.
+Declarative catalog's providers have to be defined like catalog's class 
+attributes. Every provider in catalog has name. This name should follow 
+``some_provider`` convention, that is standard naming convention for 
+attribute names in Python.
+
+.. note::
+
+    Declarative catalogs have several features that could be useful 
+    for some kind of operations on catalog's providers, please visit API 
+    documentation for getting full list of features - 
+    :py:class:`dependency_injector.catalogs.DeclarativeCatalog`.
 
 .. note::
 
@@ -31,16 +41,20 @@ Here is an simple example of declarative catalog with several factories:
 .. literalinclude:: ../../examples/catalogs/declarative.py
    :language: python
 
-:py:class:`dependency_injector.catalogs.DeclarativeCatalog` has several 
-features that could be useful for some kind of operations on catalog's 
-providers (please visit API docs for getting full list of feautes - 
-:py:class:`dependency_injector.catalogs.DeclarativeCatalog`):
+Example of declarative catalogs inheritance:
 
-Example:
-
-.. image:: /images/catalogs/declarative_api.png
+.. image:: /images/catalogs/declarative_inheritance.png
     :width: 100%
     :align: center
 
-.. literalinclude:: ../../examples/catalogs/declarative_api.py
+.. literalinclude:: ../../examples/catalogs/declarative_inheritance.py
+   :language: python
+
+Example of declarative catalog's provider injections:
+
+.. image:: /images/catalogs/declarative_injections.png
+    :width: 100%
+    :align: center
+
+.. literalinclude:: ../../examples/catalogs/declarative_injections.py
    :language: python

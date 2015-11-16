@@ -1,4 +1,4 @@
-"""Declarative catalog example."""
+"""Declarative catalog simple example."""
 
 from dependency_injector import catalogs
 from dependency_injector import providers

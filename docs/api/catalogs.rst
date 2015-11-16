@@ -2,6 +2,6 @@
 --------------------------------
 
 .. automodule:: dependency_injector.catalogs
-    :members:
-    :special-members:
-    :member-order: bysource
+   :members:
+   :member-order: bysource
+   :special-members:

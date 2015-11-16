@@ -39,7 +39,7 @@ class Injection(object):
         return self.injectable
 
 
-class NamedInjection(Injection):
+class _NamedInjection(Injection):
     """Base class of named injections."""
 
     __slots__ = ('name',)
@@ -47,7 +47,7 @@ class NamedInjection(Injection):
     def __init__(self, name, injectable):
         """Initializer."""
         self.name = name
-        super(NamedInjection, self).__init__(injectable)
+        super(_NamedInjection, self).__init__(injectable)
 
 
 class Arg(Injection):
@@ -56,19 +56,19 @@ class Arg(Injection):
     __IS_ARG_INJECTION__ = True
 
 
-class KwArg(NamedInjection):
+class KwArg(_NamedInjection):
     """Keyword argument injection."""
 
     __IS_KWARG_INJECTION__ = True
 
 
-class Attribute(NamedInjection):
+class Attribute(_NamedInjection):
     """Attribute injection."""
 
     __IS_ATTRIBUTE_INJECTION__ = True
 
 
-class Method(NamedInjection):
+class Method(_NamedInjection):
     """Method injection."""
 
     __IS_METHOD_INJECTION__ = True

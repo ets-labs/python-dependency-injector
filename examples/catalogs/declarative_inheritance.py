@@ -1,4 +1,4 @@
-"""Declarative catalog API example."""
+"""Declarative catalogs inheritance example."""
 
 from dependency_injector import catalogs
 from dependency_injector import providers
