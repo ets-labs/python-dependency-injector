@@ -250,27 +250,47 @@ class DeclarativeCatalogMetaClass(type):
 
     @property
     def name(cls):
-        """Return catalog's name."""
+        """Read-only property that represents catalog's name.
+
+        Catalog's name is catalog's module + catalog's class name.
+
+        :type: str
+        """
         return cls._catalog.name
 
     @property
     def providers(cls):
-        """Return dict of catalog's providers."""
+        """Read-only dictionary of all providers.
+
+        :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
+        """
         return cls._catalog.providers
 
     @property
     def overridden_by(cls):
-        """Return tuple of overriding catalogs."""
+        """Tuple of overriding catalogs.
+
+        :type: tuple[
+            :py:class:`dependency_injector.catalogs.DeclarativeCatalog` |
+            :py:class:`dependency_injector.catalogs.DynamicCatalog`]
+        """
         return cls._catalog.overridden_by
 
     @property
     def is_overridden(cls):
-        """Check if catalog is overridden by another catalog."""
+        """Check if catalog is overridden by another catalog.
+
+        :rtype: bool
+        """
         return cls._catalog.is_overridden
 
     @property
     def last_overriding(cls):
-        """Return last overriding catalog."""
+        """Read-only reference to the last overriding catalog, if any.
+
+        :type: :py:class:`dependency_injector.catalogs.DeclarativeCatalog` |
+            :py:class:`dependency_injector.catalogs.DynamicCatalog`
+        """
         return cls._catalog.last_overriding
 
     def __getattr__(cls, name):
@@ -279,7 +299,7 @@ class DeclarativeCatalogMetaClass(type):
         :param name: Attribute's name
         :type name: str
 
-        :raise: dependency_injector.UndefinedProviderError
+        :raise: :py:class:`dependency_injector.errors.UndefinedProviderError`
         """
         raise UndefinedProviderError('There is no provider "{0}" in '
                                      'catalog {1}'.format(name, cls))
@@ -288,13 +308,14 @@ class DeclarativeCatalogMetaClass(type):
         """Handle setting of catalog attributes.
 
         Setting of attributes works as usual, but if value of attribute is
-        provider, this provider will be bound to catalog correctly.
+        provider, this provider will be bound to catalog.
 
         :param name: Attribute's name
         :type name: str
 
         :param value: Attribute's value
-        :type value: dependency_injector.Provider | object
+        :type value: :py:class:`dependency_injector.providers.Provider` |
+                     object
 
         :rtype: None
         """
@@ -306,7 +327,7 @@ class DeclarativeCatalogMetaClass(type):
         """Handle deleting of catalog attibute.
 
         Deleting of attributes works as usual, but if value of attribute is
-        provider, this provider will be unbound from catalog correctly.
+        provider, this provider will be unbound from catalog.
 
         :param name: Attribute's name
         :type name: str
@@ -345,9 +366,9 @@ class DeclarativeCatalog(object):
     """
 
     name = str()
-    """Catalog's name.
+    """Read-only property that represents catalog's name.
 
-    By default it is catalog's module + class names.
+    Catalog's name is catalog's module + catalog's class name.
 
     :type: str
     """
@@ -387,7 +408,7 @@ class DeclarativeCatalog(object):
     """Read-only reference to the last overriding catalog, if any.
 
     :type: :py:class:`dependency_injector.catalogs.DeclarativeCatalog` |
-           :py:class:`dependency_injector.catalogs.DynamicCatalog` | None
+           :py:class:`dependency_injector.catalogs.DynamicCatalog`
     """
 
     _catalog = DynamicCatalog
@@ -589,7 +610,15 @@ AbstractCatalog = DeclarativeCatalog
 
 
 def override(catalog):
-    """Catalog overriding decorator."""
+    """Catalog overriding decorator.
+
+    :param catalog: Catalog that should be overridden by decorated catalog.
+    :type catalog: :py:class:`dependency_injector.catalogs.DeclarativeCatalog`
+
+    :return: Declarative catalog's overriding decorator
+    :rtype: callable(
+        :py:class:`dependency_injector.catalogs.DeclarativeCatalog`)
+    """
     def decorator(overriding_catalog):
         """Overriding decorator."""
         catalog.override(overriding_catalog)
