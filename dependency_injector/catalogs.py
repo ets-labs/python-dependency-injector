@@ -734,7 +734,7 @@ class DeclarativeCatalog(object):
         delattr(cls, name)
 
     @classmethod
-    def __getattr__(cls, name):
+    def __getattr__(cls, name):  # pragma: no cover
         """Return provider with specified name or raise en error.
 
         :param name: Attribute's name
@@ -745,7 +745,7 @@ class DeclarativeCatalog(object):
         raise NotImplementedError('Implementated in metaclass')
 
     @classmethod
-    def __setattr__(cls, name, value):
+    def __setattr__(cls, name, value):  # pragma: no cover
         """Handle setting of catalog attributes.
 
         Setting of attributes works as usual, but if value of attribute is
@@ -763,7 +763,7 @@ class DeclarativeCatalog(object):
         raise NotImplementedError('Implementated in metaclass')
 
     @classmethod
-    def __delattr__(cls, name):
+    def __delattr__(cls, name):  # pragma: no cover
         """Handle deleting of catalog attibute.
 
         Deleting of attributes works as usual, but if value of attribute is
