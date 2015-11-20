@@ -220,7 +220,7 @@ class DynamicCatalog(object):
 
     @property
     def is_overridden(self):
-        """Read-only property that is set to True if catalog is overridden.
+        """Read-only property that is set to ``True`` if catalog is overridden.
 
         :rtype: bool
         """
@@ -464,7 +464,7 @@ class DeclarativeCatalogMetaClass(type):
 
     @property
     def is_overridden(cls):
-        """Read-only property that is set to True if catalog is overridden.
+        """Read-only property that is set to ``True`` if catalog is overridden.
 
         :rtype: bool
         """
@@ -585,7 +585,7 @@ class DeclarativeCatalog(object):
     """
 
     is_overridden = bool
-    """Read-only property that is set to True if catalog is overridden.
+    """Read-only property that is set to ``True`` if catalog is overridden.
 
     :type: bool
     """
@@ -798,7 +798,7 @@ AbstractCatalog = DeclarativeCatalog
 
 
 def override(catalog):
-    """Catalog overriding decorator.
+    """:py:class:`DeclarativeCatalog` overriding decorator.
 
     :param catalog: Catalog that should be overridden by decorated catalog.
     :type catalog: :py:class:`dependency_injector.catalogs.DeclarativeCatalog`
