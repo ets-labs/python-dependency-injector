@@ -5,13 +5,13 @@ class BaseService(object):
     """Example base class of service."""
 
 
-class UsersService(BaseService):
+class Users(BaseService):
     """Example users service."""
 
 
-class AuthService(BaseService):
+class Auth(BaseService):
     """Example auth service."""
 
 
-class PhotosService(BaseService):
+class Photos(BaseService):
     """Example photo service."""

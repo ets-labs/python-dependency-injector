@@ -1,38 +1,40 @@
 """Catalog bundles example."""
 
-import dependency_injector as di
+from dependency_injector import catalogs
+from dependency_injector import providers
+from dependency_injector import errors
 
 import services
 import views
 
 
 # Declaring services catalog:
-class Services(di.DeclarativeCatalog):
+class Services(catalogs.DeclarativeCatalog):
     """Example catalog of service providers."""
 
-    users = di.Factory(services.UsersService)
-    """:type: di.Provider -> services.UsersService"""
+    users = providers.Factory(services.Users)
+    """:type: providers.Provider -> services.Users"""
 
-    auth = di.Factory(services.AuthService)
-    """:type: di.Provider -> services.AuthService"""
+    auth = providers.Factory(services.Auth)
+    """:type: providers.Provider -> services.Auth"""
 
-    photos = di.Factory(services.PhotosService)
-    """:type: di.Provider -> services.PhotosService"""
+    photos = providers.Factory(services.Photos)
+    """:type: providers.Provider -> services.Photos"""
 
 
 # Declaring views catalog:
-class Views(di.DeclarativeCatalog):
+class Views(catalogs.DeclarativeCatalog):
     """Example catalog of web views."""
 
-    auth = di.Factory(views.AuthView,
-                      services=Services.Bundle(Services.users,
-                                               Services.auth))
-    """:type: di.Provider -> views.AuthView"""
+    auth = providers.Factory(views.Auth,
+                             services=Services.Bundle(Services.users,
+                                                      Services.auth))
+    """:type: providers.Provider -> views.Auth"""
 
-    photos = di.Factory(views.PhotosView,
-                        services=Services.Bundle(Services.users,
-                                                 Services.photos))
-    """:type: di.Provider -> views.PhotosView"""
+    photos = providers.Factory(views.Photos,
+                               services=Services.Bundle(Services.users,
+                                                        Services.photos))
+    """:type: providers.Provider -> views.Photos"""
 
 
 # Creating example views:
@@ -47,7 +49,7 @@ assert auth_view.services.users is Services.users
 assert auth_view.services.auth is Services.auth
 try:
     auth_view.services.photos
-except di.Error:
+except errors.Error:
     # `photos` service provider is not in scope of `auth_view` services bundle,
     # so `di.Error` will be raised.
     pass
@@ -56,7 +58,7 @@ assert photos_view.services.users is Services.users
 assert photos_view.services.photos is Services.photos
 try:
     photos_view.services.auth
-except di.Error as exception:
+except errors.Error as exception:
     # `auth` service provider is not in scope of `photo_processing_view`
     # services bundle, so `di.Error` will be raised.
     pass

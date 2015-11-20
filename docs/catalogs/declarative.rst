@@ -3,10 +3,10 @@ Declarative catalogs
 
 .. module:: dependency_injector.catalogs
 
-:py:class:`DeclarativeCatalog` is a catalog of providers that could be 
-defined in declarative manner. It should cover most of the cases when 
-list of providers that would be included in catalog is deterministic 
-(catalog will not change its structure in runtime).
+:py:class:`DeclarativeCatalog` is a catalog of providers that could be
+defined in declarative manner. It should cover most of the cases when list
+of providers that would be included in catalog is deterministic (catalog
+will not change its structure in runtime).
 
 Declarative catalogs have to extend base declarative catalog class - 
 :py:class:`dependency_injector.catalogs.DeclarativeCatalog`.

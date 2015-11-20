@@ -13,7 +13,23 @@ from .utils import ensure_is_catalog_bundle
 
 @six.python_2_unicode_compatible
 class CatalogBundle(object):
-    """Bundle of catalog providers."""
+    """Bundle of catalog providers.
+
+    :py:class:`CatalogBundle` is a frozen, limited collection of catalog
+    providers. While catalog could be used as a centralized place for
+    particular providers group, such bundles of catalog providers can be used
+    for creating several frozen, limited scopes that could be passed to
+    different subsystems.
+
+    :py:class:`CatalogBundle` has API's parity with catalogs
+    (:py:class:`DeclarativeCatalog` or :py:class:`DynamicCatalog`) in terms of
+    retrieving the providers, but it is "frozen" in terms of modification
+    provider's list.
+
+    :py:class:`CatalogBundle` is considered to be dependable on catalogs
+    (:py:class:`DeclarativeCatalog` or :py:class:`DynamicCatalog`) entity by
+    its design.
+    """
 
     catalog = None
     """Bundle's catalog.
@@ -24,6 +40,16 @@ class CatalogBundle(object):
 
     __IS_CATALOG_BUNDLE__ = True
     __slots__ = ('providers', '__dict__')
+
+    @classmethod
+    def sub_cls_factory(cls, catalog):
+        """Create bundle subclass for catalog.
+
+        :return: Subclass of
+            :py:class:`dependency_injector.catalogs.CatalogBundle`
+        :rtype: :py:class:`dependency_injector.catalogs.CatalogBundle`
+        """
+        return type('BundleSubclass', (cls,), dict(catalog=catalog))
 
     def __init__(self, *providers):
         """Initializer.
@@ -43,16 +69,6 @@ class CatalogBundle(object):
             self.providers[provider_name] = provider
         self.__dict__.update(self.providers)
         super(CatalogBundle, self).__init__()
-
-    @classmethod
-    def sub_cls_factory(cls, catalog):
-        """Create bundle subclass for catalog.
-
-        :return: Subclass of
-            :py:class:`dependency_injector.catalogs.CatalogBundle`
-        :rtype: :py:class:`dependency_injector.catalogs.CatalogBundle`
-        """
-        return type('BundleSubclass', (cls,), dict(catalog=catalog))
 
     def get_provider(self, name):
         """Return provider with specified name or raise an error.
@@ -523,10 +539,10 @@ class DeclarativeCatalogMetaClass(type):
 class DeclarativeCatalog(object):
     """Declarative catalog of providers.
 
-    ``DeclarativeCatalog`` is a catalog of providers that could be defined in
-    declarative manner. It should cover most of the cases when list of
-    providers that would be included in catalog is deterministic (catalog will
-    not change its structure in runtime).
+    :py:class:`DeclarativeCatalog` is a catalog of providers that could be
+    defined in declarative manner. It should cover most of the cases when list
+    of providers that would be included in catalog is deterministic (catalog
+    will not change its structure in runtime).
     """
 
     Bundle = CatalogBundle
