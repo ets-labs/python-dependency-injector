@@ -65,6 +65,10 @@ class ProviderTests(unittest.TestCase):
         self.provider.override(overriding_provider)
         self.assertTrue(self.provider.is_overridden)
 
+    def test_override_with_itself(self):
+        """Test provider overriding with itself."""
+        self.assertRaises(di.Error, self.provider.override, self.provider)
+
     def test_override_with_not_provider(self):
         """Test provider overriding with not provider instance."""
         self.assertRaises(di.Error, self.provider.override, object())

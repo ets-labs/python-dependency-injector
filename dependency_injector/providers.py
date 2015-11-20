@@ -46,6 +46,9 @@ class Provider(object):
 
     def override(self, provider):
         """Override provider with another provider."""
+        if provider is self:
+            raise Error('Provider {0} could not be overridden '
+                        'with itself'.format(self))
         if not self.is_overridden:
             self.overridden_by = (ensure_is_provider(provider),)
         else:
