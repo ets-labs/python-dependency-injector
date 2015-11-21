@@ -1,6 +1,6 @@
-"""`di.Factory` providers with init injections priority example."""
+"""`Factory` providers with init injections priority example."""
 
-import dependency_injector as di
+from dependency_injector import providers
 
 
 class User(object):
@@ -30,11 +30,11 @@ class CreditCard(object):
     """Example class CreditCard."""
 
 # User, Photo and CreditCard factories:
-credit_cards_factory = di.Factory(CreditCard)
-photos_factory = di.Factory(Photo)
-users_factory = di.Factory(User,
-                           main_photo=photos_factory,
-                           credit_card=credit_cards_factory)
+credit_cards_factory = providers.Factory(CreditCard)
+photos_factory = providers.Factory(Photo)
+users_factory = providers.Factory(User,
+                                  main_photo=photos_factory,
+                                  credit_card=credit_cards_factory)
 
 # Creating several User objects:
 user1 = users_factory(1)

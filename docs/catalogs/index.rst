@@ -16,6 +16,8 @@ Also, for both of these and some other cases, it might be useful to attach
 some init / shutdown functionality or something else, that deals with group 
 of providers.
 
+Catalogs module API docs - :py:mod:`dependency_injector.catalogs`.
+
 ..  toctree::
     :maxdepth: 2
 

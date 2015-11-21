@@ -1,13 +1,13 @@
-"""`di.Factory` providers example."""
+"""`Factory` providers example."""
 
-import dependency_injector as di
+from dependency_injector import providers
 
 
 class User(object):
     """Example class User."""
 
 # Factory provider creates new instance of specified class on every call.
-users_factory = di.Factory(User)
+users_factory = providers.Factory(User)
 
 # Creating several User objects:
 user1 = users_factory()

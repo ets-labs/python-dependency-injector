@@ -1,6 +1,6 @@
-"""`di.Factory` providers delegation example."""
+"""`Factory` providers delegation example."""
 
-import dependency_injector as di
+from dependency_injector import providers
 
 
 class User(object):
@@ -9,7 +9,7 @@ class User(object):
     def __init__(self, photos_factory):
         """Initializer.
 
-        :param photos_factory: (di.Factory) -> Photo
+        :param photos_factory: providers.Factory -> Photo
         """
         self.photos_factory = photos_factory
         self._main_photo = None
@@ -27,9 +27,9 @@ class Photo(object):
     """Example class Photo."""
 
 # User and Photo factories:
-photos_factory = di.Factory(Photo)
-users_factory = di.Factory(User,
-                           photos_factory=di.Delegate(photos_factory))
+photos_factory = providers.Factory(Photo)
+users_factory = providers.Factory(User,
+                                  photos_factory=photos_factory.delegate())
 
 # Creating several User objects:
 user1 = users_factory()
