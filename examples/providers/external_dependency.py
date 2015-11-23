@@ -1,8 +1,9 @@
-"""`di.ExternalDependency` providers example."""
+"""`ExternalDependency` providers example."""
 
 import sqlite3
 import contextlib
-import dependency_injector as di
+
+from dependency_injector import providers
 
 
 class UserService(object):
@@ -14,7 +15,8 @@ class UserService(object):
     def __init__(self, database):
         """Initializer.
 
-        Database dependency need to be injected via init arg.
+        :param database: Database connection.
+        :type database: sqlite3.dbapi2.Connection
         """
         self.database = database
         self.database.row_factory = sqlite3.dbapi2.Row
@@ -43,18 +45,18 @@ class UserService(object):
 
 
 # Database and UserService providers:
-database = di.ExternalDependency(instance_of=sqlite3.dbapi2.Connection)
-users_service_factory = di.Factory(UserService,
-                                   database=database)
+database = providers.ExternalDependency(instance_of=sqlite3.dbapi2.Connection)
+users_service_factory = providers.Factory(UserService,
+                                          database=database)
 
 # Out of library's scope.
 #
 # Setting database provider:
-database.provided_by(di.Singleton(sqlite3.dbapi2.Connection,
-                                  database=':memory:',
-                                  timeout=30,
-                                  detect_types=True,
-                                  isolation_level='EXCLUSIVE'))
+database.provided_by(providers.Singleton(sqlite3.dbapi2.Connection,
+                                         database=':memory:',
+                                         timeout=30,
+                                         detect_types=True,
+                                         isolation_level='EXCLUSIVE'))
 
 # Creating UserService instance:
 users_service = users_service_factory()

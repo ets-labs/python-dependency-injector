@@ -131,7 +131,8 @@ class Delegate(Provider):
     def __init__(self, delegated):
         """Initializer.
 
-        :type delegated: Provider
+        :provider delegated: Delegated provider
+        :type delegated: :py:class:`Provider`
         """
         self.delegated = ensure_is_provider(delegated)
         super(Delegate, self).__init__()
@@ -392,10 +393,19 @@ class Singleton(Provider):
 
 
 class ExternalDependency(Provider):
-    """External dependency provider.
+    """:py:class:`ExternalDependency` provider describes dependency interface.
 
-    Those provider is used when dependency obviously have to be overridden by
-    the client's code, but it's interface is known.
+    This provider is used for description of dependency interface. That might
+    be useful when dependency could be provided in the client's code only,
+    but it's interface is known. Such situations could happen when required
+    dependency has non-determenistic list of dependencies itself.
+
+    .. code-block:: python
+
+        database_provider = ExternalDependency(sqlite3.dbapi2.Connection)
+        database_provider.override(Factory(sqlite3.connect, ':memory:'))
+
+        database = database_provider()
     """
 
     __slots__ = ('instance_of',)
@@ -406,10 +416,25 @@ class ExternalDependency(Provider):
             raise Error('ExternalDependency provider expects to get class, ' +
                         'got {0} instead'.format(str(instance_of)))
         self.instance_of = instance_of
+        """Class of required dependency.
+
+        :type: type
+        """
         super(ExternalDependency, self).__init__()
 
     def __call__(self, *args, **kwargs):
-        """Return provided instance."""
+        """Return provided instance.
+
+        :param args: tuple of context positional arguments
+        :type args: tuple[object]
+
+        :param kwargs: dictionary of context keyword arguments
+        :type kwargs: dict[str, object]
+
+        :raise: :py:exc:`dependency_injector.errors.Error`
+
+        :rtype: object
+        """
         if not self.is_overridden:
             raise Error('Dependency is not defined')
 
@@ -422,7 +447,13 @@ class ExternalDependency(Provider):
         return instance
 
     def provided_by(self, provider):
-        """Set external dependency provider."""
+        """Set external dependency provider.
+
+        :param provider: Provider that provides required dependency
+        :type provider: :py:class:`Provider`
+
+        :rtype: None
+        """
         return self.override(provider)
 
 
@@ -438,7 +469,7 @@ class StaticProvider(Provider):
     def __init__(self, provides):
         """Initializer.
 
-        :param provides: value that have to be provided.
+        :param provides: Value that have to be provided.
         :type provides: object
         """
         self.provides = provides
@@ -522,7 +553,7 @@ class Callable(Provider):
     def __init__(self, callback, *args, **kwargs):
         """Initializer.
 
-        :param callback: wrapped callable.
+        :param callback: Wrapped callable.
         :type callback: callable
 
         :param args: Tuple of injections.
