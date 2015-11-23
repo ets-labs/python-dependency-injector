@@ -1,22 +1,24 @@
-"""`@di.inject()` decorator with classes example."""
+"""`inject()` decorator with classes example."""
 
 import sqlite3
 import flask
 import flask.views
-import dependency_injector as di
+
+from dependency_injector import providers
+from dependency_injector import injections
 
 
-database = di.Singleton(sqlite3.Connection,
-                        database=':memory:',
-                        timeout=30,
-                        detect_types=True,
-                        isolation_level='EXCLUSIVE')
+database = providers.Singleton(sqlite3.Connection,
+                               database=':memory:',
+                               timeout=30,
+                               detect_types=True,
+                               isolation_level='EXCLUSIVE')
 
 app = flask.Flask(__name__)
 
 
-@di.inject(database=database)
-@di.inject(some_setting=777)
+@injections.inject(database=database)
+@injections.inject(some_setting=777)
 class HelloView(flask.views.View):
     """Example flask class-based view."""
 

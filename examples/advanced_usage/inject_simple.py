@@ -1,14 +1,15 @@
-"""`@di.inject()` decorator simple example."""
+"""`inject()` decorator simple example."""
 
-import dependency_injector as di
+from dependency_injector import providers
+from dependency_injector import injections
 
 
-dependency_injector_factory = di.Factory(object)
+dependency_injector_factory = providers.Factory(object)
 
 
 # Example of using `di.inject()` decorator keyword argument injections:
-@di.inject(new_object=dependency_injector_factory)
-@di.inject(some_setting=1334)
+@injections.inject(new_object=dependency_injector_factory)
+@injections.inject(some_setting=1334)
 def example_callback1(new_object, some_setting):
     """Example callback that does some asserts for input args."""
     assert isinstance(new_object, object)
@@ -16,7 +17,7 @@ def example_callback1(new_object, some_setting):
 
 
 # Example of using `di.inject()` decorator with positional argument injections:
-@di.inject(dependency_injector_factory, 1334)
+@injections.inject(dependency_injector_factory, 1334)
 def example_callback2(new_object, some_setting):
     """Example callback that does some asserts for input args."""
     assert isinstance(new_object, object)
