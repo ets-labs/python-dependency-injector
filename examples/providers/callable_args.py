@@ -1,11 +1,11 @@
-"""`di.Callable` providers with positional arguments example."""
+"""`Callable` providers with positional arguments example."""
 
-import dependency_injector as di
+from dependency_injector import providers
 
 
 # Creating even and odd filter providers:
-even_filter = di.Callable(filter, lambda x: x % 2 == 0)
-odd_filter = di.Callable(filter, lambda x: x % 2 != 0)
+even_filter = providers.Callable(filter, lambda x: x % 2 == 0)
+odd_filter = providers.Callable(filter, lambda x: x % 2 != 0)
 
 # Creating even and odd ranges using xrange() and filter providers:
 even_range = even_filter(xrange(1, 10))

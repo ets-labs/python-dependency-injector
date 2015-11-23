@@ -1,14 +1,16 @@
-"""`di.Callable` providers with keyword arguments example."""
+"""`Callable` providers with keyword arguments example."""
 
 import passlib.hash
-import dependency_injector as di
+
+from dependency_injector import providers
+
 
 # Password hasher and verifier providers (hash function could be changed
 # anytime (for example, to sha512) without any changes in client's code):
-password_hasher = di.Callable(passlib.hash.sha256_crypt.encrypt,
-                              salt_size=16,
-                              rounds=10000)
-password_verifier = di.Callable(passlib.hash.sha256_crypt.verify)
+password_hasher = providers.Callable(passlib.hash.sha256_crypt.encrypt,
+                                     salt_size=16,
+                                     rounds=10000)
+password_verifier = providers.Callable(passlib.hash.sha256_crypt.verify)
 
 # Making some asserts:
 hashed_password = password_hasher('super secret')

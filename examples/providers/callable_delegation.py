@@ -1,13 +1,14 @@
-"""`di.Callable` providers delegation example."""
+"""`Callable` providers delegation example."""
 
 import sys
-import dependency_injector as di
+
+from dependency_injector import providers
 
 
 # Creating some callable provider and few delegates of it:
-callable_provider = di.Callable(sys.exit)
+callable_provider = providers.Callable(sys.exit)
 callable_provider_delegate1 = callable_provider.delegate()
-callable_provider_delegate2 = di.Delegate(callable_provider)
+callable_provider_delegate2 = providers.Delegate(callable_provider)
 
 # Making some asserts:
 assert callable_provider_delegate1() is callable_provider

@@ -293,7 +293,18 @@ class Singleton(Provider):
     __slots__ = ('instance', 'factory')
 
     def __init__(self, provides, *args, **kwargs):
-        """Initializer."""
+        """Initializer.
+
+        :param provides: Class or other callable that provides object
+            for creation.
+        :type provides: type | callable
+
+        :param args: Tuple of injections.
+        :type args: tuple
+
+        :param kwargs: Dictionary of injections.
+        :type kwargs: dict
+        """
         self.instance = None
         """Read-only reference to singleton's instance.
 
@@ -492,32 +503,77 @@ class Value(StaticProvider):
 
 
 class Callable(Provider):
-    """Callable provider.
+    """:py:class:`Callable` provider calls wrapped callable on every call.
 
-    Callable provider provides callable that is called on every provider call
-    with some predefined dependency injections.
+    :py:class:`Callable` provider provides callable that is called on every
+    provider call with some predefined dependency injections.
+
+    :py:class:`Callable` syntax of passing injections is the same like
+    :py:class:`Factory` one:
+
+    .. code-block:: python
+
+        some_function = Callable(some_function, 'arg1', 'arg2', arg3=3, arg4=4)
+        result = some_function()
     """
 
     __slots__ = ('callback', 'args', 'kwargs')
 
     def __init__(self, callback, *args, **kwargs):
-        """Initializer."""
+        """Initializer.
+
+        :param callback: wrapped callable.
+        :type callback: callable
+
+        :param args: Tuple of injections.
+        :type args: tuple
+
+        :param kwargs: Dictionary of injections.
+        :type kwargs: dict
+        """
         if not callable(callback):
             raise Error('Callable expected, got {0}'.format(str(callback)))
         self.callback = callback
-        self.args = _parse_args_injections(args)
-        self.kwargs = _parse_kwargs_injections(args, kwargs)
-        super(Callable, self).__init__()
+        """Wrapped callable.
 
-    def _provide(self, *args, **kwargs):
-        """Return provided instance."""
-        return self.callback(*_get_injectable_args(args, self.args),
-                             **_get_injectable_kwargs(kwargs, self.kwargs))
+        :type: callable
+        """
+
+        self.args = _parse_args_injections(args)
+        """Tuple of positional argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
+        """
+
+        self.kwargs = _parse_kwargs_injections(args, kwargs)
+        """Tuple of keyword argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
+        """
+
+        super(Callable, self).__init__()
 
     @property
     def injections(self):
-        """Return tuple of all injections."""
+        """Read-only tuple of all injections.
+
+        :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
+        """
         return self.args + self.kwargs
+
+    def _provide(self, *args, **kwargs):
+        """Return provided instance.
+
+        :param args: tuple of context positional arguments
+        :type args: tuple[object]
+
+        :param kwargs: dictionary of context keyword arguments
+        :type kwargs: dict[str, object]
+
+        :rtype: object
+        """
+        return self.callback(*_get_injectable_args(args, self.args),
+                             **_get_injectable_kwargs(kwargs, self.kwargs))
 
 
 class Config(Provider):
