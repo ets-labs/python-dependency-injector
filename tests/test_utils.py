@@ -1,7 +1,12 @@
 """Dependency injector utils unittests."""
 
 import unittest2 as unittest
-import dependency_injector as di
+
+from dependency_injector import utils
+from dependency_injector import providers
+from dependency_injector import injections
+from dependency_injector import catalogs
+from dependency_injector import errors
 
 
 class IsProviderTests(unittest.TestCase):
@@ -9,26 +14,26 @@ class IsProviderTests(unittest.TestCase):
 
     def test_with_instance(self):
         """Test with instance."""
-        self.assertTrue(di.is_provider(di.Provider()))
+        self.assertTrue(utils.is_provider(providers.Provider()))
 
     def test_with_class(self):
         """Test with class."""
-        self.assertFalse(di.is_provider(di.Provider))
+        self.assertFalse(utils.is_provider(providers.Provider))
 
     def test_with_string(self):
         """Test with string."""
-        self.assertFalse(di.is_provider('some_string'))
+        self.assertFalse(utils.is_provider('some_string'))
 
     def test_with_object(self):
         """Test with object."""
-        self.assertFalse(di.is_provider(object()))
+        self.assertFalse(utils.is_provider(object()))
 
     def test_with_subclass_instance(self):
         """Test with subclass of provider instance."""
-        class SomeProvider(di.Provider):
+        class SomeProvider(providers.Provider):
             """Some provider for test."""
 
-        self.assertTrue(di.is_provider(SomeProvider()))
+        self.assertTrue(utils.is_provider(SomeProvider()))
 
     def test_with_class_with_getattr(self):
         """Test with class that has __getattr__() method implementation."""
@@ -39,7 +44,7 @@ class IsProviderTests(unittest.TestCase):
                 """Test implementation that just returns False."""
                 return False
 
-        self.assertFalse(di.is_provider(SomeClass()))
+        self.assertFalse(utils.is_provider(SomeClass()))
 
 
 class EnsureIsProviderTests(unittest.TestCase):
@@ -47,20 +52,24 @@ class EnsureIsProviderTests(unittest.TestCase):
 
     def test_with_instance(self):
         """Test with instance."""
-        provider = di.Provider()
-        self.assertIs(di.ensure_is_provider(provider), provider)
+        provider = providers.Provider()
+        self.assertIs(utils.ensure_is_provider(provider), provider)
 
     def test_with_class(self):
         """Test with class."""
-        self.assertRaises(di.Error, di.ensure_is_provider, di.Provider)
+        self.assertRaises(errors.Error,
+                          utils.ensure_is_provider,
+                          providers.Provider)
 
     def test_with_string(self):
         """Test with string."""
-        self.assertRaises(di.Error, di.ensure_is_provider, 'some_string')
+        self.assertRaises(errors.Error,
+                          utils.ensure_is_provider,
+                          'some_string')
 
     def test_with_object(self):
         """Test with object."""
-        self.assertRaises(di.Error, di.ensure_is_provider, object())
+        self.assertRaises(errors.Error, utils.ensure_is_provider, object())
 
 
 class IsInjectionTests(unittest.TestCase):
@@ -68,26 +77,29 @@ class IsInjectionTests(unittest.TestCase):
 
     def test_with_instance(self):
         """Test with instance."""
-        self.assertTrue(di.is_injection(di.Injection('value')))
+        self.assertTrue(utils.is_injection(injections.Injection('value')))
 
     def test_with_subclass_instances(self):
         """Test with subclass instances."""
-        self.assertTrue(di.is_injection(di.Arg('value')))
-        self.assertTrue(di.is_injection(di.KwArg('name', 'value')))
-        self.assertTrue(di.is_injection(di.Attribute('name', 'value')))
-        self.assertTrue(di.is_injection(di.Method('name', 'value')))
+        self.assertTrue(utils.is_injection(injections.Arg('value')))
+        self.assertTrue(utils.is_injection(injections.KwArg('name',
+                                                            'value')))
+        self.assertTrue(utils.is_injection(injections.Attribute('name',
+                                                                'value')))
+        self.assertTrue(utils.is_injection(injections.Method('name',
+                                                             'value')))
 
     def test_with_class(self):
         """Test with class."""
-        self.assertFalse(di.is_injection(di.Injection))
+        self.assertFalse(utils.is_injection(injections.Injection))
 
     def test_with_string(self):
         """Test with string."""
-        self.assertFalse(di.is_injection('some_string'))
+        self.assertFalse(utils.is_injection('some_string'))
 
     def test_with_object(self):
         """Test with object."""
-        self.assertFalse(di.is_injection(object()))
+        self.assertFalse(utils.is_injection(object()))
 
 
 class EnsureIsInjectionTests(unittest.TestCase):
@@ -95,20 +107,26 @@ class EnsureIsInjectionTests(unittest.TestCase):
 
     def test_with_instance(self):
         """Test with instance."""
-        injection = di.Injection('value')
-        self.assertIs(di.ensure_is_injection(injection), injection)
+        injection = injections.Injection('value')
+        self.assertIs(utils.ensure_is_injection(injection), injection)
 
     def test_with_class(self):
         """Test with class."""
-        self.assertRaises(di.Error, di.ensure_is_injection, di.Injection)
+        self.assertRaises(errors.Error,
+                          utils.ensure_is_injection,
+                          injections.Injection)
 
     def test_with_string(self):
         """Test with string."""
-        self.assertRaises(di.Error, di.ensure_is_injection, 'some_string')
+        self.assertRaises(errors.Error,
+                          utils.ensure_is_injection,
+                          'some_string')
 
     def test_with_object(self):
         """Test with object."""
-        self.assertRaises(di.Error, di.ensure_is_injection, object())
+        self.assertRaises(errors.Error,
+                          utils.ensure_is_injection,
+                          object())
 
 
 class IsArgInjectionTests(unittest.TestCase):
@@ -116,23 +134,23 @@ class IsArgInjectionTests(unittest.TestCase):
 
     def test_with_instance(self):
         """Test with instance."""
-        self.assertTrue(di.is_arg_injection(di.Arg('value')))
+        self.assertTrue(utils.is_arg_injection(injections.Arg('value')))
 
     def test_with_class(self):
         """Test with class."""
-        self.assertFalse(di.is_arg_injection(di.Arg))
+        self.assertFalse(utils.is_arg_injection(injections.Arg))
 
     def test_with_parent_class(self):
         """Test with parent class."""
-        self.assertFalse(di.is_arg_injection(di.Injection))
+        self.assertFalse(utils.is_arg_injection(injections.Injection))
 
     def test_with_string(self):
         """Test with string."""
-        self.assertFalse(di.is_arg_injection('some_string'))
+        self.assertFalse(utils.is_arg_injection('some_string'))
 
     def test_with_object(self):
         """Test with object."""
-        self.assertFalse(di.is_arg_injection(object()))
+        self.assertFalse(utils.is_arg_injection(object()))
 
 
 class IsKwArgInjectionTests(unittest.TestCase):
@@ -140,23 +158,24 @@ class IsKwArgInjectionTests(unittest.TestCase):
 
     def test_with_instance(self):
         """Test with instance."""
-        self.assertTrue(di.is_kwarg_injection(di.KwArg('name', 'value')))
+        self.assertTrue(utils.is_kwarg_injection(injections.KwArg('name',
+                                                                  'value')))
 
     def test_with_class(self):
         """Test with class."""
-        self.assertFalse(di.is_kwarg_injection(di.KwArg))
+        self.assertFalse(utils.is_kwarg_injection(injections.KwArg))
 
     def test_with_parent_class(self):
         """Test with parent class."""
-        self.assertFalse(di.is_kwarg_injection(di.Injection))
+        self.assertFalse(utils.is_kwarg_injection(injections.Injection))
 
     def test_with_string(self):
         """Test with string."""
-        self.assertFalse(di.is_kwarg_injection('some_string'))
+        self.assertFalse(utils.is_kwarg_injection('some_string'))
 
     def test_with_object(self):
         """Test with object."""
-        self.assertFalse(di.is_kwarg_injection(object()))
+        self.assertFalse(utils.is_kwarg_injection(object()))
 
 
 class IsAttributeInjectionTests(unittest.TestCase):
@@ -164,24 +183,24 @@ class IsAttributeInjectionTests(unittest.TestCase):
 
     def test_with_instance(self):
         """Test with instance."""
-        self.assertTrue(di.is_attribute_injection(di.Attribute('name',
-                                                               'value')))
+        self.assertTrue(utils.is_attribute_injection(
+            injections.Attribute('name', 'value')))
 
     def test_with_class(self):
         """Test with class."""
-        self.assertFalse(di.is_attribute_injection(di.Attribute))
+        self.assertFalse(utils.is_attribute_injection(injections.Attribute))
 
     def test_with_parent_class(self):
         """Test with parent class."""
-        self.assertFalse(di.is_attribute_injection(di.Injection))
+        self.assertFalse(utils.is_attribute_injection(injections.Injection))
 
     def test_with_string(self):
         """Test with string."""
-        self.assertFalse(di.is_attribute_injection('some_string'))
+        self.assertFalse(utils.is_attribute_injection('some_string'))
 
     def test_with_object(self):
         """Test with object."""
-        self.assertFalse(di.is_attribute_injection(object()))
+        self.assertFalse(utils.is_attribute_injection(object()))
 
 
 class IsMethodInjectionTests(unittest.TestCase):
@@ -189,23 +208,24 @@ class IsMethodInjectionTests(unittest.TestCase):
 
     def test_with_instance(self):
         """Test with instance."""
-        self.assertTrue(di.is_method_injection(di.Method('name', 'value')))
+        self.assertTrue(utils.is_method_injection(
+            injections.Method('name', 'value')))
 
     def test_with_class(self):
         """Test with class."""
-        self.assertFalse(di.is_method_injection(di.Method))
+        self.assertFalse(utils.is_method_injection(injections.Method))
 
     def test_with_parent_class(self):
         """Test with parent class."""
-        self.assertFalse(di.is_method_injection(di.Injection))
+        self.assertFalse(utils.is_method_injection(injections.Injection))
 
     def test_with_string(self):
         """Test with string."""
-        self.assertFalse(di.is_method_injection('some_string'))
+        self.assertFalse(utils.is_method_injection('some_string'))
 
     def test_with_object(self):
         """Test with object."""
-        self.assertFalse(di.is_method_injection(object()))
+        self.assertFalse(utils.is_method_injection(object()))
 
 
 class IsCatalogTests(unittest.TestCase):
@@ -213,26 +233,26 @@ class IsCatalogTests(unittest.TestCase):
 
     def test_with_declarative_catalog(self):
         """Test with class."""
-        self.assertTrue(di.is_catalog(di.DeclarativeCatalog))
+        self.assertTrue(utils.is_catalog(catalogs.DeclarativeCatalog))
 
     def test_with_dynamic_catalog(self):
         """Test with class."""
-        self.assertTrue(di.is_catalog(di.DynamicCatalog()))
+        self.assertTrue(utils.is_catalog(catalogs.DynamicCatalog()))
 
     def test_with_child_class(self):
         """Test with parent class."""
-        class Catalog(di.AbstractCatalog):
+        class Catalog(catalogs.DeclarativeCatalog):
             """Example catalog child class."""
 
-        self.assertTrue(di.is_catalog(Catalog))
+        self.assertTrue(utils.is_catalog(Catalog))
 
     def test_with_string(self):
         """Test with string."""
-        self.assertFalse(di.is_catalog('some_string'))
+        self.assertFalse(utils.is_catalog('some_string'))
 
     def test_with_object(self):
         """Test with object."""
-        self.assertFalse(di.is_catalog(object()))
+        self.assertFalse(utils.is_catalog(object()))
 
 
 class IsDynamicCatalogTests(unittest.TestCase):
@@ -240,11 +260,11 @@ class IsDynamicCatalogTests(unittest.TestCase):
 
     def test_with_declarative_catalog(self):
         """Test with declarative catalog."""
-        self.assertFalse(di.is_dynamic_catalog(di.DeclarativeCatalog))
+        self.assertFalse(utils.is_dynamic_catalog(catalogs.DeclarativeCatalog))
 
     def test_with_dynamic_catalog(self):
         """Test with dynamic catalog."""
-        self.assertTrue(di.is_dynamic_catalog(di.DynamicCatalog()))
+        self.assertTrue(utils.is_dynamic_catalog(catalogs.DynamicCatalog()))
 
 
 class IsDeclarativeCatalogTests(unittest.TestCase):
@@ -252,11 +272,13 @@ class IsDeclarativeCatalogTests(unittest.TestCase):
 
     def test_with_declarative_catalog(self):
         """Test with declarative catalog."""
-        self.assertTrue(di.is_declarative_catalog(di.DeclarativeCatalog))
+        self.assertTrue(utils.is_declarative_catalog(
+            catalogs.DeclarativeCatalog))
 
     def test_with_dynamic_catalog(self):
         """Test with dynamic catalog."""
-        self.assertFalse(di.is_declarative_catalog(di.DynamicCatalog()))
+        self.assertFalse(utils.is_declarative_catalog(
+            catalogs.DynamicCatalog()))
 
 
 class IsCatalogBundleTests(unittest.TestCase):
@@ -264,19 +286,19 @@ class IsCatalogBundleTests(unittest.TestCase):
 
     def test_with_instance(self):
         """Test with instance."""
-        self.assertTrue(di.is_catalog_bundle(di.CatalogBundle()))
+        self.assertTrue(utils.is_catalog_bundle(catalogs.CatalogBundle()))
 
     def test_with_cls(self):
         """Test with class."""
-        self.assertFalse(di.is_catalog_bundle(di.CatalogBundle))
+        self.assertFalse(utils.is_catalog_bundle(catalogs.CatalogBundle))
 
     def test_with_string(self):
         """Test with string."""
-        self.assertFalse(di.is_catalog_bundle('some_string'))
+        self.assertFalse(utils.is_catalog_bundle('some_string'))
 
     def test_with_object(self):
         """Test with object."""
-        self.assertFalse(di.is_catalog_bundle(object()))
+        self.assertFalse(utils.is_catalog_bundle(object()))
 
 
 class EnsureIsCatalogBundleTests(unittest.TestCase):
@@ -284,18 +306,23 @@ class EnsureIsCatalogBundleTests(unittest.TestCase):
 
     def test_with_instance(self):
         """Test with instance."""
-        bundle = di.CatalogBundle()
-        self.assertIs(di.ensure_is_catalog_bundle(bundle), bundle)
+        bundle = catalogs.CatalogBundle()
+        self.assertIs(utils.ensure_is_catalog_bundle(bundle), bundle)
 
     def test_with_class(self):
         """Test with class."""
-        self.assertRaises(di.Error, di.ensure_is_catalog_bundle,
-                          di.CatalogBundle)
+        self.assertRaises(errors.Error,
+                          utils.ensure_is_catalog_bundle,
+                          catalogs.CatalogBundle)
 
     def test_with_string(self):
         """Test with string."""
-        self.assertRaises(di.Error, di.ensure_is_catalog_bundle, 'some_string')
+        self.assertRaises(errors.Error,
+                          utils.ensure_is_catalog_bundle,
+                          'some_string')
 
     def test_with_object(self):
         """Test with object."""
-        self.assertRaises(di.Error, di.ensure_is_catalog_bundle, object())
+        self.assertRaises(errors.Error,
+                          utils.ensure_is_catalog_bundle,
+                          object())

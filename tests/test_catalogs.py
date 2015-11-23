@@ -1,21 +1,24 @@
 """Dependency injector catalogs unittests."""
 
 import unittest2 as unittest
-import dependency_injector as di
+
+from dependency_injector import catalogs
+from dependency_injector import providers
+from dependency_injector import errors
 
 
-class CatalogA(di.DeclarativeCatalog):
+class CatalogA(catalogs.DeclarativeCatalog):
     """Test catalog A."""
 
-    p11 = di.Provider()
-    p12 = di.Provider()
+    p11 = providers.Provider()
+    p12 = providers.Provider()
 
 
 class CatalogB(CatalogA):
     """Test catalog B."""
 
-    p21 = di.Provider()
-    p22 = di.Provider()
+    p21 = providers.Provider()
+    p22 = providers.Provider()
 
 
 class CatalogBundleTests(unittest.TestCase):
@@ -33,8 +36,8 @@ class CatalogBundleTests(unittest.TestCase):
 
     def test_get_attr_not_from_bundle(self):
         """Test get providers (attribute) that are not in bundle."""
-        self.assertRaises(di.Error, getattr, self.bundle, 'p21')
-        self.assertRaises(di.Error, getattr, self.bundle, 'p22')
+        self.assertRaises(errors.Error, getattr, self.bundle, 'p21')
+        self.assertRaises(errors.Error, getattr, self.bundle, 'p22')
 
     def test_get_method_from_bundle(self):
         """Test get providers (get() method) from bundle."""
@@ -43,8 +46,8 @@ class CatalogBundleTests(unittest.TestCase):
 
     def test_get_method_not_from_bundle(self):
         """Test get providers (get() method) that are not in bundle."""
-        self.assertRaises(di.Error, self.bundle.get_provider, 'p21')
-        self.assertRaises(di.Error, self.bundle.get_provider, 'p22')
+        self.assertRaises(errors.Error, self.bundle.get_provider, 'p21')
+        self.assertRaises(errors.Error, self.bundle.get_provider, 'p22')
 
     def test_has(self):
         """Test checks of providers availability in bundle."""
@@ -64,26 +67,26 @@ class CatalogBundleTests(unittest.TestCase):
 
     def test_create_bundle_with_unbound_provider(self):
         """Test that bundle is not created with unbound provider."""
-        self.assertRaises(di.Error, CatalogB.Bundle, di.Provider())
+        self.assertRaises(errors.Error, CatalogB.Bundle, providers.Provider())
 
     def test_create_bundle_with_another_catalog_provider(self):
         """Test that bundle can not contain another catalog's provider."""
-        class TestCatalog(di.DeclarativeCatalog):
+        class TestCatalog(catalogs.DeclarativeCatalog):
             """Test catalog."""
 
-            provider = di.Provider()
+            provider = providers.Provider()
 
-        self.assertRaises(di.Error,
+        self.assertRaises(errors.Error,
                           CatalogB.Bundle, CatalogB.p21, TestCatalog.provider)
 
     def test_create_bundle_with_another_catalog_provider_with_same_name(self):
         """Test that bundle can not contain another catalog's provider."""
-        class TestCatalog(di.DeclarativeCatalog):
+        class TestCatalog(catalogs.DeclarativeCatalog):
             """Test catalog."""
 
-            p21 = di.Provider()
+            p21 = providers.Provider()
 
-        self.assertRaises(di.Error,
+        self.assertRaises(errors.Error,
                           CatalogB.Bundle, CatalogB.p21, TestCatalog.p21)
 
     def test_is_bundle_owner(self):
@@ -93,7 +96,7 @@ class CatalogBundleTests(unittest.TestCase):
 
     def test_is_bundle_owner_with_not_bundle_instance(self):
         """Test that check of bundle ownership raises error with not bundle."""
-        self.assertRaises(di.Error, CatalogB.is_bundle_owner, object())
+        self.assertRaises(errors.Error, CatalogB.is_bundle_owner, object())
 
 
 class DynamicCatalogTests(unittest.TestCase):
@@ -104,8 +107,8 @@ class DynamicCatalogTests(unittest.TestCase):
 
     def setUp(self):
         """Set test environment up."""
-        self.catalog = di.DynamicCatalog(p1=di.Provider(),
-                                         p2=di.Provider())
+        self.catalog = catalogs.DynamicCatalog(p1=providers.Provider(),
+                                               p2=providers.Provider())
         self.catalog.name = 'TestCatalog'
 
     def test_providers(self):
@@ -116,8 +119,8 @@ class DynamicCatalogTests(unittest.TestCase):
 
     def test_bind_provider(self):
         """Test setting of provider via bind_provider() to catalog."""
-        px = di.Provider()
-        py = di.Provider()
+        px = providers.Provider()
+        py = providers.Provider()
 
         self.catalog.bind_provider('px', px)
         self.catalog.bind_provider('py', py)
@@ -130,8 +133,8 @@ class DynamicCatalogTests(unittest.TestCase):
 
     def test_bind_providers(self):
         """Test setting of provider via bind_providers() to catalog."""
-        px = di.Provider()
-        py = di.Provider()
+        px = providers.Provider()
+        py = providers.Provider()
 
         self.catalog.bind_providers(dict(px=px, py=py))
 
@@ -143,8 +146,8 @@ class DynamicCatalogTests(unittest.TestCase):
 
     def test_setattr(self):
         """Test setting of providers via attributes to catalog."""
-        px = di.Provider()
-        py = di.Provider()
+        px = providers.Provider()
+        py = providers.Provider()
 
         self.catalog.px = px
         self.catalog.py = py
@@ -157,13 +160,13 @@ class DynamicCatalogTests(unittest.TestCase):
 
     def test_unbind_provider(self):
         """Test that catalog unbinds provider correct."""
-        self.catalog.px = di.Provider()
+        self.catalog.px = providers.Provider()
         self.catalog.unbind_provider('px')
         self.assertFalse(self.catalog.has_provider('px'))
 
     def test_unbind_via_delattr(self):
         """Test that catalog unbinds provider correct."""
-        self.catalog.px = di.Provider()
+        self.catalog.px = providers.Provider()
         del self.catalog.px
         self.assertFalse(self.catalog.has_provider('px'))
 
@@ -181,8 +184,8 @@ class DynamicCatalogTests(unittest.TestCase):
         p1 = self.catalog.p1
         p2 = self.catalog.p2
 
-        catalog_a = di.DynamicCatalog(pa1=p1, pa2=p2)
-        catalog_b = di.DynamicCatalog(pb1=p1, pb2=p2)
+        catalog_a = catalogs.DynamicCatalog(pa1=p1, pa2=p2)
+        catalog_b = catalogs.DynamicCatalog(pb1=p1, pb2=p2)
 
         self.assertTrue(self.catalog.is_provider_bound(p1))
         self.assertTrue(catalog_a.is_provider_bound(p1))
@@ -200,13 +203,13 @@ class DynamicCatalogTests(unittest.TestCase):
 
     def test_provider_rebinding_to_the_same_catalog(self):
         """Test provider rebinding to the same catalog."""
-        with self.assertRaises(di.Error):
+        with self.assertRaises(errors.Error):
             self.catalog.p3 = self.catalog.p1
 
     def test_provider_binding_with_the_same_name(self):
         """Test binding of provider with the same name."""
-        with self.assertRaises(di.Error):
-            self.catalog.bind_provider('p1', di.Provider())
+        with self.assertRaises(errors.Error):
+            self.catalog.bind_provider('p1', providers.Provider())
 
     def test_get(self):
         """Test getting of providers using get() method."""
@@ -215,10 +218,10 @@ class DynamicCatalogTests(unittest.TestCase):
 
     def test_get_undefined(self):
         """Test getting of undefined providers using get() method."""
-        with self.assertRaises(di.UndefinedProviderError):
+        with self.assertRaises(errors.UndefinedProviderError):
             self.catalog.get_provider('undefined')
 
-        with self.assertRaises(di.UndefinedProviderError):
+        with self.assertRaises(errors.UndefinedProviderError):
             self.catalog.undefined
 
     def test_has_provider(self):
@@ -229,8 +232,8 @@ class DynamicCatalogTests(unittest.TestCase):
 
     def test_filter_all_providers_by_type(self):
         """Test getting of all catalog providers of specific type."""
-        self.assertTrue(len(self.catalog.filter(di.Provider)) == 2)
-        self.assertTrue(len(self.catalog.filter(di.Value)) == 0)
+        self.assertTrue(len(self.catalog.filter(providers.Provider)) == 2)
+        self.assertTrue(len(self.catalog.filter(providers.Value)) == 0)
 
     def test_repr(self):
         """Test catalog representation."""
@@ -271,8 +274,8 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
     def test_bind_provider(self):
         """Test setting of provider via bind_provider() to catalog."""
-        px = di.Provider()
-        py = di.Provider()
+        px = providers.Provider()
+        py = providers.Provider()
 
         CatalogA.bind_provider('px', px)
         CatalogA.bind_provider('py', py)
@@ -290,8 +293,8 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
     def test_bind_providers(self):
         """Test setting of provider via bind_providers() to catalog."""
-        px = di.Provider()
-        py = di.Provider()
+        px = providers.Provider()
+        py = providers.Provider()
 
         CatalogB.bind_providers(dict(px=px, py=py))
 
@@ -308,8 +311,8 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
     def test_setattr(self):
         """Test setting of providers via attributes to catalog."""
-        px = di.Provider()
-        py = di.Provider()
+        px = providers.Provider()
+        py = providers.Provider()
 
         CatalogB.px = px
         CatalogB.py = py
@@ -327,13 +330,13 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
     def test_unbind_provider(self):
         """Test that catalog unbinds provider correct."""
-        CatalogB.px = di.Provider()
+        CatalogB.px = providers.Provider()
         CatalogB.unbind_provider('px')
         self.assertFalse(CatalogB.has_provider('px'))
 
     def test_unbind_via_delattr(self):
         """Test that catalog unbinds provider correct."""
-        CatalogB.px = di.Provider()
+        CatalogB.px = providers.Provider()
         del CatalogB.px
         self.assertFalse(CatalogB.has_provider('px'))
 
@@ -350,13 +353,13 @@ class DeclarativeCatalogTests(unittest.TestCase):
         p11 = CatalogA.p11
         p12 = CatalogA.p12
 
-        class CatalogD(di.DeclarativeCatalog):
+        class CatalogD(catalogs.DeclarativeCatalog):
             """Test catalog."""
 
             pd1 = p11
             pd2 = p12
 
-        class CatalogE(di.DeclarativeCatalog):
+        class CatalogE(catalogs.DeclarativeCatalog):
             """Test catalog."""
 
             pe1 = p11
@@ -378,21 +381,21 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
     def test_provider_rebinding_to_the_same_catalog(self):
         """Test provider rebinding to the same catalog."""
-        with self.assertRaises(di.Error):
-            class TestCatalog(di.DeclarativeCatalog):
+        with self.assertRaises(errors.Error):
+            class TestCatalog(catalogs.DeclarativeCatalog):
                 """Test catalog."""
 
-                p1 = di.Provider()
+                p1 = providers.Provider()
                 p2 = p1
 
     def test_provider_rebinding_to_the_same_catalogs_hierarchy(self):
         """Test provider rebinding to the same catalogs hierarchy."""
-        class TestCatalog1(di.DeclarativeCatalog):
+        class TestCatalog1(catalogs.DeclarativeCatalog):
             """Test catalog."""
 
-            p1 = di.Provider()
+            p1 = providers.Provider()
 
-        with self.assertRaises(di.Error):
+        with self.assertRaises(errors.Error):
             class TestCatalog2(TestCatalog1):
                 """Test catalog."""
 
@@ -412,13 +415,13 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
     def test_get_undefined(self):
         """Test getting of undefined providers using get() method."""
-        with self.assertRaises(di.UndefinedProviderError):
+        with self.assertRaises(errors.UndefinedProviderError):
             CatalogB.get('undefined')
 
-        with self.assertRaises(di.UndefinedProviderError):
+        with self.assertRaises(errors.UndefinedProviderError):
             CatalogB.get_provider('undefined')
 
-        with self.assertRaises(di.UndefinedProviderError):
+        with self.assertRaises(errors.UndefinedProviderError):
             CatalogB.undefined
 
     def test_has(self):
@@ -437,8 +440,8 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
     def test_filter_all_providers_by_type(self):
         """Test getting of all catalog providers of specific type."""
-        self.assertTrue(len(CatalogB.filter(di.Provider)) == 4)
-        self.assertTrue(len(CatalogB.filter(di.Value)) == 0)
+        self.assertTrue(len(CatalogB.filter(providers.Provider)) == 4)
+        self.assertTrue(len(CatalogB.filter(providers.Value)) == 0)
 
     def test_repr(self):
         """Test catalog representation."""
@@ -454,7 +457,7 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
     def test_abstract_catalog_backward_compatibility(self):
         """Test that di.AbstractCatalog is available."""
-        self.assertIs(di.DeclarativeCatalog, di.AbstractCatalog)
+        self.assertIs(catalogs.DeclarativeCatalog, catalogs.AbstractCatalog)
 
 
 class OverrideTests(unittest.TestCase):
@@ -466,12 +469,12 @@ class OverrideTests(unittest.TestCase):
 
     def test_overriding(self):
         """Test catalog overriding with another catalog."""
-        @di.override(CatalogA)
-        class OverridingCatalog(di.DeclarativeCatalog):
+        @catalogs.override(CatalogA)
+        class OverridingCatalog(catalogs.DeclarativeCatalog):
             """Overriding catalog."""
 
-            p11 = di.Value(1)
-            p12 = di.Value(2)
+            p11 = providers.Value(1)
+            p12 = providers.Value(2)
 
         self.assertEqual(CatalogA.p11(), 1)
         self.assertEqual(CatalogA.p12(), 2)
@@ -479,8 +482,8 @@ class OverrideTests(unittest.TestCase):
 
     def test_overriding_with_dynamic_catalog(self):
         """Test catalog overriding with another dynamic catalog."""
-        CatalogA.override(di.DynamicCatalog(p11=di.Value(1),
-                                            p12=di.Value(2)))
+        CatalogA.override(catalogs.DynamicCatalog(p11=providers.Value(1),
+                                                  p12=providers.Value(2)))
         self.assertEqual(CatalogA.p11(), 1)
         self.assertEqual(CatalogA.p12(), 2)
         self.assertEqual(len(CatalogA.overridden_by), 1)
@@ -489,44 +492,44 @@ class OverrideTests(unittest.TestCase):
         """Test catalog is_overridden property."""
         self.assertFalse(CatalogA.is_overridden)
 
-        @di.override(CatalogA)
-        class OverridingCatalog(di.DeclarativeCatalog):
+        @catalogs.override(CatalogA)
+        class OverridingCatalog(catalogs.DeclarativeCatalog):
             """Overriding catalog."""
 
         self.assertTrue(CatalogA.is_overridden)
 
     def test_last_overriding(self):
         """Test catalog last_overriding property."""
-        @di.override(CatalogA)
-        class OverridingCatalog1(di.DeclarativeCatalog):
+        @catalogs.override(CatalogA)
+        class OverridingCatalog1(catalogs.DeclarativeCatalog):
             """Overriding catalog."""
 
-        @di.override(CatalogA)
-        class OverridingCatalog2(di.DeclarativeCatalog):
+        @catalogs.override(CatalogA)
+        class OverridingCatalog2(catalogs.DeclarativeCatalog):
             """Overriding catalog."""
 
         self.assertIs(CatalogA.last_overriding, OverridingCatalog2)
 
     def test_last_overriding_on_not_overridden(self):
         """Test catalog last_overriding property on not overridden catalog."""
-        with self.assertRaises(di.Error):
+        with self.assertRaises(errors.Error):
             CatalogA.last_overriding
 
     def test_reset_last_overriding(self):
         """Test resetting last overriding catalog."""
-        @di.override(CatalogA)
-        class OverridingCatalog1(di.DeclarativeCatalog):
+        @catalogs.override(CatalogA)
+        class OverridingCatalog1(catalogs.DeclarativeCatalog):
             """Overriding catalog."""
 
-            p11 = di.Value(1)
-            p12 = di.Value(2)
+            p11 = providers.Value(1)
+            p12 = providers.Value(2)
 
-        @di.override(CatalogA)
-        class OverridingCatalog2(di.DeclarativeCatalog):
+        @catalogs.override(CatalogA)
+        class OverridingCatalog2(catalogs.DeclarativeCatalog):
             """Overriding catalog."""
 
-            p11 = di.Value(3)
-            p12 = di.Value(4)
+            p11 = providers.Value(3)
+            p12 = providers.Value(4)
 
         CatalogA.reset_last_overriding()
 
@@ -535,24 +538,24 @@ class OverrideTests(unittest.TestCase):
 
     def test_reset_last_overriding_when_not_overridden(self):
         """Test resetting last overriding catalog when it is not overridden."""
-        with self.assertRaises(di.Error):
+        with self.assertRaises(errors.Error):
             CatalogA.reset_last_overriding()
 
     def test_reset_override(self):
         """Test resetting all catalog overrides."""
-        @di.override(CatalogA)
-        class OverridingCatalog1(di.DeclarativeCatalog):
+        @catalogs.override(CatalogA)
+        class OverridingCatalog1(catalogs.DeclarativeCatalog):
             """Overriding catalog."""
 
-            p11 = di.Value(1)
-            p12 = di.Value(2)
+            p11 = providers.Value(1)
+            p12 = providers.Value(2)
 
-        @di.override(CatalogA)
-        class OverridingCatalog2(di.DeclarativeCatalog):
+        @catalogs.override(CatalogA)
+        class OverridingCatalog2(catalogs.DeclarativeCatalog):
             """Overriding catalog."""
 
-            p11 = di.Value(3)
-            p12 = di.Value(4)
+            p11 = providers.Value(3)
+            p12 = providers.Value(4)
 
         CatalogA.reset_override()
 
