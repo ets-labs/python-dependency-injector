@@ -277,6 +277,17 @@ class Singleton(Provider):
 
     :py:class:`Singleton` is thread-safe and could be used in multithreading
     environment without any negative impact.
+
+    Retrieving of provided instance can be performed via calling
+    :py:class:`Singleton` object:
+
+    .. code-block:: python
+
+        singleton = Singleton(SomeClass,
+                              some_arg1=1,
+                              some_arg2=2)
+        some_object = singleton()
+
     """
 
     __slots__ = ('instance', 'factory')
@@ -405,38 +416,79 @@ class ExternalDependency(Provider):
 
 
 class StaticProvider(Provider):
-    """Static provider.
+    """:py:class:`StaticProvider` returns provided instance "as is".
 
-    Static provider is base implementation that provides exactly the same as
-    it got on input.
+    :py:class:`StaticProvider` is base implementation that provides exactly
+    the same as it got on input.
     """
 
     __slots__ = ('provides',)
 
     def __init__(self, provides):
-        """Initializer."""
+        """Initializer.
+
+        :param provides: value that have to be provided.
+        :type provides: object
+        """
         self.provides = provides
+        """Value that have to be provided.
+
+        :type: object
+        """
         super(StaticProvider, self).__init__()
 
     def _provide(self, *args, **kwargs):
-        """Return provided instance."""
+        """Return provided instance.
+
+        :param args: tuple of context positional arguments
+        :type args: tuple[object]
+
+        :param kwargs: dictionary of context keyword arguments
+        :type kwargs: dict[str, object]
+
+        :rtype: object
+        """
         return self.provides
 
 
 class Class(StaticProvider):
-    """Class provider provides class."""
+    """:py:class:`Class` returns provided class "as is".
+
+    .. code-block:: python
+
+        cls_provider = Class(object)
+        object_cls = cls_provider()
+    """
 
 
 class Object(StaticProvider):
-    """Object provider provides object."""
+    """:py:class:`Object` returns provided object "as is".
+
+    .. code-block:: python
+
+        object_provider = Object(object())
+        object_instance = object_provider()
+    """
 
 
 class Function(StaticProvider):
-    """Function provider provides function."""
+    """:py:class:`Function` returns provided function "as is".
+
+    .. code-block:: python
+
+        function_provider = Function(len)
+        len_function = function_provider()
+    """
 
 
 class Value(StaticProvider):
-    """Value provider provides value."""
+    """:py:class:`Value` returns provided value "as is".
+
+    .. code-block:: python
+
+        value_provider = Value(31337)
+        value = value_provider()
+    """
 
 
 class Callable(Provider):
