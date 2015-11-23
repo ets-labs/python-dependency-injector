@@ -1,6 +1,10 @@
 API Documentation
 =================
 
+.. automodule:: dependency_injector
+
+.. autodata:: VERSION
+
 ..  toctree::
     :maxdepth: 2
 
