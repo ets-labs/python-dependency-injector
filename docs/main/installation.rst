@@ -12,7 +12,7 @@ framework can be installed from PyPi_:
     pip install dependency_injector
 
     # Installing particular version:
-    pip install dependency_injector==0.9.0
+    pip install dependency_injector==0.11.0
     
 Sources can be cloned from GitHub_:
 
@@ -23,14 +23,14 @@ Sources can be cloned from GitHub_:
 Also all *Dependency Injector* releases can be downloaded from 
 `GitHub releases page`_.
 
-Verification of currently installed version could be done using ``di.VERSION`` 
-constant:
+Verification of currently installed version could be done using 
+:py:obj:`dependency_injector.VERSION` constant:
 
 .. code-block:: bash
 
-    >>> import dependency_injector as di
-    >>> di.VERSION
-    '0.10.0'
+    >>> from dependency_injector import VERSION
+    >>> VERSION
+    '0.11.0'
 
 .. _PyPi: https://pypi.python.org/pypi/dependency_injector
 .. _GitHub: https://github.com/rmk135/dependency_injector
