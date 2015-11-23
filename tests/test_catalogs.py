@@ -555,3 +555,14 @@ class OverrideTests(unittest.TestCase):
 
         self.assertFalse(CatalogA.p11.is_overridden)
         self.assertFalse(CatalogA.p12.is_overridden)
+
+
+class CatalogModuleBackwardCompatibility(unittest.TestCase):
+    """Backward compatibility test of catalog module."""
+
+    def test_import_catalog(self):
+        """Test that module `catalog` is the same as `catalogs`."""
+        from dependency_injector import catalog
+        from dependency_injector import catalogs
+
+        self.assertIs(catalog, catalogs)
