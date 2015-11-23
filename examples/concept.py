@@ -1,7 +1,10 @@
 """Concept example of `Dependency Injector`."""
 
 import sqlite3
-import dependency_injector as di
+
+from dependency_injector import catalogs
+from dependency_injector import providers
+from dependency_injector import injections
 
 
 class UsersService(object):
@@ -21,20 +24,20 @@ class AuthService(object):
         self.users_service = users_service
 
 
-class Services(di.DeclarativeCatalog):
+class Services(catalogs.DeclarativeCatalog):
     """Catalog of service providers."""
 
-    database = di.Singleton(sqlite3.connect, ':memory:')
-    """:type: di.Provider -> sqlite3.Connection"""
+    database = providers.Singleton(sqlite3.connect, ':memory:')
+    """:type: providers.Provider -> sqlite3.Connection"""
 
-    users = di.Factory(UsersService,
-                       db=database)
-    """:type: di.Provider -> UsersService"""
+    users = providers.Factory(UsersService,
+                              db=database)
+    """:type: providers.Provider -> UsersService"""
 
-    auth = di.Factory(AuthService,
-                      db=database,
-                      users_service=users)
-    """:type: di.Provider -> AuthService"""
+    auth = providers.Factory(AuthService,
+                             db=database,
+                             users_service=users)
+    """:type: providers.Provider -> AuthService"""
 
 
 # Retrieving catalog providers:
@@ -49,9 +52,9 @@ assert auth_service is not Services.auth()
 
 
 # Making some "inline" injections:
-@di.inject(users_service=Services.users)
-@di.inject(auth_service=Services.auth)
-@di.inject(database=Services.database)
+@injections.inject(users_service=Services.users)
+@injections.inject(auth_service=Services.auth)
+@injections.inject(database=Services.database)
 def example(users_service, auth_service, database):
     """Example callback."""
     assert users_service.db is auth_service.db
