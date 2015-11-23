@@ -268,9 +268,15 @@ class Factory(Provider):
 
 
 class Singleton(Provider):
-    """Singleton provider.
+    """:py:class:`Singleton` provider returns same instance on every call.
 
-    Singleton provider will create instance once and return it on every call.
+    :py:class:`Singleton` provider creates instance once and return it on every
+    call. :py:class:`Singleton` uses :py:class:`Factory` for creation of
+    instance, so, please follow :py:class:`Factory` documentation to go inside
+    with injections syntax.
+
+    :py:class:`Singleton` is thread-safe and could be used in multithreading
+    environment without any negative impact.
     """
 
     __slots__ = ('instance', 'factory')
@@ -278,24 +284,89 @@ class Singleton(Provider):
     def __init__(self, provides, *args, **kwargs):
         """Initializer."""
         self.instance = None
+        """Read-only reference to singleton's instance.
+
+        :type: object
+        """
+
         self.factory = Factory(provides, *args, **kwargs)
+        """Singleton's factory object.
+
+        :type: :py:class:`Factory`
+        """
+
         super(Singleton, self).__init__()
 
+    @property
+    def provides(self):
+        """Class or other callable that provides object for creation.
+
+        :type: type | callable
+        """
+        return self.factory.provides
+
+    @property
+    def args(self):
+        """Tuple of positional argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
+        """
+        return self.factory.args
+
+    @property
+    def kwargs(self):
+        """Tuple of keyword argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
+        """
+        return self.factory.kwargs
+
+    @property
+    def attributes(self):
+        """Tuple of attribute injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
+        """
+        return self.factory.attributes
+
+    @property
+    def methods(self):
+        """Tuple of method injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Method`]
+        """
+        return self.factory.methods
+
+    @property
+    def injections(self):
+        """Read-only tuple of all injections.
+
+        :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
+        """
+        return self.factory.injections
+
+    def reset(self):
+        """Reset cached instance, if any.
+
+        :rtype: None
+        """
+        self.instance = None
+
     def _provide(self, *args, **kwargs):
-        """Return provided instance."""
+        """Return provided instance.
+
+        :param args: tuple of context positional arguments
+        :type args: tuple[object]
+
+        :param kwargs: dictionary of context keyword arguments
+        :type kwargs: dict[str, object]
+
+        :rtype: object
+        """
         with GLOBAL_LOCK:
             if not self.instance:
                 self.instance = self.factory(*args, **kwargs)
         return self.instance
-
-    def reset(self):
-        """Reset instance."""
-        self.instance = None
-
-    @property
-    def injections(self):
-        """Return tuple of all injections."""
-        return self.factory.injections
 
 
 class ExternalDependency(Provider):

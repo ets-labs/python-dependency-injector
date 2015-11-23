@@ -1,13 +1,13 @@
-"""`di.Singleton` providers resetting example."""
+"""`Singleton` providers resetting example."""
 
-import dependency_injector as di
+from dependency_injector import providers
 
 
 class UserService(object):
     """Example class UserService."""
 
 # Users service singleton provider:
-users_service_provider = di.Singleton(UserService)
+users_service_provider = providers.Singleton(UserService)
 
 # Retrieving several UserService objects:
 user_service1 = users_service_provider()
