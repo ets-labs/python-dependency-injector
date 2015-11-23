@@ -608,28 +608,46 @@ class Callable(Provider):
 
 
 class Config(Provider):
-    """Config provider.
+    """:py:class:`Config` provider provide dict values.
 
-    Config provider provides dict values. Also config provider creates
-    child config objects for all undefined attribute calls. It makes possible
-    to create deferred config value provider.
+    :py:class:`Config` provider creates :py:class:`ChildConfig` objects for all
+    undefined attribute calls. It makes possible to create deferred config
+    value providers. It might be useful in cases where it is needed to
+    define / pass some configuration in declarative manner, while
+    configuration values will be loaded / updated in application's runtime.
     """
 
     __slots__ = ('value',)
 
     def __init__(self, value=None):
-        """Initializer."""
+        """Initializer.
+
+        :param value: Configuration dictionary.
+        :type value: dict[str, object]
+        """
         if not value:
             value = dict()
         self.value = value
         super(Config, self).__init__()
 
     def __getattr__(self, item):
-        """Return instance of deferred config."""
+        """Return instance of deferred config.
+
+        :param item: Name of configuration option or section
+        :type item: str
+
+        :rtype: :py:class:`ChildConfig`
+        """
         return ChildConfig(parents=(item,), root_config=self)
 
     def _provide(self, paths=None):
-        """Return provided instance."""
+        """Return provided instance.
+
+        :param paths: tuple of pieces of configuration option / section path
+        :type args: tuple[str]
+
+        :rtype: object
+        """
         value = self.value
         if paths:
             for path in paths:
@@ -641,30 +659,69 @@ class Config(Provider):
         return value
 
     def update_from(self, value):
-        """Update current value from another one."""
+        """Update current value from another one.
+
+        :param value: Configuration dictionary.
+        :type value: dict[str, object]
+
+        :rtype: None
+        """
         self.value.update(value)
 
 
 class ChildConfig(Provider):
-    """Child config provider.
+    """:py:class:`ChildConfig` provider provides value from :py:class:`Config`.
 
-    Child config provide an value from the root config object according to
-    the current path in the config tree.
+    :py:class:`ChildConfig` provides value from the root config object
+    according to the current path in the config tree.
     """
 
     __slots__ = ('parents', 'root_config')
 
     def __init__(self, parents, root_config):
-        """Initializer."""
+        """Initializer.
+
+        :param parents: Tuple of pieces of configuration option / section
+            parent path.
+        :type parents: tuple[str]
+
+        :param root_config: Root configuration object.
+        :type root_config: :py:class:`Config`
+        """
         self.parents = parents
+        """Tuple of pieces of configuration option / section parent path.
+
+        :type: tuple[str]
+        """
+
         self.root_config = root_config
+        """Root configuration object.
+
+        :type: :py:class:`Config`
+        """
+
         super(ChildConfig, self).__init__()
 
     def __getattr__(self, item):
-        """Return instance of deferred config."""
+        """Return instance of deferred config.
+
+        :param item: Name of configuration option or section
+        :type item: str
+
+        :rtype: :py:class:`ChildConfig`
+        """
         return ChildConfig(parents=self.parents + (item,),
                            root_config=self.root_config)
 
     def _provide(self, *args, **kwargs):
-        """Return provided instance."""
+        """Return provided instance.
+
+        :param args: tuple of context positional arguments
+        :type args: tuple[object]
+
+        :param kwargs: dictionary of context keyword arguments
+        :type kwargs: dict[str, object]
+
+        :rtype: object
+        """
         return self.root_config(self.parents)
