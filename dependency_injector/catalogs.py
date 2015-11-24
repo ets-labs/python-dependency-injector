@@ -121,7 +121,15 @@ class CatalogBundle(object):
 
 @six.python_2_unicode_compatible
 class DynamicCatalog(object):
-    """Dynamic catalog of providers."""
+    """Dynamic catalog of providers.
+
+    .. code-block:: python
+
+        services = DynamicCatalog(auth=providers.Factory(AuthService),
+                                  users=providers.Factory(UsersService))
+
+        users_service = services.users()
+    """
 
     __IS_CATALOG__ = True
     __slots__ = ('name', 'providers', 'provider_names', 'overridden_by',
@@ -537,6 +545,16 @@ class DeclarativeCatalog(object):
     defined in declarative manner. It should cover most of the cases when list
     of providers that would be included in catalog is deterministic (catalog
     will not change its structure in runtime).
+
+    .. code-block:: python
+
+        class Services(DeclarativeCatalog):
+
+            auth = providers.Factory(AuthService)
+
+            users = providers.Factory(UsersService)
+
+        users_service = Services.users()
     """
 
     Bundle = CatalogBundle
