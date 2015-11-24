@@ -34,8 +34,7 @@ class CatalogBundle(object):
     catalog = None
     """Bundle's catalog.
 
-    :type: :py:class:`dependency_injector.catalogs.DeclarativeCatalog` |
-           :py:class:`dependency_injector.catalogs.DynamicCatalog`
+    :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`
     """
 
     __IS_CATALOG_BUNDLE__ = True
@@ -45,9 +44,8 @@ class CatalogBundle(object):
     def sub_cls_factory(cls, catalog):
         """Create bundle subclass for catalog.
 
-        :return: Subclass of
-            :py:class:`dependency_injector.catalogs.CatalogBundle`
-        :rtype: :py:class:`dependency_injector.catalogs.CatalogBundle`
+        :return: Subclass of :py:class:`CatalogBundle`
+        :rtype: :py:class:`CatalogBundle`
         """
         return type('BundleSubclass', (cls,), dict(catalog=catalog))
 
@@ -139,7 +137,7 @@ class DynamicCatalog(object):
         self.Bundle = CatalogBundle.sub_cls_factory(self)
         """Catalog's bundle class.
 
-        :type: :py:class:`dependency_injector.catalogs.CatalogBundle`
+        :type: :py:class:`CatalogBundle`
         """
 
         self.name = '.'.join((self.__class__.__module__,
@@ -163,8 +161,7 @@ class DynamicCatalog(object):
         """Tuple of overriding catalogs.
 
         :type: tuple[
-            :py:class:`dependency_injector.catalogs.DeclarativeCatalog` |
-            :py:class:`dependency_injector.catalogs.DynamicCatalog`]
+            :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`]
         """
 
         self.bind_providers(providers)
@@ -174,7 +171,7 @@ class DynamicCatalog(object):
         """Check if catalog is bundle owner.
 
         :param bundle: Catalog's bundle instance
-        :type bundle: :py:class:`dependency_injector.catalogs.CatalogBundle`
+        :type bundle: :py:class:`CatalogBundle`
 
         :rtype: bool
         """
@@ -230,8 +227,7 @@ class DynamicCatalog(object):
     def last_overriding(self):
         """Read-only reference to the last overriding catalog, if any.
 
-        :type: :py:class:`dependency_injector.catalogs.DeclarativeCatalog` |
-            :py:class:`dependency_injector.catalogs.DynamicCatalog`
+        :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`
         """
         try:
             return self.overridden_by[-1]
@@ -242,9 +238,8 @@ class DynamicCatalog(object):
         """Override current catalog providers by overriding catalog providers.
 
         :param overriding: Overriding catalog
-        :type overriding:
-            :py:class:`dependency_injector.catalogs.DeclarativeCatalog` |
-            :py:class:`dependency_injector.catalogs.DynamicCatalog`
+        :type overriding: :py:class:`DeclarativeCatalog` |
+            :py:class:`DynamicCatalog`
 
         :rtype: None
         """
@@ -457,8 +452,8 @@ class DeclarativeCatalogMetaClass(type):
         """Tuple of overriding catalogs.
 
         :type: tuple[
-            :py:class:`dependency_injector.catalogs.DeclarativeCatalog` |
-            :py:class:`dependency_injector.catalogs.DynamicCatalog`]
+            :py:class:`DeclarativeCatalog` |
+            :py:class:`DynamicCatalog`]
         """
         return cls._catalog.overridden_by
 
@@ -474,8 +469,7 @@ class DeclarativeCatalogMetaClass(type):
     def last_overriding(cls):
         """Read-only reference to the last overriding catalog, if any.
 
-        :type: :py:class:`dependency_injector.catalogs.DeclarativeCatalog` |
-            :py:class:`dependency_injector.catalogs.DynamicCatalog`
+        :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`
         """
         return cls._catalog.last_overriding
 
@@ -548,7 +542,7 @@ class DeclarativeCatalog(object):
     Bundle = CatalogBundle
     """Catalog's bundle class.
 
-    :type: :py:class:`dependency_injector.catalogs.CatalogBundle`
+    :type: :py:class:`CatalogBundle`
     """
 
     name = str()
@@ -580,8 +574,8 @@ class DeclarativeCatalog(object):
     overridden_by = tuple()
     """Tuple of overriding catalogs.
 
-    :type: tuple[:py:class:`dependency_injector.catalogs.DeclarativeCatalog` |
-                 :py:class:`dependency_injector.catalogs.DynamicCatalog`]
+    :type: tuple[:py:class:`DeclarativeCatalog` |
+                 :py:class:`DynamicCatalog`]
     """
 
     is_overridden = bool
@@ -593,8 +587,7 @@ class DeclarativeCatalog(object):
     last_overriding = None
     """Read-only reference to the last overriding catalog, if any.
 
-    :type: :py:class:`dependency_injector.catalogs.DeclarativeCatalog` |
-           :py:class:`dependency_injector.catalogs.DynamicCatalog`
+    :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`
     """
 
     _catalog = DynamicCatalog
@@ -606,7 +599,7 @@ class DeclarativeCatalog(object):
         """Check if catalog is bundle owner.
 
         :param bundle: Catalog's bundle instance
-        :type bundle: :py:class:`dependency_injector.catalogs.CatalogBundle`
+        :type bundle: :py:class:`CatalogBundle`
 
         :rtype: bool
         """
@@ -653,9 +646,8 @@ class DeclarativeCatalog(object):
         """Override current catalog providers by overriding catalog providers.
 
         :param overriding: Overriding catalog
-        :type overriding:
-            :py:class:`dependency_injector.catalogs.DeclarativeCatalog` |
-            :py:class:`dependency_injector.catalogs.DynamicCatalog`
+        :type overriding: :py:class:`DeclarativeCatalog` |
+                          :py:class:`DynamicCatalog`
 
         :rtype: None
         """
@@ -801,11 +793,10 @@ def override(catalog):
     """:py:class:`DeclarativeCatalog` overriding decorator.
 
     :param catalog: Catalog that should be overridden by decorated catalog.
-    :type catalog: :py:class:`dependency_injector.catalogs.DeclarativeCatalog`
+    :type catalog: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`
 
     :return: Declarative catalog's overriding decorator
-    :rtype: callable(
-        :py:class:`dependency_injector.catalogs.DeclarativeCatalog`)
+    :rtype: callable(:py:class:`DeclarativeCatalog`)
     """
     def decorator(overriding_catalog):
         """Overriding decorator."""
