@@ -564,6 +564,35 @@ class SingletonTests(unittest.TestCase):
         self.assertIsInstance(instance1, object)
         self.assertIsInstance(instance2, object)
 
+    def test_provides_attr(self):
+        """Test provides attribute."""
+        provider = providers.Singleton(Example)
+        self.assertIs(provider.provides, Example)
+
+    def test_args_attr(self):
+        """Test args attribute."""
+        provider = providers.Singleton(Example, 1, 2)
+        self.assertEquals(len(provider.args), 2)
+
+    def test_kwargs_attr(self):
+        """Test kwargs attribute."""
+        provider = providers.Singleton(Example, init_arg1=1, init_arg2=2)
+        self.assertEquals(len(provider.kwargs), 2)
+
+    def test_attributes_attr(self):
+        """Test attributes attribute."""
+        provider = providers.Singleton(Example,
+                                       injections.Attribute('attribute1', 1),
+                                       injections.Attribute('attribute2', 2))
+        self.assertEquals(len(provider.attributes), 2)
+
+    def test_methods_attr(self):
+        """Test methods attribute."""
+        provider = providers.Singleton(Example,
+                                       injections.Method('method1', 1),
+                                       injections.Method('method2', 2))
+        self.assertEquals(len(provider.methods), 2)
+
     def test_injections(self):
         """Test getting a full list of injections using injections property."""
         provider = providers.Singleton(Example,
