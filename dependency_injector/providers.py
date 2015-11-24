@@ -156,17 +156,13 @@ class Factory(Provider):
 
     :py:class:`Factory` supports different syntaxes of passing injections:
 
-    + simplified one syntax for passing positional and keyword argument
-      injections only:
-
     .. code-block:: python
 
+        # simplified syntax for passing positional and keyword argument
+        # injections only:
         factory = Factory(SomeClass, 'arg1', 'arg2', arg3=3, arg4=4)
 
-    - extended (full) one syntax for passing any type of injections:
-
-    .. code-block:: python
-
+        # extended (full) syntax for passing any type of injections:
         factory = Factory(SomeClass,
                           injections.Arg(1),
                           injections.Arg(2),
