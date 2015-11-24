@@ -21,19 +21,46 @@ else:  # pragma: no cover
 
 
 class Injection(object):
-    """Base injection class."""
+    """Base injection class.
+
+    All injections extend this class.
+    """
 
     __IS_INJECTION__ = True
     __slots__ = ('injectable', 'is_provider')
 
     def __init__(self, injectable):
-        """Initializer."""
+        """Initializer.
+
+        :param injectable: Injectable value, could be provider or any
+                           other object.
+        :type injectable: object |
+                          :py:class:`dependency_injector.providers.Provider`
+        """
         self.injectable = injectable
+        """Injectable value, could be provider or any other object.
+
+        :type: object | :py:class:`dependency_injector.providers.Provider`
+        """
+
         self.is_provider = is_provider(injectable)
+        """Flag that is set to ``True`` if injectable value is provider.
+
+        :type: bool
+        """
+
+        super(Injection, self).__init__()
 
     @property
     def value(self):
-        """Return injectable value."""
+        """Read-only property that represents injectable value.
+
+        Injectable values are provided "as is", except of providers
+        (subclasses of :py:class:`dependency_injector.providers.Provider`).
+        Providers will be called every time, when injection needs to be done.
+
+        :rtype: object
+        """
         if self.is_provider:
             return self.injectable()
         return self.injectable
@@ -77,7 +104,42 @@ class Method(_NamedInjection):
 def inject(*args, **kwargs):
     """Dependency injection decorator.
 
-    :return: (callable) -> (callable)
+    :py:func:`inject` decorator can be used for making inline dependency
+    injections. It patches decorated callable in such way that dependency
+    injection will be done during every call of decorated callable.
+
+    :py:func:`inject` decorator supports different syntaxes of passing
+    injections:
+
+    .. code-block:: python
+
+        # Positional arguments injections (simplified syntax):
+        @inject(1, 2)
+        def some_function(arg1, arg2):
+            pass
+
+        # Keyword arguments injections (simplified syntax):
+        @inject(arg1=1)
+        @inject(arg2=2)
+        def some_function(arg1, arg2):
+            pass
+
+        # Keyword arguments injections (extended (full) syntax):
+        @inject(KwArg('arg1', 1))
+        @inject(KwArg('arg2', 2))
+        def some_function(arg1, arg2):
+            pass
+
+        # Keyword arguments injections into class init (simplified syntax):
+        @inject(arg1=1)
+        @inject(arg2=2)
+        class SomeClass(object):
+
+            def __init__(self, arg1, arg2):
+                pass
+
+    :return: Class / callable decorator
+    :rtype: (callable) -> (type | callable)
     """
     arg_injections = _parse_args_injections(args)
     kwarg_injections = _parse_kwargs_injections(args, kwargs)
