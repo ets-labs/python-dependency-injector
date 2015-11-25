@@ -13,11 +13,11 @@ from .utils import is_kwarg_injection
 from .errors import Error
 
 
-IS_PYPY = '__pypy__' in sys.builtin_module_names
-if IS_PYPY or six.PY3:  # pragma: no cover
-    OBJECT_INIT = six.get_unbound_function(object.__init__)
+_IS_PYPY = '__pypy__' in sys.builtin_module_names
+if _IS_PYPY or six.PY3:  # pragma: no cover
+    _OBJECT_INIT = six.get_unbound_function(object.__init__)
 else:  # pragma: no cover
-    OBJECT_INIT = None
+    _OBJECT_INIT = None
 
 
 class Injection(object):
@@ -150,7 +150,7 @@ def inject(*args, **kwargs):
             cls = callback_or_cls
             try:
                 cls_init = six.get_unbound_function(cls.__init__)
-                assert cls_init is not OBJECT_INIT
+                assert cls_init is not _OBJECT_INIT
             except (AttributeError, AssertionError):
                 raise Error(
                     'Class {0}.{1} has no __init__() '.format(cls.__module__,
