@@ -138,6 +138,12 @@ def inject(*args, **kwargs):
             def __init__(self, arg1, arg2):
                 pass
 
+    :param args: Tuple of context positional arguments.
+    :type args: tuple[object]
+
+    :param kwargs: Dictionary of context keyword arguments.
+    :type kwargs: dict[str, object]
+
     :return: Class / callable decorator
     :rtype: (callable) -> (type | callable)
     """
