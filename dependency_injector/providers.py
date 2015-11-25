@@ -76,12 +76,9 @@ class Provider(object):
     def last_overriding(self):
         """Read-only reference to the last overriding provider, if any.
 
-        :type: :py:class:`Provider`
+        :type: :py:class:`Provider` | None
         """
-        try:
-            return self.overridden_by[-1]
-        except (TypeError, IndexError):
-            raise Error('Provider {0} is not overridden'.format(str(self)))
+        return self.overridden_by[-1] if self.overridden_by else None
 
     def override(self, provider):
         """Override provider with another provider.
@@ -104,7 +101,7 @@ class Provider(object):
 
         :rtype: None
         """
-        if not self.is_overridden:
+        if not self.overridden_by:
             raise Error('Provider {0} is not overridden'.format(str(self)))
         self.overridden_by = self.overridden_by[:-1]
 

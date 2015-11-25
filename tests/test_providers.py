@@ -90,13 +90,7 @@ class ProviderTests(unittest.TestCase):
 
     def test_last_overriding_of_not_overridden_provider(self):
         """Test getting last overriding from not overridden provider."""
-        try:
-            self.provider.last_overriding
-        except errors.Error:
-            pass
-        else:
-            self.fail('Got en error in {}'.format(
-                str(self.test_last_overriding_of_not_overridden_provider)))
+        self.assertIsNone(self.provider.last_overriding)
 
     def test_reset_last_overriding(self):
         """Test reseting of last overriding provider."""
@@ -129,13 +123,7 @@ class ProviderTests(unittest.TestCase):
         self.provider.reset_override()
 
         self.assertFalse(self.provider.is_overridden)
-        try:
-            self.provider.last_overriding
-        except errors.Error:
-            pass
-        else:
-            self.fail('Got en error in {}'.format(
-                str(self.test_last_overriding_of_not_overridden_provider)))
+        self.assertIsNone(self.provider.last_overriding)
 
 
 class DelegateTests(unittest.TestCase):
