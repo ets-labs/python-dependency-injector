@@ -235,12 +235,10 @@ class DynamicCatalog(object):
     def last_overriding(self):
         """Read-only reference to the last overriding catalog, if any.
 
-        :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`
+        :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog` |
+               None
         """
-        try:
-            return self.overridden_by[-1]
-        except (TypeError, IndexError):
-            raise Error('Catalog {0} is not overridden'.format(self))
+        return self.overridden_by[-1] if self.overridden_by else None
 
     def override(self, overriding):
         """Override current catalog providers by overriding catalog providers.
@@ -477,7 +475,8 @@ class DeclarativeCatalogMetaClass(type):
     def last_overriding(cls):
         """Read-only reference to the last overriding catalog, if any.
 
-        :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`
+        :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog` |
+               None
         """
         return cls._catalog.last_overriding
 
@@ -605,7 +604,7 @@ class DeclarativeCatalog(object):
     last_overriding = None
     """Read-only reference to the last overriding catalog, if any.
 
-    :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`
+    :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog` | None
     """
 
     _catalog = DynamicCatalog

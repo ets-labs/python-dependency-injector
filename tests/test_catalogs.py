@@ -506,8 +506,7 @@ class OverrideTests(unittest.TestCase):
 
     def test_last_overriding_on_not_overridden(self):
         """Test catalog last_overriding property on not overridden catalog."""
-        with self.assertRaises(errors.Error):
-            CatalogA.last_overriding
+        self.assertIsNone(CatalogA.last_overriding)
 
     def test_reset_last_overriding(self):
         """Test resetting last overriding catalog."""
