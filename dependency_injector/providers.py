@@ -29,7 +29,7 @@ class Provider(object):
     method is called every time when not overridden provider is called.
 
     :py:class:`Provider` implements provider overriding logic that should be
-    also common for all providers.
+    also common for all providers:
 
     .. code-block:: python
 
@@ -126,6 +126,9 @@ class Provider(object):
 
     def reset_last_overriding(self):
         """Reset last overriding provider.
+
+        :raise: :py:exc:`dependency_injector.errors.Error` if provider is not
+                overridden.
 
         :rtype: None
         """
