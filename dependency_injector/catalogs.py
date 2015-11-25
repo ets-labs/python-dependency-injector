@@ -44,7 +44,7 @@ class CatalogBundle(object):
     def sub_cls_factory(cls, catalog):
         """Create bundle subclass for catalog.
 
-        :return: Subclass of :py:class:`CatalogBundle`
+        :return: Subclass of :py:class:`CatalogBundle`.
         :rtype: :py:class:`CatalogBundle`
         """
         return type('BundleSubclass', (cls,), dict(catalog=catalog))
@@ -52,7 +52,7 @@ class CatalogBundle(object):
     def __init__(self, *providers):
         """Initializer.
 
-        :param providers: Tuple of catalog's bundle providers
+        :param providers: Tuple of catalog's bundle providers.
         :type providers: tuple[
             :py:class:`dependency_injector.providers.Provider`]
         """
@@ -71,12 +71,12 @@ class CatalogBundle(object):
     def get_provider(self, name):
         """Return provider with specified name or raise an error.
 
-        :param name: Provider's name
+        :param name: Provider's name.
         :type name: str
 
-        :raise: :py:class:`dependency_injector.errors.UndefinedProviderError`
+        :raise: :py:exc:`dependency_injector.errors.UndefinedProviderError`
 
-        :return: Provider with specified name
+        :return: Provider with specified name.
         :rtype: :py:class:`dependency_injector.providers.Provider`
         """
         try:
@@ -88,7 +88,7 @@ class CatalogBundle(object):
     def has_provider(self, name):
         """Check if there is provider with certain name.
 
-        :param name: Provider's name
+        :param name: Provider's name.
         :type name: str
 
         :rtype: bool
@@ -98,10 +98,10 @@ class CatalogBundle(object):
     def __getattr__(self, item):
         """Return provider with specified name or raise en error.
 
-        :param name: Attribute's name
+        :param name: Attribute's name.
         :type name: str
 
-        :raise: :py:class:`dependency_injector.errors.UndefinedProviderError`
+        :raise: :py:exc:`dependency_injector.errors.UndefinedProviderError`
         """
         if item.startswith('__') and item.endswith('__'):
             return super(CatalogBundle, self).__getattr__(item)
@@ -138,7 +138,7 @@ class DynamicCatalog(object):
     def __init__(self, **providers):
         """Initializer.
 
-        :param providers: Dictionary of catalog providers
+        :param providers: Dictionary of catalog providers.
         :type providers:
             dict[str, :py:class:`dependency_injector.providers.Provider`]
         """
@@ -178,7 +178,7 @@ class DynamicCatalog(object):
     def is_bundle_owner(self, bundle):
         """Check if catalog is bundle owner.
 
-        :param bundle: Catalog's bundle instance
+        :param bundle: Catalog's bundle instance.
         :type bundle: :py:class:`CatalogBundle`
 
         :rtype: bool
@@ -188,12 +188,12 @@ class DynamicCatalog(object):
     def get_provider_bind_name(self, provider):
         """Return provider's name in catalog.
 
-        :param provider: Provider instance
+        :param provider: Provider instance.
         :type provider: :py:class:`dependency_injector.providers.Provider`
 
-        :raise: :py:class:`dependency_injector.errors.UndefinedProviderError`
+        :raise: :py:exc:`dependency_injector.errors.UndefinedProviderError`
 
-        :return: Provider's name
+        :return: Provider's name.
         :rtype: str
         """
         if not self.is_provider_bound(provider):
@@ -204,7 +204,7 @@ class DynamicCatalog(object):
     def is_provider_bound(self, provider):
         """Check if provider is bound to the catalog.
 
-        :param provider: Provider instance
+        :param provider: Provider instance.
         :type provider: :py:class:`dependency_injector.providers.Provider`
 
         :rtype: bool
@@ -214,7 +214,7 @@ class DynamicCatalog(object):
     def filter(self, provider_type):
         """Return dictionary of providers, that are instance of provided type.
 
-        :param provider_type: Provider type
+        :param provider_type: Provider's type.
         :type provider_type: :py:class:`dependency_injector.providers.Provider`
 
         :rtype: dict[str, :py:class:`dependency_injector.providers.Provider`]
@@ -243,7 +243,7 @@ class DynamicCatalog(object):
     def override(self, overriding):
         """Override current catalog providers by overriding catalog providers.
 
-        :param overriding: Overriding catalog
+        :param overriding: Overriding catalog.
         :type overriding: :py:class:`DeclarativeCatalog` |
             :py:class:`DynamicCatalog`
 
@@ -276,12 +276,12 @@ class DynamicCatalog(object):
     def get_provider(self, name):
         """Return provider with specified name or raise an error.
 
-        :param name: Provider's name
+        :param name: Provider's name.
         :type name: str
 
-        :raise: :py:class:`dependency_injector.errors.UndefinedProviderError`
+        :raise: :py:exc:`dependency_injector.errors.UndefinedProviderError`
 
-        :return: Provider with specified name
+        :return: Provider with specified name.
         :rtype: :py:class:`dependency_injector.providers.Provider`
         """
         try:
@@ -293,13 +293,13 @@ class DynamicCatalog(object):
     def bind_provider(self, name, provider):
         """Bind provider to catalog with specified name.
 
-        :param name: Name of the provider
+        :param name: Name of the provider.
         :type name: str
 
-        :param provider: Provider instance
+        :param provider: Provider instance.
         :type provider: :py:class:`dependency_injector.providers.Provider`
 
-        :raise: :py:class:`dependency_injector.errors.Error`
+        :raise: :py:exc:`dependency_injector.errors.Error`
 
         :rtype: None
         """
@@ -319,11 +319,11 @@ class DynamicCatalog(object):
         """Bind providers dictionary to catalog.
 
         :param providers: Dictionary of providers, where key is a name
-            and value is a provider
+            and value is a provider.
         :type providers:
             dict[str, :py:class:`dependency_injector.providers.Provider`]
 
-        :raise: :py:class:`dependency_injector.errors.Error`
+        :raise: :py:exc:`dependency_injector.errors.Error`
 
         :rtype: None
         """
@@ -333,7 +333,7 @@ class DynamicCatalog(object):
     def has_provider(self, name):
         """Check if there is provider with certain name.
 
-        :param name: Provider's name
+        :param name: Provider's name.
         :type name: str
 
         :rtype: bool
@@ -343,7 +343,7 @@ class DynamicCatalog(object):
     def unbind_provider(self, name):
         """Remove provider binding.
 
-        :param name: Provider's name
+        :param name: Provider's name.
         :type name: str
 
         :rtype: None
@@ -355,10 +355,10 @@ class DynamicCatalog(object):
     def __getattr__(self, name):
         """Return provider with specified name or raise en error.
 
-        :param name: Attribute's name
+        :param name: Attribute's name.
         :type name: str
 
-        :raise: :py:class:`dependency_injector.errors.UndefinedProviderError`
+        :raise: :py:exc:`dependency_injector.errors.UndefinedProviderError`
         """
         return self.get_provider(name)
 
@@ -368,10 +368,10 @@ class DynamicCatalog(object):
         Setting of attributes works as usual, but if value of attribute is
         provider, this provider will be bound to catalog.
 
-        :param name: Attribute's name
+        :param name: Attribute's name.
         :type name: str
 
-        :param value: Attribute's value
+        :param value: Attribute's value.
         :type value: :py:class:`dependency_injector.providers.Provider` |
                      object
 
@@ -387,7 +387,7 @@ class DynamicCatalog(object):
         Deleting of attributes works as usual, but if value of attribute is
         provider, this provider will be unbound from catalog.
 
-        :param name: Attribute's name
+        :param name: Attribute's name.
         :type name: str
 
         :rtype: None
@@ -483,10 +483,10 @@ class DeclarativeCatalogMetaClass(type):
     def __getattr__(cls, name):
         """Return provider with specified name or raise en error.
 
-        :param name: Attribute's name
+        :param name: Attribute's name.
         :type name: str
 
-        :raise: :py:class:`dependency_injector.errors.UndefinedProviderError`
+        :raise: :py:exc:`dependency_injector.errors.UndefinedProviderError`
         """
         raise UndefinedProviderError('There is no provider "{0}" in '
                                      'catalog {1}'.format(name, cls))
@@ -497,10 +497,10 @@ class DeclarativeCatalogMetaClass(type):
         Setting of attributes works as usual, but if value of attribute is
         provider, this provider will be bound to catalog.
 
-        :param name: Attribute's name
+        :param name: Attribute's name.
         :type name: str
 
-        :param value: Attribute's value
+        :param value: Attribute's value.
         :type value: :py:class:`dependency_injector.providers.Provider` |
                      object
 
@@ -516,7 +516,7 @@ class DeclarativeCatalogMetaClass(type):
         Deleting of attributes works as usual, but if value of attribute is
         provider, this provider will be unbound from catalog.
 
-        :param name: Attribute's name
+        :param name: Attribute's name.
         :type name: str
 
         :rtype: None
@@ -615,7 +615,7 @@ class DeclarativeCatalog(object):
     def is_bundle_owner(cls, bundle):
         """Check if catalog is bundle owner.
 
-        :param bundle: Catalog's bundle instance
+        :param bundle: Catalog's bundle instance.
         :type bundle: :py:class:`CatalogBundle`
 
         :rtype: bool
@@ -626,12 +626,12 @@ class DeclarativeCatalog(object):
     def get_provider_bind_name(cls, provider):
         """Return provider's name in catalog.
 
-        :param provider: Provider instance
+        :param provider: Provider instance.
         :type provider: :py:class:`dependency_injector.providers.Provider`
 
-        :raise: :py:class:`dependency_injector.errors.UndefinedProviderError`
+        :raise: :py:exc:`dependency_injector.errors.UndefinedProviderError`
 
-        :return: Provider's name
+        :return: Provider's name.
         :rtype: str
         """
         return cls._catalog.get_provider_bind_name(provider)
@@ -640,7 +640,7 @@ class DeclarativeCatalog(object):
     def is_provider_bound(cls, provider):
         """Check if provider is bound to the catalog.
 
-        :param provider: Provider instance
+        :param provider: Provider instance.
         :type provider: :py:class:`dependency_injector.providers.Provider`
 
         :rtype: bool
@@ -651,7 +651,7 @@ class DeclarativeCatalog(object):
     def filter(cls, provider_type):
         """Return dictionary of providers, that are instance of provided type.
 
-        :param provider_type: Provider type
+        :param provider_type: Provider's type.
         :type provider_type: :py:class:`dependency_injector.providers.Provider`
 
         :rtype: dict[str, :py:class:`dependency_injector.providers.Provider`]
@@ -662,7 +662,7 @@ class DeclarativeCatalog(object):
     def override(cls, overriding):
         """Override current catalog providers by overriding catalog providers.
 
-        :param overriding: Overriding catalog
+        :param overriding: Overriding catalog.
         :type overriding: :py:class:`DeclarativeCatalog` |
                           :py:class:`DynamicCatalog`
 
@@ -690,12 +690,12 @@ class DeclarativeCatalog(object):
     def get_provider(cls, name):
         """Return provider with specified name or raise an error.
 
-        :param name: Provider's name
+        :param name: Provider's name.
         :type name: str
 
-        :raise: :py:class:`dependency_injector.errors.UndefinedProviderError`
+        :raise: :py:exc:`dependency_injector.errors.UndefinedProviderError`
 
-        :return: Provider with specified name
+        :return: Provider with specified name.
         :rtype: :py:class:`dependency_injector.providers.Provider`
         """
         return cls._catalog.get_provider(name)
@@ -706,13 +706,13 @@ class DeclarativeCatalog(object):
     def bind_provider(cls, name, provider):
         """Bind provider to catalog with specified name.
 
-        :param name: Name of the provider
+        :param name: Name of the provider.
         :type name: str
 
-        :param provider: Provider instance
+        :param provider: Provider instance.
         :type provider: :py:class:`dependency_injector.providers.Provider`
 
-        :raise: :py:class:`dependency_injector.errors.Error`
+        :raise: :py:exc:`dependency_injector.errors.Error`
 
         :rtype: None
         """
@@ -723,11 +723,11 @@ class DeclarativeCatalog(object):
         """Bind providers dictionary to catalog.
 
         :param providers: Dictionary of providers, where key is a name
-            and value is a provider
+            and value is a provider.
         :type providers:
             dict[str, :py:class:`dependency_injector.providers.Provider`]
 
-        :raise: :py:class:`dependency_injector.errors.Error`
+        :raise: :py:exc:`dependency_injector.errors.Error`
 
         :rtype: None
         """
@@ -738,7 +738,7 @@ class DeclarativeCatalog(object):
     def has_provider(cls, name):
         """Check if there is provider with certain name.
 
-        :param name: Provider's name
+        :param name: Provider's name.
         :type name: str
 
         :rtype: bool
@@ -751,7 +751,7 @@ class DeclarativeCatalog(object):
     def unbind_provider(cls, name):
         """Remove provider binding.
 
-        :param name: Provider's name
+        :param name: Provider's name.
         :type name: str
 
         :rtype: None
@@ -762,10 +762,10 @@ class DeclarativeCatalog(object):
     def __getattr__(cls, name):  # pragma: no cover
         """Return provider with specified name or raise en error.
 
-        :param name: Attribute's name
+        :param name: Attribute's name.
         :type name: str
 
-        :raise: :py:class:`dependency_injector.errors.UndefinedProviderError`
+        :raise: :py:exc:`dependency_injector.errors.UndefinedProviderError`
         """
         raise NotImplementedError('Implementated in metaclass')
 
@@ -776,10 +776,10 @@ class DeclarativeCatalog(object):
         Setting of attributes works as usual, but if value of attribute is
         provider, this provider will be bound to catalog.
 
-        :param name: Attribute's name
+        :param name: Attribute's name.
         :type name: str
 
-        :param value: Attribute's value
+        :param value: Attribute's value.
         :type value: :py:class:`dependency_injector.providers.Provider` |
                      object
 
@@ -794,7 +794,7 @@ class DeclarativeCatalog(object):
         Deleting of attributes works as usual, but if value of attribute is
         provider, this provider will be unbound from catalog.
 
-        :param name: Attribute's name
+        :param name: Attribute's name.
         :type name: str
 
         :rtype: None
@@ -812,7 +812,7 @@ def override(catalog):
     :param catalog: Catalog that should be overridden by decorated catalog.
     :type catalog: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`
 
-    :return: Declarative catalog's overriding decorator
+    :return: Declarative catalog's overriding decorator.
     :rtype: callable(:py:class:`DeclarativeCatalog`)
     """
     def decorator(overriding_catalog):
