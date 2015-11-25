@@ -1,13 +1,10 @@
 API Documentation
 =================
 
-.. automodule:: dependency_injector
-
-.. autodata:: VERSION
-
 ..  toctree::
     :maxdepth: 2
 
+    top_level
     providers
     injections
     catalogs
