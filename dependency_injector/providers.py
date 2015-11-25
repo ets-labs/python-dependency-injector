@@ -24,12 +24,34 @@ class Provider(object):
     regular part of providers API and it should be the same for all provider's
     subclasses.
 
-    :py:class:`Provider` implements provider overriding logic that should be
-    also common for all providers.
-
     Implementation of particular providing strategy should be done in
     :py:meth:`Provider._provide` of :py:class:`Provider` subclass. Current
     method is called every time when not overridden provider is called.
+
+    :py:class:`Provider` implements provider overriding logic that should be
+    also common for all providers.
+
+    .. code-block:: python
+
+        provider1 = Factory(SomeClass)
+        provider2 = Factory(ChildSomeClass)
+
+        provider1.override(provider2)
+
+        some_instance = provider1()
+        assert isinstance(some_instance, ChildSomeClass)
+
+    Also :py:class:`Provider` implements helper function for creating its
+    delegates:
+
+    .. code-block:: python
+
+        provider = Factory(object)
+        delegate = provider.delegate()
+
+        delegated = delegate()
+
+        assert provider is delegated
 
     All providers should extend this class.
     """
@@ -40,6 +62,12 @@ class Provider(object):
     def __init__(self):
         """Initializer."""
         self.overridden_by = None
+        """Tuple of overriding providers, if any.
+
+        :type: tuple[:py:class:`Provider`] | None
+        """
+
+        super(Provider, self).__init__()
 
     def __call__(self, *args, **kwargs):
         """Return provided instance.
@@ -83,7 +111,7 @@ class Provider(object):
     def override(self, provider):
         """Override provider with another provider.
 
-        :param provider: overriding provider
+        :param provider: Overriding provider.
         :type provider: :py:class:`Provider`
 
         :raise: :py:exc:`dependency_injector.errors.Error`
@@ -121,14 +149,24 @@ class Provider(object):
 
 
 class Delegate(Provider):
-    """Provider's delegate."""
+    """:py:class:`Delegate` provider delegates another provider.
+
+    .. code-block:: python
+
+        provider = Factory(object)
+        delegate = Delegate(provider)
+
+        delegated = delegate()
+
+        assert provider is delegated
+    """
 
     __slots__ = ('delegated',)
 
     def __init__(self, delegated):
         """Initializer.
 
-        :provider delegated: Delegated provider
+        :provider delegated: Delegated provider.
         :type delegated: :py:class:`Provider`
         """
         self.delegated = ensure_is_provider(delegated)
@@ -137,10 +175,10 @@ class Delegate(Provider):
     def _provide(self, *args, **kwargs):
         """Return provided instance.
 
-        :param args: tuple of context positional arguments
+        :param args: Tuple of context positional arguments.
         :type args: tuple[object]
 
-        :param kwargs: dictionary of context keyword arguments
+        :param kwargs: Dictionary of context keyword arguments.
         :type kwargs: dict[str, object]
 
         :rtype: object
@@ -243,10 +281,10 @@ class Factory(Provider):
     def _provide(self, *args, **kwargs):
         """Return provided instance.
 
-        :param args: tuple of context positional arguments
+        :param args: Tuple of context positional arguments.
         :type args: tuple[object]
 
-        :param kwargs: dictionary of context keyword arguments
+        :param kwargs: Dictionary of context keyword arguments.
         :type kwargs: dict[str, object]
 
         :rtype: object
@@ -371,10 +409,10 @@ class Singleton(Provider):
     def _provide(self, *args, **kwargs):
         """Return provided instance.
 
-        :param args: tuple of context positional arguments
+        :param args: Tuple of context positional arguments.
         :type args: tuple[object]
 
-        :param kwargs: dictionary of context keyword arguments
+        :param kwargs: Dictionary of context keyword arguments.
         :type kwargs: dict[str, object]
 
         :rtype: object
@@ -418,10 +456,10 @@ class ExternalDependency(Provider):
     def __call__(self, *args, **kwargs):
         """Return provided instance.
 
-        :param args: tuple of context positional arguments
+        :param args: Tuple of context positional arguments.
         :type args: tuple[object]
 
-        :param kwargs: dictionary of context keyword arguments
+        :param kwargs: Dictionary of context keyword arguments.
         :type kwargs: dict[str, object]
 
         :raise: :py:exc:`dependency_injector.errors.Error`
@@ -442,7 +480,7 @@ class ExternalDependency(Provider):
     def provided_by(self, provider):
         """Set external dependency provider.
 
-        :param provider: Provider that provides required dependency
+        :param provider: Provider that provides required dependency.
         :type provider: :py:class:`Provider`
 
         :rtype: None
@@ -475,10 +513,10 @@ class StaticProvider(Provider):
     def _provide(self, *args, **kwargs):
         """Return provided instance.
 
-        :param args: tuple of context positional arguments
+        :param args: Tuple of context positional arguments.
         :type args: tuple[object]
 
-        :param kwargs: dictionary of context keyword arguments
+        :param kwargs: Dictionary of context keyword arguments.
         :type kwargs: dict[str, object]
 
         :rtype: object
@@ -588,10 +626,10 @@ class Callable(Provider):
     def _provide(self, *args, **kwargs):
         """Return provided instance.
 
-        :param args: tuple of context positional arguments
+        :param args: Tuple of context positional arguments.
         :type args: tuple[object]
 
-        :param kwargs: dictionary of context keyword arguments
+        :param kwargs: Dictionary of context keyword arguments.
         :type kwargs: dict[str, object]
 
         :rtype: object
@@ -626,7 +664,7 @@ class Config(Provider):
     def __getattr__(self, item):
         """Return instance of deferred config.
 
-        :param item: Name of configuration option or section
+        :param item: Name of configuration option or section.
         :type item: str
 
         :rtype: :py:class:`ChildConfig`
@@ -636,7 +674,7 @@ class Config(Provider):
     def _provide(self, paths=None):
         """Return provided instance.
 
-        :param paths: tuple of pieces of configuration option / section path
+        :param paths: Tuple of pieces of configuration option / section path.
         :type args: tuple[str]
 
         :rtype: object
@@ -698,7 +736,7 @@ class ChildConfig(Provider):
     def __getattr__(self, item):
         """Return instance of deferred config.
 
-        :param item: Name of configuration option or section
+        :param item: Name of configuration option or section.
         :type item: str
 
         :rtype: :py:class:`ChildConfig`
@@ -709,10 +747,10 @@ class ChildConfig(Provider):
     def _provide(self, *args, **kwargs):
         """Return provided instance.
 
-        :param args: tuple of context positional arguments
+        :param args: Tuple of context positional arguments.
         :type args: tuple[object]
 
-        :param kwargs: dictionary of context keyword arguments
+        :param kwargs: Dictionary of context keyword arguments.
         :type kwargs: dict[str, object]
 
         :rtype: object
