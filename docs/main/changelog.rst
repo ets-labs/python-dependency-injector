@@ -11,6 +11,15 @@ Development version
 -------------------
 - No features.
 
+1.11.0
+------
+Previous state of *Dependency Injector* framework (0.11.0 version) is 
+considered to be production ready / stable, so current release is considered 
+to be the first major release.
+
+- Increase major version. 
+- Backward compatibility with all previous versions above 0.7.6 has been saved.
+
 0.11.0
 ------
 - Rename ``AbstractCatalog`` to ``DeclarativeCatalog`` 
