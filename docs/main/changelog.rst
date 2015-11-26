@@ -9,13 +9,31 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- Rename ``di.AbstractCatalog`` to ``di.DeclarativeCatalog`` 
+- No features.
+
+0.11.0
+------
+- Rename ``AbstractCatalog`` to ``DeclarativeCatalog`` 
   (with backward compatibility).
+- Rename ``catalog`` module to ``catalogs`` with backward compatibility.
+- Implement dynamic binding of providers for ``DeclarativeCatalog``.
+- Add ``DynamicCatalog``.
+- Change restrictions for providers-to-catalogs bindings - provider could be 
+  bound to several catalogs with different names.
+- Restrict overriding of providers by themselves.
+- Restrict overriding of catalogs by themselves.
+- Make ``DeclarativeCatalog.last_overriding`` attribute to be ``None`` by 
+  default.
+- Make ``Provider.last_overriding`` attribute to be ``None`` by 
+  default.
+- Refactor catalogs and providers modules.
+- Add API documentation
+- Improve user's guides and examples.
 
 0.10.5
 ------
-- Add more representable implementation for ``di.AbstractCatalog`` and 
-  ``di.AbstractCatalog.Bundle``.
+- Add more representable implementation for ``AbstractCatalog`` and 
+  ``AbstractCatalog.Bundle``.
 
 0.10.4
 ------
@@ -35,22 +53,22 @@ Development version
 
 0.10.0
 ------
-- Add functionality for creating ``di.AbstractCatalog`` provider bundles.
-- Improve ``di.AbstractCatalog`` inheritance.
-- Improve ``di.AbstractCatalog`` overriding.
+- Add functionality for creating ``AbstractCatalog`` provider bundles.
+- Improve ``AbstractCatalog`` inheritance.
+- Improve ``AbstractCatalog`` overriding.
 - Add images for catalog "Writing catalogs" and "Operating with catalogs" 
   examples.
 - Add functionality for using positional argument injections with 
-  ``di.Factory``, ``di.Singleton``, ``di.Callable`` providers and 
-  ``di.inject`` decorator.
-- Add functionality for decorating classes with ``@di.inject``.
-- Add ``di.Singleton.injections`` attribute that represents a tuple of all 
-  ``di.Singleton`` injections (including args, kwargs, attributes and methods).
-- Add ``di.Callable.injections`` attribute that represents a tuple of all 
-  ``di.Callable`` injections (including args and kwargs).
-- Add optimization for ``di.Injection.value`` property that will compute 
+  ``Factory``, ``Singleton``, ``Callable`` providers and 
+  ``inject`` decorator.
+- Add functionality for decorating classes with ``@inject``.
+- Add ``Singleton.injections`` attribute that represents a tuple of all 
+  ``Singleton`` injections (including args, kwargs, attributes and methods).
+- Add ``Callable.injections`` attribute that represents a tuple of all 
+  ``Callable`` injections (including args and kwargs).
+- Add optimization for ``Injection.value`` property that will compute 
   type of injection once, instead of doing this on every call.
-- Add ``di.VERSION`` constant for verification of currently installed version.
+- Add ``VERSION`` constant for verification of currently installed version.
 - Add support of Python 3.5.
 - Add support of six 1.10.0.
 - Add minor refactorings and code style fixes.
@@ -58,8 +76,8 @@ Development version
 0.9.5
 -----
 - Change provider attributes scope to public.
-- Add ``di.Factory.injections`` attribute that represents a tuple of all 
-  ``di.Factory`` injections (including kwargs, attributes and methods).
+- Add ``Factory.injections`` attribute that represents a tuple of all 
+  ``Factory`` injections (including kwargs, attributes and methods).
 
 0.9.4
 -----
