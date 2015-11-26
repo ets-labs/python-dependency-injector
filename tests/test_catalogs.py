@@ -474,6 +474,23 @@ class OverrideTests(unittest.TestCase):
         self.assertEqual(CatalogA.p12(), 2)
         self.assertEqual(len(CatalogA.overridden_by), 1)
 
+    def test_override_declarative_catalog_with_itself(self):
+        """Test catalog overriding of declarative catalog with itself."""
+        with self.assertRaises(errors.Error):
+            CatalogA.override(CatalogA)
+
+    def test_override_declarative_catalog_with_subclass(self):
+        """Test catalog overriding of declarative catalog with subclass."""
+        with self.assertRaises(errors.Error):
+            CatalogB.override(CatalogA)
+
+    def test_override_dynamic_catalog_with_itself(self):
+        """Test catalog overriding of dynamic catalog with itself."""
+        catalog = catalogs.DynamicCatalog(p11=providers.Value(1),
+                                          p12=providers.Value(2))
+        with self.assertRaises(errors.Error):
+            catalog.override(catalog)
+
     def test_overriding_with_dynamic_catalog(self):
         """Test catalog overriding with another dynamic catalog."""
         CatalogA.override(catalogs.DynamicCatalog(p11=providers.Value(1),

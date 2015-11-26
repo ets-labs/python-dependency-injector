@@ -7,6 +7,7 @@ from .errors import UndefinedProviderError
 
 from .utils import is_provider
 from .utils import is_catalog
+from .utils import is_declarative_catalog
 from .utils import ensure_is_provider
 from .utils import ensure_is_catalog_bundle
 
@@ -252,10 +253,16 @@ class DynamicCatalog(object):
 
         :param overriding: Overriding catalog.
         :type overriding: :py:class:`DeclarativeCatalog` |
-            :py:class:`DynamicCatalog`
+                          :py:class:`DynamicCatalog`
+
+        :raise: :py:exc:`dependency_injector.errors.Error` if trying to
+                override catalog by itself
 
         :rtype: None
         """
+        if overriding is self:
+            raise Error('Catalog {0} could not be overridden '
+                        'with itself'.format(self))
         self.overridden_by += (overriding,)
         for name, provider in six.iteritems(overriding.providers):
             self.get_provider(name).override(provider)
@@ -673,8 +680,14 @@ class DeclarativeCatalog(object):
         :type overriding: :py:class:`DeclarativeCatalog` |
                           :py:class:`DynamicCatalog`
 
+        :raise: :py:exc:`dependency_injector.errors.Error` if trying to
+                override catalog by itself or its subclasses
+
         :rtype: None
         """
+        if is_declarative_catalog(overriding) and issubclass(cls, overriding):
+            raise Error('Catalog {0} could not be overridden '
+                        'with itself or its subclasses'.format(cls))
         return cls._catalog.override(overriding)
 
     @classmethod
