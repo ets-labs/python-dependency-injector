@@ -1,22 +1,24 @@
-"""`@di.inject()` decorator and Flask view example."""
+"""`inject()` decorator and Flask view example."""
 
 import sqlite3
 import flask
-import dependency_injector as di
+
+from dependency_injector import providers
+from dependency_injector import injections
 
 
-database = di.Singleton(sqlite3.connect,
-                        ':memory:',
-                        timeout=30,
-                        detect_types=True,
-                        isolation_level='EXCLUSIVE')
+database = providers.Singleton(sqlite3.connect,
+                               ':memory:',
+                               timeout=30,
+                               detect_types=True,
+                               isolation_level='EXCLUSIVE')
 
 app = flask.Flask(__name__)
 
 
 @app.route('/')
-@di.inject(database)
-@di.inject(flask.request)
+@injections.inject(database)
+@injections.inject(flask.request)
 def hello(request, database):
     """Example Flask view."""
     print request

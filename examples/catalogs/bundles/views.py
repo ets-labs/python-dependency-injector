@@ -7,15 +7,15 @@ class BaseWebView(object):
     def __init__(self, services):
         """Initializer.
 
-        :type services: catalogs.Services
         :param services: Bundle of service providers
+        :type services: catalogs.Services
         """
         self.services = services
 
 
-class AuthView(BaseWebView):
+class Auth(BaseWebView):
     """Example auth web view."""
 
 
-class PhotosView(BaseWebView):
+class Photos(BaseWebView):
     """Example photo processing web view."""

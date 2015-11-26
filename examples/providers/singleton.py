@@ -1,6 +1,6 @@
-"""`di.Singleton` providers example."""
+"""`Singleton` providers example."""
 
-import dependency_injector as di
+from dependency_injector import providers
 
 
 class UserService(object):
@@ -8,7 +8,7 @@ class UserService(object):
 
 # Singleton provider creates new instance of specified class on first call and
 # returns same instance on every next call.
-users_service_provider = di.Singleton(UserService)
+users_service_provider = providers.Singleton(UserService)
 
 # Retrieving several UserService objects:
 user_service1 = users_service_provider()

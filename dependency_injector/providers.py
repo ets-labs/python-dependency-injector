@@ -16,7 +16,45 @@ from .errors import Error
 
 
 class Provider(object):
-    """Base provider class."""
+    """Base provider class.
+
+    :py:class:`Provider` is callable (implements ``__call__`` method). Every
+    call to provider object returns provided result, according to the providing
+    strategy of particular provider. This ``callable`` functionality is a
+    regular part of providers API and it should be the same for all provider's
+    subclasses.
+
+    Implementation of particular providing strategy should be done in
+    :py:meth:`Provider._provide` of :py:class:`Provider` subclass. Current
+    method is called every time when not overridden provider is called.
+
+    :py:class:`Provider` implements provider overriding logic that should be
+    also common for all providers:
+
+    .. code-block:: python
+
+        provider1 = Factory(SomeClass)
+        provider2 = Factory(ChildSomeClass)
+
+        provider1.override(provider2)
+
+        some_instance = provider1()
+        assert isinstance(some_instance, ChildSomeClass)
+
+    Also :py:class:`Provider` implements helper function for creating its
+    delegates:
+
+    .. code-block:: python
+
+        provider = Factory(object)
+        delegate = provider.delegate()
+
+        delegated = delegate()
+
+        assert provider is delegated
+
+    All providers should extend this class.
+    """
 
     __IS_PROVIDER__ = True
     __slots__ = ('overridden_by',)
@@ -24,9 +62,23 @@ class Provider(object):
     def __init__(self):
         """Initializer."""
         self.overridden_by = None
+        """Tuple of overriding providers, if any.
+
+        :type: tuple[:py:class:`Provider`] | None
+        """
+
+        super(Provider, self).__init__()
 
     def __call__(self, *args, **kwargs):
-        """Return provided instance."""
+        """Return provided instance.
+
+        Implementation of current method adds ``callable`` functionality for
+        providers API and it should be common for all provider's subclasses.
+        Also this method implements provider overriding logic that is also
+        common for all providers. Implementation of particular providing
+        strategy should be done in :py:meth:`Provider._provide` of
+        :py:class:`Provider` subclass.
+        """
         if self.overridden_by:
             return self.last_overriding(*args, **kwargs)
         return self._provide(*args, **kwargs)
@@ -40,12 +92,30 @@ class Provider(object):
         """
         raise NotImplementedError()
 
-    def delegate(self):
-        """Return provider's delegate."""
-        return Delegate(self)
+    @property
+    def is_overridden(self):
+        """Read-only property that is set to ``True`` if provider is overridden.
+
+        :rtype: bool
+        """
+        return bool(self.overridden_by)
+
+    @property
+    def last_overriding(self):
+        """Read-only reference to the last overriding provider, if any.
+
+        :type: :py:class:`Provider` | None
+        """
+        return self.overridden_by[-1] if self.overridden_by else None
 
     def override(self, provider):
-        """Override provider with another provider."""
+        """Override provider with another provider.
+
+        :param provider: Overriding provider.
+        :type provider: :py:class:`Provider`
+
+        :raise: :py:exc:`dependency_injector.errors.Error`
+        """
         if provider is self:
             raise Error('Provider {0} could not be overridden '
                         'with itself'.format(self))
@@ -54,74 +124,174 @@ class Provider(object):
         else:
             self.overridden_by += (ensure_is_provider(provider),)
 
-    @property
-    def is_overridden(self):
-        """Check if provider is overridden by another provider."""
-        return bool(self.overridden_by)
-
-    @property
-    def last_overriding(self):
-        """Return last overriding provider."""
-        try:
-            return self.overridden_by[-1]
-        except (TypeError, IndexError):
-            raise Error('Provider {0} is not overridden'.format(str(self)))
-
     def reset_last_overriding(self):
-        """Reset last overriding provider."""
-        if not self.is_overridden:
+        """Reset last overriding provider.
+
+        :raise: :py:exc:`dependency_injector.errors.Error` if provider is not
+                overridden.
+
+        :rtype: None
+        """
+        if not self.overridden_by:
             raise Error('Provider {0} is not overridden'.format(str(self)))
         self.overridden_by = self.overridden_by[:-1]
 
     def reset_override(self):
-        """Reset all overriding providers."""
+        """Reset all overriding providers.
+
+        :rtype: None
+        """
         self.overridden_by = None
+
+    def delegate(self):
+        """Return provider's delegate.
+
+        :rtype: :py:class:`Delegate`
+        """
+        return Delegate(self)
 
 
 class Delegate(Provider):
-    """Provider's delegate."""
+    """:py:class:`Delegate` provider delegates another provider.
+
+    .. code-block:: python
+
+        provider = Factory(object)
+        delegate = Delegate(provider)
+
+        delegated = delegate()
+
+        assert provider is delegated
+    """
 
     __slots__ = ('delegated',)
 
     def __init__(self, delegated):
         """Initializer.
 
-        :type delegated: Provider
+        :provider delegated: Delegated provider.
+        :type delegated: :py:class:`Provider`
         """
         self.delegated = ensure_is_provider(delegated)
         super(Delegate, self).__init__()
 
     def _provide(self, *args, **kwargs):
-        """Return provided instance."""
+        """Return provided instance.
+
+        :param args: Tuple of context positional arguments.
+        :type args: tuple[object]
+
+        :param kwargs: Dictionary of context keyword arguments.
+        :type kwargs: dict[str, object]
+
+        :rtype: object
+        """
         return self.delegated
 
 
 class Factory(Provider):
-    """Factory provider.
+    """:py:class:`Factory` provider creates new instance on every call.
 
-    Factory provider creates new instance of specified class on every call.
+    :py:class:`Factory` supports different syntaxes of passing injections:
+
+    .. code-block:: python
+
+        # simplified syntax for passing positional and keyword argument
+        # injections only:
+        factory = Factory(SomeClass, 'arg1', 'arg2', arg3=3, arg4=4)
+
+        # extended (full) syntax for passing any type of injections:
+        factory = Factory(SomeClass,
+                          injections.Arg(1),
+                          injections.Arg(2),
+                          injections.KwArg('some_arg', 3),
+                          injections.KwArg('other_arg', 4),
+                          injections.Attribute('some_attribute', 5))
+
+    Retrieving of provided instance can be performed via calling
+    :py:class:`Factory` object:
+
+    .. code-block:: python
+
+        factory = Factory(SomeClass,
+                          some_arg1=1,
+                          some_arg2=2)
+        some_object = factory()
     """
 
     __slots__ = ('provides', 'args', 'kwargs', 'attributes', 'methods')
 
     def __init__(self, provides, *args, **kwargs):
-        """Initializer."""
+        """Initializer.
+
+        :param provides: Class or other callable that provides object
+            for creation.
+        :type provides: type | callable
+
+        :param args: Tuple of injections.
+        :type args: tuple
+
+        :param kwargs: Dictionary of injections.
+        :type kwargs: dict
+        """
         if not callable(provides):
             raise Error('Factory provider expects to get callable, ' +
                         'got {0} instead'.format(str(provides)))
         self.provides = provides
+        """Class or other callable that provides object for creation.
+
+        :type: type | callable
+        """
+
         self.args = _parse_args_injections(args)
+        """Tuple of positional argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
+        """
+
         self.kwargs = _parse_kwargs_injections(args, kwargs)
+        """Tuple of keyword argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
+        """
+
         self.attributes = tuple(injection
                                 for injection in args
                                 if is_attribute_injection(injection))
+        """Tuple of attribute injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
+        """
+
         self.methods = tuple(injection
                              for injection in args
                              if is_method_injection(injection))
+        """Tuple of method injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Method`]
+        """
+
         super(Factory, self).__init__()
 
+    @property
+    def injections(self):
+        """Read-only tuple of all injections.
+
+        :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
+        """
+        return self.args + self.kwargs + self.attributes + self.methods
+
     def _provide(self, *args, **kwargs):
-        """Return provided instance."""
+        """Return provided instance.
+
+        :param args: Tuple of context positional arguments.
+        :type args: tuple[object]
+
+        :param kwargs: Dictionary of context keyword arguments.
+        :type kwargs: dict[str, object]
+
+        :rtype: object
+        """
         instance = self.provides(*_get_injectable_args(args, self.args),
                                  **_get_injectable_kwargs(kwargs, self.kwargs))
         for attribute in self.attributes:
@@ -131,48 +301,145 @@ class Factory(Provider):
 
         return instance
 
-    @property
-    def injections(self):
-        """Return tuple of all injections."""
-        return self.args + self.kwargs + self.attributes + self.methods
-
 
 class Singleton(Provider):
-    """Singleton provider.
+    """:py:class:`Singleton` provider returns same instance on every call.
 
-    Singleton provider will create instance once and return it on every call.
+    :py:class:`Singleton` provider creates instance once and return it on every
+    call. :py:class:`Singleton` uses :py:class:`Factory` for creation of
+    instance, so, please follow :py:class:`Factory` documentation to go inside
+    with injections syntax.
+
+    :py:class:`Singleton` is thread-safe and could be used in multithreading
+    environment without any negative impact.
+
+    Retrieving of provided instance can be performed via calling
+    :py:class:`Singleton` object:
+
+    .. code-block:: python
+
+        singleton = Singleton(SomeClass,
+                              some_arg1=1,
+                              some_arg2=2)
+        some_object = singleton()
+
     """
 
     __slots__ = ('instance', 'factory')
 
     def __init__(self, provides, *args, **kwargs):
-        """Initializer."""
+        """Initializer.
+
+        :param provides: Class or other callable that provides object
+            for creation.
+        :type provides: type | callable
+
+        :param args: Tuple of injections.
+        :type args: tuple
+
+        :param kwargs: Dictionary of injections.
+        :type kwargs: dict
+        """
         self.instance = None
+        """Read-only reference to singleton's instance.
+
+        :type: object
+        """
+
         self.factory = Factory(provides, *args, **kwargs)
+        """Singleton's factory object.
+
+        :type: :py:class:`Factory`
+        """
+
         super(Singleton, self).__init__()
 
+    @property
+    def provides(self):
+        """Class or other callable that provides object for creation.
+
+        :type: type | callable
+        """
+        return self.factory.provides
+
+    @property
+    def args(self):
+        """Tuple of positional argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
+        """
+        return self.factory.args
+
+    @property
+    def kwargs(self):
+        """Tuple of keyword argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
+        """
+        return self.factory.kwargs
+
+    @property
+    def attributes(self):
+        """Tuple of attribute injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
+        """
+        return self.factory.attributes
+
+    @property
+    def methods(self):
+        """Tuple of method injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Method`]
+        """
+        return self.factory.methods
+
+    @property
+    def injections(self):
+        """Read-only tuple of all injections.
+
+        :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
+        """
+        return self.factory.injections
+
+    def reset(self):
+        """Reset cached instance, if any.
+
+        :rtype: None
+        """
+        self.instance = None
+
     def _provide(self, *args, **kwargs):
-        """Return provided instance."""
+        """Return provided instance.
+
+        :param args: Tuple of context positional arguments.
+        :type args: tuple[object]
+
+        :param kwargs: Dictionary of context keyword arguments.
+        :type kwargs: dict[str, object]
+
+        :rtype: object
+        """
         with GLOBAL_LOCK:
             if not self.instance:
                 self.instance = self.factory(*args, **kwargs)
         return self.instance
 
-    def reset(self):
-        """Reset instance."""
-        self.instance = None
-
-    @property
-    def injections(self):
-        """Return tuple of all injections."""
-        return self.factory.injections
-
 
 class ExternalDependency(Provider):
-    """External dependency provider.
+    """:py:class:`ExternalDependency` provider describes dependency interface.
 
-    Those provider is used when dependency obviously have to be overridden by
-    the client's code, but it's interface is known.
+    This provider is used for description of dependency interface. That might
+    be useful when dependency could be provided in the client's code only,
+    but it's interface is known. Such situations could happen when required
+    dependency has non-determenistic list of dependencies itself.
+
+    .. code-block:: python
+
+        database_provider = ExternalDependency(sqlite3.dbapi2.Connection)
+        database_provider.override(Factory(sqlite3.connect, ':memory:'))
+
+        database = database_provider()
     """
 
     __slots__ = ('instance_of',)
@@ -183,10 +450,25 @@ class ExternalDependency(Provider):
             raise Error('ExternalDependency provider expects to get class, ' +
                         'got {0} instead'.format(str(instance_of)))
         self.instance_of = instance_of
+        """Class of required dependency.
+
+        :type: type
+        """
         super(ExternalDependency, self).__init__()
 
     def __call__(self, *args, **kwargs):
-        """Return provided instance."""
+        """Return provided instance.
+
+        :param args: Tuple of context positional arguments.
+        :type args: tuple[object]
+
+        :param kwargs: Dictionary of context keyword arguments.
+        :type kwargs: dict[str, object]
+
+        :raise: :py:exc:`dependency_injector.errors.Error`
+
+        :rtype: object
+        """
         if not self.is_overridden:
             raise Error('Dependency is not defined')
 
@@ -199,97 +481,207 @@ class ExternalDependency(Provider):
         return instance
 
     def provided_by(self, provider):
-        """Set external dependency provider."""
+        """Set external dependency provider.
+
+        :param provider: Provider that provides required dependency.
+        :type provider: :py:class:`Provider`
+
+        :rtype: None
+        """
         return self.override(provider)
 
 
 class StaticProvider(Provider):
-    """Static provider.
+    """:py:class:`StaticProvider` returns provided instance "as is".
 
-    Static provider is base implementation that provides exactly the same as
-    it got on input.
+    :py:class:`StaticProvider` is base implementation that provides exactly
+    the same as it got on input.
     """
 
     __slots__ = ('provides',)
 
     def __init__(self, provides):
-        """Initializer."""
+        """Initializer.
+
+        :param provides: Value that have to be provided.
+        :type provides: object
+        """
         self.provides = provides
+        """Value that have to be provided.
+
+        :type: object
+        """
         super(StaticProvider, self).__init__()
 
     def _provide(self, *args, **kwargs):
-        """Return provided instance."""
+        """Return provided instance.
+
+        :param args: Tuple of context positional arguments.
+        :type args: tuple[object]
+
+        :param kwargs: Dictionary of context keyword arguments.
+        :type kwargs: dict[str, object]
+
+        :rtype: object
+        """
         return self.provides
 
 
 class Class(StaticProvider):
-    """Class provider provides class."""
+    """:py:class:`Class` returns provided class "as is".
+
+    .. code-block:: python
+
+        cls_provider = Class(object)
+        object_cls = cls_provider()
+    """
 
 
 class Object(StaticProvider):
-    """Object provider provides object."""
+    """:py:class:`Object` returns provided object "as is".
+
+    .. code-block:: python
+
+        object_provider = Object(object())
+        object_instance = object_provider()
+    """
 
 
 class Function(StaticProvider):
-    """Function provider provides function."""
+    """:py:class:`Function` returns provided function "as is".
+
+    .. code-block:: python
+
+        function_provider = Function(len)
+        len_function = function_provider()
+    """
 
 
 class Value(StaticProvider):
-    """Value provider provides value."""
+    """:py:class:`Value` returns provided value "as is".
+
+    .. code-block:: python
+
+        value_provider = Value(31337)
+        value = value_provider()
+    """
 
 
 class Callable(Provider):
-    """Callable provider.
+    """:py:class:`Callable` provider calls wrapped callable on every call.
 
-    Callable provider provides callable that is called on every provider call
-    with some predefined dependency injections.
+    :py:class:`Callable` provider provides callable that is called on every
+    provider call with some predefined dependency injections.
+
+    :py:class:`Callable` syntax of passing injections is the same like
+    :py:class:`Factory` one:
+
+    .. code-block:: python
+
+        some_function = Callable(some_function, 'arg1', 'arg2', arg3=3, arg4=4)
+        result = some_function()
     """
 
     __slots__ = ('callback', 'args', 'kwargs')
 
     def __init__(self, callback, *args, **kwargs):
-        """Initializer."""
+        """Initializer.
+
+        :param callback: Wrapped callable.
+        :type callback: callable
+
+        :param args: Tuple of injections.
+        :type args: tuple
+
+        :param kwargs: Dictionary of injections.
+        :type kwargs: dict
+        """
         if not callable(callback):
             raise Error('Callable expected, got {0}'.format(str(callback)))
         self.callback = callback
-        self.args = _parse_args_injections(args)
-        self.kwargs = _parse_kwargs_injections(args, kwargs)
-        super(Callable, self).__init__()
+        """Wrapped callable.
 
-    def _provide(self, *args, **kwargs):
-        """Return provided instance."""
-        return self.callback(*_get_injectable_args(args, self.args),
-                             **_get_injectable_kwargs(kwargs, self.kwargs))
+        :type: callable
+        """
+
+        self.args = _parse_args_injections(args)
+        """Tuple of positional argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
+        """
+
+        self.kwargs = _parse_kwargs_injections(args, kwargs)
+        """Tuple of keyword argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
+        """
+
+        super(Callable, self).__init__()
 
     @property
     def injections(self):
-        """Return tuple of all injections."""
+        """Read-only tuple of all injections.
+
+        :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
+        """
         return self.args + self.kwargs
+
+    def _provide(self, *args, **kwargs):
+        """Return provided instance.
+
+        :param args: Tuple of context positional arguments.
+        :type args: tuple[object]
+
+        :param kwargs: Dictionary of context keyword arguments.
+        :type kwargs: dict[str, object]
+
+        :rtype: object
+        """
+        return self.callback(*_get_injectable_args(args, self.args),
+                             **_get_injectable_kwargs(kwargs, self.kwargs))
 
 
 class Config(Provider):
-    """Config provider.
+    """:py:class:`Config` provider provide dict values.
 
-    Config provider provides dict values. Also config provider creates
-    child config objects for all undefined attribute calls. It makes possible
-    to create deferred config value provider.
+    :py:class:`Config` provider creates :py:class:`ChildConfig` objects for all
+    undefined attribute calls. It makes possible to create deferred config
+    value providers. It might be useful in cases where it is needed to
+    define / pass some configuration in declarative manner, while
+    configuration values will be loaded / updated in application's runtime.
     """
 
     __slots__ = ('value',)
 
     def __init__(self, value=None):
-        """Initializer."""
+        """Initializer.
+
+        :param value: Configuration dictionary.
+        :type value: dict[str, object]
+        """
         if not value:
             value = dict()
         self.value = value
         super(Config, self).__init__()
 
     def __getattr__(self, item):
-        """Return instance of deferred config."""
+        """Return instance of deferred config.
+
+        :param item: Name of configuration option or section.
+        :type item: str
+
+        :rtype: :py:class:`ChildConfig`
+        """
         return ChildConfig(parents=(item,), root_config=self)
 
     def _provide(self, paths=None):
-        """Return provided instance."""
+        """Return provided instance.
+
+        :param paths: Tuple of pieces of configuration option / section path.
+        :type args: tuple[str]
+
+        :rtype: object
+        """
         value = self.value
         if paths:
             for path in paths:
@@ -301,30 +693,69 @@ class Config(Provider):
         return value
 
     def update_from(self, value):
-        """Update current value from another one."""
+        """Update current value from another one.
+
+        :param value: Configuration dictionary.
+        :type value: dict[str, object]
+
+        :rtype: None
+        """
         self.value.update(value)
 
 
 class ChildConfig(Provider):
-    """Child config provider.
+    """:py:class:`ChildConfig` provider provides value from :py:class:`Config`.
 
-    Child config provide an value from the root config object according to
-    the current path in the config tree.
+    :py:class:`ChildConfig` provides value from the root config object
+    according to the current path in the config tree.
     """
 
     __slots__ = ('parents', 'root_config')
 
     def __init__(self, parents, root_config):
-        """Initializer."""
+        """Initializer.
+
+        :param parents: Tuple of pieces of configuration option / section
+            parent path.
+        :type parents: tuple[str]
+
+        :param root_config: Root configuration object.
+        :type root_config: :py:class:`Config`
+        """
         self.parents = parents
+        """Tuple of pieces of configuration option / section parent path.
+
+        :type: tuple[str]
+        """
+
         self.root_config = root_config
+        """Root configuration object.
+
+        :type: :py:class:`Config`
+        """
+
         super(ChildConfig, self).__init__()
 
     def __getattr__(self, item):
-        """Return instance of deferred config."""
+        """Return instance of deferred config.
+
+        :param item: Name of configuration option or section.
+        :type item: str
+
+        :rtype: :py:class:`ChildConfig`
+        """
         return ChildConfig(parents=self.parents + (item,),
                            root_config=self.root_config)
 
     def _provide(self, *args, **kwargs):
-        """Return provided instance."""
+        """Return provided instance.
+
+        :param args: Tuple of context positional arguments.
+        :type args: tuple[object]
+
+        :param kwargs: Dictionary of context keyword arguments.
+        :type kwargs: dict[str, object]
+
+        :rtype: object
+        """
         return self.root_config(self.parents)

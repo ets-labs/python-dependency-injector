@@ -1,7 +1,9 @@
 External dependency providers
 -----------------------------
 
-``di.ExternalDependency`` provider can be useful for development of
+.. module:: dependency_injector.providers
+
+:py:class:`ExternalDependency` provider can be useful for development of
 self-sufficient libraries / modules / applications that has required external
 dependencies.
 

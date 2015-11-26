@@ -1,6 +1,8 @@
 Overriding of providers
 -----------------------
 
+.. module:: dependency_injector.providers
+
 Every provider could be overridden by another provider.
 
 This gives opportunity to make system behaviour more flexible in some points.
@@ -15,22 +17,22 @@ Provider overriding functionality has such interface:
     :width: 45%
     :align: center
 
-+ ``di.Provider.override()`` - takes another provider that will be used 
++ :py:meth:`Provider.override()` - takes another provider that will be used 
   instead of current provider. This method could be called several times. 
   In such case, last passed provider would be used as overriding one.
-+ ``di.Provider.reset_override()`` - resets all overriding providers. Provider 
-  starts to behave itself like usual.
-+ ``di.Provider.is_overridden`` - bool, ``True`` if provider is overridden.
++ :py:meth:`Provider.reset_override()` - resets all overriding providers. 
+  Provider starts to behave itself like usual.
++ :py:attr:`Provider.is_overridden` - bool, ``True`` if provider is overridden.
 
 .. note::
 
    Actually, initial provider forms stack from overriding providers. There is 
    some, not so common, but still usefull, functionality that could be used:
 
-   + ``di.Provider.last_overriding`` - always keeps reference to last 
+   + :py:attr:`Provider.last_overriding` - always keeps reference to last 
      overriding provider.
-   + ``di.Provider.reset_last_overriding()`` - remove last overriding provider 
-     from stack of overriding providers.
+   + :py:meth:`Provider.reset_last_overriding()` - remove last overriding 
+     provider from stack of overriding providers.
 
 Example:
 

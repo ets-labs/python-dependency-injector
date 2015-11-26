@@ -90,13 +90,7 @@ class ProviderTests(unittest.TestCase):
 
     def test_last_overriding_of_not_overridden_provider(self):
         """Test getting last overriding from not overridden provider."""
-        try:
-            self.provider.last_overriding
-        except errors.Error:
-            pass
-        else:
-            self.fail('Got en error in {}'.format(
-                str(self.test_last_overriding_of_not_overridden_provider)))
+        self.assertIsNone(self.provider.last_overriding)
 
     def test_reset_last_overriding(self):
         """Test reseting of last overriding provider."""
@@ -129,13 +123,7 @@ class ProviderTests(unittest.TestCase):
         self.provider.reset_override()
 
         self.assertFalse(self.provider.is_overridden)
-        try:
-            self.provider.last_overriding
-        except errors.Error:
-            pass
-        else:
-            self.fail('Got en error in {}'.format(
-                str(self.test_last_overriding_of_not_overridden_provider)))
+        self.assertIsNone(self.provider.last_overriding)
 
 
 class DelegateTests(unittest.TestCase):
@@ -563,6 +551,35 @@ class SingletonTests(unittest.TestCase):
         self.assertIs(instance1, instance2)
         self.assertIsInstance(instance1, object)
         self.assertIsInstance(instance2, object)
+
+    def test_provides_attr(self):
+        """Test provides attribute."""
+        provider = providers.Singleton(Example)
+        self.assertIs(provider.provides, Example)
+
+    def test_args_attr(self):
+        """Test args attribute."""
+        provider = providers.Singleton(Example, 1, 2)
+        self.assertEquals(len(provider.args), 2)
+
+    def test_kwargs_attr(self):
+        """Test kwargs attribute."""
+        provider = providers.Singleton(Example, init_arg1=1, init_arg2=2)
+        self.assertEquals(len(provider.kwargs), 2)
+
+    def test_attributes_attr(self):
+        """Test attributes attribute."""
+        provider = providers.Singleton(Example,
+                                       injections.Attribute('attribute1', 1),
+                                       injections.Attribute('attribute2', 2))
+        self.assertEquals(len(provider.attributes), 2)
+
+    def test_methods_attr(self):
+        """Test methods attribute."""
+        provider = providers.Singleton(Example,
+                                       injections.Method('method1', 1),
+                                       injections.Method('method2', 2))
+        self.assertEquals(len(provider.methods), 2)
 
     def test_injections(self):
         """Test getting a full list of injections using injections property."""
