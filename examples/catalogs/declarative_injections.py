@@ -39,7 +39,7 @@ class Services(catalogs.DeclarativeCatalog):
     """:type: providers.Provider -> AuthService"""
 
 
-# Retrieving catalog providers:
+# Retrieving service providers from catalog:
 users_service = Services.users()
 auth_service = Services.auth()
 

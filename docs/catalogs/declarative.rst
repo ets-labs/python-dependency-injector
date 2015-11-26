@@ -32,7 +32,8 @@ attribute names in Python.
     contains some callable object, that returns particular instance as a 
     result of its call.
 
-Here is an simple example of declarative catalog with several factories:
+Here is an simple example of defining declarative catalog with several 
+factories:
 
 .. image:: /images/catalogs/declarative.png
     :width: 85%

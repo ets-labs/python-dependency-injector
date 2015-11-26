@@ -4,6 +4,7 @@ from dependency_injector import catalogs
 from dependency_injector import providers
 
 
+# Defining declarative catalog:
 class Catalog(catalogs.DeclarativeCatalog):
     """Providers catalog."""
 

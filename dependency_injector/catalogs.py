@@ -123,6 +123,13 @@ class CatalogBundle(object):
 class DynamicCatalog(object):
     """Dynamic catalog of providers.
 
+    :py:class:`DynamicCatalog` is a catalog of providers that could be created
+    in application's runtime. It should cover most of the cases when list of
+    providers that would be included in catalog is non-deterministic in terms
+    of apllication code (catalog's structure could be determined just after
+    application will be started and will do some initial work, like parsing
+    list of catalog's providers from the configuration).
+
     .. code-block:: python
 
         services = DynamicCatalog(auth=providers.Factory(AuthService),
