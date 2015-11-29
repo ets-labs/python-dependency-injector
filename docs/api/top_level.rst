@@ -2,4 +2,4 @@
 -----------------------
 
 .. automodule:: dependency_injector
-    :members: VERSION
+   :members: VERSION

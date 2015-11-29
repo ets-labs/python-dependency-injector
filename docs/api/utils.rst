@@ -3,4 +3,3 @@
 
 .. automodule:: dependency_injector.utils
    :members:
-   :member-order: bysource

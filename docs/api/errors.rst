@@ -3,4 +3,3 @@
 
 .. automodule:: dependency_injector.errors
    :members:
-   :member-order: bysource
