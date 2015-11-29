@@ -1,7 +1,7 @@
 Callable providers
 ------------------
 
-.. module:: dependency_injector.providers
+.. currentmodule:: dependency_injector.providers
 
 :py:class:`Callable` provider is a provider that wraps particular callable with
 some injections. Every call of this provider returns result of call of initial

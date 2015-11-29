@@ -1,7 +1,7 @@
 Writing of custom providers
 ---------------------------
 
-.. module:: dependency_injector.providers
+.. currentmodule:: dependency_injector.providers
 
 List of *Dependency Injector* providers could be widened with custom providers.
 

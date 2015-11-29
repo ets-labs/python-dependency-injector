@@ -1,7 +1,7 @@
 Static providers
 ----------------
 
-.. module:: dependency_injector.providers
+.. currentmodule:: dependency_injector.providers
 
 Static providers are family of providers that return their values "as is".
 There are four types of static providers:

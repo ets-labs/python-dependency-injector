@@ -1,7 +1,7 @@
 Declarative catalogs
 --------------------
 
-.. module:: dependency_injector.catalogs
+.. currentmodule:: dependency_injector.catalogs
 
 :py:class:`DeclarativeCatalog` is a catalog of providers that could be
 defined in declarative manner. It should cover most of the cases when list

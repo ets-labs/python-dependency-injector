@@ -1,7 +1,7 @@
 Factory providers
 -----------------
 
-.. module:: dependency_injector.providers
+.. currentmodule:: dependency_injector.providers
 
 :py:class:`Factory` provider creates new instance of specified class on every 
 call.

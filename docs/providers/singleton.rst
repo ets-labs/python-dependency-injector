@@ -1,7 +1,7 @@
 Singleton providers
 -------------------
 
-.. module:: dependency_injector.providers
+.. currentmodule:: dependency_injector.providers
 
 :py:class:`Singleton` provider creates new instance of specified class on 
 first call and returns same instance on every next call.

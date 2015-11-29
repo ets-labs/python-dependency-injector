@@ -1,7 +1,7 @@
 Catalog provider bundles
 ------------------------
 
-.. module:: dependency_injector.catalogs
+.. currentmodule:: dependency_injector.catalogs
 
 :py:class:`CatalogBundle` is a frozen, limited collection of catalog 
 providers. While catalog could be used as a centralized place for 

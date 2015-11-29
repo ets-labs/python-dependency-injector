@@ -7,7 +7,7 @@ Current section of documentation describes advanced usage of
 @inject decorator
 -----------------
 
-.. module:: dependency_injector.injections
+.. currentmodule:: dependency_injector.injections
 
 :py:func:`inject` decorator is a part of 
 :py:mod:`dependency_injector.injections` module.

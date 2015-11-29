@@ -1,7 +1,7 @@
 Overriding of providers
 -----------------------
 
-.. module:: dependency_injector.providers
+.. currentmodule:: dependency_injector.providers
 
 Every provider could be overridden by another provider.
 
