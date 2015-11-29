@@ -1,5 +1,5 @@
 Writing of custom providers
-------------------------
+---------------------------
 
 .. module:: dependency_injector.providers
 
