@@ -11,7 +11,7 @@ Development version
 -------------------
 - No features.
 
-1.11.0
+1.11.1
 ------
 Previous state of *Dependency Injector* framework (0.11.0 version) is 
 considered to be production ready / stable, so current release is considered 
