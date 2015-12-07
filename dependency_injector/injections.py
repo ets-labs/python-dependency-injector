@@ -20,6 +20,7 @@ else:  # pragma: no cover
     _OBJECT_INIT = None
 
 
+@six.python_2_unicode_compatible
 class Injection(object):
     """Base injection class.
 
@@ -27,7 +28,7 @@ class Injection(object):
     """
 
     __IS_INJECTION__ = True
-    __slots__ = ('injectable', 'is_provider')
+    __slots__ = ('injectable', 'injectable_is_provider')
 
     def __init__(self, injectable):
         """Initializer.
@@ -43,7 +44,7 @@ class Injection(object):
         :type: object | :py:class:`dependency_injector.providers.Provider`
         """
 
-        self.is_provider = is_provider(injectable)
+        self.injectable_is_provider = is_provider(injectable)
         """Flag that is set to ``True`` if injectable value is provider.
 
         :type: bool
@@ -61,11 +62,37 @@ class Injection(object):
 
         :rtype: object
         """
-        if self.is_provider:
+        if self.injectable_is_provider:
             return self.injectable()
         return self.injectable
 
+    def __str__(self, raw=False):
+        """Return string representation of provider.
 
+        :param raw: Flag for returning of raw representation string
+        :type raw: bool
+
+        :rtype: str
+        """
+        if self.injectable_is_provider:
+            injectable_representation = self.injectable.__repr__(True)
+        else:
+            injectable_representation = repr(self.injectable)
+        representation = '{injection}({injectable})'.format(
+            injection=self.__class__.__name__,
+            injectable=injectable_representation)
+        return '<{0}>'.format(representation) if not raw else representation
+
+    __repr__ = __str__
+
+
+class Arg(Injection):
+    """Positional argument injection."""
+
+    __IS_ARG_INJECTION__ = True
+
+
+@six.python_2_unicode_compatible
 class _NamedInjection(Injection):
     """Base class of named injections."""
 
@@ -76,11 +103,25 @@ class _NamedInjection(Injection):
         self.name = name
         super(_NamedInjection, self).__init__(injectable)
 
+    def __str__(self, raw=False):
+        """Return string representation of provider.
 
-class Arg(Injection):
-    """Positional argument injection."""
+        :param raw: Flag for returning of raw representation string
+        :type raw: bool
 
-    __IS_ARG_INJECTION__ = True
+        :rtype: str
+        """
+        if self.injectable_is_provider:
+            injectable_representation = self.injectable.__repr__(True)
+        else:
+            injectable_representation = repr(self.injectable)
+        representation = '{injection}({name}, {injectable})'.format(
+            injection=self.__class__.__name__,
+            name=repr(self.name),
+            injectable=injectable_representation)
+        return '<{0}>'.format(representation) if not raw else representation
+
+    __repr__ = __str__
 
 
 class KwArg(_NamedInjection):

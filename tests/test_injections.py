@@ -1,5 +1,6 @@
 """Dependency injector injections unittests."""
 
+import six
 import unittest2 as unittest
 
 from dependency_injector import injections
@@ -37,6 +38,18 @@ class InjectionTests(unittest.TestCase):
 
         self.assertIsInstance(injection.value, TestCatalog.Bundle)
 
+    def test_repr_with_scalar_value(self):
+        """Test Injection representation with scalar value."""
+        injection = injections.Injection(123)
+        self.assertEqual(repr(injection), '<Injection(123)>')
+
+    def test_repr_with_provider(self):
+        """Test Injection representation with provider."""
+        injection = injections.Injection(providers.Factory(object))
+        self.assertEqual(repr(injection),
+                         '<Injection(Factory({0}.object))>'.format(
+                             six.moves.builtins.__name__))
+
 
 class ArgTests(unittest.TestCase):
     """Positional arg injection test cases."""
@@ -45,6 +58,18 @@ class ArgTests(unittest.TestCase):
         """Test Arg creation and initialization."""
         injection = injections.Arg('some_value')
         self.assertEqual(injection.injectable, 'some_value')
+
+    def test_repr_with_scalar_value(self):
+        """Test Arg representation with scalar value."""
+        injection = injections.Arg(123)
+        self.assertEqual(repr(injection), '<Arg(123)>')
+
+    def test_repr_with_provider(self):
+        """Test Arg representation with provider."""
+        injection = injections.Arg(providers.Factory(object))
+        self.assertEqual(repr(injection),
+                         '<Arg(Factory({0}.object))>'.format(
+                             six.moves.builtins.__name__))
 
 
 class KwArgTests(unittest.TestCase):
@@ -56,6 +81,20 @@ class KwArgTests(unittest.TestCase):
         self.assertEqual(injection.name, 'some_arg_name')
         self.assertEqual(injection.injectable, 'some_value')
 
+    def test_repr_with_scalar_value(self):
+        """Test KwArg representation with scalar value."""
+        injection = injections.KwArg('some_arg_name', 123)
+        self.assertEqual(repr(injection), '<KwArg(\'some_arg_name\', 123)>')
+
+    def test_repr_with_provider(self):
+        """Test KwArg representation with provider."""
+        injection = injections.KwArg('some_arg_name',
+                                     providers.Factory(object))
+        self.assertEqual(repr(injection),
+                         '<KwArg(\'some_arg_name\', '
+                         'Factory({0}.object))>'.format(
+                             six.moves.builtins.__name__))
+
 
 class AttributeTests(unittest.TestCase):
     """Attribute injection test cases."""
@@ -66,6 +105,21 @@ class AttributeTests(unittest.TestCase):
         self.assertEqual(injection.name, 'some_arg_name')
         self.assertEqual(injection.injectable, 'some_value')
 
+    def test_repr_with_scalar_value(self):
+        """Test Attribute representation with scalar value."""
+        injection = injections.Attribute('some_arg_name', 123)
+        self.assertEqual(repr(injection),
+                         '<Attribute(\'some_arg_name\', 123)>')
+
+    def test_repr_with_provider(self):
+        """Test Attribute representation with provider."""
+        injection = injections.Attribute('some_arg_name',
+                                         providers.Factory(object))
+        self.assertEqual(repr(injection),
+                         '<Attribute(\'some_arg_name\', '
+                         'Factory({0}.object))>'.format(
+                             six.moves.builtins.__name__))
+
 
 class MethodTests(unittest.TestCase):
     """Method injection test cases."""
@@ -75,6 +129,21 @@ class MethodTests(unittest.TestCase):
         injection = injections.Method('some_arg_name', 'some_value')
         self.assertEqual(injection.name, 'some_arg_name')
         self.assertEqual(injection.injectable, 'some_value')
+
+    def test_repr_with_scalar_value(self):
+        """Test Method representation with scalar value."""
+        injection = injections.Method('some_arg_name', 123)
+        self.assertEqual(repr(injection),
+                         '<Method(\'some_arg_name\', 123)>')
+
+    def test_repr_with_provider(self):
+        """Test Method representation with provider."""
+        injection = injections.Method('some_arg_name',
+                                      providers.Factory(object))
+        self.assertEqual(repr(injection),
+                         '<Method(\'some_arg_name\', '
+                         'Factory({0}.object))>'.format(
+                             six.moves.builtins.__name__))
 
 
 class InjectTests(unittest.TestCase):
