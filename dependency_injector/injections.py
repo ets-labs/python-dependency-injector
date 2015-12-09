@@ -66,22 +66,16 @@ class Injection(object):
             return self.injectable()
         return self.injectable
 
-    def __str__(self, raw=False):
+    def __str__(self):
         """Return string representation of provider.
-
-        :param raw: Flag for returning of raw representation string
-        :type raw: bool
 
         :rtype: str
         """
-        if self.injectable_is_provider:
-            injectable_representation = self.injectable.__repr__(True)
-        else:
-            injectable_representation = repr(self.injectable)
-        representation = '{injection}({injectable})'.format(
-            injection=self.__class__.__name__,
-            injectable=injectable_representation)
-        return '<{0}>'.format(representation) if not raw else representation
+        return '<{injection}({injectable}) at {address}>'.format(
+            injection='.'.join((self.__class__.__module__,
+                                self.__class__.__name__)),
+            injectable=repr(self.injectable),
+            address=hex(id(self)))
 
     __repr__ = __str__
 
@@ -103,23 +97,17 @@ class _NamedInjection(Injection):
         self.name = name
         super(_NamedInjection, self).__init__(injectable)
 
-    def __str__(self, raw=False):
+    def __str__(self):
         """Return string representation of provider.
-
-        :param raw: Flag for returning of raw representation string
-        :type raw: bool
 
         :rtype: str
         """
-        if self.injectable_is_provider:
-            injectable_representation = self.injectable.__repr__(True)
-        else:
-            injectable_representation = repr(self.injectable)
-        representation = '{injection}({name}, {injectable})'.format(
-            injection=self.__class__.__name__,
+        return '<{injection}({name}, {injectable}) at {address}>'.format(
             name=repr(self.name),
-            injectable=injectable_representation)
-        return '<{0}>'.format(representation) if not raw else representation
+            injection='.'.join((self.__class__.__module__,
+                                self.__class__.__name__)),
+            injectable=repr(self.injectable),
+            address=hex(id(self)))
 
     __repr__ = __str__
 
