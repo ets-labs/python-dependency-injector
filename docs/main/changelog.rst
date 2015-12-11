@@ -9,7 +9,8 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- No features.
+- Add possibility to validate ``Factory`` provided type on ``Factory`` 
+  initialization.
 
 1.11.2
 ------

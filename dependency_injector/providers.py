@@ -246,6 +246,16 @@ class Factory(Provider):
         some_object = factory()
     """
 
+    provided_type = None
+    """Provided type.
+
+    If provided type is defined, :py:class:`Factory` checks that
+    :py:attr:`Factory.provides` is subclass of
+    :py:attr:`Factory.provided_type`.
+
+    :type: type | None
+    """
+
     __slots__ = ('provides', 'args', 'kwargs', 'attributes', 'methods')
 
     def __init__(self, provides, *args, **kwargs):
@@ -261,10 +271,7 @@ class Factory(Provider):
         :param kwargs: Dictionary of injections.
         :type kwargs: dict
         """
-        if not callable(provides):
-            raise Error('Factory provider expects to get callable, ' +
-                        'got {0} instead'.format(str(provides)))
-        self.provides = provides
+        self.provides = self._ensure_provides_type(provides)
         """Class or other callable that provides object for creation.
 
         :type: type | callable
@@ -327,6 +334,31 @@ class Factory(Provider):
             getattr(instance, method.name)(method.value)
 
         return instance
+
+    def _ensure_provides_type(self, provides):
+        """Check if provided type is valid type for this factory.
+
+        :param provides: Factory provided type
+        :type provides: type
+
+        :raise: :py:exc:`dependency_injector.errors.Error` if ``provides``
+                is not callable
+        :raise: :py:exc:`dependency_injector.errors.Error` if ``provides``
+                doesn't meet factory provided type
+
+        :return: validated ``provides``
+        :rtype: type
+        """
+        if not callable(provides):
+            raise Error('Factory provider expects to get callable, ' +
+                        'got {0} instead'.format(str(provides)))
+        if (self.__class__.provided_type and
+                not issubclass(provides, self.__class__.provided_type)):
+            raise Error('{0} can provide only {1} instances'.format(
+                '.'.join((self.__class__.__module__,
+                          self.__class__.__name__)),
+                self.__class__.provided_type))
+        return provides
 
     def __str__(self):
         """Return string representation of provider.

@@ -176,6 +176,41 @@ class FactoryTests(unittest.TestCase):
         """Test creation of provider with a callable."""
         self.assertTrue(providers.Factory(credits))
 
+    def test_init_with_valid_provided_type(self):
+        """Test creation with not valid provided type."""
+        class ExampleFactory(providers.Factory):
+            """Example factory."""
+
+            provided_type = Example
+
+        example_factory = ExampleFactory(Example, 1, 2)
+
+        self.assertIsInstance(example_factory(), Example)
+
+    def test_init_with_valid_provided_subtype(self):
+        """Test creation with not valid provided type."""
+        class ExampleFactory(providers.Factory):
+            """Example factory."""
+
+            provided_type = Example
+
+        class NewExampe(Example):
+            """Example class subclass."""
+
+        example_factory = ExampleFactory(NewExampe, 1, 2)
+
+        self.assertIsInstance(example_factory(), NewExampe)
+
+    def test_init_with_invalid_provided_type(self):
+        """Test creation with not valid provided type."""
+        class ExampleFactory(providers.Factory):
+            """Example factory."""
+
+            provided_type = Example
+
+        with self.assertRaises(errors.Error):
+            ExampleFactory(list)
+
     def test_init_with_not_callable(self):
         """Test creation of provider with not a callable."""
         self.assertRaises(errors.Error, providers.Factory, 123)
