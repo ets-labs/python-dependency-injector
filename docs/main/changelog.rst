@@ -9,8 +9,11 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- Improve representation of providers and injections.
+- No features.
 
+1.11.2
+------
+- Improve representation of providers and injections.
 
 1.11.1
 ------
