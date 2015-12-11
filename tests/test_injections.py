@@ -37,6 +37,16 @@ class InjectionTests(unittest.TestCase):
 
         self.assertIsInstance(injection.value, TestCatalog.Bundle)
 
+    def test_repr(self):
+        """Test Injection representation."""
+        provider = providers.Factory(object)
+        injection = injections.Injection(provider)
+        self.assertEqual(
+            repr(injection),
+            '<dependency_injector.injections.Injection({0}) at {1}>'.format(
+                repr(provider),
+                hex(id(injection))))
+
 
 class ArgTests(unittest.TestCase):
     """Positional arg injection test cases."""
@@ -45,6 +55,16 @@ class ArgTests(unittest.TestCase):
         """Test Arg creation and initialization."""
         injection = injections.Arg('some_value')
         self.assertEqual(injection.injectable, 'some_value')
+
+    def test_repr(self):
+        """Test Arg representation."""
+        provider = providers.Factory(object)
+        injection = injections.Arg(provider)
+        self.assertEqual(
+            repr(injection),
+            '<dependency_injector.injections.Arg({0}) at {1}>'.format(
+                repr(provider),
+                hex(id(injection))))
 
 
 class KwArgTests(unittest.TestCase):
@@ -56,6 +76,17 @@ class KwArgTests(unittest.TestCase):
         self.assertEqual(injection.name, 'some_arg_name')
         self.assertEqual(injection.injectable, 'some_value')
 
+    def test_repr(self):
+        """Test KwArg representation."""
+        provider = providers.Factory(object)
+        injection = injections.KwArg('name', provider)
+        self.assertEqual(
+            repr(injection),
+            '<dependency_injector.injections.KwArg({0}, {1}) at {2}>'.format(
+                repr('name'),
+                repr(provider),
+                hex(id(injection))))
+
 
 class AttributeTests(unittest.TestCase):
     """Attribute injection test cases."""
@@ -66,6 +97,18 @@ class AttributeTests(unittest.TestCase):
         self.assertEqual(injection.name, 'some_arg_name')
         self.assertEqual(injection.injectable, 'some_value')
 
+    def test_repr(self):
+        """Test Attribute representation."""
+        provider = providers.Factory(object)
+        injection = injections.Attribute('name', provider)
+        self.assertEqual(
+            repr(injection),
+            '<dependency_injector.injections.Attribute({0}, {1}) '
+            'at {2}>'.format(
+                repr('name'),
+                repr(provider),
+                hex(id(injection))))
+
 
 class MethodTests(unittest.TestCase):
     """Method injection test cases."""
@@ -75,6 +118,17 @@ class MethodTests(unittest.TestCase):
         injection = injections.Method('some_arg_name', 'some_value')
         self.assertEqual(injection.name, 'some_arg_name')
         self.assertEqual(injection.injectable, 'some_value')
+
+    def test_repr(self):
+        """Test Method representation."""
+        provider = providers.Factory(object)
+        injection = injections.Method('name', provider)
+        self.assertEqual(
+            repr(injection),
+            '<dependency_injector.injections.Method({0}, {1}) at {2}>'.format(
+                repr('name'),
+                repr(provider),
+                hex(id(injection))))
 
 
 class InjectTests(unittest.TestCase):

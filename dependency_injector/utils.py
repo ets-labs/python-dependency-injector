@@ -188,3 +188,22 @@ def ensure_is_catalog_bundle(instance):
         raise Error('Expected catalog bundle instance, '
                     'got {0}'.format(str(instance)))
     return instance
+
+
+def represent_provider(provider, provides):
+    """Return string representation of provider.
+
+    :param provider: Provider object
+    :type provider: :py:class:`dependency_injector.providers.Provider`
+
+    :param provides: Object that provider provides
+    :type provider: object
+
+    :return: String representation of provider
+    :rtype: str
+    """
+    return '<{provider}({provides}) at {address}>'.format(
+        provider='.'.join((provider.__class__.__module__,
+                           provider.__class__.__name__)),
+        provides=repr(provides) if provides is not None else '',
+        address=hex(id(provider)))

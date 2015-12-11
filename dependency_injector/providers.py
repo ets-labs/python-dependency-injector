@@ -10,11 +10,13 @@ from .injections import _get_injectable_kwargs
 from .utils import ensure_is_provider
 from .utils import is_attribute_injection
 from .utils import is_method_injection
+from .utils import represent_provider
 from .utils import GLOBAL_LOCK
 
 from .errors import Error
 
 
+@six.python_2_unicode_compatible
 class Provider(object):
     """Base provider class.
 
@@ -150,7 +152,17 @@ class Provider(object):
         """
         return Delegate(self)
 
+    def __str__(self):
+        """Return string representation of provider.
 
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=None)
+
+    __repr__ = __str__
+
+
+@six.python_2_unicode_compatible
 class Delegate(Provider):
     """:py:class:`Delegate` provider delegates another provider.
 
@@ -173,6 +185,11 @@ class Delegate(Provider):
         :type delegated: :py:class:`Provider`
         """
         self.delegated = ensure_is_provider(delegated)
+        """Delegated provider.
+
+        :type: :py:class:`Provider`
+        """
+
         super(Delegate, self).__init__()
 
     def _provide(self, *args, **kwargs):
@@ -188,7 +205,17 @@ class Delegate(Provider):
         """
         return self.delegated
 
+    def __str__(self):
+        """Return string representation of provider.
 
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.delegated)
+
+    __repr__ = __str__
+
+
+@six.python_2_unicode_compatible
 class Factory(Provider):
     """:py:class:`Factory` provider creates new instance on every call.
 
@@ -301,7 +328,17 @@ class Factory(Provider):
 
         return instance
 
+    def __str__(self):
+        """Return string representation of provider.
 
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.provides)
+
+    __repr__ = __str__
+
+
+@six.python_2_unicode_compatible
 class Singleton(Provider):
     """:py:class:`Singleton` provider returns same instance on every call.
 
@@ -425,7 +462,102 @@ class Singleton(Provider):
                 self.instance = self.factory(*args, **kwargs)
         return self.instance
 
+    def __str__(self):
+        """Return string representation of provider.
 
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.provides)
+
+    __repr__ = __str__
+
+
+@six.python_2_unicode_compatible
+class Callable(Provider):
+    """:py:class:`Callable` provider calls wrapped callable on every call.
+
+    :py:class:`Callable` provider provides callable that is called on every
+    provider call with some predefined dependency injections.
+
+    :py:class:`Callable` syntax of passing injections is the same like
+    :py:class:`Factory` one:
+
+    .. code-block:: python
+
+        some_function = Callable(some_function, 'arg1', 'arg2', arg3=3, arg4=4)
+        result = some_function()
+    """
+
+    __slots__ = ('callback', 'args', 'kwargs')
+
+    def __init__(self, callback, *args, **kwargs):
+        """Initializer.
+
+        :param provides: Wrapped callable.
+        :type provides: callable
+
+        :param args: Tuple of injections.
+        :type args: tuple
+
+        :param kwargs: Dictionary of injections.
+        :type kwargs: dict
+        """
+        if not callable(callback):
+            raise Error('Callable expected, got {0}'.format(str(callback)))
+
+        self.callback = callback
+        """Provided callable.
+
+        :type: callable
+        """
+
+        self.args = _parse_args_injections(args)
+        """Tuple of positional argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
+        """
+
+        self.kwargs = _parse_kwargs_injections(args, kwargs)
+        """Tuple of keyword argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
+        """
+
+        super(Callable, self).__init__()
+
+    @property
+    def injections(self):
+        """Read-only tuple of all injections.
+
+        :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
+        """
+        return self.args + self.kwargs
+
+    def _provide(self, *args, **kwargs):
+        """Return provided instance.
+
+        :param args: Tuple of context positional arguments.
+        :type args: tuple[object]
+
+        :param kwargs: Dictionary of context keyword arguments.
+        :type kwargs: dict[str, object]
+
+        :rtype: object
+        """
+        return self.callback(*_get_injectable_args(args, self.args),
+                             **_get_injectable_kwargs(kwargs, self.kwargs))
+
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.callback)
+
+    __repr__ = __str__
+
+
+@six.python_2_unicode_compatible
 class ExternalDependency(Provider):
     """:py:class:`ExternalDependency` provider describes dependency interface.
 
@@ -490,11 +622,21 @@ class ExternalDependency(Provider):
         """
         return self.override(provider)
 
+    def __str__(self):
+        """Return string representation of provider.
 
-class StaticProvider(Provider):
-    """:py:class:`StaticProvider` returns provided instance "as is".
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.instance_of)
 
-    :py:class:`StaticProvider` is base implementation that provides exactly
+    __repr__ = __str__
+
+
+@six.python_2_unicode_compatible
+class Static(Provider):
+    """:py:class:`Static` provider returns provided instance "as is".
+
+    :py:class:`Static` provider is base implementation that provides exactly
     the same as it got on input.
     """
 
@@ -511,7 +653,7 @@ class StaticProvider(Provider):
 
         :type: object
         """
-        super(StaticProvider, self).__init__()
+        super(Static, self).__init__()
 
     def _provide(self, *args, **kwargs):
         """Return provided instance.
@@ -526,8 +668,21 @@ class StaticProvider(Provider):
         """
         return self.provides
 
+    def __str__(self):
+        """Return string representation of provider.
 
-class Class(StaticProvider):
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.provides)
+
+    __repr__ = __str__
+
+
+StaticProvider = Static
+# Backward compatibility for versions < 1.11.1
+
+
+class Class(Static):
     """:py:class:`Class` returns provided class "as is".
 
     .. code-block:: python
@@ -537,7 +692,7 @@ class Class(StaticProvider):
     """
 
 
-class Object(StaticProvider):
+class Object(Static):
     """:py:class:`Object` returns provided object "as is".
 
     .. code-block:: python
@@ -547,7 +702,7 @@ class Object(StaticProvider):
     """
 
 
-class Function(StaticProvider):
+class Function(Static):
     """:py:class:`Function` returns provided function "as is".
 
     .. code-block:: python
@@ -557,7 +712,7 @@ class Function(StaticProvider):
     """
 
 
-class Value(StaticProvider):
+class Value(Static):
     """:py:class:`Value` returns provided value "as is".
 
     .. code-block:: python
@@ -567,80 +722,7 @@ class Value(StaticProvider):
     """
 
 
-class Callable(Provider):
-    """:py:class:`Callable` provider calls wrapped callable on every call.
-
-    :py:class:`Callable` provider provides callable that is called on every
-    provider call with some predefined dependency injections.
-
-    :py:class:`Callable` syntax of passing injections is the same like
-    :py:class:`Factory` one:
-
-    .. code-block:: python
-
-        some_function = Callable(some_function, 'arg1', 'arg2', arg3=3, arg4=4)
-        result = some_function()
-    """
-
-    __slots__ = ('callback', 'args', 'kwargs')
-
-    def __init__(self, callback, *args, **kwargs):
-        """Initializer.
-
-        :param callback: Wrapped callable.
-        :type callback: callable
-
-        :param args: Tuple of injections.
-        :type args: tuple
-
-        :param kwargs: Dictionary of injections.
-        :type kwargs: dict
-        """
-        if not callable(callback):
-            raise Error('Callable expected, got {0}'.format(str(callback)))
-        self.callback = callback
-        """Wrapped callable.
-
-        :type: callable
-        """
-
-        self.args = _parse_args_injections(args)
-        """Tuple of positional argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
-        """
-
-        self.kwargs = _parse_kwargs_injections(args, kwargs)
-        """Tuple of keyword argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
-        """
-
-        super(Callable, self).__init__()
-
-    @property
-    def injections(self):
-        """Read-only tuple of all injections.
-
-        :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
-        """
-        return self.args + self.kwargs
-
-    def _provide(self, *args, **kwargs):
-        """Return provided instance.
-
-        :param args: Tuple of context positional arguments.
-        :type args: tuple[object]
-
-        :param kwargs: Dictionary of context keyword arguments.
-        :type kwargs: dict[str, object]
-
-        :rtype: object
-        """
-        return self.callback(*_get_injectable_args(args, self.args),
-                             **_get_injectable_kwargs(kwargs, self.kwargs))
-
-
+@six.python_2_unicode_compatible
 class Config(Provider):
     """:py:class:`Config` provider provide dict values.
 
@@ -702,7 +784,17 @@ class Config(Provider):
         """
         self.value.update(value)
 
+    def __str__(self):
+        """Return string representation of provider.
 
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.value)
+
+    __repr__ = __str__
+
+
+@six.python_2_unicode_compatible
 class ChildConfig(Provider):
     """:py:class:`ChildConfig` provider provides value from :py:class:`Config`.
 
@@ -759,3 +851,13 @@ class ChildConfig(Provider):
         :rtype: object
         """
         return self.root_config(self.parents)
+
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return represent_provider(provider=self,
+                                  provides='.'.join(self.parents))
+
+    __repr__ = __str__

@@ -125,6 +125,12 @@ class ProviderTests(unittest.TestCase):
         self.assertFalse(self.provider.is_overridden)
         self.assertIsNone(self.provider.last_overriding)
 
+    def test_repr(self):
+        """Test representation of provider."""
+        self.assertEqual(repr(self.provider),
+                         '<dependency_injector.providers.'
+                         'Provider() at {0}>'.format(hex(id(self.provider))))
+
 
 class DelegateTests(unittest.TestCase):
     """Delegate test cases."""
@@ -149,6 +155,14 @@ class DelegateTests(unittest.TestCase):
 
         self.assertIs(delegated1, self.delegated)
         self.assertIs(delegated2, self.delegated)
+
+    def test_repr(self):
+        """Test representation of provider."""
+        self.assertEqual(repr(self.delegate),
+                         '<dependency_injector.providers.'
+                         'Delegate({0}) at {1}>'.format(
+                             repr(self.delegated),
+                             hex(id(self.delegate))))
 
 
 class FactoryTests(unittest.TestCase):
@@ -355,6 +369,19 @@ class FactoryTests(unittest.TestCase):
                                      injections.Method('method1', 5),
                                      injections.Method('method2', 6))
         self.assertEquals(len(provider.injections), 6)
+
+    def test_repr(self):
+        """Test representation of provider."""
+        provider = providers.Factory(Example,
+                                     injections.KwArg('init_arg1',
+                                                      providers.Factory(dict)),
+                                     injections.KwArg('init_arg2',
+                                                      providers.Factory(list)))
+        self.assertEqual(repr(provider),
+                         '<dependency_injector.providers.'
+                         'Factory({0}) at {1}>'.format(
+                             repr(Example),
+                             hex(id(provider))))
 
 
 class SingletonTests(unittest.TestCase):
@@ -606,89 +633,20 @@ class SingletonTests(unittest.TestCase):
 
         self.assertIsNot(instance1, instance2)
 
-
-class ExternalDependencyTests(unittest.TestCase):
-    """ExternalDependency test cases."""
-
-    def setUp(self):
-        """Set test cases environment up."""
-        self.provider = providers.ExternalDependency(instance_of=list)
-
-    def test_init_with_not_class(self):
-        """Test creation with not a class."""
-        self.assertRaises(errors.Error, providers.ExternalDependency, object())
-
-    def test_is_provider(self):
-        """Test `is_provider` check."""
-        self.assertTrue(utils.is_provider(self.provider))
-
-    def test_call_overridden(self):
-        """Test call of overridden external dependency."""
-        self.provider.provided_by(providers.Factory(list))
-        self.assertIsInstance(self.provider(), list)
-
-    def test_call_overridden_but_not_instance_of(self):
-        """Test call of overridden external dependency, but not instance of."""
-        self.provider.provided_by(providers.Factory(dict))
-        self.assertRaises(errors.Error, self.provider)
-
-    def test_call_not_overridden(self):
-        """Test call of not satisfied external dependency."""
-        self.assertRaises(errors.Error, self.provider)
-
-
-class StaticProvidersTests(unittest.TestCase):
-    """Static providers test cases."""
-
-    def test_is_provider(self):
-        """Test `is_provider` check."""
-        self.assertTrue(utils.is_provider(providers.Class(object)))
-        self.assertTrue(utils.is_provider(providers.Object(object())))
-        self.assertTrue(utils.is_provider(providers.Function(map)))
-        self.assertTrue(utils.is_provider(providers.Value(123)))
-
-    def test_call_class_provider(self):
-        """Test Class provider call."""
-        self.assertIs(providers.Class(dict)(), dict)
-
-    def test_call_object_provider(self):
-        """Test Object provider call."""
-        obj = object()
-        self.assertIs(providers.Object(obj)(), obj)
-
-    def test_call_function_provider(self):
-        """Test Function provider call."""
-        self.assertIs(providers.Function(map)(), map)
-
-    def test_call_value_provider(self):
-        """Test Value provider call."""
-        self.assertEqual(providers.Value(123)(), 123)
-
-    def test_call_overridden_class_provider(self):
-        """Test overridden Class provider call."""
-        cls_provider = providers.Class(dict)
-        cls_provider.override(providers.Object(list))
-        self.assertIs(cls_provider(), list)
-
-    def test_call_overridden_object_provider(self):
-        """Test overridden Object provider call."""
-        obj1 = object()
-        obj2 = object()
-        obj_provider = providers.Object(obj1)
-        obj_provider.override(providers.Object(obj2))
-        self.assertIs(obj_provider(), obj2)
-
-    def test_call_overridden_function_provider(self):
-        """Test overridden Function provider call."""
-        function_provider = providers.Function(len)
-        function_provider.override(providers.Function(sum))
-        self.assertIs(function_provider(), sum)
-
-    def test_call_overridden_value_provider(self):
-        """Test overridden Value provider call."""
-        value_provider = providers.Value(123)
-        value_provider.override(providers.Value(321))
-        self.assertEqual(value_provider(), 321)
+    def test_repr(self):
+        """Test representation of provider."""
+        provider = providers.Singleton(Example,
+                                       injections.KwArg(
+                                           'init_arg1',
+                                           providers.Factory(dict)),
+                                       injections.KwArg(
+                                           'init_arg2',
+                                           providers.Factory(list)))
+        self.assertEqual(repr(provider),
+                         '<dependency_injector.providers.'
+                         'Singleton({0}) at {1}>'.format(
+                             repr(Example),
+                             hex(id(provider))))
 
 
 class CallableTests(unittest.TestCase):
@@ -780,6 +738,150 @@ class CallableTests(unittest.TestCase):
         provider = providers.Callable(self.example, 1, 2, arg3=3, arg4=4)
         self.assertEquals(len(provider.injections), 4)
 
+    def test_repr(self):
+        """Test representation of provider."""
+        provider = providers.Callable(self.example,
+                                      injections.KwArg(
+                                          'arg1',
+                                          providers.Factory(dict)),
+                                      injections.KwArg(
+                                          'arg2',
+                                          providers.Factory(list)),
+                                      injections.KwArg(
+                                          'arg3',
+                                          providers.Factory(set)),
+                                      injections.KwArg(
+                                          'arg4',
+                                          providers.Factory(tuple)))
+        self.assertEqual(repr(provider),
+                         '<dependency_injector.providers.'
+                         'Callable({0}) at {1}>'.format(
+                             repr(self.example),
+                             hex(id(provider))))
+
+
+class ExternalDependencyTests(unittest.TestCase):
+    """ExternalDependency test cases."""
+
+    def setUp(self):
+        """Set test cases environment up."""
+        self.provider = providers.ExternalDependency(instance_of=list)
+
+    def test_init_with_not_class(self):
+        """Test creation with not a class."""
+        self.assertRaises(errors.Error, providers.ExternalDependency, object())
+
+    def test_is_provider(self):
+        """Test `is_provider` check."""
+        self.assertTrue(utils.is_provider(self.provider))
+
+    def test_call_overridden(self):
+        """Test call of overridden external dependency."""
+        self.provider.provided_by(providers.Factory(list))
+        self.assertIsInstance(self.provider(), list)
+
+    def test_call_overridden_but_not_instance_of(self):
+        """Test call of overridden external dependency, but not instance of."""
+        self.provider.provided_by(providers.Factory(dict))
+        self.assertRaises(errors.Error, self.provider)
+
+    def test_call_not_overridden(self):
+        """Test call of not satisfied external dependency."""
+        self.assertRaises(errors.Error, self.provider)
+
+    def test_repr(self):
+        """Test representation of provider."""
+        self.assertEqual(repr(self.provider),
+                         '<dependency_injector.providers.'
+                         'ExternalDependency({0}) at {1}>'.format(
+                             repr(list),
+                             hex(id(self.provider))))
+
+
+class StaticProvidersTests(unittest.TestCase):
+    """Static providers test cases."""
+
+    def test_is_provider(self):
+        """Test `is_provider` check."""
+        self.assertTrue(utils.is_provider(providers.Class(object)))
+        self.assertTrue(utils.is_provider(providers.Object(object())))
+        self.assertTrue(utils.is_provider(providers.Function(map)))
+        self.assertTrue(utils.is_provider(providers.Value(123)))
+
+    def test_call_class_provider(self):
+        """Test Class provider call."""
+        self.assertIs(providers.Class(dict)(), dict)
+
+    def test_call_object_provider(self):
+        """Test Object provider call."""
+        obj = object()
+        self.assertIs(providers.Object(obj)(), obj)
+
+    def test_call_function_provider(self):
+        """Test Function provider call."""
+        self.assertIs(providers.Function(map)(), map)
+
+    def test_call_value_provider(self):
+        """Test Value provider call."""
+        self.assertEqual(providers.Value(123)(), 123)
+
+    def test_call_overridden_class_provider(self):
+        """Test overridden Class provider call."""
+        cls_provider = providers.Class(dict)
+        cls_provider.override(providers.Object(list))
+        self.assertIs(cls_provider(), list)
+
+    def test_call_overridden_object_provider(self):
+        """Test overridden Object provider call."""
+        obj1 = object()
+        obj2 = object()
+        obj_provider = providers.Object(obj1)
+        obj_provider.override(providers.Object(obj2))
+        self.assertIs(obj_provider(), obj2)
+
+    def test_call_overridden_function_provider(self):
+        """Test overridden Function provider call."""
+        function_provider = providers.Function(len)
+        function_provider.override(providers.Function(sum))
+        self.assertIs(function_provider(), sum)
+
+    def test_call_overridden_value_provider(self):
+        """Test overridden Value provider call."""
+        value_provider = providers.Value(123)
+        value_provider.override(providers.Value(321))
+        self.assertEqual(value_provider(), 321)
+
+    def test_repr(self):
+        """Test representation of provider."""
+        class_provider = providers.Class(object)
+        self.assertEqual(repr(class_provider),
+                         '<dependency_injector.providers.'
+                         'Class({0}) at {1}>'.format(
+                             repr(object),
+                             hex(id(class_provider))))
+
+        some_object = object()
+        object_provider = providers.Object(some_object)
+        self.assertEqual(repr(object_provider),
+                         '<dependency_injector.providers.'
+                         'Object({0}) at {1}>'.format(
+                             repr(some_object),
+                             hex(id(object_provider))))
+
+        function_provider = providers.Function(map)
+        self.assertEqual(repr(function_provider),
+                         '<dependency_injector.providers.'
+                         'Function({0}) at {1}>'.format(
+                             repr(map),
+                             hex(id(function_provider))))
+
+        value_provider = providers.Value(123)
+        self.assertEqual(repr(value_provider),
+                         '<dependency_injector.providers.'
+                         'Value({0}) at {1}>'.format(
+                             repr(123),
+                             hex(id(value_provider))))
+
 
 class ConfigTests(unittest.TestCase):
     """Config test cases."""
@@ -842,3 +944,18 @@ class ConfigTests(unittest.TestCase):
         self.provider = providers.Config()
         category_setting = self.provider.category.setting
         self.assertRaises(errors.Error, category_setting)
+
+    def test_repr(self):
+        """Test representation of provider."""
+        self.assertEqual(repr(self.provider),
+                         '<dependency_injector.providers.'
+                         'Config({0}) at {1}>'.format(
+                             repr(self.initial_data),
+                             hex(id(self.provider))))
+
+        category_setting = self.provider.category.setting
+        self.assertEqual(repr(category_setting),
+                         '<dependency_injector.providers.'
+                         'ChildConfig({0}) at {1}>'.format(
+                             repr('.'.join(('category', 'setting'))),
+                             hex(id(category_setting))))

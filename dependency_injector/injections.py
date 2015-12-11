@@ -20,6 +20,7 @@ else:  # pragma: no cover
     _OBJECT_INIT = None
 
 
+@six.python_2_unicode_compatible
 class Injection(object):
     """Base injection class.
 
@@ -27,7 +28,7 @@ class Injection(object):
     """
 
     __IS_INJECTION__ = True
-    __slots__ = ('injectable', 'is_provider')
+    __slots__ = ('injectable', 'injectable_is_provider')
 
     def __init__(self, injectable):
         """Initializer.
@@ -43,7 +44,7 @@ class Injection(object):
         :type: object | :py:class:`dependency_injector.providers.Provider`
         """
 
-        self.is_provider = is_provider(injectable)
+        self.injectable_is_provider = is_provider(injectable)
         """Flag that is set to ``True`` if injectable value is provider.
 
         :type: bool
@@ -61,20 +62,22 @@ class Injection(object):
 
         :rtype: object
         """
-        if self.is_provider:
+        if self.injectable_is_provider:
             return self.injectable()
         return self.injectable
 
+    def __str__(self):
+        """Return string representation of provider.
 
-class _NamedInjection(Injection):
-    """Base class of named injections."""
+        :rtype: str
+        """
+        return '<{injection}({injectable}) at {address}>'.format(
+            injection='.'.join((self.__class__.__module__,
+                                self.__class__.__name__)),
+            injectable=repr(self.injectable),
+            address=hex(id(self)))
 
-    __slots__ = ('name',)
-
-    def __init__(self, name, injectable):
-        """Initializer."""
-        self.name = name
-        super(_NamedInjection, self).__init__(injectable)
+    __repr__ = __str__
 
 
 class Arg(Injection):
@@ -83,8 +86,54 @@ class Arg(Injection):
     __IS_ARG_INJECTION__ = True
 
 
+@six.python_2_unicode_compatible
+class _NamedInjection(Injection):
+    """Base class of named injections."""
+
+    __slots__ = ('name',)
+
+    def __init__(self, name, injectable):
+        """Initializer.
+
+        :param name: Injection target's name.
+        :type name: str
+
+        :param injectable: Injectable value, could be provider or any
+                           other object.
+        :type injectable: object |
+                          :py:class:`dependency_injector.providers.Provider`
+        """
+        self.name = name
+        """Injection target's name (keyword argument, attribute, method).
+
+        :type: str
+        """
+
+        super(_NamedInjection, self).__init__(injectable)
+
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return '<{injection}({name}, {injectable}) at {address}>'.format(
+            name=repr(self.name),
+            injection='.'.join((self.__class__.__module__,
+                                self.__class__.__name__)),
+            injectable=repr(self.injectable),
+            address=hex(id(self)))
+
+    __repr__ = __str__
+
+
 class KwArg(_NamedInjection):
     """Keyword argument injection."""
+
+    name = None
+    """Keyword argument's name.
+
+    :type: str
+    """
 
     __IS_KWARG_INJECTION__ = True
 
@@ -92,11 +141,23 @@ class KwArg(_NamedInjection):
 class Attribute(_NamedInjection):
     """Attribute injection."""
 
+    name = None
+    """Attribute's name.
+
+    :type: str
+    """
+
     __IS_ATTRIBUTE_INJECTION__ = True
 
 
 class Method(_NamedInjection):
     """Method injection."""
+
+    name = None
+    """Method's name.
+
+    :type: str
+    """
 
     __IS_METHOD_INJECTION__ = True
 
