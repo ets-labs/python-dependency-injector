@@ -93,16 +93,17 @@ Examples
     class Services(catalogs.DeclarativeCatalog):
         """Catalog of service providers."""
 
-        database = providers.Singleton(sqlite3.connect, ':memory:')
+        database = providers.Singleton(sqlite3.connect,
+                                       injections.Arg(':memory:'))
         """:type: providers.Provider -> sqlite3.Connection"""
 
         users = providers.Factory(UsersService,
-                                  db=database)
+                                  injections.KwArg('db', database))
         """:type: providers.Provider -> UsersService"""
 
         auth = providers.Factory(AuthService,
-                                 db=database,
-                                 users_service=users)
+                                 injections.KwArg('db', database),
+                                 injections.KwArg('users_service', users))
         """:type: providers.Provider -> AuthService"""
 
 
