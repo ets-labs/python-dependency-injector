@@ -93,8 +93,22 @@ class _NamedInjection(Injection):
     __slots__ = ('name',)
 
     def __init__(self, name, injectable):
-        """Initializer."""
+        """Initializer.
+
+        :param name: Injection target's name.
+        :type name: str
+
+        :param injectable: Injectable value, could be provider or any
+                           other object.
+        :type injectable: object |
+                          :py:class:`dependency_injector.providers.Provider`
+        """
         self.name = name
+        """Injection target's name (keyword argument, attribute, method).
+
+        :type: str
+        """
+
         super(_NamedInjection, self).__init__(injectable)
 
     def __str__(self):
@@ -115,17 +129,35 @@ class _NamedInjection(Injection):
 class KwArg(_NamedInjection):
     """Keyword argument injection."""
 
+    name = None
+    """Keyword argument's name.
+
+    :type: str
+    """
+
     __IS_KWARG_INJECTION__ = True
 
 
 class Attribute(_NamedInjection):
     """Attribute injection."""
 
+    name = None
+    """Attribute's name.
+
+    :type: str
+    """
+
     __IS_ATTRIBUTE_INJECTION__ = True
 
 
 class Method(_NamedInjection):
     """Method injection."""
+
+    name = None
+    """Method's name.
+
+    :type: str
+    """
 
     __IS_METHOD_INJECTION__ = True
 
