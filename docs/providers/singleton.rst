@@ -18,13 +18,9 @@ Example:
 Singleton providers and injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:py:class:`Singleton` providers use :py:class:`Factory` providers for first 
-creation of specified class instance, so, all of the rules about injections 
-are the same, as for :py:class:`Factory` providers.
-
-.. image:: /images/providers/singleton_internals.png
-    :width: 80%
-    :align: center
+:py:class:`Singleton` provider extends :py:class:`Factory` provider, so, all 
+of the rules about injections are the same, as for :py:class:`Factory` 
+provider.
 
 .. note::
 
@@ -72,4 +68,15 @@ method.
 Example:
 
 .. literalinclude:: ../../examples/providers/singleton_delegation.py
+   :language: python
+
+Singleton providers specialization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:py:class:`Singleton` provider could be specialized for any kind of needs via 
+declaring its subclasses. 
+
+One of such features is a limitation to :py:class:`Singleton` provided type:
+
+.. literalinclude:: ../../examples/providers/singleton_provided_type.py
    :language: python

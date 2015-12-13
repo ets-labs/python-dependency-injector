@@ -9,10 +9,8 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- Add possibility to validate ``Factory`` provided type on ``Factory`` 
-  initialization.
-- Add possibility to validate ``Singleton`` provided type on ``Singleton`` 
-  initialization.
+- Add possibility to specialize ``Factory`` provided type.
+- Add possibility to specialize ``Singleton`` provided type.
 - Make some refactorings for providers.
 
 1.11.2
