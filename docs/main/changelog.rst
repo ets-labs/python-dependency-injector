@@ -9,7 +9,9 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- No features.
+- Add possibility to specialize ``Factory`` provided type.
+- Add possibility to specialize ``Singleton`` provided type.
+- Make some refactorings for providers.
 
 1.11.2
 ------

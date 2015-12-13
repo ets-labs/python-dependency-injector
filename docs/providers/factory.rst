@@ -174,3 +174,14 @@ Example:
 
 .. literalinclude:: ../../examples/providers/factory_delegation.py
    :language: python
+
+Factory providers specialization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:py:class:`Factory` provider could be specialized for any kind of needs via 
+declaring its subclasses. 
+
+One of such features is a limitation to :py:class:`Factory` provided type:
+
+.. literalinclude:: ../../examples/providers/factory_provided_type.py
+   :language: python

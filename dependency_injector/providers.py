@@ -56,6 +56,12 @@ class Provider(object):
         assert provider is delegated
 
     All providers should extend this class.
+
+    .. py:attribute:: overridden_by
+
+        Tuple of overriding providers, if any.
+
+        :type: tuple[:py:class:`Provider`] | None
     """
 
     __IS_PROVIDER__ = True
@@ -64,11 +70,6 @@ class Provider(object):
     def __init__(self):
         """Initializer."""
         self.overridden_by = None
-        """Tuple of overriding providers, if any.
-
-        :type: tuple[:py:class:`Provider`] | None
-        """
-
         super(Provider, self).__init__()
 
     def __call__(self, *args, **kwargs):
@@ -174,6 +175,12 @@ class Delegate(Provider):
         delegated = delegate()
 
         assert provider is delegated
+
+    .. py:attribute:: delegated
+
+        Delegated provider.
+
+        :type: :py:class:`Provider`
     """
 
     __slots__ = ('delegated',)
@@ -185,11 +192,6 @@ class Delegate(Provider):
         :type delegated: :py:class:`Provider`
         """
         self.delegated = ensure_is_provider(delegated)
-        """Delegated provider.
-
-        :type: :py:class:`Provider`
-        """
-
         super(Delegate, self).__init__()
 
     def _provide(self, *args, **kwargs):
@@ -216,7 +218,108 @@ class Delegate(Provider):
 
 
 @six.python_2_unicode_compatible
-class Factory(Provider):
+class Callable(Provider):
+    """:py:class:`Callable` provider calls wrapped callable on every call.
+
+    :py:class:`Callable` provider provides callable that is called on every
+    provider call with some predefined dependency injections.
+
+    :py:class:`Callable` syntax of passing injections is the same like
+    :py:class:`Factory` one:
+
+    .. code-block:: python
+
+        # simplified syntax for passing positional and keyword argument
+        # injections:
+        some_function = Callable(some_function, 'arg1', 'arg2', arg3=3, arg4=4)
+
+        # extended (full) syntax for passing positional and keyword argument
+        # injections:
+        some_function = Callable(some_function,
+                                 injections.Arg(1),
+                                 injections.Arg(2),
+                                 injections.KwArg('some_arg', 3),
+                                 injections.KwArg('other_arg', 4))
+
+    .. py:attribute:: provides
+
+        Provided callable.
+
+        :type: callable
+
+    .. py:attribute:: args
+
+        Tuple of positional argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
+
+    .. py:attribute:: kwargs
+
+        Tuple of keyword argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
+    """
+
+    __slots__ = ('provides', 'args', 'kwargs')
+
+    def __init__(self, provides, *args, **kwargs):
+        """Initializer.
+
+        :param provides: Wrapped callable.
+        :type provides: callable
+
+        :param args: Tuple of injections.
+        :type args: tuple
+
+        :param kwargs: Dictionary of injections.
+        :type kwargs: dict
+        """
+        if not callable(provides):
+            raise Error('Provider{0} expected to get callable, '
+                        'got {0}'.format('.'.join((self.__class__.__module__,
+                                                   self.__class__.__name__)),
+                                         provides))
+
+        self.provides = provides
+
+        self.args = _parse_args_injections(args)
+        self.kwargs = _parse_kwargs_injections(args, kwargs)
+
+        super(Callable, self).__init__()
+
+    @property
+    def injections(self):
+        """Read-only tuple of all injections.
+
+        :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
+        """
+        return self.args + self.kwargs
+
+    def _provide(self, *args, **kwargs):
+        """Return provided instance.
+
+        :param args: Tuple of context positional arguments.
+        :type args: tuple[object]
+
+        :param kwargs: Dictionary of context keyword arguments.
+        :type kwargs: dict[str, object]
+
+        :rtype: object
+        """
+        return self.provides(*_get_injectable_args(args, self.args),
+                             **_get_injectable_kwargs(kwargs, self.kwargs))
+
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.provides)
+
+    __repr__ = __str__
+
+
+class Factory(Callable):
     """:py:class:`Factory` provider creates new instance on every call.
 
     :py:class:`Factory` supports different syntaxes of passing injections:
@@ -244,9 +347,49 @@ class Factory(Provider):
                           some_arg1=1,
                           some_arg2=2)
         some_object = factory()
+
+    .. py:attribute:: provided_type
+
+        If provided type is defined, :py:class:`Factory` checks that
+        :py:attr:`Factory.provides` is subclass of
+        :py:attr:`Factory.provided_type`.
+
+        :type: type | None
+
+    .. py:attribute:: provides
+
+        Class or other callable that provides object.
+
+        :type: type | callable
+
+    .. py:attribute:: args
+
+        Tuple of positional argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
+
+    .. py:attribute:: kwargs
+
+        Tuple of keyword argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
+
+    .. py:attribute:: attributes
+
+        Tuple of attribute injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
+
+    .. py:attribute:: methods
+
+        Tuple of method injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Method`]
     """
 
-    __slots__ = ('provides', 'args', 'kwargs', 'attributes', 'methods')
+    provided_type = None
+
+    __slots__ = ('attributes', 'methods')
 
     def __init__(self, provides, *args, **kwargs):
         """Initializer.
@@ -261,44 +404,22 @@ class Factory(Provider):
         :param kwargs: Dictionary of injections.
         :type kwargs: dict
         """
-        if not callable(provides):
-            raise Error('Factory provider expects to get callable, ' +
-                        'got {0} instead'.format(str(provides)))
-        self.provides = provides
-        """Class or other callable that provides object for creation.
-
-        :type: type | callable
-        """
-
-        self.args = _parse_args_injections(args)
-        """Tuple of positional argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
-        """
-
-        self.kwargs = _parse_kwargs_injections(args, kwargs)
-        """Tuple of keyword argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
-        """
+        if (self.__class__.provided_type and
+                not issubclass(provides, self.__class__.provided_type)):
+            raise Error('{0} can provide only {1} instances'.format(
+                '.'.join((self.__class__.__module__,
+                          self.__class__.__name__)),
+                self.__class__.provided_type))
 
         self.attributes = tuple(injection
                                 for injection in args
                                 if is_attribute_injection(injection))
-        """Tuple of attribute injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
-        """
 
         self.methods = tuple(injection
                              for injection in args
                              if is_method_injection(injection))
-        """Tuple of method injections.
 
-        :type: tuple[:py:class:`dependency_injector.injections.Method`]
-        """
-
-        super(Factory, self).__init__()
+        super(Factory, self).__init__(provides, *args, **kwargs)
 
     @property
     def injections(self):
@@ -319,8 +440,8 @@ class Factory(Provider):
 
         :rtype: object
         """
-        instance = self.provides(*_get_injectable_args(args, self.args),
-                                 **_get_injectable_kwargs(kwargs, self.kwargs))
+        instance = super(Factory, self)._provide(*args, **kwargs)
+
         for attribute in self.attributes:
             setattr(instance, attribute.name, attribute.value)
         for method in self.methods:
@@ -328,24 +449,13 @@ class Factory(Provider):
 
         return instance
 
-    def __str__(self):
-        """Return string representation of provider.
 
-        :rtype: str
-        """
-        return represent_provider(provider=self, provides=self.provides)
-
-    __repr__ = __str__
-
-
-@six.python_2_unicode_compatible
-class Singleton(Provider):
+class Singleton(Factory):
     """:py:class:`Singleton` provider returns same instance on every call.
 
     :py:class:`Singleton` provider creates instance once and return it on every
-    call. :py:class:`Singleton` uses :py:class:`Factory` for creation of
-    instance, so, please follow :py:class:`Factory` documentation to go inside
-    with injections syntax.
+    call. :py:class:`Singleton` extends :py:class:`Factory`, so, please follow
+    :py:class:`Factory` documentation to go inside with injections syntax.
 
     :py:class:`Singleton` is thread-safe and could be used in multithreading
     environment without any negative impact.
@@ -360,9 +470,52 @@ class Singleton(Provider):
                               some_arg2=2)
         some_object = singleton()
 
+    .. py:attribute:: provided_type
+
+        If provided type is defined, :py:class:`Factory` checks that
+        :py:attr:`Factory.provides` is subclass of
+        :py:attr:`Factory.provided_type`.
+
+        :type: type | None
+
+    .. py:attribute:: instance
+
+        Read-only reference to singleton's instance.
+
+        :type: object
+
+    .. py:attribute:: provides
+
+        Class or other callable that provides object.
+
+        :type: type | callable
+
+    .. py:attribute:: args
+
+        Tuple of positional argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
+
+    .. py:attribute:: kwargs
+
+        Tuple of keyword argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
+
+    .. py:attribute:: attributes
+
+        Tuple of attribute injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
+
+    .. py:attribute:: methods
+
+        Tuple of method injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Method`]
     """
 
-    __slots__ = ('instance', 'factory')
+    __slots__ = ('instance',)
 
     def __init__(self, provides, *args, **kwargs):
         """Initializer.
@@ -378,66 +531,7 @@ class Singleton(Provider):
         :type kwargs: dict
         """
         self.instance = None
-        """Read-only reference to singleton's instance.
-
-        :type: object
-        """
-
-        self.factory = Factory(provides, *args, **kwargs)
-        """Singleton's factory object.
-
-        :type: :py:class:`Factory`
-        """
-
-        super(Singleton, self).__init__()
-
-    @property
-    def provides(self):
-        """Class or other callable that provides object for creation.
-
-        :type: type | callable
-        """
-        return self.factory.provides
-
-    @property
-    def args(self):
-        """Tuple of positional argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
-        """
-        return self.factory.args
-
-    @property
-    def kwargs(self):
-        """Tuple of keyword argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
-        """
-        return self.factory.kwargs
-
-    @property
-    def attributes(self):
-        """Tuple of attribute injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
-        """
-        return self.factory.attributes
-
-    @property
-    def methods(self):
-        """Tuple of method injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Method`]
-        """
-        return self.factory.methods
-
-    @property
-    def injections(self):
-        """Read-only tuple of all injections.
-
-        :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
-        """
-        return self.factory.injections
+        super(Singleton, self).__init__(provides, *args, **kwargs)
 
     def reset(self):
         """Reset cached instance, if any.
@@ -459,102 +553,9 @@ class Singleton(Provider):
         """
         with GLOBAL_LOCK:
             if not self.instance:
-                self.instance = self.factory(*args, **kwargs)
+                self.instance = super(Singleton, self)._provide(*args,
+                                                                **kwargs)
         return self.instance
-
-    def __str__(self):
-        """Return string representation of provider.
-
-        :rtype: str
-        """
-        return represent_provider(provider=self, provides=self.provides)
-
-    __repr__ = __str__
-
-
-@six.python_2_unicode_compatible
-class Callable(Provider):
-    """:py:class:`Callable` provider calls wrapped callable on every call.
-
-    :py:class:`Callable` provider provides callable that is called on every
-    provider call with some predefined dependency injections.
-
-    :py:class:`Callable` syntax of passing injections is the same like
-    :py:class:`Factory` one:
-
-    .. code-block:: python
-
-        some_function = Callable(some_function, 'arg1', 'arg2', arg3=3, arg4=4)
-        result = some_function()
-    """
-
-    __slots__ = ('callback', 'args', 'kwargs')
-
-    def __init__(self, callback, *args, **kwargs):
-        """Initializer.
-
-        :param provides: Wrapped callable.
-        :type provides: callable
-
-        :param args: Tuple of injections.
-        :type args: tuple
-
-        :param kwargs: Dictionary of injections.
-        :type kwargs: dict
-        """
-        if not callable(callback):
-            raise Error('Callable expected, got {0}'.format(str(callback)))
-
-        self.callback = callback
-        """Provided callable.
-
-        :type: callable
-        """
-
-        self.args = _parse_args_injections(args)
-        """Tuple of positional argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
-        """
-
-        self.kwargs = _parse_kwargs_injections(args, kwargs)
-        """Tuple of keyword argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
-        """
-
-        super(Callable, self).__init__()
-
-    @property
-    def injections(self):
-        """Read-only tuple of all injections.
-
-        :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
-        """
-        return self.args + self.kwargs
-
-    def _provide(self, *args, **kwargs):
-        """Return provided instance.
-
-        :param args: Tuple of context positional arguments.
-        :type args: tuple[object]
-
-        :param kwargs: Dictionary of context keyword arguments.
-        :type kwargs: dict[str, object]
-
-        :rtype: object
-        """
-        return self.callback(*_get_injectable_args(args, self.args),
-                             **_get_injectable_kwargs(kwargs, self.kwargs))
-
-    def __str__(self):
-        """Return string representation of provider.
-
-        :rtype: str
-        """
-        return represent_provider(provider=self, provides=self.callback)
-
-    __repr__ = __str__
 
 
 @six.python_2_unicode_compatible
@@ -572,6 +573,12 @@ class ExternalDependency(Provider):
         database_provider.override(Factory(sqlite3.connect, ':memory:'))
 
         database = database_provider()
+
+    .. py:attribute:: instance_of
+
+        Class of required dependency.
+
+        :type: type
     """
 
     __slots__ = ('instance_of',)
@@ -582,10 +589,6 @@ class ExternalDependency(Provider):
             raise Error('ExternalDependency provider expects to get class, ' +
                         'got {0} instead'.format(str(instance_of)))
         self.instance_of = instance_of
-        """Class of required dependency.
-
-        :type: type
-        """
         super(ExternalDependency, self).__init__()
 
     def __call__(self, *args, **kwargs):
@@ -638,6 +641,12 @@ class Static(Provider):
 
     :py:class:`Static` provider is base implementation that provides exactly
     the same as it got on input.
+
+    .. py:attribute:: provides
+
+        Value that have to be provided.
+
+        :type: object
     """
 
     __slots__ = ('provides',)
@@ -649,10 +658,6 @@ class Static(Provider):
         :type provides: object
         """
         self.provides = provides
-        """Value that have to be provided.
-
-        :type: object
-        """
         super(Static, self).__init__()
 
     def _provide(self, *args, **kwargs):
@@ -815,17 +820,7 @@ class ChildConfig(Provider):
         :type root_config: :py:class:`Config`
         """
         self.parents = parents
-        """Tuple of pieces of configuration option / section parent path.
-
-        :type: tuple[str]
-        """
-
         self.root_config = root_config
-        """Root configuration object.
-
-        :type: :py:class:`Config`
-        """
-
         super(ChildConfig, self).__init__()
 
     def __getattr__(self, item):
