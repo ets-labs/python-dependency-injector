@@ -166,7 +166,17 @@ class DynamicCatalog(object):
 
         :type: tuple[
             :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`]
+
+    .. py:attribute:: provider_type
+
+        If provider type is defined, :py:class:`DynamicCatalog` checks that
+        all of its providers are instances of
+        :py:attr:`DynamicCatalog.provider_type`.
+
+        :type: type | None
     """
+
+    provider_type = None
 
     __IS_CATALOG__ = True
     __slots__ = ('name', 'providers', 'provider_names', 'overridden_by',
@@ -324,6 +334,11 @@ class DynamicCatalog(object):
         """
         provider = ensure_is_provider(provider)
 
+        if (self.__class__.provider_type and
+                not isinstance(provider, self.__class__.provider_type)):
+            raise Error('{0} can contaon only {1} instances'.format(
+                self.name, self.__class__.provider_type))
+
         if name in self.providers:
             raise Error('Catalog {0} already has provider with '
                         'such name - {1}'.format(self, name))
@@ -443,7 +458,13 @@ class DeclarativeCatalogMetaClass(type):
 
         cls = type.__new__(mcs, class_name, bases, attributes)
 
-        cls._catalog = DynamicCatalog()
+        if cls.provider_type:
+            cls._catalog = type('DynamicCatalog',
+                                (DynamicCatalog,),
+                                dict(provider_type=cls.provider_type))()
+        else:
+            cls._catalog = DynamicCatalog()
+
         cls._catalog.name = '.'.join((cls.__module__, cls.__name__))
         cls._catalog.bind_providers(dict(providers))
 
@@ -625,6 +646,14 @@ class DeclarativeCatalog(object):
 
         :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog` |
                None
+
+    .. py:attribute:: provider_type
+
+        If provider type is defined, :py:class:`DeclarativeCatalog` checks that
+        all of its providers are instances of
+        :py:attr:`DeclarativeCatalog.provider_type`.
+
+        :type: type | None
     """
 
     Bundle = CatalogBundle
@@ -638,6 +667,8 @@ class DeclarativeCatalog(object):
     overridden_by = tuple()
     is_overridden = bool
     last_overriding = None
+
+    provider_type = None
 
     _catalog = DynamicCatalog
 

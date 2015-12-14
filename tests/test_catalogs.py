@@ -131,6 +131,51 @@ class DynamicCatalogTests(unittest.TestCase):
         self.assertIs(self.catalog.py, py)
         self.assertIs(self.catalog.get_provider('py'), py)
 
+    def test_bind_provider_with_valid_provided_type(self):
+        """Test setting of provider with provider type restriction."""
+        class SomeProvider(providers.Provider):
+            """Some provider."""
+
+        class SomeCatalog(catalogs.DynamicCatalog):
+            """Some catalog with provider type restriction."""
+
+            provider_type = SomeProvider
+
+        px = SomeProvider()
+        py = SomeProvider()
+        catalog = SomeCatalog()
+
+        catalog.bind_provider('px', px)
+        catalog.py = py
+
+        self.assertIs(catalog.px, px)
+        self.assertIs(catalog.get_provider('px'), px)
+
+        self.assertIs(catalog.py, py)
+        self.assertIs(catalog.get_provider('py'), py)
+
+    def test_bind_provider_with_invalid_provided_type(self):
+        """Test setting of provider with provider type restriction."""
+        class SomeProvider(providers.Provider):
+            """Some provider."""
+
+        class SomeCatalog(catalogs.DynamicCatalog):
+            """Some catalog with provider type restriction."""
+
+            provider_type = SomeProvider
+
+        px = providers.Provider()
+        catalog = SomeCatalog()
+
+        with self.assertRaises(errors.Error):
+            catalog.bind_provider('px', px)
+
+        with self.assertRaises(errors.Error):
+            catalog.px = px
+
+        with self.assertRaises(errors.Error):
+            catalog.bind_providers(dict(px=px))
+
     def test_bind_providers(self):
         """Test setting of provider via bind_providers() to catalog."""
         px = providers.Provider()
@@ -288,6 +333,49 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
         del CatalogA.px
         del CatalogA.py
+
+    def test_bind_provider_with_valid_provided_type(self):
+        """Test setting of provider with provider type restriction."""
+        class SomeProvider(providers.Provider):
+            """Some provider."""
+
+        class SomeCatalog(catalogs.DeclarativeCatalog):
+            """Some catalog with provider type restriction."""
+
+            provider_type = SomeProvider
+
+        px = SomeProvider()
+        py = SomeProvider()
+
+        SomeCatalog.bind_provider('px', px)
+        SomeCatalog.py = py
+
+        self.assertIs(SomeCatalog.px, px)
+        self.assertIs(SomeCatalog.get_provider('px'), px)
+
+        self.assertIs(SomeCatalog.py, py)
+        self.assertIs(SomeCatalog.get_provider('py'), py)
+
+    def test_bind_provider_with_invalid_provided_type(self):
+        """Test setting of provider with provider type restriction."""
+        class SomeProvider(providers.Provider):
+            """Some provider."""
+
+        class SomeCatalog(catalogs.DeclarativeCatalog):
+            """Some catalog with provider type restriction."""
+
+            provider_type = SomeProvider
+
+        px = providers.Provider()
+
+        with self.assertRaises(errors.Error):
+            SomeCatalog.bind_provider('px', px)
+
+        with self.assertRaises(errors.Error):
+            SomeCatalog.px = px
+
+        with self.assertRaises(errors.Error):
+            SomeCatalog.bind_providers(dict(px=px))
 
     def test_bind_providers(self):
         """Test setting of provider via bind_providers() to catalog."""
