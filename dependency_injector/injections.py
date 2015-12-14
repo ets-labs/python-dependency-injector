@@ -25,6 +25,18 @@ class Injection(object):
     """Base injection class.
 
     All injections extend this class.
+
+    .. py:attribute:: injectable
+
+        Injectable value, could be provider or any other object.
+
+        :type: object | :py:class:`dependency_injector.providers.Provider`
+
+    .. py:attribute:: injectable_is_provider
+
+        Flag that is set to ``True`` if injectable value is provider.
+
+        :type: bool
     """
 
     __IS_INJECTION__ = True
@@ -39,17 +51,7 @@ class Injection(object):
                           :py:class:`dependency_injector.providers.Provider`
         """
         self.injectable = injectable
-        """Injectable value, could be provider or any other object.
-
-        :type: object | :py:class:`dependency_injector.providers.Provider`
-        """
-
         self.injectable_is_provider = is_provider(injectable)
-        """Flag that is set to ``True`` if injectable value is provider.
-
-        :type: bool
-        """
-
         super(Injection, self).__init__()
 
     @property
@@ -88,7 +90,14 @@ class Arg(Injection):
 
 @six.python_2_unicode_compatible
 class _NamedInjection(Injection):
-    """Base class of named injections."""
+    """Base class of named injections.
+
+    .. py:attribute:: name
+
+        Injection target's name (keyword argument, attribute, method).
+
+        :type: str
+    """
 
     __slots__ = ('name',)
 
@@ -104,11 +113,6 @@ class _NamedInjection(Injection):
                           :py:class:`dependency_injector.providers.Provider`
         """
         self.name = name
-        """Injection target's name (keyword argument, attribute, method).
-
-        :type: str
-        """
-
         super(_NamedInjection, self).__init__(injectable)
 
     def __str__(self):
@@ -127,36 +131,39 @@ class _NamedInjection(Injection):
 
 
 class KwArg(_NamedInjection):
-    """Keyword argument injection."""
+    """Keyword argument injection.
 
-    name = None
-    """Keyword argument's name.
+    .. py:attribute:: name
 
-    :type: str
+        Keyword argument's name.
+
+        :type: str
     """
 
     __IS_KWARG_INJECTION__ = True
 
 
 class Attribute(_NamedInjection):
-    """Attribute injection."""
+    """Attribute injection.
 
-    name = None
-    """Attribute's name.
+    .. py:attribute:: name
 
-    :type: str
+        Attribute's name.
+
+        :type: str
     """
 
     __IS_ATTRIBUTE_INJECTION__ = True
 
 
 class Method(_NamedInjection):
-    """Method injection."""
+    """Method injection.
 
-    name = None
-    """Method's name.
+    .. py:attribute:: name
 
-    :type: str
+        Method's name.
+
+        :type: str
     """
 
     __IS_METHOD_INJECTION__ = True
