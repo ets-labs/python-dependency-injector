@@ -30,13 +30,21 @@ class CatalogBundle(object):
     :py:class:`CatalogBundle` is considered to be dependable on catalogs
     (:py:class:`DeclarativeCatalog` or :py:class:`DynamicCatalog`) entity by
     its design.
+
+    .. py:attribute:: catalog
+
+        Bundle's catalog.
+
+        :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`
+
+    .. py:attribute:: providers
+
+        Dictionary of all providers.
+
+        :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
     """
 
     catalog = None
-    """Bundle's catalog.
-
-    :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`
-    """
 
     __IS_CATALOG_BUNDLE__ = True
     __slots__ = ('providers', '__dict__')
@@ -57,15 +65,9 @@ class CatalogBundle(object):
         :type providers: tuple[
             :py:class:`dependency_injector.providers.Provider`]
         """
-        self.providers = dict()
-        """Dictionary of all providers.
-
-        :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
-        """
-
-        for provider in providers:
-            provider_name = self.catalog.get_provider_bind_name(provider)
-            self.providers[provider_name] = provider
+        self.providers = dict((self.catalog.get_provider_bind_name(provider),
+                               provider)
+                              for provider in providers)
         self.__dict__.update(self.providers)
         super(CatalogBundle, self).__init__()
 
@@ -137,6 +139,33 @@ class DynamicCatalog(object):
                                   users=providers.Factory(UsersService))
 
         users_service = services.users()
+
+    .. py:attribute:: Bundle
+
+        Catalog's bundle class.
+
+        :type: :py:class:`CatalogBundle`
+
+    .. py:attribute:: name
+
+        Catalog's name.
+
+        By default, it is catalog's module + catalog's class name.
+
+        :type: str
+
+    .. py:attribute:: providers
+
+        Dictionary of all providers.
+
+        :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
+
+    .. py:attribute:: overridden_by
+
+        Tuple of overriding catalogs.
+
+        :type: tuple[
+            :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`]
     """
 
     __IS_CATALOG__ = True
@@ -151,35 +180,11 @@ class DynamicCatalog(object):
             dict[str, :py:class:`dependency_injector.providers.Provider`]
         """
         self.Bundle = CatalogBundle.sub_cls_factory(self)
-        """Catalog's bundle class.
-
-        :type: :py:class:`CatalogBundle`
-        """
-
         self.name = '.'.join((self.__class__.__module__,
                               self.__class__.__name__))
-        """Catalog's name.
-
-        By default, it is catalog's module + catalog's class name.
-
-        :type: str
-        """
-
         self.providers = dict()
-        """Dictionary of all providers.
-
-        :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
-        """
-
         self.provider_names = dict()
-
         self.overridden_by = tuple()
-        """Tuple of overriding catalogs.
-
-        :type: tuple[
-            :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`]
-        """
-
         self.bind_providers(providers)
         super(DynamicCatalog, self).__init__()
 
@@ -568,58 +573,71 @@ class DeclarativeCatalog(object):
             users = providers.Factory(UsersService)
 
         users_service = Services.users()
+
+    .. py:attribute:: Bundle
+
+        Catalog's bundle class.
+
+        :type: :py:class:`CatalogBundle`
+
+    .. py:attribute:: name
+
+        Read-only property that represents catalog's name.
+
+        Catalog's name is catalog's module + catalog's class name.
+
+        :type: str
+
+    .. py:attribute:: cls_providers
+
+        Read-only dictionary of current catalog providers.
+
+        :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
+
+    .. py:attribute:: inherited_providers
+
+        Read-only dictionary of inherited providers.
+
+        :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
+
+    .. py:attribute:: providers
+
+        Read-only dictionary of all providers.
+
+        :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
+
+    .. py:attribute:: overridden_by
+
+        Tuple of overriding catalogs.
+
+        :type: tuple[:py:class:`DeclarativeCatalog` |
+                    :py:class:`DynamicCatalog`]
+
+    .. py:attribute:: is_overridden
+
+        Read-only property that is set to ``True`` if catalog is overridden.
+
+        :type: bool
+
+    .. py:attribute:: is_overridden
+
+        Read-only reference to the last overriding catalog, if any.
+
+        :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog` |
+               None
     """
 
     Bundle = CatalogBundle
-    """Catalog's bundle class.
-
-    :type: :py:class:`CatalogBundle`
-    """
 
     name = str()
-    """Read-only property that represents catalog's name.
-
-    Catalog's name is catalog's module + catalog's class name.
-
-    :type: str
-    """
 
     cls_providers = dict()
-    """Read-only dictionary of current catalog providers.
-
-    :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
-    """
-
     inherited_providers = dict()
-    """Read-only dictionary of inherited providers.
-
-    :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
-    """
-
     providers = dict()
-    """Read-only dictionary of all providers.
-
-    :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
-    """
 
     overridden_by = tuple()
-    """Tuple of overriding catalogs.
-
-    :type: tuple[:py:class:`DeclarativeCatalog` |
-                 :py:class:`DynamicCatalog`]
-    """
-
     is_overridden = bool
-    """Read-only property that is set to ``True`` if catalog is overridden.
-
-    :type: bool
-    """
-
     last_overriding = None
-    """Read-only reference to the last overriding catalog, if any.
-
-    :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog` | None
-    """
 
     _catalog = DynamicCatalog
 
