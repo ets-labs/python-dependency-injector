@@ -9,6 +9,10 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- No features.
+
+1.12.0
+------
 - Add possibility to specialize ``Factory`` provided type.
 - Add possibility to specialize ``Singleton`` provided type.
 - Add possibility to specialize ``DeclarativeCatalog`` provider type.

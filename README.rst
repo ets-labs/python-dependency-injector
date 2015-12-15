@@ -56,8 +56,8 @@ Documentation
 
 *Dependency Injector* documentation is hosted on ReadTheDocs:
 
-- `Stable version`_
-- `Latest version`_
+- `User's guide`_ 
+- `API docs`_
 
 Examples
 --------
@@ -150,8 +150,8 @@ Your feedback is quite important!
 
 
 .. _PyPi: https://pypi.python.org/pypi/dependency_injector
-.. _Stable version: http://dependency_injector.readthedocs.org/en/stable/
-.. _Latest version: http://dependency_injector.readthedocs.org/en/latest/
+.. _User's guide: http://dependency_injector.readthedocs.org/en/stable/
+.. _API docs: http://dependency-injector.readthedocs.org/en/stable/api/
 .. _SLOC: http://en.wikipedia.org/wiki/Source_lines_of_code
 .. _SOLID: http://en.wikipedia.org/wiki/SOLID_%28object-oriented_design%29
 .. _IoC: http://en.wikipedia.org/wiki/Inversion_of_control
