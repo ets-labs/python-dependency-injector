@@ -11,6 +11,8 @@ Development version
 -------------------
 - Add possibility to specialize ``Factory`` provided type.
 - Add possibility to specialize ``Singleton`` provided type.
+- Add possibility to specialize ``DeclarativeCatalog`` provider type.
+- Add possibility to specialize ``DynamicCatalog`` provider type.
 - Make some refactorings for providers.
 
 1.11.2

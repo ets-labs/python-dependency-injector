@@ -24,4 +24,5 @@ Catalogs module API docs - :py:mod:`dependency_injector.catalogs`.
     declarative
     dynamic
     bundles
+    specialization
     overriding
