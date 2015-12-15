@@ -76,7 +76,8 @@ Singleton providers specialization
 :py:class:`Singleton` provider could be specialized for any kind of needs via 
 declaring its subclasses. 
 
-One of such features is a limitation to :py:class:`Singleton` provided type:
+One of such `builtin` features is a limitation to :py:class:`Singleton` 
+provided type:
 
 .. literalinclude:: ../../examples/providers/singleton_provided_type.py
    :language: python
