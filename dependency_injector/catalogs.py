@@ -336,8 +336,8 @@ class DynamicCatalog(object):
 
         if (self.__class__.provider_type and
                 not isinstance(provider, self.__class__.provider_type)):
-            raise Error('{0} can contaon only {1} instances'.format(
-                self.name, self.__class__.provider_type))
+            raise Error('{0} can contain only {1} instances'.format(
+                self, self.__class__.provider_type))
 
         if name in self.providers:
             raise Error('Catalog {0} already has provider with '

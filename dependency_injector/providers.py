@@ -407,9 +407,7 @@ class Factory(Callable):
         if (self.__class__.provided_type and
                 not issubclass(provides, self.__class__.provided_type)):
             raise Error('{0} can provide only {1} instances'.format(
-                '.'.join((self.__class__.__module__,
-                          self.__class__.__name__)),
-                self.__class__.provided_type))
+                self.__class__, self.__class__.provided_type))
 
         self.attributes = tuple(injection
                                 for injection in args
