@@ -9,9 +9,14 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- No features.
+
+1.13.0
+------
 - Add ``DelegatedCallable`` provider.
 - Add ``DelegatedFactory`` provider.
 - Add ``DelegatedSingleton`` provider.
+- Add some documentation improvements.
 
 1.12.0
 ------
