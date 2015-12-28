@@ -24,8 +24,8 @@ Providers module API docs - :py:mod:`dependency_injector.providers`
 
     factory
     singleton
-    static
     callable
     external_dependency
+    static
     overriding
     custom

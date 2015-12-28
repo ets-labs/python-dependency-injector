@@ -44,6 +44,19 @@ def ensure_is_provider(instance):
     return instance
 
 
+def is_delegated_provider(instance):
+    """Check if instance is delegated provider instance.
+
+    :param instance: Instance to be checked.
+    :type instance: object
+
+    :rtype: bool
+    """
+    return (is_provider(instance) and
+            hasattr(instance, '__IS_DELEGATED__') and
+            getattr(instance, '__IS_DELEGATED__') is True)
+
+
 def is_injection(instance):
     """Check if instance is injection instance.
 

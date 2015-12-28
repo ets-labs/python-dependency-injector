@@ -319,6 +319,34 @@ class Callable(Provider):
     __repr__ = __str__
 
 
+class DelegatedCallable(Callable):
+    """:py:class:`DelegatedCallable` is a delegated :py:class:`Callable`.
+
+    :py:class:`DelegatedCallable` is a :py:class:`Callable`, that is injected
+    "as is".
+
+    .. py:attribute:: provides
+
+        Provided callable.
+
+        :type: callable
+
+    .. py:attribute:: args
+
+        Tuple of positional argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
+
+    .. py:attribute:: kwargs
+
+        Tuple of keyword argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
+    """
+
+    __IS_DELEGATED__ = True
+
+
 class Factory(Callable):
     """:py:class:`Factory` provider creates new instance on every call.
 
@@ -448,6 +476,54 @@ class Factory(Callable):
         return instance
 
 
+class DelegatedFactory(Factory):
+    """:py:class:`DelegatedFactory` is a delegated :py:class:`Factory`.
+
+    :py:class:`DelegatedFactory` is a :py:class:`Factory`, that is injected
+    "as is".
+
+    .. py:attribute:: provided_type
+
+        If provided type is defined, :py:class:`Factory` checks that
+        :py:attr:`Factory.provides` is subclass of
+        :py:attr:`Factory.provided_type`.
+
+        :type: type | None
+
+    .. py:attribute:: provides
+
+        Class or other callable that provides object.
+
+        :type: type | callable
+
+    .. py:attribute:: args
+
+        Tuple of positional argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
+
+    .. py:attribute:: kwargs
+
+        Tuple of keyword argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
+
+    .. py:attribute:: attributes
+
+        Tuple of attribute injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
+
+    .. py:attribute:: methods
+
+        Tuple of method injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Method`]
+    """
+
+    __IS_DELEGATED__ = True
+
+
 class Singleton(Factory):
     """:py:class:`Singleton` provider returns same instance on every call.
 
@@ -554,6 +630,60 @@ class Singleton(Factory):
                 self.instance = super(Singleton, self)._provide(*args,
                                                                 **kwargs)
         return self.instance
+
+
+class DelegatedSingleton(Singleton):
+    """:py:class:`DelegatedSingleton` is a delegated :py:class:`Singleton`.
+
+    :py:class:`DelegatedSingleton` is a :py:class:`Singleton`, that is injected
+    "as is".
+
+    .. py:attribute:: provided_type
+
+        If provided type is defined, :py:class:`Factory` checks that
+        :py:attr:`Factory.provides` is subclass of
+        :py:attr:`Factory.provided_type`.
+
+        :type: type | None
+
+    .. py:attribute:: instance
+
+        Read-only reference to singleton's instance.
+
+        :type: object
+
+    .. py:attribute:: provides
+
+        Class or other callable that provides object.
+
+        :type: type | callable
+
+    .. py:attribute:: args
+
+        Tuple of positional argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
+
+    .. py:attribute:: kwargs
+
+        Tuple of keyword argument injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
+
+    .. py:attribute:: attributes
+
+        Tuple of attribute injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
+
+    .. py:attribute:: methods
+
+        Tuple of method injections.
+
+        :type: tuple[:py:class:`dependency_injector.injections.Method`]
+    """
+
+    __IS_DELEGATED__ = True
 
 
 @six.python_2_unicode_compatible

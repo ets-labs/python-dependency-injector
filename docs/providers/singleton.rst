@@ -36,9 +36,10 @@ provider.
     during the first call). Be aware that such behaviour was made with opened 
     eyes and is not a bug.
 
-    By the way, in such case, :py:class:`Delegate` provider can be useful. It 
-    makes possible to inject providers *as is*. Please check out full example 
-    in *Providers delegation* section.
+    By the way, in such case, :py:class:`Delegate` or 
+    :py:class:`DelegatedSingleton` provider can be useful 
+    . It makes possible to inject providers *as is*. Please check out 
+    `Singleton providers delegation`_ section.
 
 Singleton providers resetting
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,6 +69,15 @@ method.
 Example:
 
 .. literalinclude:: ../../examples/providers/singleton_delegation.py
+   :language: python
+
+Alternative way of doing :py:class:`Singleton` delegation is an usage of 
+:py:class:`DelegatedSingleton`. :py:class:`DelegatedSingleton` is a 
+:py:class:`Singleton` that is always injected "as is".
+
+Example:
+
+.. literalinclude:: ../../examples/providers/delegated_singleton.py
    :language: python
 
 Singleton providers specialization

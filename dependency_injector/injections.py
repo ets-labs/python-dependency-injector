@@ -6,6 +6,7 @@ import itertools
 import six
 
 from .utils import is_provider
+from .utils import is_delegated_provider
 from .utils import is_injection
 from .utils import is_arg_injection
 from .utils import is_kwarg_injection
@@ -32,15 +33,17 @@ class Injection(object):
 
         :type: object | :py:class:`dependency_injector.providers.Provider`
 
-    .. py:attribute:: injectable_is_provider
+    .. py:attribute:: call_injectable
 
-        Flag that is set to ``True`` if injectable value is provider.
+        Flag that is set to ``True`` if it is needed to call injectable.
+
+        Injectable needs to be called if it is not delegated provider.
 
         :type: bool
     """
 
     __IS_INJECTION__ = True
-    __slots__ = ('injectable', 'injectable_is_provider')
+    __slots__ = ('injectable', 'call_injectable')
 
     def __init__(self, injectable):
         """Initializer.
@@ -51,20 +54,21 @@ class Injection(object):
                           :py:class:`dependency_injector.providers.Provider`
         """
         self.injectable = injectable
-        self.injectable_is_provider = is_provider(injectable)
+        self.call_injectable = (is_provider(injectable) and
+                                not is_delegated_provider(injectable))
         super(Injection, self).__init__()
 
     @property
     def value(self):
         """Read-only property that represents injectable value.
 
-        Injectable values are provided "as is", except of providers
-        (subclasses of :py:class:`dependency_injector.providers.Provider`).
-        Providers will be called every time, when injection needs to be done.
+        Injectable values and delegated providers are provided "as is".
+        Other providers will be called every time, when injection needs to
+        be done.
 
         :rtype: object
         """
-        if self.injectable_is_provider:
+        if self.call_injectable:
             return self.injectable()
         return self.injectable
 

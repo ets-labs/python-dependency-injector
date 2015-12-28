@@ -8,15 +8,18 @@ from .catalogs import override
 
 from .providers import Provider
 from .providers import Delegate
+from .providers import Callable
+from .providers import DelegatedCallable
 from .providers import Factory
+from .providers import DelegatedFactory
 from .providers import Singleton
+from .providers import DelegatedSingleton
 from .providers import ExternalDependency
 from .providers import StaticProvider
 from .providers import Class
 from .providers import Object
 from .providers import Function
 from .providers import Value
-from .providers import Callable
 from .providers import Config
 
 from .injections import Injection
@@ -28,6 +31,7 @@ from .injections import inject
 
 from .utils import is_provider
 from .utils import ensure_is_provider
+from .utils import is_delegated_provider
 from .utils import is_injection
 from .utils import ensure_is_injection
 from .utils import is_arg_injection
@@ -65,15 +69,18 @@ __all__ = (
     # Providers
     'Provider',
     'Delegate',
+    'Callable',
+    'DelegatedCallable',
     'Factory',
+    'DelegatedFactory',
     'Singleton',
+    'DelegatedSingleton',
     'ExternalDependency',
     'StaticProvider',
     'Class',
     'Object',
     'Function',
     'Value',
-    'Callable',
     'Config',
 
     # Injections
@@ -87,6 +94,7 @@ __all__ = (
     # Utils
     'is_provider',
     'ensure_is_provider',
+    'is_delegated_provider',
     'is_injection',
     'ensure_is_injection',
     'is_arg_injection',

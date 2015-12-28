@@ -16,12 +16,17 @@ arguments that are used as decorated callable injections. Every time, when
 would be passed as an callable arguments.
 
 Such behaviour is very similar to the standard Python ``functools.partial`` 
-object, except of one thing: all injectable values are provided 
-*"as is"*, except of providers (subclasses of :py:class:`Provider`). Providers 
-will be called every time, when injection needs to be done. For example, 
-if injectable value of injection is a :py:class:`Factory`, it will provide 
-new one instance (as a result of its call) every time, when injection needs 
-to be done.
+object with several more things: 
+
++ All providers (instances of :py:class:`Provider`) are called every time 
+  when injection needs to be done.
++ Providers could be injected "as is" (delegated), if it is defined obviously.
+  Check out `Callable providers delegation`_.
++ All other injectable values are provided *"as is"*
+  
+For example, if injectable value of injection is a :py:class:`Factory`, it 
+will provide new one instance (as a result of its call) every time, when 
+injection needs to be done.
 
 :py:class:`Callable` behaviour with context positional and keyword arguments 
 is very like a standard Python ``functools.partial``:
@@ -47,6 +52,8 @@ injections:
 .. literalinclude:: ../../examples/providers/callable_kwargs.py
    :language: python
 
+.. _callable_delegation:
+
 Callable providers delegation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -61,4 +68,13 @@ follow *Factory providers delegation* section for example.
 Example:
 
 .. literalinclude:: ../../examples/providers/callable_delegation.py
+   :language: python
+
+Alternative way of doing :py:class:`Callable` delegation is an usage of 
+:py:class:`DelegatedCallable`. :py:class:`DelegatedCallable` is a 
+:py:class:`Callable` that is always injected "as is".
+
+Example:
+
+.. literalinclude:: ../../examples/providers/delegated_callable.py
    :language: python

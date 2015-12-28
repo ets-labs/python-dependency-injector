@@ -24,12 +24,17 @@ that are used as ``__init__()`` injections. Every time, when
 argument injections would be passed as an instance's arguments.
 
 Such behaviour is very similar to the standard Python ``functools.partial`` 
-object, except of one thing: all injectable values are provided 
-*"as is"*, except of providers (subclasses of :py:class:`Provider`). Providers 
-will be called every time, when injection needs to be done. For example, 
-if injectable value of injection is a :py:class:`Factory`, it will provide 
-new one instance (as a result of its call) every time, when injection needs 
-to be done.
+object with several more things: 
+
++ All providers (instances of :py:class:`Provider`) are called every time 
+  when injection needs to be done.
++ Providers could be injected "as is" (delegated), if it is defined obviously.
+  Check out `Factory providers delegation`_.
++ All other injectable values are provided *"as is"*
+  
+For example, if injectable value of injection is a :py:class:`Factory`, it 
+will provide new one instance (as a result of its call) every time, when 
+injection needs to be done.
 
 Example below is a little bit more complicated. It shows how to create 
 :py:class:`Factory` of particular class with ``__init__()`` argument 
@@ -173,6 +178,15 @@ Example:
     :align: center
 
 .. literalinclude:: ../../examples/providers/factory_delegation.py
+   :language: python
+
+Alternative way of doing :py:class:`Factory` delegation is an usage of 
+:py:class:`DelegatedFactory`. :py:class:`DelegatedFactory` is a 
+:py:class:`Factory` that is always injected "as is".
+
+Example:
+
+.. literalinclude:: ../../examples/providers/delegated_factory.py
    :language: python
 
 Factory providers specialization
