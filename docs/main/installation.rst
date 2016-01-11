@@ -18,7 +18,7 @@ Sources can be cloned from GitHub_:
 
 .. code-block:: bash
 
-    git clone https://github.com/rmk135/dependency_injector.git
+    git clone https://github.com/ets-labs/dependency_injector.git
 
 Also all *Dependency Injector* releases can be downloaded from 
 `GitHub releases page`_.
@@ -33,5 +33,5 @@ Verification of currently installed version could be done using
     '0.11.0'
 
 .. _PyPi: https://pypi.python.org/pypi/dependency_injector
-.. _GitHub: https://github.com/rmk135/dependency_injector
-.. _GitHub releases page: https://github.com/rmk135/dependency_injector/releases
+.. _GitHub: https://github.com/ets-labs/dependency_injector
+.. _GitHub releases page: https://github.com/ets-labs/dependency_injector/releases
