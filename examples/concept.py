@@ -64,3 +64,25 @@ def example(users_service, auth_service, database):
 
 # Making a call of decorated callback:
 example()
+
+
+# Overriding auth service provider and making some asserts:
+class ExtendedAuthService(AuthService):
+    """Extended version of auth service."""
+
+    def __init__(self, db, users_service, ttl):
+        """Initializer."""
+        self.ttl = ttl
+        super(ExtendedAuthService, self).__init__(db=db,
+                                                  users_service=users_service)
+
+
+Services.auth.override(providers.Factory(ExtendedAuthService,
+                                         db=Services.database,
+                                         users_service=Services.users,
+                                         ttl=3600))
+
+
+auth_service = Services.auth()
+
+assert isinstance(auth_service, ExtendedAuthService)

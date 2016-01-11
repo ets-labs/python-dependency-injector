@@ -93,17 +93,16 @@ Examples
     class Services(catalogs.DeclarativeCatalog):
         """Catalog of service providers."""
 
-        database = providers.Singleton(sqlite3.connect,
-                                       injections.Arg(':memory:'))
+        database = providers.Singleton(sqlite3.connect, ':memory:')
         """:type: providers.Provider -> sqlite3.Connection"""
 
         users = providers.Factory(UsersService,
-                                  injections.KwArg('db', database))
+                                  db=database)
         """:type: providers.Provider -> UsersService"""
 
         auth = providers.Factory(AuthService,
-                                 injections.KwArg('db', database),
-                                 injections.KwArg('users_service', users))
+                                 db=database,
+                                 users_service=users)
         """:type: providers.Provider -> AuthService"""
 
 
@@ -131,6 +130,28 @@ Examples
 
     # Making a call of decorated callback:
     example()
+
+
+    # Overriding auth service provider and making some asserts:
+    class ExtendedAuthService(AuthService):
+        """Extended version of auth service."""
+
+        def __init__(self, db, users_service, ttl):
+            """Initializer."""
+            self.ttl = ttl
+            super(ExtendedAuthService, self).__init__(db=db,
+                                                      users_service=users_service)
+
+
+    Services.auth.override(providers.Factory(ExtendedAuthService,
+                                             db=Services.database,
+                                             users_service=Services.users,
+                                             ttl=3600))
+
+
+    auth_service = Services.auth()
+
+    assert isinstance(auth_service, ExtendedAuthService)
 
 You can get more *Dependency Injector* examples in ``/examples`` directory on
 GitHub:
