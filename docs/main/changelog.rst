@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+1.13.1
+------
+- Transfer ownership to `ETS Labs <https://github.com/ets-labs>`_.
+
 1.13.0
 ------
 - Add ``DelegatedCallable`` provider.
