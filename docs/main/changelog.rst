@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+1.14.0
+------
+- Drop support of Python 3.2.
+
 1.13.2
 ------
 - Update PyPi info.
