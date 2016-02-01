@@ -1,6 +1,13 @@
 Dependency Injector
 ===================
 
+.. meta::
+   :description: Dependency injection framework for Python projects
+   :keywords: Python, Dependency injection, Dependency injection framework,
+              Dependency injection container, Dependency injector,
+              Dependency management, DI, DI Container, Inversion of Control,
+              Inversion of Control container, IoC, IoC container
+
 Dependency injection framework for Python projects.
 
 +---------------------------------------+---------------------------------------------------------------------------------+
@@ -58,3 +65,4 @@ Contents
     api/index
     main/feedback
     main/changelog
+
