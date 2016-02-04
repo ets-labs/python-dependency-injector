@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+1.14.2
+------
+- Update documentation and description.
+
 1.14.1
 ------
 - Add meta description & keywords on docs index page.

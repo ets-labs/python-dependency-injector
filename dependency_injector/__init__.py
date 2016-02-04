@@ -51,7 +51,7 @@ from .errors import UndefinedProviderError
 from . import catalogs
 catalog = catalogs
 
-VERSION = '1.14.1'
+VERSION = '1.14.2'
 """Version number that follows semantic versioning.
 
 :type: str
