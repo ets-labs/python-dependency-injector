@@ -281,7 +281,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   (master_doc, 'Dependency Injector', u'Dependency Injector Documentation',
-   author, 'Dependency Injector', 'Dependency injection framework for Python projects.',
+   author, 'Dependency Injector', 'Python dependency injection framework',
    'Miscellaneous'),
 ]
 

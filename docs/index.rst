@@ -2,13 +2,28 @@ Dependency Injector
 ===================
 
 .. meta::
-   :description: Dependency injection framework for Python projects
+   :description: Python dependency injection framework
    :keywords: Python, Dependency injection, Dependency injection framework,
               Dependency injection container, Dependency injector,
               Dependency management, DI, DI Container, Inversion of Control,
               Inversion of Control container, IoC, IoC container
 
-Dependency injection framework for Python projects.
+*Dependency Injector* is a Python dependency injection framework. It was 
+designed to be unified, developer's friendly tool for managing any kind
+of Python objects and their dependencies in formal, pretty way.
+
+Below is a list of some key features and points of *Dependency Injector*:
+
+- Easy, smart, pythonic style.
+- Obvious, clear structure.
+- Memory efficiency.
+- Thread safety.
+- Semantic versioning.
+
+Main idea of *Dependency Injector* is to keep dependencies under control.
+
+Status
+------
 
 +---------------------------------------+---------------------------------------------------------------------------------+
 | *PyPi*                                | .. image:: https://img.shields.io/pypi/v/dependency_injector.svg                |
@@ -35,21 +50,6 @@ Dependency injection framework for Python projects.
 |                                       |    :target: https://coveralls.io/r/ets-labs/dependency_injector                 |
 |                                       |    :alt: Coverage Status                                                        |
 +---------------------------------------+---------------------------------------------------------------------------------+
-
-*Dependency Injector* is a dependency injection framework for Python projects. 
-It was designed to be unified, developer's friendly tool for managing any kind
-of Python objects and their dependencies in formal, pretty way.
-
-Below is a list of some key features and points of *Dependency Injector*
-framework:
-
-- Easy, smart, pythonic style.
-- Obvious, clear structure.
-- Memory efficiency.
-- Thread safety.
-- Semantic versioning.
-
-Main idea of *Dependency Injector* is to keep dependencies under control.
 
 Contents
 --------

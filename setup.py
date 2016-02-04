@@ -6,15 +6,10 @@ import re
 from setuptools import setup
 from setuptools import Command
 
-SHORT_DESCRIPTION = 'Dependency injection framework for Python projects'
-
 
 # Getting description:
 with open('README.rst') as readme_file:
     description = readme_file.read()
-
-    # Removing duplicated short description.
-    description = description.replace(SHORT_DESCRIPTION, '')
 
 # Getting requirements:
 with open('requirements.txt') as version:
@@ -47,7 +42,7 @@ class PublishCommand(Command):
 
 setup(name='dependency_injector',
       version=version,
-      description=SHORT_DESCRIPTION,
+      description='Python dependency injection framework',
       long_description=description,
       author='ETS Labs',
       author_email='rmogilatov@gmail.com',
