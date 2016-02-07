@@ -11,6 +11,13 @@ Development version
 -------------------
 - No features.
 
+1.14.3
+------
+- Optimize internals of providers.
+- Optimize ``Callable`` provider.
+- Optimize ``Factory`` provider.
+- Optimize ``Singleton`` provider.
+
 1.14.2
 ------
 - Update documentation and description.
