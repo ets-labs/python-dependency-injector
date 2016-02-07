@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+1.14.4
+------
+- Update documentation.
+
 1.14.3
 ------
 - Optimize internals of providers.

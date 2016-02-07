@@ -60,20 +60,6 @@ class Provider(object):
         Tuple of overriding providers, if any.
 
         :type: tuple[:py:class:`Provider`] | None
-
-    .. py:method:: __call__
-
-        Return provided instance.
-
-        Implementation of current method adds ``callable`` functionality for
-        providers API and it should be common for all provider's subclasses.
-        Also this method implements provider overriding logic that is also
-        common for all providers. Implementation of particular providing
-        strategy should be done in :py:meth:`Provider._provide` of
-        :py:class:`Provider` subclass.
-
-        :return: Provided instance
-        :rtype: object
     """
 
     __IS_PROVIDER__ = True
