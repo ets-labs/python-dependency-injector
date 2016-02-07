@@ -4,8 +4,6 @@ import six
 
 from .injections import _parse_args_injections
 from .injections import _parse_kwargs_injections
-from .injections import _get_injectable_args
-from .injections import _get_injectable_kwargs
 
 from .utils import ensure_is_provider
 from .utils import is_attribute_injection
@@ -62,18 +60,10 @@ class Provider(object):
         Tuple of overriding providers, if any.
 
         :type: tuple[:py:class:`Provider`] | None
-    """
 
-    __IS_PROVIDER__ = True
-    __slots__ = ('overridden_by',)
+    .. py:method:: __call__
 
-    def __init__(self):
-        """Initializer."""
-        self.overridden_by = None
-        super(Provider, self).__init__()
-
-    def __call__(self, *args, **kwargs):
-        """Return provided instance.
+        Return provided instance.
 
         Implementation of current method adds ``callable`` functionality for
         providers API and it should be common for all provider's subclasses.
@@ -81,10 +71,22 @@ class Provider(object):
         common for all providers. Implementation of particular providing
         strategy should be done in :py:meth:`Provider._provide` of
         :py:class:`Provider` subclass.
-        """
-        if self.overridden_by:
-            return self.last_overriding(*args, **kwargs)
-        return self._provide(*args, **kwargs)
+
+        :return: Provided instance
+        :rtype: object
+    """
+
+    __IS_PROVIDER__ = True
+    __OPTIMIZED_CALLS__ = True
+    __slots__ = ('overridden_by', '__call__')
+
+    def __init__(self):
+        """Initializer."""
+        self.overridden_by = None
+        super(Provider, self).__init__()
+        # Enable __call__() / _provide() optimization
+        if self.__class__.__OPTIMIZED_CALLS__:
+            self.__call__ = self._provide
 
     def _provide(self, *args, **kwargs):
         """Providing strategy implementation.
@@ -94,6 +96,10 @@ class Provider(object):
         overridden provider is called. Need to be overridden in subclasses.
         """
         raise NotImplementedError()
+
+    def _call_last_overriding(self, *args, **kwargs):
+        """Call last overriding provider and return result."""
+        return self.last_overriding(*args, **kwargs)
 
     @property
     def is_overridden(self):
@@ -127,6 +133,10 @@ class Provider(object):
         else:
             self.overridden_by += (ensure_is_provider(provider),)
 
+        # Disable __call__() / _provide() optimization
+        if self.__class__.__OPTIMIZED_CALLS__:
+            self.__call__ = self._call_last_overriding
+
     def reset_last_overriding(self):
         """Reset last overriding provider.
 
@@ -139,12 +149,21 @@ class Provider(object):
             raise Error('Provider {0} is not overridden'.format(str(self)))
         self.overridden_by = self.overridden_by[:-1]
 
+        if not self.is_overridden:
+            # Enable __call__() / _provide() optimization
+            if self.__class__.__OPTIMIZED_CALLS__:
+                self.__call__ = self._provide
+
     def reset_override(self):
         """Reset all overriding providers.
 
         :rtype: None
         """
         self.overridden_by = None
+
+        # Enable __call__() / _provide() optimization
+        if self.__class__.__OPTIMIZED_CALLS__:
+            self.__call__ = self._provide
 
     def delegate(self):
         """Return provider's delegate.
@@ -306,8 +325,14 @@ class Callable(Provider):
 
         :rtype: object
         """
-        return self.provides(*_get_injectable_args(args, self.args),
-                             **_get_injectable_kwargs(kwargs, self.kwargs))
+        if self.args:
+            args = tuple(arg.value for arg in self.args) + args
+
+        for kwarg in self.kwargs:
+            if kwarg.name not in kwargs:
+                kwargs[kwarg.name] = kwarg.value
+
+        return self.provides(*args, **kwargs)
 
     def __str__(self):
         """Return string representation of provider.
@@ -466,7 +491,14 @@ class Factory(Callable):
 
         :rtype: object
         """
-        instance = super(Factory, self)._provide(*args, **kwargs)
+        if self.args:
+            args = tuple(arg.value for arg in self.args) + args
+
+        for kwarg in self.kwargs:
+            if kwarg.name not in kwargs:
+                kwargs[kwarg.name] = kwarg.value
+
+        instance = self.provides(*args, **kwargs)
 
         for attribute in self.attributes:
             setattr(instance, attribute.name, attribute.value)
@@ -625,10 +657,12 @@ class Singleton(Factory):
 
         :rtype: object
         """
+        if self.instance:
+            return self.instance
+
         with GLOBAL_LOCK:
-            if not self.instance:
-                self.instance = super(Singleton, self)._provide(*args,
-                                                                **kwargs)
+            self.instance = super(Singleton, self)._provide(*args, **kwargs)
+
         return self.instance
 
 
@@ -709,6 +743,7 @@ class ExternalDependency(Provider):
         :type: type
     """
 
+    __OPTIMIZED_CALLS__ = False
     __slots__ = ('instance_of',)
 
     def __init__(self, instance_of):

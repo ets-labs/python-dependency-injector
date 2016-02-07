@@ -1,7 +1,6 @@
 """Injections module."""
 
 import sys
-import itertools
 
 import six
 
@@ -247,8 +246,14 @@ def inject(*args, **kwargs):
         @six.wraps(callback)
         def decorated(*args, **kwargs):
             """Decorated with dependency injection callback."""
-            return callback(*_get_injectable_args(args, decorated.args),
-                            **_get_injectable_kwargs(kwargs, decorated.kwargs))
+            if decorated.args:
+                args = tuple(arg.value for arg in decorated.args) + args
+
+            for kwarg in decorated.kwargs:
+                if kwarg.name not in kwargs:
+                    kwargs[kwarg.name] = kwarg.value
+
+            return callback(*args, **kwargs)
 
         decorated.args = arg_injections
         decorated.kwargs = kwarg_injections
@@ -274,16 +279,3 @@ def _parse_kwargs_injections(args, kwargs):
         kwarg_injections += tuple(KwArg(name, value)
                                   for name, value in six.iteritems(kwargs))
     return kwarg_injections
-
-
-def _get_injectable_args(context_args, arg_injections):
-    """Return tuple of positional arguments, patched with injections."""
-    return itertools.chain((arg.value for arg in arg_injections), context_args)
-
-
-def _get_injectable_kwargs(context_kwargs, kwarg_injections):
-    """Return dictionary of keyword arguments, patched with injections."""
-    injectable_kwargs = dict((kwarg.name, kwarg.value)
-                             for kwarg in kwarg_injections)
-    injectable_kwargs.update(context_kwargs)
-    return injectable_kwargs
