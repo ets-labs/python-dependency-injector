@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+1.14.7
+------
+- Add one more example in README (inline providers and injections).
+
 1.14.6
 ------
 - Add ``cls`` alias for ``provides`` attributes of ``Factory``, 
