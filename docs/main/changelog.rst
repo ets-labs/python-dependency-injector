@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+1.14.8
+------
+- Update README.
+
 1.14.7
 ------
 - Add one more example in README (inline providers and injections).
