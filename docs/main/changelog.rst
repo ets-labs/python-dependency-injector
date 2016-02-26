@@ -11,6 +11,11 @@ Development version
 -------------------
 - No features.
 
+1.14.6
+------
+- Add ``cls`` alias for ``provides`` attributes of ``Factory``, 
+  ``DelegatedFactory``, ``Singleton`` and ``DelegatedSingleton`` providers.
+
 1.14.5
 ------
 - Fix typo in provider's error message.

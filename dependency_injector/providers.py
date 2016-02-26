@@ -401,6 +401,13 @@ class Factory(Callable):
 
         :type: type | callable
 
+    .. py:attribute:: cls
+
+        Class that provides object.
+        Alias for :py:attribute:`provides`.
+
+        :type: type
+
     .. py:attribute:: args
 
         Tuple of positional argument injections.
@@ -428,7 +435,7 @@ class Factory(Callable):
 
     provided_type = None
 
-    __slots__ = ('attributes', 'methods')
+    __slots__ = ('cls', 'attributes', 'methods')
 
     def __init__(self, provides, *args, **kwargs):
         """Initializer.
@@ -457,6 +464,8 @@ class Factory(Callable):
                              if is_method_injection(injection))
 
         super(Factory, self).__init__(provides, *args, **kwargs)
+
+        self.cls = self.provides
 
     @property
     def injections(self):
@@ -513,6 +522,13 @@ class DelegatedFactory(Factory):
         Class or other callable that provides object.
 
         :type: type | callable
+
+    .. py:attribute:: cls
+
+        Class that provides object.
+        Alias for :py:attribute:`provides`.
+
+        :type: type
 
     .. py:attribute:: args
 
@@ -581,6 +597,13 @@ class Singleton(Factory):
         Class or other callable that provides object.
 
         :type: type | callable
+
+    .. py:attribute:: cls
+
+        Class that provides object.
+        Alias for :py:attribute:`provides`.
+
+        :type: type
 
     .. py:attribute:: args
 
@@ -677,6 +700,13 @@ class DelegatedSingleton(Singleton):
         Class or other callable that provides object.
 
         :type: type | callable
+
+    .. py:attribute:: cls
+
+        Class that provides object.
+        Alias for :py:attribute:`provides`.
+
+        :type: type
 
     .. py:attribute:: args
 
