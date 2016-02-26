@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+1.14.5
+------
+- Fix typo in provider's error message.
+
 1.14.4
 ------
 - Update documentation.

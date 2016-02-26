@@ -280,7 +280,7 @@ class Callable(Provider):
         :type kwargs: dict
         """
         if not callable(provides):
-            raise Error('Provider{0} expected to get callable, '
+            raise Error('Provider {0} expected to get callable, '
                         'got {0}'.format('.'.join((self.__class__.__module__,
                                                    self.__class__.__name__)),
                                          provides))
