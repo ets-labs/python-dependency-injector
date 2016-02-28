@@ -8,7 +8,7 @@ env:
   - TOXENV=coveralls
   - TOXENV=pylint
   - TOXENV=flake8
-  - TOXENV=pep257
+  - TOXENV=pydocstyle
   - TOXENV=py26
   - TOXENV=py27
   - TOXENV=py33
