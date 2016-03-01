@@ -11,6 +11,13 @@ Development version
 -------------------
 - No features.
 
+1.14.9
+------
+- Add ``override`` decorator in providers module.
+- Add storing of originally decorated instance in ``inject`` decorator.
+- Add several refactorings.
+- Switch to ``pydocstyle`` tool from ``pep257``.
+
 1.14.8
 ------
 - Update README.
