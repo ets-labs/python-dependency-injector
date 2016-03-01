@@ -225,18 +225,11 @@ def inject(*args, **kwargs):
         """Dependency injection decorator."""
         if isinstance(callback_or_cls, six.class_types):
             cls = callback_or_cls
-            try:
-                cls_init = six.get_unbound_function(cls.__init__)
-                assert cls_init is not _OBJECT_INIT
-            except (AttributeError, AssertionError):
-                raise Error(
-                    'Class {0}.{1} has no __init__() '.format(cls.__module__,
-                                                              cls.__name__) +
-                    'method and could not be decorated with @inject decorator')
-            cls.__init__ = decorator(cls_init)
+            cls.__init__ = decorator(_fetch_cls_init(cls))
             return cls
 
         callback = callback_or_cls
+
         if hasattr(callback, 'injections'):
             callback.args += arg_injections
             callback.kwargs += kwarg_injections
@@ -261,6 +254,19 @@ def inject(*args, **kwargs):
 
         return decorated
     return decorator
+
+
+def _fetch_cls_init(cls):
+    """Return reference to the class.__init__() method if it is defined."""
+    try:
+        cls_init = six.get_unbound_function(cls.__init__)
+        assert cls_init is not _OBJECT_INIT
+    except (AttributeError, AssertionError):
+        raise Error(
+            'Class {0}.{1} has no __init__() '.format(cls.__module__,
+                                                      cls.__name__) +
+            'method and could not be decorated with @inject decorator')
+    return cls_init
 
 
 def _parse_args_injections(args):
