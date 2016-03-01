@@ -228,7 +228,7 @@ def inject(*args, **kwargs):
 
         callback = callback_or_cls
 
-        if hasattr(callback, 'injections'):
+        if hasattr(callback, '__INJECT_DECORATED__'):
             callback.args += arg_injections
             callback.kwargs += kwarg_injections
             callback.injections += arg_injections + kwarg_injections
@@ -246,6 +246,8 @@ def inject(*args, **kwargs):
 
             return callback(*args, **kwargs)
 
+        decorated.__INJECT_DECORATED__ = True
+        decorated.origin = callback
         decorated.args = arg_injections
         decorated.kwargs = kwarg_injections
         decorated.injections = arg_injections + kwarg_injections
