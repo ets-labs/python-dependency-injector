@@ -1,7 +1,5 @@
 """Injections module."""
 
-import sys
-
 import six
 
 from .utils import is_provider
@@ -9,15 +7,9 @@ from .utils import is_delegated_provider
 from .utils import is_injection
 from .utils import is_arg_injection
 from .utils import is_kwarg_injection
+from .utils import fetch_cls_init
 
 from .errors import Error
-
-
-_IS_PYPY = '__pypy__' in sys.builtin_module_names
-if _IS_PYPY or six.PY3:  # pragma: no cover
-    _OBJECT_INIT = six.get_unbound_function(object.__init__)
-else:  # pragma: no cover
-    _OBJECT_INIT = None
 
 
 @six.python_2_unicode_compatible
@@ -225,7 +217,13 @@ def inject(*args, **kwargs):
         """Dependency injection decorator."""
         if isinstance(callback_or_cls, six.class_types):
             cls = callback_or_cls
-            cls.__init__ = decorator(_fetch_cls_init(cls))
+            cls_init = fetch_cls_init(cls)
+            if not cls_init:
+                raise Error(
+                    'Class {0}.{1} has no __init__() '.format(cls.__module__,
+                                                              cls.__name__) +
+                    'method and could not be decorated with @inject decorator')
+            cls.__init__ = decorator(cls_init)
             return cls
 
         callback = callback_or_cls
@@ -254,19 +252,6 @@ def inject(*args, **kwargs):
 
         return decorated
     return decorator
-
-
-def _fetch_cls_init(cls):
-    """Return reference to the class.__init__() method if it is defined."""
-    try:
-        cls_init = six.get_unbound_function(cls.__init__)
-        assert cls_init is not _OBJECT_INIT
-    except (AttributeError, AssertionError):
-        raise Error(
-            'Class {0}.{1} has no __init__() '.format(cls.__module__,
-                                                      cls.__name__) +
-            'method and could not be decorated with @inject decorator')
-    return cls_init
 
 
 def _parse_args_injections(args):
