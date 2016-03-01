@@ -1113,3 +1113,18 @@ class FactoryAsDecoratorTests(unittest.TestCase):
 
         self.assertIsInstance(users_service, UsersService.cls)
         self.assertIsInstance(users_service.auth_service, AuthService.cls)
+
+    def test_decoration_and_overriding(self):
+        """Test decoration of some class with Factory provider."""
+        @providers.Factory
+        class AuthService(object):
+            """Auth service."""
+
+        @providers.override(AuthService)
+        @providers.Factory
+        class ExtAuthService(AuthService.cls):
+            """Extended auth service."""
+
+        auth_service = AuthService()
+
+        self.assertIsInstance(auth_service, ExtAuthService.cls)
