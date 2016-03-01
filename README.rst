@@ -95,7 +95,7 @@ Examples
     print get_user_info
 
 
-    @get_user_info.override
+    @providers.override(get_user_info)
     @providers.DelegatedCallable
     def get_user_info(user_id):
         """Return user info."""
