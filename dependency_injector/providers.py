@@ -1037,3 +1037,32 @@ class ChildConfig(Provider):
                                   provides='.'.join(self.parents))
 
     __repr__ = __str__
+
+
+def override(overridden):
+    """Decorator for overriding providers.
+
+    This decorator overrides ``overridden`` provider by decorated one.
+
+    .. code-block:: python
+
+        @Factory
+        class SomeClass(object):
+            pass
+
+
+        @override(SomeClass)
+        @Factory
+        class ExtendedSomeClass(SomeClass.cls):
+            pass
+
+    :param overridden: Provider that should be overridden.
+    :type overridden: :py:class:`Provider`
+
+    :return: Overriding provider.
+    :rtype: :py:class:`Provider`
+    """
+    def decorator(overriding):
+        overridden.override(overriding)
+        return overriding
+    return decorator
