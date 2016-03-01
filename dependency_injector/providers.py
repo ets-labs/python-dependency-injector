@@ -123,6 +123,8 @@ class Provider(object):
         if self.__class__.__OPTIMIZED_CALLS__:
             self.__call__ = self._call_last_overriding
 
+        return provider
+
     def reset_last_overriding(self):
         """Reset last overriding provider.
 
