@@ -110,6 +110,9 @@ class Provider(object):
         :type provider: :py:class:`Provider`
 
         :raise: :py:exc:`dependency_injector.errors.Error`
+
+        :return: Overriding provider.
+        :rtype: :py:class:`Provider`
         """
         if provider is self:
             raise Error('Provider {0} could not be overridden '
