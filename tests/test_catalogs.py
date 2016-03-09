@@ -4,6 +4,7 @@ import unittest2 as unittest
 
 from dependency_injector import catalogs
 from dependency_injector import providers
+from dependency_injector import injections
 from dependency_injector import errors
 
 
@@ -670,3 +671,76 @@ class CatalogModuleBackwardCompatibility(unittest.TestCase):
         from dependency_injector import catalogs
 
         self.assertIs(catalog, catalogs)
+
+
+class TestCatalogWithProvidingCallbacks(unittest.TestCase):
+    """Catalog with providing callback tests."""
+
+    def test_concept(self):
+        """Test concept."""
+        class UsersService(object):
+            """Users service, that has dependency on database."""
+
+        class AuthService(object):
+            """Auth service, that has dependencies on users service."""
+
+            def __init__(self, users_service):
+                """Initializer."""
+                self.users_service = users_service
+
+        class Services(catalogs.DeclarativeCatalog):
+            """Catalog of service providers."""
+
+            @providers.Factory
+            def users():
+                """Provide users service.
+
+                :rtype: providers.Provider -> UsersService
+                """
+                return UsersService()
+
+            @providers.Factory
+            @injections.inject(users_service=users)
+            def auth(**kwargs):
+                """Provide users service.
+
+                :rtype: providers.Provider -> AuthService
+                """
+                return AuthService(**kwargs)
+
+        # Retrieving catalog providers:
+        users_service = Services.users()
+        auth_service = Services.auth()
+
+        # Making some asserts:
+        self.assertIsInstance(auth_service.users_service, UsersService)
+        self.assertIsNot(users_service, Services.users())
+        self.assertIsNot(auth_service, Services.auth())
+
+        # Overriding auth service provider and making some asserts:
+        class ExtendedAuthService(AuthService):
+            """Extended version of auth service."""
+
+            def __init__(self, users_service, ttl):
+                """Initializer."""
+                self.ttl = ttl
+                super(ExtendedAuthService, self).__init__(
+                    users_service=users_service)
+
+        class OverriddenServices(Services):
+            """Catalog of service providers."""
+
+            @providers.override(Services.auth)
+            @providers.Factory
+            @injections.inject(users_service=Services.users)
+            @injections.inject(ttl=3600)
+            def auth(**kwargs):
+                """Provide users service.
+
+                :rtype: providers.Provider -> AuthService
+                """
+                return ExtendedAuthService(**kwargs)
+
+        auth_service = Services.auth()
+
+        self.assertIsInstance(auth_service, ExtendedAuthService)
