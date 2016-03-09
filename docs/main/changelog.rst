@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+1.14.10
+-------
+- Add "catalog-providing-callbacks" example and several tests for it.
+
 1.14.9
 ------
 - Add ``override`` decorator in providers module.
