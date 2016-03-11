@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+1.14.11
+-------
+- Update README.
+
 1.14.10
 -------
 - Add "catalog-providing-callbacks" example and several tests for it.
