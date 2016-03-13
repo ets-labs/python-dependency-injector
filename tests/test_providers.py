@@ -82,7 +82,9 @@ class ProviderTests(unittest.TestCase):
 
     def test_override_with_not_provider(self):
         """Test provider overriding with not provider instance."""
-        self.assertRaises(errors.Error, self.provider.override, object())
+        obj = object()
+        self.provider.override(obj)
+        self.assertIs(self.provider(), obj)
 
     def test_last_overriding(self):
         """Test getting last overriding provider."""
