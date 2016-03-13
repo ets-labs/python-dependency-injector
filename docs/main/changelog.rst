@@ -11,6 +11,13 @@ Development version
 -------------------
 - No features.
 
+1.15.0
+------
+- Add ``Provider.provide()`` method. ``Provider.__call__()`` become a 
+  reference to ``Provider.provide()``.
+- Add provider overriding context.
+- Update main examples and README.
+
 1.14.11
 -------
 - Update README.
