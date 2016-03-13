@@ -60,7 +60,7 @@ class Injection(object):
         :rtype: object
         """
         if self.call_injectable:
-            return self.injectable()
+            return self.injectable.provide()
         return self.injectable
 
     def __str__(self):

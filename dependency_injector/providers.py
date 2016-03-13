@@ -64,7 +64,7 @@ class Provider(object):
 
     __IS_PROVIDER__ = True
     __OPTIMIZED_CALLS__ = True
-    __slots__ = ('overridden_by', '__call__')
+    __slots__ = ('overridden_by', 'provide', '__call__')
 
     def __init__(self):
         """Initializer."""
@@ -72,7 +72,7 @@ class Provider(object):
         super(Provider, self).__init__()
         # Enable __call__() / _provide() optimization
         if self.__class__.__OPTIMIZED_CALLS__:
-            self.__call__ = self._provide
+            self.__call__ = self.provide = self._provide
 
     def _provide(self, *args, **kwargs):
         """Providing strategy implementation.
@@ -124,9 +124,9 @@ class Provider(object):
 
         # Disable __call__() / _provide() optimization
         if self.__class__.__OPTIMIZED_CALLS__:
-            self.__call__ = self._call_last_overriding
+            self.__call__ = self.provide = self._call_last_overriding
 
-        return provider
+        return OverridingContext(self)
 
     def reset_last_overriding(self):
         """Reset last overriding provider.
@@ -143,7 +143,7 @@ class Provider(object):
         if not self.is_overridden:
             # Enable __call__() / _provide() optimization
             if self.__class__.__OPTIMIZED_CALLS__:
-                self.__call__ = self._provide
+                self.__call__ = self.provide = self._provide
 
     def reset_override(self):
         """Reset all overriding providers.
@@ -154,7 +154,7 @@ class Provider(object):
 
         # Enable __call__() / _provide() optimization
         if self.__class__.__OPTIMIZED_CALLS__:
-            self.__call__ = self._provide
+            self.__call__ = self.provide = self._provide
 
     def delegate(self):
         """Return provider's delegate.
@@ -1040,6 +1040,36 @@ class ChildConfig(Provider):
                                   provides='.'.join(self.parents))
 
     __repr__ = __str__
+
+
+class OverridingContext(object):
+    """Provider overriding context.
+
+    :py:class:`OverridingContext` is used by :py:meth:`Provider.override` for
+    implemeting ``with`` contexts. When :py:class:`OverridingContext` is
+    closed, overriding that was created in this context is dropped also.
+
+    .. code-block:: python
+
+        with provider.override(another_provider):
+            assert provider.is_overridden
+        assert not provider.is_overridden
+    """
+
+    def __init__(self, overridden):
+        """Initializer.
+
+        :param overridden: Overridden provider
+        :type overridden: :py:class:`Provider`
+        """
+        self.overridden = overridden
+
+    def __enter__(self):
+        """Do nothing."""
+
+    def __exit__(self, *_):
+        """Exit overriding context."""
+        self.overridden.reset_last_overriding()
 
 
 def override(overridden):
