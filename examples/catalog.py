@@ -1,4 +1,4 @@
-"""Concept example of `Dependency Injector`."""
+"""Pythonic way for Dependency Injection - Service Providers Catalog."""
 
 import sqlite3
 
@@ -27,17 +27,16 @@ class AuthService(object):
 class Services(catalogs.DeclarativeCatalog):
     """Catalog of service providers."""
 
-    database = providers.Singleton(sqlite3.connect,
-                                   injections.Arg(':memory:'))
+    database = providers.Singleton(sqlite3.connect, ':memory:')
     """:type: providers.Provider -> sqlite3.Connection"""
 
     users = providers.Factory(UsersService,
-                              injections.KwArg('db', database))
+                              db=database)
     """:type: providers.Provider -> UsersService"""
 
     auth = providers.Factory(AuthService,
-                             injections.KwArg('db', database),
-                             injections.KwArg('users_service', users))
+                             db=database,
+                             users_service=users)
     """:type: providers.Provider -> AuthService"""
 
 
@@ -65,27 +64,3 @@ def example(users_service, auth_service, database):
 
 # Making a call of decorated callback:
 example()
-
-
-# Overriding auth service provider and making some asserts:
-class ExtendedAuthService(AuthService):
-    """Extended version of auth service."""
-
-    def __init__(self, db, users_service, ttl):
-        """Initializer."""
-        self.ttl = ttl
-        super(ExtendedAuthService, self).__init__(db=db,
-                                                  users_service=users_service)
-
-
-Services.auth.override(providers.Factory(ExtendedAuthService,
-                                         injections.KwArg('db',
-                                                          Services.database),
-                                         injections.KwArg('users_service',
-                                                          Services.users),
-                                         injections.KwArg('ttl', 3600)))
-
-
-auth_service = Services.auth()
-
-assert isinstance(auth_service, ExtendedAuthService)

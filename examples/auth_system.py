@@ -1,4 +1,4 @@
-"""Pythonic way for Dependency Injection."""
+"""Pythonic way for Dependency Injection - Auth System."""
 
 from dependency_injector import providers
 from dependency_injector import injections
