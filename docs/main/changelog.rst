@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+1.15.1
+------
+- Update package information and documentation.
+
 1.15.0
 ------
 - Add ``Provider.provide()`` method. ``Provider.__call__()`` become a 
