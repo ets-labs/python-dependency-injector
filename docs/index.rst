@@ -1,12 +1,13 @@
-Dependency Injector
-===================
+=============================================================
+Dependency Injector --- Python dependency injection framework
+=============================================================
 
 .. meta::
-   :description: Python dependency injection framework
-   :keywords: Python, Dependency injection, Dependency injection framework,
-              Dependency injection container, Dependency injector,
-              Dependency management, DI, DI Container, Inversion of Control,
-              Inversion of Control container, IoC, IoC container
+   :keywords: Python,DI,Dependency injection,IoC,Inversion of Control
+   :description: Dependency Injector is a Python dependency injection 
+                 framework. It was designed to be unified, developer's 
+                 friendly tool for managing any kind of Python objects and 
+                 their dependencies in formal, pretty way.
 
 *Dependency Injector* is a Python dependency injection framework. It was 
 designed to be unified, developer's friendly tool for managing any kind
