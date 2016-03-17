@@ -414,7 +414,7 @@ class Factory(Callable):
     .. py:attribute:: cls
 
         Class that provides object.
-        Alias for :py:attribute:`provides`.
+        Alias for :py:attr:`provides`.
 
         :type: type
 
@@ -536,7 +536,7 @@ class DelegatedFactory(Factory):
     .. py:attribute:: cls
 
         Class that provides object.
-        Alias for :py:attribute:`provides`.
+        Alias for :py:attr:`provides`.
 
         :type: type
 
@@ -611,7 +611,7 @@ class Singleton(Factory):
     .. py:attribute:: cls
 
         Class that provides object.
-        Alias for :py:attribute:`provides`.
+        Alias for :py:attr:`provides`.
 
         :type: type
 
@@ -714,7 +714,7 @@ class DelegatedSingleton(Singleton):
     .. py:attribute:: cls
 
         Class that provides object.
-        Alias for :py:attribute:`provides`.
+        Alias for :py:attr:`provides`.
 
         :type: type
 
