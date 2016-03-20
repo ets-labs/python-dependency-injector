@@ -1,4 +1,11 @@
-"""Movies package."""
+"""Movies package.
+
+Top-level package of movies library. This package contains catalog of movies
+module components - ``MoviesModule``. It is recommended to use movies library
+functionality by fetching required instances from ``MoviesModule`` providers.
+
+Each of ``MoviesModule`` providers could be overridden.
+"""
 
 from . import finders
 from . import listers

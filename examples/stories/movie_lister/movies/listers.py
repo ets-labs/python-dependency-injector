@@ -1,11 +1,22 @@
-"""Movie listers."""
+"""Movie listers module.
+
+This module contains all lister implementations.
+"""
 
 
 class MovieLister(object):
-    """Movie lister."""
+    """Movie lister component.
+
+    Movie lister component provides several methods for filtering movies by
+    specific criteria.
+    """
 
     def __init__(self, movie_finder):
-        """Initializer."""
+        """Initializer.
+
+        :param movie_finder: Movie finder instance
+        :type movie_finder: movies.finders.MovieFinder
+        """
         self.movie_finder = movie_finder
 
     def movies_directed_by(self, director):
@@ -14,7 +25,7 @@ class MovieLister(object):
         :param director: Director's name
         :type director: str
 
-        :rtype: list[:py:class:`Movie`]
+        :rtype: list[movies.models.Movie]
         :return: List of movie instances.
         """
         return [movie for movie in self.movie_finder.find_all()
@@ -26,7 +37,7 @@ class MovieLister(object):
         :param year: Release year
         :type year: int
 
-        :rtype: list[:py:class:`Movie`]
+        :rtype: list[movies.models.Movie]
         :return: List of movie instances.
         """
         return [movie for movie in self.movie_finder.find_all()

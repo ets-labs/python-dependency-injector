@@ -38,7 +38,7 @@ def main(movie_lister):
     persons and then prints all movies that were released in 2015.
 
     :param movie_lister: Movie lister instance
-    :type movie_lister: :py:class:`movies.listers.MovieLister`
+    :type movie_lister: movies.listers.MovieLister
     """
     print movie_lister.movies_directed_by('Francis Lawrence')
     print movie_lister.movies_directed_by('Patricia Riggen')
