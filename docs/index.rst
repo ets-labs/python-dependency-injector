@@ -1,4 +1,3 @@
-=============================================================
 Dependency Injector --- Python dependency injection framework
 =============================================================
 
@@ -14,15 +13,13 @@ Dependency Injector --- Python dependency injection framework
 designed to be unified, developer's friendly tool for managing any kind
 of Python objects and their dependencies in formal, pretty way.
 
-Below is a list of some key features and points of *Dependency Injector*:
+Key features of *Dependency Injector*:
 
 - Easy, smart, pythonic style.
 - Obvious, clear structure.
 - Memory efficiency.
 - Thread safety.
 - Semantic versioning.
-
-Main idea of *Dependency Injector* is to keep dependencies under control.
 
 Status
 ------
@@ -59,7 +56,7 @@ Contents
 ..  toctree::
     :maxdepth: 2
 
-    main/introduction
+    main/introduction/index
     main/installation
     providers/index
     catalogs/index
@@ -67,4 +64,3 @@ Contents
     api/index
     main/feedback
     main/changelog
-
