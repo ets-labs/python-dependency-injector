@@ -1,15 +1,15 @@
-What is Dependency Injection?
------------------------------
+What is dependency injection and inversion of control?
+------------------------------------------------------
 
 Definition
 ~~~~~~~~~~
 
-Wikipedia provides quite good definitions of Dependency Injection Pattern
+Wikipedia provides quite good definitions of dependency injection pattern
 and related principles:
 
 .. glossary::
 
-    `Dependency Injection`_
+    `Dependency injection`_
         In software engineering, dependency injection is a software design 
         pattern that implements inversion of control for resolving 
         dependencies. A dependency is an object that can be used (a service). 
@@ -31,7 +31,7 @@ and related principles:
         services because these define how the client may use the services. 
         This separates the responsibilities of use and construction.
 
-    `Inversion of Control`_
+    `Inversion of control`_
         In software engineering, inversion of control (IoC) describes a design 
         in which custom-written portions of a computer program receive the 
         flow of control from a generic, reusable library. A software 
@@ -51,7 +51,7 @@ and related principles:
         principle, which concerns itself with decoupling dependencies between 
         high-level and low-level layers through shared abstractions.
 
-    `Dependency Inversion`_
+    `Dependency inversion`_
         In object-oriented programming, the dependency inversion principle 
         refers to a specific form of decoupling software modules. When 
         following this principle, the conventional dependency relationships 
@@ -121,9 +121,9 @@ And `John Munsch`_ provided absolutely Great answer:
     down to eat.
 
 
-.. _Dependency Injection: http://en.wikipedia.org/wiki/Dependency_injection
-.. _Inversion of Control: https://en.wikipedia.org/wiki/Inversion_of_control
-.. _Dependency Inversion: https://en.wikipedia.org/wiki/Dependency_inversion_principle
+.. _Dependency injection: http://en.wikipedia.org/wiki/Dependency_injection
+.. _Inversion of control: https://en.wikipedia.org/wiki/Inversion_of_control
+.. _Dependency inversion: https://en.wikipedia.org/wiki/Dependency_inversion_principle
 .. _StackOverflow: http://stackoverflow.com/
 .. _question: http://stackoverflow.com/questions/1638919/how-to-explain-dependency-injection-to-a-5-year-old/1639186
 .. _user198313: http://stackoverflow.com/users/198313/user198313

@@ -1,4 +1,4 @@
-"""The Code, that follows Inversion of Control principle."""
+"""The Code, that follows inversion of control principle."""
 
 
 class Service(object):
