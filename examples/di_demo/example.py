@@ -14,5 +14,4 @@ class Client(object):
 
 
 if __name__ == '__main__':
-    # Application just creates Client's instance
-    client = Client()
+    client = Client()  # Application creates Client's instance

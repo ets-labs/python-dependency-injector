@@ -14,8 +14,5 @@ class Client(object):
 
 
 if __name__ == '__main__':
-    # Application creates Service instance
-    service = Service()
-
-    # and inject Service instance into the Client
-    client = Client(service)
+    service = Service()       # Application creates Service instance
+    client = Client(service)  # and inject Service instance into the Client
