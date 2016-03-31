@@ -1,6 +1,9 @@
 Dependency injection and inversion of control in Python
 -------------------------------------------------------
 
+History
+~~~~~~~
+
 Originally, dependency injection pattern got popular in languages with static 
 typing, like Java. Dependency injection framework can 
 significantly improve flexibility of the language with static typing. Also,
@@ -13,6 +16,9 @@ is a meaning that dependency injection doesn't work for it as well, as it does
 for Java. Also there is a meaning that dependency injection framework is 
 something that Python developer would not ever need, cause dependency injection
 could be implemented easily using language fundamentals.
+
+Discussion
+~~~~~~~~~~
 
 It is true. 
 
@@ -74,6 +80,9 @@ Main design purposes of using inversion of control are:
 + To free modules from assumptions about how other systems do what they do and 
   instead rely on contracts.
 + To prevent side effects when replacing a module.
+
+Example
+~~~~~~~
 
 Let's go through next example:
 

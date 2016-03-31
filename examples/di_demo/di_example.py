@@ -8,9 +8,7 @@ class Components(catalogs.DeclarativeCatalog):
     """Components catalog."""
 
     service = providers.Factory(Service)
-
-    client = providers.Factory(Client,
-                               service=service)
+    client = providers.Factory(Client, service=service)
 
 
 if __name__ == '__main__':
