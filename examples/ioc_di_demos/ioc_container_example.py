@@ -11,6 +11,7 @@ class Components(catalogs.DeclarativeCatalog):
     """Components catalog."""
 
     service = providers.Factory(Service)
+
     client = providers.Factory(Client, service=service)
 
 
