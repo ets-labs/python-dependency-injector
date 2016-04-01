@@ -74,25 +74,26 @@ Example
 
 Let's go through the code of ``example.py``:
 
-.. literalinclude:: ../../../examples/di_demo/example.py
+.. literalinclude:: ../../../examples/ioc_di_demos/example.py
    :language: python
 
 At some point, things defined above mean, that the code from ``example.py``, 
 could look different, like in ``ioc_example.py``:
 
-.. literalinclude:: ../../../examples/di_demo/ioc_example.py
+.. literalinclude:: ../../../examples/ioc_di_demos/ioc_example.py
    :language: python
 
-Also the code from ``ioc_example.py`` could be powered by dependency 
-injection framework, like in ``di_example.py``:
+Also the code from ``ioc_example.py`` could be upgraded with inversion of 
+control container, like in ``ioc_container_example.py``:
 
-.. literalinclude:: ../../../examples/di_demo/di_example.py
+.. literalinclude:: ../../../examples/ioc_di_demos/ioc_container_example.py
    :language: python
     
 .. note::
 
-    ``Components`` from ``di_example.py`` is an IoC container. It contains a 
-    collection of component providers that could be injected into each other. 
+    ``Components`` from ``ioc_container_example.py`` is an IoC container. It 
+    contains a collection of component providers that could be injected into 
+    each other. 
 
     Assuming this, ``Components`` could be one and the only place, where 
     application's structure is being managed on the high level.
