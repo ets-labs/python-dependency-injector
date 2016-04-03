@@ -26,7 +26,6 @@ class ApplicationModule(catalogs.DeclarativeCatalog):
 
     database = providers.Singleton(sqlite3.connect,
                                    MOVIES_DB_PATH)
-    """:type: providers.Provider -> sqlite3.Connection"""
 
 
 @catalogs.override(MoviesModule)
@@ -36,7 +35,6 @@ class MyMoviesModule(catalogs.DeclarativeCatalog):
     movie_finder = providers.Factory(finders.SqliteMovieFinder,
                                      *MoviesModule.movie_finder.injections,
                                      database=ApplicationModule.database)
-    """:type: providers.Provider -> finders.SqliteMovieFinder"""
 
 
 @injections.inject(MoviesModule.movie_lister)

@@ -27,7 +27,6 @@ class MyMoviesModule(catalogs.DeclarativeCatalog):
                                      *MoviesModule.movie_finder.injections,
                                      csv_file=MOVIES_CSV_PATH,
                                      delimeter=',')
-    """:type: providers.Provider -> finders.CsvMovieFinder"""
 
 
 @injections.inject(MoviesModule.movie_lister)
