@@ -2,8 +2,10 @@
 
 import unittest2 as unittest
 
-from dependency_injector import providers
-from dependency_injector import utils
+from dependency_injector import (
+    providers,
+    utils,
+)
 
 
 class StaticProvidersTests(unittest.TestCase):
