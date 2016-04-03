@@ -2,14 +2,18 @@
 
 import six
 
-from .errors import Error
-from .errors import UndefinedProviderError
+from dependency_injector.errors import (
+    Error,
+    UndefinedProviderError,
+)
 
-from .utils import is_provider
-from .utils import is_catalog
-from .utils import is_declarative_catalog
-from .utils import ensure_is_provider
-from .utils import ensure_is_catalog_bundle
+from dependency_injector.utils import (
+    is_provider,
+    is_catalog,
+    is_declarative_catalog,
+    ensure_is_provider,
+    ensure_is_catalog_bundle,
+)
 
 
 @six.python_2_unicode_compatible

@@ -9,7 +9,8 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- No features.
+- [Refactoring] split ``providers`` module into smaller modules, 
+  ``providers`` become a package.
 
 1.15.1
 ------

@@ -2,14 +2,16 @@
 
 import six
 
-from .utils import is_provider
-from .utils import is_delegated_provider
-from .utils import is_injection
-from .utils import is_arg_injection
-from .utils import is_kwarg_injection
-from .utils import fetch_cls_init
+from dependency_injector.utils import (
+    is_provider,
+    is_delegated_provider,
+    is_injection,
+    is_arg_injection,
+    is_kwarg_injection,
+    fetch_cls_init,
+)
 
-from .errors import Error
+from dependency_injector.errors import Error
 
 
 @six.python_2_unicode_compatible

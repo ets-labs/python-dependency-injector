@@ -5,7 +5,7 @@ import threading
 
 import six
 
-from .errors import Error
+from dependency_injector.errors import Error
 
 
 GLOBAL_LOCK = threading.RLock()
