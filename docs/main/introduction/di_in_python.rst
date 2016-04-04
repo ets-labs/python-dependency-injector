@@ -86,12 +86,12 @@ Example
 
 Let's go through next example:
 
-.. literalinclude:: ../../../examples/ioc_demo/car_engine_1.py
+.. literalinclude:: ../../../examples/ioc_di_demo/car_engine_1.py
    :language: python
 
 ``Car`` **creates** an ``Engine`` during its creation. Really? Does it make 
 more sense then creating an ``Engine`` separatelly and then 
 **put (inject) it into** ``Car`` when ``Car`` is being created?
 
-.. literalinclude:: ../../../examples/ioc_demo/car_engine_2.py
+.. literalinclude:: ../../../examples/ioc_di_demo/car_engine_2.py
    :language: python
