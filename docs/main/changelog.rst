@@ -9,10 +9,14 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+
+1.15.2
+------
 - [Refactoring] split ``catalogs`` module into smaller modules, 
   ``catalogs`` module become a package.
 - [Refactoring] split ``providers`` module into smaller modules, 
   ``providers`` module  become a package.
+- Update introduction documentation.
 
 1.15.1
 ------

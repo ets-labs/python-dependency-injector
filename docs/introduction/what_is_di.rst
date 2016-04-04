@@ -74,19 +74,19 @@ Example
 
 Let's go through the code of ``example.py``:
 
-.. literalinclude:: ../../../examples/ioc_di_demos/example.py
+.. literalinclude:: ../../examples/ioc_di_demos/example.py
    :language: python
 
 At some point, things defined above mean, that the code from ``example.py``, 
 could look different, like in ``ioc_example.py``:
 
-.. literalinclude:: ../../../examples/ioc_di_demos/ioc_example.py
+.. literalinclude:: ../../examples/ioc_di_demos/ioc_example.py
    :language: python
 
 Also the code from ``ioc_example.py`` could be upgraded with inversion of 
 control container, like in ``ioc_container_example.py``:
 
-.. literalinclude:: ../../../examples/ioc_di_demos/ioc_container_example.py
+.. literalinclude:: ../../examples/ioc_di_demos/ioc_container_example.py
    :language: python
     
 .. note::

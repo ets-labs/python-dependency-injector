@@ -58,7 +58,7 @@ Contents
 ..  toctree::
     :maxdepth: 2
 
-    main/introduction/index
+    introduction/index
     main/installation
     providers/index
     catalogs/index
