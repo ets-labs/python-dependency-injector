@@ -8,7 +8,7 @@ from ioc_example import Client
 
 
 class Components(catalogs.DeclarativeCatalog):
-    """Component providers catalog."""
+    """Catalog of component providers."""
 
     service = providers.Factory(Service)
 
