@@ -7,12 +7,12 @@ functionality by fetching required instances from ``MoviesModule`` providers.
 Each of ``MoviesModule`` providers could be overridden.
 """
 
+from dependency_injector import catalogs
+from dependency_injector import providers
+
 from . import finders
 from . import listers
 from . import models
-
-from dependency_injector import catalogs
-from dependency_injector import providers
 
 
 class MoviesModule(catalogs.DeclarativeCatalog):
