@@ -1,8 +1,9 @@
 """Movies package.
 
 Top-level package of movies library. This package contains catalog of movies
-module components - ``MoviesModule``. It is recommended to use movies library
-functionality by fetching required instances from ``MoviesModule`` providers.
+module component providers - ``MoviesModule``. It is recommended to use movies
+library functionality by fetching required instances from ``MoviesModule``
+providers.
 
 Each of ``MoviesModule`` providers could be overridden.
 """
@@ -16,7 +17,7 @@ from . import models
 
 
 class MoviesModule(catalogs.DeclarativeCatalog):
-    """Catalog of movies module components."""
+    """Catalog of movies module component providers."""
 
     movie_model = providers.DelegatedFactory(models.Movie)
 

@@ -22,7 +22,7 @@ from dependency_injector import injections
 
 
 class ApplicationModule(catalogs.DeclarativeCatalog):
-    """Catalog of application components."""
+    """Catalog of application component providers."""
 
     database = providers.Singleton(sqlite3.connect,
                                    MOVIES_DB_PATH)
@@ -30,7 +30,7 @@ class ApplicationModule(catalogs.DeclarativeCatalog):
 
 @catalogs.override(MoviesModule)
 class MyMoviesModule(catalogs.DeclarativeCatalog):
-    """Customized catalog of movies module components."""
+    """Customized catalog of movies module component providers."""
 
     movie_finder = providers.Factory(finders.SqliteMovieFinder,
                                      *MoviesModule.movie_finder.injections,

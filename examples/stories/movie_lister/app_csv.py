@@ -21,7 +21,7 @@ from dependency_injector import injections
 
 @catalogs.override(MoviesModule)
 class MyMoviesModule(catalogs.DeclarativeCatalog):
-    """Customized catalog of movies module components."""
+    """Customized catalog of movies module component providers."""
 
     movie_finder = providers.Factory(finders.CsvMovieFinder,
                                      *MoviesModule.movie_finder.injections,
