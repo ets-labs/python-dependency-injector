@@ -11,14 +11,14 @@ sqlite movies database.
 
 import sqlite3
 
+from dependency_injector import catalogs
+from dependency_injector import providers
+from dependency_injector import injections
+
 from movies import MoviesModule
 from movies import finders
 
 from settings import MOVIES_DB_PATH
-
-from dependency_injector import catalogs
-from dependency_injector import providers
-from dependency_injector import injections
 
 
 class ApplicationModule(catalogs.DeclarativeCatalog):

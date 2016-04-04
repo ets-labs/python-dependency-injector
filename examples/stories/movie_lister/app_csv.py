@@ -9,14 +9,14 @@ This mini application uses ``movies`` library, that is configured to work with
 csv file movies database.
 """
 
+from dependency_injector import catalogs
+from dependency_injector import providers
+from dependency_injector import injections
+
 from movies import MoviesModule
 from movies import finders
 
 from settings import MOVIES_CSV_PATH
-
-from dependency_injector import catalogs
-from dependency_injector import providers
-from dependency_injector import injections
 
 
 @catalogs.override(MoviesModule)
