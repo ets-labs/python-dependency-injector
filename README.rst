@@ -212,16 +212,13 @@ Service providers catalog example:
         """Catalog of service providers."""
 
         database = providers.Singleton(sqlite3.connect, ':memory:')
-        """:type: providers.Provider -> sqlite3.Connection"""
 
         users = providers.Factory(UsersService,
                                   db=database)
-        """:type: providers.Provider -> UsersService"""
 
         auth = providers.Factory(AuthService,
                                  db=database,
                                  users_service=users)
-        """:type: providers.Provider -> AuthService"""
 
 
     # Retrieving catalog providers:
