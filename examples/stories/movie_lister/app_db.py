@@ -24,8 +24,7 @@ from settings import MOVIES_DB_PATH
 class ApplicationModule(catalogs.DeclarativeCatalog):
     """Catalog of application component providers."""
 
-    database = providers.Singleton(sqlite3.connect,
-                                   MOVIES_DB_PATH)
+    database = providers.Singleton(sqlite3.connect, MOVIES_DB_PATH)
 
 
 @catalogs.override(MoviesModule)
