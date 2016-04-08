@@ -6,8 +6,6 @@ from dependency_injector.providers.base import (
     Static,
     StaticProvider,
     ExternalDependency,
-    OverridingContext,
-    override,
 )
 from dependency_injector.providers.callable import (
     Callable,
@@ -28,6 +26,10 @@ from dependency_injector.providers.static import (
 from dependency_injector.providers.config import (
     Config,
     ChildConfig,
+)
+from dependency_injector.providers.utils import (
+    OverridingContext,
+    override,
 )
 
 

@@ -1,13 +1,11 @@
 """Dependency injector creational providers."""
 
 from dependency_injector.providers.callable import Callable
-
 from dependency_injector.utils import (
     is_attribute_injection,
     is_method_injection,
     GLOBAL_LOCK,
 )
-
 from dependency_injector.errors import Error
 
 

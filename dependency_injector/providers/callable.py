@@ -3,14 +3,11 @@
 import six
 
 from dependency_injector.providers.base import Provider
-
 from dependency_injector.injections import (
     _parse_args_injections,
     _parse_kwargs_injections,
 )
-
 from dependency_injector.utils import represent_provider
-
 from dependency_injector.errors import Error
 
 
