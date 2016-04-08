@@ -3,13 +3,11 @@
 import six
 
 from dependency_injector.catalogs.bundle import CatalogBundle
-
 from dependency_injector.utils import (
     is_provider,
     ensure_is_provider,
     ensure_is_catalog_bundle,
 )
-
 from dependency_injector.errors import (
     Error,
     UndefinedProviderError,

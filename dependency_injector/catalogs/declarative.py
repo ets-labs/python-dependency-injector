@@ -4,13 +4,11 @@ import six
 
 from dependency_injector.catalogs.dynamic import DynamicCatalog
 from dependency_injector.catalogs.bundle import CatalogBundle
-
 from dependency_injector.utils import (
     is_provider,
     is_catalog,
     is_declarative_catalog,
 )
-
 from dependency_injector.errors import (
     Error,
     UndefinedProviderError,
