@@ -29,6 +29,17 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
     def test_cls_providers(self):
         """Test `di.DeclarativeCatalog.cls_providers` contents."""
+        class CatalogA(catalogs.DeclarativeCatalog):
+            """Test catalog A."""
+
+            p11 = providers.Provider()
+            p12 = providers.Provider()
+
+        class CatalogB(CatalogA):
+            """Test catalog B."""
+
+            p21 = providers.Provider()
+            p22 = providers.Provider()
         self.assertDictEqual(CatalogA.cls_providers,
                              dict(p11=CatalogA.p11,
                                   p12=CatalogA.p12))
@@ -70,6 +81,14 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
         del CatalogA.px
         del CatalogA.py
+
+    def test_bind_existing_provider(self):
+        """Test setting of provider via bind_provider() to catalog."""
+        with self.assertRaises(errors.Error):
+            CatalogA.p11 = providers.Provider()
+
+        with self.assertRaises(errors.Error):
+            CatalogA.bind_provider('p11', providers.Provider())
 
     def test_bind_provider_with_valid_provided_type(self):
         """Test setting of provider with provider type restriction."""
@@ -350,3 +369,62 @@ class TestCatalogWithProvidingCallbacks(unittest.TestCase):
         auth_service = Services.auth()
 
         self.assertIsInstance(auth_service, ExtendedAuthService)
+
+
+class CopyingTests(unittest.TestCase):
+    """Declarative catalogs copying tests."""
+
+    def test_copy(self):
+        """Test catalog providers copying."""
+        @catalogs.copy(CatalogA)
+        class CatalogA1(CatalogA):
+            pass
+
+        @catalogs.copy(CatalogA)
+        class CatalogA2(CatalogA):
+            pass
+
+        self.assertIsNot(CatalogA.p11, CatalogA1.p11)
+        self.assertIsNot(CatalogA.p12, CatalogA1.p12)
+
+        self.assertIsNot(CatalogA.p11, CatalogA2.p11)
+        self.assertIsNot(CatalogA.p12, CatalogA2.p12)
+
+        self.assertIsNot(CatalogA1.p11, CatalogA2.p11)
+        self.assertIsNot(CatalogA1.p12, CatalogA2.p12)
+
+    def test_copy_with_replacing(self):
+        """Test catalog providers copying."""
+        class CatalogA(catalogs.DeclarativeCatalog):
+            p11 = providers.Value(0)
+            p12 = providers.Factory(dict, p11=p11)
+
+        @catalogs.copy(CatalogA)
+        class CatalogA1(CatalogA):
+            p11 = providers.Value(1)
+            p13 = providers.Value(11)
+
+        @catalogs.copy(CatalogA)
+        class CatalogA2(CatalogA):
+            p11 = providers.Value(2)
+            p13 = providers.Value(22)
+
+        self.assertIsNot(CatalogA.p11, CatalogA1.p11)
+        self.assertIsNot(CatalogA.p12, CatalogA1.p12)
+
+        self.assertIsNot(CatalogA.p11, CatalogA2.p11)
+        self.assertIsNot(CatalogA.p12, CatalogA2.p12)
+
+        self.assertIsNot(CatalogA1.p11, CatalogA2.p11)
+        self.assertIsNot(CatalogA1.p12, CatalogA2.p12)
+
+        self.assertIs(CatalogA.p12.injections[0].injectable, CatalogA.p11)
+        self.assertIs(CatalogA1.p12.injections[0].injectable, CatalogA1.p11)
+        self.assertIs(CatalogA2.p12.injections[0].injectable, CatalogA2.p11)
+
+        self.assertEqual(CatalogA.p12(), dict(p11=0))
+        self.assertEqual(CatalogA1.p12(), dict(p11=1))
+        self.assertEqual(CatalogA2.p12(), dict(p11=2))
+
+        self.assertEqual(CatalogA1.p13(), 11)
+        self.assertEqual(CatalogA2.p13(), 22)

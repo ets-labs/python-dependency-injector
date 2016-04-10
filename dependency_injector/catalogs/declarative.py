@@ -123,7 +123,7 @@ class DeclarativeCatalogMetaClass(type):
         :rtype: None
         """
         if is_provider(value):
-            setattr(cls._catalog, name, value)
+            cls.bind_provider(name, value, _set_as_attribute=False)
         return super(DeclarativeCatalogMetaClass, cls).__setattr__(name, value)
 
     def __delattr__(cls, name):
@@ -348,7 +348,8 @@ class DeclarativeCatalog(object):
     get = get_provider  # Backward compatibility for versions < 0.11.*
 
     @classmethod
-    def bind_provider(cls, name, provider):
+    def bind_provider(cls, name, provider, force=False,
+                      _set_as_attribute=True):
         """Bind provider to catalog with specified name.
 
         :param name: Name of the provider.
@@ -357,14 +358,26 @@ class DeclarativeCatalog(object):
         :param provider: Provider instance.
         :type provider: :py:class:`dependency_injector.providers.Provider`
 
+        :param force: Force binding of provider.
+        :type force: bool
+
         :raise: :py:exc:`dependency_injector.errors.Error`
 
         :rtype: None
         """
-        setattr(cls, name, provider)
+        if cls._catalog.is_provider_bound(provider):
+            bindind_name = cls._catalog.get_provider_bind_name(provider)
+            if bindind_name == name and not force:
+                return
+
+        cls._catalog.bind_provider(name, provider, force)
+        cls.cls_providers[name] = provider
+
+        if _set_as_attribute:
+            setattr(cls, name, provider)
 
     @classmethod
-    def bind_providers(cls, providers):
+    def bind_providers(cls, providers, force=False):
         """Bind providers dictionary to catalog.
 
         :param providers: Dictionary of providers, where key is a name
@@ -372,12 +385,15 @@ class DeclarativeCatalog(object):
         :type providers:
             dict[str, :py:class:`dependency_injector.providers.Provider`]
 
+        :param force: Force binding of providers.
+        :type force: bool
+
         :raise: :py:exc:`dependency_injector.errors.Error`
 
         :rtype: None
         """
         for name, provider in six.iteritems(providers):
-            setattr(cls, name, provider)
+            cls.bind_provider(name, provider, force=force)
 
     @classmethod
     def has_provider(cls, name):
@@ -402,6 +418,7 @@ class DeclarativeCatalog(object):
         :rtype: None
         """
         delattr(cls, name)
+        del cls.cls_providers[name]
 
     @classmethod
     def __getattr__(cls, name):  # pragma: no cover

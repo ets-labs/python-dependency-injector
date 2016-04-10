@@ -4,42 +4,46 @@ import six
 
 from copy import deepcopy
 
+from dependency_injector.errors import UndefinedProviderError
+
 
 def copy(catalog):
     """:py:class:`DeclarativeCatalog` copying decorator.
 
+    This decorator copy all providers from provided catalog to decorated one.
+    If one of the decorated catalog providers matches to source catalog
+    providers by name, it would be replaced by reference.
+
     :param catalog: Catalog that should be copied by decorated catalog.
     :type catalog: :py:class:`dependency_injector.catalogs.DeclarativeCatalog`
-                 | :py:class:`dependency_injector.catalogs.DynamicCatalog`
 
     :return: Declarative catalog's copying decorator.
     :rtype:
-        callable(:py:class:`dependency_injector.catalogs.DeclarativeCatalog`)
+        callable(:py:class:`DeclarativeCatalog`)
     """
-    def decorator(overriding_catalog):
-        """Overriding decorator.
+    def decorator(copied_catalog):
+        """Copying decorator.
 
-        :param catalog: Decorated catalog.
-        :type catalog:
-            :py:class:`dependency_injector.catalogs.DeclarativeCatalog`
+        :param copied_catalog: Decorated catalog.
+        :type copied_catalog: :py:class:`DeclarativeCatalog`
 
         :return: Decorated catalog.
         :rtype:
-            :py:class:`dependency_injector.catalogs.DeclarativeCatalog`
+            :py:class:`DeclarativeCatalog`
         """
         memo = dict()
+        for name, provider in six.iteritems(copied_catalog.cls_providers):
+            try:
+                source_provider = catalog.get_provider(name)
+            except UndefinedProviderError:
+                pass
+            else:
+                memo[id(source_provider)] = provider
 
-        for name, provider in six.iteritems(overriding_catalog.providers):
-            memo[id(catalog.get_provider(name))] = provider
+        copied_catalog.bind_providers(deepcopy(catalog.providers, memo),
+                                      force=True)
 
-        dynamic_catalog_copy = deepcopy(catalog._catalog, memo)
-
-        print dynamic_catalog_copy.providers
-
-        for name, provider in six.iteritems(dynamic_catalog_copy.providers):
-            overriding_catalog.bind_provider(name, provider)
-
-        return overriding_catalog
+        return copied_catalog
     return decorator
 
 
@@ -47,7 +51,7 @@ def override(catalog):
     """:py:class:`DeclarativeCatalog` overriding decorator.
 
     :param catalog: Catalog that should be overridden by decorated catalog.
-    :type catalog: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog`
+    :type catalog: :py:class:`DeclarativeCatalog`
 
     :return: Declarative catalog's overriding decorator.
     :rtype: callable(:py:class:`DeclarativeCatalog`)
