@@ -1,7 +1,5 @@
 """Dependency injector dynamic catalog module."""
 
-import copy
-
 import six
 
 from dependency_injector.catalogs.bundle import CatalogBundle
@@ -286,25 +284,6 @@ class DynamicCatalog(object):
         provider = self.get_provider(name)
         del self.providers[name]
         del self.provider_names[provider]
-
-    def copy(self):
-        """Copy catalog instance and return it.
-
-        :rtype: py:class:`DynamicCatalog`
-        :return: Copied catalog.
-        """
-        return copy.copy(self)
-
-    def deepcopy(self, memo=None):
-        """Copy catalog instance and it's providers and return it.
-
-        :param memo: Memorized instances
-        :type memo: dict[int, object]
-
-        :rtype: py:class:`DynamicCatalog`
-        :return: Copied catalog.
-        """
-        return copy.deepcopy(self, memo)
 
     def __getattr__(self, name):
         """Return provider with specified name or raise en error.

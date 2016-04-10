@@ -212,22 +212,6 @@ class DynamicCatalogTests(unittest.TestCase):
         self.assertTrue(len(self.catalog.filter(providers.Provider)) == 2)
         self.assertTrue(len(self.catalog.filter(providers.Value)) == 0)
 
-    def test_copy(self):
-        """Test copying of catalog."""
-        catalog_copy = self.catalog.copy()
-
-        self.assertIsNot(self.catalog, catalog_copy)
-        self.assertIs(self.catalog.p1, catalog_copy.p1)
-        self.assertIs(self.catalog.p2, catalog_copy.p2)
-
-    def test_deepcopy(self):
-        """Test copying of catalog."""
-        catalog_copy = self.catalog.deepcopy()
-
-        self.assertIsNot(self.catalog, catalog_copy)
-        self.assertIsNot(self.catalog.p1, catalog_copy.p1)
-        self.assertIsNot(self.catalog.p2, catalog_copy.p2)
-
     def test_repr(self):
         """Test catalog representation."""
         self.assertIn('TestCatalog', repr(self.catalog))
