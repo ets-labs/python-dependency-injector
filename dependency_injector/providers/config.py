@@ -3,10 +3,8 @@
 import six
 
 from dependency_injector.providers.base import Provider
-
-from dependency_injector.errors import Error
-
 from dependency_injector.utils import represent_provider
+from dependency_injector.errors import Error
 
 
 @six.python_2_unicode_compatible

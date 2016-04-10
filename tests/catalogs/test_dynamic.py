@@ -41,6 +41,17 @@ class DynamicCatalogTests(unittest.TestCase):
         self.assertIs(self.catalog.py, py)
         self.assertIs(self.catalog.get_provider('py'), py)
 
+    def test_bind_existing_provider(self):
+        """Test setting of provider via bind_provider() to catalog."""
+        with self.assertRaises(errors.Error):
+            self.catalog.bind_provider('p1', providers.Factory(object))
+
+    def test_force_bind_existing_provider(self):
+        """Test setting of provider via bind_provider() to catalog."""
+        p1 = providers.Factory(object)
+        self.catalog.bind_provider('p1', p1, force=True)
+        self.assertIs(self.catalog.p1, p1)
+
     def test_bind_provider_with_valid_provided_type(self):
         """Test setting of provider with provider type restriction."""
         class SomeProvider(providers.Provider):
@@ -98,6 +109,17 @@ class DynamicCatalogTests(unittest.TestCase):
 
         self.assertIs(self.catalog.py, py)
         self.assertIs(self.catalog.get_provider('py'), py)
+
+    def test_bind_providers_with_existing(self):
+        """Test setting of provider via bind_providers() to catalog."""
+        with self.assertRaises(errors.Error):
+            self.catalog.bind_providers(dict(p1=providers.Factory(object)))
+
+    def test_bind_providers_force(self):
+        """Test setting of provider via bind_providers() to catalog."""
+        p1 = providers.Factory(object)
+        self.catalog.bind_providers(dict(p1=p1), force=True)
+        self.assertIs(self.catalog.p1, p1)
 
     def test_setattr(self):
         """Test setting of providers via attributes to catalog."""

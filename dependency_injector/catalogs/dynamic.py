@@ -3,13 +3,11 @@
 import six
 
 from dependency_injector.catalogs.bundle import CatalogBundle
-
 from dependency_injector.utils import (
     is_provider,
     ensure_is_provider,
     ensure_is_catalog_bundle,
 )
-
 from dependency_injector.errors import (
     Error,
     UndefinedProviderError,
@@ -213,7 +211,7 @@ class DynamicCatalog(object):
             raise UndefinedProviderError('{0} has no provider with such '
                                          'name - {1}'.format(self, name))
 
-    def bind_provider(self, name, provider):
+    def bind_provider(self, name, provider, force=False):
         """Bind provider to catalog with specified name.
 
         :param name: Name of the provider.
@@ -221,6 +219,9 @@ class DynamicCatalog(object):
 
         :param provider: Provider instance.
         :type provider: :py:class:`dependency_injector.providers.Provider`
+
+        :param force: Force binding of provider.
+        :type force: bool
 
         :raise: :py:exc:`dependency_injector.errors.Error`
 
@@ -233,17 +234,18 @@ class DynamicCatalog(object):
             raise Error('{0} can contain only {1} instances'.format(
                 self, self.__class__.provider_type))
 
-        if name in self.providers:
-            raise Error('Catalog {0} already has provider with '
-                        'such name - {1}'.format(self, name))
-        if provider in self.provider_names:
-            raise Error('Catalog {0} already has such provider '
-                        'instance - {1}'.format(self, provider))
+        if not force:
+            if name in self.providers:
+                raise Error('Catalog {0} already has provider with '
+                            'such name - {1}'.format(self, name))
+            if provider in self.provider_names:
+                raise Error('Catalog {0} already has such provider '
+                            'instance - {1}'.format(self, provider))
 
         self.providers[name] = provider
         self.provider_names[provider] = name
 
-    def bind_providers(self, providers):
+    def bind_providers(self, providers, force=False):
         """Bind providers dictionary to catalog.
 
         :param providers: Dictionary of providers, where key is a name
@@ -251,12 +253,15 @@ class DynamicCatalog(object):
         :type providers:
             dict[str, :py:class:`dependency_injector.providers.Provider`]
 
+        :param force: Force binding of providers.
+        :type force: bool
+
         :raise: :py:exc:`dependency_injector.errors.Error`
 
         :rtype: None
         """
         for name, provider in six.iteritems(providers):
-            self.bind_provider(name, provider)
+            self.bind_provider(name, provider, force)
 
     def has_provider(self, name):
         """Check if there is provider with certain name.
