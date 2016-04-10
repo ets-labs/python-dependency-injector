@@ -14,7 +14,7 @@ def copy(catalog):
     providers by name, it would be replaced by reference.
 
     :param catalog: Catalog that should be copied by decorated catalog.
-    :type catalog: :py:class:`dependency_injector.catalogs.DeclarativeCatalog`
+    :type catalog: :py:class:`DeclarativeCatalog`
 
     :return: Declarative catalog's copying decorator.
     :rtype:
