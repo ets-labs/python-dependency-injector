@@ -9,7 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- No features.
+- Add ``@copy`` decorator for copying declarative catalog providers.
 
 1.15.2
 ------
