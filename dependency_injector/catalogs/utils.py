@@ -2,8 +2,7 @@
 
 import six
 
-from copy import deepcopy
-
+from dependency_injector.utils import _copy_providers
 from dependency_injector.errors import UndefinedProviderError
 
 
@@ -40,7 +39,7 @@ def copy(catalog):
             else:
                 memo[id(source_provider)] = provider
 
-        copied_catalog.bind_providers(deepcopy(catalog.providers, memo),
+        copied_catalog.bind_providers(_copy_providers(catalog.providers, memo),
                                       force=True)
 
         return copied_catalog

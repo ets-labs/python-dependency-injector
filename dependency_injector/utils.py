@@ -1,6 +1,8 @@
 """Utils module."""
 
 import sys
+import copy
+import types
 import threading
 
 import six
@@ -19,6 +21,12 @@ if _IS_PYPY or six.PY3:  # pragma: no cover
     _OBJECT_INIT = six.get_unbound_function(object.__init__)
 else:  # pragma: no cover
     _OBJECT_INIT = None
+
+if six.PY2:  # pragma: no cover
+    copy._deepcopy_dispatch[types.MethodType] = \
+        lambda obj, memo: type(obj)(obj.im_func,
+                                    copy.deepcopy(obj.im_self, memo),
+                                    obj.im_class)
 
 
 def is_provider(instance):
@@ -245,3 +253,8 @@ def fetch_cls_init(cls):
         return None
     else:
         return cls_init
+
+
+def _copy_providers(providers, memo=None):
+    """Make full copy of providers dictionary."""
+    return copy.deepcopy(providers, memo)
