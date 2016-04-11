@@ -1,6 +1,12 @@
 Key features of Dependency Injector
 -----------------------------------
 
+.. meta::
+   :keywords: Python,DI,Dependency injection,IoC,Inversion of Control
+   :description: This article describes key features of "Dependency Injector" 
+                 framework. It also provides some cases and recommendations 
+                 about usage of "Dependency Injector" framework.
+
 *Dependency Injector* is a dependency injection framework for Python projects. 
 It was designed to be unified, developer-friendly tool for managing any kind
 of Python objects and their dependencies in formal, pretty way.
