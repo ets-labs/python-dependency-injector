@@ -48,13 +48,16 @@ Listing of `services.py`:
 
 .. literalinclude:: ../../examples/catalogs/bundles/services.py
    :language: python
+   :linenos:
 
 Listing of `views.py`:
 
 .. literalinclude:: ../../examples/catalogs/bundles/views.py
    :language: python
+   :linenos:
 
 Listing of `catalogs.py`:
 
 .. literalinclude:: ../../examples/catalogs/bundles/catalogs.py
    :language: python
+   :linenos:

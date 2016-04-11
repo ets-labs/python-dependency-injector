@@ -41,6 +41,7 @@ factories:
 
 .. literalinclude:: ../../examples/catalogs/declarative.py
    :language: python
+   :linenos:
 
 Example of declarative catalogs inheritance:
 
@@ -50,6 +51,7 @@ Example of declarative catalogs inheritance:
 
 .. literalinclude:: ../../examples/catalogs/declarative_inheritance.py
    :language: python
+   :linenos:
 
 Example of declarative catalog's provider injections:
 
@@ -59,3 +61,4 @@ Example of declarative catalog's provider injections:
 
 .. literalinclude:: ../../examples/catalogs/declarative_injections.py
    :language: python
+   :linenos:

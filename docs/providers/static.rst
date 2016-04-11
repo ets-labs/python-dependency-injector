@@ -19,3 +19,4 @@ Example:
 
 .. literalinclude:: ../../examples/providers/static.py
    :language: python
+   :linenos:

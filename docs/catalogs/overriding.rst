@@ -18,11 +18,13 @@ method:
 
 .. literalinclude:: ../../examples/catalogs/override_declarative.py
    :language: python
+   :linenos:
 
 Example of overriding catalog using :py:func:`override` decorator:
 
 .. literalinclude:: ../../examples/catalogs/override_declarative_decorator.py
    :language: python
+   :linenos:
 
 Also there are several useful :py:class:`DeclarativeCatalog`  methods and 
 properties that help to work with catalog overridings:
@@ -47,3 +49,4 @@ Example of overriding :py:class:`DeclarativeCatalog` by
 
 .. literalinclude:: ../../examples/catalogs/override_declarative_by_dynamic.py
    :language: python
+   :linenos:

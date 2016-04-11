@@ -41,6 +41,7 @@ injections:
 
 .. literalinclude:: ../../examples/providers/callable_args.py
    :language: python
+   :linenos:
 
 Next one example shows usage of :py:class:`Callable` with keyword argument 
 injections:
@@ -51,6 +52,7 @@ injections:
 
 .. literalinclude:: ../../examples/providers/callable_kwargs.py
    :language: python
+   :linenos:
 
 .. _callable_delegation:
 
@@ -69,6 +71,7 @@ Example:
 
 .. literalinclude:: ../../examples/providers/callable_delegation.py
    :language: python
+   :linenos:
 
 Alternative way of doing :py:class:`Callable` delegation is an usage of 
 :py:class:`DelegatedCallable`. :py:class:`DelegatedCallable` is a 
@@ -78,3 +81,4 @@ Example:
 
 .. literalinclude:: ../../examples/providers/delegated_callable.py
    :language: python
+   :linenos:

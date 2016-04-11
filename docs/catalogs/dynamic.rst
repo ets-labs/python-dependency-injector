@@ -22,8 +22,10 @@ Here is an simple example of defining dynamic catalog with several factories:
 
 .. literalinclude:: ../../examples/catalogs/dynamic.py
    :language: python
+   :linenos:
 
 Next one example demonstrates creation and runtime filling of dynamic catalog:
 
 .. literalinclude:: ../../examples/catalogs/dynamic_runtime_creation.py
    :language: python
+   :linenos:

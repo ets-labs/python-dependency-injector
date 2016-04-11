@@ -18,11 +18,13 @@ Listing of `services.py`:
 
 .. literalinclude:: ../../examples/catalogs/declarative_provider_type/services.py
    :language: python
+   :linenos:
 
 Listing of `catalog.py`:
 
 .. literalinclude:: ../../examples/catalogs/declarative_provider_type/catalog.py
    :language: python
+   :linenos:
 
 Limitation to provider type could be used with :py:class:`DynamicCatalog` 
 as well.
@@ -34,8 +36,10 @@ Listing of `services.py`:
 
 .. literalinclude:: ../../examples/catalogs/dynamic_provider_type/services.py
    :language: python
+   :linenos:
 
 Listing of `catalog.py`:
 
 .. literalinclude:: ../../examples/catalogs/dynamic_provider_type/catalog.py
    :language: python
+   :linenos:

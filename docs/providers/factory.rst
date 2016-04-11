@@ -14,6 +14,7 @@ Nothing could be better than brief example:
 
 .. literalinclude:: ../../examples/providers/factory.py
    :language: python
+   :linenos:
 
 Factory providers and __init__ injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -58,11 +59,13 @@ Example of usage positional argument injections:
 
 .. literalinclude:: ../../examples/providers/factory_init_args.py
    :language: python
+   :linenos:
 
 Example of usage keyword argument injections:
 
 .. literalinclude:: ../../examples/providers/factory_init_kwargs.py
    :language: python
+   :linenos:
 
 Factory providers and __init__ injections priority
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -82,6 +85,7 @@ So, please, follow the example below:
 
 .. literalinclude:: ../../examples/providers/factory_init_injections_and_contexts.py
    :language: python
+   :linenos:
 
 
 Factory providers and other types of injections
@@ -132,6 +136,7 @@ Example:
 
 .. literalinclude:: ../../examples/providers/factory_attribute_injections.py
    :language: python
+   :linenos:
 
 Factory providers and method injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -151,6 +156,7 @@ Example:
 
 .. literalinclude:: ../../examples/providers/factory_method_injections.py
    :language: python
+   :linenos:
 
 Factory providers delegation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -179,6 +185,7 @@ Example:
 
 .. literalinclude:: ../../examples/providers/factory_delegation.py
    :language: python
+   :linenos:
 
 Alternative way of doing :py:class:`Factory` delegation is an usage of 
 :py:class:`DelegatedFactory`. :py:class:`DelegatedFactory` is a 
@@ -188,6 +195,7 @@ Example:
 
 .. literalinclude:: ../../examples/providers/delegated_factory.py
    :language: python
+   :linenos:
 
 Factory providers specialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -200,3 +208,4 @@ type:
 
 .. literalinclude:: ../../examples/providers/factory_provided_type.py
    :language: python
+   :linenos:

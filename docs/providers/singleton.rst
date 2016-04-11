@@ -14,6 +14,7 @@ Example:
 
 .. literalinclude:: ../../examples/providers/singleton.py
    :language: python
+   :linenos:
 
 Singleton providers and injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -53,6 +54,7 @@ Example:
 
 .. literalinclude:: ../../examples/providers/singleton_reseting.py
    :language: python
+   :linenos:
 
 Singleton providers delegation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -70,6 +72,7 @@ Example:
 
 .. literalinclude:: ../../examples/providers/singleton_delegation.py
    :language: python
+   :linenos:
 
 Alternative way of doing :py:class:`Singleton` delegation is an usage of 
 :py:class:`DelegatedSingleton`. :py:class:`DelegatedSingleton` is a 
@@ -79,6 +82,7 @@ Example:
 
 .. literalinclude:: ../../examples/providers/delegated_singleton.py
    :language: python
+   :linenos:
 
 Singleton providers specialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -91,3 +95,4 @@ provided type:
 
 .. literalinclude:: ../../examples/providers/singleton_provided_type.py
    :language: python
+   :linenos:

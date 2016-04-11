@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Add ``@copy`` decorator for copying declarative catalog providers.
+- Add line numbers for all code samples in documentation.
 
 1.15.2
 ------

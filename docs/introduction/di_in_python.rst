@@ -88,6 +88,7 @@ Let's go through next example:
 
 .. literalinclude:: ../../examples/ioc_di_demos/car_engine_1.py
    :language: python
+   :linenos:
 
 ``Car`` **creates** an ``Engine`` during its creation. Really? Does it make 
 more sense then creating an ``Engine`` separatelly and then 
@@ -95,3 +96,4 @@ more sense then creating an ``Engine`` separatelly and then
 
 .. literalinclude:: ../../examples/ioc_di_demos/car_engine_2.py
    :language: python
+   :linenos:

@@ -32,3 +32,4 @@ Example:
 
 .. literalinclude:: ../../examples/providers/custom_factory.py
    :language: python
+   :linenos:

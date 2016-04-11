@@ -42,11 +42,13 @@ Example:
 
 .. literalinclude:: ../../examples/advanced_usage/inject_simple.py
    :language: python
+   :linenos:
 
 Example of usage :py:func:`inject` decorator with Flask:
 
 .. literalinclude:: ../../examples/advanced_usage/inject_flask.py
    :language: python
+   :linenos:
 
 
 @inject decorator with classes
@@ -61,3 +63,4 @@ Example of usage :py:func:`inject` with Flask class-based view:
 
 .. literalinclude:: ../../examples/advanced_usage/inject_flask_class_based.py
    :language: python
+   :linenos:

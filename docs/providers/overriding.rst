@@ -42,6 +42,7 @@ Example:
 
 .. literalinclude:: ../../examples/providers/overriding_simple.py
    :language: python
+   :linenos:
 
 Example:
 
@@ -51,3 +52,4 @@ Example:
 
 .. literalinclude:: ../../examples/providers/overriding_users_model.py
    :language: python
+   :linenos:
