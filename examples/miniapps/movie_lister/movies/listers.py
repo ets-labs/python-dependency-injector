@@ -17,7 +17,7 @@ class MovieLister(object):
         :param movie_finder: Movie finder instance
         :type movie_finder: movies.finders.MovieFinder
         """
-        self.movie_finder = movie_finder
+        self._movie_finder = movie_finder
 
     def movies_directed_by(self, director):
         """Return list of movies that were directed by certain person.
@@ -28,7 +28,7 @@ class MovieLister(object):
         :rtype: list[movies.models.Movie]
         :return: List of movie instances.
         """
-        return [movie for movie in self.movie_finder.find_all()
+        return [movie for movie in self._movie_finder.find_all()
                 if movie.director == director]
 
     def movies_released_in(self, year):
@@ -40,5 +40,5 @@ class MovieLister(object):
         :rtype: list[movies.models.Movie]
         :return: List of movie instances.
         """
-        return [movie for movie in self.movie_finder.find_all()
+        return [movie for movie in self._movie_finder.find_all()
                 if movie.year == year]
