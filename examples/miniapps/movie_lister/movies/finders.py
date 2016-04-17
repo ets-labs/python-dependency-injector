@@ -17,7 +17,7 @@ class MovieFinder(object):
         """Initializer.
 
         :param movie_model: Movie model's factory
-        :type movie_model: (object) -> movies.models.Movie
+        :type movie_model: movies.models.Movie
         """
         self._movie_model = movie_model
 
@@ -37,7 +37,7 @@ class CsvMovieFinder(MovieFinder):
         """Initializer.
 
         :param movie_model: Movie model's factory
-        :type movie_model: (object) -> movies.models.Movie
+        :type movie_model: movies.models.Movie
 
         :param csv_file: Path to csv file with movies data
         :type csv_file: str

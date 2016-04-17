@@ -1,4 +1,4 @@
-"""A naive example of dependency injection in Python.
+"""A naive example of dependency injection on Python.
 
 Example implementation of dependency injection in Python from Martin Fowler's
 article about dependency injection and inversion of control:

@@ -1,4 +1,4 @@
-"""Small script for initializing movies data."""
+"""Script for initializing movie databases."""
 
 import os
 import csv

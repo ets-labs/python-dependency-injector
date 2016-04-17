@@ -1,4 +1,4 @@
-"""A naive example of dependency injection in Python.
+"""A naive example of dependency injection on Python.
 
 Example implementation of dependency injection in Python from Martin Fowler's
 article about dependency injection and inversion of control:
@@ -6,7 +6,7 @@ article about dependency injection and inversion of control:
 http://www.martinfowler.com/articles/injection.html
 
 This mini application uses ``movies`` library, that is configured to work with
-csv file movies database.
+sqlite movies database and csv file movies database.
 """
 
 import sqlite3
@@ -55,21 +55,17 @@ def main(db_movie_lister, csv_movie_lister):
     This program prints info about all movies that were directed by different
     persons and then prints all movies that were released in 2015.
 
-    :param db_movie_lister: Database movie lister instance
+    :param db_movie_lister: Movie lister, configured to work with database
     :type db_movie_lister: movies.listers.MovieLister
 
-    :param csv_movie_lister: Database movie lister instance
+    :param csv_movie_lister: Movie lister, configured to work with csv file
     :type csv_movie_lister: movies.listers.MovieLister
     """
-    print db_movie_lister.movies_directed_by('Francis Lawrence')
-    print db_movie_lister.movies_directed_by('Patricia Riggen')
-    print db_movie_lister.movies_directed_by('JJ Abrams')
-    print db_movie_lister.movies_released_in(2015)
-
-    print csv_movie_lister.movies_directed_by('Francis Lawrence')
-    print csv_movie_lister.movies_directed_by('Patricia Riggen')
-    print csv_movie_lister.movies_directed_by('JJ Abrams')
-    print csv_movie_lister.movies_released_in(2015)
+    for movie_lister in (db_movie_lister, csv_movie_lister):
+        print movie_lister.movies_directed_by('Francis Lawrence')
+        print movie_lister.movies_directed_by('Patricia Riggen')
+        print movie_lister.movies_directed_by('JJ Abrams')
+        print movie_lister.movies_released_in(2015)
 
 
 if __name__ == '__main__':
