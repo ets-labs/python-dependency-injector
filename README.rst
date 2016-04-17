@@ -52,14 +52,6 @@ Installation
 
     pip install dependency_injector
 
-Documentation
--------------
-
-*Dependency Injector* documentation is hosted on ReadTheDocs:
-
-- `User's guide`_ 
-- `API docs`_
-
 Examples
 --------
 
@@ -322,6 +314,13 @@ GitHub:
 
     https://github.com/ets-labs/dependency_injector
 
+Documentation
+-------------
+
+*Dependency Injector* documentation is hosted on ReadTheDocs:
+
+- `User's guide`_ 
+- `API docs`_
 
 Feedback
 --------
