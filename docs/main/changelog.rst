@@ -9,8 +9,15 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- No features.
+
+1.16.0
+------
 - Add ``@copy`` decorator for copying declarative catalog providers.
 - Add line numbers for all code samples in documentation.
+- Add "Examples" section into documentation.
+- Add "Movie Lister" example.
+- Add "Services" example.
 - Move project documentation into organisation's domain 
   (dependency-injector.ets-labs.org).
 
