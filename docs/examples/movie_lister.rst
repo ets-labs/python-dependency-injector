@@ -2,10 +2,10 @@ Movie lister naive example
 --------------------------
 
 .. meta::
-   :description: Dependency Injector is a Python dependency injection 
-                 framework. It was designed to be unified, developer's 
-                 friendly tool for managing any kind of Python objects and 
-                 their dependencies in formal, pretty way.
+   :description: Movie lister - is a naive example of dependency injection and 
+                 inversion of control containers on Python. Original example 
+                 was taken from Martin Fowler's article about dependency 
+                 injection and inversion of control.
 
 This naive example was taken from Martin Fowler's article about dependency 
 injection and inversion of control: http://www.martinfowler.com/articles/injection.html
