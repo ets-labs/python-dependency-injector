@@ -8,14 +8,12 @@ class CatalogA(catalogs.DeclarativeCatalog):
     """Example catalog A."""
 
     provider1 = providers.Factory(object)
-    """:type: providers.Provider -> object"""
 
 
 class CatalogB(CatalogA):
     """Example catalog B."""
 
     provider2 = providers.Singleton(object)
-    """:type: providers.Provider -> object"""
 
 
 # Making some asserts for `providers` attribute:

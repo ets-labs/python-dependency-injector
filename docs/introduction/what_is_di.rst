@@ -2,7 +2,6 @@ What is dependency injection and inversion of control?
 ------------------------------------------------------
 
 .. meta::
-   :keywords: Python,DI,Dependency injection,IoC,Inversion of Control
    :description: This article provides definition of dependency injection, 
                  inversion of control and dependency inversion. It contains 
                  example code in Python that is refactored to be following 

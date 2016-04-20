@@ -13,13 +13,10 @@ class Services(catalogs.DeclarativeCatalog):
     """Example catalog of service providers."""
 
     users = providers.Factory(services.Users)
-    """:type: providers.Provider -> services.Users"""
 
     auth = providers.Factory(services.Auth)
-    """:type: providers.Provider -> services.Auth"""
 
     photos = providers.Factory(services.Photos)
-    """:type: providers.Provider -> services.Photos"""
 
 
 # Declaring views catalog:
@@ -29,12 +26,10 @@ class Views(catalogs.DeclarativeCatalog):
     auth = providers.Factory(views.Auth,
                              services=Services.Bundle(Services.users,
                                                       Services.auth))
-    """:type: providers.Provider -> views.Auth"""
 
     photos = providers.Factory(views.Photos,
                                services=Services.Bundle(Services.users,
                                                         Services.photos))
-    """:type: providers.Provider -> views.Photos"""
 
 
 # Creating example views:

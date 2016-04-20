@@ -2,7 +2,6 @@ Structure of Dependency Injector
 --------------------------------
 
 .. meta::
-   :keywords: Python,DI,Dependency injection,IoC,Inversion of Control
    :description: This article describes "Dependency Injector" framework 
                  components and their interaction between each other. 
                  Catalogs, providers and injections are the former 

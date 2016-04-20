@@ -24,7 +24,6 @@ class Catalog(catalogs.DeclarativeCatalog):
                                  fee=config.FEE,
                                  price=config.PRICE,
                                  timezone=config.GLOBAL.TIMEZONE)
-    """:type: providers.Provider -> ObjectA"""
 
 
 # Setting config value and making some tests.

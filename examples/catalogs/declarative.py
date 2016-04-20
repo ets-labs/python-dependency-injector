@@ -9,10 +9,8 @@ class Catalog(catalogs.DeclarativeCatalog):
     """Providers catalog."""
 
     factory1 = providers.Factory(object)
-    """:type: providers.Provider -> object"""
 
     factory2 = providers.Factory(object)
-    """:type: providers.Provider -> object"""
 
 # Creating some objects:
 object1 = Catalog.factory1()

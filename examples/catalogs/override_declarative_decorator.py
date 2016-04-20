@@ -17,11 +17,9 @@ class Catalog(catalogs.DeclarativeCatalog):
     object1_factory = providers.Factory(Object1,
                                         arg1=1,
                                         arg2=2)
-    """:type: providers.Provider -> Object1"""
 
     object2_factory = providers.Factory(Object2,
                                         object1=object1_factory)
-    """:type: providers.Provider -> Object2"""
 
 
 # Overriding `Catalog` with `AnotherCatalog`:
@@ -30,7 +28,6 @@ class AnotherCatalog(catalogs.DeclarativeCatalog):
     """Overriding catalog."""
 
     object2_factory = providers.Factory(ExtendedObject2)
-    """:type: providers.Provider -> ExtendedObject2"""
 
 
 # Creating some objects using overridden catalog:

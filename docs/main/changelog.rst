@@ -11,6 +11,8 @@ Development version
 -------------------
 - Add ``@copy`` decorator for copying declarative catalog providers.
 - Add line numbers for all code samples in documentation.
+- Move project documentation into organisation's domain 
+  (dependency-injector.ets-labs.org).
 
 1.15.2
 ------

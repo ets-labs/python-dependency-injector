@@ -5,6 +5,10 @@ module component providers - ``MoviesModule``. It is recommended to use movies
 library functionality by fetching required instances from ``MoviesModule``
 providers.
 
+``MoviesModule.movie_finder`` is a factory that provides abstract component
+``finders.MovieFinder``. This provider should be overridden by provider of
+concrete finder implementation in terms of library configuration.
+
 Each of ``MoviesModule`` providers could be overridden.
 """
 

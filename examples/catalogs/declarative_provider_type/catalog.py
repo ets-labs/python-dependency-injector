@@ -31,13 +31,11 @@ class Services(services.Catalog):
     users = services.Provider(UsersService,
                               config={'option1': '111',
                                       'option2': '222'})
-    """:type: services.Provider -> UsersService"""
 
     auth = services.Provider(AuthService,
                              config={'option3': '333',
                                      'option4': '444'},
                              users_service=users)
-    """:type: services.Provider -> AuthService"""
 
 
 # Creating users & auth services:

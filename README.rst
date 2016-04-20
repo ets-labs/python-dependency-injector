@@ -55,259 +55,66 @@ Installation
 Examples
 --------
 
-API client example:
-
 .. code-block:: python
 
-    """Pythonic way for Dependency Injection - API Client."""
+    """Dependency Injector initial example."""
 
-    from dependency_injector import providers
-
-    from mock import Mock
-
-
-    class ApiClient(object):
-        """Some API client."""
-
-        def __init__(self, host, api_key):
-            """Initializer."""
-            self.host = host
-            self.api_key = api_key
-
-        def call(self, operation, data):
-            """Make some network operations."""
-            print 'API call [{0}:{1}], method - {2}, data - {3}'.format(
-                self.host, self.api_key, operation, repr(data))
-
-
-    class User(object):
-        """User model."""
-
-        def __init__(self, id, api_client):
-            """Initializer."""
-            self.id = id
-            self.api_client = api_client
-
-        def register(self):
-            """Register user."""
-            self.api_client.call('register', {'id': self.id})
-
-
-    # Creating ApiClient and User providers:
-    api_client = providers.Singleton(ApiClient,
-                                     host='production.com',
-                                     api_key='PROD_API_KEY')
-    user_factory = providers.Factory(User,
-                                     api_client=api_client)
-
-    # Creating several users and register them:
-    user1 = user_factory(1)
-    user1.register()
-    # API call [production.com:PROD_API_KEY], method - register, data - {'id': 1}
-
-    user2 = user_factory(2)
-    user2.register()
-    # API call [production.com:PROD_API_KEY], method - register, data - {'id': 2}
-
-    # Mock ApiClient for testing:
-    with api_client.override(Mock(ApiClient)) as api_client_mock:
-        user = user_factory('test')
-        user.register()
-        api_client_mock().call.assert_called_with('register', {'id': 'test'})
-
-
-    # Overriding of ApiClient on dev environment:
-    api_client.override(providers.Singleton(ApiClient,
-                                            host='localhost',
-                                            api_key='DEV_API_KEY'))
-
-    user3 = user_factory(3)
-    user3.register()
-    # API call [localhost:DEV_API_KEY], method - register, data - {'id': 3}
-
-Auth system example:
-
-.. code-block:: python
-
-    """Pythonic way for Dependency Injection - Auth System."""
-
-    from dependency_injector import providers
-    from dependency_injector import injections
-
-
-    @providers.DelegatedCallable
-    def get_user_info(user_id):
-        """Return user info."""
-        raise NotImplementedError()
-
-
-    @providers.Factory
-    @injections.inject(get_user_info=get_user_info)
-    class AuthComponent(object):
-        """Some authentication component."""
-
-        def __init__(self, get_user_info):
-            """Initializer."""
-            self.get_user_info = get_user_info
-
-        def authenticate_user(self, token):
-            """Authenticate user by token."""
-            user_info = self.get_user_info(user_id=token + '1')
-            return user_info
-
-
-    print AuthComponent
-    print get_user_info
-
-
-    @providers.override(get_user_info)
-    @providers.DelegatedCallable
-    def get_user_info(user_id):
-        """Return user info."""
-        return {'user_id': user_id}
-
-
-    print AuthComponent().authenticate_user(token='abc')
-    # {'user_id': 'abc1'}
-
-Service providers catalog example:
-
-.. code-block:: python
-
-    """Pythonic way for Dependency Injection - Service Providers Catalog."""
-
+    import sys
     import sqlite3
+    import boto.s3.connection
+
+    import services
 
     from dependency_injector import catalogs
     from dependency_injector import providers
     from dependency_injector import injections
 
 
-    class UsersService(object):
-        """Users service, that has dependency on database."""
-
-        def __init__(self, db):
-            """Initializer."""
-            self.db = db
-
-
-    class AuthService(object):
-        """Auth service, that has dependencies on users service and database."""
-
-        def __init__(self, db, users_service):
-            """Initializer."""
-            self.db = db
-            self.users_service = users_service
-
-
-    class Services(catalogs.DeclarativeCatalog):
-        """Catalog of service providers."""
+    class Platform(catalogs.DeclarativeCatalog):
+        """Catalog of platform service providers."""
 
         database = providers.Singleton(sqlite3.connect, ':memory:')
 
-        users = providers.Factory(UsersService,
-                                  db=database)
-
-        auth = providers.Factory(AuthService,
-                                 db=database,
-                                 users_service=users)
-
-
-    # Retrieving catalog providers:
-    users_service = Services.users()
-    auth_service = Services.auth()
-
-    # Making some asserts:
-    assert users_service.db is auth_service.db is Services.database()
-    assert isinstance(auth_service.users_service, UsersService)
-    assert users_service is not Services.users()
-    assert auth_service is not Services.auth()
-
-
-    # Making some "inline" injections:
-    @injections.inject(users_service=Services.users)
-    @injections.inject(auth_service=Services.auth)
-    @injections.inject(database=Services.database)
-    def example(users_service, auth_service, database):
-        """Example callback."""
-        assert users_service.db is auth_service.db
-        assert auth_service.db is database
-        assert database is Services.database()
-
-
-    # Making a call of decorated callback:
-    example()
-
-Providing callbacks catalog example:
-
-.. code-block:: python
-
-    """Pythonic way for Dependency Injection - Providing Callbacks Catalog."""
-
-    import sqlite3
-
-    from dependency_injector import catalogs
-    from dependency_injector import providers
-    from dependency_injector import injections
-
-
-    class UsersService(object):
-        """Users service, that has dependency on database."""
-
-        def __init__(self, db):
-            """Initializer."""
-            self.db = db
-
-
-    class AuthService(object):
-        """Auth service, that has dependencies on users service and database."""
-
-        def __init__(self, db, users_service):
-            """Initializer."""
-            self.db = db
-            self.users_service = users_service
+        s3 = providers.Singleton(boto.s3.connection.S3Connection,
+                                 aws_access_key_id='KEY',
+                                 aws_secret_access_key='SECRET')
 
 
     class Services(catalogs.DeclarativeCatalog):
-        """Catalog of service providers."""
+        """Catalog of business service providers."""
 
-        @providers.Singleton
-        def database():
-            """Provide database connection.
+        users = providers.Factory(services.Users,
+                                  db=Platform.database)
 
-            :rtype: providers.Provider -> sqlite3.Connection
-            """
-            return sqlite3.connect(':memory:')
+        photos = providers.Factory(services.Photos,
+                                   db=Platform.database,
+                                   s3=Platform.s3)
 
-        @providers.Factory
-        @injections.inject(db=database)
-        def users(**kwargs):
-            """Provide users service.
-
-            :rtype: providers.Provider -> UsersService
-            """
-            return UsersService(**kwargs)
-
-        @providers.Factory
-        @injections.inject(db=database)
-        @injections.inject(users_service=users)
-        def auth(**kwargs):
-            """Provide users service.
-
-            :rtype: providers.Provider -> AuthService
-            """
-            return AuthService(**kwargs)
+        auth = providers.Factory(services.Auth,
+                                 db=Platform.database,
+                                 token_ttl=3600)
 
 
-    # Retrieving catalog providers:
-    users_service = Services.users()
-    auth_service = Services.auth()
+    @injections.inject(users_service=Services.users)
+    @injections.inject(auth_service=Services.auth)
+    def main(argv, users_service, auth_service):
+        """Main function."""
+        login, password, photo_path = argv[1:]
 
-    # Making some asserts:
-    assert users_service.db is auth_service.db is Services.database()
-    assert isinstance(auth_service.users_service, UsersService)
-    assert users_service is not Services.users()
-    assert auth_service is not Services.auth()
+        user = users_service.get_user(login)
+        auth_service.authenticate(user, password)
+
+        upload_photo(user, photo_path)
+
+
+    @injections.inject(photos_service=Services.photos)
+    def upload_photo(user, photo_path, photos_service):
+        """Upload photo."""
+        photos_service.upload_photo(user['id'], photo_path)
+
+
+    if __name__ == '__main__':
+        main(sys.argv)
 
 You can get more *Dependency Injector* examples in ``/examples`` directory on
 GitHub:
@@ -334,8 +141,8 @@ Your feedback is quite important!
 
 
 .. _PyPi: https://pypi.python.org/pypi/dependency_injector
-.. _User's guide: http://dependency_injector.readthedocs.org/en/stable/
-.. _API docs: http://dependency-injector.readthedocs.org/en/stable/api/
+.. _User's guide: http://dependency-injector.ets-labs.org/en/stable/
+.. _API docs: http://dependency-injector.ets-labs.org/en/stable/api/
 .. _SLOC: http://en.wikipedia.org/wiki/Source_lines_of_code
 .. _SOLID: http://en.wikipedia.org/wiki/SOLID_%28object-oriented_design%29
 .. _IoC: http://en.wikipedia.org/wiki/Inversion_of_control
