@@ -11,7 +11,7 @@ Development version
 -------------------
 - No features.
 
-1.16.0
+1.16.1
 ------
 - Add ``@copy`` decorator for copying declarative catalog providers.
 - Add line numbers for all code samples in documentation.
