@@ -9,7 +9,7 @@ from dependency_injector import catalogs
 from dependency_injector import providers
 from dependency_injector import injections
 
-import services  # Example business services module (Users, Photos, Auth)
+from example import services
 
 
 class Platform(catalogs.DeclarativeCatalog):

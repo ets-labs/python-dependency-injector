@@ -1,4 +1,4 @@
-"""Services module."""
+"""Example business services module."""
 
 
 class Users(object):
