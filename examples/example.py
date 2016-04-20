@@ -1,14 +1,15 @@
-"""Dependency Injector initial example."""
+"""Dependency Injector example."""
 
 import sys
 import sqlite3
-import boto.s3.connection
 
-import services
+from boto.s3.connection import S3Connection
 
 from dependency_injector import catalogs
 from dependency_injector import providers
 from dependency_injector import injections
+
+import services  # Example business services module (Users, Photos, Auth)
 
 
 class Platform(catalogs.DeclarativeCatalog):
@@ -16,7 +17,7 @@ class Platform(catalogs.DeclarativeCatalog):
 
     database = providers.Singleton(sqlite3.connect, ':memory:')
 
-    s3 = providers.Singleton(boto.s3.connection.S3Connection,
+    s3 = providers.Singleton(S3Connection,
                              aws_access_key_id='KEY',
                              aws_secret_access_key='SECRET')
 
@@ -38,19 +39,13 @@ class Services(catalogs.DeclarativeCatalog):
 
 @injections.inject(users_service=Services.users)
 @injections.inject(auth_service=Services.auth)
-def main(argv, users_service, auth_service):
+@injections.inject(photos_service=Services.photos)
+def main(argv, users_service, auth_service, photos_service):
     """Main function."""
     login, password, photo_path = argv[1:]
 
     user = users_service.get_user(login)
     auth_service.authenticate(user, password)
-
-    upload_photo(user, photo_path)
-
-
-@injections.inject(photos_service=Services.photos)
-def upload_photo(user, photo_path, photos_service):
-    """Upload photo."""
     photos_service.upload_photo(user['id'], photo_path)
 
 
