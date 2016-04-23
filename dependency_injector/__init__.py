@@ -61,7 +61,7 @@ from dependency_injector.errors import (
 from dependency_injector import catalogs
 catalog = catalogs
 
-VERSION = '1.16.2'
+VERSION = '1.16.3'
 """Version number that follows semantic versioning.
 
 :type: str

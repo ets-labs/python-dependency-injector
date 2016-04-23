@@ -11,7 +11,7 @@ Development version
 -------------------
 - No features.
 
-1.16.2
+1.16.3
 ------
 - Add some documentation improvements.
 
