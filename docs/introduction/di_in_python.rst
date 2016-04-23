@@ -2,6 +2,7 @@ Dependency injection and inversion of control in Python
 -------------------------------------------------------
 
 .. meta::
+   :keywords: Python,DI,Dependency injection,IoC,Inversion of Control
    :description: This article describes benefits of dependency injection and 
                  inversion of control for Python applications. Also it 
                  contains some Python examples that show how dependency 

@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+1.16.2
+------
+- Add some documentation improvements.
+
 1.16.1
 ------
 - Add ``@copy`` decorator for copying declarative catalog providers.

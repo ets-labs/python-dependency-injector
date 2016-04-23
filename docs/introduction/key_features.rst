@@ -2,6 +2,7 @@ Key features of Dependency Injector
 -----------------------------------
 
 .. meta::
+   :keywords: Python,DI,Dependency injection,IoC,Inversion of Control
    :description: This article describes key features of "Dependency Injector" 
                  framework. It also provides some cases and recommendations 
                  about usage of "Dependency Injector" framework.
