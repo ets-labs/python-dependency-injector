@@ -26,31 +26,31 @@ of Python objects and their dependencies in formal, pretty way.
 Status
 ------
 
-+---------------------------------------+---------------------------------------------------------------------------------+
-| *PyPi*                                | .. image:: https://img.shields.io/pypi/v/dependency_injector.svg                |
-|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                   |
-|                                       |    :alt: Latest Version                                                         |
-|                                       | .. image:: https://img.shields.io/pypi/dm/dependency_injector.svg               |
-|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                   |
-|                                       |    :alt: Downloads                                                              |
-|                                       | .. image:: https://img.shields.io/pypi/l/dependency_injector.svg                |
-|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                   |
-|                                       |    :alt: License                                                                |
-+---------------------------------------+---------------------------------------------------------------------------------+
-| *Python versions and implementations* | .. image:: https://img.shields.io/pypi/pyversions/dependency_injector.svg       |
-|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                   |
-|                                       |    :alt: Supported Python versions                                              |
-|                                       | .. image:: https://img.shields.io/pypi/implementation/dependency_injector.svg   |
-|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                   |
-|                                       |    :alt: Supported Python implementations                                       |
-+---------------------------------------+---------------------------------------------------------------------------------+
-| *Builds and tests coverage*           | .. image:: https://travis-ci.org/ets-labs/dependency_injector.svg?branch=master |
-|                                       |    :target: https://travis-ci.org/ets-labs/dependency_injector                  |
-|                                       |    :alt: Build Status                                                           |
-|                                       | .. image:: https://coveralls.io/repos/ets-labs/dependency_injector/badge.svg    |
-|                                       |    :target: https://coveralls.io/r/ets-labs/dependency_injector                 |
-|                                       |    :alt: Coverage Status                                                        |
-+---------------------------------------+---------------------------------------------------------------------------------+
++---------------------------------------+----------------------------------------------------------------------------------------+
+| *PyPi*                                | .. image:: https://img.shields.io/pypi/v/dependency_injector.svg                       |
+|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                          |
+|                                       |    :alt: Latest Version                                                                |
+|                                       | .. image:: https://img.shields.io/pypi/dm/dependency_injector.svg                      |
+|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                          |
+|                                       |    :alt: Downloads                                                                     |
+|                                       | .. image:: https://img.shields.io/pypi/l/dependency_injector.svg                       |
+|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                          |
+|                                       |    :alt: License                                                                       |
++---------------------------------------+----------------------------------------------------------------------------------------+
+| *Python versions and implementations* | .. image:: https://img.shields.io/pypi/pyversions/dependency_injector.svg              |
+|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                          |
+|                                       |    :alt: Supported Python versions                                                     |
+|                                       | .. image:: https://img.shields.io/pypi/implementation/dependency_injector.svg          |
+|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                          |
+|                                       |    :alt: Supported Python implementations                                              |
++---------------------------------------+----------------------------------------------------------------------------------------+
+| *Builds and tests coverage*           | .. image:: https://travis-ci.org/ets-labs/python-dependency-injector.svg?branch=master |
+|                                       |    :target: https://travis-ci.org/ets-labs/python-dependency-injector                  |
+|                                       |    :alt: Build Status                                                                  |
+|                                       | .. image:: https://coveralls.io/repos/ets-labs/python-dependency-injector/badge.svg    |
+|                                       |    :target: https://coveralls.io/r/ets-labs/python-dependency-injector                 |
+|                                       |    :alt: Coverage Status                                                               |
++---------------------------------------+----------------------------------------------------------------------------------------+
 
 Contents
 --------

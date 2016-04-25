@@ -33,5 +33,5 @@ Verification of currently installed version could be done using
     '0.11.0'
 
 .. _PyPi: https://pypi.python.org/pypi/dependency_injector
-.. _GitHub: https://github.com/ets-labs/dependency_injector
-.. _GitHub releases page: https://github.com/ets-labs/dependency_injector/releases
+.. _GitHub: https://github.com/ets-labs/python-dependency-injector
+.. _GitHub releases page: https://github.com/ets-labs/python-dependency-injector/releases

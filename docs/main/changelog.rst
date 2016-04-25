@@ -11,6 +11,11 @@ Development version
 -------------------
 - No features.
 
+1.16.5
+------
+- Move project to ``https://github.com/ets-labs/python-dependency-injector``.
+- Move project docs to ``http://python-dependency-injector.ets-labs.org/``.
+
 1.16.4
 ------
 - Add some documentation improvements.
