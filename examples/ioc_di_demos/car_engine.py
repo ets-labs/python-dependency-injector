@@ -1,4 +1,4 @@
-"""Car & Engine example 2."""
+"""Car & Engine example."""
 
 
 class Engine(object):
@@ -8,11 +8,10 @@ class Engine(object):
 class Car(object):
     """Example car."""
 
-    def __init__(self, engine):
+    def __init__(self):
         """Initializer."""
-        self.engine = engine
+        self.engine = Engine()
 
 
 if __name__ == '__main__':
-    car = Car(Engine())
-    assert car.engine is not None
+    car = Car()  # Application creates Car's instance

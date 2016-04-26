@@ -93,7 +93,7 @@ Example
 
 Let's go through next example:
 
-.. literalinclude:: ../../examples/ioc_di_demos/car_engine_1.py
+.. literalinclude:: ../../examples/ioc_di_demos/car_engine.py
    :language: python
    :linenos:
 
@@ -101,6 +101,27 @@ Let's go through next example:
 more sense then creating an ``Engine`` separatelly and then 
 **put (inject) it into** ``Car`` when ``Car`` is being created?
 
-.. literalinclude:: ../../examples/ioc_di_demos/car_engine_2.py
+.. literalinclude:: ../../examples/ioc_di_demos/car_engine_ioc.py
    :language: python
    :linenos:
+
+Previous example may look more obvious and gives a chance to start getting 
+other benefits of dependency injection and inversion of control, but creation 
+of ``Car`` instances became a bit harder cause now ``Engine`` injections 
+should be done manually every time when ``Car`` instances are being created.
+
+Let's automate ``Engine`` into ``Car`` injections using *Dependency Injector*:
+
+
+.. literalinclude:: ../../examples/ioc_di_demos/car_engine_ioc_container.py
+   :language: python
+   :linenos:
+
+.. note::
+
+    ``Components`` from previous example is an inversion of control container. 
+    It contains a collection of component providers that could be injected 
+    into each other. 
+
+    Assuming this, ``Components`` could be one and the only place, where 
+    application's structure is being managed on the high level.
