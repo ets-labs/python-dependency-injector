@@ -98,8 +98,8 @@ Let's go through next example:
    :linenos:
 
 ``Car`` **creates** an ``Engine`` during its creation. Really? Does it make 
-more sense then creating an ``Engine`` separatelly and then 
-**put (inject) it into** ``Car`` when ``Car`` is being created?
+more sense than creating an ``Engine`` separately and then 
+**inject (put) it into** ``Car`` when ``Car`` is being created?
 
 .. literalinclude:: ../../examples/ioc_di_demos/car_engine_ioc.py
    :language: python

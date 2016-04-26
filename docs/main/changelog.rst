@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+1.16.8
+------
+- Fix some typos in introduction section of documentation.
+
 1.16.7
 ------
 - Add some changes into introduction section of documentation.
