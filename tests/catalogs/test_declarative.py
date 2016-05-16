@@ -428,3 +428,32 @@ class CopyingTests(unittest.TestCase):
 
         self.assertEqual(CatalogA1.p13(), 11)
         self.assertEqual(CatalogA2.p13(), 22)
+
+
+class InstantiationTests(unittest.TestCase):
+    """Declarative catalogs instantiation tests."""
+
+    def setUp(self):
+        """Set test environment up."""
+        self.catalog = CatalogA()
+
+    def tearDown(self):
+        """Tear test environment down."""
+        self.catalog = None
+
+    def test_access_instance_attributes(self):
+        """Test accessing declarative catalog instance attributes."""
+        self.assertEqual(self.catalog.name,
+                         CatalogA.name)
+        self.assertEqual(self.catalog.providers,
+                         CatalogA.providers)
+        self.assertEqual(self.catalog.cls_providers,
+                         CatalogA.cls_providers)
+        self.assertEqual(self.catalog.inherited_providers,
+                         CatalogA.inherited_providers)
+        self.assertEqual(self.catalog.overridden_by,
+                         CatalogA.overridden_by)
+        self.assertEqual(self.catalog.is_overridden,
+                         CatalogA.is_overridden)
+        self.assertEqual(self.catalog.last_overriding,
+                         CatalogA.last_overriding)

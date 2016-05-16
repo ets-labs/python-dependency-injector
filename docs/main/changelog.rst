@@ -16,6 +16,7 @@ Development version
 - Add ``add_injections()`` method to ``Callable``, ``DelegatedCallable``, 
   ``Factory``, ``DelegatedFactory``, ``Singleton`` and ``DelegatedSingleton`` 
   providers.
+- Fix bug with accessing to declarative catalog attributes from instance level.
 
 1.16.8
 ------

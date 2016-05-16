@@ -44,8 +44,8 @@ class DeclarativeCatalogMetaClass(type):
         cls._catalog.name = '.'.join((cls.__module__, cls.__name__))
         cls._catalog.bind_providers(dict(providers))
 
-        cls.cls_providers = dict(cls_providers)
-        cls.inherited_providers = dict(inherited_providers)
+        cls._cls_providers = dict(cls_providers)
+        cls._inherited_providers = dict(inherited_providers)
 
         cls.Bundle = cls._catalog.Bundle
 
@@ -68,6 +68,22 @@ class DeclarativeCatalogMetaClass(type):
         :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
         """
         return cls._catalog.providers
+
+    @property
+    def cls_providers(cls):
+        """Read-only dictionary of current catalog providers.
+
+        :rtype: dict[str, :py:class:`dependency_injector.providers.Provider`]
+        """
+        return cls._cls_providers
+
+    @property
+    def inherited_providers(cls):
+        """Read-only dictionary of inherited providers.
+
+        :rtype: dict[str, :py:class:`dependency_injector.providers.Provider`]
+        """
+        return cls._inherited_providers
 
     @property
     def overridden_by(cls):
@@ -177,52 +193,6 @@ class DeclarativeCatalog(object):
 
         :type: :py:class:`CatalogBundle`
 
-    .. py:attribute:: name
-
-        Read-only property that represents catalog's name.
-
-        Catalog's name is catalog's module + catalog's class name.
-
-        :type: str
-
-    .. py:attribute:: cls_providers
-
-        Read-only dictionary of current catalog providers.
-
-        :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
-
-    .. py:attribute:: inherited_providers
-
-        Read-only dictionary of inherited providers.
-
-        :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
-
-    .. py:attribute:: providers
-
-        Read-only dictionary of all providers.
-
-        :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
-
-    .. py:attribute:: overridden_by
-
-        Tuple of overriding catalogs.
-
-        :type: tuple[:py:class:`DeclarativeCatalog` |
-                    :py:class:`DynamicCatalog`]
-
-    .. py:attribute:: is_overridden
-
-        Read-only property that is set to ``True`` if catalog is overridden.
-
-        :type: bool
-
-    .. py:attribute:: is_overridden
-
-        Read-only reference to the last overriding catalog, if any.
-
-        :type: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog` |
-               None
-
     .. py:attribute:: provider_type
 
         If provider type is defined, :py:class:`DeclarativeCatalog` checks that
@@ -234,21 +204,74 @@ class DeclarativeCatalog(object):
 
     Bundle = CatalogBundle
 
-    name = str()
-
-    cls_providers = dict()
-    inherited_providers = dict()
-    providers = dict()
-
-    overridden_by = tuple()
-    is_overridden = bool
-    last_overriding = None
-
     provider_type = None
 
     _catalog = DynamicCatalog
 
+    _cls_providers = dict()
+    _inherited_providers = dict()
+
     __IS_CATALOG__ = True
+
+    @property
+    def name(self):
+        """Read-only property that represents catalog's name.
+
+        Catalog's name is catalog's module + catalog's class name.
+
+        :rtype: str
+        """
+        return self.__class__.name
+
+    @property
+    def providers(self):
+        """Read-only dictionary of all providers.
+
+        :rtype: dict[str, :py:class:`dependency_injector.providers.Provider`]
+        """
+        return self.__class__.providers
+
+    @property
+    def cls_providers(self):
+        """Read-only dictionary of current catalog providers.
+
+        :rtype: dict[str, :py:class:`dependency_injector.providers.Provider`]
+        """
+        return self.__class__.cls_providers
+
+    @property
+    def inherited_providers(self):
+        """Read-only dictionary of inherited providers.
+
+        :rtype: dict[str, :py:class:`dependency_injector.providers.Provider`]
+        """
+        return self.__class__.inherited_providers
+
+    @property
+    def overridden_by(self):
+        """Tuple of overriding catalogs.
+
+        :rtype: tuple[:py:class:`DeclarativeCatalog` |
+                      :py:class:`DynamicCatalog`]
+        """
+        return self.__class__.overridden_by
+
+    @property
+    def is_overridden(self):
+        """Read-only property that is set to ``True`` if catalog is overridden.
+
+        :rtype: bool
+        """
+        return self.__class__.is_overridden
+
+    @property
+    def last_overriding(self):
+        """Read-only reference to the last overriding catalog, if any.
+
+        :rtype: :py:class:`DeclarativeCatalog` | :py:class:`DynamicCatalog` |
+               None
+        """
+        return self.__class__.last_overriding
 
     @classmethod
     def is_bundle_owner(cls, bundle):
