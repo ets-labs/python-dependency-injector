@@ -106,13 +106,8 @@ class Factory(Callable):
             raise Error('{0} can provide only {1} instances'.format(
                 self.__class__, self.__class__.provided_type))
 
-        self.attributes = tuple(injection
-                                for injection in args
-                                if is_attribute_injection(injection))
-
-        self.methods = tuple(injection
-                             for injection in args
-                             if is_method_injection(injection))
+        self.attributes = tuple()
+        self.methods = tuple()
 
         super(Factory, self).__init__(provides, *args, **kwargs)
 
@@ -125,6 +120,25 @@ class Factory(Callable):
         :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
         """
         return self.args + self.kwargs + self.attributes + self.methods
+
+    def add_injections(self, *args, **kwargs):
+        """Add provider injections.
+
+        :param args: Tuple of injections.
+        :type args: tuple
+
+        :param kwargs: Dictionary of injections.
+        :type kwargs: dict
+        """
+        self.attributes += tuple(injection
+                                 for injection in args
+                                 if is_attribute_injection(injection))
+
+        self.methods += tuple(injection
+                              for injection in args
+                              if is_method_injection(injection))
+
+        super(Factory, self).add_injections(*args, **kwargs)
 
     def _provide(self, *args, **kwargs):
         """Return provided instance.

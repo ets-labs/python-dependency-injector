@@ -76,8 +76,10 @@ class Callable(Provider):
 
         self.provides = provides
 
-        self.args = _parse_args_injections(args)
-        self.kwargs = _parse_kwargs_injections(args, kwargs)
+        self.args = tuple()
+        self.kwargs = tuple()
+
+        self.add_injections(*args, **kwargs)
 
         super(Callable, self).__init__()
 
@@ -88,6 +90,18 @@ class Callable(Provider):
         :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
         """
         return self.args + self.kwargs
+
+    def add_injections(self, *args, **kwargs):
+        """Add provider injections.
+
+        :param args: Tuple of injections.
+        :type args: tuple
+
+        :param kwargs: Dictionary of injections.
+        :type kwargs: dict
+        """
+        self.args += _parse_args_injections(args)
+        self.kwargs += _parse_kwargs_injections(args, kwargs)
 
     def _provide(self, *args, **kwargs):
         """Return provided instance.

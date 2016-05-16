@@ -11,6 +11,12 @@ Development version
 -------------------
 - No features.
 
+1.17.0
+------
+- Add ``add_injections()`` method to ``Callable``, ``DelegatedCallable``, 
+  ``Factory``, ``DelegatedFactory``, ``Singleton`` and ``DelegatedSingleton`` 
+  providers.
+
 1.16.8
 ------
 - Fix some typos in introduction section of documentation.
