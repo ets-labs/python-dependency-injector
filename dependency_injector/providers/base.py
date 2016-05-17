@@ -276,10 +276,6 @@ class Static(Provider):
     __repr__ = __str__
 
 
-StaticProvider = Static
-# Backward compatibility for versions < 1.11.1
-
-
 @six.python_2_unicode_compatible
 class ExternalDependency(Provider):
     """:py:class:`ExternalDependency` provider describes dependency interface.

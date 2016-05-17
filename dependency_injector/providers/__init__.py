@@ -4,7 +4,6 @@ from dependency_injector.providers.base import (
     Provider,
     Delegate,
     Static,
-    StaticProvider,
     ExternalDependency,
 )
 from dependency_injector.providers.callable import (

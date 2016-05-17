@@ -5,7 +5,6 @@ from dependency_injector.catalogs.dynamic import DynamicCatalog
 from dependency_injector.catalogs.declarative import (
     DeclarativeCatalogMetaClass,
     DeclarativeCatalog,
-    AbstractCatalog,
 )
 from dependency_injector.catalogs.utils import (
     copy,
@@ -18,7 +17,6 @@ __all__ = (
     'DynamicCatalog',
     'DeclarativeCatalogMetaClass',
     'DeclarativeCatalog',
-    'AbstractCatalog',
     'copy',
     'override',
 )

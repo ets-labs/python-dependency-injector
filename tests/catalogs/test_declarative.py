@@ -241,11 +241,6 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
     def test_get(self):
         """Test getting of providers using get() method."""
-        self.assertIs(CatalogB.get('p11'), CatalogB.p11)
-        self.assertIs(CatalogB.get('p12'), CatalogB.p12)
-        self.assertIs(CatalogB.get('p22'), CatalogB.p22)
-        self.assertIs(CatalogB.get('p22'), CatalogB.p22)
-
         self.assertIs(CatalogB.get_provider('p11'), CatalogB.p11)
         self.assertIs(CatalogB.get_provider('p12'), CatalogB.p12)
         self.assertIs(CatalogB.get_provider('p22'), CatalogB.p22)
@@ -264,12 +259,6 @@ class DeclarativeCatalogTests(unittest.TestCase):
 
     def test_has(self):
         """Test checks of providers availability in catalog."""
-        self.assertTrue(CatalogB.has('p11'))
-        self.assertTrue(CatalogB.has('p12'))
-        self.assertTrue(CatalogB.has('p21'))
-        self.assertTrue(CatalogB.has('p22'))
-        self.assertFalse(CatalogB.has('undefined'))
-
         self.assertTrue(CatalogB.has_provider('p11'))
         self.assertTrue(CatalogB.has_provider('p12'))
         self.assertTrue(CatalogB.has_provider('p21'))
@@ -292,10 +281,6 @@ class DeclarativeCatalogTests(unittest.TestCase):
         self.assertIn('p12', repr(CatalogB))
         self.assertIn('p21', repr(CatalogB))
         self.assertIn('p22', repr(CatalogB))
-
-    def test_abstract_catalog_backward_compatibility(self):
-        """Test that di.AbstractCatalog is available."""
-        self.assertIs(catalogs.DeclarativeCatalog, catalogs.AbstractCatalog)
 
 
 class TestCatalogWithProvidingCallbacks(unittest.TestCase):

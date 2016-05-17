@@ -368,8 +368,6 @@ class DeclarativeCatalog(object):
         """
         return cls._catalog.get_provider(name)
 
-    get = get_provider  # Backward compatibility for versions < 0.11.*
-
     @classmethod
     def bind_provider(cls, name, provider, force=False,
                       _set_as_attribute=True):
@@ -429,8 +427,6 @@ class DeclarativeCatalog(object):
         """
         return hasattr(cls, name)
 
-    has = has_provider  # Backward compatibility for versions < 0.11.*
-
     @classmethod
     def unbind_provider(cls, name):
         """Remove provider binding.
@@ -485,7 +481,3 @@ class DeclarativeCatalog(object):
         :rtype: None
         """
         raise NotImplementedError('Implementated in metaclass')
-
-
-# Backward compatibility for versions < 0.11.*
-AbstractCatalog = DeclarativeCatalog

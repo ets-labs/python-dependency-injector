@@ -13,7 +13,7 @@ Development version
 
 2.0.0
 ------
-- TBD
+- Drop backward compatibilities of 1.x.
 
 1.17.0
 ------
