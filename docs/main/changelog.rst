@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+2.0.0
+------
+- TBD
+
 1.17.0
 ------
 - Add ``add_injections()`` method to ``Callable``, ``DelegatedCallable``, 
