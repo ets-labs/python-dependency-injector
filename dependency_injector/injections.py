@@ -261,7 +261,3 @@ def _parse_kwargs_injections(args, kwargs):
         kwarg_injections += tuple(itertools.starmap(KwArg,
                                                     six.iteritems(kwargs)))
     return kwarg_injections
-
-
-def _parse_attribute_injections(attributes):
-    return tuple(itertools.starmap(Attribute, six.iteritems(attributes)))

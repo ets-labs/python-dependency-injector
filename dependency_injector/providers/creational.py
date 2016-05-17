@@ -1,38 +1,32 @@
 """Dependency injector creational providers."""
 
+import six
+
 from dependency_injector.providers.callable import Callable
-from dependency_injector.injections import _parse_attribute_injections
+from dependency_injector.injections import Attribute
 from dependency_injector.utils import GLOBAL_LOCK
 from dependency_injector.errors import Error
 
 
 class Factory(Callable):
-    """:py:class:`Factory` provider creates new instance on every call.
+    r""":py:class:`Factory` provider creates new instance on every call.
 
-    :py:class:`Factory` supports different syntaxes of passing injections:
+    :py:class:`Factory` supports positional & keyword argument injections,
+    as well as attribute injections:
 
     .. code-block:: python
 
-        # simplified syntax for passing positional and keyword argument
-        # injections only:
-        factory = Factory(SomeClass, 'arg1', 'arg2', arg3=3, arg4=4)
-
-        # extended (full) syntax for passing any type of injections:
-        factory = Factory(SomeClass,
-                          injections.Arg(1),
-                          injections.Arg(2),
-                          injections.KwArg('some_arg', 3),
-                          injections.KwArg('other_arg', 4),
-                          injections.Attribute('some_attribute', 5))
+        factory = Factory(SomeClass) \
+            .args('arg1', 'arg2') \
+            .kwargs(arg3=3, arg4=4) \
+            .attributes(attribute1=5, attribute2=6)
 
     Retrieving of provided instance can be performed via calling
     :py:class:`Factory` object:
 
     .. code-block:: python
 
-        factory = Factory(SomeClass,
-                          some_arg1=1,
-                          some_arg2=2)
+        factory = Factory(SomeClass)
         some_object = factory()
 
     .. py:attribute:: provided_type
@@ -43,54 +37,24 @@ class Factory(Callable):
 
         :type: type | None
 
-    .. py:attribute:: provides
-
-        Class or other callable that provides object.
-
-        :type: type | callable
-
     .. py:attribute:: cls
 
         Class that provides object.
         Alias for :py:attr:`provides`.
 
         :type: type
-
-    .. py:attribute:: args
-
-        Tuple of positional argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
-
-    .. py:attribute:: kwargs
-
-        Tuple of keyword argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
-
-    .. py:attribute:: attributes
-
-        Tuple of attribute injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
     """
 
     provided_type = None
 
     __slots__ = ('cls', '_attributes')
 
-    def __init__(self, provides, *args, **kwargs):
+    def __init__(self, provides):
         """Initializer.
 
         :param provides: Class or other callable that provides object
             for creation.
         :type provides: type | callable
-
-        :param args: Tuple of injections.
-        :type args: tuple
-
-        :param kwargs: Dictionary of injections.
-        :type kwargs: dict
         """
         if (self.__class__.provided_type and
                 not issubclass(provides, self.__class__.provided_type)):
@@ -99,9 +63,9 @@ class Factory(Callable):
 
         self._attributes = tuple()
 
-        super(Factory, self).__init__(provides, *args, **kwargs)
+        super(Factory, self).__init__(provides)
 
-        self.cls = self.provides
+        self.cls = self._provides
 
     @property
     def injections(self):
@@ -109,7 +73,7 @@ class Factory(Callable):
 
         :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
         """
-        return self._args + self._kwargs + self._attributes
+        return super(Factory, self).injections + self._attributes
 
     def attributes(self, **kwargs):
         """Add attribute injections.
@@ -119,7 +83,8 @@ class Factory(Callable):
 
         :return: Reference ``self``
         """
-        self._attributes += _parse_attribute_injections(kwargs)
+        self._attributes += tuple(Attribute(name, value)
+                                  for name, value in six.iteritems(kwargs))
         return self
 
     def _provide(self, *args, **kwargs):
@@ -140,7 +105,7 @@ class Factory(Callable):
             if kwarg.name not in kwargs:
                 kwargs[kwarg.name] = kwarg.value
 
-        instance = self.provides(*args, **kwargs)
+        instance = self._provides(*args, **kwargs)
 
         for attribute in self._attributes:
             setattr(instance, attribute.name, attribute.value)
@@ -162,36 +127,12 @@ class DelegatedFactory(Factory):
 
         :type: type | None
 
-    .. py:attribute:: provides
-
-        Class or other callable that provides object.
-
-        :type: type | callable
-
     .. py:attribute:: cls
 
         Class that provides object.
         Alias for :py:attr:`provides`.
 
         :type: type
-
-    .. py:attribute:: args
-
-        Tuple of positional argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
-
-    .. py:attribute:: kwargs
-
-        Tuple of keyword argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
-
-    .. py:attribute:: attributes
-
-        Tuple of attribute injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
     """
 
     __IS_DELEGATED__ = True
@@ -212,9 +153,7 @@ class Singleton(Factory):
 
     .. code-block:: python
 
-        singleton = Singleton(SomeClass,
-                              some_arg1=1,
-                              some_arg2=2)
+        singleton = Singleton(SomeClass)
         some_object = singleton()
 
     .. py:attribute:: provided_type
@@ -225,68 +164,32 @@ class Singleton(Factory):
 
         :type: type | None
 
-    .. py:attribute:: instance
-
-        Read-only reference to singleton's instance.
-
-        :type: object
-
-    .. py:attribute:: provides
-
-        Class or other callable that provides object.
-
-        :type: type | callable
-
     .. py:attribute:: cls
 
         Class that provides object.
         Alias for :py:attr:`provides`.
 
         :type: type
-
-    .. py:attribute:: args
-
-        Tuple of positional argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
-
-    .. py:attribute:: kwargs
-
-        Tuple of keyword argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
-
-    .. py:attribute:: attributes
-
-        Tuple of attribute injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
     """
 
-    __slots__ = ('instance',)
+    __slots__ = ('_instance',)
 
-    def __init__(self, provides, *args, **kwargs):
+    def __init__(self, provides):
         """Initializer.
 
         :param provides: Class or other callable that provides object
             for creation.
         :type provides: type | callable
-
-        :param args: Tuple of injections.
-        :type args: tuple
-
-        :param kwargs: Dictionary of injections.
-        :type kwargs: dict
         """
-        self.instance = None
-        super(Singleton, self).__init__(provides, *args, **kwargs)
+        self._instance = None
+        super(Singleton, self).__init__(provides)
 
     def reset(self):
         """Reset cached instance, if any.
 
         :rtype: None
         """
-        self.instance = None
+        self._instance = None
 
     def _provide(self, *args, **kwargs):
         """Return provided instance.
@@ -299,13 +202,13 @@ class Singleton(Factory):
 
         :rtype: object
         """
-        if self.instance:
-            return self.instance
+        if self._instance:
+            return self._instance
 
         with GLOBAL_LOCK:
-            self.instance = super(Singleton, self)._provide(*args, **kwargs)
+            self._instance = super(Singleton, self)._provide(*args, **kwargs)
 
-        return self.instance
+        return self._instance
 
 
 class DelegatedSingleton(Singleton):
@@ -322,42 +225,12 @@ class DelegatedSingleton(Singleton):
 
         :type: type | None
 
-    .. py:attribute:: instance
-
-        Read-only reference to singleton's instance.
-
-        :type: object
-
-    .. py:attribute:: provides
-
-        Class or other callable that provides object.
-
-        :type: type | callable
-
     .. py:attribute:: cls
 
         Class that provides object.
         Alias for :py:attr:`provides`.
 
         :type: type
-
-    .. py:attribute:: args
-
-        Tuple of positional argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
-
-    .. py:attribute:: kwargs
-
-        Tuple of keyword argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
-
-    .. py:attribute:: attributes
-
-        Tuple of attribute injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
     """
 
     __IS_DELEGATED__ = True

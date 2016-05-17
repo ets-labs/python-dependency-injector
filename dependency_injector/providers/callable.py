@@ -3,10 +3,7 @@
 import six
 
 from dependency_injector.providers.base import Provider
-from dependency_injector.injections import (
-    _parse_args_injections,
-    _parse_kwargs_injections,
-)
+from dependency_injector.injections import Arg, KwArg
 from dependency_injector.utils import represent_provider
 from dependency_injector.errors import Error
 
@@ -25,27 +22,9 @@ class Callable(Provider):
         some_function = Callable(some_function) \
             .args('arg1', 'arg2') \
             .kwargs(arg3=3, arg4=4)
-
-    .. py:attribute:: provides
-
-        Provided callable.
-
-        :type: callable
-
-    .. py:attribute:: _args
-
-        Tuple of positional argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
-
-    .. py:attribute:: _kwargs
-
-        Tuple of keyword argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
     """
 
-    __slots__ = ('provides', '_args', '_kwargs')
+    __slots__ = ('_provides', '_args', '_kwargs')
 
     def __init__(self, provides):
         """Initializer.
@@ -59,8 +38,7 @@ class Callable(Provider):
                                                    self.__class__.__name__)),
                                          provides))
 
-        self.provides = provides
-
+        self._provides = provides
         self._args = tuple()
         self._kwargs = tuple()
 
@@ -82,7 +60,7 @@ class Callable(Provider):
 
         :return: Reference ``self``
         """
-        self._args += _parse_args_injections(args)
+        self._args += tuple(Arg(value) for value in args)
         return self
 
     def kwargs(self, **kwargs):
@@ -93,7 +71,8 @@ class Callable(Provider):
 
         :return: Reference ``self``
         """
-        self._kwargs += _parse_kwargs_injections(tuple(), kwargs)
+        self._kwargs += tuple(KwArg(name, value)
+                              for name, value in six.iteritems(kwargs))
         return self
 
     def _provide(self, *args, **kwargs):
@@ -114,14 +93,14 @@ class Callable(Provider):
             if kwarg.name not in kwargs:
                 kwargs[kwarg.name] = kwarg.value
 
-        return self.provides(*args, **kwargs)
+        return self._provides(*args, **kwargs)
 
     def __str__(self):
         """Return string representation of provider.
 
         :rtype: str
         """
-        return represent_provider(provider=self, provides=self.provides)
+        return represent_provider(provider=self, provides=self._provides)
 
     __repr__ = __str__
 
@@ -131,24 +110,6 @@ class DelegatedCallable(Callable):
 
     :py:class:`DelegatedCallable` is a :py:class:`Callable`, that is injected
     "as is".
-
-    .. py:attribute:: provides
-
-        Provided callable.
-
-        :type: callable
-
-    .. py:attribute:: args
-
-        Tuple of positional argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
-
-    .. py:attribute:: kwargs
-
-        Tuple of keyword argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
     """
 
     __IS_DELEGATED__ = True
