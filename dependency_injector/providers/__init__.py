@@ -16,10 +16,6 @@ from dependency_injector.providers.creational import (
     Singleton,
     DelegatedSingleton,
 )
-from dependency_injector.providers.config import (
-    Config,
-    ChildConfig,
-)
 from dependency_injector.providers.utils import (
     OverridingContext,
     override,
@@ -39,9 +35,6 @@ __all__ = (
     'DelegatedFactory',
     'Singleton',
     'DelegatedSingleton',
-
-    'Config',
-    'ChildConfig',
 
     'OverridingContext',
     'override',
