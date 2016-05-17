@@ -2,11 +2,7 @@
 
 import unittest2 as unittest
 
-from dependency_injector import (
-    providers,
-    utils,
-    errors,
-)
+from dependency_injector import providers, utils, errors
 
 
 class CallableTests(unittest.TestCase):
@@ -40,20 +36,14 @@ class CallableTests(unittest.TestCase):
         self.assertTupleEqual(provider(), (1, 2, 3, 4))
 
     def test_call_with_keyword_args(self):
-        """Test call with keyword args.
-
-        New simplified syntax.
-        """
+        """Test call with keyword args."""
         provider = providers.Callable(self.example) \
             .kwargs(arg1=1, arg2=2, arg3=3, arg4=4)
 
         self.assertTupleEqual(provider(), (1, 2, 3, 4))
 
     def test_call_with_positional_and_keyword_args(self):
-        """Test call with positional and keyword args.
-
-        Simplified syntax of positional and keyword arg injections.
-        """
+        """Test call with positional and keyword args."""
         provider = providers.Callable(self.example) \
             .args(1, 2) \
             .kwargs(arg3=3, arg4=4)

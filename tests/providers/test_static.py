@@ -7,6 +7,8 @@ from dependency_injector import (
     utils,
 )
 
+# TODO: move to test_base
+
 
 class ObjectProviderTests(unittest.TestCase):
     """Object provider tests."""
