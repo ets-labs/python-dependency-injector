@@ -3,7 +3,6 @@
 from dependency_injector.providers.callable import Callable
 from dependency_injector.utils import (
     is_attribute_injection,
-    is_method_injection,
     GLOBAL_LOCK,
 )
 from dependency_injector.errors import Error
@@ -76,17 +75,11 @@ class Factory(Callable):
         Tuple of attribute injections.
 
         :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
-
-    .. py:attribute:: methods
-
-        Tuple of method injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Method`]
     """
 
     provided_type = None
 
-    __slots__ = ('cls', 'attributes', 'methods')
+    __slots__ = ('cls', 'attributes')
 
     def __init__(self, provides, *args, **kwargs):
         """Initializer.
@@ -107,7 +100,6 @@ class Factory(Callable):
                 self.__class__, self.__class__.provided_type))
 
         self.attributes = tuple()
-        self.methods = tuple()
 
         super(Factory, self).__init__(provides, *args, **kwargs)
 
@@ -119,7 +111,7 @@ class Factory(Callable):
 
         :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
         """
-        return self.args + self.kwargs + self.attributes + self.methods
+        return self.args + self.kwargs + self.attributes
 
     def add_injections(self, *args, **kwargs):
         """Add provider injections.
@@ -134,11 +126,8 @@ class Factory(Callable):
                                  for injection in args
                                  if is_attribute_injection(injection))
 
-        self.methods += tuple(injection
-                              for injection in args
-                              if is_method_injection(injection))
-
         super(Factory, self).add_injections(*args, **kwargs)
+        return self
 
     def _provide(self, *args, **kwargs):
         """Return provided instance.
@@ -162,8 +151,6 @@ class Factory(Callable):
 
         for attribute in self.attributes:
             setattr(instance, attribute.name, attribute.value)
-        for method in self.methods:
-            getattr(instance, method.name)(method.value)
 
         return instance
 
@@ -212,12 +199,6 @@ class DelegatedFactory(Factory):
         Tuple of attribute injections.
 
         :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
-
-    .. py:attribute:: methods
-
-        Tuple of method injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Method`]
     """
 
     __IS_DELEGATED__ = True
@@ -287,12 +268,6 @@ class Singleton(Factory):
         Tuple of attribute injections.
 
         :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
-
-    .. py:attribute:: methods
-
-        Tuple of method injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Method`]
     """
 
     __slots__ = ('instance',)
@@ -390,12 +365,6 @@ class DelegatedSingleton(Singleton):
         Tuple of attribute injections.
 
         :type: tuple[:py:class:`dependency_injector.injections.Attribute`]
-
-    .. py:attribute:: methods
-
-        Tuple of method injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Method`]
     """
 
     __IS_DELEGATED__ = True

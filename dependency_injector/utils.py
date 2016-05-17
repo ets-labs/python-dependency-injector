@@ -141,19 +141,6 @@ def is_attribute_injection(instance):
             getattr(instance, '__IS_ATTRIBUTE_INJECTION__', False) is True)
 
 
-def is_method_injection(instance):
-    """Check if instance is method injection instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (not isinstance(instance, six.class_types) and
-            hasattr(instance, '__IS_METHOD_INJECTION__') and
-            getattr(instance, '__IS_METHOD_INJECTION__', False) is True)
-
-
 def is_catalog(instance):
     """Check if instance is catalog instance.
 

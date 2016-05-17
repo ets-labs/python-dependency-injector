@@ -20,6 +20,7 @@ Development version
   - ``Function``
   - ``Class``
   - ``Config``
+- Drop ``Method`` injections.
 
 1.17.0
 ------

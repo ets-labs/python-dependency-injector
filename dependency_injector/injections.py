@@ -91,7 +91,7 @@ class _NamedInjection(Injection):
 
     .. py:attribute:: name
 
-        Injection target's name (keyword argument, attribute, method).
+        Injection target's name (keyword argument, attribute).
 
         :type: str
     """
@@ -151,19 +151,6 @@ class Attribute(_NamedInjection):
     """
 
     __IS_ATTRIBUTE_INJECTION__ = True
-
-
-class Method(_NamedInjection):
-    """Method injection.
-
-    .. py:attribute:: name
-
-        Method's name.
-
-        :type: str
-    """
-
-    __IS_METHOD_INJECTION__ = True
 
 
 def inject(*args, **kwargs):

@@ -110,27 +110,6 @@ class AttributeTests(unittest.TestCase):
                 hex(id(injection))))
 
 
-class MethodTests(unittest.TestCase):
-    """Method injection test cases."""
-
-    def test_init(self):
-        """Test Method creation and initialization."""
-        injection = injections.Method('some_arg_name', 'some_value')
-        self.assertEqual(injection.name, 'some_arg_name')
-        self.assertEqual(injection.injectable, 'some_value')
-
-    def test_repr(self):
-        """Test Method representation."""
-        provider = providers.Factory(object)
-        injection = injections.Method('name', provider)
-        self.assertEqual(
-            repr(injection),
-            '<dependency_injector.injections.Method({0}, {1}) at {2}>'.format(
-                repr('name'),
-                repr(provider),
-                hex(id(injection))))
-
-
 class InjectTests(unittest.TestCase):
     """Inject decorator test cases."""
 

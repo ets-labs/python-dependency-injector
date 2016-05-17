@@ -86,8 +86,6 @@ class IsInjectionTests(unittest.TestCase):
                                                             'value')))
         self.assertTrue(utils.is_injection(injections.Attribute('name',
                                                                 'value')))
-        self.assertTrue(utils.is_injection(injections.Method('name',
-                                                             'value')))
 
     def test_with_class(self):
         """Test with class."""
@@ -201,31 +199,6 @@ class IsAttributeInjectionTests(unittest.TestCase):
     def test_with_object(self):
         """Test with object."""
         self.assertFalse(utils.is_attribute_injection(object()))
-
-
-class IsMethodInjectionTests(unittest.TestCase):
-    """`is_method_injection()` test cases."""
-
-    def test_with_instance(self):
-        """Test with instance."""
-        self.assertTrue(utils.is_method_injection(
-            injections.Method('name', 'value')))
-
-    def test_with_class(self):
-        """Test with class."""
-        self.assertFalse(utils.is_method_injection(injections.Method))
-
-    def test_with_parent_class(self):
-        """Test with parent class."""
-        self.assertFalse(utils.is_method_injection(injections.Injection))
-
-    def test_with_string(self):
-        """Test with string."""
-        self.assertFalse(utils.is_method_injection('some_string'))
-
-    def test_with_object(self):
-        """Test with object."""
-        self.assertFalse(utils.is_method_injection(object()))
 
 
 class IsCatalogTests(unittest.TestCase):

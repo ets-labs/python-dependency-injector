@@ -24,17 +24,6 @@ class Example(object):
         self.attribute1 = None
         self.attribute2 = None
 
-        self.method1_value = None
-        self.method2_value = None
-
-    def method1(self, value):
-        """Setter method 1."""
-        self.method1_value = value
-
-    def method2(self, value):
-        """Setter method 2."""
-        self.method2_value = value
-
 
 class FactoryTests(unittest.TestCase):
     """Factory test cases."""
@@ -197,25 +186,6 @@ class FactoryTests(unittest.TestCase):
         self.assertIsInstance(instance1, Example)
         self.assertIsInstance(instance2, Example)
 
-    def test_call_with_methods(self):
-        """Test creation of new instances with method injections."""
-        provider = providers.Factory(Example,
-                                     injections.Method('method1', 'm1'),
-                                     injections.Method('method2', 'm2'))
-
-        instance1 = provider()
-        instance2 = provider()
-
-        self.assertEqual(instance1.method1_value, 'm1')
-        self.assertEqual(instance1.method2_value, 'm2')
-
-        self.assertEqual(instance2.method1_value, 'm1')
-        self.assertEqual(instance2.method2_value, 'm2')
-
-        self.assertIsNot(instance1, instance2)
-        self.assertIsInstance(instance1, Example)
-        self.assertIsInstance(instance2, Example)
-
     def test_call_with_context_args(self):
         """Test creation of new instances with context args."""
         provider = providers.Factory(Example, 11, 22)
@@ -271,10 +241,8 @@ class FactoryTests(unittest.TestCase):
                                      injections.Arg(1),
                                      injections.KwArg('init_arg2', 2),
                                      injections.Attribute('attribute1', 3),
-                                     injections.Attribute('attribute2', 4),
-                                     injections.Method('method1', 5),
-                                     injections.Method('method2', 6))
-        self.assertEquals(len(provider.injections), 6)
+                                     injections.Attribute('attribute2', 4))
+        self.assertEquals(len(provider.injections), 4)
 
     def test_repr(self):
         """Test representation of provider."""
@@ -473,25 +441,6 @@ class SingletonTests(unittest.TestCase):
         self.assertIsInstance(instance1, Example)
         self.assertIsInstance(instance2, Example)
 
-    def test_call_with_methods(self):
-        """Test getting of instances with method injections."""
-        provider = providers.Singleton(Example,
-                                       injections.Method('method1', 'm1'),
-                                       injections.Method('method2', 'm2'))
-
-        instance1 = provider()
-        instance2 = provider()
-
-        self.assertEqual(instance1.method1_value, 'm1')
-        self.assertEqual(instance1.method2_value, 'm2')
-
-        self.assertEqual(instance2.method1_value, 'm1')
-        self.assertEqual(instance2.method2_value, 'm2')
-
-        self.assertIs(instance1, instance2)
-        self.assertIsInstance(instance1, Example)
-        self.assertIsInstance(instance2, Example)
-
     def test_call_with_context_args(self):
         """Test getting of instances with context args."""
         provider = providers.Singleton(Example)
@@ -562,23 +511,14 @@ class SingletonTests(unittest.TestCase):
                                        injections.Attribute('attribute2', 2))
         self.assertEquals(len(provider.attributes), 2)
 
-    def test_methods_attr(self):
-        """Test methods attribute."""
-        provider = providers.Singleton(Example,
-                                       injections.Method('method1', 1),
-                                       injections.Method('method2', 2))
-        self.assertEquals(len(provider.methods), 2)
-
     def test_injections(self):
         """Test getting a full list of injections using injections property."""
         provider = providers.Singleton(Example,
                                        injections.Arg(1),
                                        injections.KwArg('init_arg2', 2),
                                        injections.Attribute('attribute1', 3),
-                                       injections.Attribute('attribute2', 4),
-                                       injections.Method('method1', 5),
-                                       injections.Method('method2', 6))
-        self.assertEquals(len(provider.injections), 6)
+                                       injections.Attribute('attribute2', 4))
+        self.assertEquals(len(provider.injections), 4)
 
     def test_reset(self):
         """Test creation and reset of single object."""
