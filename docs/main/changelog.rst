@@ -14,6 +14,7 @@ Development version
 2.0.0
 ------
 - Drop backward compatibilities of 1.x.
+- Drop ``Static``, ``Value``, ``Function`` & ``Class`` providers.
 
 1.17.0
 ------

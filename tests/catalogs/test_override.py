@@ -36,8 +36,8 @@ class OverrideTests(unittest.TestCase):
         class OverridingCatalog(catalogs.DeclarativeCatalog):
             """Overriding catalog."""
 
-            p11 = providers.Value(1)
-            p12 = providers.Value(2)
+            p11 = providers.Object(1)
+            p12 = providers.Object(2)
 
         self.assertEqual(CatalogA.p11(), 1)
         self.assertEqual(CatalogA.p12(), 2)
@@ -55,15 +55,15 @@ class OverrideTests(unittest.TestCase):
 
     def test_override_dynamic_catalog_with_itself(self):
         """Test catalog overriding of dynamic catalog with itself."""
-        catalog = catalogs.DynamicCatalog(p11=providers.Value(1),
-                                          p12=providers.Value(2))
+        catalog = catalogs.DynamicCatalog(p11=providers.Object(1),
+                                          p12=providers.Object(2))
         with self.assertRaises(errors.Error):
             catalog.override(catalog)
 
     def test_overriding_with_dynamic_catalog(self):
         """Test catalog overriding with another dynamic catalog."""
-        CatalogA.override(catalogs.DynamicCatalog(p11=providers.Value(1),
-                                                  p12=providers.Value(2)))
+        CatalogA.override(catalogs.DynamicCatalog(p11=providers.Object(1),
+                                                  p12=providers.Object(2)))
         self.assertEqual(CatalogA.p11(), 1)
         self.assertEqual(CatalogA.p12(), 2)
         self.assertEqual(len(CatalogA.overridden_by), 1)
@@ -100,15 +100,15 @@ class OverrideTests(unittest.TestCase):
         class OverridingCatalog1(catalogs.DeclarativeCatalog):
             """Overriding catalog."""
 
-            p11 = providers.Value(1)
-            p12 = providers.Value(2)
+            p11 = providers.Object(1)
+            p12 = providers.Object(2)
 
         @catalogs.override(CatalogA)
         class OverridingCatalog2(catalogs.DeclarativeCatalog):
             """Overriding catalog."""
 
-            p11 = providers.Value(3)
-            p12 = providers.Value(4)
+            p11 = providers.Object(3)
+            p12 = providers.Object(4)
 
         CatalogA.reset_last_overriding()
 
@@ -126,15 +126,15 @@ class OverrideTests(unittest.TestCase):
         class OverridingCatalog1(catalogs.DeclarativeCatalog):
             """Overriding catalog."""
 
-            p11 = providers.Value(1)
-            p12 = providers.Value(2)
+            p11 = providers.Object(1)
+            p12 = providers.Object(2)
 
         @catalogs.override(CatalogA)
         class OverridingCatalog2(catalogs.DeclarativeCatalog):
             """Overriding catalog."""
 
-            p11 = providers.Value(3)
-            p12 = providers.Value(4)
+            p11 = providers.Object(3)
+            p12 = providers.Object(4)
 
         CatalogA.reset_override()
 

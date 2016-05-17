@@ -210,7 +210,7 @@ class DynamicCatalogTests(unittest.TestCase):
     def test_filter_all_providers_by_type(self):
         """Test getting of all catalog providers of specific type."""
         self.assertTrue(len(self.catalog.filter(providers.Provider)) == 2)
-        self.assertTrue(len(self.catalog.filter(providers.Value)) == 0)
+        self.assertTrue(len(self.catalog.filter(providers.Object)) == 0)
 
     def test_repr(self):
         """Test catalog representation."""

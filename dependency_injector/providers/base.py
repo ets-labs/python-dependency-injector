@@ -116,7 +116,7 @@ class Provider(object):
                         'with itself'.format(self))
 
         if not is_provider(provider):
-            provider = Static(provider)
+            provider = Object(provider)
 
         if not self.is_overridden:
             self.overridden_by = (ensure_is_provider(provider),)
@@ -229,11 +229,8 @@ class Delegate(Provider):
 
 
 @six.python_2_unicode_compatible
-class Static(Provider):
-    """:py:class:`Static` provider returns provided instance "as is".
-
-    :py:class:`Static` provider is base implementation that provides exactly
-    the same as it got on input.
+class Object(Provider):
+    """:py:class:`Object` provider returns provided instance "as is".
 
     .. py:attribute:: provides
 
@@ -251,7 +248,7 @@ class Static(Provider):
         :type provides: object
         """
         self.provides = provides
-        super(Static, self).__init__()
+        super(Object, self).__init__()
 
     def _provide(self, *args, **kwargs):
         """Return provided instance.

@@ -89,8 +89,8 @@ class CallableTests(unittest.TestCase):
     def test_call_overridden(self):
         """Test creation of new instances on overridden provider."""
         provider = providers.Callable(self.example)
-        provider.override(providers.Value((4, 3, 2, 1)))
-        provider.override(providers.Value((1, 2, 3, 4)))
+        provider.override(providers.Object((4, 3, 2, 1)))
+        provider.override(providers.Object((1, 2, 3, 4)))
 
         self.assertTupleEqual(provider(), (1, 2, 3, 4))
 

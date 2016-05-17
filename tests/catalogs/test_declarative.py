@@ -268,7 +268,7 @@ class DeclarativeCatalogTests(unittest.TestCase):
     def test_filter_all_providers_by_type(self):
         """Test getting of all catalog providers of specific type."""
         self.assertTrue(len(CatalogB.filter(providers.Provider)) == 4)
-        self.assertTrue(len(CatalogB.filter(providers.Value)) == 0)
+        self.assertTrue(len(CatalogB.filter(providers.Object)) == 0)
 
     def test_repr(self):
         """Test catalog representation."""
@@ -381,18 +381,18 @@ class CopyingTests(unittest.TestCase):
     def test_copy_with_replacing(self):
         """Test catalog providers copying."""
         class CatalogA(catalogs.DeclarativeCatalog):
-            p11 = providers.Value(0)
+            p11 = providers.Object(0)
             p12 = providers.Factory(dict, p11=p11)
 
         @catalogs.copy(CatalogA)
         class CatalogA1(CatalogA):
-            p11 = providers.Value(1)
-            p13 = providers.Value(11)
+            p11 = providers.Object(1)
+            p13 = providers.Object(11)
 
         @catalogs.copy(CatalogA)
         class CatalogA2(CatalogA):
-            p11 = providers.Value(2)
-            p13 = providers.Value(22)
+            p11 = providers.Object(2)
+            p13 = providers.Object(22)
 
         self.assertIsNot(CatalogA.p11, CatalogA1.p11)
         self.assertIsNot(CatalogA.p12, CatalogA1.p12)

@@ -3,7 +3,7 @@
 from dependency_injector.providers.base import (
     Provider,
     Delegate,
-    Static,
+    Object,
     ExternalDependency,
 )
 from dependency_injector.providers.callable import (
@@ -15,12 +15,6 @@ from dependency_injector.providers.creational import (
     DelegatedFactory,
     Singleton,
     DelegatedSingleton,
-)
-from dependency_injector.providers.static import (
-    Object,
-    Value,
-    Class,
-    Function,
 )
 from dependency_injector.providers.config import (
     Config,
@@ -35,7 +29,7 @@ from dependency_injector.providers.utils import (
 __all__ = (
     'Provider',
     'Delegate',
-    'Static', 'StaticProvider',
+    'Object',
     'ExternalDependency',
 
     'Callable',
@@ -45,11 +39,6 @@ __all__ = (
     'DelegatedFactory',
     'Singleton',
     'DelegatedSingleton',
-
-    'Object',
-    'Value',
-    'Class',
-    'Function',
 
     'Config',
     'ChildConfig',
