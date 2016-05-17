@@ -1,13 +1,15 @@
 """Injections module."""
 
+import itertools
+
 import six
 
 from dependency_injector.utils import (
     is_provider,
-    is_delegated_provider,
     is_injection,
     is_arg_injection,
     is_kwarg_injection,
+    is_delegated_provider,
     fetch_cls_init,
 )
 
@@ -246,18 +248,20 @@ def inject(*args, **kwargs):
 
 
 def _parse_args_injections(args):
-    """Parse positional argument injections according to current syntax."""
     return tuple(Arg(arg) if not is_injection(arg) else arg
                  for arg in args
                  if not is_injection(arg) or is_arg_injection(arg))
 
 
 def _parse_kwargs_injections(args, kwargs):
-    """Parse keyword argument injections according to current syntax."""
     kwarg_injections = tuple(injection
                              for injection in args
                              if is_kwarg_injection(injection))
     if kwargs:
-        kwarg_injections += tuple(KwArg(name, value)
-                                  for name, value in six.iteritems(kwargs))
+        kwarg_injections += tuple(itertools.starmap(KwArg,
+                                                    six.iteritems(kwargs)))
     return kwarg_injections
+
+
+def _parse_attribute_injections(attributes):
+    return tuple(itertools.starmap(Attribute, six.iteritems(attributes)))

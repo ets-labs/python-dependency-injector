@@ -13,27 +13,18 @@ from dependency_injector.errors import Error
 
 @six.python_2_unicode_compatible
 class Callable(Provider):
-    """:py:class:`Callable` provider calls wrapped callable on every call.
+    r""":py:class:`Callable` provider calls wrapped callable on every call.
 
     :py:class:`Callable` provider provides callable that is called on every
     provider call with some predefined dependency injections.
 
-    :py:class:`Callable` syntax of passing injections is the same like
-    :py:class:`Factory` one:
+    :py:class:`Callable` supports positional and keyword argument injections:
 
     .. code-block:: python
 
-        # simplified syntax for passing positional and keyword argument
-        # injections:
-        some_function = Callable(some_function, 'arg1', 'arg2', arg3=3, arg4=4)
-
-        # extended (full) syntax for passing positional and keyword argument
-        # injections:
-        some_function = Callable(some_function,
-                                 injections.Arg(1),
-                                 injections.Arg(2),
-                                 injections.KwArg('some_arg', 3),
-                                 injections.KwArg('other_arg', 4))
+        some_function = Callable(some_function) \
+            .args('arg1', 'arg2') \
+            .kwargs(arg3=3, arg4=4)
 
     .. py:attribute:: provides
 
@@ -41,32 +32,26 @@ class Callable(Provider):
 
         :type: callable
 
-    .. py:attribute:: args
+    .. py:attribute:: _args
 
         Tuple of positional argument injections.
 
         :type: tuple[:py:class:`dependency_injector.injections.Arg`]
 
-    .. py:attribute:: kwargs
+    .. py:attribute:: _kwargs
 
         Tuple of keyword argument injections.
 
         :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
     """
 
-    __slots__ = ('provides', 'args', 'kwargs')
+    __slots__ = ('provides', '_args', '_kwargs')
 
-    def __init__(self, provides, *args, **kwargs):
+    def __init__(self, provides):
         """Initializer.
 
         :param provides: Wrapped callable.
         :type provides: callable
-
-        :param args: Tuple of injections.
-        :type args: tuple
-
-        :param kwargs: Dictionary of injections.
-        :type kwargs: dict
         """
         if not callable(provides):
             raise Error('Provider {0} expected to get callable, '
@@ -76,10 +61,8 @@ class Callable(Provider):
 
         self.provides = provides
 
-        self.args = tuple()
-        self.kwargs = tuple()
-
-        self.add_injections(*args, **kwargs)
+        self._args = tuple()
+        self._kwargs = tuple()
 
         super(Callable, self).__init__()
 
@@ -89,19 +72,29 @@ class Callable(Provider):
 
         :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
         """
-        return self.args + self.kwargs
+        return self._args + self._kwargs
 
-    def add_injections(self, *args, **kwargs):
-        """Add provider injections.
+    def args(self, *args):
+        """Add postional argument injections.
 
         :param args: Tuple of injections.
         :type args: tuple
 
+        :return: Reference ``self``
+        """
+        self._args += _parse_args_injections(args)
+        return self
+
+    def kwargs(self, **kwargs):
+        """Add keyword argument injections.
+
         :param kwargs: Dictionary of injections.
         :type kwargs: dict
+
+        :return: Reference ``self``
         """
-        self.args += _parse_args_injections(args)
-        self.kwargs += _parse_kwargs_injections(args, kwargs)
+        self._kwargs += _parse_kwargs_injections(tuple(), kwargs)
+        return self
 
     def _provide(self, *args, **kwargs):
         """Return provided instance.
@@ -114,10 +107,10 @@ class Callable(Provider):
 
         :rtype: object
         """
-        if self.args:
-            args = tuple(arg.value for arg in self.args) + args
+        if self._args:
+            args = tuple(arg.value for arg in self._args) + args
 
-        for kwarg in self.kwargs:
+        for kwarg in self._kwargs:
             if kwarg.name not in kwargs:
                 kwargs[kwarg.name] = kwarg.value
 

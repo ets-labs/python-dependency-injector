@@ -1,10 +1,8 @@
 """Dependency injector creational providers."""
 
 from dependency_injector.providers.callable import Callable
-from dependency_injector.utils import (
-    is_attribute_injection,
-    GLOBAL_LOCK,
-)
+from dependency_injector.injections import _parse_attribute_injections
+from dependency_injector.utils import GLOBAL_LOCK
 from dependency_injector.errors import Error
 
 
@@ -79,7 +77,7 @@ class Factory(Callable):
 
     provided_type = None
 
-    __slots__ = ('cls', 'attributes')
+    __slots__ = ('cls', '_attributes')
 
     def __init__(self, provides, *args, **kwargs):
         """Initializer.
@@ -99,7 +97,7 @@ class Factory(Callable):
             raise Error('{0} can provide only {1} instances'.format(
                 self.__class__, self.__class__.provided_type))
 
-        self.attributes = tuple()
+        self._attributes = tuple()
 
         super(Factory, self).__init__(provides, *args, **kwargs)
 
@@ -111,22 +109,17 @@ class Factory(Callable):
 
         :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
         """
-        return self.args + self.kwargs + self.attributes
+        return self._args + self._kwargs + self._attributes
 
-    def add_injections(self, *args, **kwargs):
-        """Add provider injections.
-
-        :param args: Tuple of injections.
-        :type args: tuple
+    def attributes(self, **kwargs):
+        """Add attribute injections.
 
         :param kwargs: Dictionary of injections.
         :type kwargs: dict
-        """
-        self.attributes += tuple(injection
-                                 for injection in args
-                                 if is_attribute_injection(injection))
 
-        super(Factory, self).add_injections(*args, **kwargs)
+        :return: Reference ``self``
+        """
+        self._attributes += _parse_attribute_injections(kwargs)
         return self
 
     def _provide(self, *args, **kwargs):
@@ -140,16 +133,16 @@ class Factory(Callable):
 
         :rtype: object
         """
-        if self.args:
-            args = tuple(arg.value for arg in self.args) + args
+        if self._args:
+            args = tuple(arg.value for arg in self._args) + args
 
-        for kwarg in self.kwargs:
+        for kwarg in self._kwargs:
             if kwarg.name not in kwargs:
                 kwargs[kwarg.name] = kwarg.value
 
         instance = self.provides(*args, **kwargs)
 
-        for attribute in self.attributes:
+        for attribute in self._attributes:
             setattr(instance, attribute.name, attribute.value)
 
         return instance
