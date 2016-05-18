@@ -26,7 +26,7 @@ class Callable(Provider):
 
     __slots__ = ('_provides', '_args', '_kwargs')
 
-    def __init__(self, provides):
+    def __init__(self, provides, *args, **kwargs):
         """Initializer.
 
         :param provides: Wrapped callable.
@@ -41,6 +41,9 @@ class Callable(Provider):
         self._provides = provides
         self._args = tuple()
         self._kwargs = tuple()
+
+        self.args(*args)
+        self.kwargs(**kwargs)
 
         super(Callable, self).__init__()
 

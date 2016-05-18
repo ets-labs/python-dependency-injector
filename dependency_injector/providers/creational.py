@@ -49,7 +49,7 @@ class Factory(Callable):
 
     __slots__ = ('cls', '_attributes')
 
-    def __init__(self, provides):
+    def __init__(self, provides, *args, **kwargs):
         """Initializer.
 
         :param provides: Class or other callable that provides object
@@ -63,7 +63,7 @@ class Factory(Callable):
 
         self._attributes = tuple()
 
-        super(Factory, self).__init__(provides)
+        super(Factory, self).__init__(provides, *args, **kwargs)
 
         self.cls = self._provides
 
@@ -174,7 +174,7 @@ class Singleton(Factory):
 
     __slots__ = ('_instance',)
 
-    def __init__(self, provides):
+    def __init__(self, provides, *args, **kwargs):
         """Initializer.
 
         :param provides: Class or other callable that provides object
@@ -182,7 +182,7 @@ class Singleton(Factory):
         :type provides: type | callable
         """
         self._instance = None
-        super(Singleton, self).__init__(provides)
+        super(Singleton, self).__init__(provides, *args, **kwargs)
 
     def reset(self):
         """Reset cached instance, if any.
