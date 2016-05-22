@@ -13,7 +13,9 @@ Development version
 
 2.0.0
 ------
-- Drop backward compatibilities of 1.x.
+- Introduce new injections style for ``Callable``, ``Factory`` & 
+  ``Singleton`` providers.
+- Increase performance of retrieving injections in 2 times (+100%).
 - Drop providers:
   - ``Static``
   - ``Value``
@@ -21,6 +23,7 @@ Development version
   - ``Class``
   - ``Config``
 - Drop ``Method`` injections.
+- Drop backward compatibilities of 1.x.
 
 1.17.0
 ------
