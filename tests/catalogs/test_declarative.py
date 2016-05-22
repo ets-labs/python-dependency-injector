@@ -429,8 +429,6 @@ class InstantiationTests(unittest.TestCase):
 
     def test_access_instance_attributes(self):
         """Test accessing declarative catalog instance attributes."""
-        self.assertEqual(self.catalog.name,
-                         CatalogA.name)
         self.assertEqual(self.catalog.providers,
                          CatalogA.providers)
         self.assertEqual(self.catalog.cls_providers,

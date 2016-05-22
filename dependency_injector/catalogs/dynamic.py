@@ -30,14 +30,6 @@ class DynamicCatalog(object):
 
         users_service = services.users()
 
-    .. py:attribute:: name
-
-        Catalog's name.
-
-        By default, it is catalog's module + catalog's class name.
-
-        :type: str
-
     .. py:attribute:: providers
 
         Dictionary of all providers.
@@ -63,7 +55,7 @@ class DynamicCatalog(object):
     provider_type = None
 
     __IS_CATALOG__ = True
-    __slots__ = ('name', 'providers', 'provider_names', 'overridden_by')
+    __slots__ = ('providers', 'provider_names', 'overridden_by')
 
     def __init__(self, **providers):
         """Initializer.
@@ -72,8 +64,6 @@ class DynamicCatalog(object):
         :type providers:
             dict[str, :py:class:`dependency_injector.providers.Provider`]
         """
-        self.name = '.'.join((self.__class__.__module__,
-                              self.__class__.__name__))
         self.providers = dict()
         self.provider_names = dict()
         self.overridden_by = tuple()
@@ -312,7 +302,8 @@ class DynamicCatalog(object):
 
         :rtype: str
         """
-        return '<{0}({1})>'.format(self.name,
+        return '<{0}({1})>'.format('.'.join((self.__class__.__module__,
+                                             self.__class__.__name__)),
                                    ', '.join(six.iterkeys(self.providers)))
 
     __str__ = __repr__

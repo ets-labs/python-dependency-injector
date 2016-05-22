@@ -40,23 +40,12 @@ class DeclarativeCatalogMetaClass(type):
         else:
             cls._catalog = DynamicCatalog()
 
-        cls._catalog.name = '.'.join((cls.__module__, cls.__name__))
         cls._catalog.bind_providers(dict(providers))
 
         cls._cls_providers = dict(cls_providers)
         cls._inherited_providers = dict(inherited_providers)
 
         return cls
-
-    @property
-    def name(cls):
-        """Read-only property that represents catalog's name.
-
-        Catalog's name is catalog's module + catalog's class name.
-
-        :type: str
-        """
-        return cls._catalog.name
 
     @property
     def providers(cls):
@@ -159,7 +148,7 @@ class DeclarativeCatalogMetaClass(type):
 
         :rtype: str
         """
-        return '<{0}({1})>'.format(cls.name,
+        return '<{0}({1})>'.format('.'.join((cls.__module__, cls.__name__)),
                                    ', '.join(six.iterkeys(cls.providers)))
 
     __str__ = __repr__
@@ -201,16 +190,6 @@ class DeclarativeCatalog(object):
     _inherited_providers = dict()
 
     __IS_CATALOG__ = True
-
-    @property
-    def name(self):
-        """Read-only property that represents catalog's name.
-
-        Catalog's name is catalog's module + catalog's class name.
-
-        :rtype: str
-        """
-        return self.__class__.name
 
     @property
     def providers(self):

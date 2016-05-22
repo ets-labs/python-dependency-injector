@@ -19,7 +19,6 @@ class DynamicCatalogTests(unittest.TestCase):
         """Set test environment up."""
         self.catalog = catalogs.DynamicCatalog(p1=providers.Provider(),
                                                p2=providers.Provider())
-        self.catalog.name = 'TestCatalog'
 
     def test_providers(self):
         """Test `di.DeclarativeCatalog.inherited_providers` contents."""
@@ -214,6 +213,9 @@ class DynamicCatalogTests(unittest.TestCase):
 
     def test_repr(self):
         """Test catalog representation."""
-        self.assertIn('TestCatalog', repr(self.catalog))
-        self.assertIn('p1', repr(self.catalog))
-        self.assertIn('p2', repr(self.catalog))
+        representation = repr(self.catalog)
+
+        self.assertIn('dependency_injector.catalogs.dynamic.DynamicCatalog',
+                      representation)
+        self.assertIn('p1', representation)
+        self.assertIn('p2', representation)
