@@ -12,14 +12,35 @@ class Factory(Callable):
     r""":py:class:`Factory` provider creates new instance on every call.
 
     :py:class:`Factory` supports positional & keyword argument injections,
-    as well as attribute injections:
+    as well as attribute injections.
+
+    Positional and keyword argument injections could be defined like this:
+
+    .. code-block:: python
+
+        factory = Factory(SomeClass,
+                          'positional_arg1', 'positional_arg2',
+                          keyword_argument1=3, keyword_argument=4)
+
+        # or
+
+        factory = Factory(SomeClass) \
+            .args('positional_arg1', 'positional_arg2') \
+            .kwargs(keyword_argument1=3, keyword_argument=4)
+
+        # or
+
+        factory = Factory(SomeClass)
+        factory.args('positional_arg1', 'positional_arg2')
+        factory.kwargs(keyword_argument1=3, keyword_argument=4)
+
+
+    Attribute injections are defined by using :py:meth:`Factory.attributes`:
 
     .. code-block:: python
 
         factory = Factory(SomeClass) \
-            .args('arg1', 'arg2') \
-            .kwargs(arg3=3, arg4=4) \
-            .attributes(attribute1=5, attribute2=6)
+            .attributes(attribute1=1, attribute2=2)
 
     Retrieving of provided instance can be performed via calling
     :py:class:`Factory` object:

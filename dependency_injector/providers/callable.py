@@ -19,9 +19,21 @@ class Callable(Provider):
 
     .. code-block:: python
 
+        some_function = Callable(some_function,
+                                 'positional_arg1', 'positional_arg2',
+                                 keyword_argument1=3, keyword_argument=4)
+
+        # or
+
         some_function = Callable(some_function) \
-            .args('arg1', 'arg2') \
-            .kwargs(arg3=3, arg4=4)
+            .args('positional_arg1', 'positional_arg2') \
+            .kwargs(keyword_argument1=3, keyword_argument=4)
+
+        # or
+
+        some_function = Callable(some_function)
+        some_function.args('positional_arg1', 'positional_arg2')
+        some_function.kwargs(keyword_argument1=3, keyword_argument=4)
     """
 
     __slots__ = ('_provides', '_args', '_kwargs')
