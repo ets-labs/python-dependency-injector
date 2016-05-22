@@ -38,7 +38,7 @@ class Injection(object):
     """
 
     __IS_INJECTION__ = True
-    __slots__ = ('injectable', 'call_injectable')
+    __slots__ = ('injectable', 'get_value')
 
     def __init__(self, injectable):
         """Initializer.
@@ -49,23 +49,13 @@ class Injection(object):
                           :py:class:`dependency_injector.providers.Provider`
         """
         self.injectable = injectable
-        self.call_injectable = (is_provider(injectable) and
-                                not is_delegated_provider(injectable))
+
+        if not is_provider(injectable) or is_delegated_provider(injectable):
+            def injectable():
+                return self.injectable
+        self.get_value = injectable
+
         super(Injection, self).__init__()
-
-    @property
-    def value(self):
-        """Read-only property that represents injectable value.
-
-        Injectable values and delegated providers are provided "as is".
-        Other providers will be called every time, when injection needs to
-        be done.
-
-        :rtype: object
-        """
-        if self.call_injectable:
-            return self.injectable.provide()
-        return self.injectable
 
     def __str__(self):
         """Return string representation of provider.
@@ -229,11 +219,11 @@ def inject(*args, **kwargs):
         def decorated(*args, **kwargs):
             """Decorated with dependency injection callback."""
             if decorated.args:
-                args = tuple(arg.value for arg in decorated.args) + args
+                args = tuple(arg.get_value() for arg in decorated.args) + args
 
             for kwarg in decorated.kwargs:
                 if kwarg.name not in kwargs:
-                    kwargs[kwarg.name] = kwarg.value
+                    kwargs[kwarg.name] = kwarg.get_value()
 
             return callback(*args, **kwargs)
 

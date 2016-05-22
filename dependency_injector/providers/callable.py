@@ -102,11 +102,11 @@ class Callable(Provider):
         :rtype: object
         """
         if self._args:
-            args = tuple(arg.value for arg in self._args) + args
+            args = tuple(arg.get_value() for arg in self._args) + args
 
         for kwarg in self._kwargs:
             if kwarg.name not in kwargs:
-                kwargs[kwarg.name] = kwarg.value
+                kwargs[kwarg.name] = kwarg.get_value()
 
         return self._provides(*args, **kwargs)
 
