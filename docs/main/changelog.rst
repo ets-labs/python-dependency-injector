@@ -23,6 +23,7 @@ Development version
   - ``Class``
   - ``Config``
 - Drop ``Method`` injections.
+- Drop catalog bundles.
 - Drop backward compatibilities of 1.x.
 
 1.17.0

@@ -3,7 +3,6 @@
 import unittest2 as unittest
 
 from dependency_injector import injections
-from dependency_injector import catalogs
 from dependency_injector import providers
 from dependency_injector import errors
 
@@ -25,17 +24,6 @@ class InjectionTests(unittest.TestCase):
         """Test Injection value property with provider."""
         injection = injections.Injection(providers.Factory(object))
         self.assertIsInstance(injection.get_value(), object)
-
-    def test_value_with_catalog_bundle_injectable(self):
-        """Test Injection value property with catalog bundle."""
-        class TestCatalog(catalogs.DeclarativeCatalog):
-            """Test catalog."""
-
-            provider = providers.Provider()
-        injection = injections.Injection(
-            TestCatalog.Bundle(TestCatalog.provider))
-
-        self.assertIsInstance(injection.get_value(), TestCatalog.Bundle)
 
     def test_repr(self):
         """Test Injection representation."""

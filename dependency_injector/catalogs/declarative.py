@@ -3,7 +3,6 @@
 import six
 
 from dependency_injector.catalogs.dynamic import DynamicCatalog
-from dependency_injector.catalogs.bundle import CatalogBundle
 from dependency_injector.utils import (
     is_provider,
     is_catalog,
@@ -46,8 +45,6 @@ class DeclarativeCatalogMetaClass(type):
 
         cls._cls_providers = dict(cls_providers)
         cls._inherited_providers = dict(inherited_providers)
-
-        cls.Bundle = cls._catalog.Bundle
 
         return cls
 
@@ -187,12 +184,6 @@ class DeclarativeCatalog(object):
 
         users_service = Services.users()
 
-    .. py:attribute:: Bundle
-
-        Catalog's bundle class.
-
-        :type: :py:class:`CatalogBundle`
-
     .. py:attribute:: provider_type
 
         If provider type is defined, :py:class:`DeclarativeCatalog` checks that
@@ -201,8 +192,6 @@ class DeclarativeCatalog(object):
 
         :type: type | None
     """
-
-    Bundle = CatalogBundle
 
     provider_type = None
 
@@ -272,17 +261,6 @@ class DeclarativeCatalog(object):
                None
         """
         return self.__class__.last_overriding
-
-    @classmethod
-    def is_bundle_owner(cls, bundle):
-        """Check if catalog is bundle owner.
-
-        :param bundle: Catalog's bundle instance.
-        :type bundle: :py:class:`CatalogBundle`
-
-        :rtype: bool
-        """
-        return cls._catalog.is_bundle_owner(bundle)
 
     @classmethod
     def get_provider_bind_name(cls, provider):

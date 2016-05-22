@@ -2,11 +2,9 @@
 
 import six
 
-from dependency_injector.catalogs.bundle import CatalogBundle
 from dependency_injector.utils import (
     is_provider,
     ensure_is_provider,
-    ensure_is_catalog_bundle,
 )
 from dependency_injector.errors import (
     Error,
@@ -31,12 +29,6 @@ class DynamicCatalog(object):
                                   users=providers.Factory(UsersService))
 
         users_service = services.users()
-
-    .. py:attribute:: Bundle
-
-        Catalog's bundle class.
-
-        :type: :py:class:`CatalogBundle`
 
     .. py:attribute:: name
 
@@ -71,8 +63,7 @@ class DynamicCatalog(object):
     provider_type = None
 
     __IS_CATALOG__ = True
-    __slots__ = ('name', 'providers', 'provider_names', 'overridden_by',
-                 'Bundle')
+    __slots__ = ('name', 'providers', 'provider_names', 'overridden_by')
 
     def __init__(self, **providers):
         """Initializer.
@@ -81,7 +72,6 @@ class DynamicCatalog(object):
         :type providers:
             dict[str, :py:class:`dependency_injector.providers.Provider`]
         """
-        self.Bundle = CatalogBundle.sub_cls_factory(self)
         self.name = '.'.join((self.__class__.__module__,
                               self.__class__.__name__))
         self.providers = dict()
@@ -89,16 +79,6 @@ class DynamicCatalog(object):
         self.overridden_by = tuple()
         self.bind_providers(providers)
         super(DynamicCatalog, self).__init__()
-
-    def is_bundle_owner(self, bundle):
-        """Check if catalog is bundle owner.
-
-        :param bundle: Catalog's bundle instance.
-        :type bundle: :py:class:`CatalogBundle`
-
-        :rtype: bool
-        """
-        return ensure_is_catalog_bundle(bundle) and bundle.catalog is self
 
     def get_provider_bind_name(self, provider):
         """Return provider's name in catalog.

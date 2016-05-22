@@ -175,36 +175,6 @@ def is_declarative_catalog(instance):
     return (isinstance(instance, six.class_types) and is_catalog(instance))
 
 
-def is_catalog_bundle(instance):
-    """Check if instance is catalog bundle instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (not isinstance(instance, six.class_types) and
-            hasattr(instance, '__IS_CATALOG_BUNDLE__') and
-            getattr(instance, '__IS_CATALOG_BUNDLE__', False) is True)
-
-
-def ensure_is_catalog_bundle(instance):
-    """Check if instance is catalog bundle instance and return it.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :raise: :py:exc:`dependency_injector.errors.Error` if provided instance
-            is not catalog bundle.
-
-    :rtype: :py:class:`dependency_injector.catalogs.CatalogBundle`
-    """
-    if not is_catalog_bundle(instance):
-        raise Error('Expected catalog bundle instance, '
-                    'got {0}'.format(str(instance)))
-    return instance
-
-
 def represent_provider(provider, provides):
     """Return string representation of provider.
 
