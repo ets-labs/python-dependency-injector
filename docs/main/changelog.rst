@@ -22,7 +22,7 @@ Development version
   - ``Function``
   - ``Class``
   - ``Config``
-- Drop ``Method`` injections.
+- Drop method injections.
 - Drop catalog bundles.
 - Drop backward compatibilities of 1.x.
 
