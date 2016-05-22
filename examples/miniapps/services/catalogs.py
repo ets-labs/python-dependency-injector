@@ -1,4 +1,4 @@
-"""Example of several Dependency Injector catalogs."""
+"""Example of several Dependency Injector IoC containers."""
 
 import sqlite3
 import boto.s3.connection

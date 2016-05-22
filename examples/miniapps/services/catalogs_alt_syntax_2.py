@@ -1,6 +1,6 @@
-"""Example of several Dependency Injector catalogs.
+"""Example of several Dependency Injector IoC containers.
 
-Alternative definition style #2.
+Alternative injections definition style #2.
 """
 
 import sqlite3

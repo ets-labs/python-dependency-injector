@@ -61,7 +61,7 @@ system that consists from several business and platform services:
 
 .. code-block:: python
 
-    """Example of several Dependency Injector catalogs."""
+    """Example of several Dependency Injector IoC containers."""
 
     import sqlite3
     import boto.s3.connection
@@ -95,12 +95,12 @@ system that consists from several business and platform services:
                                  db=Platform.database,
                                  token_ttl=3600)
 
-Next example demonstrates usage of these IoC containers with the help of 
-``@inject`` decorator:
+Next example demonstrates usage of ``@inject`` decorator with IoC containers 
+defined above: 
 
 .. code-block:: python
 
-    """Dependency Injector example."""
+    """Dependency Injector @inject decorator example."""
 
     from dependency_injector.injections import inject
 
@@ -110,17 +110,23 @@ Next example demonstrates usage of these IoC containers with the help of
     @inject(users_service=Services.users)
     @inject(auth_service=Services.auth)
     @inject(photos_service=Services.photos)
-    def main(login, password, photo, users_service, auth_service, photos_service):
+    def main(users_service, auth_service, photos_service):
         """Main function."""
-        user = users_service.get_user(login)
-        auth_service.authenticate(user, password)
-        photos_service.upload_photo(user['id'], photo)
+        user = users_service.get_user('user')
+        auth_service.authenticate(user, 'secret')
+        photos_service.upload_photo(user['id'], 'photo.jpg')
 
 
     if __name__ == '__main__':
-        main(login='user', password='secret', photo='photo.jpg')
+        main()
+   
+Alternative definition styles
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Also some alternative definition styles could be used. Like this one:
+*Dependecy Injector* supports few other styles of dependency injections 
+definition.
+
+Ioc containers could look like this one:
 
 .. code-block:: python
 
