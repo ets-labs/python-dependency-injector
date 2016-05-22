@@ -1,8 +1,8 @@
-Dependency Injector example
-===========================
+Dependency Injector IoC containers example
+==========================================
 
-Instructions for running:
+Instructions for running
 
 .. code-block:: bash
 
-    python main.py dependency-injector secret myself.jpg
+    python main.py

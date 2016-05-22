@@ -2,12 +2,7 @@
 
 import unittest2 as unittest
 
-from dependency_injector import (
-    providers,
-    injections,
-    utils,
-    errors,
-)
+from dependency_injector import providers, utils, errors
 
 
 class CallableTests(unittest.TestCase):
@@ -35,60 +30,51 @@ class CallableTests(unittest.TestCase):
 
         New simplified syntax.
         """
-        provider = providers.Callable(self.example, 1, 2, 3, 4)
+        provider = providers.Callable(self.example) \
+            .args(1, 2, 3, 4)
+
         self.assertTupleEqual(provider(), (1, 2, 3, 4))
 
     def test_call_with_keyword_args(self):
-        """Test call with keyword args.
+        """Test call with keyword args."""
+        provider = providers.Callable(self.example) \
+            .kwargs(arg1=1, arg2=2, arg3=3, arg4=4)
 
-        New simplified syntax.
-        """
-        provider = providers.Callable(self.example,
-                                      arg1=1,
-                                      arg2=2,
-                                      arg3=3,
-                                      arg4=4)
         self.assertTupleEqual(provider(), (1, 2, 3, 4))
 
     def test_call_with_positional_and_keyword_args(self):
-        """Test call with positional and keyword args.
+        """Test call with positional and keyword args."""
+        provider = providers.Callable(self.example) \
+            .args(1, 2) \
+            .kwargs(arg3=3, arg4=4)
 
-        Simplified syntax of positional and keyword arg injections.
-        """
-        provider = providers.Callable(self.example, 1, 2, arg3=3, arg4=4)
-        self.assertTupleEqual(provider(), (1, 2, 3, 4))
-
-    def test_call_with_positional_and_keyword_args_extended_syntax(self):
-        """Test call with positional and keyword args.
-
-        Extended syntax of positional and keyword arg injections.
-        """
-        provider = providers.Callable(self.example,
-                                      injections.Arg(1),
-                                      injections.Arg(2),
-                                      injections.KwArg('arg3', 3),
-                                      injections.KwArg('arg4', 4))
         self.assertTupleEqual(provider(), (1, 2, 3, 4))
 
     def test_call_with_context_args(self):
         """Test call with context args."""
-        provider = providers.Callable(self.example, 1, 2)
+        provider = providers.Callable(self.example) \
+            .args(1, 2)
+
         self.assertTupleEqual(provider(3, 4), (1, 2, 3, 4))
 
     def test_call_with_context_kwargs(self):
         """Test call with context kwargs."""
-        provider = providers.Callable(self.example,
-                                      injections.KwArg('arg1', 1))
+        provider = providers.Callable(self.example) \
+            .kwargs(arg1=1)
+
         self.assertTupleEqual(provider(arg2=2, arg3=3, arg4=4), (1, 2, 3, 4))
 
     def test_call_with_context_args_and_kwargs(self):
         """Test call with context args and kwargs."""
-        provider = providers.Callable(self.example, 1)
+        provider = providers.Callable(self.example) \
+            .args(1)
+
         self.assertTupleEqual(provider(2, arg3=3, arg4=4), (1, 2, 3, 4))
 
     def test_call_overridden(self):
         """Test creation of new instances on overridden provider."""
         provider = providers.Callable(self.example)
+
         provider.override(providers.Object((4, 3, 2, 1)))
         provider.override(providers.Object((1, 2, 3, 4)))
 
@@ -96,24 +82,20 @@ class CallableTests(unittest.TestCase):
 
     def test_injections(self):
         """Test getting a full list of injections using injections property."""
-        provider = providers.Callable(self.example, 1, 2, arg3=3, arg4=4)
+        provider = providers.Callable(self.example) \
+            .args(1, 2) \
+            .kwargs(arg3=3, arg4=4)
+
         self.assertEquals(len(provider.injections), 4)
 
     def test_repr(self):
         """Test representation of provider."""
-        provider = providers.Callable(self.example,
-                                      injections.KwArg(
-                                          'arg1',
-                                          providers.Factory(dict)),
-                                      injections.KwArg(
-                                          'arg2',
-                                          providers.Factory(list)),
-                                      injections.KwArg(
-                                          'arg3',
-                                          providers.Factory(set)),
-                                      injections.KwArg(
-                                          'arg4',
-                                          providers.Factory(tuple)))
+        provider = providers.Callable(self.example) \
+            .kwargs(arg1=providers.Factory(dict),
+                    arg2=providers.Factory(list),
+                    arg3=providers.Factory(set),
+                    arg4=providers.Factory(tuple))
+
         self.assertEqual(repr(provider),
                          '<dependency_injector.providers.callable.'
                          'Callable({0}) at {1}>'.format(

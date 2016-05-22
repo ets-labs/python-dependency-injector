@@ -382,7 +382,8 @@ class CopyingTests(unittest.TestCase):
         """Test catalog providers copying."""
         class CatalogA(catalogs.DeclarativeCatalog):
             p11 = providers.Object(0)
-            p12 = providers.Factory(dict, p11=p11)
+            p12 = providers.Factory(dict) \
+                .kwargs(p11=p11)
 
         @catalogs.copy(CatalogA)
         class CatalogA1(CatalogA):
