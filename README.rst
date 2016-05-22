@@ -126,7 +126,7 @@ Alternative definition styles
 *Dependecy Injector* supports few other styles of dependency injections 
 definition.
 
-Ioc containers could look like this one:
+IoC containers from previous example could look like these:
 
 .. code-block:: python
 
@@ -140,7 +140,22 @@ Ioc containers could look like this one:
             .kwargs(aws_access_key_id='KEY',
                     aws_secret_access_key='SECRET')
 
-or like this one:
+
+    class Services(catalogs.DeclarativeCatalog):
+        """Catalog of business service providers."""
+
+        users = providers.Factory(example.services.Users) \
+            .kwargs(db=Platform.database)
+
+        photos = providers.Factory(example.services.Photos) \
+            .kwargs(db=Platform.database,
+                    s3=Platform.s3)
+
+        auth = providers.Factory(example.services.Auth) \
+            .kwargs(db=Platform.database,
+                    token_ttl=3600)
+
+or like this these:
 
 .. code-block:: python
 
@@ -153,6 +168,21 @@ or like this one:
         s3 = providers.Singleton(boto.s3.connection.S3Connection)
         s3.kwargs(aws_access_key_id='KEY',
                   aws_secret_access_key='SECRET')
+
+
+    class Services(catalogs.DeclarativeCatalog):
+        """Catalog of business service providers."""
+
+        users = providers.Factory(example.services.Users)
+        users.kwargs(db=Platform.database)
+
+        photos = providers.Factory(example.services.Photos)
+        photos.kwargs(db=Platform.database,
+                      s3=Platform.s3)
+
+        auth = providers.Factory(example.services.Auth)
+        auth.kwargs(db=Platform.database,
+                    token_ttl=3600)
 
 You can get more *Dependency Injector* examples in ``/examples`` directory on
 GitHub:
