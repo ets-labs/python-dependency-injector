@@ -2,7 +2,7 @@
 
 from dependency_injector.injections import inject
 
-from catalogs import Services
+from containers import Services
 
 
 @inject(users_service=Services.users)

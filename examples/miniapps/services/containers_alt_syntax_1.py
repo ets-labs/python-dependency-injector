@@ -7,12 +7,12 @@ import sqlite3
 import boto.s3.connection
 import example.services
 
-from dependency_injector import catalogs
+from dependency_injector import containers
 from dependency_injector import providers
 
 
-class Platform(catalogs.DeclarativeCatalog):
-    """Catalog of platform service providers."""
+class Platform(containers.DeclarativeContainer):
+    """Container of platform service providers."""
 
     database = providers.Singleton(sqlite3.connect) \
         .add_args(':memory:')
@@ -22,8 +22,8 @@ class Platform(catalogs.DeclarativeCatalog):
                     aws_secret_access_key='SECRET')
 
 
-class Services(catalogs.DeclarativeCatalog):
-    """Catalog of business service providers."""
+class Services(containers.DeclarativeContainer):
+    """Container of business service providers."""
 
     users = providers.Factory(example.services.Users) \
         .add_kwargs(db=Platform.database)
