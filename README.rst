@@ -52,7 +52,7 @@ Installation
 Example
 -------
 
-Brief example below demonstrates usage of *Dependency Injector* catalogs and 
+Brief example below demonstrates usage of *Dependency Injector* containers and 
 providers for definition of several IoC containers for some microservice 
 system that consists from several business and platform services:
 
@@ -64,12 +64,12 @@ system that consists from several business and platform services:
     import boto.s3.connection
     import example.services
 
-    from dependency_injector import catalogs
+    from dependency_injector import containers
     from dependency_injector import providers
 
 
-    class Platform(catalogs.DeclarativeCatalog):
-        """Catalog of platform service providers."""
+    class Platform(containers.DeclarativeContainer):
+        """Container of platform service providers."""
 
         database = providers.Singleton(sqlite3.connect, ':memory:')
 
@@ -78,8 +78,8 @@ system that consists from several business and platform services:
                                  aws_secret_access_key='SECRET')
 
 
-    class Services(catalogs.DeclarativeCatalog):
-        """Catalog of business service providers."""
+    class Services(containers.DeclarativeContainer):
+        """Container of business service providers."""
 
         users = providers.Factory(example.services.Users,
                                   db=Platform.database)
@@ -101,7 +101,7 @@ defined above:
 
     from dependency_injector.injections import inject
 
-    from catalogs import Services
+    from containers import Services
 
 
     @inject(users_service=Services.users)
@@ -127,8 +127,8 @@ IoC containers from previous example could look like these:
 
 .. code-block:: python
 
-    class Platform(catalogs.DeclarativeCatalog):
-        """Catalog of platform service providers."""
+    class Platform(containers.DeclarativeContainer):
+        """Container of platform service providers."""
 
         database = providers.Singleton(sqlite3.connect) \
             .add_args(':memory:')
@@ -138,8 +138,8 @@ IoC containers from previous example could look like these:
                         aws_secret_access_key='SECRET')
 
 
-    class Services(catalogs.DeclarativeCatalog):
-        """Catalog of business service providers."""
+    class Services(containers.DeclarativeContainer):
+        """Container of business service providers."""
 
         users = providers.Factory(example.services.Users) \
             .add_kwargs(db=Platform.database)
@@ -156,8 +156,8 @@ or like this these:
 
 .. code-block:: python
 
-    class Platform(catalogs.DeclarativeCatalog):
-        """Catalog of platform service providers."""
+    class Platform(containers.DeclarativeContainer):
+        """Container of platform service providers."""
 
         database = providers.Singleton(sqlite3.connect)
         database.add_args(':memory:')
@@ -167,8 +167,8 @@ or like this these:
                       aws_secret_access_key='SECRET')
 
 
-    class Services(catalogs.DeclarativeCatalog):
-        """Catalog of business service providers."""
+    class Services(containers.DeclarativeContainer):
+        """Container of business service providers."""
 
         users = providers.Factory(example.services.Users)
         users.add_kwargs(db=Platform.database)
