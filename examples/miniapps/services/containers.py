@@ -9,7 +9,7 @@ from dependency_injector import providers
 
 
 class Platform(containers.DeclarativeContainer):
-    """Container of platform service providers."""
+    """IoC container of platform service providers."""
 
     database = providers.Singleton(sqlite3.connect, ':memory:')
 
@@ -19,7 +19,7 @@ class Platform(containers.DeclarativeContainer):
 
 
 class Services(containers.DeclarativeContainer):
-    """Container of business service providers."""
+    """IoC container of business service providers."""
 
     users = providers.Factory(example.services.Users,
                               db=Platform.database)
