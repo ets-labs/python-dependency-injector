@@ -69,7 +69,7 @@ system that consists from several business and platform services:
 
 
     class Platform(containers.DeclarativeContainer):
-        """Container of platform service providers."""
+        """IoC container of platform service providers."""
 
         database = providers.Singleton(sqlite3.connect, ':memory:')
 
@@ -79,7 +79,7 @@ system that consists from several business and platform services:
 
 
     class Services(containers.DeclarativeContainer):
-        """Container of business service providers."""
+        """IoC container of business service providers."""
 
         users = providers.Factory(example.services.Users,
                                   db=Platform.database)
@@ -128,7 +128,7 @@ IoC containers from previous example could look like these:
 .. code-block:: python
 
     class Platform(containers.DeclarativeContainer):
-        """Container of platform service providers."""
+        """IoC container of platform service providers."""
 
         database = providers.Singleton(sqlite3.connect) \
             .add_args(':memory:')
@@ -139,7 +139,7 @@ IoC containers from previous example could look like these:
 
 
     class Services(containers.DeclarativeContainer):
-        """Container of business service providers."""
+        """IoC container of business service providers."""
 
         users = providers.Factory(example.services.Users) \
             .add_kwargs(db=Platform.database)
@@ -157,7 +157,7 @@ or like this these:
 .. code-block:: python
 
     class Platform(containers.DeclarativeContainer):
-        """Container of platform service providers."""
+        """IoC container of platform service providers."""
 
         database = providers.Singleton(sqlite3.connect)
         database.add_args(':memory:')
@@ -168,7 +168,7 @@ or like this these:
 
 
     class Services(containers.DeclarativeContainer):
-        """Container of business service providers."""
+        """IoC container of business service providers."""
 
         users = providers.Factory(example.services.Users)
         users.add_kwargs(db=Platform.database)
