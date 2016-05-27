@@ -2,7 +2,10 @@
 
 import six
 
-from dependency_injector import utils
+from dependency_injector import (
+    utils,
+    errors,
+)
 
 
 class DeclarativeContainerMetaClass(type):
@@ -21,6 +24,7 @@ class DeclarativeContainerMetaClass(type):
 
         attributes['cls_providers'] = dict(cls_providers)
         attributes['inherited_providers'] = dict(inherited_providers)
+        attributes['providers'] = dict(cls_providers + inherited_providers)
 
         return type.__new__(mcs, class_name, bases, attributes)
 
@@ -32,62 +36,69 @@ class DeclarativeContainerMetaClass(type):
         """
         if utils.is_provider(value):
             cls.providers[name] = value
+            cls.cls_providers[name] = value
         super(DeclarativeContainerMetaClass, cls).__setattr__(name, value)
 
+    def __delattr__(cls, name):
+        """Delete class attribute.
 
-class Container(object):
-    """Inversion of control container."""
-
-    __IS_CATALOG__ = True
-
-    def __init__(self):
-        """Initializer."""
-        self.providers = dict()
-
-    def bind_providers(self, **providers):
-        """Bind providers to the container."""
-        for name, provider in six.iteritems(providers):
-            setattr(self, name, utils.ensure_is_provider(provider))
-        return self
-
-    def __setattr__(self, name, value):
-        """Set instance attribute.
-
-        If value of attribute is provider, it will be added into providers
+        If value of attribute is provider, it will be deleted from providers
         dictionary.
         """
-        if utils.is_provider(value):
-            self.providers[name] = value
-        super(Container, self).__setattr__(name, value)
+        if name in cls.providers and name in cls.cls_providers:
+            del cls.providers[name]
+            del cls.cls_providers[name]
+        super(DeclarativeContainerMetaClass, cls).__delattr__(name)
 
 
 @six.add_metaclass(DeclarativeContainerMetaClass)
 class DeclarativeContainer(object):
     """Declarative inversion of control container."""
 
+    __IS_CATALOG__ = True
+
+    providers = dict()
     cls_providers = dict()
     inherited_providers = dict()
 
-    def __init__(self):
-        """Initializer."""
-        self.providers = dict()
-        self.providers.update(self.__class__.inherited_providers)
-        self.providers.update(self.__class__.cls_providers)
-        super(DeclarativeContainer, self).__init__()
+    overridden_by = tuple()
+
+    @classmethod
+    def override(cls, overriding):
+        """Override current container by overriding container.
+
+        :param overriding: Overriding container.
+        :type overriding: :py:class:`DeclarativeContainer`
+
+        :raise: :py:exc:`dependency_injector.errors.Error` if trying to
+                override container by itself or its subclasses
+
+        :rtype: None
+        """
+        if issubclass(cls, overriding):
+            raise errors.Error('Catalog {0} could not be overridden '
+                               'with itself or its subclasses'.format(cls))
+
+        cls.overridden_by += (overriding,)
+
+        for name, provider in six.iteritems(overriding.cls_providers):
+            try:
+                getattr(cls, name).override(provider)
+            except AttributeError:
+                pass
 
 
-def override(declarative_container):
+def override(container):
     """:py:class:`DeclarativeContainer` overriding decorator.
 
-    :param declarative_container: Container that should be overridden by
-                                  decorated container.
-    :type declarative_container: :py:class:`DeclarativeContainer`
+    :param catalog: Container that should be overridden by decorated container.
+    :type catalog: :py:class:`DeclarativeContainer`
 
     :return: Declarative container's overriding decorator.
     :rtype: callable(:py:class:`DeclarativeContainer`)
     """
     def decorator(overriding_container):
         """Overriding decorator."""
-        declarative_container.override(overriding_container)
+        container.override(overriding_container)
         return overriding_container
     return decorator

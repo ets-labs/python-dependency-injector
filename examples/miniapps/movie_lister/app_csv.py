@@ -9,7 +9,7 @@ This mini application uses ``movies`` library, that is configured to work with
 csv file movies database.
 """
 
-from dependency_injector import catalogs
+from dependency_injector import containers
 from dependency_injector import providers
 from dependency_injector import injections
 
@@ -19,12 +19,12 @@ from movies import finders
 from settings import MOVIES_CSV_PATH
 
 
-@catalogs.override(MoviesModule)
-class MyMoviesModule(catalogs.DeclarativeCatalog):
-    """Customized catalog of movies module component providers."""
+@containers.override(MoviesModule)
+class MyMoviesModule(containers.DeclarativeContainer):
+    """IoC container for overriding movies module component providers."""
 
     movie_finder = providers.Factory(finders.CsvMovieFinder,
-                                     *MoviesModule.movie_finder.injections,
+                                     movie_model=MoviesModule.movie_model,
                                      csv_file=MOVIES_CSV_PATH,
                                      delimeter=',')
 

@@ -11,7 +11,7 @@ sqlite movies database and csv file movies database.
 
 import sqlite3
 
-from dependency_injector import catalogs
+from dependency_injector import containers
 from dependency_injector import providers
 from dependency_injector import injections
 
@@ -22,27 +22,27 @@ from settings import MOVIES_CSV_PATH
 from settings import MOVIES_DB_PATH
 
 
-class ApplicationModule(catalogs.DeclarativeCatalog):
-    """Catalog of application component providers."""
+class ApplicationModule(containers.DeclarativeContainer):
+    """IoC container of application component providers."""
 
     database = providers.Singleton(sqlite3.connect, MOVIES_DB_PATH)
 
 
-@catalogs.copy(MoviesModule)
+@containers.copy(MoviesModule)
 class DbMoviesModule(MoviesModule):
-    """Customized catalog of movies module component providers."""
+    """IoC container for overriding movies module component providers."""
 
     movie_finder = providers.Factory(finders.SqliteMovieFinder,
-                                     *MoviesModule.movie_finder.injections,
+                                     movie_model=MoviesModule.movie_model,
                                      database=ApplicationModule.database)
 
 
-@catalogs.copy(MoviesModule)
+@containers.copy(MoviesModule)
 class CsvMoviesModule(MoviesModule):
-    """Customized catalog of movies module component providers."""
+    """IoC container for overriding movies module component providers."""
 
     movie_finder = providers.Factory(finders.CsvMovieFinder,
-                                     *MoviesModule.movie_finder.injections,
+                                     movie_model=MoviesModule.movie_model,
                                      csv_file=MOVIES_CSV_PATH,
                                      delimeter=',')
 
