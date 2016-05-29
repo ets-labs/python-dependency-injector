@@ -383,7 +383,7 @@ class CopyingTests(unittest.TestCase):
         class CatalogA(catalogs.DeclarativeCatalog):
             p11 = providers.Object(0)
             p12 = providers.Factory(dict) \
-                .kwargs(p11=p11)
+                .add_kwargs(p11=p11)
 
         @catalogs.copy(CatalogA)
         class CatalogA1(CatalogA):
@@ -404,9 +404,9 @@ class CopyingTests(unittest.TestCase):
         self.assertIsNot(CatalogA1.p11, CatalogA2.p11)
         self.assertIsNot(CatalogA1.p12, CatalogA2.p12)
 
-        self.assertIs(CatalogA.p12.injections[0].injectable, CatalogA.p11)
-        self.assertIs(CatalogA1.p12.injections[0].injectable, CatalogA1.p11)
-        self.assertIs(CatalogA2.p12.injections[0].injectable, CatalogA2.p11)
+        self.assertIs(CatalogA.p12.kwargs['p11'], CatalogA.p11)
+        self.assertIs(CatalogA1.p12.kwargs['p11'], CatalogA1.p11)
+        self.assertIs(CatalogA2.p12.kwargs['p11'], CatalogA2.p11)
 
         self.assertEqual(CatalogA.p12(), dict(p11=0))
         self.assertEqual(CatalogA1.p12(), dict(p11=1))

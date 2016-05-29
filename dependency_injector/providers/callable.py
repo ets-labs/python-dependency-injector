@@ -2,8 +2,11 @@
 
 import six
 
-from dependency_injector.providers.base import Provider
-from dependency_injector.injections import Arg, KwArg
+from dependency_injector.providers.base import (
+    Provider,
+    _parse_positional_injections,
+    _parse_keyword_injections,
+)
 from dependency_injector.utils import represent_provider
 from dependency_injector.errors import Error
 
@@ -26,17 +29,17 @@ class Callable(Provider):
         # or
 
         some_function = Callable(some_function) \
-            .args('positional_arg1', 'positional_arg2') \
-            .kwargs(keyword_argument1=3, keyword_argument=4)
+            .add_args('positional_arg1', 'positional_arg2') \
+            .add_kwargs(keyword_argument1=3, keyword_argument=4)
 
         # or
 
         some_function = Callable(some_function)
-        some_function.args('positional_arg1', 'positional_arg2')
-        some_function.kwargs(keyword_argument1=3, keyword_argument=4)
+        some_function.add_args('positional_arg1', 'positional_arg2')
+        some_function.add_kwargs(keyword_argument1=3, keyword_argument=4)
     """
 
-    __slots__ = ('_provides', '_args', '_kwargs')
+    __slots__ = ('provides', 'args', 'kwargs')
 
     def __init__(self, provides, *args, **kwargs):
         """Initializer.
@@ -50,24 +53,17 @@ class Callable(Provider):
                                                    self.__class__.__name__)),
                                          provides))
 
-        self._provides = provides
-        self._args = tuple()
-        self._kwargs = tuple()
+        self.provides = provides
 
-        self.args(*args)
-        self.kwargs(**kwargs)
+        self.args = tuple()
+        self.kwargs = dict()
+
+        self.add_args(*args)
+        self.add_kwargs(**kwargs)
 
         super(Callable, self).__init__()
 
-    @property
-    def injections(self):
-        """Read-only tuple of all injections.
-
-        :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
-        """
-        return self._args + self._kwargs
-
-    def args(self, *args):
+    def add_args(self, *args):
         """Add postional argument injections.
 
         :param args: Tuple of injections.
@@ -75,10 +71,10 @@ class Callable(Provider):
 
         :return: Reference ``self``
         """
-        self._args += tuple(Arg(value) for value in args)
+        self.args += _parse_positional_injections(args)
         return self
 
-    def kwargs(self, **kwargs):
+    def add_kwargs(self, **kwargs):
         """Add keyword argument injections.
 
         :param kwargs: Dictionary of injections.
@@ -86,8 +82,7 @@ class Callable(Provider):
 
         :return: Reference ``self``
         """
-        self._kwargs += tuple(KwArg(name, value)
-                              for name, value in six.iteritems(kwargs))
+        self.kwargs.update(_parse_keyword_injections(kwargs))
         return self
 
     def _provide(self, *args, **kwargs):
@@ -101,21 +96,21 @@ class Callable(Provider):
 
         :rtype: object
         """
-        if self._args:
-            args = tuple(arg.get_value() for arg in self._args) + args
+        if self.args:
+            args = tuple(arg.inject() for arg in self.args) + args
 
-        for kwarg in self._kwargs:
-            if kwarg.name not in kwargs:
-                kwargs[kwarg.name] = kwarg.get_value()
+        for name, arg in six.iteritems(self.kwargs):
+            if name not in kwargs:
+                kwargs[name] = arg.inject()
 
-        return self._provides(*args, **kwargs)
+        return self.provides(*args, **kwargs)
 
     def __str__(self):
         """Return string representation of provider.
 
         :rtype: str
         """
-        return represent_provider(provider=self, provides=self._provides)
+        return represent_provider(provider=self, provides=self.provides)
 
     __repr__ = __str__
 
@@ -127,4 +122,9 @@ class DelegatedCallable(Callable):
     "as is".
     """
 
-    __IS_DELEGATED__ = True
+    def inject(self):
+        """Injection strategy implementation.
+
+        :rtype: object
+        """
+        return self

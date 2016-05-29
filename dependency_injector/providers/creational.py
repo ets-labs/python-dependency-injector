@@ -3,7 +3,7 @@
 import six
 
 from dependency_injector.providers.callable import Callable
-from dependency_injector.injections import Attribute
+from dependency_injector.providers.base import _parse_keyword_injections
 from dependency_injector.utils import GLOBAL_LOCK
 from dependency_injector.errors import Error
 
@@ -25,14 +25,14 @@ class Factory(Callable):
         # or
 
         factory = Factory(SomeClass) \
-            .args('positional_arg1', 'positional_arg2') \
-            .kwargs(keyword_argument1=3, keyword_argument=4)
+            .add_args('positional_arg1', 'positional_arg2') \
+            .add_kwargs(keyword_argument1=3, keyword_argument=4)
 
         # or
 
         factory = Factory(SomeClass)
-        factory.args('positional_arg1', 'positional_arg2')
-        factory.kwargs(keyword_argument1=3, keyword_argument=4)
+        factory.add_args('positional_arg1', 'positional_arg2')
+        factory.add_kwargs(keyword_argument1=3, keyword_argument=4)
 
 
     Attribute injections are defined by using :py:meth:`Factory.attributes`:
@@ -40,7 +40,7 @@ class Factory(Callable):
     .. code-block:: python
 
         factory = Factory(SomeClass) \
-            .attributes(attribute1=1, attribute2=2)
+            .add_attributes(attribute1=1, attribute2=2)
 
     Retrieving of provided instance can be performed via calling
     :py:class:`Factory` object:
@@ -68,7 +68,7 @@ class Factory(Callable):
 
     provided_type = None
 
-    __slots__ = ('cls', '_attributes')
+    __slots__ = ('cls', 'attributes')
 
     def __init__(self, provides, *args, **kwargs):
         """Initializer.
@@ -82,21 +82,13 @@ class Factory(Callable):
             raise Error('{0} can provide only {1} instances'.format(
                 self.__class__, self.__class__.provided_type))
 
-        self._attributes = tuple()
+        self.attributes = dict()
 
         super(Factory, self).__init__(provides, *args, **kwargs)
 
-        self.cls = self._provides
+        self.cls = self.provides
 
-    @property
-    def injections(self):
-        """Read-only tuple of all injections.
-
-        :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
-        """
-        return super(Factory, self).injections + self._attributes
-
-    def attributes(self, **kwargs):
+    def add_attributes(self, **kwargs):
         """Add attribute injections.
 
         :param kwargs: Dictionary of injections.
@@ -104,8 +96,7 @@ class Factory(Callable):
 
         :return: Reference ``self``
         """
-        self._attributes += tuple(Attribute(name, value)
-                                  for name, value in six.iteritems(kwargs))
+        self.attributes.update(_parse_keyword_injections(kwargs))
         return self
 
     def _provide(self, *args, **kwargs):
@@ -119,17 +110,10 @@ class Factory(Callable):
 
         :rtype: object
         """
-        if self._args:
-            args = tuple(arg.get_value() for arg in self._args) + args
+        instance = super(Factory, self)._provide(*args, **kwargs)
 
-        for kwarg in self._kwargs:
-            if kwarg.name not in kwargs:
-                kwargs[kwarg.name] = kwarg.get_value()
-
-        instance = self._provides(*args, **kwargs)
-
-        for attribute in self._attributes:
-            setattr(instance, attribute.name, attribute.get_value())
+        for name, arg in six.iteritems(self.attributes):
+            setattr(instance, name, arg.inject())
 
         return instance
 
@@ -156,7 +140,12 @@ class DelegatedFactory(Factory):
         :type: type
     """
 
-    __IS_DELEGATED__ = True
+    def inject(self):
+        """Injection strategy implementation.
+
+        :rtype: object
+        """
+        return self
 
 
 class Singleton(Factory):
@@ -193,7 +182,7 @@ class Singleton(Factory):
         :type: type
     """
 
-    __slots__ = ('_instance',)
+    __slots__ = ('instance',)
 
     def __init__(self, provides, *args, **kwargs):
         """Initializer.
@@ -202,7 +191,7 @@ class Singleton(Factory):
             for creation.
         :type provides: type | callable
         """
-        self._instance = None
+        self.instance = None
         super(Singleton, self).__init__(provides, *args, **kwargs)
 
     def reset(self):
@@ -210,7 +199,7 @@ class Singleton(Factory):
 
         :rtype: None
         """
-        self._instance = None
+        self.instance = None
 
     def _provide(self, *args, **kwargs):
         """Return provided instance.
@@ -223,13 +212,13 @@ class Singleton(Factory):
 
         :rtype: object
         """
-        if self._instance:
-            return self._instance
+        if self.instance:
+            return self.instance
 
         with GLOBAL_LOCK:
-            self._instance = super(Singleton, self)._provide(*args, **kwargs)
+            self.instance = super(Singleton, self)._provide(*args, **kwargs)
 
-        return self._instance
+        return self.instance
 
 
 class DelegatedSingleton(Singleton):
@@ -254,4 +243,9 @@ class DelegatedSingleton(Singleton):
         :type: type
     """
 
-    __IS_DELEGATED__ = True
+    def inject(self):
+        """Injection strategy implementation.
+
+        :rtype: object
+        """
+        return self

@@ -5,6 +5,8 @@ from dependency_injector.providers.base import (
     Delegate,
     Object,
     ExternalDependency,
+    OverridingContext,
+    override,
 )
 from dependency_injector.providers.callable import (
     Callable,
@@ -16,10 +18,6 @@ from dependency_injector.providers.creational import (
     Singleton,
     DelegatedSingleton,
 )
-from dependency_injector.providers.utils import (
-    OverridingContext,
-    override,
-)
 
 
 __all__ = (
@@ -28,6 +26,9 @@ __all__ = (
     'Object',
     'ExternalDependency',
 
+    'OverridingContext',
+    'override',
+
     'Callable',
     'DelegatedCallable',
 
@@ -35,7 +36,4 @@ __all__ = (
     'DelegatedFactory',
     'Singleton',
     'DelegatedSingleton',
-
-    'OverridingContext',
-    'override',
 )
