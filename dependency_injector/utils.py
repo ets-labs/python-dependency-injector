@@ -7,7 +7,7 @@ import threading
 
 import six
 
-from dependency_injector.errors import Error
+from dependency_injector import errors
 
 
 GLOBAL_LOCK = threading.RLock()
@@ -54,91 +54,9 @@ def ensure_is_provider(instance):
     :rtype: :py:class:`dependency_injector.providers.Provider`
     """
     if not is_provider(instance):
-        raise Error('Expected provider instance, '
-                    'got {0}'.format(str(instance)))
+        raise errors.Error('Expected provider instance, '
+                           'got {0}'.format(str(instance)))
     return instance
-
-
-def is_delegated_provider(instance):
-    """Check if instance is delegated provider instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (is_provider(instance) and
-            hasattr(instance, '__IS_DELEGATED__') and
-            getattr(instance, '__IS_DELEGATED__') is True)
-
-
-def is_injection(instance):
-    """Check if instance is injection instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (not isinstance(instance, six.class_types) and
-            hasattr(instance, '__IS_INJECTION__') and
-            getattr(instance, '__IS_INJECTION__') is True)
-
-
-def ensure_is_injection(instance):
-    """Check if instance is injection instance and return it.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :raise: :py:exc:`dependency_injector.errors.Error` if provided instance is
-            not injection.
-
-    :rtype: :py:class:`dependency_injector.injections.Injection`
-    """
-    if not is_injection(instance):
-        raise Error('Expected injection instance, '
-                    'got {0}'.format(str(instance)))
-    return instance
-
-
-def is_arg_injection(instance):
-    """Check if instance is positional argument injection instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (not isinstance(instance, six.class_types) and
-            hasattr(instance, '__IS_ARG_INJECTION__') and
-            getattr(instance, '__IS_ARG_INJECTION__', False) is True)
-
-
-def is_kwarg_injection(instance):
-    """Check if instance is keyword argument injection instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (not isinstance(instance, six.class_types) and
-            hasattr(instance, '__IS_KWARG_INJECTION__') and
-            getattr(instance, '__IS_KWARG_INJECTION__', False) is True)
-
-
-def is_attribute_injection(instance):
-    """Check if instance is attribute injection instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (not isinstance(instance, six.class_types) and
-            hasattr(instance, '__IS_ATTRIBUTE_INJECTION__') and
-            getattr(instance, '__IS_ATTRIBUTE_INJECTION__', False) is True)
 
 
 def is_catalog(instance):

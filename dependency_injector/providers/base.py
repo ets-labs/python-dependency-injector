@@ -2,7 +2,6 @@
 
 import six
 
-from dependency_injector.providers.utils import OverridingContext
 from dependency_injector.errors import Error
 from dependency_injector.utils import (
     is_provider,
@@ -83,6 +82,13 @@ class Provider(object):
     def _call_last_overriding(self, *args, **kwargs):
         """Call last overriding provider and return result."""
         return self.last_overriding(*args, **kwargs)
+
+    def inject(self):
+        """Injection strategy implementation.
+
+        :rtype: object
+        """
+        return self.provide()
 
     @property
     def is_overridden(self):
@@ -349,3 +355,77 @@ class ExternalDependency(Provider):
         return represent_provider(provider=self, provides=self.instance_of)
 
     __repr__ = __str__
+
+
+class OverridingContext(object):
+    """Provider overriding context.
+
+    :py:class:`OverridingContext` is used by :py:meth:`Provider.override` for
+    implemeting ``with`` contexts. When :py:class:`OverridingContext` is
+    closed, overriding that was created in this context is dropped also.
+
+    .. code-block:: python
+
+        with provider.override(another_provider):
+            assert provider.is_overridden
+        assert not provider.is_overridden
+    """
+
+    def __init__(self, overridden, overriding):
+        """Initializer.
+
+        :param overridden: Overridden provider.
+        :type overridden: :py:class:`Provider`
+
+        :param overriding: Overriding provider.
+        :type overriding: :py:class:`Provider`
+        """
+        self.overridden = overridden
+        self.overriding = overriding
+
+    def __enter__(self):
+        """Do nothing."""
+        return self.overriding
+
+    def __exit__(self, *_):
+        """Exit overriding context."""
+        self.overridden.reset_last_overriding()
+
+
+def override(overridden):
+    """Decorator for overriding providers.
+
+    This decorator overrides ``overridden`` provider by decorated one.
+
+    .. code-block:: python
+
+        @Factory
+        class SomeClass(object):
+            pass
+
+
+        @override(SomeClass)
+        @Factory
+        class ExtendedSomeClass(SomeClass.cls):
+            pass
+
+    :param overridden: Provider that should be overridden.
+    :type overridden: :py:class:`Provider`
+
+    :return: Overriding provider.
+    :rtype: :py:class:`Provider`
+    """
+    def decorator(overriding):
+        overridden.override(overriding)
+        return overriding
+    return decorator
+
+
+def _parse_positional_injections(args):
+    return tuple(arg if is_provider(arg) else Object(arg)
+                 for arg in args)
+
+
+def _parse_keyword_injections(kwargs):
+    return dict((name, arg if is_provider(arg) else Object(arg))
+                for name, arg in six.iteritems(kwargs))
