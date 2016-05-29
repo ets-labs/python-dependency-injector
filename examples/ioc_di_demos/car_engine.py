@@ -10,7 +10,7 @@ class Car(object):
 
     def __init__(self):
         """Initializer."""
-        self.engine = Engine()
+        self.engine = Engine()  # Engine is a "hardcoded" dependency
 
 
 if __name__ == '__main__':
