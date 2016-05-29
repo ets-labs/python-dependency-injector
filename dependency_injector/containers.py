@@ -26,7 +26,18 @@ class DeclarativeContainerMetaClass(type):
         attributes['inherited_providers'] = dict(inherited_providers)
         attributes['providers'] = dict(cls_providers + inherited_providers)
 
-        return type.__new__(mcs, class_name, bases, attributes)
+        cls = type.__new__(mcs, class_name, bases, attributes)
+
+        if cls.provider_type:
+            for provider in six.itervalues(cls.providers):
+                try:
+                    assert isinstance(provider, cls.provider_type)
+                except AssertionError:
+                    raise errors.Error('{0} can contain only {1} '
+                                       'instances'.format(cls,
+                                                          cls.provider_type))
+
+        return cls
 
     def __setattr__(cls, name, value):
         """Set class attribute.
@@ -56,6 +67,8 @@ class DeclarativeContainer(object):
     """Declarative inversion of control container."""
 
     __IS_CATALOG__ = True
+
+    provider_type = None
 
     providers = dict()
     cls_providers = dict()
