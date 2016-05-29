@@ -24,9 +24,9 @@ class MyMoviesModule(containers.DeclarativeContainer):
     """IoC container for overriding movies module component providers."""
 
     movie_finder = providers.Factory(finders.CsvMovieFinder,
-                                     movie_model=MoviesModule.movie_model,
                                      csv_file=MOVIES_CSV_PATH,
-                                     delimeter=',')
+                                     delimeter=',',
+                                     **MoviesModule.movie_finder.kwargs)
 
 
 @injections.inject(MoviesModule.movie_lister)

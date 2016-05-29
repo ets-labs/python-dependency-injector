@@ -91,14 +91,46 @@ class DeclarativeContainer(object):
 def override(container):
     """:py:class:`DeclarativeContainer` overriding decorator.
 
-    :param catalog: Container that should be overridden by decorated container.
-    :type catalog: :py:class:`DeclarativeContainer`
+    :param container: Container that should be overridden by decorated
+                      container.
+    :type container: :py:class:`DeclarativeContainer`
 
     :return: Declarative container's overriding decorator.
     :rtype: callable(:py:class:`DeclarativeContainer`)
     """
-    def decorator(overriding_container):
+    def _decorator(overriding_container):
         """Overriding decorator."""
         container.override(overriding_container)
         return overriding_container
-    return decorator
+    return _decorator
+
+
+def copy(container):
+    """:py:class:`DeclarativeContainer` copying decorator.
+
+    This decorator copy all providers from provided container to decorated one.
+    If one of the decorated container providers matches to source container
+    providers by name, it would be replaced by reference.
+
+    :param container: Container that should be copied by decorated container.
+    :type container :py:class:`DeclarativeContainer`
+
+    :return: Declarative container's copying decorator.
+    :rtype: callable(:py:class:`DeclarativeContainer`)
+    """
+    def _decorator(copied_container):
+        memo = dict()
+        for name, provider in six.iteritems(copied_container.cls_providers):
+            try:
+                source_provider = getattr(container, name)
+            except AttributeError:
+                pass
+            else:
+                memo[id(source_provider)] = provider
+
+        providers_copy = utils._copy_providers(container.providers, memo)
+        for name, provider in six.iteritems(providers_copy):
+            setattr(copied_container, name, provider)
+
+        return copied_container
+    return _decorator

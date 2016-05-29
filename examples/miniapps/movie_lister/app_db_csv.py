@@ -33,8 +33,8 @@ class DbMoviesModule(MoviesModule):
     """IoC container for overriding movies module component providers."""
 
     movie_finder = providers.Factory(finders.SqliteMovieFinder,
-                                     movie_model=MoviesModule.movie_model,
-                                     database=ApplicationModule.database)
+                                     database=ApplicationModule.database,
+                                     **MoviesModule.movie_finder.kwargs)
 
 
 @containers.copy(MoviesModule)
@@ -42,9 +42,9 @@ class CsvMoviesModule(MoviesModule):
     """IoC container for overriding movies module component providers."""
 
     movie_finder = providers.Factory(finders.CsvMovieFinder,
-                                     movie_model=MoviesModule.movie_model,
                                      csv_file=MOVIES_CSV_PATH,
-                                     delimeter=',')
+                                     delimeter=',',
+                                     **MoviesModule.movie_finder.kwargs)
 
 
 @injections.inject(db_movie_lister=DbMoviesModule.movie_lister)

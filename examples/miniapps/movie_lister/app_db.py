@@ -32,8 +32,8 @@ class MyMoviesModule(containers.DeclarativeContainer):
     """IoC container for overriding movies module component providers."""
 
     movie_finder = providers.Factory(finders.SqliteMovieFinder,
-                                     movie_model=MoviesModule.movie_model,
-                                     database=ApplicationModule.database)
+                                     database=ApplicationModule.database,
+                                     **MoviesModule.movie_finder.kwargs)
 
 
 @injections.inject(MoviesModule.movie_lister)
