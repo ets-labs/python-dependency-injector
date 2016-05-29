@@ -1,8 +1,8 @@
-"""Pythonic way for Dependency Injection - Providing Callbacks Catalog."""
+"""Pythonic way for Dependency Injection - callback-based IoC container."""
 
 import sqlite3
 
-from dependency_injector import catalogs
+from dependency_injector import containers
 from dependency_injector import providers
 from dependency_injector import injections
 
@@ -24,14 +24,14 @@ class AuthService(object):
         self.users_service = users_service
 
 
-class Services(catalogs.DeclarativeCatalog):
-    """Catalog of service providers."""
+class Services(containers.DeclarativeContainer):
+    """IoC container of service providers."""
 
     @providers.Singleton
     def database():
         """Provide database connection.
 
-        :rtype: providers.Provider -> sqlite3.Connection
+        :rtype: sqlite3.Connection
         """
         return sqlite3.connect(':memory:')
 
@@ -40,7 +40,7 @@ class Services(catalogs.DeclarativeCatalog):
     def users(**kwargs):
         """Provide users service.
 
-        :rtype: providers.Provider -> UsersService
+        :rtype: UsersService
         """
         return UsersService(**kwargs)
 
@@ -50,12 +50,12 @@ class Services(catalogs.DeclarativeCatalog):
     def auth(**kwargs):
         """Provide users service.
 
-        :rtype: providers.Provider -> AuthService
+        :rtype: AuthService
         """
         return AuthService(**kwargs)
 
 
-# Retrieving catalog providers:
+# Retrieving services:
 users_service = Services.users()
 auth_service = Services.auth()
 
