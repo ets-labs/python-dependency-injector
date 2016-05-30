@@ -3,6 +3,7 @@
 import six
 
 from dependency_injector import (
+    providers,
     utils,
     errors,
 )
@@ -18,7 +19,8 @@ class DeclarativeContainerMetaClass(type):
                               if utils.is_provider(provider))
 
         inherited_providers = tuple((name, provider)
-                                    for base in bases if utils.is_catalog(base)
+                                    for base in bases if utils.is_container(
+                                        base)
                                     for name, provider in six.iteritems(
                                         base.cls_providers))
 
@@ -28,14 +30,8 @@ class DeclarativeContainerMetaClass(type):
 
         cls = type.__new__(mcs, class_name, bases, attributes)
 
-        if cls.provider_type:
-            for provider in six.itervalues(cls.providers):
-                try:
-                    assert isinstance(provider, cls.provider_type)
-                except AssertionError:
-                    raise errors.Error('{0} can contain only {1} '
-                                       'instances'.format(cls,
-                                                          cls.provider_type))
+        for provider in six.itervalues(cls.providers):
+            cls._check_provider_type(provider)
 
         return cls
 
@@ -46,6 +42,7 @@ class DeclarativeContainerMetaClass(type):
         dictionary.
         """
         if utils.is_provider(value):
+            cls._check_provider_type(value)
             cls.providers[name] = value
             cls.cls_providers[name] = value
         super(DeclarativeContainerMetaClass, cls).__setattr__(name, value)
@@ -61,14 +58,19 @@ class DeclarativeContainerMetaClass(type):
             del cls.cls_providers[name]
         super(DeclarativeContainerMetaClass, cls).__delattr__(name)
 
+    def _check_provider_type(cls, provider):
+        if not isinstance(provider, cls.provider_type):
+            raise errors.Error('{0} can contain only {1} '
+                               'instances'.format(cls, cls.provider_type))
+
 
 @six.add_metaclass(DeclarativeContainerMetaClass)
 class DeclarativeContainer(object):
     """Declarative inversion of control container."""
 
-    __IS_CATALOG__ = True
+    __IS_CONTAINER__ = True
 
-    provider_type = None
+    provider_type = providers.Provider
 
     providers = dict()
     cls_providers = dict()
@@ -89,7 +91,7 @@ class DeclarativeContainer(object):
         :rtype: None
         """
         if issubclass(cls, overriding):
-            raise errors.Error('Catalog {0} could not be overridden '
+            raise errors.Error('Container {0} could not be overridden '
                                'with itself or its subclasses'.format(cls))
 
         cls.overridden_by += (overriding,)
@@ -99,6 +101,31 @@ class DeclarativeContainer(object):
                 getattr(cls, name).override(provider)
             except AttributeError:
                 pass
+
+    @classmethod
+    def reset_last_overriding(cls):
+        """Reset last overriding provider for each container providers.
+
+        :rtype: None
+        """
+        if not cls.overridden_by:
+            raise errors.Error('Container {0} is not overridden'.format(cls))
+
+        cls.overridden_by = cls.overridden_by[:-1]
+
+        for provider in six.itervalues(cls.providers):
+            provider.reset_last_overriding()
+
+    @classmethod
+    def reset_override(cls):
+        """Reset all overridings for each container providers.
+
+        :rtype: None
+        """
+        cls.overridden_by = tuple()
+
+        for provider in six.itervalues(cls.providers):
+            provider.reset_override()
 
 
 def override(container):
