@@ -7,8 +7,8 @@ import sqlite3
 import boto.s3.connection
 import example.services
 
-from dependency_injector import containers
-from dependency_injector import providers
+import dependency_injector.containers as containers
+import dependency_injector.providers as providers
 
 
 class Platform(containers.DeclarativeContainer):
@@ -28,10 +28,10 @@ class Services(containers.DeclarativeContainer):
     users = providers.Factory(example.services.Users)
     users.add_kwargs(db=Platform.database)
 
-    photos = providers.Factory(example.services.Photos)
-    photos.add_kwargs(db=Platform.database,
-                      s3=Platform.s3)
-
     auth = providers.Factory(example.services.Auth)
     auth.add_kwargs(db=Platform.database,
                     token_ttl=3600)
+
+    photos = providers.Factory(example.services.Photos)
+    photos.add_kwargs(db=Platform.database,
+                      s3=Platform.s3)

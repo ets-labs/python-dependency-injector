@@ -64,8 +64,8 @@ system that consists from several business and platform services:
     import boto.s3.connection
     import example.services
 
-    from dependency_injector import containers
-    from dependency_injector import providers
+    import dependency_injector.containers as containers
+    import dependency_injector.providers as providers
 
 
     class Platform(containers.DeclarativeContainer):
@@ -84,13 +84,13 @@ system that consists from several business and platform services:
         users = providers.Factory(example.services.Users,
                                   db=Platform.database)
 
-        photos = providers.Factory(example.services.Photos,
-                                   db=Platform.database,
-                                   s3=Platform.s3)
-
         auth = providers.Factory(example.services.Auth,
                                  db=Platform.database,
                                  token_ttl=3600)
+
+        photos = providers.Factory(example.services.Photos,
+                                   db=Platform.database,
+                                   s3=Platform.s3)
 
 Next example demonstrates usage of ``@inject`` decorator with IoC containers 
 defined above: 
@@ -99,14 +99,13 @@ defined above:
 
     """Dependency Injector @inject decorator example."""
 
-    from dependency_injector.injections import inject
+    import dependency_injector.injections as di
+    import containers
 
-    from containers import Services
 
-
-    @inject(users_service=Services.users)
-    @inject(auth_service=Services.auth)
-    @inject(photos_service=Services.photos)
+    @di.inject(users_service=containers.Services.users)
+    @di.inject(auth_service=containers.Services.auth)
+    @di.inject(photos_service=containers.Services.photos)
     def main(users_service, auth_service, photos_service):
         """Main function."""
         user = users_service.get_user('user')
@@ -144,13 +143,13 @@ IoC containers from previous example could look like these:
         users = providers.Factory(example.services.Users) \
             .add_kwargs(db=Platform.database)
 
-        photos = providers.Factory(example.services.Photos) \
-            .add_kwargs(db=Platform.database,
-                        s3=Platform.s3)
-
         auth = providers.Factory(example.services.Auth) \
             .add_kwargs(db=Platform.database,
                         token_ttl=3600)
+
+        photos = providers.Factory(example.services.Photos) \
+            .add_kwargs(db=Platform.database,
+                        s3=Platform.s3)
 
 or like this these:
 
@@ -173,13 +172,13 @@ or like this these:
         users = providers.Factory(example.services.Users)
         users.add_kwargs(db=Platform.database)
 
-        photos = providers.Factory(example.services.Photos)
-        photos.add_kwargs(db=Platform.database,
-                          s3=Platform.s3)
-
         auth = providers.Factory(example.services.Auth)
         auth.add_kwargs(db=Platform.database,
                         token_ttl=3600)
+
+        photos = providers.Factory(example.services.Photos)
+        photos.add_kwargs(db=Platform.database,
+                          s3=Platform.s3)
 
 You can get more *Dependency Injector* examples in ``/examples`` directory on
 GitHub:
