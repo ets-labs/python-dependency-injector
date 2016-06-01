@@ -9,6 +9,86 @@ from dependency_injector import (
 )
 
 
+class DynamicContainer(object):
+    """Dynamic inversion of control container."""
+
+    __IS_CONTAINER__ = True
+
+    def __init__(self):
+        """Initializer."""
+        self.provider_type = providers.Provider
+        self.providers = dict()
+        self.overridden_by = tuple()
+        super(DynamicContainer, self).__init__()
+
+    def __setattr__(self, name, value):
+        """Set instance attribute.
+
+        If value of attribute is provider, it will be added into providers
+        dictionary.
+        """
+        if utils.is_provider(value):
+            _check_provider_type(self, value)
+            self.providers[name] = value
+        super(DynamicContainer, self).__setattr__(name, value)
+
+    def __delattr__(self, name):
+        """Delete instance attribute.
+
+        If value of attribute is provider, it will be deleted from providers
+        dictionary.
+        """
+        if name in self.providers:
+            del self.providers[name]
+        super(DynamicContainer, self).__delattr__(name)
+
+    def override(self, overriding):
+        """Override current container by overriding container.
+
+        :param overriding: Overriding container.
+        :type overriding: :py:class:`DeclarativeContainer`
+
+        :raise: :py:exc:`dependency_injector.errors.Error` if trying to
+                override container by itself or its subclasses
+
+        :rtype: None
+        """
+        if overriding is self:
+            raise errors.Error('Container {0} could not be overridden '
+                               'with itself'.format(self))
+
+        self.overridden_by += (overriding,)
+
+        for name, provider in six.iteritems(overriding.providers):
+            try:
+                getattr(self, name).override(provider)
+            except AttributeError:
+                pass
+
+    def reset_last_overriding(self):
+        """Reset last overriding provider for each container providers.
+
+        :rtype: None
+        """
+        if not self.overridden_by:
+            raise errors.Error('Container {0} is not overridden'.format(self))
+
+        self.overridden_by = self.overridden_by[:-1]
+
+        for provider in six.itervalues(self.providers):
+            provider.reset_last_overriding()
+
+    def reset_override(self):
+        """Reset all overridings for each container providers.
+
+        :rtype: None
+        """
+        self.overridden_by = tuple()
+
+        for provider in six.itervalues(self.providers):
+            provider.reset_override()
+
+
 class DeclarativeContainerMetaClass(type):
     """Declarative inversion of control container meta class."""
 
@@ -20,7 +100,7 @@ class DeclarativeContainerMetaClass(type):
 
         inherited_providers = tuple((name, provider)
                                     for base in bases if utils.is_container(
-                                        base)
+                                        base) and base is not DynamicContainer
                                     for name, provider in six.iteritems(
                                         base.cls_providers))
 
@@ -70,8 +150,19 @@ class DeclarativeContainer(object):
     providers = dict()
     cls_providers = dict()
     inherited_providers = dict()
-
     overridden_by = tuple()
+
+    instance_type = DynamicContainer
+
+    def __new__(cls, *args, **kwargs):
+        """Constructor."""
+        container = cls.instance_type(*args, **kwargs)
+        container.provider_type = cls.provider_type
+
+        for name, provider in six.iteritems(utils.deepcopy(cls.providers)):
+            setattr(container, name, provider)
+
+        return container
 
     @classmethod
     def override(cls, overriding):
@@ -163,7 +254,7 @@ def copy(container):
             else:
                 memo[id(source_provider)] = provider
 
-        providers_copy = utils._copy_providers(container.providers, memo)
+        providers_copy = utils.deepcopy(container.providers, memo)
         for name, provider in six.iteritems(providers_copy):
             setattr(copied_container, name, provider)
 

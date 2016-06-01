@@ -4,7 +4,6 @@ import unittest2 as unittest
 
 from dependency_injector import utils
 from dependency_injector import providers
-from dependency_injector import catalogs
 from dependency_injector import errors
 
 
@@ -69,56 +68,3 @@ class EnsureIsProviderTests(unittest.TestCase):
     def test_with_object(self):
         """Test with object."""
         self.assertRaises(errors.Error, utils.ensure_is_provider, object())
-
-
-class IsCatalogTests(unittest.TestCase):
-    """`is_catalog()` test cases."""
-
-    def test_with_declarative_catalog(self):
-        """Test with class."""
-        self.assertTrue(utils.is_catalog(catalogs.DeclarativeCatalog))
-
-    def test_with_dynamic_catalog(self):
-        """Test with class."""
-        self.assertTrue(utils.is_catalog(catalogs.DynamicCatalog()))
-
-    def test_with_child_class(self):
-        """Test with parent class."""
-        class Catalog(catalogs.DeclarativeCatalog):
-            """Example catalog child class."""
-
-        self.assertTrue(utils.is_catalog(Catalog))
-
-    def test_with_string(self):
-        """Test with string."""
-        self.assertFalse(utils.is_catalog('some_string'))
-
-    def test_with_object(self):
-        """Test with object."""
-        self.assertFalse(utils.is_catalog(object()))
-
-
-class IsDynamicCatalogTests(unittest.TestCase):
-    """`is_dynamic_catalog()` test cases."""
-
-    def test_with_declarative_catalog(self):
-        """Test with declarative catalog."""
-        self.assertFalse(utils.is_dynamic_catalog(catalogs.DeclarativeCatalog))
-
-    def test_with_dynamic_catalog(self):
-        """Test with dynamic catalog."""
-        self.assertTrue(utils.is_dynamic_catalog(catalogs.DynamicCatalog()))
-
-
-class IsDeclarativeCatalogTests(unittest.TestCase):
-    """`is_declarative_catalog()` test cases."""
-
-    def test_with_declarative_catalog(self):
-        """Test with declarative catalog."""
-        self.assertTrue(utils.is_declarative_catalog(
-            catalogs.DeclarativeCatalog))
-
-    def test_with_dynamic_catalog(self):
-        """Test with dynamic catalog."""
-        self.assertFalse(utils.is_declarative_catalog(
-            catalogs.DynamicCatalog()))

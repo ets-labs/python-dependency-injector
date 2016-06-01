@@ -1,1 +1,0 @@
-"""Dependency injector catalogs unittests."""
