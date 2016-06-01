@@ -242,7 +242,7 @@ class DelegatedFactoryTests(unittest.TestCase):
     def test_is_delegated_provider(self):
         """Test is_delegated_provider."""
         provider = providers.DelegatedFactory(object)
-        self.assertIs(provider.inject(), provider)
+        self.assertIs(provider.provide_injection(), provider)
 
 
 class SingletonTests(unittest.TestCase):
@@ -481,7 +481,7 @@ class DelegatedSingletonTests(unittest.TestCase):
     def test_is_delegated_provider(self):
         """Test is_delegated_provider."""
         provider = providers.DelegatedSingleton(object)
-        self.assertIs(provider.inject(), provider)
+        self.assertIs(provider.provide_injection(), provider)
 
 
 class FactoryAsDecoratorTests(unittest.TestCase):

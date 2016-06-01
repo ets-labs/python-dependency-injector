@@ -77,11 +77,12 @@ def inject(*args, **kwargs):
         def decorated(*args, **kwargs):
             """Decorated with dependency injection callback."""
             if decorated.args:
-                args = tuple(arg.inject() for arg in decorated.args) + args
+                args = tuple(arg.provide_injection()
+                             for arg in decorated.args) + args
 
             for name, arg in six.iteritems(decorated.kwargs):
                 if name not in kwargs:
-                    kwargs[name] = arg.inject()
+                    kwargs[name] = arg.provide_injection()
 
             return callback(*args, **kwargs)
 

@@ -113,7 +113,7 @@ class Factory(Callable):
         instance = super(Factory, self)._provide(*args, **kwargs)
 
         for name, arg in six.iteritems(self.attributes):
-            setattr(instance, name, arg.inject())
+            setattr(instance, name, arg.provide_injection())
 
         return instance
 
@@ -140,7 +140,7 @@ class DelegatedFactory(Factory):
         :type: type
     """
 
-    def inject(self):
+    def provide_injection(self):
         """Injection strategy implementation.
 
         :rtype: object
@@ -243,7 +243,7 @@ class DelegatedSingleton(Singleton):
         :type: type
     """
 
-    def inject(self):
+    def provide_injection(self):
         """Injection strategy implementation.
 
         :rtype: object

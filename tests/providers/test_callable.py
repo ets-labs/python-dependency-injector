@@ -111,4 +111,4 @@ class DelegatedCallableTests(unittest.TestCase):
     def test_is_delegated_provider(self):
         """Test is_delegated_provider."""
         provider = providers.DelegatedCallable(len)
-        self.assertIs(provider.inject(), provider)
+        self.assertIs(provider.provide_injection(), provider)

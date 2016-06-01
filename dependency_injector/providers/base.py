@@ -83,7 +83,7 @@ class Provider(object):
         """Call last overriding provider and return result."""
         return self.last_overriding(*args, **kwargs)
 
-    def inject(self):
+    def provide_injection(self):
         """Injection strategy implementation.
 
         :rtype: object

@@ -97,11 +97,11 @@ class Callable(Provider):
         :rtype: object
         """
         if self.args:
-            args = tuple(arg.inject() for arg in self.args) + args
+            args = tuple(arg.provide_injection() for arg in self.args) + args
 
         for name, arg in six.iteritems(self.kwargs):
             if name not in kwargs:
-                kwargs[name] = arg.inject()
+                kwargs[name] = arg.provide_injection()
 
         return self.provides(*args, **kwargs)
 
@@ -122,7 +122,7 @@ class DelegatedCallable(Callable):
     "as is".
     """
 
-    def inject(self):
+    def provide_injection(self):
         """Injection strategy implementation.
 
         :rtype: object
