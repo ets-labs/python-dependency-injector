@@ -1,8 +1,8 @@
-"""Declarative catalog's provider injections example."""
+"""Declarative IoC container's provider injections example."""
 
 import sqlite3
 
-from dependency_injector import catalogs
+from dependency_injector import containers
 from dependency_injector import providers
 
 
@@ -23,8 +23,8 @@ class AuthService(object):
         self.users_service = users_service
 
 
-class Services(catalogs.DeclarativeCatalog):
-    """Catalog of service providers."""
+class Services(containers.DeclarativeContainer):
+    """IoC container of service providers."""
 
     database = providers.Singleton(sqlite3.connect, ':memory:')
 
@@ -36,7 +36,7 @@ class Services(catalogs.DeclarativeCatalog):
                              users_service=users)
 
 
-# Retrieving service providers from catalog:
+# Retrieving service providers from container:
 users_service = Services.users()
 auth_service = Services.auth()
 

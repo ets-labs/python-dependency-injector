@@ -1,7 +1,7 @@
 """Utils module."""
 
 import sys
-import copy
+import copy as _copy
 import types
 import threading
 
@@ -23,9 +23,9 @@ else:  # pragma: no cover
     _OBJECT_INIT = None
 
 if six.PY2:  # pragma: no cover
-    copy._deepcopy_dispatch[types.MethodType] = \
+    _copy._deepcopy_dispatch[types.MethodType] = \
         lambda obj, memo: type(obj)(obj.im_func,
-                                    copy.deepcopy(obj.im_self, memo),
+                                    _copy.deepcopy(obj.im_self, memo),
                                     obj.im_class)
 
 
@@ -59,38 +59,16 @@ def ensure_is_provider(instance):
     return instance
 
 
-def is_catalog(instance):
-    """Check if instance is catalog instance.
+def is_container(instance):
+    """Check if instance is container instance.
 
     :param instance: Instance to be checked.
     :type instance: object
 
     :rtype: bool
     """
-    return (hasattr(instance, '__IS_CATALOG__') and
-            getattr(instance, '__IS_CATALOG__', False) is True)
-
-
-def is_dynamic_catalog(instance):
-    """Check if instance is dynamic catalog instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (not isinstance(instance, six.class_types) and is_catalog(instance))
-
-
-def is_declarative_catalog(instance):
-    """Check if instance is declarative catalog instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (isinstance(instance, six.class_types) and is_catalog(instance))
+    return (hasattr(instance, '__IS_CONTAINER__') and
+            getattr(instance, '__IS_CONTAINER__', False) is True)
 
 
 def represent_provider(provider, provides):
@@ -130,6 +108,6 @@ def fetch_cls_init(cls):
         return cls_init
 
 
-def _copy_providers(providers, memo=None):
-    """Make full copy of providers dictionary."""
-    return copy.deepcopy(providers, memo)
+def deepcopy(instance, memo=None):
+    """Make full copy of instance."""
+    return _copy.deepcopy(instance, memo)

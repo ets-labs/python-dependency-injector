@@ -64,7 +64,7 @@ class Provider(object):
 
     def __init__(self):
         """Initializer."""
-        self.overridden_by = None
+        self.overridden_by = tuple()
         super(Provider, self).__init__()
         # Enable __call__() / _provide() optimization
         if self.__class__.__OPTIMIZED_CALLS__:
@@ -124,10 +124,7 @@ class Provider(object):
         if not is_provider(provider):
             provider = Object(provider)
 
-        if not self.is_overridden:
-            self.overridden_by = (ensure_is_provider(provider),)
-        else:
-            self.overridden_by += (ensure_is_provider(provider),)
+        self.overridden_by += (ensure_is_provider(provider),)
 
         # Disable __call__() / _provide() optimization
         if self.__class__.__OPTIMIZED_CALLS__:
@@ -145,6 +142,7 @@ class Provider(object):
         """
         if not self.overridden_by:
             raise Error('Provider {0} is not overridden'.format(str(self)))
+
         self.overridden_by = self.overridden_by[:-1]
 
         if not self.is_overridden:
@@ -157,7 +155,7 @@ class Provider(object):
 
         :rtype: None
         """
-        self.overridden_by = None
+        self.overridden_by = tuple()
 
         # Enable __call__() / _provide() optimization
         if self.__class__.__OPTIMIZED_CALLS__:

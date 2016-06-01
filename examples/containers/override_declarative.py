@@ -1,8 +1,8 @@
-"""Declarative catalog overriding by dynamic catalog example."""
+"""Declarative IoC container overriding example."""
 
 import collections
 
-from dependency_injector import catalogs
+from dependency_injector import containers
 from dependency_injector import providers
 
 
@@ -12,8 +12,8 @@ Object2 = collections.namedtuple('Object2', ['object1'])
 ExtendedObject2 = collections.namedtuple('ExtendedObject2', [])
 
 
-class Catalog(catalogs.DeclarativeCatalog):
-    """Catalog of some providers."""
+class Container(containers.DeclarativeContainer):
+    """Example IoC container."""
 
     object1_factory = providers.Factory(Object1,
                                         arg1=1,
@@ -23,17 +23,21 @@ class Catalog(catalogs.DeclarativeCatalog):
                                         object1=object1_factory)
 
 
-# Overriding `Catalog` with some `DynamicCatalog` instance:
-overriding_catalog = catalogs.DynamicCatalog(
-    object2_factory=providers.Factory(ExtendedObject2))
-Catalog.override(overriding_catalog)
+class OverridingContainer(containers.DeclarativeContainer):
+    """Overriding IoC container."""
 
-# Creating some objects using overridden catalog:
-object2_1 = Catalog.object2_factory()
-object2_2 = Catalog.object2_factory()
+    object2_factory = providers.Factory(ExtendedObject2)
+
+
+# Overriding `Container` with `OverridingContainer`:
+Container.override(OverridingContainer)
+
+# Creating some objects using overridden container:
+object2_1 = Container.object2_factory()
+object2_2 = Container.object2_factory()
 
 # Making some asserts:
-assert Catalog.is_overridden
+assert Container.overridden_by == (OverridingContainer,)
 
 assert object2_1 is not object2_2
 
