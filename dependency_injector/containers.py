@@ -31,7 +31,7 @@ class DeclarativeContainerMetaClass(type):
         cls = type.__new__(mcs, class_name, bases, attributes)
 
         for provider in six.itervalues(cls.providers):
-            cls._check_provider_type(provider)
+            _check_provider_type(cls, provider)
 
         return cls
 
@@ -42,7 +42,7 @@ class DeclarativeContainerMetaClass(type):
         dictionary.
         """
         if utils.is_provider(value):
-            cls._check_provider_type(value)
+            _check_provider_type(cls, value)
             cls.providers[name] = value
             cls.cls_providers[name] = value
         super(DeclarativeContainerMetaClass, cls).__setattr__(name, value)
@@ -57,11 +57,6 @@ class DeclarativeContainerMetaClass(type):
             del cls.providers[name]
             del cls.cls_providers[name]
         super(DeclarativeContainerMetaClass, cls).__delattr__(name)
-
-    def _check_provider_type(cls, provider):
-        if not isinstance(provider, cls.provider_type):
-            raise errors.Error('{0} can contain only {1} '
-                               'instances'.format(cls, cls.provider_type))
 
 
 @six.add_metaclass(DeclarativeContainerMetaClass)
@@ -174,3 +169,9 @@ def copy(container):
 
         return copied_container
     return _decorator
+
+
+def _check_provider_type(cls, provider):
+    if not isinstance(provider, cls.provider_type):
+        raise errors.Error('{0} can contain only {1} '
+                           'instances'.format(cls, cls.provider_type))
