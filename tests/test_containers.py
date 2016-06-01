@@ -145,6 +145,16 @@ class DeclarativeContainerTests(unittest.TestCase):
                          (_OverridingContainer1.p11,
                           _OverridingContainer2.p11))
 
+    def test_override_with_itself(self):
+        """Test override with itself."""
+        with self.assertRaises(errors.Error):
+            ContainerA.override(ContainerA)
+
+    def test_override_with_parent(self):
+        """Test override with parent."""
+        with self.assertRaises(errors.Error):
+            ContainerB.override(ContainerA)
+
     def test_override_decorator(self):
         """Test override decorator."""
         class _Container(containers.DeclarativeContainer):
@@ -187,6 +197,11 @@ class DeclarativeContainerTests(unittest.TestCase):
         self.assertEqual(_Container.p11.overridden_by,
                          (_OverridingContainer1.p11,))
 
+    def test_reset_last_overridding_when_not_overridden(self):
+        """Test reset of last overriding."""
+        with self.assertRaises(errors.Error):
+            ContainerA.reset_last_overriding()
+
     def test_reset_override(self):
         """Test reset all overridings."""
         class _Container(containers.DeclarativeContainer):
@@ -205,6 +220,61 @@ class DeclarativeContainerTests(unittest.TestCase):
 
         self.assertEqual(_Container.overridden_by, tuple())
         self.assertEqual(_Container.p11.overridden_by, tuple())
+
+    def test_copy(self):
+        """Test copy decorator."""
+        @containers.copy(ContainerA)
+        class _Container1(ContainerA):
+            pass
+
+        @containers.copy(ContainerA)
+        class _Container2(ContainerA):
+            pass
+
+        self.assertIsNot(ContainerA.p11, _Container1.p11)
+        self.assertIsNot(ContainerA.p12, _Container1.p12)
+
+        self.assertIsNot(ContainerA.p11, _Container2.p11)
+        self.assertIsNot(ContainerA.p12, _Container2.p12)
+
+        self.assertIsNot(_Container1.p11, _Container2.p11)
+        self.assertIsNot(_Container1.p12, _Container2.p12)
+
+    def test_copy_with_replacing(self):
+        """Test copy decorator with providers replacement."""
+        class _Container(containers.DeclarativeContainer):
+            p11 = providers.Object(0)
+            p12 = providers.Factory(dict, p11=p11)
+
+        @containers.copy(_Container)
+        class _Container1(_Container):
+            p11 = providers.Object(1)
+            p13 = providers.Object(11)
+
+        @containers.copy(_Container)
+        class _Container2(_Container):
+            p11 = providers.Object(2)
+            p13 = providers.Object(22)
+
+        self.assertIsNot(_Container.p11, _Container1.p11)
+        self.assertIsNot(_Container.p12, _Container1.p12)
+
+        self.assertIsNot(_Container.p11, _Container2.p11)
+        self.assertIsNot(_Container.p12, _Container2.p12)
+
+        self.assertIsNot(_Container1.p11, _Container2.p11)
+        self.assertIsNot(_Container1.p12, _Container2.p12)
+
+        self.assertIs(_Container.p12.kwargs['p11'], _Container.p11)
+        self.assertIs(_Container1.p12.kwargs['p11'], _Container1.p11)
+        self.assertIs(_Container2.p12.kwargs['p11'], _Container2.p11)
+
+        self.assertEqual(_Container.p12(), dict(p11=0))
+        self.assertEqual(_Container1.p12(), dict(p11=1))
+        self.assertEqual(_Container2.p12(), dict(p11=2))
+
+        self.assertEqual(_Container1.p13(), 11)
+        self.assertEqual(_Container2.p13(), 22)
 
 if __name__ == '__main__':
     unittest.main()
