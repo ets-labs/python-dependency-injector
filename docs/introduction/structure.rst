@@ -24,7 +24,7 @@ There are 3 main entities: providers, injections and catalogs.
 Providers
 ~~~~~~~~~
 
-Providers are strategies of accesing objects. For example, 
+Providers are strategies of accessing objects. For example, 
 :py:class:`dependency_injector.providers.Factory` creates new instance 
 of provided class every time it is called. 
 :py:class:`dependency_injector.providers.Singleton` creates provided 
