@@ -3,3 +3,4 @@ unittest2
 sphinx
 sphinx_rtd_theme
 sphinx_autobuild
+autodoc
