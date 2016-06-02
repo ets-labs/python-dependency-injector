@@ -5,12 +5,17 @@ from container import Container
 from dependency_injector.injections import inject
 
 
-@inject(car1=Container.car_factory)
-@inject(car2=Container.car_factory)
-def main(car1, car2):
+@inject(car_factory=Container.car_factory.delegate())
+@inject(extra_engine=Container.engine_factory)
+def main(car_factory, extra_engine):
     """Main function."""
-    assert car1 is not car2
+    car1 = car_factory(serial_number=1)
+    car2 = car_factory(serial_number=2, engine=extra_engine)
+
+    assert car1.serial_number == 1 and car2.serial_number == 2
     assert car1.engine is not car2.engine
+    assert car2.engine is extra_engine
+
 
 if __name__ == '__main__':
     main()

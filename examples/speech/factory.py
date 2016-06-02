@@ -5,6 +5,7 @@ from dependency_injector import providers
 
 object_factory = providers.Factory(object)
 
+
 if __name__ == '__main__':
     object1 = object_factory()
     object2 = object_factory()
