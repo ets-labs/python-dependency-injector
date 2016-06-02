@@ -12,21 +12,21 @@ concrete finder implementation in terms of library configuration.
 Each of ``MoviesModule`` providers could be overridden.
 """
 
-from dependency_injector import containers
-from dependency_injector import providers
+import dependency_injector.containers as containers
+import dependency_injector.providers as providers
 
-from . import finders
-from . import listers
-from . import models
+import movies.finders
+import movies.listers
+import movies.models
 
 
 class MoviesModule(containers.DeclarativeContainer):
     """IoC container of movies module component providers."""
 
-    movie_model = providers.DelegatedFactory(models.Movie)
+    movie_model = providers.DelegatedFactory(movies.models.Movie)
 
-    movie_finder = providers.Factory(finders.MovieFinder,
+    movie_finder = providers.Factory(movies.finders.MovieFinder,
                                      movie_model=movie_model)
 
-    movie_lister = providers.Factory(listers.MovieLister,
+    movie_lister = providers.Factory(movies.listers.MovieLister,
                                      movie_finder=movie_finder)

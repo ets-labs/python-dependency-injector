@@ -11,44 +11,43 @@ sqlite movies database and csv file movies database.
 
 import sqlite3
 
-from dependency_injector import containers
-from dependency_injector import providers
-from dependency_injector import injections
+import dependency_injector.containers as containers
+import dependency_injector.providers as providers
+import dependency_injector.injections as di
 
-from movies import MoviesModule
-from movies import finders
+import movies
+import movies.finders
 
-from settings import MOVIES_CSV_PATH
-from settings import MOVIES_DB_PATH
+import settings
 
 
 class ApplicationModule(containers.DeclarativeContainer):
     """IoC container of application component providers."""
 
-    database = providers.Singleton(sqlite3.connect, MOVIES_DB_PATH)
+    database = providers.Singleton(sqlite3.connect, settings.MOVIES_DB_PATH)
 
 
-@containers.copy(MoviesModule)
-class DbMoviesModule(MoviesModule):
+@containers.copy(movies.MoviesModule)
+class DbMoviesModule(movies.MoviesModule):
     """IoC container for overriding movies module component providers."""
 
-    movie_finder = providers.Factory(finders.SqliteMovieFinder,
+    movie_finder = providers.Factory(movies.finders.SqliteMovieFinder,
                                      database=ApplicationModule.database,
-                                     **MoviesModule.movie_finder.kwargs)
+                                     **movies.MoviesModule.movie_finder.kwargs)
 
 
-@containers.copy(MoviesModule)
-class CsvMoviesModule(MoviesModule):
+@containers.copy(movies.MoviesModule)
+class CsvMoviesModule(movies.MoviesModule):
     """IoC container for overriding movies module component providers."""
 
-    movie_finder = providers.Factory(finders.CsvMovieFinder,
-                                     csv_file=MOVIES_CSV_PATH,
+    movie_finder = providers.Factory(movies.finders.CsvMovieFinder,
+                                     csv_file=settings.MOVIES_CSV_PATH,
                                      delimeter=',',
-                                     **MoviesModule.movie_finder.kwargs)
+                                     **movies.MoviesModule.movie_finder.kwargs)
 
 
-@injections.inject(db_movie_lister=DbMoviesModule.movie_lister)
-@injections.inject(csv_movie_lister=CsvMoviesModule.movie_lister)
+@di.inject(db_movie_lister=DbMoviesModule.movie_lister)
+@di.inject(csv_movie_lister=CsvMoviesModule.movie_lister)
 def main(db_movie_lister, csv_movie_lister):
     """Main function.
 

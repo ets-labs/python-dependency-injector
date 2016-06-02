@@ -11,32 +11,32 @@ sqlite movies database.
 
 import sqlite3
 
-from dependency_injector import containers
-from dependency_injector import providers
-from dependency_injector import injections
+import dependency_injector.containers as containers
+import dependency_injector.providers as providers
+import dependency_injector.injections as di
 
-from movies import MoviesModule
-from movies import finders
+import movies
+import movies.finders
 
-from settings import MOVIES_DB_PATH
+import settings
 
 
 class ApplicationModule(containers.DeclarativeContainer):
     """IoC container of application component providers."""
 
-    database = providers.Singleton(sqlite3.connect, MOVIES_DB_PATH)
+    database = providers.Singleton(sqlite3.connect, settings.MOVIES_DB_PATH)
 
 
-@containers.override(MoviesModule)
+@containers.override(movies.MoviesModule)
 class MyMoviesModule(containers.DeclarativeContainer):
     """IoC container for overriding movies module component providers."""
 
-    movie_finder = providers.Factory(finders.SqliteMovieFinder,
+    movie_finder = providers.Factory(movies.finders.SqliteMovieFinder,
                                      database=ApplicationModule.database,
-                                     **MoviesModule.movie_finder.kwargs)
+                                     **movies.MoviesModule.movie_finder.kwargs)
 
 
-@injections.inject(MoviesModule.movie_lister)
+@di.inject(movies.MoviesModule.movie_lister)
 def main(movie_lister):
     """Main function.
 
