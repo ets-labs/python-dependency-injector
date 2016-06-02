@@ -1,4 +1,4 @@
-"""Refactored Car & Engine example that demostrates inversion of control."""
+"""Refactored Car & Engine example that demonstrates inversion of control."""
 
 
 class Engine(object):
