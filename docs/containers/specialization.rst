@@ -1,7 +1,7 @@
 Specialization of catalogs
 --------------------------
 
-.. currentmodule:: dependency_injector.catalogs
+.. currentmodule:: dependency_injector.containers
 
 :py:class:`DeclarativeCatalog` and :py:class:`DynamicCatalog` could be 
 specialized for any kind of needs via declaring its subclasses. 

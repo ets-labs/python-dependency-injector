@@ -1,7 +1,7 @@
 Dynamic catalogs
 ----------------
 
-.. currentmodule:: dependency_injector.catalogs
+.. currentmodule:: dependency_injector.containers
 
 :py:class:`DynamicCatalog` is a catalog of providers that could be created in 
 application's runtime. It should cover most of the cases when list of 

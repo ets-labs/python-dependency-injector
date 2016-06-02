@@ -119,9 +119,9 @@ Let's automate ``Engine`` into ``Car`` injections using *Dependency Injector*:
 
 .. note::
 
-    ``Components`` from previous example is an inversion of control container. 
+    ``Container`` from previous example is an inversion of control container. 
     It contains a collection of component providers that could be injected 
     into each other. 
 
-    Assuming this, ``Components`` could be one and the only place, where 
+    Assuming this, ``Container`` could be one and the only place, where 
     application's structure is being managed on the high level.

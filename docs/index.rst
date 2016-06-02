@@ -58,7 +58,7 @@ Contents
     introduction/index
     main/installation
     providers/index
-    catalogs/index
+    containers/index
     advanced_usage/index
     examples/index
     api/index

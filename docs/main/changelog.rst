@@ -23,8 +23,7 @@ Development version
   - ``Class``
   - ``Config``
 - Drop method injections.
-- Drop catalog bundles.
-- Drop catalog's ``name`` attribute.
+- Replace catalogs with containers.
 - Drop backward compatibilities of 1.x.
 
 1.17.0

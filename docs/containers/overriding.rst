@@ -1,7 +1,7 @@
 Overriding of catalogs
 ----------------------
 
-.. currentmodule:: dependency_injector.catalogs
+.. currentmodule:: dependency_injector.containers
 
 Catalogs can be overridden by other catalogs. This, actually, means that 
 all of the providers from overriding catalog will override providers with the 
