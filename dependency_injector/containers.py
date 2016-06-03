@@ -239,7 +239,7 @@ def copy(container):
     providers by name, it would be replaced by reference.
 
     :param container: Container that should be copied by decorated container.
-    :type container :py:class:`DeclarativeContainer`
+    :type container: :py:class:`DeclarativeContainer`
 
     :return: Declarative container's copying decorator.
     :rtype: callable(:py:class:`DeclarativeContainer`)
