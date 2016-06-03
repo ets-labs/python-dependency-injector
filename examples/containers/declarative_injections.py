@@ -2,8 +2,8 @@
 
 import sqlite3
 
-from dependency_injector import containers
-from dependency_injector import providers
+import dependency_injector.containers as containers
+import dependency_injector.providers as providers
 
 
 class UsersService(object):

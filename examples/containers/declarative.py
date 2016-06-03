@@ -1,7 +1,7 @@
 """Declarative IoC container simple example."""
 
-from dependency_injector import containers
-from dependency_injector import providers
+import dependency_injector.containers as containers
+import dependency_injector.providers as providers
 
 
 # Defining declarative IoC container:
