@@ -11,7 +11,7 @@ csv file movies database.
 
 import dependency_injector.containers as containers
 import dependency_injector.providers as providers
-import dependency_injector.injections as di
+import dependency_injector.injections as injections
 
 import movies
 import movies.finders
@@ -29,7 +29,7 @@ class MyMoviesModule(containers.DeclarativeContainer):
                                      **movies.MoviesModule.movie_finder.kwargs)
 
 
-@di.inject(movies.MoviesModule.movie_lister)
+@injections.inject(movies.MoviesModule.movie_lister)
 def main(movie_lister):
     """Main function.
 

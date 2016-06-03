@@ -13,7 +13,7 @@ import sqlite3
 
 import dependency_injector.containers as containers
 import dependency_injector.providers as providers
-import dependency_injector.injections as di
+import dependency_injector.injections as injections
 
 import movies
 import movies.finders
@@ -46,8 +46,8 @@ class CsvMoviesModule(movies.MoviesModule):
                                      **movies.MoviesModule.movie_finder.kwargs)
 
 
-@di.inject(db_movie_lister=DbMoviesModule.movie_lister)
-@di.inject(csv_movie_lister=CsvMoviesModule.movie_lister)
+@injections.inject(db_movie_lister=DbMoviesModule.movie_lister)
+@injections.inject(csv_movie_lister=CsvMoviesModule.movie_lister)
 def main(db_movie_lister, csv_movie_lister):
     """Main function.
 

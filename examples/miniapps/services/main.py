@@ -1,12 +1,12 @@
 """Dependency Injector @inject decorator example."""
 
-from dependency_injector.injections import inject
-from containers import Services
+import application
+import dependency_injector.injections as injections
 
 
-@inject(users_service=Services.users)
-@inject(auth_service=Services.auth)
-@inject(photos_service=Services.photos)
+@injections.inject(users_service=application.Services.users)
+@injections.inject(auth_service=application.Services.auth)
+@injections.inject(photos_service=application.Services.photos)
 def main(users_service, auth_service, photos_service):
     """Main function."""
     user = users_service.get_user('user')
