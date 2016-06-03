@@ -15,7 +15,7 @@ interaction between each other.
     :width: 100%
     :align: center
 
-There are 3 main entities: providers, containers.
+There are 2 main entities: providers & containers.
 
 Providers
 ~~~~~~~~~
@@ -24,9 +24,7 @@ Providers are strategies of accessing objects. For example,
 :py:class:`dependency_injector.providers.Factory` creates new instance 
 of provided class every time it is called. 
 :py:class:`dependency_injector.providers.Singleton` creates provided 
-instance once and returns it on every next call. Providers could be 
-injected into each other. Providers could be overridden by another 
-providers. Base class is - 
+instance once and returns it on every next call. Base class is - 
 :py:class:`dependency_injector.providers.Provider`.
 
 Providers could be:

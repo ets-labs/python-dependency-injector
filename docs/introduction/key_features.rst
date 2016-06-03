@@ -24,7 +24,7 @@ of Python objects and their dependencies in formal, pretty way.
 *Dependency Injector* framework could be used in different application types:
 
 + Web applications based on Flask, Django or any other web framework.
-+ Asyncronous applications based on asyncio, Tornado and Twisted.
++ Asynchronous applications based on asyncio, Tornado and Twisted.
 + Standalone frameworks and libraries.
 + GUI applications.
 
