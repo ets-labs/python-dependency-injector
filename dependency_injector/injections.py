@@ -1,4 +1,4 @@
-"""Injections module."""
+"""Dependency injector injections module."""
 
 import six
 

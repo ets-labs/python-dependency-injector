@@ -1,4 +1,4 @@
-"""Errors module."""
+"""Dependency injector errors module."""
 
 
 class Error(Exception):

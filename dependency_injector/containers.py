@@ -1,4 +1,4 @@
-"""IoC containers module."""
+"""Dependency injector IoC containers module."""
 
 import six
 

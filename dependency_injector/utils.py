@@ -1,4 +1,4 @@
-"""Utils module."""
+"""Dependency injector utils module."""
 
 import sys
 import copy as _copy
