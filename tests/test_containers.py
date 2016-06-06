@@ -138,10 +138,10 @@ class DeclarativeContainerTests(unittest.TestCase):
         _Container.override(_OverridingContainer1)
         _Container.override(_OverridingContainer2)
 
-        self.assertEqual(_Container.overridden_by,
+        self.assertEqual(_Container.overridden,
                          (_OverridingContainer1,
                           _OverridingContainer2))
-        self.assertEqual(_Container.p11.overridden_by,
+        self.assertEqual(_Container.p11.overridden,
                          (_OverridingContainer1.p11,
                           _OverridingContainer2.p11))
 
@@ -169,10 +169,10 @@ class DeclarativeContainerTests(unittest.TestCase):
             p11 = providers.Provider()
             p12 = providers.Provider()
 
-        self.assertEqual(_Container.overridden_by,
+        self.assertEqual(_Container.overridden,
                          (_OverridingContainer1,
                           _OverridingContainer2))
-        self.assertEqual(_Container.p11.overridden_by,
+        self.assertEqual(_Container.p11.overridden,
                          (_OverridingContainer1.p11,
                           _OverridingContainer2.p11))
 
@@ -192,9 +192,9 @@ class DeclarativeContainerTests(unittest.TestCase):
         _Container.override(_OverridingContainer2)
         _Container.reset_last_overriding()
 
-        self.assertEqual(_Container.overridden_by,
+        self.assertEqual(_Container.overridden,
                          (_OverridingContainer1,))
-        self.assertEqual(_Container.p11.overridden_by,
+        self.assertEqual(_Container.p11.overridden,
                          (_OverridingContainer1.p11,))
 
     def test_reset_last_overridding_when_not_overridden(self):
@@ -218,8 +218,8 @@ class DeclarativeContainerTests(unittest.TestCase):
         _Container.override(_OverridingContainer2)
         _Container.reset_override()
 
-        self.assertEqual(_Container.overridden_by, tuple())
-        self.assertEqual(_Container.p11.overridden_by, tuple())
+        self.assertEqual(_Container.overridden, tuple())
+        self.assertEqual(_Container.p11.overridden, tuple())
 
     def test_copy(self):
         """Test copy decorator."""
@@ -361,15 +361,15 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         container.override(overriding_container1)
         container.override(overriding_container2)
 
-        self.assertEqual(container.overridden_by,
+        self.assertEqual(container.overridden,
                          (overriding_container1,
                           overriding_container2))
-        self.assertEqual(container.p11.overridden_by,
+        self.assertEqual(container.p11.overridden,
                          (overriding_container1.p11,
                           overriding_container2.p11))
 
-        self.assertEqual(_Container.overridden_by, tuple())
-        self.assertEqual(_Container.p11.overridden_by, tuple())
+        self.assertEqual(_Container.overridden, tuple())
+        self.assertEqual(_Container.p11.overridden, tuple())
 
     def test_override_with_itself(self):
         """Test override container with itself."""
@@ -397,9 +397,9 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         container.override(overriding_container2)
         container.reset_last_overriding()
 
-        self.assertEqual(container.overridden_by,
+        self.assertEqual(container.overridden,
                          (overriding_container1,))
-        self.assertEqual(container.p11.overridden_by,
+        self.assertEqual(container.p11.overridden,
                          (overriding_container1.p11,))
 
     def test_reset_last_overridding_when_not_overridden(self):
@@ -429,8 +429,8 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         container.override(overriding_container2)
         container.reset_override()
 
-        self.assertEqual(container.overridden_by, tuple())
-        self.assertEqual(container.p11.overridden_by, tuple())
+        self.assertEqual(container.overridden, tuple())
+        self.assertEqual(container.p11.overridden, tuple())
 
 
 if __name__ == '__main__':

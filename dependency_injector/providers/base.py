@@ -51,7 +51,7 @@ class Provider(object):
 
     All providers should extend this class.
 
-    .. py:attribute:: overridden_by
+    .. py:attribute:: overridden
 
         Tuple of overriding providers, if any.
 
@@ -60,11 +60,11 @@ class Provider(object):
 
     __IS_PROVIDER__ = True
     __OPTIMIZED_CALLS__ = True
-    __slots__ = ('overridden_by', 'provide', '__call__')
+    __slots__ = ('overridden', 'provide', '__call__')
 
     def __init__(self):
         """Initializer."""
-        self.overridden_by = tuple()
+        self.overridden = tuple()
         super(Provider, self).__init__()
         # Enable __call__() / _provide() optimization
         if self.__class__.__OPTIMIZED_CALLS__:
@@ -81,7 +81,9 @@ class Provider(object):
 
     def _call_last_overriding(self, *args, **kwargs):
         """Call last overriding provider and return result."""
-        return self.last_overriding(*args, **kwargs)
+        return (self.overridden[-1](*args, **kwargs)
+                if self.overridden
+                else None)
 
     def provide_injection(self):
         """Injection strategy implementation.
@@ -89,22 +91,6 @@ class Provider(object):
         :rtype: object
         """
         return self.provide()
-
-    @property
-    def is_overridden(self):
-        """Read-only property that is set to ``True`` if provider is overridden.
-
-        :rtype: bool
-        """
-        return bool(self.overridden_by)
-
-    @property
-    def last_overriding(self):
-        """Read-only reference to the last overriding provider, if any.
-
-        :type: :py:class:`Provider` | None
-        """
-        return self.overridden_by[-1] if self.overridden_by else None
 
     def override(self, provider):
         """Override provider with another provider.
@@ -124,7 +110,7 @@ class Provider(object):
         if not is_provider(provider):
             provider = Object(provider)
 
-        self.overridden_by += (ensure_is_provider(provider),)
+        self.overridden += (ensure_is_provider(provider),)
 
         # Disable __call__() / _provide() optimization
         if self.__class__.__OPTIMIZED_CALLS__:
@@ -140,12 +126,12 @@ class Provider(object):
 
         :rtype: None
         """
-        if not self.overridden_by:
+        if not self.overridden:
             raise Error('Provider {0} is not overridden'.format(str(self)))
 
-        self.overridden_by = self.overridden_by[:-1]
+        self.overridden = self.overridden[:-1]
 
-        if not self.is_overridden:
+        if not self.overridden:
             # Enable __call__() / _provide() optimization
             if self.__class__.__OPTIMIZED_CALLS__:
                 self.__call__ = self.provide = self._provide
@@ -155,7 +141,7 @@ class Provider(object):
 
         :rtype: None
         """
-        self.overridden_by = tuple()
+        self.overridden = tuple()
 
         # Enable __call__() / _provide() optimization
         if self.__class__.__OPTIMIZED_CALLS__:
@@ -324,10 +310,10 @@ class ExternalDependency(Provider):
 
         :rtype: object
         """
-        if not self.is_overridden:
+        if not self.overridden:
             raise Error('Dependency is not defined')
 
-        instance = self.last_overriding(*args, **kwargs)
+        instance = self._call_last_overriding(*args, **kwargs)
 
         if not isinstance(instance, self.instance_of):
             raise Error('{0} is not an '.format(instance) +

@@ -1,12 +1,12 @@
 Declarative containers
---------------------
+----------------------
 
 .. currentmodule:: dependency_injector.containers
 
-:py:class:`DeclarativeContainer` is a container of providers that could be
-defined in declarative manner. It should cover most of the cases when list
-of providers that would be included in container is deterministic (container
-will not change its structure in runtime).
+:py:class:`DeclarativeContainer` is inversion of control container that 
+could be defined in declarative manner. It should cover most of the cases 
+when list of providers that would be included in container is deterministic 
+(container will not change its structure in runtime).
 
 Declarative containers have to extend base declarative container class - 
 :py:class:`dependency_injector.containers.DeclarativeContainer`.

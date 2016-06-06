@@ -1,52 +1,40 @@
-Overriding of catalogs
-----------------------
+Overriding of containers
+------------------------
 
 .. currentmodule:: dependency_injector.containers
 
-Catalogs can be overridden by other catalogs. This, actually, means that 
-all of the providers from overriding catalog will override providers with the 
-same names in overridden catalog.
+Containers can be overridden by other containers. This, actually, means that 
+all of the providers from overriding container will override providers with 
+the same names in overridden container.
 
-There are two ways to override :py:class:`DeclarativeCatalog` with another 
-catalog:
+There are two ways to override :py:class:`DeclarativeContainer` with another 
+container:
 
-- Use :py:meth:`DeclarativeCatalog.override` method.
+- Use :py:meth:`DeclarativeContainer.override` method.
 - Use :py:func:`override` class decorator.
 
-Example of overriding catalog using :py:meth:`DeclarativeCatalog.override` 
+Example of overriding container using :py:meth:`DeclarativeContainer.override` 
 method:
 
-.. literalinclude:: ../../examples/catalogs/override_declarative.py
+.. literalinclude:: ../../examples/containers/override_declarative.py
    :language: python
    :linenos:
 
-Example of overriding catalog using :py:func:`override` decorator:
+Example of overriding container using :py:func:`override` decorator:
 
-.. literalinclude:: ../../examples/catalogs/override_declarative_decorator.py
+.. literalinclude:: ../../examples/containers/override_declarative_decorator.py
    :language: python
    :linenos:
 
-Also there are several useful :py:class:`DeclarativeCatalog`  methods and 
-properties that help to work with catalog overridings:
+Also there are several useful :py:class:`DeclarativeContainer` methods and 
+properties that help to work with container overridings:
 
-- :py:attr:`DeclarativeCatalog.is_overridden` - read-only property that is set 
-  to ``True`` if catalog is overridden.
-- :py:attr:`DeclarativeCatalog.last_overriding` - read-only reference to 
-  the last overriding catalog, if any.
-- :py:attr:`DeclarativeCatalog.overridden_by` - tuple of all overriding 
-  catalogs.
-- :py:meth:`DeclarativeCatalog.reset_last_overriding()` - reset last 
-  overriding catalog.
-- :py:meth:`DeclarativeCatalog.reset_override()` - reset all overridings for 
-  all catalog providers. 
+- :py:attr:`DeclarativeContainer.overridden` - tuple of all overriding 
+  containers.
+- :py:meth:`DeclarativeContainer.reset_last_overriding()` - reset last 
+  overriding provider for each container providers.
+- :py:meth:`DeclarativeContainer.reset_override()` - reset all overridings 
+  for each container providers. 
 
-:py:class:`DynamicCatalog` has exactly the same functionality, except of 
-:py:func:`override` decorator. Also :py:class:`DynamicCatalog` can override 
-:py:class:`DeclarativeCatalog` and vise versa.
-
-Example of overriding :py:class:`DeclarativeCatalog` by 
-:py:class:`DynamicCatalog`:
-
-.. literalinclude:: ../../examples/catalogs/override_declarative_by_dynamic.py
-   :language: python
-   :linenos:
+:py:class:`DynamicContainer` has exactly the same functionality, except of 
+:py:func:`override` decorator.

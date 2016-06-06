@@ -1,5 +1,5 @@
-Containers
-==========
+IoC Containers
+==============
 
 Containers are collections of providers. Main purpose of containers is to group
 providers. 

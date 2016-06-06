@@ -1,45 +1,24 @@
-Specialization of catalogs
---------------------------
+Specialization of containers
+----------------------------
 
 .. currentmodule:: dependency_injector.containers
 
-:py:class:`DeclarativeCatalog` and :py:class:`DynamicCatalog` could be 
-specialized for any kind of needs via declaring its subclasses. 
+:py:class:`DeclarativeContainer` could be specialized for any kind of needs 
+via declaring its subclasses. 
 
-One of such `builtin` features is a limitation to 
-:py:class:`DeclarativeCatalog` (and :py:class:`DynamicCatalog`) provider type. 
+One of such `builtin` features is a limitation for providers type.
 
-Next example shows usage of this feature with :py:class:`DeclarativeCatalog` 
+Next example shows usage of this feature with :py:class:`DeclarativeContainer` 
 in couple with feature of :py:class:`dependency_injector.providers.Factory` 
 for limitation of its provided type:
 
-
-Listing of `services.py`:
-
-.. literalinclude:: ../../examples/catalogs/declarative_provider_type/services.py
+.. literalinclude:: ../../examples/containers/declarative_provider_type.py
    :language: python
    :linenos:
 
-Listing of `catalog.py`:
+Limitation for providers type could be used with :py:class:`DynamicContainer` 
+as well:
 
-.. literalinclude:: ../../examples/catalogs/declarative_provider_type/catalog.py
-   :language: python
-   :linenos:
-
-Limitation to provider type could be used with :py:class:`DynamicCatalog` 
-as well.
-
-Next example does the same that previous one, but use 
-:py:class:`DynamicCatalog` instead of :py:class:`DeclarativeCatalog`:
-
-Listing of `services.py`:
-
-.. literalinclude:: ../../examples/catalogs/dynamic_provider_type/services.py
-   :language: python
-   :linenos:
-
-Listing of `catalog.py`:
-
-.. literalinclude:: ../../examples/catalogs/dynamic_provider_type/catalog.py
+.. literalinclude:: ../../examples/containers/dynamic_provider_type.py
    :language: python
    :linenos:

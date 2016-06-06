@@ -10,15 +10,44 @@ from dependency_injector import (
 
 
 class DynamicContainer(object):
-    """Dynamic inversion of control container."""
+    """Dynamic inversion of control container.
+
+    .. code-block:: python
+
+        services = DynamicContainer()
+        services.auth = providers.Factory(AuthService)
+        services.users = providers.Factory(UsersService,
+                                           auth_service=services.auth)
+
+    .. py:attribute:: providers
+
+        Read-only dictionary of all providers.
+
+        :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
+
+    .. py:attribute:: overridden
+
+        Tuple of overriding containers.
+
+        :type: tuple[:py:class:`DynamicContainer`]
+
+    .. py:attribute:: provider_type
+
+        Type of providers that could be placed in container.
+
+        :type: type
+    """
 
     __IS_CONTAINER__ = True
 
     def __init__(self):
-        """Initializer."""
+        """Initializer.
+
+        :rtype: None
+        """
         self.provider_type = providers.Provider
         self.providers = dict()
-        self.overridden_by = tuple()
+        self.overridden = tuple()
         super(DynamicContainer, self).__init__()
 
     def __setattr__(self, name, value):
@@ -26,6 +55,14 @@ class DynamicContainer(object):
 
         If value of attribute is provider, it will be added into providers
         dictionary.
+
+        :param name: Attribute's name
+        :type name: str
+
+        :param value: Attribute's value
+        :type value: object
+
+        :rtype: None
         """
         if utils.is_provider(value):
             _check_provider_type(self, value)
@@ -37,6 +74,11 @@ class DynamicContainer(object):
 
         If value of attribute is provider, it will be deleted from providers
         dictionary.
+
+        :param name: Attribute's name
+        :type name: str
+
+        :rtype: None
         """
         if name in self.providers:
             del self.providers[name]
@@ -46,10 +88,10 @@ class DynamicContainer(object):
         """Override current container by overriding container.
 
         :param overriding: Overriding container.
-        :type overriding: :py:class:`DeclarativeContainer`
+        :type overriding: :py:class:`DynamicContainer`
 
         :raise: :py:exc:`dependency_injector.errors.Error` if trying to
-                override container by itself or its subclasses
+                override container by itself
 
         :rtype: None
         """
@@ -57,7 +99,7 @@ class DynamicContainer(object):
             raise errors.Error('Container {0} could not be overridden '
                                'with itself'.format(self))
 
-        self.overridden_by += (overriding,)
+        self.overridden += (overriding,)
 
         for name, provider in six.iteritems(overriding.providers):
             try:
@@ -70,10 +112,10 @@ class DynamicContainer(object):
 
         :rtype: None
         """
-        if not self.overridden_by:
+        if not self.overridden:
             raise errors.Error('Container {0} is not overridden'.format(self))
 
-        self.overridden_by = self.overridden_by[:-1]
+        self.overridden = self.overridden[:-1]
 
         for provider in six.itervalues(self.providers):
             provider.reset_last_overriding()
@@ -83,7 +125,7 @@ class DynamicContainer(object):
 
         :rtype: None
         """
-        self.overridden_by = tuple()
+        self.overridden = tuple()
 
         for provider in six.itervalues(self.providers):
             provider.reset_override()
@@ -120,6 +162,14 @@ class DeclarativeContainerMetaClass(type):
 
         If value of attribute is provider, it will be added into providers
         dictionary.
+
+        :param name: Attribute's name
+        :type name: str
+
+        :param value: Attribute's value
+        :type value: object
+
+        :rtype: None
         """
         if utils.is_provider(value):
             _check_provider_type(cls, value)
@@ -132,6 +182,11 @@ class DeclarativeContainerMetaClass(type):
 
         If value of attribute is provider, it will be deleted from providers
         dictionary.
+
+        :param name: Attribute's name
+        :type name: str
+
+        :rtype: None
         """
         if name in cls.providers and name in cls.cls_providers:
             del cls.providers[name]
@@ -141,21 +196,61 @@ class DeclarativeContainerMetaClass(type):
 
 @six.add_metaclass(DeclarativeContainerMetaClass)
 class DeclarativeContainer(object):
-    """Declarative inversion of control container."""
+    """Declarative inversion of control container.
+
+    .. code-block:: python
+
+        class Services(DeclarativeContainer):
+            auth = providers.Factory(AuthService)
+            users = providers.Factory(UsersService,
+                                      auth_service=auth)
+    """
 
     __IS_CONTAINER__ = True
 
     provider_type = providers.Provider
+    """Type of providers that could be placed in container.
 
-    providers = dict()
-    cls_providers = dict()
-    inherited_providers = dict()
-    overridden_by = tuple()
+    :type: type
+    """
 
     instance_type = DynamicContainer
+    """Type of container that is returned on instantiating declarative
+    container.
+
+    :type: type
+    """
+
+    providers = dict()
+    """Read-only dictionary of all providers.
+
+    :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
+    """
+
+    cls_providers = dict()
+    """Read-only dictionary of current container providers.
+
+    :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
+    """
+
+    inherited_providers = dict()
+    """Read-only dictionary of inherited providers.
+
+    :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
+    """
+
+    overridden = tuple()
+    """Tuple of overriding containers.
+
+    :type: tuple[:py:class:`DeclarativeContainer`]
+    """
 
     def __new__(cls, *args, **kwargs):
-        """Constructor."""
+        """Constructor.
+
+        :return: Dynamic container with copy of all providers.
+        :rtype: :py:class:`DynamicContainer`
+        """
         container = cls.instance_type(*args, **kwargs)
         container.provider_type = cls.provider_type
 
@@ -180,7 +275,7 @@ class DeclarativeContainer(object):
             raise errors.Error('Container {0} could not be overridden '
                                'with itself or its subclasses'.format(cls))
 
-        cls.overridden_by += (overriding,)
+        cls.overridden += (overriding,)
 
         for name, provider in six.iteritems(overriding.cls_providers):
             try:
@@ -194,10 +289,10 @@ class DeclarativeContainer(object):
 
         :rtype: None
         """
-        if not cls.overridden_by:
+        if not cls.overridden:
             raise errors.Error('Container {0} is not overridden'.format(cls))
 
-        cls.overridden_by = cls.overridden_by[:-1]
+        cls.overridden = cls.overridden[:-1]
 
         for provider in six.itervalues(cls.providers):
             provider.reset_last_overriding()
@@ -208,7 +303,7 @@ class DeclarativeContainer(object):
 
         :rtype: None
         """
-        cls.overridden_by = tuple()
+        cls.overridden = tuple()
 
         for provider in six.itervalues(cls.providers):
             provider.reset_override()
