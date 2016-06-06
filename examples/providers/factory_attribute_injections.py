@@ -1,7 +1,7 @@
 """`Factory` providers with attribute injections example."""
 
-from dependency_injector import providers
-from dependency_injector import injections
+import dependency_injector.providers as providers
+import dependency_injector.injections as injections
 
 
 class User(object):

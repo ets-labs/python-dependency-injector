@@ -1,8 +1,7 @@
 """`Callable` providers with keyword arguments example."""
 
 import passlib.hash
-
-from dependency_injector import providers
+import dependency_injector.providers as providers
 
 
 # Password hasher and verifier providers (hash function could be changed

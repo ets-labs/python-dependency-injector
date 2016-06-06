@@ -1,6 +1,6 @@
 """Overriding user's model example."""
 
-from dependency_injector import providers
+import dependency_injector.providers as providers
 
 
 class User(object):

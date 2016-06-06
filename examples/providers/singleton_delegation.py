@@ -1,6 +1,6 @@
 """`Singleton` providers delegation example."""
 
-from dependency_injector import providers
+import dependency_injector.providers as providers
 
 
 # Some singleton provider and few delegates of it:

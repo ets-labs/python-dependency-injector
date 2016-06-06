@@ -1,8 +1,7 @@
 """`Callable` providers delegation example."""
 
 import sys
-
-from dependency_injector import providers
+import dependency_injector.providers as providers
 
 
 # Creating some callable provider and few delegates of it:

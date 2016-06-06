@@ -1,7 +1,7 @@
 """`Factory` specialization for limitation to provided type example."""
 
-from dependency_injector import providers
-from dependency_injector import errors
+import dependency_injector.providers as providers
+import dependency_injector.errors as errors
 
 
 class BaseService(object):
