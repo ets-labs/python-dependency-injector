@@ -1,6 +1,7 @@
 """`Factory` providers example."""
 
 import collections
+
 import dependency_injector.providers as providers
 
 
