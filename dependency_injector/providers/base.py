@@ -351,8 +351,8 @@ class OverridingContext(object):
     .. code-block:: python
 
         with provider.override(another_provider):
-            assert provider.is_overridden
-        assert not provider.is_overridden
+            assert provider.overridden
+        assert not provider.overridden
     """
 
     def __init__(self, overridden, overriding):
