@@ -1,28 +1,27 @@
 """`Singleton` providers resetting example."""
 
+import collections
+
 import dependency_injector.providers as providers
 
 
-class UserService(object):
-    """Example class UserService."""
+UsersService = collections.namedtuple('UsersService', [])
 
 # Users service singleton provider:
-users_service_provider = providers.Singleton(UserService)
+users_service_provider = providers.Singleton(UsersService)
 
-# Retrieving several UserService objects:
-user_service1 = users_service_provider()
-user_service2 = users_service_provider()
+# Retrieving several UsersService objects:
+users_service1 = users_service_provider()
+users_service2 = users_service_provider()
 
 # Making some asserts:
-assert user_service1 is user_service2
-assert isinstance(user_service1, UserService)
-assert isinstance(user_service2, UserService)
+assert users_service1 is users_service2
 
 # Resetting of memorized instance:
 users_service_provider.reset()
 
 # Retrieving one more UserService object:
-user_service3 = users_service_provider()
+users_service3 = users_service_provider()
 
 # Making some asserts:
-assert user_service3 is not user_service1
+assert users_service3 is not users_service1

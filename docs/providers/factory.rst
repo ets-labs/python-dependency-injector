@@ -29,7 +29,7 @@ Injections are done according to the next rules:
 + All providers (instances of :py:class:`Provider`) are called every time 
   when injection needs to be done.
 + Providers could be injected "as is" (delegated), if it is defined obviously.
-  Check out `Factory providers delegation`_.
+  Check out :ref:`factory_providers_delegation`.
 + All other injectable values are provided *"as is"*.
 + Positional context arguments will be appended after :py:class:`Factory` 
   positional injections.
@@ -49,6 +49,8 @@ injectable values are also provided by another factories:
 .. literalinclude:: ../../examples/providers/factory_init_injections.py
    :language: python
    :linenos:
+
+.. _factory_providers_delegation:
 
 Factory providers delegation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -88,6 +90,8 @@ Example:
 .. literalinclude:: ../../examples/providers/factory_delegation.py
    :language: python
    :linenos:
+
+.. _factory_providers_specialization:
 
 Factory providers specialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
