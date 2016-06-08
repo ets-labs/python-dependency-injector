@@ -212,12 +212,10 @@ class Singleton(Factory):
 
         :rtype: object
         """
-        if self.instance:
-            return self.instance
-
         with GLOBAL_LOCK:
-            self.instance = super(Singleton, self)._provide(*args, **kwargs)
-
+            if self.instance is None:
+                self.instance = super(Singleton, self)._provide(*args,
+                                                                **kwargs)
         return self.instance
 
 
