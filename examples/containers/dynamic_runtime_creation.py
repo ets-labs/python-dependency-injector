@@ -1,15 +1,13 @@
 """Creation of dynamic container based on some configuration example."""
 
+import collections
+
 import dependency_injector.containers as containers
 
 
 # Defining several example services:
-class UsersService(object):
-    """Example users service."""
-
-
-class AuthService(object):
-    """Example auth service."""
+UsersService = collections.namedtuple('UsersService', [])
+AuthService = collections.namedtuple('AuthService', [])
 
 
 def import_cls(cls_name):

@@ -1,26 +1,14 @@
 """Declarative IoC container's provider injections example."""
 
 import sqlite3
+import collections
 
 import dependency_injector.containers as containers
 import dependency_injector.providers as providers
 
 
-class UsersService(object):
-    """Users service, that has dependency on database."""
-
-    def __init__(self, db):
-        """Initializer."""
-        self.db = db
-
-
-class AuthService(object):
-    """Auth service, that has dependencies on users service and database."""
-
-    def __init__(self, db, users_service):
-        """Initializer."""
-        self.db = db
-        self.users_service = users_service
+UsersService = collections.namedtuple('UsersService', ['db'])
+AuthService = collections.namedtuple('AuthService', ['db', 'users_service'])
 
 
 class Services(containers.DeclarativeContainer):
