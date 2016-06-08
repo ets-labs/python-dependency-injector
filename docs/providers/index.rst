@@ -19,6 +19,12 @@ be thread safe.
 
 Providers module API docs - :py:mod:`dependency_injector.providers`
 
+Providers class diagram:
+
+.. image:: /images/providers/providers_class_diagram.png
+    :width: 100%
+    :align: center
+
 ..  toctree::
     :maxdepth: 2
 

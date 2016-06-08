@@ -15,9 +15,6 @@ from dependency_injector.errors import Error
 class Callable(Provider):
     r""":py:class:`Callable` provider calls wrapped callable on every call.
 
-    :py:class:`Callable` provider provides callable that is called on every
-    provider call with some predefined dependency injections.
-
     :py:class:`Callable` supports positional and keyword argument injections:
 
     .. code-block:: python
