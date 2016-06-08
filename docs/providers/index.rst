@@ -1,7 +1,7 @@
 Providers
 =========
 
-Providers are strategies of accessing objects. They describe how particular 
+Providers are strategies of accessing objects. They define how particular 
 objects are provided.
 
 Base providers class is - :py:class:`dependency_injector.providers.Provider`

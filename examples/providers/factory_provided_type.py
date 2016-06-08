@@ -1,4 +1,4 @@
-"""`Factory` specialization for limitation to provided type example."""
+"""`Factory` specialization with limitation to provided type example."""
 
 import dependency_injector.providers as providers
 import dependency_injector.errors as errors
@@ -8,12 +8,8 @@ class BaseService(object):
     """Base service class."""
 
 
-class UsersService(BaseService):
-    """Users service."""
-
-
-class PhotosService(BaseService):
-    """Photos service."""
+class SomeService(BaseService):
+    """Some service."""
 
 
 class ServiceProvider(providers.Factory):
@@ -22,11 +18,10 @@ class ServiceProvider(providers.Factory):
     provided_type = BaseService
 
 
-# Creating several service providers with BaseService instances:
-users_service_provider = ServiceProvider(UsersService)
-photos_service_provider = ServiceProvider(PhotosService)
+# Creating service provider with correct provided type:
+some_service_provider = ServiceProvider(SomeService)
 
-# Trying to create service provider with not a BaseService instance:
+# Trying to create service provider incorrect provided type:
 try:
     some_service_provider = ServiceProvider(object)
 except errors.Error as exception:

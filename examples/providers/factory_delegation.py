@@ -1,19 +1,19 @@
 """`Factory` providers delegation example."""
 
-from dependency_injector import providers
+import collections
+import dependency_injector.providers as providers
+
+
+Photo = collections.namedtuple('Photo', [])
 
 
 class User(object):
-    """Example class User."""
+    """Example user model."""
 
     def __init__(self, photos_factory):
-        """Initializer.
-
-        :param photos_factory: providers.Factory -> Photo
-        """
+        """Initializer."""
         self.photos_factory = photos_factory
         self._main_photo = None
-        super(User, self).__init__()
 
     @property
     def main_photo(self):
@@ -23,24 +23,30 @@ class User(object):
         return self._main_photo
 
 
-class Photo(object):
-    """Example class Photo."""
+# Defining User and Photo factories using DelegatedFactory provider:
+photos_factory = providers.DelegatedFactory(Photo)
+users_factory = providers.DelegatedFactory(User,
+                                           photos_factory=photos_factory)
 
-# User and Photo factories:
+# or using Delegate(Factory(...))
+
+photos_factory = providers.Factory(Photo)
+users_factory = providers.Factory(User,
+                                  photos_factory=providers.Delegate(
+                                      photos_factory))
+
+
+# or using Factory(...).delegate()
+
 photos_factory = providers.Factory(Photo)
 users_factory = providers.Factory(User,
                                   photos_factory=photos_factory.delegate())
 
+
 # Creating several User objects:
-user1 = users_factory()
-user2 = users_factory()
+user1 = users_factory()  # Same as: user1 = User(photos_factory=photos_factory)
+user2 = users_factory()  # Same as: user2 = User(photos_factory=photos_factory)
 
 # Making some asserts:
-assert isinstance(user1, User)
 assert isinstance(user1.main_photo, Photo)
-
-assert isinstance(user2, User)
 assert isinstance(user2.main_photo, Photo)
-
-assert user1 is not user2
-assert user1.main_photo is not user2.main_photo
