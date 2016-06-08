@@ -4,8 +4,6 @@ Providers
 Providers are strategies of accessing objects. They define how particular 
 objects are provided.
 
-Base providers class is - :py:class:`dependency_injector.providers.Provider`
-
 Every provider is callable (implements ``__call__()``). Every call to provider 
 instance returns provided result, according to the providing strategy of 
 particular provider. 
@@ -17,9 +15,9 @@ of custom providers.
 All providers are validated in multithreading environment and considered to 
 be thread safe.
 
-Providers module API docs - :py:mod:`dependency_injector.providers`
-
-Providers class diagram:
++ Base providers class is: :py:class:`dependency_injector.providers.Provider`
++ Providers module API docs: :py:mod:`dependency_injector.providers`
++ Providers class diagram:
 
 .. image:: /images/providers/providers_class_diagram.png
     :width: 100%
