@@ -5,7 +5,7 @@ Overriding of providers
 
 Every provider could be overridden by another provider.
 
-This gives opportunity to make system behaviour more flexible in some points.
+This gives opportunity to make system behaviour more flexible at some point.
 The main feature is that while your code is using providers, it depends on 
 providers, but not on the objects that providers provide. As a result of this, 
 you can change providing by provider object to a different one, but still
@@ -14,7 +14,7 @@ compatible one, without chaning your previously written code.
 Provider overriding functionality has such interface:
 
 .. image:: /images/providers/provider_override.png
-    :width: 45%
+    :width: 55%
     :align: center
 
 + :py:meth:`Provider.override()` - takes another provider that will be used 
@@ -22,17 +22,8 @@ Provider overriding functionality has such interface:
   In such case, last passed provider would be used as overriding one.
 + :py:meth:`Provider.reset_override()` - resets all overriding providers. 
   Provider starts to behave itself like usual.
-+ :py:attr:`Provider.is_overridden` - bool, ``True`` if provider is overridden.
-
-.. note::
-
-   Actually, initial provider forms stack from overriding providers. There is 
-   some, not so common, but still usefull, functionality that could be used:
-
-   + :py:attr:`Provider.last_overriding` - always keeps reference to last 
-     overriding provider.
-   + :py:meth:`Provider.reset_last_overriding()` - remove last overriding 
-     provider from stack of overriding providers.
++ :py:meth:`Provider.reset_last_overriding()` - remove last overriding 
+  provider from stack of overriding providers.
 
 Example:
 

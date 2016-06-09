@@ -13,20 +13,20 @@ class User(object):
         super(User, self).__init__()
 
 
-class UserService(object):
-    """Example class UserService."""
+class UsersService(object):
+    """Example class UsersService."""
 
     def __init__(self, user_cls):
         """Initializer."""
         self.user_cls = user_cls
-        super(UserService, self).__init__()
+        super(UsersService, self).__init__()
 
     def get_by_id(self, id):
         """Find user by his id and return user model."""
         return self.user_cls(id=id, password='secret' + str(id))
 
-# Users factory and UserService provider:
-users_service = providers.Factory(UserService, user_cls=User)
+# Users factory and UsersService provider:
+users_service = providers.Factory(UsersService, user_cls=User)
 
 # Getting several users and making some asserts:
 user1 = users_service().get_by_id(1)
@@ -58,19 +58,19 @@ class ExtendedUser(User):
         super(ExtendedUser, self).__init__(id, password)
 
 
-class ExtendedUserService(UserService):
-    """Example class ExtendedUserService."""
+class ExtendedUsersService(UsersService):
+    """Example class ExtendedUsersService."""
 
     def get_by_id(self, id):
         """Find user by his id and return user model."""
-        user = super(ExtendedUserService, self).get_by_id(id)
+        user = super(ExtendedUsersService, self).get_by_id(id)
         user.first_name = 'John' + str(id)
         user.last_name = 'Smith' + str(id)
         user.gender = 'male'
         return user
 
 # Overriding users_service provider:
-extended_users_service = providers.Factory(ExtendedUserService,
+extended_users_service = providers.Factory(ExtendedUsersService,
                                            user_cls=ExtendedUser)
 users_service.override(extended_users_service)
 
