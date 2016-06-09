@@ -29,7 +29,7 @@ be thread safe.
     factory
     singleton
     callable
+    object
     external_dependency
-    static
     overriding
     custom
