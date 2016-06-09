@@ -2,7 +2,6 @@
 
 import six
 
-from dependency_injector.providers.utils import OverridingContext
 from dependency_injector.errors import Error
 from dependency_injector.utils import (
     is_provider,
@@ -52,7 +51,7 @@ class Provider(object):
 
     All providers should extend this class.
 
-    .. py:attribute:: overridden_by
+    .. py:attribute:: overridden
 
         Tuple of overriding providers, if any.
 
@@ -61,11 +60,11 @@ class Provider(object):
 
     __IS_PROVIDER__ = True
     __OPTIMIZED_CALLS__ = True
-    __slots__ = ('overridden_by', 'provide', '__call__')
+    __slots__ = ('overridden', 'provide', '__call__')
 
     def __init__(self):
         """Initializer."""
-        self.overridden_by = None
+        self.overridden = tuple()
         super(Provider, self).__init__()
         # Enable __call__() / _provide() optimization
         if self.__class__.__OPTIMIZED_CALLS__:
@@ -82,23 +81,16 @@ class Provider(object):
 
     def _call_last_overriding(self, *args, **kwargs):
         """Call last overriding provider and return result."""
-        return self.last_overriding(*args, **kwargs)
+        return (self.overridden[-1](*args, **kwargs)
+                if self.overridden
+                else None)
 
-    @property
-    def is_overridden(self):
-        """Read-only property that is set to ``True`` if provider is overridden.
+    def provide_injection(self):
+        """Injection strategy implementation.
 
-        :rtype: bool
+        :rtype: object
         """
-        return bool(self.overridden_by)
-
-    @property
-    def last_overriding(self):
-        """Read-only reference to the last overriding provider, if any.
-
-        :type: :py:class:`Provider` | None
-        """
-        return self.overridden_by[-1] if self.overridden_by else None
+        return self.provide()
 
     def override(self, provider):
         """Override provider with another provider.
@@ -116,12 +108,9 @@ class Provider(object):
                         'with itself'.format(self))
 
         if not is_provider(provider):
-            provider = Static(provider)
+            provider = Object(provider)
 
-        if not self.is_overridden:
-            self.overridden_by = (ensure_is_provider(provider),)
-        else:
-            self.overridden_by += (ensure_is_provider(provider),)
+        self.overridden += (ensure_is_provider(provider),)
 
         # Disable __call__() / _provide() optimization
         if self.__class__.__OPTIMIZED_CALLS__:
@@ -137,11 +126,12 @@ class Provider(object):
 
         :rtype: None
         """
-        if not self.overridden_by:
+        if not self.overridden:
             raise Error('Provider {0} is not overridden'.format(str(self)))
-        self.overridden_by = self.overridden_by[:-1]
 
-        if not self.is_overridden:
+        self.overridden = self.overridden[:-1]
+
+        if not self.overridden:
             # Enable __call__() / _provide() optimization
             if self.__class__.__OPTIMIZED_CALLS__:
                 self.__call__ = self.provide = self._provide
@@ -151,7 +141,7 @@ class Provider(object):
 
         :rtype: None
         """
-        self.overridden_by = None
+        self.overridden = tuple()
 
         # Enable __call__() / _provide() optimization
         if self.__class__.__OPTIMIZED_CALLS__:
@@ -229,11 +219,8 @@ class Delegate(Provider):
 
 
 @six.python_2_unicode_compatible
-class Static(Provider):
-    """:py:class:`Static` provider returns provided instance "as is".
-
-    :py:class:`Static` provider is base implementation that provides exactly
-    the same as it got on input.
+class Object(Provider):
+    """:py:class:`Object` provider returns provided instance "as is".
 
     .. py:attribute:: provides
 
@@ -251,7 +238,7 @@ class Static(Provider):
         :type provides: object
         """
         self.provides = provides
-        super(Static, self).__init__()
+        super(Object, self).__init__()
 
     def _provide(self, *args, **kwargs):
         """Return provided instance.
@@ -274,10 +261,6 @@ class Static(Provider):
         return represent_provider(provider=self, provides=self.provides)
 
     __repr__ = __str__
-
-
-StaticProvider = Static
-# Backward compatibility for versions < 1.11.1
 
 
 @six.python_2_unicode_compatible
@@ -312,6 +295,7 @@ class ExternalDependency(Provider):
             raise Error('ExternalDependency provider expects to get class, ' +
                         'got {0} instead'.format(str(instance_of)))
         self.instance_of = instance_of
+        self.provide = self.__call__
         super(ExternalDependency, self).__init__()
 
     def __call__(self, *args, **kwargs):
@@ -327,10 +311,10 @@ class ExternalDependency(Provider):
 
         :rtype: object
         """
-        if not self.is_overridden:
+        if not self.overridden:
             raise Error('Dependency is not defined')
 
-        instance = self.last_overriding(*args, **kwargs)
+        instance = self._call_last_overriding(*args, **kwargs)
 
         if not isinstance(instance, self.instance_of):
             raise Error('{0} is not an '.format(instance) +
@@ -356,3 +340,77 @@ class ExternalDependency(Provider):
         return represent_provider(provider=self, provides=self.instance_of)
 
     __repr__ = __str__
+
+
+class OverridingContext(object):
+    """Provider overriding context.
+
+    :py:class:`OverridingContext` is used by :py:meth:`Provider.override` for
+    implemeting ``with`` contexts. When :py:class:`OverridingContext` is
+    closed, overriding that was created in this context is dropped also.
+
+    .. code-block:: python
+
+        with provider.override(another_provider):
+            assert provider.overridden
+        assert not provider.overridden
+    """
+
+    def __init__(self, overridden, overriding):
+        """Initializer.
+
+        :param overridden: Overridden provider.
+        :type overridden: :py:class:`Provider`
+
+        :param overriding: Overriding provider.
+        :type overriding: :py:class:`Provider`
+        """
+        self.overridden = overridden
+        self.overriding = overriding
+
+    def __enter__(self):
+        """Do nothing."""
+        return self.overriding
+
+    def __exit__(self, *_):
+        """Exit overriding context."""
+        self.overridden.reset_last_overriding()
+
+
+def override(overridden):
+    """Decorator for overriding providers.
+
+    This decorator overrides ``overridden`` provider by decorated one.
+
+    .. code-block:: python
+
+        @Factory
+        class SomeClass(object):
+            pass
+
+
+        @override(SomeClass)
+        @Factory
+        class ExtendedSomeClass(SomeClass.cls):
+            pass
+
+    :param overridden: Provider that should be overridden.
+    :type overridden: :py:class:`Provider`
+
+    :return: Overriding provider.
+    :rtype: :py:class:`Provider`
+    """
+    def decorator(overriding):
+        overridden.override(overriding)
+        return overriding
+    return decorator
+
+
+def _parse_positional_injections(args):
+    return tuple(arg if is_provider(arg) else Object(arg)
+                 for arg in args)
+
+
+def _parse_keyword_injections(kwargs):
+    return dict((name, arg if is_provider(arg) else Object(arg))
+                for name, arg in six.iteritems(kwargs))

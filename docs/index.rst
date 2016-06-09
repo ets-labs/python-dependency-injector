@@ -30,9 +30,6 @@ Status
 | *PyPi*                                | .. image:: https://img.shields.io/pypi/v/dependency_injector.svg                       |
 |                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                          |
 |                                       |    :alt: Latest Version                                                                |
-|                                       | .. image:: https://img.shields.io/pypi/dm/dependency_injector.svg                      |
-|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                          |
-|                                       |    :alt: Downloads                                                                     |
 |                                       | .. image:: https://img.shields.io/pypi/l/dependency_injector.svg                       |
 |                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                          |
 |                                       |    :alt: License                                                                       |
@@ -61,7 +58,7 @@ Contents
     introduction/index
     main/installation
     providers/index
-    catalogs/index
+    containers/index
     advanced_usage/index
     examples/index
     api/index

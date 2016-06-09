@@ -11,6 +11,19 @@ Development version
 -------------------
 - No features.
 
+2.0.0
+------
+- Introduce new injections style for ``Callable``, ``Factory`` & 
+  ``Singleton`` providers.
+- Drop providers: ``Static``, ``Value``, ``Function``, ``Class``, ``Config``.
+- Increase performance of making injections in 2 times (+100%).
+- Drop method injections.
+- Simplify providers overriding system.
+- Replace ``catalogs`` package with ``containers`` module.
+- Drop all backward compatibilities for 1.x.
+- Refactor most of the components.
+- Update documentation.
+
 1.17.0
 ------
 - Add ``add_injections()`` method to ``Callable``, ``DelegatedCallable``, 

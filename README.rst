@@ -23,9 +23,6 @@ Status
 | *PyPi*                                | .. image:: https://img.shields.io/pypi/v/dependency_injector.svg                       |
 |                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                          |
 |                                       |    :alt: Latest Version                                                                |
-|                                       | .. image:: https://img.shields.io/pypi/dm/dependency_injector.svg                      |
-|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                          |
-|                                       |    :alt: Downloads                                                                     |
 |                                       | .. image:: https://img.shields.io/pypi/l/dependency_injector.svg                       |
 |                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                          |
 |                                       |    :alt: License                                                                       |
@@ -55,61 +52,133 @@ Installation
 Example
 -------
 
+Brief example below demonstrates usage of *Dependency Injector* containers and 
+providers for definition of several IoC containers for some microservice 
+system that consists from several business and platform services:
+
 .. code-block:: python
 
-    """Dependency Injector example."""
+    """Example of several Dependency Injector IoC containers."""
 
-    import sys
     import sqlite3
+    import boto.s3.connection
+    import example.services
 
-    from boto.s3.connection import S3Connection
-
-    from dependency_injector import catalogs
-    from dependency_injector import providers
-    from dependency_injector import injections
-
-    from example import services
+    import dependency_injector.containers as containers
+    import dependency_injector.providers as providers
 
 
-    class Platform(catalogs.DeclarativeCatalog):
-        """Catalog of platform service providers."""
+    class Platform(containers.DeclarativeContainer):
+        """IoC container of platform service providers."""
 
         database = providers.Singleton(sqlite3.connect, ':memory:')
 
-        s3 = providers.Singleton(S3Connection,
+        s3 = providers.Singleton(boto.s3.connection.S3Connection,
                                  aws_access_key_id='KEY',
                                  aws_secret_access_key='SECRET')
 
 
-    class Services(catalogs.DeclarativeCatalog):
-        """Catalog of business service providers."""
+    class Services(containers.DeclarativeContainer):
+        """IoC container of business service providers."""
 
-        users = providers.Factory(services.Users,
+        users = providers.Factory(example.services.Users,
                                   db=Platform.database)
 
-        photos = providers.Factory(services.Photos,
-                                   db=Platform.database,
-                                   s3=Platform.s3)
-
-        auth = providers.Factory(services.Auth,
+        auth = providers.Factory(example.services.Auth,
                                  db=Platform.database,
                                  token_ttl=3600)
 
+        photos = providers.Factory(example.services.Photos,
+                                   db=Platform.database,
+                                   s3=Platform.s3)
 
-    @injections.inject(users_service=Services.users)
-    @injections.inject(auth_service=Services.auth)
-    @injections.inject(photos_service=Services.photos)
-    def main(argv, users_service, auth_service, photos_service):
+Next example demonstrates usage of ``@inject`` decorator with IoC containers 
+defined above: 
+
+.. code-block:: python
+
+    """Dependency Injector @inject decorator example."""
+
+    import application
+    import dependency_injector.injections as injections
+
+
+    @injections.inject(users_service=application.Services.users)
+    @injections.inject(auth_service=application.Services.auth)
+    @injections.inject(photos_service=application.Services.photos)
+    def main(users_service, auth_service, photos_service):
         """Main function."""
-        login, password, photo_path = argv[1:]
-
-        user = users_service.get_user(login)
-        auth_service.authenticate(user, password)
-        photos_service.upload_photo(user['id'], photo_path)
+        user = users_service.get_user('user')
+        auth_service.authenticate(user, 'secret')
+        photos_service.upload_photo(user['id'], 'photo.jpg')
 
 
     if __name__ == '__main__':
-        main(sys.argv)
+        main()
+   
+Alternative definition styles
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+*Dependecy Injector* supports few other styles of dependency injections 
+definition.
+
+IoC containers from previous example could look like these:
+
+.. code-block:: python
+
+    class Platform(containers.DeclarativeContainer):
+        """IoC container of platform service providers."""
+
+        database = providers.Singleton(sqlite3.connect) \
+            .add_args(':memory:')
+
+        s3 = providers.Singleton(boto.s3.connection.S3Connection) \
+            .add_kwargs(aws_access_key_id='KEY',
+                        aws_secret_access_key='SECRET')
+
+
+    class Services(containers.DeclarativeContainer):
+        """IoC container of business service providers."""
+
+        users = providers.Factory(example.services.Users) \
+            .add_kwargs(db=Platform.database)
+
+        auth = providers.Factory(example.services.Auth) \
+            .add_kwargs(db=Platform.database,
+                        token_ttl=3600)
+
+        photos = providers.Factory(example.services.Photos) \
+            .add_kwargs(db=Platform.database,
+                        s3=Platform.s3)
+
+or like this these:
+
+.. code-block:: python
+
+    class Platform(containers.DeclarativeContainer):
+        """IoC container of platform service providers."""
+
+        database = providers.Singleton(sqlite3.connect)
+        database.add_args(':memory:')
+
+        s3 = providers.Singleton(boto.s3.connection.S3Connection)
+        s3.add_kwargs(aws_access_key_id='KEY',
+                      aws_secret_access_key='SECRET')
+
+
+    class Services(containers.DeclarativeContainer):
+        """IoC container of business service providers."""
+
+        users = providers.Factory(example.services.Users)
+        users.add_kwargs(db=Platform.database)
+
+        auth = providers.Factory(example.services.Auth)
+        auth.add_kwargs(db=Platform.database,
+                        token_ttl=3600)
+
+        photos = providers.Factory(example.services.Photos)
+        photos.add_kwargs(db=Platform.database,
+                          s3=Platform.s3)
 
 You can get more *Dependency Injector* examples in ``/examples`` directory on
 GitHub:

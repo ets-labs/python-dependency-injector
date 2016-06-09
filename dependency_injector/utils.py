@@ -1,13 +1,13 @@
-"""Utils module."""
+"""Dependency injector utils module."""
 
 import sys
-import copy
+import copy as _copy
 import types
 import threading
 
 import six
 
-from dependency_injector.errors import Error
+from dependency_injector import errors
 
 
 GLOBAL_LOCK = threading.RLock()
@@ -23,9 +23,9 @@ else:  # pragma: no cover
     _OBJECT_INIT = None
 
 if six.PY2:  # pragma: no cover
-    copy._deepcopy_dispatch[types.MethodType] = \
+    _copy._deepcopy_dispatch[types.MethodType] = \
         lambda obj, memo: type(obj)(obj.im_func,
-                                    copy.deepcopy(obj.im_self, memo),
+                                    _copy.deepcopy(obj.im_self, memo),
                                     obj.im_class)
 
 
@@ -54,168 +54,21 @@ def ensure_is_provider(instance):
     :rtype: :py:class:`dependency_injector.providers.Provider`
     """
     if not is_provider(instance):
-        raise Error('Expected provider instance, '
-                    'got {0}'.format(str(instance)))
+        raise errors.Error('Expected provider instance, '
+                           'got {0}'.format(str(instance)))
     return instance
 
 
-def is_delegated_provider(instance):
-    """Check if instance is delegated provider instance.
+def is_container(instance):
+    """Check if instance is container instance.
 
     :param instance: Instance to be checked.
     :type instance: object
 
     :rtype: bool
     """
-    return (is_provider(instance) and
-            hasattr(instance, '__IS_DELEGATED__') and
-            getattr(instance, '__IS_DELEGATED__') is True)
-
-
-def is_injection(instance):
-    """Check if instance is injection instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (not isinstance(instance, six.class_types) and
-            hasattr(instance, '__IS_INJECTION__') and
-            getattr(instance, '__IS_INJECTION__') is True)
-
-
-def ensure_is_injection(instance):
-    """Check if instance is injection instance and return it.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :raise: :py:exc:`dependency_injector.errors.Error` if provided instance is
-            not injection.
-
-    :rtype: :py:class:`dependency_injector.injections.Injection`
-    """
-    if not is_injection(instance):
-        raise Error('Expected injection instance, '
-                    'got {0}'.format(str(instance)))
-    return instance
-
-
-def is_arg_injection(instance):
-    """Check if instance is positional argument injection instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (not isinstance(instance, six.class_types) and
-            hasattr(instance, '__IS_ARG_INJECTION__') and
-            getattr(instance, '__IS_ARG_INJECTION__', False) is True)
-
-
-def is_kwarg_injection(instance):
-    """Check if instance is keyword argument injection instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (not isinstance(instance, six.class_types) and
-            hasattr(instance, '__IS_KWARG_INJECTION__') and
-            getattr(instance, '__IS_KWARG_INJECTION__', False) is True)
-
-
-def is_attribute_injection(instance):
-    """Check if instance is attribute injection instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (not isinstance(instance, six.class_types) and
-            hasattr(instance, '__IS_ATTRIBUTE_INJECTION__') and
-            getattr(instance, '__IS_ATTRIBUTE_INJECTION__', False) is True)
-
-
-def is_method_injection(instance):
-    """Check if instance is method injection instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (not isinstance(instance, six.class_types) and
-            hasattr(instance, '__IS_METHOD_INJECTION__') and
-            getattr(instance, '__IS_METHOD_INJECTION__', False) is True)
-
-
-def is_catalog(instance):
-    """Check if instance is catalog instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (hasattr(instance, '__IS_CATALOG__') and
-            getattr(instance, '__IS_CATALOG__', False) is True)
-
-
-def is_dynamic_catalog(instance):
-    """Check if instance is dynamic catalog instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (not isinstance(instance, six.class_types) and is_catalog(instance))
-
-
-def is_declarative_catalog(instance):
-    """Check if instance is declarative catalog instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (isinstance(instance, six.class_types) and is_catalog(instance))
-
-
-def is_catalog_bundle(instance):
-    """Check if instance is catalog bundle instance.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :rtype: bool
-    """
-    return (not isinstance(instance, six.class_types) and
-            hasattr(instance, '__IS_CATALOG_BUNDLE__') and
-            getattr(instance, '__IS_CATALOG_BUNDLE__', False) is True)
-
-
-def ensure_is_catalog_bundle(instance):
-    """Check if instance is catalog bundle instance and return it.
-
-    :param instance: Instance to be checked.
-    :type instance: object
-
-    :raise: :py:exc:`dependency_injector.errors.Error` if provided instance
-            is not catalog bundle.
-
-    :rtype: :py:class:`dependency_injector.catalogs.CatalogBundle`
-    """
-    if not is_catalog_bundle(instance):
-        raise Error('Expected catalog bundle instance, '
-                    'got {0}'.format(str(instance)))
-    return instance
+    return (hasattr(instance, '__IS_CONTAINER__') and
+            getattr(instance, '__IS_CONTAINER__', False) is True)
 
 
 def represent_provider(provider, provides):
@@ -255,6 +108,6 @@ def fetch_cls_init(cls):
         return cls_init
 
 
-def _copy_providers(providers, memo=None):
-    """Make full copy of providers dictionary."""
-    return copy.deepcopy(providers, memo)
+def deepcopy(instance, memo=None):
+    """Make full copy of instance."""
+    return _copy.deepcopy(instance, memo)

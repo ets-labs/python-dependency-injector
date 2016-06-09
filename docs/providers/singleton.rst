@@ -16,6 +16,20 @@ Example:
    :language: python
    :linenos:
 
+Singleton providers resetting
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Created and memorized by :py:class:`Singleton` instance can be reset. Reset of
+:py:class:`Singleton`'s memorized instance is done by clearing reference to 
+it.  Further lifecycle of memorized instance is out of :py:class:`Singleton` 
+provider's control and dependes on garbage collection strategy.
+
+Example:
+
+.. literalinclude:: ../../examples/providers/singleton_reseting.py
+   :language: python
+   :linenos:
+
 Singleton providers and injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -42,47 +56,17 @@ provider.
     . It makes possible to inject providers *as is*. Please check out 
     `Singleton providers delegation`_ section.
 
-Singleton providers resetting
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Created and memorized by :py:class:`Singleton` instance can be reset. Reset of
-:py:class:`Singleton`'s memorized instance is done by clearing reference to 
-it.  Further lifecycle of memorized instance is out of :py:class:`Singleton` 
-provider's control.
-
-Example:
-
-.. literalinclude:: ../../examples/providers/singleton_reseting.py
-   :language: python
-   :linenos:
-
 Singleton providers delegation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :py:class:`Singleton` provider could be delegated to any other provider via 
-any kind of injection. Delegation of :py:class:`Singleton` providers is the 
-same as :py:class:`Factory` providers delegation, please follow *Factory 
-providers delegation* section for example.
+any kind of injection. 
 
-:py:class:`Singleton` delegate could be created obviously using 
-``Delegate(Singleton(...))`` or by calling ``Singleton(...).delegate()`` 
-method.
-
-Example:
-
-.. literalinclude:: ../../examples/providers/singleton_delegation.py
-   :language: python
-   :linenos:
-
-Alternative way of doing :py:class:`Singleton` delegation is an usage of 
-:py:class:`DelegatedSingleton`. :py:class:`DelegatedSingleton` is a 
-:py:class:`Singleton` that is always injected "as is".
-
-Example:
-
-.. literalinclude:: ../../examples/providers/delegated_singleton.py
-   :language: python
-   :linenos:
+Delegation of :py:class:`Singleton` providers is the same as 
+:py:class:`Factory` providers delegation, please follow 
+:ref:`factory_providers_delegation` section for examples (with exception 
+about using :py:class:`DelegatedSingleton` instead of 
+:py:class:`DelegatedFactory`).
 
 Singleton providers specialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -90,9 +74,6 @@ Singleton providers specialization
 :py:class:`Singleton` provider could be specialized for any kind of needs via 
 declaring its subclasses. 
 
-One of such `builtin` features is a limitation to :py:class:`Singleton` 
-provided type:
-
-.. literalinclude:: ../../examples/providers/singleton_provided_type.py
-   :language: python
-   :linenos:
+Specialization of :py:class:`Singleton` providers is the same as 
+:py:class:`Factory` providers specialization, please follow 
+:ref:`factory_providers_specialization` section for examples.

@@ -1,19 +1,19 @@
 """Example of inversion of control container for Car & Engine example."""
 
-from dependency_injector import catalogs
-from dependency_injector import providers
+import dependency_injector.containers as containers
+import dependency_injector.providers as providers
 
-from car_engine_ioc import Car
-from car_engine_ioc import Engine
+import car_engine_ioc
 
 
-class Components(catalogs.DeclarativeCatalog):
-    """Catalog of component providers."""
+class Container(containers.DeclarativeContainer):
+    """IoC container of component providers."""
 
-    engine = providers.Factory(Engine)
+    engine = providers.Factory(car_engine_ioc.Engine)
 
-    car = providers.Factory(Car, engine=engine)
+    car = providers.Factory(car_engine_ioc.Car,
+                            engine=engine)
 
 
 if __name__ == '__main__':
-    car = Components.car()  # Application creates Car's instance
+    car = Container.car()  # Application creates Car's instance

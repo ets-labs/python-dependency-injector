@@ -2,10 +2,10 @@
 
 import six
 
-from dependency_injector.providers.base import Provider
-from dependency_injector.injections import (
-    _parse_args_injections,
-    _parse_kwargs_injections,
+from dependency_injector.providers.base import (
+    Provider,
+    _parse_positional_injections,
+    _parse_keyword_injections,
 )
 from dependency_injector.utils import represent_provider
 from dependency_injector.errors import Error
@@ -13,45 +13,27 @@ from dependency_injector.errors import Error
 
 @six.python_2_unicode_compatible
 class Callable(Provider):
-    """:py:class:`Callable` provider calls wrapped callable on every call.
+    r""":py:class:`Callable` provider calls wrapped callable on every call.
 
-    :py:class:`Callable` provider provides callable that is called on every
-    provider call with some predefined dependency injections.
-
-    :py:class:`Callable` syntax of passing injections is the same like
-    :py:class:`Factory` one:
+    :py:class:`Callable` supports positional and keyword argument injections:
 
     .. code-block:: python
 
-        # simplified syntax for passing positional and keyword argument
-        # injections:
-        some_function = Callable(some_function, 'arg1', 'arg2', arg3=3, arg4=4)
-
-        # extended (full) syntax for passing positional and keyword argument
-        # injections:
         some_function = Callable(some_function,
-                                 injections.Arg(1),
-                                 injections.Arg(2),
-                                 injections.KwArg('some_arg', 3),
-                                 injections.KwArg('other_arg', 4))
+                                 'positional_arg1', 'positional_arg2',
+                                 keyword_argument1=3, keyword_argument=4)
 
-    .. py:attribute:: provides
+        # or
 
-        Provided callable.
+        some_function = Callable(some_function) \
+            .add_args('positional_arg1', 'positional_arg2') \
+            .add_kwargs(keyword_argument1=3, keyword_argument=4)
 
-        :type: callable
+        # or
 
-    .. py:attribute:: args
-
-        Tuple of positional argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
-
-    .. py:attribute:: kwargs
-
-        Tuple of keyword argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
+        some_function = Callable(some_function)
+        some_function.add_args('positional_arg1', 'positional_arg2')
+        some_function.add_kwargs(keyword_argument1=3, keyword_argument=4)
     """
 
     __slots__ = ('provides', 'args', 'kwargs')
@@ -61,12 +43,6 @@ class Callable(Provider):
 
         :param provides: Wrapped callable.
         :type provides: callable
-
-        :param args: Tuple of injections.
-        :type args: tuple
-
-        :param kwargs: Dictionary of injections.
-        :type kwargs: dict
         """
         if not callable(provides):
             raise Error('Provider {0} expected to get callable, '
@@ -77,31 +53,34 @@ class Callable(Provider):
         self.provides = provides
 
         self.args = tuple()
-        self.kwargs = tuple()
+        self.kwargs = dict()
 
-        self.add_injections(*args, **kwargs)
+        self.add_args(*args)
+        self.add_kwargs(**kwargs)
 
         super(Callable, self).__init__()
 
-    @property
-    def injections(self):
-        """Read-only tuple of all injections.
-
-        :rtype: tuple[:py:class:`dependency_injector.injections.Injection`]
-        """
-        return self.args + self.kwargs
-
-    def add_injections(self, *args, **kwargs):
-        """Add provider injections.
+    def add_args(self, *args):
+        """Add postional argument injections.
 
         :param args: Tuple of injections.
         :type args: tuple
 
+        :return: Reference ``self``
+        """
+        self.args += _parse_positional_injections(args)
+        return self
+
+    def add_kwargs(self, **kwargs):
+        """Add keyword argument injections.
+
         :param kwargs: Dictionary of injections.
         :type kwargs: dict
+
+        :return: Reference ``self``
         """
-        self.args += _parse_args_injections(args)
-        self.kwargs += _parse_kwargs_injections(args, kwargs)
+        self.kwargs.update(_parse_keyword_injections(kwargs))
+        return self
 
     def _provide(self, *args, **kwargs):
         """Return provided instance.
@@ -115,11 +94,11 @@ class Callable(Provider):
         :rtype: object
         """
         if self.args:
-            args = tuple(arg.value for arg in self.args) + args
+            args = tuple(arg.provide_injection() for arg in self.args) + args
 
-        for kwarg in self.kwargs:
-            if kwarg.name not in kwargs:
-                kwargs[kwarg.name] = kwarg.value
+        for name, arg in six.iteritems(self.kwargs):
+            if name not in kwargs:
+                kwargs[name] = arg.provide_injection()
 
         return self.provides(*args, **kwargs)
 
@@ -138,24 +117,11 @@ class DelegatedCallable(Callable):
 
     :py:class:`DelegatedCallable` is a :py:class:`Callable`, that is injected
     "as is".
-
-    .. py:attribute:: provides
-
-        Provided callable.
-
-        :type: callable
-
-    .. py:attribute:: args
-
-        Tuple of positional argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.Arg`]
-
-    .. py:attribute:: kwargs
-
-        Tuple of keyword argument injections.
-
-        :type: tuple[:py:class:`dependency_injector.injections.KwArg`]
     """
 
-    __IS_DELEGATED__ = True
+    def provide_injection(self):
+        """Injection strategy implementation.
+
+        :rtype: object
+        """
+        return self

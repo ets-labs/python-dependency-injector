@@ -6,9 +6,7 @@ What is dependency injection and inversion of control?
    :description: This article provides definition of dependency injection, 
                  inversion of control and dependency inversion. It contains 
                  example code in Python that is refactored to be following 
-                 inversion of control principle and then enhanced by 
-                 inversion of control container based on "Dependency Injector" 
-                 declarative catalog.
+                 inversion of control principle.
 
 Definition
 ~~~~~~~~~~

@@ -24,154 +24,58 @@ that are used as ``__init__()`` injections. Every time, when
 :py:class:`Factory` creates new one instance, positional and keyword 
 argument injections would be passed as an instance's arguments.
 
-Such behaviour is very similar to the standard Python ``functools.partial`` 
-object with several more things: 
+Injections are done according to the next rules:
 
 + All providers (instances of :py:class:`Provider`) are called every time 
   when injection needs to be done.
 + Providers could be injected "as is" (delegated), if it is defined obviously.
-  Check out `Factory providers delegation`_.
-+ All other injectable values are provided *"as is"*
-  
+  Check out :ref:`factory_providers_delegation`.
++ All other injectable values are provided *"as is"*.
++ Positional context arguments will be appended after :py:class:`Factory` 
+  positional injections.
++ Keyword context arguments have priority on :py:class:`Factory` keyword 
+  injections and will be merged over them.
+
 For example, if injectable value of injection is a :py:class:`Factory`, it 
 will provide new one instance (as a result of its call) every time, when 
 injection needs to be done.
 
 Example below is a little bit more complicated. It shows how to create 
-:py:class:`Factory` of particular class with ``__init__()`` argument 
-injections which injectable values are also provided by another factories:
-
-.. note:: 
-
-    Current positional and keyword argument injections syntax (in the examples
-    below) is a **simplified one** version of full syntax. Examples of full 
-    syntax and other types of injections could be found in sections below.
-
-    While positional / keyword argument injections may be the best way of 
-    passing injections, current simplified syntax might be the preferable one 
-    and could be widely used.
+:py:class:`Factory` of particular class with ``__init__()`` injections which 
+injectable values are also provided by another factories:
 
 .. image:: /images/providers/factory_init_injections.png
-    :width: 90%
-    :align: center
 
-Example of usage positional argument injections:
-
-.. literalinclude:: ../../examples/providers/factory_init_args.py
+.. literalinclude:: ../../examples/providers/factory_init_injections.py
    :language: python
    :linenos:
 
-Example of usage keyword argument injections:
-
-.. literalinclude:: ../../examples/providers/factory_init_kwargs.py
-   :language: python
-   :linenos:
-
-Factory providers and __init__ injections priority
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Next example shows how :py:class:`Factory` provider deals with positional and 
-keyword ``__init__()`` context arguments. In few words, :py:class:`Factory` 
-behaviour here is very like a standard Python ``functools.partial``:
-
-- Positional context arguments will be appended after :py:class:`Factory` 
-  positional injections.
-- Keyword context arguments have priority on :py:class:`Factory` keyword 
-  injections and will be merged over them.
-
-So, please, follow the example below:
-
-.. image:: /images/providers/factory_init_injections_and_contexts.png
-
-.. literalinclude:: ../../examples/providers/factory_init_injections_and_contexts.py
-   :language: python
-   :linenos:
-
-
-Factory providers and other types of injections
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Objects can take dependencies in different forms (some objects take init
-arguments, other use attributes setting or method calls). It affects how 
-such objects are created and initialized.
-
-:py:class:`Factory` provider takes various number of positional and keyword 
-arguments, that define what kinds of dependency injections have to be used.
-
-All of those instructions are defined in 
-:py:mod:`dependency_injector.injections` module and are subclasses of 
-:py:class:`dependency_injector.injections.Injection`. There are several types 
-of injections that are used by :py:class:`Factory` provider:
-
-+ :py:class:`dependency_injector.injections.Arg` - injection is done by 
-  passing injectable value in object's ``__init__()`` method in time of 
-  object's creation as positional argument. Takes injectable value only.
-+ :py:class:`dependency_injector.injections.KwArg` - injection is done by 
-  passing injectable value in object's ``__init__()`` method in time of 
-  object's creation as keyword argument.  Takes keyword name of 
-  ``__init__()`` argument and injectable value.
-+ :py:class:`dependency_injector.injections.Attribute` - injection is done 
-  by setting specified attribute with injectable value right after 
-  object's creation. Takes attribute's name and injectable value.
-+ :py:class:`dependency_injector.injections.Method` - injection is done by 
-  calling of specified method with injectable value right after object's 
-  creation and attribute injections are done. Takes method name and 
-  injectable value.
-
-All :py:class:`dependency_injector.injections.Injection`'s injectable values 
-are provided *"as is"*, except of providers (subclasses of 
-:py:class:`Provider`). Providers will be called every time, when injection 
-needs to be done.
-
-Factory providers and attribute injections
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Example below shows how to create :py:class:`Factory` of particular class with
-attribute injections. Those injections are done by setting specified attributes
-with injectable values right after object's creation.
-
-Example:
-
-.. image:: /images/providers/factory_attribute_injections.png
-
-.. literalinclude:: ../../examples/providers/factory_attribute_injections.py
-   :language: python
-   :linenos:
-
-Factory providers and method injections
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Current example shows how to create :py:class:`Factory` of particular class
-with method injections. Those injections are done by calling of specified 
-method with injectable value right after object's creation and attribute 
-injections are done.
-
-Method injections are not very popular in Python due Python best practices
-(usage of public attributes instead of setter methods), but they may appear in
-some cases.
-
-Example:
-
-.. image:: /images/providers/factory_method_injections.png
-
-.. literalinclude:: ../../examples/providers/factory_method_injections.py
-   :language: python
-   :linenos:
+.. _factory_providers_delegation:
 
 Factory providers delegation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :py:class:`Factory` provider could be delegated to any other provider via any 
-kind of injection. As it was mentioned earlier, if :py:class:`Factory` is 
-injectable value, it will be called every time when injection is done. 
+kind of injection. 
+
+As it was mentioned earlier, if :py:class:`Factory` is 
+injectable value, it will be called every time when injection needs to be 
+done. But sometimes there is a need to inject :py:class:`Factory` provider 
+itself (not a result of its call) as a dependency. Such injections are called 
+- *delegated provider injections*.
+  
+Saying in other words, delegation of factories - is a way to inject factories 
+themselves, instead of results of their calls. 
+
 :py:class:`Factory` delegation is performed by wrapping delegated 
 :py:class:`Factory` into special provider type - :py:class:`Delegate`, that 
-just returns wrapped :py:class:`Factory`. Saying in other words, delegation 
-of factories - is a way to inject factories themselves, instead of results 
-of their calls. 
+just returns wrapped :py:class:`Factory`. 
 
-Actually, there are two ways of creating factory delegates:
+Actually, there are three ways for creating factory delegates:
 
++ ``DelegatedFactory(...)`` - use special type of factory - 
+  :py:class:`DelegatedFactory`. Such factories are always injected as 
+  delegates ("as is"). 
 + ``Delegate(Factory(...))`` - obviously wrapping factory into 
   :py:class:`Delegate` provider.
 + ``Factory(...).delegate()`` - calling factory :py:meth:`Factory.delegate` 
@@ -187,24 +91,16 @@ Example:
    :language: python
    :linenos:
 
-Alternative way of doing :py:class:`Factory` delegation is an usage of 
-:py:class:`DelegatedFactory`. :py:class:`DelegatedFactory` is a 
-:py:class:`Factory` that is always injected "as is".
-
-Example:
-
-.. literalinclude:: ../../examples/providers/delegated_factory.py
-   :language: python
-   :linenos:
+.. _factory_providers_specialization:
 
 Factory providers specialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :py:class:`Factory` provider could be specialized for any kind of needs via 
-declaring its subclasses. 
+creating its subclasses. 
 
-One of such `builtin` features is a limitation to :py:class:`Factory` provided 
-type:
+One of such specialization features is a limitation to :py:class:`Factory` 
+provided type:
 
 .. literalinclude:: ../../examples/providers/factory_provided_type.py
    :language: python

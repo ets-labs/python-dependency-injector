@@ -2,11 +2,10 @@
 
 import passlib.hash
 
-from dependency_injector import providers
+import dependency_injector.providers as providers
 
 
-# Password hasher and verifier providers (hash function could be changed
-# anytime (for example, to sha512) without any changes in client's code):
+# Password hasher and verifier providers:
 password_hasher = providers.Callable(passlib.hash.sha256_crypt.encrypt,
                                      salt_size=16,
                                      rounds=10000)

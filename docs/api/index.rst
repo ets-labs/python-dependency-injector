@@ -6,7 +6,7 @@ API Documentation
 
     top_level
     providers
+    containers
     injections
-    catalogs
     utils
     errors

@@ -2,12 +2,7 @@
 
 import unittest2 as unittest
 
-from dependency_injector import (
-    providers,
-    injections,
-    utils,
-    errors,
-)
+from dependency_injector import providers, injections, utils, errors
 
 
 class Example(object):
@@ -23,17 +18,6 @@ class Example(object):
 
         self.attribute1 = None
         self.attribute2 = None
-
-        self.method1_value = None
-        self.method2_value = None
-
-    def method1(self, value):
-        """Setter method 1."""
-        self.method1_value = value
-
-    def method2(self, value):
-        """Setter method 2."""
-        self.method2_value = value
 
 
 class FactoryTests(unittest.TestCase):
@@ -87,8 +71,9 @@ class FactoryTests(unittest.TestCase):
             ExampleProvider(list)
 
     def test_call(self):
-        """Test creation of new instances."""
+        """Test call."""
         provider = providers.Factory(Example)
+
         instance1 = provider()
         instance2 = provider()
 
@@ -97,10 +82,7 @@ class FactoryTests(unittest.TestCase):
         self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_positional_args(self):
-        """Test creation of new instances with init positional args.
-
-        New simplified syntax.
-        """
+        """Test call with init positional args."""
         provider = providers.Factory(Example, 'i1', 'i2')
 
         instance1 = provider()
@@ -117,10 +99,7 @@ class FactoryTests(unittest.TestCase):
         self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_keyword_args(self):
-        """Test creation of new instances with init keyword args.
-
-        New simplified syntax.
-        """
+        """Test call with init keyword args."""
         provider = providers.Factory(Example, init_arg1='i1', init_arg2='i2')
 
         instance1 = provider()
@@ -137,10 +116,7 @@ class FactoryTests(unittest.TestCase):
         self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_positional_and_keyword_args(self):
-        """Test creation of new instances with init positional and keyword args.
-
-        Simplified syntax of positional and keyword arg injections.
-        """
+        """Test call with init positional and keyword args."""
         provider = providers.Factory(Example, 'i1', init_arg2='i2')
 
         instance1 = provider()
@@ -156,33 +132,10 @@ class FactoryTests(unittest.TestCase):
         self.assertIsInstance(instance1, Example)
         self.assertIsInstance(instance2, Example)
 
-    def test_call_with_init_positional_and_keyword_args_extended_syntax(self):
-        """Test creation of new instances with init positional and keyword args.
-
-        Extended syntax of positional and keyword arg injections.
-        """
-        provider = providers.Factory(Example,
-                                     injections.Arg('i1'),
-                                     injections.KwArg('init_arg2', 'i2'))
-
-        instance1 = provider()
-        instance2 = provider()
-
-        self.assertEqual(instance1.init_arg1, 'i1')
-        self.assertEqual(instance1.init_arg2, 'i2')
-
-        self.assertEqual(instance2.init_arg1, 'i1')
-        self.assertEqual(instance2.init_arg2, 'i2')
-
-        self.assertIsNot(instance1, instance2)
-        self.assertIsInstance(instance1, Example)
-        self.assertIsInstance(instance2, Example)
-
     def test_call_with_attributes(self):
-        """Test creation of new instances with attribute injections."""
-        provider = providers.Factory(Example,
-                                     injections.Attribute('attribute1', 'a1'),
-                                     injections.Attribute('attribute2', 'a2'))
+        """Test call with attribute injections."""
+        provider = providers.Factory(Example)
+        provider.add_attributes(attribute1='a1', attribute2='a2')
 
         instance1 = provider()
         instance2 = provider()
@@ -197,28 +150,10 @@ class FactoryTests(unittest.TestCase):
         self.assertIsInstance(instance1, Example)
         self.assertIsInstance(instance2, Example)
 
-    def test_call_with_methods(self):
-        """Test creation of new instances with method injections."""
-        provider = providers.Factory(Example,
-                                     injections.Method('method1', 'm1'),
-                                     injections.Method('method2', 'm2'))
-
-        instance1 = provider()
-        instance2 = provider()
-
-        self.assertEqual(instance1.method1_value, 'm1')
-        self.assertEqual(instance1.method2_value, 'm2')
-
-        self.assertEqual(instance2.method1_value, 'm1')
-        self.assertEqual(instance2.method2_value, 'm2')
-
-        self.assertIsNot(instance1, instance2)
-        self.assertIsInstance(instance1, Example)
-        self.assertIsInstance(instance2, Example)
-
     def test_call_with_context_args(self):
-        """Test creation of new instances with context args."""
+        """Test call with context args."""
         provider = providers.Factory(Example, 11, 22)
+
         instance = provider(33, 44)
 
         self.assertEqual(instance.init_arg1, 11)
@@ -227,9 +162,8 @@ class FactoryTests(unittest.TestCase):
         self.assertEqual(instance.init_arg4, 44)
 
     def test_call_with_context_kwargs(self):
-        """Test creation of new instances with context kwargs."""
-        provider = providers.Factory(Example,
-                                     injections.KwArg('init_arg1', 1))
+        """Test call with context kwargs."""
+        provider = providers.Factory(Example, init_arg1=1)
 
         instance1 = provider(init_arg2=22)
         self.assertEqual(instance1.init_arg1, 1)
@@ -240,8 +174,9 @@ class FactoryTests(unittest.TestCase):
         self.assertEqual(instance2.init_arg2, 22)
 
     def test_call_with_context_args_and_kwargs(self):
-        """Test creation of new instances with context args and kwargs."""
+        """Test call with context args and kwargs."""
         provider = providers.Factory(Example, 11)
+
         instance = provider(22, init_arg3=33, init_arg4=44)
 
         self.assertEqual(instance.init_arg1, 11)
@@ -249,8 +184,24 @@ class FactoryTests(unittest.TestCase):
         self.assertEqual(instance.init_arg3, 33)
         self.assertEqual(instance.init_arg4, 44)
 
+    def test_fluent_interface(self):
+        """Test injections definition with fluent interface."""
+        provider = providers.Factory(Example) \
+            .add_args(1, 2) \
+            .add_kwargs(init_arg3=3, init_arg4=4) \
+            .add_attributes(attribute1=5, attribute2=6)
+
+        instance = provider()
+
+        self.assertEqual(instance.init_arg1, 1)
+        self.assertEqual(instance.init_arg2, 2)
+        self.assertEqual(instance.init_arg3, 3)
+        self.assertEqual(instance.init_arg4, 4)
+        self.assertEqual(instance.attribute1, 5)
+        self.assertEqual(instance.attribute2, 6)
+
     def test_call_overridden(self):
-        """Test creation of new instances on overridden provider."""
+        """Test call on overridden provider."""
         provider = providers.Factory(Example)
         overriding_provider1 = providers.Factory(dict)
         overriding_provider2 = providers.Factory(list)
@@ -265,24 +216,10 @@ class FactoryTests(unittest.TestCase):
         self.assertIsInstance(instance1, list)
         self.assertIsInstance(instance2, list)
 
-    def test_injections(self):
-        """Test getting a full list of injections using injections property."""
-        provider = providers.Factory(Example,
-                                     injections.Arg(1),
-                                     injections.KwArg('init_arg2', 2),
-                                     injections.Attribute('attribute1', 3),
-                                     injections.Attribute('attribute2', 4),
-                                     injections.Method('method1', 5),
-                                     injections.Method('method2', 6))
-        self.assertEquals(len(provider.injections), 6)
-
     def test_repr(self):
         """Test representation of provider."""
-        provider = providers.Factory(Example,
-                                     injections.KwArg('init_arg1',
-                                                      providers.Factory(dict)),
-                                     injections.KwArg('init_arg2',
-                                                      providers.Factory(list)))
+        provider = providers.Factory(Example)
+
         self.assertEqual(repr(provider),
                          '<dependency_injector.providers.creational.'
                          'Factory({0}) at {1}>'.format(
@@ -304,10 +241,8 @@ class DelegatedFactoryTests(unittest.TestCase):
 
     def test_is_delegated_provider(self):
         """Test is_delegated_provider."""
-        self.assertTrue(utils.is_delegated_provider(
-            providers.DelegatedFactory(object)))
-        self.assertFalse(utils.is_delegated_provider(
-            providers.Factory(object)))
+        provider = providers.DelegatedFactory(object)
+        self.assertIs(provider.provide_injection(), provider)
 
 
 class SingletonTests(unittest.TestCase):
@@ -363,6 +298,7 @@ class SingletonTests(unittest.TestCase):
     def test_call(self):
         """Test getting of instances."""
         provider = providers.Singleton(Example)
+
         instance1 = provider()
         instance2 = provider()
 
@@ -371,10 +307,7 @@ class SingletonTests(unittest.TestCase):
         self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_positional_args(self):
-        """Test getting of instances with init positional args.
-
-        New simplified syntax.
-        """
+        """Test getting of instances with init positional args."""
         provider = providers.Singleton(Example, 'i1', 'i2')
 
         instance1 = provider()
@@ -391,10 +324,7 @@ class SingletonTests(unittest.TestCase):
         self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_keyword_args(self):
-        """Test getting of instances with init keyword args.
-
-        New simplified syntax.
-        """
+        """Test getting of instances with init keyword args."""
         provider = providers.Singleton(Example, init_arg1='i1', init_arg2='i2')
 
         instance1 = provider()
@@ -411,33 +341,8 @@ class SingletonTests(unittest.TestCase):
         self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_positional_and_keyword_args(self):
-        """Test getting of instances with init positional and keyword args.
-
-        Simplified syntax of positional and keyword arg injections.
-        """
+        """Test getting of instances with init positional and keyword args."""
         provider = providers.Singleton(Example, 'i1', init_arg2='i2')
-
-        instance1 = provider()
-        instance2 = provider()
-
-        self.assertEqual(instance1.init_arg1, 'i1')
-        self.assertEqual(instance1.init_arg2, 'i2')
-
-        self.assertEqual(instance2.init_arg1, 'i1')
-        self.assertEqual(instance2.init_arg2, 'i2')
-
-        self.assertIs(instance1, instance2)
-        self.assertIsInstance(instance1, Example)
-        self.assertIsInstance(instance2, Example)
-
-    def test_call_with_init_positional_and_keyword_args_extended_syntax(self):
-        """Test getting of instances with init positional and keyword args.
-
-        Extended syntax of positional and keyword arg injections.
-        """
-        provider = providers.Singleton(Example,
-                                       injections.Arg('i1'),
-                                       injections.KwArg('init_arg2', 'i2'))
 
         instance1 = provider()
         instance2 = provider()
@@ -454,11 +359,8 @@ class SingletonTests(unittest.TestCase):
 
     def test_call_with_attributes(self):
         """Test getting of instances with attribute injections."""
-        provider = providers.Singleton(Example,
-                                       injections.Attribute('attribute1',
-                                                            'a1'),
-                                       injections.Attribute('attribute2',
-                                                            'a2'))
+        provider = providers.Singleton(Example)
+        provider.add_attributes(attribute1='a1', attribute2='a2')
 
         instance1 = provider()
         instance2 = provider()
@@ -473,28 +375,10 @@ class SingletonTests(unittest.TestCase):
         self.assertIsInstance(instance1, Example)
         self.assertIsInstance(instance2, Example)
 
-    def test_call_with_methods(self):
-        """Test getting of instances with method injections."""
-        provider = providers.Singleton(Example,
-                                       injections.Method('method1', 'm1'),
-                                       injections.Method('method2', 'm2'))
-
-        instance1 = provider()
-        instance2 = provider()
-
-        self.assertEqual(instance1.method1_value, 'm1')
-        self.assertEqual(instance1.method2_value, 'm2')
-
-        self.assertEqual(instance2.method1_value, 'm1')
-        self.assertEqual(instance2.method2_value, 'm2')
-
-        self.assertIs(instance1, instance2)
-        self.assertIsInstance(instance1, Example)
-        self.assertIsInstance(instance2, Example)
-
     def test_call_with_context_args(self):
         """Test getting of instances with context args."""
         provider = providers.Singleton(Example)
+
         instance = provider(11, 22)
 
         self.assertEqual(instance.init_arg1, 11)
@@ -502,8 +386,7 @@ class SingletonTests(unittest.TestCase):
 
     def test_call_with_context_kwargs(self):
         """Test getting of instances with context kwargs."""
-        provider = providers.Singleton(Example,
-                                       injections.KwArg('init_arg1', 1))
+        provider = providers.Singleton(Example, init_arg1=1)
 
         instance1 = provider(init_arg2=22)
         self.assertEqual(instance1.init_arg1, 1)
@@ -517,12 +400,29 @@ class SingletonTests(unittest.TestCase):
     def test_call_with_context_args_and_kwargs(self):
         """Test getting of instances with context args and kwargs."""
         provider = providers.Singleton(Example, 11)
+
         instance = provider(22, init_arg3=33, init_arg4=44)
 
         self.assertEqual(instance.init_arg1, 11)
         self.assertEqual(instance.init_arg2, 22)
         self.assertEqual(instance.init_arg3, 33)
         self.assertEqual(instance.init_arg4, 44)
+
+    def test_fluent_interface(self):
+        """Test injections definition with fluent interface."""
+        provider = providers.Singleton(Example) \
+            .add_args(1, 2) \
+            .add_kwargs(init_arg3=3, init_arg4=4) \
+            .add_attributes(attribute1=5, attribute2=6)
+
+        instance = provider()
+
+        self.assertEqual(instance.init_arg1, 1)
+        self.assertEqual(instance.init_arg2, 2)
+        self.assertEqual(instance.init_arg3, 3)
+        self.assertEqual(instance.init_arg4, 4)
+        self.assertEqual(instance.attribute1, 5)
+        self.assertEqual(instance.attribute2, 6)
 
     def test_call_overridden(self):
         """Test getting of instances on overridden provider."""
@@ -540,46 +440,6 @@ class SingletonTests(unittest.TestCase):
         self.assertIsInstance(instance1, object)
         self.assertIsInstance(instance2, object)
 
-    def test_provides_attr(self):
-        """Test provides attribute."""
-        provider = providers.Singleton(Example)
-        self.assertIs(provider.provides, Example)
-
-    def test_args_attr(self):
-        """Test args attribute."""
-        provider = providers.Singleton(Example, 1, 2)
-        self.assertEquals(len(provider.args), 2)
-
-    def test_kwargs_attr(self):
-        """Test kwargs attribute."""
-        provider = providers.Singleton(Example, init_arg1=1, init_arg2=2)
-        self.assertEquals(len(provider.kwargs), 2)
-
-    def test_attributes_attr(self):
-        """Test attributes attribute."""
-        provider = providers.Singleton(Example,
-                                       injections.Attribute('attribute1', 1),
-                                       injections.Attribute('attribute2', 2))
-        self.assertEquals(len(provider.attributes), 2)
-
-    def test_methods_attr(self):
-        """Test methods attribute."""
-        provider = providers.Singleton(Example,
-                                       injections.Method('method1', 1),
-                                       injections.Method('method2', 2))
-        self.assertEquals(len(provider.methods), 2)
-
-    def test_injections(self):
-        """Test getting a full list of injections using injections property."""
-        provider = providers.Singleton(Example,
-                                       injections.Arg(1),
-                                       injections.KwArg('init_arg2', 2),
-                                       injections.Attribute('attribute1', 3),
-                                       injections.Attribute('attribute2', 4),
-                                       injections.Method('method1', 5),
-                                       injections.Method('method2', 6))
-        self.assertEquals(len(provider.injections), 6)
-
     def test_reset(self):
         """Test creation and reset of single object."""
         provider = providers.Singleton(object)
@@ -596,13 +456,8 @@ class SingletonTests(unittest.TestCase):
 
     def test_repr(self):
         """Test representation of provider."""
-        provider = providers.Singleton(Example,
-                                       injections.KwArg(
-                                           'init_arg1',
-                                           providers.Factory(dict)),
-                                       injections.KwArg(
-                                           'init_arg2',
-                                           providers.Factory(list)))
+        provider = providers.Singleton(Example)
+
         self.assertEqual(repr(provider),
                          '<dependency_injector.providers.creational.'
                          'Singleton({0}) at {1}>'.format(
@@ -625,10 +480,8 @@ class DelegatedSingletonTests(unittest.TestCase):
 
     def test_is_delegated_provider(self):
         """Test is_delegated_provider."""
-        self.assertTrue(utils.is_delegated_provider(
-            providers.DelegatedSingleton(object)))
-        self.assertFalse(utils.is_delegated_provider(
-            providers.Singleton(object)))
+        provider = providers.DelegatedSingleton(object)
+        self.assertIs(provider.provide_injection(), provider)
 
 
 class FactoryAsDecoratorTests(unittest.TestCase):

@@ -12,13 +12,13 @@ framework can be installed from PyPi_:
     pip install dependency_injector
 
     # Installing particular version:
-    pip install dependency_injector==0.11.0
+    pip install dependency_injector==2.0.0
     
 Sources can be cloned from GitHub_:
 
 .. code-block:: bash
 
-    git clone https://github.com/ets-labs/dependency_injector.git
+    git clone https://github.com/ets-labs/python-dependency-injector.git
 
 Also all *Dependency Injector* releases can be downloaded from 
 `GitHub releases page`_.
@@ -30,7 +30,7 @@ Verification of currently installed version could be done using
 
     >>> from dependency_injector import VERSION
     >>> VERSION
-    '0.11.0'
+    '2.0.0'
 
 .. _PyPi: https://pypi.python.org/pypi/dependency_injector
 .. _GitHub: https://github.com/ets-labs/python-dependency-injector

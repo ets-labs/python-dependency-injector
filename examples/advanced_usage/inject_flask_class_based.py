@@ -4,8 +4,8 @@ import sqlite3
 import flask
 import flask.views
 
-from dependency_injector import providers
-from dependency_injector import injections
+import dependency_injector.providers as providers
+import dependency_injector.injections as injections
 
 
 database = providers.Singleton(sqlite3.Connection,

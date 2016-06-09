@@ -3,132 +3,8 @@
 import unittest2 as unittest
 
 from dependency_injector import injections
-from dependency_injector import catalogs
 from dependency_injector import providers
 from dependency_injector import errors
-
-
-class InjectionTests(unittest.TestCase):
-    """Injection test cases."""
-
-    def test_init(self):
-        """Test Injection creation and initialization."""
-        injection = injections.Injection('some_value')
-        self.assertEqual(injection.injectable, 'some_value')
-
-    def test_value_with_scalar_injectable(self):
-        """Test Injection value property with scalar value."""
-        injection = injections.Injection('some_value')
-        self.assertEqual(injection.value, 'some_value')
-
-    def test_value_with_provider_injectable(self):
-        """Test Injection value property with provider."""
-        injection = injections.Injection(providers.Factory(object))
-        self.assertIsInstance(injection.value, object)
-
-    def test_value_with_catalog_bundle_injectable(self):
-        """Test Injection value property with catalog bundle."""
-        class TestCatalog(catalogs.DeclarativeCatalog):
-            """Test catalog."""
-
-            provider = providers.Provider()
-        injection = injections.Injection(
-            TestCatalog.Bundle(TestCatalog.provider))
-
-        self.assertIsInstance(injection.value, TestCatalog.Bundle)
-
-    def test_repr(self):
-        """Test Injection representation."""
-        provider = providers.Factory(object)
-        injection = injections.Injection(provider)
-        self.assertEqual(
-            repr(injection),
-            '<dependency_injector.injections.Injection({0}) at {1}>'.format(
-                repr(provider),
-                hex(id(injection))))
-
-
-class ArgTests(unittest.TestCase):
-    """Positional arg injection test cases."""
-
-    def test_init(self):
-        """Test Arg creation and initialization."""
-        injection = injections.Arg('some_value')
-        self.assertEqual(injection.injectable, 'some_value')
-
-    def test_repr(self):
-        """Test Arg representation."""
-        provider = providers.Factory(object)
-        injection = injections.Arg(provider)
-        self.assertEqual(
-            repr(injection),
-            '<dependency_injector.injections.Arg({0}) at {1}>'.format(
-                repr(provider),
-                hex(id(injection))))
-
-
-class KwArgTests(unittest.TestCase):
-    """Keyword arg injection test cases."""
-
-    def test_init(self):
-        """Test KwArg creation and initialization."""
-        injection = injections.KwArg('some_arg_name', 'some_value')
-        self.assertEqual(injection.name, 'some_arg_name')
-        self.assertEqual(injection.injectable, 'some_value')
-
-    def test_repr(self):
-        """Test KwArg representation."""
-        provider = providers.Factory(object)
-        injection = injections.KwArg('name', provider)
-        self.assertEqual(
-            repr(injection),
-            '<dependency_injector.injections.KwArg({0}, {1}) at {2}>'.format(
-                repr('name'),
-                repr(provider),
-                hex(id(injection))))
-
-
-class AttributeTests(unittest.TestCase):
-    """Attribute injection test cases."""
-
-    def test_init(self):
-        """Test Attribute creation and initialization."""
-        injection = injections.Attribute('some_arg_name', 'some_value')
-        self.assertEqual(injection.name, 'some_arg_name')
-        self.assertEqual(injection.injectable, 'some_value')
-
-    def test_repr(self):
-        """Test Attribute representation."""
-        provider = providers.Factory(object)
-        injection = injections.Attribute('name', provider)
-        self.assertEqual(
-            repr(injection),
-            '<dependency_injector.injections.Attribute({0}, {1}) '
-            'at {2}>'.format(
-                repr('name'),
-                repr(provider),
-                hex(id(injection))))
-
-
-class MethodTests(unittest.TestCase):
-    """Method injection test cases."""
-
-    def test_init(self):
-        """Test Method creation and initialization."""
-        injection = injections.Method('some_arg_name', 'some_value')
-        self.assertEqual(injection.name, 'some_arg_name')
-        self.assertEqual(injection.injectable, 'some_value')
-
-    def test_repr(self):
-        """Test Method representation."""
-        provider = providers.Factory(object)
-        injection = injections.Method('name', provider)
-        self.assertEqual(
-            repr(injection),
-            '<dependency_injector.injections.Method({0}, {1}) at {2}>'.format(
-                repr('name'),
-                repr(provider),
-                hex(id(injection))))
 
 
 class InjectTests(unittest.TestCase):
@@ -140,27 +16,6 @@ class InjectTests(unittest.TestCase):
         provider2 = providers.Factory(list)
 
         @injections.inject(provider1, provider2)
-        def test(a, b):
-            return a, b
-
-        a1, b1 = test()
-        a2, b2 = test()
-
-        self.assertIsInstance(a1, object)
-        self.assertIsInstance(a2, object)
-        self.assertIsNot(a1, a2)
-
-        self.assertIsInstance(b1, list)
-        self.assertIsInstance(b2, list)
-        self.assertIsNot(b1, b2)
-
-    def test_decorated_args_extended_syntax(self):
-        """Test `inject()` decoration with args."""
-        provider1 = providers.Factory(object)
-        provider2 = providers.Factory(list)
-
-        @injections.inject(injections.Arg(provider1),
-                           injections.Arg(provider2))
         def test(a, b):
             return a, b
 
@@ -266,27 +121,6 @@ class InjectTests(unittest.TestCase):
         object_a = object()
 
         @injections.inject(b=provider)
-        def test(a, b):
-            return a, b
-
-        a1, b1 = test(object_a)
-        a2, b2 = test(object_a)
-
-        self.assertIsInstance(a1, object)
-        self.assertIsInstance(a2, object)
-        self.assertIs(a1, object_a)
-        self.assertIs(a2, object_a)
-
-        self.assertIsInstance(b1, list)
-        self.assertIsInstance(b2, list)
-        self.assertIsNot(b1, b2)
-
-    def test_injection_kwarg_syntax(self):
-        """Test `inject()` decorated callback with "old" style using KwArg."""
-        provider = providers.Factory(list)
-        object_a = object()
-
-        @injections.inject(injections.KwArg('b', provider))
         def test(a, b):
             return a, b
 

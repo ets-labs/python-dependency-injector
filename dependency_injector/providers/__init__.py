@@ -3,9 +3,10 @@
 from dependency_injector.providers.base import (
     Provider,
     Delegate,
-    Static,
-    StaticProvider,
+    Object,
     ExternalDependency,
+    OverridingContext,
+    override,
 )
 from dependency_injector.providers.callable import (
     Callable,
@@ -17,27 +18,16 @@ from dependency_injector.providers.creational import (
     Singleton,
     DelegatedSingleton,
 )
-from dependency_injector.providers.static import (
-    Object,
-    Value,
-    Class,
-    Function,
-)
-from dependency_injector.providers.config import (
-    Config,
-    ChildConfig,
-)
-from dependency_injector.providers.utils import (
-    OverridingContext,
-    override,
-)
 
 
 __all__ = (
     'Provider',
     'Delegate',
-    'Static', 'StaticProvider',
+    'Object',
     'ExternalDependency',
+
+    'OverridingContext',
+    'override',
 
     'Callable',
     'DelegatedCallable',
@@ -46,15 +36,4 @@ __all__ = (
     'DelegatedFactory',
     'Singleton',
     'DelegatedSingleton',
-
-    'Object',
-    'Value',
-    'Class',
-    'Function',
-
-    'Config',
-    'ChildConfig',
-
-    'OverridingContext',
-    'override',
 )

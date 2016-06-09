@@ -1,13 +1,13 @@
 """`inject()` decorator simple example."""
 
-from dependency_injector import providers
-from dependency_injector import injections
+import dependency_injector.providers as providers
+import dependency_injector.injections as injections
 
 
 dependency_injector_factory = providers.Factory(object)
 
 
-# Example of using `di.inject()` decorator keyword argument injections:
+# Example of using `inject()` decorator keyword argument injections:
 @injections.inject(new_object=dependency_injector_factory)
 @injections.inject(some_setting=1334)
 def example_callback1(new_object, some_setting):
@@ -16,7 +16,7 @@ def example_callback1(new_object, some_setting):
     assert some_setting == 1334
 
 
-# Example of using `di.inject()` decorator with positional argument injections:
+# Example of using `inject()` decorator with positional argument injections:
 @injections.inject(dependency_injector_factory, 1334)
 def example_callback2(new_object, some_setting):
     """Example callback that does some asserts for input args."""

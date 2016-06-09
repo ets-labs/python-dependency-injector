@@ -1,4 +1,4 @@
-"""Refactored Car & Engine example that demostrates inversion of control."""
+"""Refactored Car & Engine example that demonstrates inversion of control."""
 
 
 class Engine(object):
@@ -10,7 +10,7 @@ class Car(object):
 
     def __init__(self, engine):
         """Initializer."""
-        self.engine = engine
+        self.engine = engine  # Engine is an "injected" dependency
 
 
 if __name__ == '__main__':

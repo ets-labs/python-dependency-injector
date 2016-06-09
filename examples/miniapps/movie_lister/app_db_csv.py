@@ -11,40 +11,39 @@ sqlite movies database and csv file movies database.
 
 import sqlite3
 
-from dependency_injector import catalogs
-from dependency_injector import providers
-from dependency_injector import injections
+import dependency_injector.containers as containers
+import dependency_injector.providers as providers
+import dependency_injector.injections as injections
 
-from movies import MoviesModule
-from movies import finders
+import movies
+import movies.finders
 
-from settings import MOVIES_CSV_PATH
-from settings import MOVIES_DB_PATH
-
-
-class ApplicationModule(catalogs.DeclarativeCatalog):
-    """Catalog of application component providers."""
-
-    database = providers.Singleton(sqlite3.connect, MOVIES_DB_PATH)
+import settings
 
 
-@catalogs.copy(MoviesModule)
-class DbMoviesModule(MoviesModule):
-    """Customized catalog of movies module component providers."""
+class ApplicationModule(containers.DeclarativeContainer):
+    """IoC container of application component providers."""
 
-    movie_finder = providers.Factory(finders.SqliteMovieFinder,
-                                     *MoviesModule.movie_finder.injections,
-                                     database=ApplicationModule.database)
+    database = providers.Singleton(sqlite3.connect, settings.MOVIES_DB_PATH)
 
 
-@catalogs.copy(MoviesModule)
-class CsvMoviesModule(MoviesModule):
-    """Customized catalog of movies module component providers."""
+@containers.copy(movies.MoviesModule)
+class DbMoviesModule(movies.MoviesModule):
+    """IoC container for overriding movies module component providers."""
 
-    movie_finder = providers.Factory(finders.CsvMovieFinder,
-                                     *MoviesModule.movie_finder.injections,
-                                     csv_file=MOVIES_CSV_PATH,
-                                     delimeter=',')
+    movie_finder = providers.Factory(movies.finders.SqliteMovieFinder,
+                                     database=ApplicationModule.database,
+                                     **movies.MoviesModule.movie_finder.kwargs)
+
+
+@containers.copy(movies.MoviesModule)
+class CsvMoviesModule(movies.MoviesModule):
+    """IoC container for overriding movies module component providers."""
+
+    movie_finder = providers.Factory(movies.finders.CsvMovieFinder,
+                                     csv_file=settings.MOVIES_CSV_PATH,
+                                     delimeter=',',
+                                     **movies.MoviesModule.movie_finder.kwargs)
 
 
 @injections.inject(db_movie_lister=DbMoviesModule.movie_lister)

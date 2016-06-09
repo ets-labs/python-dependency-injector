@@ -28,11 +28,11 @@ Example:
 
 .. note::
 
-    Class ``UserService`` is a part of some library. ``UserService`` has
+    Class ``UsersService`` is a part of some library. ``UsersService`` has
     dependency on database connection, which can be satisfied with any
     DBAPI 2.0 database connection. Being a self-sufficient library,
-    ``UserService`` doesn't hardcode any kind of database management logic.
-    Instead of this, ``UserService`` has external dependency, that has to
+    ``UsersService`` doesn't hardcode any kind of database management logic.
+    Instead of this, ``UsersService`` has external dependency, that has to
     be satisfied by cleint's code, out of library's scope.
 
 .. image:: /images/providers/external_dependency.png
