@@ -295,6 +295,7 @@ class ExternalDependency(Provider):
             raise Error('ExternalDependency provider expects to get class, ' +
                         'got {0} instead'.format(str(instance_of)))
         self.instance_of = instance_of
+        self.provide = self.__call__
         super(ExternalDependency, self).__init__()
 
     def __call__(self, *args, **kwargs):

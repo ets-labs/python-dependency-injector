@@ -2,13 +2,14 @@
 
 import sqlite3
 import contextlib
+
 import dependency_injector.providers as providers
 
 
-class UserService(object):
-    """Example class UserService.
+class UsersService(object):
+    """Example class UsersService.
 
-    UserService has dependency on DBAPI 2.0 database connection.
+    UsersService has dependency on DBAPI 2.0 database connection.
     """
 
     def __init__(self, database):
@@ -43,9 +44,9 @@ class UserService(object):
             return cursor.fetchone()
 
 
-# Database and UserService providers:
+# Database and UsersService providers:
 database = providers.ExternalDependency(instance_of=sqlite3.dbapi2.Connection)
-users_service_factory = providers.Factory(UserService,
+users_service_factory = providers.Factory(UsersService,
                                           database=database)
 
 # Out of library's scope.
@@ -57,10 +58,10 @@ database.provided_by(providers.Singleton(sqlite3.dbapi2.Connection,
                                          detect_types=True,
                                          isolation_level='EXCLUSIVE'))
 
-# Creating UserService instance:
+# Creating UsersService instance:
 users_service = users_service_factory()
 
-# Initializing UserService database:
+# Initializing UsersService database:
 users_service.init_database()
 
 # Creating test user and retrieving full information about him:
