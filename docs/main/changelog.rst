@@ -15,16 +15,14 @@ Development version
 ------
 - Introduce new injections style for ``Callable``, ``Factory`` & 
   ``Singleton`` providers.
-- Increase performance of retrieving injections in 2 times (+100%).
-- Drop providers:
-  - ``Static``
-  - ``Value``
-  - ``Function``
-  - ``Class``
-  - ``Config``
+- Drop providers: ``Static``, ``Value``, ``Function``, ``Class``, ``Config``.
+- Increase performance of making injections in 2 times (+100%).
 - Drop method injections.
-- Replace catalogs with containers.
-- Drop backward compatibilities of 1.x.
+- Simplify providers overriding system.
+- Replace ``catalogs`` package with ``containers`` module.
+- Drop all backward compatibilities for 1.x.
+- Refactor most of the components.
+- Update documentation.
 
 1.17.0
 ------
