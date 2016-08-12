@@ -1,6 +1,7 @@
 """Dependency injector creational providers."""
 
 import six
+from threading import local
 
 from dependency_injector.providers.callable import Callable
 from dependency_injector.providers.base import _parse_keyword_injections
@@ -247,3 +248,55 @@ class DelegatedSingleton(Singleton):
         :rtype: object
         """
         return self
+
+
+class SingletonPerThread(Factory):
+    """:py:class:`SingletonPerThread` provider returns same instance per thread on every call.
+
+    Like a :py:class:`Singleton` but instance is unique per thread.
+
+    Example::
+
+    .. code-block:: python
+
+        import time
+        from threading import Thread
+        from queue import Queue
+
+        from postie.common import SingletonPerThread
+
+        Time = SingletonPerThread(time.time)
+
+        q = Queue()
+
+        def process():
+            t1 = Time()
+            t2 = Time()
+            assert t1 is t1
+            q.put(t1)
+
+
+        thread1 = Thread(target=process)
+        thread2 = Thread(target=process)
+
+        thread1.start(); thread2.start()
+        thread1.join(); thread2.join()
+
+        all_t = set()
+        while not q.empty():
+            t = q.get()
+            assert t not in all_t
+            all_t.add(t)
+    """
+
+    def __init__(self, provides, *args, **kwargs):
+        super().__init__(provides, *args, **kwargs)
+        self._instance = local()
+
+    def _provide(self, *args, **kwargs):
+        instance = getattr(self._instance, 'instance', None)
+        if not instance:
+            instance = super()._provide(*args, **kwargs)
+            self._instance.instance = instance
+
+        return instance
