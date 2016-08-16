@@ -17,6 +17,8 @@ from dependency_injector.providers.creational import (
     DelegatedFactory,
     Singleton,
     DelegatedSingleton,
+    ThreadLocalSingleton,
+    DelegatedThreadLocalSingleton
 )
 
 
@@ -34,6 +36,10 @@ __all__ = (
 
     'Factory',
     'DelegatedFactory',
+
     'Singleton',
     'DelegatedSingleton',
+
+    'ThreadLocalSingleton',
+    'DelegatedThreadLocalSingleton',
 )

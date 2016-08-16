@@ -1,5 +1,7 @@
 """Dependency injector creational providers."""
 
+import threading
+
 import six
 
 from dependency_injector.providers.callable import Callable
@@ -230,6 +232,106 @@ class DelegatedSingleton(Singleton):
         If provided type is defined, :py:class:`Factory` checks that
         :py:attr:`Factory.provides` is subclass of
         :py:attr:`Factory.provided_type`.
+
+        :type: type | None
+
+    .. py:attribute:: cls
+
+        Class that provides object.
+        Alias for :py:attr:`provides`.
+
+        :type: type
+    """
+
+    def provide_injection(self):
+        """Injection strategy implementation.
+
+        :rtype: object
+        """
+        return self
+
+
+class ThreadLocalSingleton(Factory):
+    """:py:class:`ThreadLocalSingleton` is singleton based on thread locals.
+
+    :py:class:`ThreadLocalSingleton` provider creates instance once for each
+    thread and returns it on every call. :py:class:`ThreadLocalSingleton`
+    extends :py:class:`Factory`, so, please follow :py:class:`Factory`
+    documentation for getting familiar with injections syntax.
+
+    :py:class:`ThreadLocalSingleton` is thread-safe and could be used in
+    multithreading environment without any negative impact.
+
+    Retrieving of provided instance can be performed via calling
+    :py:class:`ThreadLocalSingleton` object:
+
+    .. code-block:: python
+
+        singleton = ThreadLocalSingleton(SomeClass)
+        some_object = singleton()
+
+    .. py:attribute:: provided_type
+
+        If provided type is defined, provider checks that providing class is
+        its subclass.
+
+        :type: type | None
+
+    .. py:attribute:: cls
+
+        Class that provides object.
+        Alias for :py:attr:`provides`.
+
+        :type: type
+    """
+
+    __slots__ = ('local_storage',)
+
+    def __init__(self, provides, *args, **kwargs):
+        """Initializer.
+
+        :param provides: Class or other callable that provides object
+            for creation.
+        :type provides: type | callable
+        """
+        self.local_storage = threading.local()
+        super(ThreadLocalSingleton, self).__init__(provides, *args, **kwargs)
+
+    def reset(self):
+        """Reset cached instance, if any.
+
+        :rtype: None
+        """
+        self.local_storage.instance = None
+
+    def _provide(self, *args, **kwargs):
+        """Return provided instance.
+
+        :param args: Tuple of context positional arguments.
+        :type args: tuple[object]
+
+        :param kwargs: Dictionary of context keyword arguments.
+        :type kwargs: dict[str, object]
+
+        :rtype: object
+        """
+        try:
+            instance = self.local_storage.instance
+        except AttributeError:
+            instance = super(ThreadLocalSingleton, self)._provide(*args,
+                                                                  **kwargs)
+            self.local_storage.instance = instance
+        finally:
+            return instance
+
+
+class DelegatedThreadLocalSingleton(ThreadLocalSingleton):
+    """:py:class:`ThreadLocalSingleton` that is injected "as is".
+
+    .. py:attribute:: provided_type
+
+        If provided type is defined, provider checks that providing class is
+        its subclass.
 
         :type: type | None
 
