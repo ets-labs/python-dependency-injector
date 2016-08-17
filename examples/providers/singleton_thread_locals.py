@@ -25,25 +25,26 @@ example = providers.DelegatedCallable(example,
 thread_factory = providers.Factory(threading.Thread,
                                    target=example)
 
-# Create 10 threads for concurrent execution of example():
-threads = []
-for thread_number in xrange(10):
-    threads.append(thread_factory(name='Thread{0}'.format(thread_number)))
+if __name__ == '__main__':
+    # Create 10 threads for concurrent execution of example():
+    threads = []
+    for thread_number in xrange(10):
+        threads.append(thread_factory(name='Thread{0}'.format(thread_number)))
 
-# Start execution of all create threads:
-for thread in threads:
-    thread.start()
+    # Start execution of all created threads:
+    for thread in threads:
+        thread.start()
 
-# Wait while threads would complete their work:
-for thread in threads:
-    thread.join()
+    # Wait while threads would complete their work:
+    for thread in threads:
+        thread.join()
 
-# Making some asserts (main thread):
-all_objects = set()
+    # Making some asserts (main thread):
+    all_objects = set()
 
-while not queue().empty():
-    all_objects.add(queue().get())
+    while not queue().empty():
+        all_objects.add(queue().get())
 
-assert len(all_objects) == len(threads)
-# Queue contains same number of objects as number of threads where thread-local
-# singleton provider was used.
+    assert len(all_objects) == len(threads)
+    # Queue contains same number of objects as number of threads where
+    # thread-local singleton provider was used.
