@@ -54,9 +54,8 @@ class Factory(Callable):
 
     .. py:attribute:: provided_type
 
-        If provided type is defined, :py:class:`Factory` checks that
-        :py:attr:`Factory.provides` is subclass of
-        :py:attr:`Factory.provided_type`.
+        If provided type is defined, provider checks that providing class is
+        its subclass.
 
         :type: type | None
 
@@ -121,16 +120,12 @@ class Factory(Callable):
 
 
 class DelegatedFactory(Factory):
-    """:py:class:`DelegatedFactory` is a delegated :py:class:`Factory`.
-
-    :py:class:`DelegatedFactory` is a :py:class:`Factory`, that is injected
-    "as is".
+    """:py:class:`Factory` that is injected "as is".
 
     .. py:attribute:: provided_type
 
-        If provided type is defined, :py:class:`Factory` checks that
-        :py:attr:`Factory.provides` is subclass of
-        :py:attr:`Factory.provided_type`.
+        If provided type is defined, provider checks that providing class is
+        its subclass.
 
         :type: type | None
 
@@ -153,9 +148,10 @@ class DelegatedFactory(Factory):
 class Singleton(Factory):
     """:py:class:`Singleton` provider returns same instance on every call.
 
-    :py:class:`Singleton` provider creates instance once and return it on every
-    call. :py:class:`Singleton` extends :py:class:`Factory`, so, please follow
-    :py:class:`Factory` documentation to go inside with injections syntax.
+    :py:class:`Singleton` provider creates instance once and returns it on
+    every call. :py:class:`Singleton` extends :py:class:`Factory`, so, please
+    follow :py:class:`Factory` documentation for getting familiar with
+    injections syntax.
 
     :py:class:`Singleton` is thread-safe and could be used in multithreading
     environment without any negative impact.
@@ -170,9 +166,8 @@ class Singleton(Factory):
 
     .. py:attribute:: provided_type
 
-        If provided type is defined, :py:class:`Factory` checks that
-        :py:attr:`Factory.provides` is subclass of
-        :py:attr:`Factory.provided_type`.
+        If provided type is defined, provider checks that providing class is
+        its subclass.
 
         :type: type | None
 
@@ -222,16 +217,12 @@ class Singleton(Factory):
 
 
 class DelegatedSingleton(Singleton):
-    """:py:class:`DelegatedSingleton` is a delegated :py:class:`Singleton`.
-
-    :py:class:`DelegatedSingleton` is a :py:class:`Singleton`, that is injected
-    "as is".
+    """:py:class:`Singleton` that is injected "as is".
 
     .. py:attribute:: provided_type
 
-        If provided type is defined, :py:class:`Factory` checks that
-        :py:attr:`Factory.provides` is subclass of
-        :py:attr:`Factory.provided_type`.
+        If provided type is defined, provider checks that providing class is
+        its subclass.
 
         :type: type | None
 
