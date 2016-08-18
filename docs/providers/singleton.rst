@@ -77,3 +77,22 @@ declaring its subclasses.
 Specialization of :py:class:`Singleton` providers is the same as 
 :py:class:`Factory` providers specialization, please follow 
 :ref:`factory_providers_specialization` section for examples.
+
+Singleton providers and multi-threading
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:py:class:`Singleton` provider is thread-safe and could be used in 
+multi-threading applications without any negative impact. Race condition on 
+singleton's initialization is escaped by using a global reentrant mutex - 
+:py:obj:`dependency_injector.utils.GLOBAL_LOCK`.
+
+Also there could be a need to use thread-scoped singletons and there is a 
+special provider for such case - :py:class:`ThreadLocalSingleton`.
+:py:class:`ThreadLocalSingleton` provider creates instance once for each 
+thread and returns it on every call.
+
+Example:
+
+.. literalinclude:: ../../examples/providers/singleton_thread_locals.py
+   :language: python
+   :linenos:
