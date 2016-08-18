@@ -9,7 +9,8 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- No features.
+- Add ``ThreadLocalSingleton`` and ``DelegatedThreadLocalSingleton`` providers.
+- Add documentation section about singleton providers and multi-threading.
 
 2.0.0
 ------
