@@ -40,7 +40,7 @@ class PublishCommand(Command):
         os.system('git push --tags')
 
 
-setup(name='dependency_injector',
+setup(name='dependency-injector',
       version=version,
       description='Python dependency injection framework',
       long_description=description,
