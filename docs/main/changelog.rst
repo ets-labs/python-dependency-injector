@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+2.1.1
+-----
+- Normalize package names by PEP-503.
+
 2.1.0
 -----
 - Add ``ThreadLocalSingleton`` and ``DelegatedThreadLocalSingleton`` providers.
