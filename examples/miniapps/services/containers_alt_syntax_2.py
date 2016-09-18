@@ -5,6 +5,8 @@ Alternative injections definition style #2.
 
 import sqlite3
 import boto.s3.connection
+
+import example.main
 import example.services
 
 import dependency_injector.containers as containers
@@ -35,3 +37,12 @@ class Services(containers.DeclarativeContainer):
     photos = providers.Factory(example.services.Photos)
     photos.add_kwargs(db=Platform.database,
                       s3=Platform.s3)
+
+
+class Application(containers.DeclarativeContainer):
+    """IoC container of application component providers."""
+
+    main = providers.Callable(example.main.main)
+    main.add_kwargs(users_service=Services.users,
+                    auth_service=Services.auth,
+                    photos_service=Services.photos)

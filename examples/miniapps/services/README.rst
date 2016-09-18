@@ -5,4 +5,4 @@ Instructions for running
 
 .. code-block:: bash
 
-    python main.py
+    python run.py
