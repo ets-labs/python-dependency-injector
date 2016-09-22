@@ -33,20 +33,20 @@ class MovieFinder(object):
 class CsvMovieFinder(MovieFinder):
     """Movie finder that fetches movies data from csv file."""
 
-    def __init__(self, movie_model, csv_file, delimeter):
+    def __init__(self, movie_model, csv_file_path, delimiter):
         """Initializer.
 
         :param movie_model: Movie model's factory
         :type movie_model: movies.models.Movie
 
-        :param csv_file: Path to csv file with movies data
-        :type csv_file: str
+        :param csv_file_path: Path to csv file with movies data
+        :type csv_file_path: str
 
-        :param delimeter: Csv file's delimeter
-        :type delimeter: str
+        :param delimiter: Csv file's delimiter
+        :type delimiter: str
         """
-        self._csv_file = csv_file
-        self._delimeter = delimeter
+        self._csv_file_path = csv_file_path
+        self._delimiter = delimiter
         super(CsvMovieFinder, self).__init__(movie_model)
 
     def find_all(self):
@@ -55,9 +55,9 @@ class CsvMovieFinder(MovieFinder):
         :rtype: list[movies.models.Movie]
         :return: List of movie instances.
         """
-        with open(self._csv_file) as csv_file:
-            reader = csv.reader(csv_file, delimiter=self._delimeter)
-            return [self._movie_model(*row) for row in reader]
+        with open(self._csv_file_path) as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=self._delimiter)
+            return [self._movie_model(*row) for row in csv_reader]
 
 
 class SqliteMovieFinder(MovieFinder):
