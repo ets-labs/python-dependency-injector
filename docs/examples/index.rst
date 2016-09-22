@@ -9,8 +9,8 @@ Examples
                  "Dependency Injector" framework.
 
 Current section of documentation is designed to provide several example mini 
-applications that are built on the top of inversion of control principle and 
-powered by *Dependency Injector* framework.
+applications that are built according to the inversion of control principle 
+and powered by *Dependency Injector* framework.
 
 ..  toctree::
     :maxdepth: 2

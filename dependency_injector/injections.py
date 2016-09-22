@@ -1,5 +1,7 @@
 """Dependency injector injections module."""
 
+import warnings
+
 import six
 
 from dependency_injector.providers.base import (
@@ -12,6 +14,13 @@ from dependency_injector import errors
 
 def inject(*args, **kwargs):
     """Dependency injection decorator.
+
+    .. warning::
+
+        :py:func:`inject` decorator has been deprecated since version 2.2.0.
+
+        Usage of :py:func:`inject` decorator can lead to bad design and could
+        be considered as anti-pattern.
 
     :py:func:`inject` decorator can be used for making inline dependency
     injections. It patches decorated callable in such way that dependency
@@ -41,6 +50,10 @@ def inject(*args, **kwargs):
             def __init__(self, arg1, arg2):
                 pass
 
+    .. deprecated:: 2.2.0
+        Usage of :py:func:`inject` decorator can lead to bad design and could
+        be considered as anti-pattern.
+
     :param args: Tuple of context positional arguments.
     :type args: tuple[object]
 
@@ -50,6 +63,11 @@ def inject(*args, **kwargs):
     :return: Class / callable decorator
     :rtype: (callable) -> (type | callable)
     """
+    warnings.warn(message='Call to a deprecated decorator - @{0}.{1}'
+                          .format(inject.__module__, inject.__name__),
+                  category=DeprecationWarning,
+                  stacklevel=2)
+
     arg_injections = _parse_positional_injections(args)
     kwarg_injections = _parse_keyword_injections(kwargs)
 

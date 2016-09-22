@@ -9,7 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- No features.
+- Deprecate ``inject`` decorator.
 
 2.1.1
 -----

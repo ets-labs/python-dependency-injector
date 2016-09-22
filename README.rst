@@ -62,6 +62,8 @@ system that consists from several business and platform services:
 
     import sqlite3
     import boto.s3.connection
+
+    import example.main
     import example.services
 
     import dependency_injector.containers as containers
@@ -92,29 +94,38 @@ system that consists from several business and platform services:
                                    db=Platform.database,
                                    s3=Platform.s3)
 
-Next example demonstrates usage of ``@inject`` decorator with IoC containers 
-defined above: 
+
+    class Application(containers.DeclarativeContainer):
+        """IoC container of application component providers."""
+
+        main = providers.Callable(example.main.main,
+                                  users_service=Services.users,
+                                  auth_service=Services.auth,
+                                  photos_service=Services.photos)
+
+Next example demonstrates usage of IoC containers & providers defined above:
 
 .. code-block:: python
 
-    """Dependency Injector @inject decorator example."""
+    """Run example application."""
 
-    import application
-    import dependency_injector.injections as injections
-
-
-    @injections.inject(users_service=application.Services.users)
-    @injections.inject(auth_service=application.Services.auth)
-    @injections.inject(photos_service=application.Services.photos)
-    def main(users_service, auth_service, photos_service):
-        """Main function."""
-        user = users_service.get_user('user')
-        auth_service.authenticate(user, 'secret')
-        photos_service.upload_photo(user['id'], 'photo.jpg')
+    import containers
 
 
     if __name__ == '__main__':
-        main()
+        containers.Application.main()
+
+        # Previous call is an equivalent of next operations:
+        #
+        # database = sqlite3.connect(':memory:')
+        # s3 = boto.s3.connection.S3Connection(aws_access_key_id='KEY',
+        #                                      aws_secret_access_key='SECRET')
+        #
+        # example.main.main(users_service=example.services.Users(db=database),
+        #                   auth_service=example.services.Auth(db=database,
+        #                                                      token_ttl=3600),
+        #                   photos_service=example.services.Photos(db=database,
+        #                                                          s3=s3))
    
 Alternative definition styles
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -136,21 +147,6 @@ IoC containers from previous example could look like these:
             .add_kwargs(aws_access_key_id='KEY',
                         aws_secret_access_key='SECRET')
 
-
-    class Services(containers.DeclarativeContainer):
-        """IoC container of business service providers."""
-
-        users = providers.Factory(example.services.Users) \
-            .add_kwargs(db=Platform.database)
-
-        auth = providers.Factory(example.services.Auth) \
-            .add_kwargs(db=Platform.database,
-                        token_ttl=3600)
-
-        photos = providers.Factory(example.services.Photos) \
-            .add_kwargs(db=Platform.database,
-                        s3=Platform.s3)
-
 or like this these:
 
 .. code-block:: python
@@ -164,21 +160,6 @@ or like this these:
         s3 = providers.Singleton(boto.s3.connection.S3Connection)
         s3.add_kwargs(aws_access_key_id='KEY',
                       aws_secret_access_key='SECRET')
-
-
-    class Services(containers.DeclarativeContainer):
-        """IoC container of business service providers."""
-
-        users = providers.Factory(example.services.Users)
-        users.add_kwargs(db=Platform.database)
-
-        auth = providers.Factory(example.services.Auth)
-        auth.add_kwargs(db=Platform.database,
-                        token_ttl=3600)
-
-        photos = providers.Factory(example.services.Photos)
-        photos.add_kwargs(db=Platform.database,
-                          s3=Platform.s3)
 
 You can get more *Dependency Injector* examples in ``/examples`` directory on
 GitHub:

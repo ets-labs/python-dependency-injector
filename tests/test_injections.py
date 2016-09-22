@@ -1,5 +1,7 @@
 """Dependency injector injections unittests."""
 
+import warnings
+
 import unittest2 as unittest
 
 from dependency_injector import injections
@@ -176,3 +178,25 @@ class InjectTests(unittest.TestCase):
             @injections.inject(arg1=123)
             class Test(object):
                 """Test class."""
+
+
+class InjectDeprecationTests(unittest.TestCase):
+    """Deprecation of `@inject()` tests."""
+
+    def test_deprecation_warning_on_usage(self):
+        """Test that DeprecationWarning is produced when `@inject` is used."""
+        with warnings.catch_warnings(record=True) as caught_warnings:
+            warnings.simplefilter('always')
+
+            @injections.inject(1)
+            def _example(arg):
+                pass
+
+            warnings.simplefilter('default')
+
+        self.assertEquals(len(caught_warnings), 1)
+        self.assertEquals(caught_warnings[-1].category, DeprecationWarning)
+        self.assertIn('Call to a deprecated decorator',
+                      str(caught_warnings[-1].message))
+        self.assertIn('@dependency_injector.injections.inject',
+                      str(caught_warnings[-1].message))

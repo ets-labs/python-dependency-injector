@@ -7,6 +7,5 @@ API Documentation
     top_level
     providers
     containers
-    injections
     utils
     errors

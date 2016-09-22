@@ -12,12 +12,12 @@ concrete finder implementation in terms of library configuration.
 Each of ``MoviesModule`` providers could be overridden.
 """
 
-import dependency_injector.containers as containers
-import dependency_injector.providers as providers
-
 import movies.finders
 import movies.listers
 import movies.models
+
+import dependency_injector.containers as containers
+import dependency_injector.providers as providers
 
 
 class MoviesModule(containers.DeclarativeContainer):

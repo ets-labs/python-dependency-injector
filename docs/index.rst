@@ -59,7 +59,6 @@ Contents
     main/installation
     providers/index
     containers/index
-    advanced_usage/index
     examples/index
     api/index
     main/feedback

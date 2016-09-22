@@ -11,8 +11,6 @@ Instructions for running:
 
 .. code-block:: bash
 
-    python create_db.py
-
     python app_csv.py
     python app_db.py
     python app_db_csv.py

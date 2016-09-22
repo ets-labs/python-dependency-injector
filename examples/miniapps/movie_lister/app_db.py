@@ -11,18 +11,20 @@ sqlite movies database.
 
 import sqlite3
 
-import dependency_injector.containers as containers
-import dependency_injector.providers as providers
-import dependency_injector.injections as injections
-
 import movies
 import movies.finders
 
+import example.db
+import example.main
+
 import settings
 
+import dependency_injector.containers as containers
+import dependency_injector.providers as providers
 
-class ApplicationModule(containers.DeclarativeContainer):
-    """IoC container of application component providers."""
+
+class ResourcesModule(containers.DeclarativeContainer):
+    """IoC container of application resource providers."""
 
     database = providers.Singleton(sqlite3.connect, settings.MOVIES_DB_PATH)
 
@@ -32,26 +34,21 @@ class MyMoviesModule(containers.DeclarativeContainer):
     """IoC container for overriding movies module component providers."""
 
     movie_finder = providers.Factory(movies.finders.SqliteMovieFinder,
-                                     database=ApplicationModule.database,
+                                     database=ResourcesModule.database,
                                      **movies.MoviesModule.movie_finder.kwargs)
 
 
-@injections.inject(movies.MoviesModule.movie_lister)
-def main(movie_lister):
-    """Main function.
+class DbApplication(containers.DeclarativeContainer):
+    """IoC container of database application component providers."""
 
-    This program prints info about all movies that were directed by different
-    persons and then prints all movies that were released in 2015.
+    main = providers.Callable(example.main.main,
+                              movie_lister=movies.MoviesModule.movie_lister)
 
-    :param movie_lister: Movie lister instance
-    :type movie_lister: movies.listers.MovieLister
-    """
-    print movie_lister.movies_directed_by('Francis Lawrence')
-    print movie_lister.movies_directed_by('Patricia Riggen')
-    print movie_lister.movies_directed_by('JJ Abrams')
-
-    print movie_lister.movies_released_in(2015)
+    init_db = providers.Callable(example.db.init_sqlite,
+                                 movies_data=settings.MOVIES_SAMPLE_DATA,
+                                 database=ResourcesModule.database)
 
 
 if __name__ == '__main__':
-    main()
+    DbApplication.init_db()
+    DbApplication.main()
