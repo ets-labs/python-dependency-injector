@@ -20,14 +20,14 @@ Like Martin says:
 
 While original Martin's MovieLister example was a bit modified here, it 
 makes sense to provide some description. So, the idea of this example is to 
-create ``movies`` library that can be configurable to work with different 
-movie databases (csv, sqlite) and provide 2 main features:
+create ``movies`` library that can be configured to work with different 
+movie databases (csv, sqlite, etc...) and provide 2 main features:
 
 1. List all movies that were directed by certain person.
 2. List all movies that were released in certain year.
 
 Also this example contains 3 mini applications that are based on ``movies`` 
-library :
+library:
 
 1. ``app_csv.py`` - list movies by certain criteria from csv file database.
 2. ``app_db.py`` - list movies by certain criteria from sqlite database.
@@ -37,8 +37,6 @@ library :
 Instructions for running:
 
 .. code-block:: bash
-
-    python create_db.py
 
     python app_csv.py
     python app_db.py
@@ -71,6 +69,30 @@ Movies library structure:
 Listing of ``movies/__init__.py``:
 
 .. literalinclude:: ../../examples/miniapps/movie_lister/movies/__init__.py
+   :language: python
+   :linenos:
+
+Example application
+~~~~~~~~~~~~~~~~~~~
+
+Example application structure:
+
+.. code-block:: bash
+
+    /example
+        /__init__.py
+        /db.py
+        /main.py
+
+Listing of ``examples/main.py``:
+
+.. literalinclude:: ../../examples/miniapps/movie_lister/example/main.py
+   :language: python
+   :linenos:
+
+Listing of ``examples/db.py``:
+
+.. literalinclude:: ../../examples/miniapps/movie_lister/example/db.py
    :language: python
    :linenos:
 

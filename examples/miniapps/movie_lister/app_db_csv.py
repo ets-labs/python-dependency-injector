@@ -14,8 +14,8 @@ import sqlite3
 import movies
 import movies.finders
 
-import example.main
 import example.db
+import example.main
 
 import settings
 

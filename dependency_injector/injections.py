@@ -15,6 +15,13 @@ from dependency_injector import errors
 def inject(*args, **kwargs):
     """Dependency injection decorator.
 
+    .. warning::
+
+        :py:func:`inject` decorator has been deprecated since version 2.2.0.
+
+        Usage of :py:func:`inject` decorator can lead to bad design and could
+        be considered as anti-pattern.
+
     :py:func:`inject` decorator can be used for making inline dependency
     injections. It patches decorated callable in such way that dependency
     injection will be done during every call of decorated callable.

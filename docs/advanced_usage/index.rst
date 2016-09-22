@@ -9,6 +9,10 @@ Current section of documentation describes advanced usage of
 
 .. currentmodule:: dependency_injector.injections
 
+.. warning::
+
+    :py:func:`inject` decorator has been deprecated since version 2.2.0.
+
 :py:func:`inject` decorator is a part of 
 :py:mod:`dependency_injector.injections` module.
 
