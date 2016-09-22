@@ -9,6 +9,10 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- No features.
+
+2.2.0
+-----
 - Deprecate ``inject`` decorator.
 
 2.1.1
