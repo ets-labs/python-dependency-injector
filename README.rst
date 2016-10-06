@@ -3,8 +3,8 @@ Dependency Injector - Python dependency injection framework
 ===========================================================
 
 *Dependency Injector* is a Python dependency injection framework. It was 
-designed to be unified, developer-friendly tool for managing any kind
-of Python objects and their dependencies in formal, pretty way.
+designed to be unified, developer-friendly tool that helps to implement 
+dependency injection pattern in formal, pretty, Pythonic way.
 
 *Dependency Injector* framework key features are:
 
@@ -45,16 +45,22 @@ Status
 Installation
 ------------
 
-*Dependency Injector* library is available on PyPi_::
+*Dependency Injector* library is available on `PyPi`_::
 
     pip install dependency_injector
 
-Example
--------
+Dependency Injection
+--------------------
+
+Inversion of control
+--------------------
+
+Example of dependency injection
+-------------------------------
 
 Brief example below demonstrates usage of *Dependency Injector* containers and 
 providers for definition of several IoC containers for some microservice 
-system that consists from several business and platform services:
+system:
 
 .. code-block:: python
 
@@ -110,7 +116,8 @@ system that consists from several business and platform services:
                                   auth_service=Services.auth,
                                   photos_service=Services.photos)
 
-Next example demonstrates usage of IoC containers & providers defined above:
+Next example demonstrates run of dependency injection example application 
+defined above:
 
 .. code-block:: python
 
@@ -161,8 +168,8 @@ Next example demonstrates usage of IoC containers & providers defined above:
         # User 1 has been successfully authenticated
         # Photo photo.jpg has been successfully uploaded by user 1
    
-Alternative definition styles
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Alternative definition styles of providers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 *Dependecy Injector* supports few other styles of dependency injections 
 definition.
@@ -173,6 +180,9 @@ IoC containers from previous example could look like these:
 
     class Platform(containers.DeclarativeContainer):
         """IoC container of platform service providers."""
+
+        logger = providers.Singleton(logging.Logger) \
+            .add_kwargs(name='example')
 
         database = providers.Singleton(sqlite3.connect) \
             .add_args(':memory:')
@@ -188,12 +198,16 @@ or like this these:
     class Platform(containers.DeclarativeContainer):
         """IoC container of platform service providers."""
 
+        logger = providers.Singleton(logging.Logger)
+        logger.add_kwargs(name='example')
+
         database = providers.Singleton(sqlite3.connect)
         database.add_args(':memory:')
 
         s3 = providers.Singleton(boto.s3.connection.S3Connection)
         s3.add_kwargs(aws_access_key_id='KEY',
                       aws_secret_access_key='SECRET')
+
 
 You can get more *Dependency Injector* examples in ``/examples`` directory on
 GitHub:
@@ -222,7 +236,3 @@ Your feedback is quite important!
 .. _PyPi: https://pypi.python.org/pypi/dependency_injector
 .. _User's guide: http://python-dependency-injector.ets-labs.org/en/stable/
 .. _API docs: http://python-dependency-injector.ets-labs.org/en/stable/api/
-.. _SLOC: http://en.wikipedia.org/wiki/Source_lines_of_code
-.. _SOLID: http://en.wikipedia.org/wiki/SOLID_%28object-oriented_design%29
-.. _IoC: http://en.wikipedia.org/wiki/Inversion_of_control
-.. _dependency injection: http://en.wikipedia.org/wiki/Dependency_injection
