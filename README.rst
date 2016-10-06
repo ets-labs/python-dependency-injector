@@ -58,9 +58,11 @@ system that consists from several business and platform services:
 
 .. code-block:: python
 
-    """Example of several Dependency Injector IoC containers."""
+    """Example of dependency injection in Python."""
 
+    import logging
     import sqlite3
+
     import boto.s3.connection
 
     import example.main
@@ -73,6 +75,8 @@ system that consists from several business and platform services:
     class Platform(containers.DeclarativeContainer):
         """IoC container of platform service providers."""
 
+        logger = providers.Singleton(logging.Logger, name='example')
+
         database = providers.Singleton(sqlite3.connect, ':memory:')
 
         s3 = providers.Singleton(boto.s3.connection.S3Connection,
@@ -84,13 +88,16 @@ system that consists from several business and platform services:
         """IoC container of business service providers."""
 
         users = providers.Factory(example.services.Users,
+                                  logger=Platform.logger,
                                   db=Platform.database)
 
         auth = providers.Factory(example.services.Auth,
+                                 logger=Platform.logger,
                                  db=Platform.database,
                                  token_ttl=3600)
 
         photos = providers.Factory(example.services.Photos,
+                                   logger=Platform.logger,
                                    db=Platform.database,
                                    s3=Platform.s3)
 
@@ -107,25 +114,52 @@ Next example demonstrates usage of IoC containers & providers defined above:
 
 .. code-block:: python
 
-    """Run example application."""
+    """Run dependency injection example application.
 
-    import containers
+    Instructions for running:
+
+        python run.py 1 secret photo.jpg
+    """
+
+    import sys
+    import logging
+
+    from containers import Platform, Application
 
 
     if __name__ == '__main__':
-        containers.Application.main()
+        # Configure platform logger:
+        Platform.logger().addHandler(logging.StreamHandler(sys.stdout))
+
+        # Run application:
+        Application.main(uid=sys.argv[1],
+                         password=sys.argv[2],
+                         photo=sys.argv[3])
 
         # Previous call is an equivalent of next operations:
         #
+        # logger = logging.Logger(name='example')
         # database = sqlite3.connect(':memory:')
         # s3 = boto.s3.connection.S3Connection(aws_access_key_id='KEY',
         #                                      aws_secret_access_key='SECRET')
         #
-        # example.main.main(users_service=example.services.Users(db=database),
-        #                   auth_service=example.services.Auth(db=database,
+        # example.main.main(uid=sys.argv[1],
+        #                   password=sys.argv[2],
+        #                   photo=sys.argv[3],
+        #                   users_service=example.services.Users(logger=logger,
+        #                                                        db=database),
+        #                   auth_service=example.services.Auth(logger=logger,
+        #                                                      db=database,
         #                                                      token_ttl=3600),
-        #                   photos_service=example.services.Photos(db=database,
+        #                   photos_service=example.services.Photos(logger=logger,
+        #                                                          db=database,
         #                                                          s3=s3))
+        #
+        # Output:
+        #
+        # User 1 has been found in database
+        # User 1 has been successfully authenticated
+        # Photo photo.jpg has been successfully uploaded by user 1
    
 Alternative definition styles
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
