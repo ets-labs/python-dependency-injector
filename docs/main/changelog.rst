@@ -11,6 +11,14 @@ Development version
 -------------------
 - No features.
 
+2.2.2
+-----
+- Update README.
+
+2.2.1
+-----
+- Update examples.
+
 2.2.0
 -----
 - Deprecate ``inject`` decorator.
