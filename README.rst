@@ -42,7 +42,7 @@ Status
 |                                       |    :alt: Coverage Status                                                               |
 +---------------------------------------+----------------------------------------------------------------------------------------+
 
-Dependency Injection
+Dependency injection
 --------------------
 
 `Dependency injection`_ is a software design pattern that implements 
@@ -72,55 +72,6 @@ Dependency injection pattern provides next advantages:
 + Increased testability.
 + Increased maintainability.
 + Reconfiguration of system without rebuilding.
-
-Next two examples demonstrate refactoring of a small piece of code to 
-dependency injection pattern:
-
-.. code-block:: python
-
-    """Car & Engine example."""
-
-
-    class Engine(object):
-        """Example engine."""
-
-
-    class Car(object):
-        """Example car."""
-
-        def __init__(self):
-            """Initializer."""
-            self.engine = Engine()  # Engine is a "hardcoded" dependency
-
-
-    if __name__ == '__main__':
-        car = Car()  # Application creates Car's instance
-
-``Car`` **creates** an ``Engine`` during its creation. Really? Does it make 
-more sense than creating an ``Engine`` separately and then 
-**inject it into** ``Car`` when ``Car`` is being created? Looks more 
-realistic, right?
-
-.. code-block:: python
-
-    """Refactored Car & Engine example that demonstrates dependency injection."""
-
-
-    class Engine(object):
-        """Example engine."""
-
-
-    class Car(object):
-        """Example car."""
-
-        def __init__(self, engine):
-            """Initializer."""
-            self.engine = engine  # Engine is an "injected" dependency
-
-
-    if __name__ == '__main__':
-        engine = Engine()  # Application creates Engine's instance
-        car = Car(engine)  # and inject it into the Car's instance
 
 Example of dependency injection
 -------------------------------
@@ -295,8 +246,8 @@ Documentation
 - `User's guide`_ 
 - `API docs`_
 
-Feedback
---------
+Feedback & Support
+------------------
 
 Feel free to post questions, bugs, feature requests, proposals etc. on
 *Dependency Injector*  GitHub Issues:
