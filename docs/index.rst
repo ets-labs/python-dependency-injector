@@ -1,3 +1,4 @@
+=============================================================
 Dependency Injector --- Python dependency injection framework
 =============================================================
 
@@ -10,8 +11,8 @@ Dependency Injector --- Python dependency injection framework
                  their dependencies in formal, pretty way.
 
 *Dependency Injector* is a Python dependency injection framework. It was 
-designed to be unified, developer-friendly tool for managing any kind
-of Python objects and their dependencies in formal, pretty way.
+designed to be unified, developer-friendly tool that helps to implement 
+dependency injection pattern in formal, pretty, Pythonic way.
 
 *Dependency Injector* framework key features are:
 

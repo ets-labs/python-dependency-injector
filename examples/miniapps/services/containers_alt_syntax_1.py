@@ -1,9 +1,11 @@
-"""Example of several Dependency Injector IoC containers.
+"""Example of dependency injection in Python.
 
 Alternative injections definition style #1.
 """
 
+import logging
 import sqlite3
+
 import boto.s3.connection
 
 import example.main
@@ -15,6 +17,9 @@ import dependency_injector.providers as providers
 
 class Platform(containers.DeclarativeContainer):
     """IoC container of platform service providers."""
+
+    logger = providers.Singleton(logging.Logger) \
+        .add_kwargs(name='example')
 
     database = providers.Singleton(sqlite3.connect) \
         .add_args(':memory:')
@@ -28,14 +33,17 @@ class Services(containers.DeclarativeContainer):
     """IoC container of business service providers."""
 
     users = providers.Factory(example.services.Users) \
-        .add_kwargs(db=Platform.database)
+        .add_kwargs(logger=Platform.logger,
+                    db=Platform.database)
 
     auth = providers.Factory(example.services.Auth) \
-        .add_kwargs(db=Platform.database,
+        .add_kwargs(logger=Platform.logger,
+                    db=Platform.database,
                     token_ttl=3600)
 
     photos = providers.Factory(example.services.Photos) \
-        .add_kwargs(db=Platform.database,
+        .add_kwargs(logger=Platform.logger,
+                    db=Platform.database,
                     s3=Platform.s3)
 
 

@@ -5,4 +5,4 @@ Instructions for running
 
 .. code-block:: bash
 
-    python run.py
+    python run.py 1 secret photo.jpg
