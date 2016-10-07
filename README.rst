@@ -42,13 +42,6 @@ Status
 |                                       |    :alt: Coverage Status                                                               |
 +---------------------------------------+----------------------------------------------------------------------------------------+
 
-Installation
-------------
-
-*Dependency Injector* library is available on `PyPi`_::
-
-    pip install dependency_injector
-
 Dependency Injection
 --------------------
 
@@ -65,14 +58,20 @@ Dependency injection pattern has few strict rules that should be followed:
   injector) the responsibility of providing its dependencies - object **B** 
   (the service).
 + The client doesn't know how to create the service, it knows only interface 
-  of service.
-+ The service doesn't know that it is used by the client.
-+ The dependency injector knows how to create the client.
-+ The dependency injector knows how to create the service.
-+ The dependency injector knows that the client depends on the service.
-+ The dependency injector knows how to inject the service into the client.
-+ The client knows nothing about the dependency injector.
-+ The service knows nothing about the dependency injector.
+  of service. The service doesn't know that it is used by the client.
++ The dependency injector knows how to create the client and the service, it 
+  also knows that the client depends on the service, and knows how to inject 
+  the service into the client.
++ The client and the service know nothing about the dependency injector.
+
+Dependency injection pattern provides next advantages: 
+
++ Control on application structure.
++ Decreased coupling between application components.
++ Increased code reusability.
++ Increased testability.
++ Increased maintainability.
++ Reconfiguration of system without rebuilding.
 
 Next two examples demonstrate refactoring of a small piece of code to 
 dependency injection pattern:
@@ -122,18 +121,6 @@ realistic, right?
     if __name__ == '__main__':
         engine = Engine()  # Application creates Engine's instance
         car = Car(engine)  # and inject it into the Car's instance
-
-Advantages of dependency injection
-----------------------------------
-
-Dependency injection pattern provides next advantages: 
-
-+ Control on application structure.
-+ Decreased coupling between application components.
-+ Increased code reusability.
-+ Increased testability.
-+ Increased maintainability.
-+ Reconfiguration of system without rebuilding.
 
 Example of dependency injection
 -------------------------------
@@ -292,6 +279,13 @@ You can get more *Dependency Injector* examples in ``/examples`` directory on
 GitHub:
 
     https://github.com/ets-labs/python-dependency-injector
+
+Installation
+------------
+
+*Dependency Injector* library is available on `PyPi`_::
+
+    pip install dependency_injector
 
 Documentation
 -------------
