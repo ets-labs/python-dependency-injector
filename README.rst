@@ -52,15 +52,94 @@ Installation
 Dependency Injection
 --------------------
 
-Inversion of control
---------------------
+`Dependency injection`_ is a software design pattern that implements 
+`Inversion of control`_ for resolving dependencies. Formally, if object **A** 
+depends on object **B**, object **A** must not create or import object **B**, 
+but provide a way for injecting object **B** (object **B** could be injected 
+into object **A**  in several ways: by passing it as ``__init__`` argument, by 
+setting it as attribute's value or by passing it as method's argument). 
+
+Dependency injection pattern has few strict rules that should be followed:
+
++ Object **A** (the client) delegates to external code (the dependency 
+  injector) the responsibility of providing its dependencies - object **B** 
+  (the service).
++ The client doesn't know how to create the service, it knows only interface 
+  of service.
++ The service doesn't know that it is used by the client.
++ The dependency injector knows how to create the client.
++ The dependency injector knows how to create the service.
++ The dependency injector knows that the client depends on the service.
++ The dependency injector knows how to inject the service into the client.
++ The client knows nothing about the dependency injector.
++ The service knows nothing about the dependency injector.
+
+Next two examples demonstrate refactoring of a small piece of code to 
+dependency injection pattern:
+
+.. code-block:: python
+
+    """Car & Engine example."""
+
+
+    class Engine(object):
+        """Example engine."""
+
+
+    class Car(object):
+        """Example car."""
+
+        def __init__(self):
+            """Initializer."""
+            self.engine = Engine()  # Engine is a "hardcoded" dependency
+
+
+    if __name__ == '__main__':
+        car = Car()  # Application creates Car's instance
+
+``Car`` **creates** an ``Engine`` during its creation. Really? Does it make 
+more sense than creating an ``Engine`` separately and then 
+**inject it into** ``Car`` when ``Car`` is being created? Looks more 
+realistic, right?
+
+.. code-block:: python
+
+    """Refactored Car & Engine example that demonstrates dependency injection."""
+
+
+    class Engine(object):
+        """Example engine."""
+
+
+    class Car(object):
+        """Example car."""
+
+        def __init__(self, engine):
+            """Initializer."""
+            self.engine = engine  # Engine is an "injected" dependency
+
+
+    if __name__ == '__main__':
+        engine = Engine()  # Application creates Engine's instance
+        car = Car(engine)  # and inject it into the Car's instance
+
+Advantages of dependency injection
+----------------------------------
+
+Dependency injection pattern provides next advantages: 
+
++ Control on application structure.
++ Decreased coupling between application components.
++ Increased code reusability.
++ Increased testability.
++ Increased maintainability.
++ Reconfiguration of system without rebuilding.
 
 Example of dependency injection
 -------------------------------
 
-Brief example below demonstrates usage of *Dependency Injector* containers and 
-providers for definition of several IoC containers for some microservice 
-system:
+Brief example below demonstrates usage of *Dependency Injector* for creating 
+several IoC containers for some microservice system:
 
 .. code-block:: python
 
@@ -233,6 +312,8 @@ Feel free to post questions, bugs, feature requests, proposals etc. on
 Your feedback is quite important!
 
 
+.. _Dependency injection: http://en.wikipedia.org/wiki/Dependency_injection
+.. _Inversion of control: https://en.wikipedia.org/wiki/Inversion_of_control
 .. _PyPi: https://pypi.python.org/pypi/dependency_injector
 .. _User's guide: http://python-dependency-injector.ets-labs.org/en/stable/
 .. _API docs: http://python-dependency-injector.ets-labs.org/en/stable/api/
