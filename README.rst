@@ -72,7 +72,7 @@ Dependency injection pattern has few strict rules that should be followed:
   of injecting its dependencies - the *service(s)*.
 + The *client* doesn't know how to create the *service*, it knows only 
   interface of the *service*. The *service* doesn't know that it is used by 
-  The *client*.
+  the *client*.
 + The *dependency injector* knows how to create the *client* and 
   the *service*, it also knows that the *client* depends on the *service*, 
   and knows how to inject the *service* into the *client*.
