@@ -1,9 +1,4 @@
-"""Run dependency injection example application.
-
-Instructions for running:
-
-    python run.py 1 secret photo.jpg
-"""
+"""Run example application."""
 
 import sys
 import logging
@@ -38,9 +33,3 @@ if __name__ == '__main__':
     #                   photos_service=example.services.Photos(logger=logger,
     #                                                          db=database,
     #                                                          s3=s3))
-    #
-    # Output:
-    #
-    # User 1 has been found in database
-    # User 1 has been successfully authenticated
-    # Photo photo.jpg has been successfully uploaded by user 1
