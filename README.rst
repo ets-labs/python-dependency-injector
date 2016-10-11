@@ -47,22 +47,36 @@ Dependency injection
 
 `Dependency injection`_ is a software design pattern that implements 
 `Inversion of control`_ for resolving dependencies. Formally, if object **A** 
-depends on object **B**, object **A** must not create or import object **B**, 
-but provide a way for injecting object **B** (object **B** could be injected 
-into object **A**  in several ways: by passing it as ``__init__`` argument, by 
-setting it as attribute's value or by passing it as method's argument). 
+depends on object **B**, object **A** must not create or import object **B** 
+directly. Instead of this object **A** must provide a way for *injecting* 
+object **B**. The responsibilities of objects creation and dependencies 
+injection are delegated to external code - the *dependency injector*. 
+
+Popular terminology of dependency injection pattern:
+
++ Object **A**, that is dependant on object **B**, is often called - 
+  the *client*.
++ Object **B**, that is a dependency, is often called - the *service*.
++ External code that is responsible for creation of objects and injection 
+  of dependencies is often called - the *dependency injector*.
+
+There are several ways of how *service* can be injected into the *client*: 
+
++ by passing it as ``__init__`` argument (constructor / initializer injection)
++ by setting it as attribute's value (attribute injection)
++ by passing it as method's argument (method injection)
 
 Dependency injection pattern has few strict rules that should be followed:
 
-+ Object **A** (the client) delegates to external code (the dependency 
-  injector) the responsibility of providing its dependencies - object **B** 
-  (the service).
-+ The client doesn't know how to create the service, it knows only interface 
-  of service. The service doesn't know that it is used by the client.
-+ The dependency injector knows how to create the client and the service, it 
-  also knows that the client depends on the service, and knows how to inject 
-  the service into the client.
-+ The client and the service know nothing about the dependency injector.
++ The *client* delegates to the *dependency injector* the responsibility 
+  of injecting its dependencies - the *service(s)*.
++ The *client* doesn't know how to create the *service*, it knows only 
+  interface of the *service*. The *service* doesn't know that it is used by 
+  The *client*.
++ The *dependency injector* knows how to create the *client* and 
+  the *service*, it also knows that the *client* depends on the *service*, 
+  and knows how to inject the *service* into the *client*.
++ The *client* and the *service* know nothing about the *dependency injector*.
 
 Dependency injection pattern provides next advantages: 
 
@@ -77,7 +91,7 @@ Example of dependency injection
 -------------------------------
 
 Brief example below demonstrates usage of *Dependency Injector* for creating 
-several IoC containers for some microservice system:
+several IoC containers for some example application:
 
 .. code-block:: python
 
