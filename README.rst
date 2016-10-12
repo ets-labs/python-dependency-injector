@@ -1,6 +1,6 @@
-======================================================================
-Dependency Injector --- Dependency injection microframework for Python
-======================================================================
+====================================================================
+Dependency Injector - Dependency injection microframework for Python
+====================================================================
 
 *Dependency Injector* is a dependency injection microframework for Python. 
 It was designed to be unified, developer-friendly tool that helps to implement 
