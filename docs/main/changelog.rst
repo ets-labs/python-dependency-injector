@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+2.2.7
+-----
+- Fix typo in README.
+
 2.2.6
 -----
 - Update README.
