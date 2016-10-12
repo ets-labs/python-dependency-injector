@@ -42,7 +42,7 @@ class PublishCommand(Command):
 
 setup(name='dependency-injector',
       version=version,
-      description='Python dependency injection framework',
+      description='Dependency injection microframework for Python',
       long_description=description,
       author='ETS Labs',
       author_email='rmogilatov@gmail.com',
