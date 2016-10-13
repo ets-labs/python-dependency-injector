@@ -16,6 +16,7 @@ import example.db
 import example.main
 
 import settings
+import fixtures
 
 import dependency_injector.containers as containers
 import dependency_injector.providers as providers
@@ -38,7 +39,7 @@ class CsvApplication(containers.DeclarativeContainer):
                               movie_lister=movies.MoviesModule.movie_lister)
 
     init_db = providers.Callable(example.db.init_csv,
-                                 movies_data=settings.MOVIES_SAMPLE_DATA,
+                                 movies_data=fixtures.MOVIES_SAMPLE_DATA,
                                  csv_file_path=settings.MOVIES_CSV_PATH,
                                  delimiter=',')
 

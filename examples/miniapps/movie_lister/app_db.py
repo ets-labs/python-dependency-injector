@@ -18,6 +18,7 @@ import example.db
 import example.main
 
 import settings
+import fixtures
 
 import dependency_injector.containers as containers
 import dependency_injector.providers as providers
@@ -45,7 +46,7 @@ class DbApplication(containers.DeclarativeContainer):
                               movie_lister=movies.MoviesModule.movie_lister)
 
     init_db = providers.Callable(example.db.init_sqlite,
-                                 movies_data=settings.MOVIES_SAMPLE_DATA,
+                                 movies_data=fixtures.MOVIES_SAMPLE_DATA,
                                  database=ResourcesModule.database)
 
 
