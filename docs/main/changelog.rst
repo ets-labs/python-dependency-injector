@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+2.2.8
+-----
+- Move fixtures to separate module in movie lister example.
+
 2.2.7
 -----
 - Fix typo in README.
