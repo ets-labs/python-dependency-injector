@@ -9,7 +9,10 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-.. - No features.
+- No features.
+
+2.2.9
+-----
 - Add github badges to readme and docs index pages.
 - Update service names in services example miniapp.
 - Create engines & cars example miniapp.
