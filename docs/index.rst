@@ -49,6 +49,16 @@ Status
 |                                       |    :target: https://coveralls.io/r/ets-labs/python-dependency-injector                 |
 |                                       |    :alt: Coverage Status                                                               |
 +---------------------------------------+----------------------------------------------------------------------------------------+
+| *Github*                              | .. image:: https://img.shields.io/github/watchers/ets-labs/python-dependency-injector.svg?style=social&label=Watch |
+|                                       |    :target: https://github.com/ets-labs/python-dependency-injector                                                 |
+|                                       |    :alt: Github watchers                                                                                           |
+|                                       | .. image:: https://img.shields.io/github/stars/ets-labs/python-dependency-injector.svg?style=social&label=Star     |
+|                                       |    :target: https://github.com/ets-labs/python-dependency-injector                                                 |
+|                                       |    :alt: Github stargazers                                                                                         |
+|                                       | .. image:: https://img.shields.io/github/forks/ets-labs/python-dependency-injector.svg?style=social&label=Fork     |
+|                                       |    :target: https://github.com/ets-labs/python-dependency-injector                                                 |
+|                                       |    :alt: Github forks                                                                                              |
++---------------------------------------+--------------------------------------------------------------------------------------------------------------------+
 
 Contents
 --------

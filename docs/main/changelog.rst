@@ -9,7 +9,8 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- No features.
+.. - No features.
+- Add github badges to readme and docs index pages.
 
 2.2.8
 -----
