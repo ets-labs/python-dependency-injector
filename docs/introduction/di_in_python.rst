@@ -93,35 +93,36 @@ Example
 
 Let's go through next example:
 
-.. literalinclude:: ../../examples/ioc_di_demos/car_engine.py
+.. image:: /images/miniapps/engines_cars/diagram.png
+    :width: 100%
+    :align: center
+
+Listing of ``example.engines`` module:
+
+.. literalinclude:: ../../examples/miniapps/engines_cars/example/engines.py
    :language: python
    :linenos:
 
-``Car`` **creates** an ``Engine`` during its creation. Really? Does it make 
-more sense than creating an ``Engine`` separately and then 
-**inject (put) it into** ``Car`` when ``Car`` is being created?
+Listing of ``example.cars`` module:
 
-.. literalinclude:: ../../examples/ioc_di_demos/car_engine_ioc.py
+.. literalinclude:: ../../examples/miniapps/engines_cars/example/cars.py
    :language: python
    :linenos:
 
-Previous example may look more obvious and gives a chance to start getting 
-other benefits of dependency injection and inversion of control, but creation 
-of ``Car`` instances became a bit harder cause now ``Engine`` injections 
-should be done manually every time when ``Car`` instances are being created.
+Next example demonstrates creation of several cars with different engines:
 
-Let's automate ``Engine`` into ``Car`` injections using *Dependency Injector*:
-
-
-.. literalinclude:: ../../examples/ioc_di_demos/car_engine_ioc_container.py
+.. literalinclude:: ../../examples/miniapps/engines_cars/example_di.py
    :language: python
    :linenos:
 
-.. note::
+While previous example demonstrates advantage of dependency injection, there 
+is a disadvantage demonstration as well - creation of car requires additional 
+code for specification of dependencies. Nevertheless, this disadvantage could 
+be easily avoided by creating inversion of control container (IoC container).
 
-    ``Container`` from previous example is an inversion of control container. 
-    It contains a collection of component providers that could be injected 
-    into each other. 
+Example of creation of several inversion of control containers (IoC containers)
+using *Dependency Injector*:
 
-    Assuming this, ``Container`` could be one and the only place, where 
-    application's structure is being managed on the high level.
+.. literalinclude:: ../../examples/miniapps/engines_cars/example_ioc_containers.py
+   :language: python
+   :linenos:
