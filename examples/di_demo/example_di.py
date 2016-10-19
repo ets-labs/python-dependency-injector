@@ -1,4 +1,4 @@
-"""The Code, that follows inversion of control principle."""
+"""The Code, that demonstrates dependency injection pattern."""
 
 
 class Service(object):

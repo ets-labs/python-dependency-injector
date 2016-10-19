@@ -81,14 +81,14 @@ Example
 
 Let's go through the code of ``example.py``:
 
-.. literalinclude:: ../../examples/ioc_di_demos/example.py
+.. literalinclude:: ../../examples/di_demo/example.py
    :language: python
    :linenos:
 
 At some point, things defined above mean, that the code from ``example.py``, 
-could look different, like in ``example_ioc.py``:
+could look different, like in ``example_di.py``:
 
-.. literalinclude:: ../../examples/ioc_di_demos/example_ioc.py
+.. literalinclude:: ../../examples/di_demo/example_di.py
    :language: python
    :linenos:
 
