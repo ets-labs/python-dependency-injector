@@ -11,6 +11,7 @@ Development version
 -------------------
 .. - No features.
 - Add github badges to readme and docs index pages.
+- Update service names in services example miniapp.
 
 2.2.8
 -----

@@ -32,16 +32,16 @@ class Platform(containers.DeclarativeContainer):
 class Services(containers.DeclarativeContainer):
     """IoC container of business service providers."""
 
-    users = providers.Factory(example.services.Users)
+    users = providers.Factory(example.services.UsersService)
     users.add_kwargs(logger=Platform.logger,
                      db=Platform.database)
 
-    auth = providers.Factory(example.services.Auth)
+    auth = providers.Factory(example.services.AuthService)
     auth.add_kwargs(logger=Platform.logger,
                     db=Platform.database,
                     token_ttl=3600)
 
-    photos = providers.Factory(example.services.Photos)
+    photos = providers.Factory(example.services.PhotosService)
     photos.add_kwargs(logger=Platform.logger,
                       db=Platform.database,
                       s3=Platform.s3)

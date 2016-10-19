@@ -134,16 +134,16 @@ several IoC containers for some example application:
     class Services(containers.DeclarativeContainer):
         """IoC container of business service providers."""
 
-        users = providers.Factory(example.services.Users,
+        users = providers.Factory(example.services.UsersService,
                                   logger=Platform.logger,
                                   db=Platform.database)
 
-        auth = providers.Factory(example.services.Auth,
+        auth = providers.Factory(example.services.AuthService,
                                  logger=Platform.logger,
                                  db=Platform.database,
                                  token_ttl=3600)
 
-        photos = providers.Factory(example.services.Photos,
+        photos = providers.Factory(example.services.PhotosService,
                                    logger=Platform.logger,
                                    db=Platform.database,
                                    s3=Platform.s3)
@@ -185,17 +185,18 @@ Next example demonstrates run of example application defined above:
         # s3 = boto.s3.connection.S3Connection(aws_access_key_id='KEY',
         #                                      aws_secret_access_key='SECRET')
         #
-        # example.main.main(uid=sys.argv[1],
-        #                   password=sys.argv[2],
-        #                   photo=sys.argv[3],
-        #                   users_service=example.services.Users(logger=logger,
-        #                                                        db=database),
-        #                   auth_service=example.services.Auth(logger=logger,
-        #                                                      db=database,
-        #                                                      token_ttl=3600),
-        #                   photos_service=example.services.Photos(logger=logger,
-        #                                                          db=database,
-        #                                                          s3=s3))
+        # example.main.main(
+        #     uid=sys.argv[1],
+        #     password=sys.argv[2],
+        #     photo=sys.argv[3],
+        #     users_service=example.services.UsersService(logger=logger,
+        #                                                 db=database),
+        #     auth_service=example.services.AuthService(logger=logger,
+        #                                               db=database,
+        #                                               token_ttl=3600),
+        #     photos_service=example.services.PhotosService(logger=logger,
+        #                                                   db=database,
+        #                                                   s3=s3))
    
 Alternative definition styles of providers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

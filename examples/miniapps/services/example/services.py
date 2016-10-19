@@ -1,7 +1,7 @@
 """Example business services module."""
 
 
-class Users(object):
+class UsersService(object):
     """Users service."""
 
     def __init__(self, logger, db):
@@ -16,7 +16,7 @@ class Users(object):
                 'password_hash': 'secret_hash'}
 
 
-class Auth(object):
+class AuthService(object):
     """Auth service."""
 
     def __init__(self, logger, db, token_ttl):
@@ -32,7 +32,7 @@ class Auth(object):
                           user['uid'])
 
 
-class Photos(object):
+class PhotosService(object):
     """Photos service."""
 
     def __init__(self, logger, db, s3):
