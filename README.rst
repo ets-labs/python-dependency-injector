@@ -88,7 +88,7 @@ Dependency injection pattern has few strict rules that should be followed:
   and knows how to inject the *service* into the *client*.
 + The *client* and the *service* know nothing about the *dependency injector*.
 
-Dependency injection pattern provides next advantages: 
+Dependency injection pattern provides the following advantages: 
 
 + Control on application structure.
 + Decreased coupling between application components.
