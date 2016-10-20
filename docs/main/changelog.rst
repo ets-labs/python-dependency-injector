@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+2.2.10
+------
+- Fix typo in README.
+
 2.2.9
 -----
 - Add github badges to readme and docs index pages.
