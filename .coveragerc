@@ -1,3 +1,6 @@
 [run]
 include = dependency_injector/*
 omit = tests/*
+
+[html]
+directory=reports/unittests/
