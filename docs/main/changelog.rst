@@ -10,7 +10,7 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Remove ``@inject`` decorator.
-- Add makefile.
+- Add makefile (``clean``, ``tests`` & ``publish`` commands).
 
 .. - No features.
 
