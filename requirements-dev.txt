@@ -4,3 +4,6 @@ sphinx
 sphinx_rtd_theme
 sphinx_autobuild
 autodoc
+coverage
+flake8
+pydocstyle
