@@ -2,9 +2,6 @@
 __pycache__/
 *.py[cod]
 
-# C extensions
-*.so
-
 # Distribution / packaging
 .Python
 env/
@@ -64,3 +61,9 @@ venv/
 
 # Vim Rope
 .ropeproject/
+
+# C extensions
+dependency_injector/*.c
+dependency_injector/*.so
+dependency_injector/providers/*.c
+dependency_injector/providers/*.so
