@@ -2,7 +2,7 @@
 
 import unittest2 as unittest
 
-from dependency_injector import providers, injections, utils, errors
+from dependency_injector import providers, utils, errors
 
 
 class Example(object):
@@ -730,26 +730,6 @@ class DelegatedThreadLocalSingletonTests(unittest.TestCase):
 
 class FactoryAsDecoratorTests(unittest.TestCase):
     """Factory as decorator tests."""
-
-    def test_decoration(self):
-        """Test decoration of some class with Factory provider."""
-        @providers.Factory
-        class AuthService(object):
-            """Auth service."""
-
-        @providers.Factory
-        @injections.inject(auth_service=AuthService)
-        class UsersService(object):
-            """Users service."""
-
-            def __init__(self, auth_service):
-                """Initializer."""
-                self.auth_service = auth_service
-
-        users_service = UsersService()
-
-        self.assertIsInstance(users_service, UsersService.cls)
-        self.assertIsInstance(users_service.auth_service, AuthService.cls)
 
     def test_decoration_and_overriding(self):
         """Test decoration of some class with Factory provider."""

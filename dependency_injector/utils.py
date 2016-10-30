@@ -1,6 +1,5 @@
 """Dependency injector utils module."""
 
-import sys
 import copy as _copy
 import types
 import threading
@@ -15,12 +14,6 @@ GLOBAL_LOCK = threading.RLock()
 
 :type: :py:class:`threading.RLock`
 """
-
-_IS_PYPY = '__pypy__' in sys.builtin_module_names
-if _IS_PYPY or six.PY3:  # pragma: no cover
-    _OBJECT_INIT = six.get_unbound_function(object.__init__)
-else:  # pragma: no cover
-    _OBJECT_INIT = None
 
 if six.PY2:  # pragma: no cover
     _copy._deepcopy_dispatch[types.MethodType] = \
@@ -88,24 +81,6 @@ def represent_provider(provider, provides):
                            provider.__class__.__name__)),
         provides=repr(provides) if provides is not None else '',
         address=hex(id(provider)))
-
-
-def fetch_cls_init(cls):
-    """Return reference to the class.__init__() method if it is defined.
-
-    :param cls: Class instance
-    :type cls: type
-
-    :return: Reference to the class.__init__() if any, or None otherwise.
-    :rtype: unbound method | None
-    """
-    try:
-        cls_init = six.get_unbound_function(cls.__init__)
-        assert cls_init is not _OBJECT_INIT
-    except (AttributeError, AssertionError):
-        return None
-    else:
-        return cls_init
 
 
 def deepcopy(instance, memo=None):
