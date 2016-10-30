@@ -1,10 +1,8 @@
 """`Dependency injector` setup script."""
 
-import os
 import re
 
 from setuptools import setup
-from setuptools import Command
 
 
 # Getting description:
@@ -18,26 +16,6 @@ with open('requirements.txt') as version:
 # Getting version:
 with open('dependency_injector/__init__.py') as init_file:
     version = re.search('VERSION = \'(.*?)\'', init_file.read()).group(1)
-
-
-class PublishCommand(Command):
-    """Setuptools `publish` command."""
-
-    description = "Publish current distribution to PyPi and create tag"
-    user_options = []
-
-    def initialize_options(self):
-        """Init options."""
-
-    def finalize_options(self):
-        """Finalize options."""
-
-    def run(self):
-        """Command execution."""
-        self.run_command('sdist')
-        self.run_command('upload')
-        os.system('git tag -a {0} -m \'version {0}\''.format(version))
-        os.system('git push --tags')
 
 
 setup(name='dependency-injector',
@@ -58,9 +36,6 @@ setup(name='dependency-injector',
       platforms=['any'],
       zip_safe=True,
       install_requires=requirements,
-      cmdclass={
-          'publish': PublishCommand,
-      },
       keywords=[
           'DI',
           'Dependency injection',
