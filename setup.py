@@ -2,7 +2,7 @@
 
 import re
 
-from setuptools import setup
+from setuptools import setup, Extension
 
 
 # Getting description:
@@ -30,12 +30,20 @@ setup(name='dependency-injector',
       bugtrack_url='https://github.com/ets-labs/python-dependency-injector' +
                    '/issues',
       download_url='https://pypi.python.org/pypi/dependency_injector',
-      license='BSD New',
+      install_requires=requirements,
       packages=['dependency_injector',
                 'dependency_injector.providers'],
-      platforms=['any'],
+      ext_modules=[
+          Extension('dependency_injector.injections',
+                    ['dependency_injector/injections.c'],
+                    extra_compile_args=['-O2']),
+      ],
+      package_data={
+          'dependency_injector': ['*.pxd']
+      },
       zip_safe=True,
-      install_requires=requirements,
+      license='BSD New',
+      platforms=['any'],
       keywords=[
           'DI',
           'Dependency injection',
