@@ -1,4 +1,4 @@
-include dependency_injector/*
+recursive-include dependency_injector *.py *.pyx *.pxd *.c
 include README.rst
 include CONTRIBUTORS.rst
 include LICENSE.rst
