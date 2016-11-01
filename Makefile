@@ -1,4 +1,15 @@
-VERSION:=$(shell python setup.py --version)
+VERSION := $(shell python setup.py --version)
+
+CYTHON_SRC := $(shell find dependency_injector -name '*.pyx')
+
+CYTHON_DIRECTIVES =
+C_MACROS =
+
+ifdef DEBUG
+	CYTHON_DIRECTIVES += -Xprofile=True -Xlinetrace=True
+	C_MACROS += -DCYTHON_TRACE
+endif
+
 
 clean:
 	# Clean sources
@@ -6,6 +17,7 @@ clean:
 	find dependency_injector -name '__pycache__' -delete
 	find dependency_injector -name '*.c' -delete
 	find dependency_injector -name '*.so' -delete
+	find dependency_injector -name '*.html' -delete
 	# Clean tests
 	find tests -name '*.py[co]' -delete
 	find tests -name '__pycache__' -delete
@@ -13,24 +25,25 @@ clean:
 	find examples -name '*.py[co]' -delete
 	find examples -name '__pycache__' -delete
 
-compile: clean
+cythonize:
 	# Compile Cython to C
-	cython -a dependency_injector/injections.pyx
+	cython -a $(CYTHON_DIRECTIVES) $(CYTHON_SRC)
 	# Move all Cython html reports
 	mkdir -p reports/cython/
 	find dependency_injector -name '*.html' -exec mv {}  reports/cython/  \;
 
-build: compile
+build: clean cythonize
 	# Compile C extensions
-	python setup.py build_ext --inplace
+	python setup.py build_ext --inplace $(C_MACROS)
 
-tests: build
+test:
 	# Unit tests with coverage report
 	coverage erase
 	coverage run --rcfile=./.coveragerc -m unittest2 discover tests
 	coverage report --rcfile=./.coveragerc
 	coverage html --rcfile=./.coveragerc
-	coverage erase
+
+check:
 	# Static analysis
 	flake8 --max-complexity=10 dependency_injector/
 	flake8 --max-complexity=10 examples/
@@ -38,7 +51,7 @@ tests: build
 	pydocstyle dependency_injector/
 	pydocstyle examples/
 
-publish: build tests
+publish: cythonize
 	# Create and upload build
 	python setup.py sdist upload
 	# Create and upload tag

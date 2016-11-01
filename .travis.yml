@@ -3,7 +3,7 @@ language: python
 install: 
     - pip install tox
     - pip install cython
-    - make compile  
+    - make build DEBUG=1
 script: 
     - tox
 python:

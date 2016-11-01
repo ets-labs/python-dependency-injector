@@ -1,6 +1,6 @@
 [run]
+plugins = Cython.Coverage
 include = dependency_injector/*
-omit = tests/*
 
 [html]
 directory=reports/unittests/
