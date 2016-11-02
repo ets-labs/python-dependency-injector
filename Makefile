@@ -1,6 +1,6 @@
 VERSION := $(shell python setup.py --version)
 
-CYTHON_SRC := $(shell find dependency_injector -name '*.pyx')
+CYTHON_SRC := $(shell find src/dependency_injector -name '*.pyx')
 
 CYTHON_DIRECTIVES =
 
@@ -12,11 +12,11 @@ endif
 
 clean:
 	# Clean sources
-	find dependency_injector -name '*.py[cod]' -delete
-	find dependency_injector -name '__pycache__' -delete
-	find dependency_injector -name '*.c' -delete
-	find dependency_injector -name '*.so' -delete
-	find dependency_injector -name '*.html' -delete
+	find src -name '*.py[cod]' -delete
+	find src -name '__pycache__' -delete
+	find src -name '*.c' -delete
+	find src -name '*.so' -delete
+	find src -name '*.html' -delete
 	# Clean tests
 	find tests -name '*.py[co]' -delete
 	find tests -name '__pycache__' -delete
@@ -29,16 +29,19 @@ cythonize:
 	cython -a $(CYTHON_DIRECTIVES) $(CYTHON_SRC)
 	# Move all Cython html reports
 	mkdir -p reports/cython/
-	find dependency_injector -name '*.html' -exec mv {}  reports/cython/  \;
+	find src -name '*.html' -exec mv {}  reports/cython/  \;
 
 build: clean cythonize
 	# Compile C extensions
 	python setup.py build_ext --inplace
 
+install: clean cythonize
+	python setup.py install
+
 test:
 	# Unit tests with coverage report
 	coverage erase
-	coverage run --rcfile=./.coveragerc -m unittest2 discover tests
+	coverage run --rcfile=./.coveragerc -m unittest2 discover tests/unit
 	coverage report --rcfile=./.coveragerc
 	coverage html --rcfile=./.coveragerc
 

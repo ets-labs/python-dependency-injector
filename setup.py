@@ -15,7 +15,7 @@ with open('requirements.txt') as version:
     requirements = version.readlines()
 
 # Getting version:
-with open('dependency_injector/__init__.py') as init_file:
+with open('src/dependency_injector/__init__.py') as init_file:
     version = re.search('VERSION = \'(.*?)\'', init_file.read()).group(1)
 
 # Defining macros:
@@ -34,15 +34,19 @@ setup(name='dependency-injector',
       maintainer='Roman Mogilatov',
       maintainer_email='rmogilatov@gmail.com',
       url='https://github.com/ets-labs/python-dependency-injector',
-      bugtrack_url='https://github.com/ets-labs/python-dependency-injector' +
-                   '/issues',
       download_url='https://pypi.python.org/pypi/dependency_injector',
       install_requires=requirements,
-      packages=['dependency_injector',
-                'dependency_injector.providers'],
+      packages=[
+          'dependency_injector',
+          'dependency_injector.providers',
+      ],
+      package_dir={
+          'dependency_injector': 'src/dependency_injector',
+          'dependency_injector.providers': 'src/dependency_injector/providers',
+      },
       ext_modules=[
           Extension('dependency_injector.injections',
-                    ['dependency_injector/injections.c'],
+                    ['src/dependency_injector/injections.c'],
                     define_macros=defined_macros,
                     extra_compile_args=['-O2']),
       ],
