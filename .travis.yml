@@ -5,7 +5,7 @@ install:
     - pip install cython
     - make cythonize
 script: 
-    - tox
+    - tox -v
 python:
     - 3.5
 env:
