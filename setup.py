@@ -41,8 +41,7 @@ setup(name='dependency-injector',
           'dependency_injector.providers',
       ],
       package_dir={
-          'dependency_injector': 'src/dependency_injector',
-          'dependency_injector.providers': 'src/dependency_injector/providers',
+          '': 'src',
       },
       ext_modules=[
           Extension('dependency_injector.injections',

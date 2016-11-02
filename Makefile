@@ -35,13 +35,13 @@ build: clean cythonize
 	# Compile C extensions
 	python setup.py build_ext --inplace
 
-install: clean cythonize
-	python setup.py install
+install: uninstall clean cythonize
+	pip install . -v
 
 uninstall:
 	- pip uninstall -y -q dependency-injector 2> /dev/null
 
-test:
+test: build
 	# Unit tests with coverage report
 	coverage erase
 	coverage run --rcfile=./.coveragerc -m unittest2 discover tests/unit
@@ -50,10 +50,10 @@ test:
 
 check:
 	# Static analysis
-	flake8 --max-complexity=10 dependency_injector/
+	flake8 --max-complexity=10 src/dependency_injector/
 	flake8 --max-complexity=10 examples/
 	# Code style analysis
-	pydocstyle dependency_injector/
+	pydocstyle src/dependency_injector/
 	pydocstyle examples/
 
 publish: cythonize
