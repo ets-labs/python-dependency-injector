@@ -3,13 +3,13 @@ language: python
 install: 
     - pip install tox
     - pip install cython
-    - make build
+    - make cythonize
 script: 
     - tox
 python:
     - 3.5
 env:
-    - TOXENV=coveralls DEBUG=1
+    - TOXENV=coveralls DEPENDENCY_INJECTOR_DEBUG_MODE=1
     - TOXENV=pylint
     - TOXENV=flake8
     - TOXENV=pydocstyle

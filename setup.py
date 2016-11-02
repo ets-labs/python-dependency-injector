@@ -1,5 +1,6 @@
 """`Dependency injector` setup script."""
 
+import os
 import re
 
 from setuptools import setup, Extension
@@ -16,6 +17,13 @@ with open('requirements.txt') as version:
 # Getting version:
 with open('dependency_injector/__init__.py') as init_file:
     version = re.search('VERSION = \'(.*?)\'', init_file.read()).group(1)
+
+# Defining macros:
+defined_macros = list()
+if os.environ.get('DEPENDENCY_INJECTOR_DEBUG_MODE') == '1':
+    defined_macros.append(('CYTHON_TRACE', 1))
+    defined_macros.append(('CYTHON_TRACE_NOGIL', 1))
+print(defined_macros)
 
 
 setup(name='dependency-injector',
@@ -36,6 +44,7 @@ setup(name='dependency-injector',
       ext_modules=[
           Extension('dependency_injector.injections',
                     ['dependency_injector/injections.c'],
+                    define_macros=defined_macros,
                     extra_compile_args=['-O2']),
       ],
       package_data={

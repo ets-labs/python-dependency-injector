@@ -5,9 +5,8 @@ CYTHON_SRC := $(shell find dependency_injector -name '*.pyx')
 CYTHON_DIRECTIVES =
 C_MACROS =
 
-ifdef DEBUG
+ifdef DEPENDENCY_INJECTOR_DEBUG_MODE
 	CYTHON_DIRECTIVES += -Xprofile=True -Xlinetrace=True
-	C_MACROS += -DCYTHON_TRACE
 endif
 
 
@@ -34,7 +33,7 @@ cythonize:
 
 build: clean cythonize
 	# Compile C extensions
-	python setup.py build_ext --inplace $(C_MACROS)
+	python setup.py build_ext --inplace
 
 test:
 	# Unit tests with coverage report
