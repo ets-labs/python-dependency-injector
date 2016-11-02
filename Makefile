@@ -36,7 +36,7 @@ build: clean cythonize
 	python setup.py build_ext --inplace
 
 install: uninstall clean cythonize
-	pip install . -v
+	pip install -ve .
 
 uninstall:
 	- pip uninstall -y -q dependency-injector 2> /dev/null
