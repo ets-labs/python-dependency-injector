@@ -21,6 +21,10 @@ cdef class PositionalInjection(Injection):
         self.__is_delegated = 0
         self.__call = <int>self.__is_provider == 1 and self.__is_delegated == 0
 
+    def get_value(self):
+        """Return injection value."""
+        return self.__get_value()
+
 
 cdef class NamedInjection(Injection):
     """Keyword injection class."""
@@ -32,6 +36,14 @@ cdef class NamedInjection(Injection):
         self.__is_provider = <int>is_provider(value)
         self.__is_delegated = 0
         self.__call = <int>self.__is_provider == 1 and self.__is_delegated == 0
+
+    def get_name(self):
+        """Return injection value."""
+        return self.__get_name()
+
+    def get_value(self):
+        """Return injection value."""
+        return self.__get_value()
 
 
 cpdef tuple parse_positional_injections(tuple args):

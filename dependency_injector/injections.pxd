@@ -17,7 +17,7 @@ cdef class PositionalInjection(Injection):
     cdef int __is_delegated
     cdef int __call
 
-    cdef inline object get_value(self):
+    cdef inline object __get_value(self):
         if self.__call == 0:
             return self.__value
         return self.__value()
@@ -30,10 +30,10 @@ cdef class NamedInjection(Injection):
     cdef int __is_delegated
     cdef int __call
 
-    cdef inline object get_name(self):
+    cdef inline object __get_name(self):
         return self.__name
 
-    cdef inline object get_value(self):
+    cdef inline object __get_value(self):
         if self.__call == 0:
             return self.__value
         return self.__value()
