@@ -23,7 +23,6 @@ defined_macros = list()
 if os.environ.get('DEPENDENCY_INJECTOR_DEBUG_MODE') == '1':
     defined_macros.append(('CYTHON_TRACE', 1))
     defined_macros.append(('CYTHON_TRACE_NOGIL', 1))
-print(defined_macros)
 
 
 setup(name='dependency-injector',

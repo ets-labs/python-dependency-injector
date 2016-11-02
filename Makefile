@@ -6,7 +6,8 @@ CYTHON_DIRECTIVES =
 C_MACROS =
 
 ifdef DEPENDENCY_INJECTOR_DEBUG_MODE
-	CYTHON_DIRECTIVES += -Xprofile=True -Xlinetrace=True
+	CYTHON_DIRECTIVES += -Xprofile=True
+	CYTHON_DIRECTIVES += -Xlinetrace=True
 endif
 
 
