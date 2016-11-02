@@ -30,7 +30,7 @@ if __name__ == '__main__':
         class _SequenceContainer1(SequencesContainer):
             object_provider = providers.Factory(object)
     except errors.Error as exception:
-        print exception
+        print(exception)
         # <class '__main__._SequenceContainer1'> can contain only
         # <class '__main__.SequenceProvider'> instances
 
@@ -38,7 +38,7 @@ if __name__ == '__main__':
         class _SequenceContainer2(SequencesContainer):
             object_provider = SequenceProvider(object)
     except errors.Error as exception:
-        print exception
+        print(exception)
         # <class '__main__.SequenceProvider'> can provide only
         # <class '_abcoll.Sequence'> instances
 
