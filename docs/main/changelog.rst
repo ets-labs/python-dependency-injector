@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Remove ``@inject`` decorator.
+- Add ``dependency_injector.injections`` module (C extension).
 - Add makefile (``clean``, ``tests`` & ``publish`` commands).
 
 .. - No features.
