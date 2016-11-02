@@ -18,7 +18,7 @@ cdef class PositionalInjection(Injection):
         """Initializer."""
         self.__value = value
         self.__is_provider = <int>is_provider(value)
-        self.__is_delegated = 0
+        self.__is_delegated = 0  # TODO: use utils.is_delegated()
         self.__call = <int>self.__is_provider == 1 and self.__is_delegated == 0
 
     def get_value(self):
@@ -34,7 +34,7 @@ cdef class NamedInjection(Injection):
         self.__name = name
         self.__value = value
         self.__is_provider = <int>is_provider(value)
-        self.__is_delegated = 0
+        self.__is_delegated = 0  # TODO: use utils.is_delegated()
         self.__call = <int>self.__is_provider == 1 and self.__is_delegated == 0
 
     def get_name(self):
