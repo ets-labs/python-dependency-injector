@@ -1,16 +1,14 @@
 sudo: false
-language: python
 install: 
     - pip install tox
     - pip install cython
     - make cythonize
 script: 
     - tox -v
+language: python
 python:
-    - 2.7
+    - 3.5
 env:
     - TOXENV=coveralls DEPENDENCY_INJECTOR_DEBUG_MODE=1
-    - TOXENV=pylint
-    - TOXENV=flake8
-    - TOXENV=pydocstyle
+    - TOXENV=pylint,flake8,pydocstyle
     - TOXENV=py26,py27,py33,py34,py35,pypy,pypy3
