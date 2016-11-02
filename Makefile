@@ -38,6 +38,9 @@ build: clean cythonize
 install: clean cythonize
 	python setup.py install
 
+uninstall:
+	- pip uninstall -y -q dependency-injector 2> /dev/null
+
 test:
 	# Unit tests with coverage report
 	coverage erase
