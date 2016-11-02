@@ -25,6 +25,6 @@ some_service_provider = ServiceProvider(SomeService)
 try:
     some_service_provider = ServiceProvider(object)
 except errors.Error as exception:
-    print exception
+    print(exception)
     # <class '__main__.ServiceProvider'> can provide only
     # <class '__main__.BaseService'> instances

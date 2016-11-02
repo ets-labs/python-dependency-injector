@@ -1,3 +1,4 @@
+cython
 tox
 unittest2
 sphinx

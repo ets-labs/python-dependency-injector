@@ -24,7 +24,7 @@ if __name__ == '__main__':
     try:
         sequences_container.object_provider = providers.Factory(object)
     except errors.Error as exception:
-        print exception
+        print(exception)
         # <dependency_injector.containers.DynamicContainer object at
         # 0x107820ed0> can contain only <class '__main__.SequenceProvider'>
         # instances
@@ -32,7 +32,7 @@ if __name__ == '__main__':
     try:
         sequences_container.object_provider = SequenceProvider(object)
     except errors.Error as exception:
-        print exception
+        print(exception)
         # <class '__main__.SequenceProvider'> can provide only
         # <class '_abcoll.Sequence'> instances
 

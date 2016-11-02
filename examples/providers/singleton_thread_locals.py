@@ -28,7 +28,7 @@ thread_factory = providers.Factory(threading.Thread,
 if __name__ == '__main__':
     # Create 10 threads for concurrent execution of example():
     threads = []
-    for thread_number in xrange(10):
+    for thread_number in range(10):
         threads.append(thread_factory(name='Thread{0}'.format(thread_number)))
 
     # Start execution of all created threads:

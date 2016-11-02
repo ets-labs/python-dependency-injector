@@ -63,7 +63,7 @@ venv/
 .ropeproject/
 
 # C extensions
-dependency_injector/*.c
-dependency_injector/*.so
-dependency_injector/providers/*.c
-dependency_injector/providers/*.so
+src/dependency_injector/*.c
+src/dependency_injector/*.so
+src/dependency_injector/providers/*.c
+src/dependency_injector/providers/*.so

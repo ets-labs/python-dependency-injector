@@ -56,7 +56,7 @@ author = u'ETS Labs'
 #
 # The short X.Y version.
 # Getting version:
-with open('../dependency_injector/__init__.py') as init_file:
+with open('../src/dependency_injector/__init__.py') as init_file:
     version = re.search('VERSION = \'(.*?)\'', init_file.read()).group(1)
 
 # The full version, including alpha/beta/rc tags.
@@ -281,7 +281,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   (master_doc, 'Dependency Injector', u'Dependency Injector Documentation',
-   author, 'Dependency Injector', 'Python dependency injection framework',
+   author, 'Dependency Injector', 'Dependency injection microframework for Python',
    'Miscellaneous'),
 ]
 

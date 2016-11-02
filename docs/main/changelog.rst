@@ -9,8 +9,14 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Add ``dependency_injector.injections`` module (C extension).
 - Remove ``@inject`` decorator.
-- Add makefile (``clean``, ``tests`` & ``publish`` commands).
+- Add makefile (``clean``, ``test``, ``build``, ``install``, ``uninstall`` 
+  & ``publish`` commands).
+- Update repository structure:
+
+    - Sources are moved under ``src``.
+    - Tests are moved under ``tests/unit``.
 
 .. - No features.
 
