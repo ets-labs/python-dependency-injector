@@ -3,7 +3,6 @@ VERSION := $(shell python setup.py --version)
 CYTHON_SRC := $(shell find dependency_injector -name '*.pyx')
 
 CYTHON_DIRECTIVES =
-C_MACROS =
 
 ifdef DEPENDENCY_INJECTOR_DEBUG_MODE
 	CYTHON_DIRECTIVES += -Xprofile=True
