@@ -1,4 +1,4 @@
-"""Dependency injector container unit tests."""
+"""Dependency injector injections unit tests."""
 
 import unittest2 as unittest
 
@@ -7,9 +7,6 @@ from dependency_injector import providers
 
 
 class PositionalInjectionTests(unittest.TestCase):
-
-    def test_init_with_kwargs(self):
-        injections.PositionalInjection(value=1)
 
     def test_isinstance(self):
         injection = injections.PositionalInjection(1)
@@ -31,9 +28,6 @@ class PositionalInjectionTests(unittest.TestCase):
 
 
 class NamedInjectionTests(unittest.TestCase):
-
-    def test_init_with_kwargs(self):
-        injections.NamedInjection(name='name', value=1)
 
     def test_isinstance(self):
         injection = injections.NamedInjection('name', 1)
