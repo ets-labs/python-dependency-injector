@@ -52,6 +52,19 @@ def ensure_is_provider(instance):
     return instance
 
 
+def is_delegated(instance):
+    """Check if instance is delegated provider.
+
+    :param instance: Instance to be checked.
+    :type instance: object
+
+    :rtype: bool
+    """
+    return (not isinstance(instance, six.class_types) and
+            hasattr(instance, '__IS_DELEGATED__') and
+            getattr(instance, '__IS_DELEGATED__') is True)
+
+
 def is_container(instance):
     """Check if instance is container instance.
 

@@ -3,8 +3,12 @@
 Cython optimized code.
 """
 
-# TODO: replace to cimport
-from .utils import is_provider
+cimport cython
+
+from .utils import (
+    is_provider,
+    is_delegated,
+)
 
 
 cdef class Injection:
@@ -18,12 +22,16 @@ cdef class PositionalInjection(Injection):
         """Initializer."""
         self.__value = value
         self.__is_provider = <int>is_provider(value)
-        self.__is_delegated = 0  # TODO: use utils.is_delegated()
+        self.__is_delegated = <int>is_delegated(value)
         self.__call = <int>self.__is_provider == 1 and self.__is_delegated == 0
 
     def get_value(self):
         """Return injection value."""
         return self.__get_value()
+
+    def get_original_value(self):
+        """Return original value."""
+        return self.__value
 
 
 cdef class NamedInjection(Injection):
@@ -34,7 +42,7 @@ cdef class NamedInjection(Injection):
         self.__name = name
         self.__value = value
         self.__is_provider = <int>is_provider(value)
-        self.__is_delegated = 0  # TODO: use utils.is_delegated()
+        self.__is_delegated = <int>is_delegated(value)
         self.__call = <int>self.__is_provider == 1 and self.__is_delegated == 0
 
     def get_name(self):
@@ -45,14 +53,20 @@ cdef class NamedInjection(Injection):
         """Return injection value."""
         return self.__get_value()
 
+    def get_original_value(self):
+        """Return original value."""
+        return self.__value
 
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
 cpdef tuple parse_positional_injections(tuple args):
     """Parse positional injections."""
     cdef list injections = list()
     cdef int args_len = len(args)
 
-    cdef object arg
     cdef int index
+    cdef object arg
     cdef PositionalInjection injection
 
     for index in range(args_len):
@@ -63,6 +77,8 @@ cpdef tuple parse_positional_injections(tuple args):
     return tuple(injections)
 
 
+@cython.boundscheck(False)
+@cython.wraparound(False)
 cpdef tuple parse_named_injections(dict kwargs):
     """Parse named injections."""
     cdef list injections = list()
