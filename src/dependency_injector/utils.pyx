@@ -1,12 +1,15 @@
-"""Dependency injector utils module."""
+"""Dependency injector utils.
+
+Powered by Cython.
+"""
+
+cimport cpython.version
+
+from dependency_injector cimport errors
 
 import copy as _copy
 import types
 import threading
-
-import six
-
-from dependency_injector import errors
 
 
 GLOBAL_LOCK = threading.RLock()
@@ -15,14 +18,19 @@ GLOBAL_LOCK = threading.RLock()
 :type: :py:class:`threading.RLock`
 """
 
-if six.PY2:  # pragma: no cover
+if cpython.version.PY_MAJOR_VERSION < 3:  # pragma: no cover
+    CLASS_TYPES = (type, types.ClassType)
+
     _copy._deepcopy_dispatch[types.MethodType] = \
         lambda obj, memo: type(obj)(obj.im_func,
                                     _copy.deepcopy(obj.im_self, memo),
                                     obj.im_class)
+else:  # pragma: no cover
+    CLASS_TYPES = (type,)
 
 
-def is_provider(instance):
+
+cpdef bint is_provider(object instance):
     """Check if instance is provider instance.
 
     :param instance: Instance to be checked.
@@ -30,12 +38,11 @@ def is_provider(instance):
 
     :rtype: bool
     """
-    return (not isinstance(instance, six.class_types) and
-            hasattr(instance, '__IS_PROVIDER__') and
-            getattr(instance, '__IS_PROVIDER__') is True)
+    return (not isinstance(instance, CLASS_TYPES) and
+            getattr(instance, '__IS_PROVIDER__', False) is True)
 
 
-def ensure_is_provider(instance):
+cpdef object ensure_is_provider(object instance):
     """Check if instance is provider instance and return it.
 
     :param instance: Instance to be checked.
@@ -52,7 +59,7 @@ def ensure_is_provider(instance):
     return instance
 
 
-def is_delegated(instance):
+cpdef bint is_delegated(object instance):
     """Check if instance is delegated provider.
 
     :param instance: Instance to be checked.
@@ -60,12 +67,11 @@ def is_delegated(instance):
 
     :rtype: bool
     """
-    return (not isinstance(instance, six.class_types) and
-            hasattr(instance, '__IS_DELEGATED__') and
-            getattr(instance, '__IS_DELEGATED__') is True)
+    return (not isinstance(instance, CLASS_TYPES) and
+            getattr(instance, '__IS_DELEGATED__', False) is True)
 
 
-def is_container(instance):
+cpdef bint is_container(object instance):
     """Check if instance is container instance.
 
     :param instance: Instance to be checked.
@@ -73,11 +79,10 @@ def is_container(instance):
 
     :rtype: bool
     """
-    return (hasattr(instance, '__IS_CONTAINER__') and
-            getattr(instance, '__IS_CONTAINER__', False) is True)
+    return getattr(instance, '__IS_CONTAINER__', False) is True
 
 
-def represent_provider(provider, provides):
+cpdef str represent_provider(object provider, object provides):
     """Return string representation of provider.
 
     :param provider: Provider object
@@ -96,6 +101,7 @@ def represent_provider(provider, provides):
         address=hex(id(provider)))
 
 
-def deepcopy(instance, memo=None):
+cpdef object deepcopy(object instance, dict memo=None):
     """Make full copy of instance."""
     return _copy.deepcopy(instance, memo)
+
