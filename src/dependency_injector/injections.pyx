@@ -1,6 +1,6 @@
 """Dependency injector injections.
 
-Cython optimized code.
+Powered by Cython.
 """
 
 cimport cython

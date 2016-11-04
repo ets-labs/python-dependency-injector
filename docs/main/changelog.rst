@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Add ``dependency_injector.injections`` module (C extension).
+- Transfer ``dependency_injector.errors`` module to Cython (C extension).
 - Remove ``@inject`` decorator.
 - Add makefile (``clean``, ``test``, ``build``, ``install``, ``uninstall`` 
   & ``publish`` commands).
