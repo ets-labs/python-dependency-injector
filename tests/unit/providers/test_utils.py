@@ -2,8 +2,10 @@
 
 import unittest2 as unittest
 
-from dependency_injector import providers
-from dependency_injector import errors
+from dependency_injector import (
+    providers,
+    errors,
+)
 
 
 class IsProviderTests(unittest.TestCase):

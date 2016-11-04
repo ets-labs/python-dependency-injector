@@ -1,8 +1,11 @@
-"""Dependency injector creational providers unittests."""
+"""Dependency injector creational providers unit tests."""
 
 import unittest2 as unittest
 
-from dependency_injector import providers, errors
+from dependency_injector import (
+    providers,
+    errors,
+)
 
 
 class Example(object):

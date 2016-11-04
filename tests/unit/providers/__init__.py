@@ -1,1 +1,1 @@
-"""Dependency injector providers unittests."""
+"""Dependency injector providers unit tests."""

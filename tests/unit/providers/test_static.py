@@ -1,4 +1,4 @@
-"""Dependency injector static providers unittests."""
+"""Dependency injector static providers unit tests."""
 
 import unittest2 as unittest
 

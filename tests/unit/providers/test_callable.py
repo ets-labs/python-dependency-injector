@@ -1,8 +1,11 @@
-"""Dependency injector callable providers unittests."""
+"""Dependency injector callable providers unit tests."""
 
 import unittest2 as unittest
 
-from dependency_injector import providers, errors
+from dependency_injector import (
+    providers,
+    errors,
+)
 
 
 class CallableTests(unittest.TestCase):
