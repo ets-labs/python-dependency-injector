@@ -72,6 +72,7 @@ cdef class Provider(object):
         """Initializer."""
         self.__overridden = tuple()
         self.__overridden_len = 0
+        super(Provider, self).__init__()
 
     def __call__(self, *args, **kwargs):
         """Return provided object.
@@ -96,7 +97,12 @@ cdef class Provider(object):
         """
         return self.__str__()
 
-    def override(self, Provider provider):
+    @property
+    def overridden(self):
+        """Return tuple of overriding providers."""
+        return self.__overridden
+
+    def override(self, provider):
         """Override provider with another provider.
 
         :param provider: Overriding provider.
@@ -114,7 +120,8 @@ cdef class Provider(object):
         if not is_provider(provider):
             provider = Object(provider)
 
-        self.__overridden += tuple(ensure_is_provider(provider),)
+        print(self.__overridden, provider)
+        self.__overridden += (provider,)
         self.__overridden_len += 1
 
         return OverridingContext(self, provider)
@@ -132,7 +139,7 @@ cdef class Provider(object):
         if self.__overridden_len == 0:
             raise Error('Provider {0} is not overridden'.format(str(self)))
 
-        self.__overridden = self.overridden[:self.__overridden_len - 1]
+        self.__overridden = self.__overridden[:self.__overridden_len - 1]
         self.__overridden_len -= 1
 
     def reset_override(self):
@@ -141,7 +148,7 @@ cdef class Provider(object):
         :rtype: None
         """
         self.__overridden = tuple()
-        self.__overridden_len += 0
+        self.__overridden_len = 0
 
     def delegate(self):
         """Return provider's delegate.

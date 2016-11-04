@@ -38,13 +38,13 @@ class DelegateTests(unittest.TestCase):
 
     def setUp(self):
         self.delegated = providers.Provider()
-        self.delegate = providers.Delegate(delegated=self.delegated)
+        self.delegate = providers.Delegate(self.delegated)
 
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(self.delegate))
 
     def test_init_with_not_provider(self):
-        self.assertRaises(errors.Error, providers.Delegate, delegated=object())
+        self.assertRaises(errors.Error, providers.Delegate, object())
 
     def test_call(self):
         delegated1 = self.delegate()

@@ -40,9 +40,9 @@ cdef class NamedInjection(Injection):
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-cdef inline tuple __provide_positional_args(tuple inj_args,
-                                            int inj_args_len,
-                                            tuple args):
+cdef inline tuple __provide_positional_args(tuple args,
+                                            tuple inj_args,
+                                            int inj_args_len):
     cdef int index
     cdef list positional_args
     cdef PositionalInjection injection
@@ -56,25 +56,45 @@ cdef inline tuple __provide_positional_args(tuple inj_args,
         positional_args.append(injection.get_value())
     positional_args.extend(args)
 
-    return positional_args
+    return tuple(positional_args)
 
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-cdef inline dict __provide_keyword_args(tuple inj_kwargs,
-                                        int inj_kwargs_len,
-                                        dict kwargs):
+cdef inline dict __provide_keyword_args(dict kwargs,
+                                        tuple inj_kwargs,
+                                        int inj_kwargs_len):
     cdef int index
+    cdef object name
+    cdef int kwargs_len
     cdef NamedInjection kw_injection
 
-    if inj_kwargs_len == 0:
-        return kwargs
-
-    for index in range(inj_kwargs_len):
-        kw_injection = <NamedInjection>inj_kwargs[index]
-        kwargs[kw_injection.get_name()] = kw_injection.get_value()
+    kwargs_len = len(kwargs)
+    if kwargs_len == 0:
+        for index in range(inj_kwargs_len):
+            kw_injection = <NamedInjection>inj_kwargs[index]
+            kwargs[kw_injection.get_name()] = kw_injection.get_value()
+    else:
+        for index in range(inj_kwargs_len):
+            kw_injection = <NamedInjection>inj_kwargs[index]
+            name = kw_injection.get_name()
+            if name not in kwargs:
+                kwargs[name] = kw_injection.get_value()
 
     return kwargs
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+cdef inline object __inject_attributes(object instance,
+                                       tuple attributes,
+                                       int attributes_len):
+    cdef NamedInjection attr_injection
+    for index in range(attributes_len):
+        attr_injection = <NamedInjection>attributes[index]
+        setattr(instance,
+                attr_injection.get_name(),
+                attr_injection.get_value())
 
 
 cpdef tuple parse_positional_injections(tuple args)

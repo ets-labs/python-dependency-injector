@@ -70,7 +70,7 @@ class CallableTests(unittest.TestCase):
         provider = providers.Callable(self.example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.callable.'
+                         '<dependency_injector.providers.callables.'
                          'Callable({0}) at {1}>'.format(
                              repr(self.example),
                              hex(id(provider))))

@@ -149,6 +149,11 @@ cdef class ExternalDependency(Provider):
         """
         return self.__str__()
 
+    @property
+    def instance_of(self):
+        """Return class of required dependency."""
+        return self.__instance_of
+
     def provided_by(self, provider):
         """Set external dependency provider.
 
