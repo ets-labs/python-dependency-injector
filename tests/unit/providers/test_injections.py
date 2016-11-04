@@ -2,22 +2,21 @@
 
 import unittest2 as unittest
 
-from dependency_injector import injections
 from dependency_injector import providers
 
 
 class PositionalInjectionTests(unittest.TestCase):
 
     def test_isinstance(self):
-        injection = injections.PositionalInjection(1)
-        self.assertIsInstance(injection, injections.Injection)
+        injection = providers.PositionalInjection(1)
+        self.assertIsInstance(injection, providers.Injection)
 
     def test_get_value_with_not_provider(self):
-        injection = injections.PositionalInjection(123)
+        injection = providers.PositionalInjection(123)
         self.assertEquals(injection.get_value(), 123)
 
     def test_get_value_with_factory(self):
-        injection = injections.PositionalInjection(providers.Factory(object))
+        injection = providers.PositionalInjection(providers.Factory(object))
 
         obj1 = injection.get_value()
         obj2 = injection.get_value()
@@ -30,20 +29,20 @@ class PositionalInjectionTests(unittest.TestCase):
 class NamedInjectionTests(unittest.TestCase):
 
     def test_isinstance(self):
-        injection = injections.NamedInjection('name', 1)
-        self.assertIsInstance(injection, injections.Injection)
+        injection = providers.NamedInjection('name', 1)
+        self.assertIsInstance(injection, providers.Injection)
 
     def test_get_name(self):
-        injection = injections.NamedInjection('name', 123)
+        injection = providers.NamedInjection('name', 123)
         self.assertEquals(injection.get_name(), 'name')
 
     def test_get_value_with_not_provider(self):
-        injection = injections.NamedInjection('name', 123)
+        injection = providers.NamedInjection('name', 123)
         self.assertEquals(injection.get_value(), 123)
 
     def test_get_value_with_factory(self):
-        injection = injections.NamedInjection('name',
-                                              providers.Factory(object))
+        injection = providers.NamedInjection('name',
+                                             providers.Factory(object))
 
         obj1 = injection.get_value()
         obj2 = injection.get_value()

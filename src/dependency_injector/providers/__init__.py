@@ -1,6 +1,6 @@
-"""Dependency injector providers package."""
+"""Dependency injector providers."""
 
-from dependency_injector.providers.base import (
+from .base import (
     Provider,
     Delegate,
     Object,
@@ -8,17 +8,22 @@ from dependency_injector.providers.base import (
     OverridingContext,
     override,
 )
-from dependency_injector.providers.callable import (
+from .callable import (
     Callable,
     DelegatedCallable,
 )
-from dependency_injector.providers.creational import (
+from .creational import (
     Factory,
     DelegatedFactory,
     Singleton,
     DelegatedSingleton,
     ThreadLocalSingleton,
-    DelegatedThreadLocalSingleton
+    DelegatedThreadLocalSingleton,
+)
+from .injections import (
+    Injection,
+    PositionalInjection,
+    NamedInjection,
 )
 
 
@@ -42,4 +47,8 @@ __all__ = (
 
     'ThreadLocalSingleton',
     'DelegatedThreadLocalSingleton',
+
+    'Injection',
+    'PositionalInjection',
+    'NamedInjection',
 )

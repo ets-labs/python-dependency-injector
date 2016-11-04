@@ -1,10 +1,7 @@
-"""Dependency injector errors.
-
-Powered by Cython.
-"""
+"""Dependency injector errors."""
 
 
-cdef class Error(Exception):
+class Error(Exception):
     """Base error.
 
     All dependency injector errors extend this error class.

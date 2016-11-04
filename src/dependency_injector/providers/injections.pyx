@@ -5,7 +5,7 @@ Powered by Cython.
 
 cimport cython
 
-from .utils cimport (
+from dependency_injector.utils import (
     is_provider,
     is_delegated,
 )
