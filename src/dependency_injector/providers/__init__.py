@@ -2,46 +2,49 @@
 
 from .base import (
     Provider,
-    Delegate,
-    Object,
-    ExternalDependency,
-    OverridingContext,
-    override,
 )
-from .callable import (
+from .callables import (
     Callable,
     DelegatedCallable,
 )
-from .creational import (
+from .factories import (
     Factory,
     DelegatedFactory,
+)
+from .singletons import (
+    BaseSingleton,
+
     Singleton,
     DelegatedSingleton,
+
+    ThreadSafeSingleton,
+    DelegatedThreadSafeSingleton,
+
     ThreadLocalSingleton,
     DelegatedThreadLocalSingleton,
 )
-from .utils import (
-    GLOBAL_LOCK,
-    is_provider,
-    ensure_is_provider,
-    is_delegated,
-    represent_provider,
+from .static import (
+    Object,
+    Delegate,
+    ExternalDependency,
 )
 from .injections import (
     Injection,
     PositionalInjection,
     NamedInjection,
 )
+from .utils import (
+    GLOBAL_LOCK,
+    OverridingContext,
+    is_provider,
+    ensure_is_provider,
+    is_delegated,
+    represent_provider,
+)
 
 
 __all__ = (
     'Provider',
-    'Delegate',
-    'Object',
-    'ExternalDependency',
-
-    'OverridingContext',
-    'override',
 
     'Callable',
     'DelegatedCallable',
@@ -49,19 +52,29 @@ __all__ = (
     'Factory',
     'DelegatedFactory',
 
+    'BaseSingleton',
+
     'Singleton',
     'DelegatedSingleton',
+
+    'ThreadSafeSingleton',
+    'DelegatedThreadSafeSingleton',
 
     'ThreadLocalSingleton',
     'DelegatedThreadLocalSingleton',
 
-    'GLOBAL_LOCK',
-    'is_provider',
-    'ensure_is_provider',
-    'is_delegated',
-    'represent_provider',
+    'Object',
+    'Delegate',
+    'ExternalDependency',
 
     'Injection',
     'PositionalInjection',
     'NamedInjection',
+
+    'GLOBAL_LOCK',
+    'OverridingContext',
+    'is_provider',
+    'ensure_is_provider',
+    'is_delegated',
+    'represent_provider',
 )

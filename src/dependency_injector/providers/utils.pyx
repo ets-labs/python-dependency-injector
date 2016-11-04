@@ -10,16 +10,55 @@ import threading
 
 from dependency_injector.errors import Error
 
+from .base cimport Provider
+
+
 GLOBAL_LOCK = threading.RLock()
 """Global reentrant lock.
 
 :type: :py:class:`threading.RLock`
 """
 
+cdef tuple CLASS_TYPES
 if sys.version_info[0] == 3:  # pragma: no cover
-    _CLASS_TYPES = (type,)
+    CLASS_TYPES = (type,)
 else:  # pragma: no cover
-    _CLASS_TYPES = (type, types.ClassType)
+    CLASS_TYPES = (type, types.ClassType)
+
+
+cdef class OverridingContext(object):
+    """Provider overriding context.
+
+    :py:class:`OverridingContext` is used by :py:meth:`Provider.override` for
+    implemeting ``with`` contexts. When :py:class:`OverridingContext` is
+    closed, overriding that was created in this context is dropped also.
+
+    .. code-block:: python
+
+        with provider.override(another_provider):
+            assert provider.overridden
+        assert not provider.overridden
+    """
+
+    def __init__(self, Provider overridden, Provider overriding):
+        """Initializer.
+
+        :param overridden: Overridden provider.
+        :type overridden: :py:class:`Provider`
+
+        :param overriding: Overriding provider.
+        :type overriding: :py:class:`Provider`
+        """
+        self.__overridden = overridden
+        self.__overriding = overriding
+
+    def __enter__(self):
+        """Do nothing."""
+        return self.__overriding
+
+    def __exit__(self, *_):
+        """Exit overriding context."""
+        self.__overridden.reset_last_overriding()
 
 
 cpdef bint is_provider(object instance):
@@ -30,7 +69,7 @@ cpdef bint is_provider(object instance):
 
     :rtype: bool
     """
-    return (not isinstance(instance, _CLASS_TYPES) and
+    return (not isinstance(instance, CLASS_TYPES) and
             getattr(instance, '__IS_PROVIDER__', False) is True)
 
 
@@ -59,7 +98,7 @@ cpdef bint is_delegated(object instance):
 
     :rtype: bool
     """
-    return (not isinstance(instance, _CLASS_TYPES) and
+    return (not isinstance(instance, CLASS_TYPES) and
             getattr(instance, '__IS_DELEGATED__', False) is True)
 
 
