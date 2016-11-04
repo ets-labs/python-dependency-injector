@@ -6,7 +6,7 @@ import six
 
 from dependency_injector.providers.callable import Callable
 from dependency_injector.providers.base import _parse_keyword_injections
-from dependency_injector.utils import GLOBAL_LOCK
+from .utils import GLOBAL_LOCK
 from dependency_injector.errors import Error
 
 

@@ -1,10 +1,14 @@
-"""Dependency injector utils."""
+"""Dependency injector provider utils.
 
-import six
+Powered by Cython.
+"""
+
+import sys
+import types
 
 import threading
 
-from .errors import Error
+from dependency_injector.errors import Error
 
 GLOBAL_LOCK = threading.RLock()
 """Global reentrant lock.
@@ -12,8 +16,13 @@ GLOBAL_LOCK = threading.RLock()
 :type: :py:class:`threading.RLock`
 """
 
+if sys.version_info[0] == 3:  # pragma: no cover
+    _CLASS_TYPES = (type,)
+else:  # pragma: no cover
+    _CLASS_TYPES = (type, types.ClassType)
 
-def is_provider(instance):
+
+cpdef bint is_provider(object instance):
     """Check if instance is provider instance.
 
     :param instance: Instance to be checked.
@@ -21,11 +30,11 @@ def is_provider(instance):
 
     :rtype: bool
     """
-    return (not isinstance(instance, six.class_types) and
+    return (not isinstance(instance, _CLASS_TYPES) and
             getattr(instance, '__IS_PROVIDER__', False) is True)
 
 
-def ensure_is_provider(instance):
+cpdef object ensure_is_provider(object instance):
     """Check if instance is provider instance and return it.
 
     :param instance: Instance to be checked.
@@ -42,7 +51,7 @@ def ensure_is_provider(instance):
     return instance
 
 
-def is_delegated(instance):
+cpdef bint is_delegated(object instance):
     """Check if instance is delegated provider.
 
     :param instance: Instance to be checked.
@@ -50,11 +59,11 @@ def is_delegated(instance):
 
     :rtype: bool
     """
-    return (not isinstance(instance, six.class_types) and
+    return (not isinstance(instance, _CLASS_TYPES) and
             getattr(instance, '__IS_DELEGATED__', False) is True)
 
 
-def represent_provider(provider, provides):
+cpdef str represent_provider(object provider, object provides):
     """Return string representation of provider.
 
     :param provider: Provider object

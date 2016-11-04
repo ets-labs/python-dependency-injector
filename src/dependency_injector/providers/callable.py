@@ -7,7 +7,7 @@ from dependency_injector.providers.base import (
     _parse_positional_injections,
     _parse_keyword_injections,
 )
-from dependency_injector.utils import represent_provider
+from .utils import represent_provider
 from dependency_injector.errors import Error
 
 

@@ -3,7 +3,7 @@
 import six
 
 from dependency_injector.errors import Error
-from dependency_injector.utils import (
+from .utils import (
     is_provider,
     ensure_is_provider,
     represent_provider,

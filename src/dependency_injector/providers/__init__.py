@@ -20,6 +20,13 @@ from .creational import (
     ThreadLocalSingleton,
     DelegatedThreadLocalSingleton,
 )
+from .utils import (
+    GLOBAL_LOCK,
+    is_provider,
+    ensure_is_provider,
+    is_delegated,
+    represent_provider,
+)
 from .injections import (
     Injection,
     PositionalInjection,
@@ -47,6 +54,12 @@ __all__ = (
 
     'ThreadLocalSingleton',
     'DelegatedThreadLocalSingleton',
+
+    'GLOBAL_LOCK',
+    'is_provider',
+    'ensure_is_provider',
+    'is_delegated',
+    'represent_provider',
 
     'Injection',
     'PositionalInjection',
