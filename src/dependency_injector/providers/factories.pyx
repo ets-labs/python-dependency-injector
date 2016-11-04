@@ -8,13 +8,8 @@ from dependency_injector.errors import Error
 from .base cimport Provider
 from .callables cimport Callable
 from .injections cimport (
-    PositionalInjection,
     NamedInjection,
-    parse_positional_injections,
     parse_named_injections,
-    __provide_positional_args,
-    __provide_keyword_args,
-    __inject_attributes,
 )
 from .utils import represent_provider
 
@@ -88,13 +83,10 @@ cdef class Factory(Provider):
             raise Error('{0} can provide only {1} instances'.format(
                 self.__class__, self.__class__.provided_type))
 
-        self.__instantiator = Callable(provides)
+        self.__instantiator = Callable(provides, *args, **kwargs)
 
         self.__attributes = tuple()
         self.__attributes_len = 0
-
-        self.set_args(*args)
-        self.set_kwargs(**kwargs)
 
         super(Factory, self).__init__()
 
@@ -236,16 +228,7 @@ cdef class Factory(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return new instance."""
-        cdef object instance
-
-        instance = self.__instantiator._provide(args, kwargs)
-
-        if self.__attributes_len > 0:
-            __inject_attributes(instance,
-                                self.__attributes,
-                                self.__attributes_len)
-
-        return instance
+        return self.__provide(args, kwargs)
 
 
 cdef class DelegatedFactory(Factory):

@@ -53,7 +53,7 @@ cdef inline tuple __provide_positional_args(tuple args,
     positional_args = list()
     for index in range(inj_args_len):
         injection = <PositionalInjection>inj_args[index]
-        positional_args.append(injection.get_value())
+        positional_args.append(injection.__get_value())
     positional_args.extend(args)
 
     return tuple(positional_args)
@@ -66,20 +66,19 @@ cdef inline dict __provide_keyword_args(dict kwargs,
                                         int inj_kwargs_len):
     cdef int index
     cdef object name
-    cdef int kwargs_len
     cdef NamedInjection kw_injection
 
-    kwargs_len = len(kwargs)
-    if kwargs_len == 0:
+    if len(kwargs) == 0:
         for index in range(inj_kwargs_len):
             kw_injection = <NamedInjection>inj_kwargs[index]
-            kwargs[kw_injection.get_name()] = kw_injection.get_value()
+            name = kw_injection.__get_name()
+            kwargs[name] = kw_injection.__get_value()
     else:
         for index in range(inj_kwargs_len):
             kw_injection = <NamedInjection>inj_kwargs[index]
-            name = kw_injection.get_name()
+            name = kw_injection.__get_name()
             if name not in kwargs:
-                kwargs[name] = kw_injection.get_value()
+                kwargs[name] = kw_injection.__get_value()
 
     return kwargs
 
@@ -93,8 +92,8 @@ cdef inline object __inject_attributes(object instance,
     for index in range(attributes_len):
         attr_injection = <NamedInjection>attributes[index]
         setattr(instance,
-                attr_injection.get_name(),
-                attr_injection.get_value())
+                attr_injection.__get_name(),
+                attr_injection.__get_value())
 
 
 cpdef tuple parse_positional_injections(tuple args)

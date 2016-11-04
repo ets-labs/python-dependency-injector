@@ -23,7 +23,8 @@ cdef class PositionalInjection(Injection):
         self.__value = value
         self.__is_provider = <int>is_provider(value)
         self.__is_delegated = <int>is_delegated(value)
-        self.__call = <int>self.__is_provider == 1 and self.__is_delegated == 0
+        self.__call = <int>(self.__is_provider == 1 and
+                            self.__is_delegated == 0)
 
     def get_value(self):
         """Return injection value."""
@@ -43,7 +44,8 @@ cdef class NamedInjection(Injection):
         self.__value = value
         self.__is_provider = <int>is_provider(value)
         self.__is_delegated = <int>is_delegated(value)
-        self.__call = <int>self.__is_provider == 1 and self.__is_delegated == 0
+        self.__call = <int>(self.__is_provider == 1 and
+                            self.__is_delegated == 0)
 
     def get_name(self):
         """Return injection value."""

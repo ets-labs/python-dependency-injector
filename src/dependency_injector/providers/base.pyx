@@ -120,7 +120,6 @@ cdef class Provider(object):
         if not is_provider(provider):
             provider = Object(provider)
 
-        print(self.__overridden, provider)
         self.__overridden += (provider,)
         self.__overridden_len += 1
 
