@@ -6,7 +6,7 @@ Powered by Cython.
 from .base cimport Provider
 
 
-cdef tuple CLASS_TYPES
+cdef public object CLASS_TYPES
 
 
 cdef class OverridingContext(object):

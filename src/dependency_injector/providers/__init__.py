@@ -34,7 +34,6 @@ from .injections import (
     NamedInjection,
 )
 from .utils import (
-    GLOBAL_LOCK,
     OverridingContext,
     is_provider,
     ensure_is_provider,
@@ -71,7 +70,6 @@ __all__ = (
     'PositionalInjection',
     'NamedInjection',
 
-    'GLOBAL_LOCK',
     'OverridingContext',
     'is_provider',
     'ensure_is_provider',

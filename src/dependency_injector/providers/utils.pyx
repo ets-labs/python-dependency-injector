@@ -13,13 +13,6 @@ from dependency_injector.errors import Error
 from .base cimport Provider
 
 
-GLOBAL_LOCK = threading.RLock()
-"""Global reentrant lock.
-
-:type: :py:class:`threading.RLock`
-"""
-
-cdef tuple CLASS_TYPES
 if sys.version_info[0] == 3:  # pragma: no cover
     CLASS_TYPES = (type,)
 else:  # pragma: no cover

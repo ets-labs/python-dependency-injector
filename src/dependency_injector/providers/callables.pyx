@@ -12,7 +12,7 @@ from .injections cimport (
     parse_positional_injections,
     parse_named_injections,
 )
-from .utils import represent_provider
+from .utils cimport represent_provider
 
 
 cdef class Callable(Provider):

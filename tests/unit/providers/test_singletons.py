@@ -210,7 +210,7 @@ class SingletonTests(unittest.TestCase):
         provider = providers.Singleton(Example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.creational.'
+                         '<dependency_injector.providers.singletons.'
                          'Singleton({0}) at {1}>'.format(
                              repr(Example),
                              hex(id(provider))))
@@ -228,7 +228,7 @@ class DelegatedSingletonTests(unittest.TestCase):
 
     def test_is_delegated_provider(self):
         provider = providers.DelegatedSingleton(object)
-        self.assertIs(provider.provide_injection(), provider)
+        self.assertTrue(providers.is_delegated(provider))
 
 
 class ThreadLocalSingletonTests(unittest.TestCase):
@@ -425,7 +425,7 @@ class ThreadLocalSingletonTests(unittest.TestCase):
         provider = providers.ThreadLocalSingleton(Example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.creational.'
+                         '<dependency_injector.providers.singletons.'
                          'ThreadLocalSingleton({0}) at {1}>'.format(
                              repr(Example),
                              hex(id(provider))))
@@ -444,4 +444,4 @@ class DelegatedThreadLocalSingletonTests(unittest.TestCase):
 
     def test_is_delegated_provider(self):
         provider = providers.DelegatedThreadLocalSingleton(object)
-        self.assertIs(provider.provide_injection(), provider)
+        self.assertTrue(providers.is_delegated(provider))

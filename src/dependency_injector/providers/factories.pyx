@@ -11,7 +11,7 @@ from .injections cimport (
     NamedInjection,
     parse_named_injections,
 )
-from .utils import represent_provider
+from .utils cimport represent_provider
 
 
 cdef class Factory(Provider):
@@ -89,7 +89,6 @@ cdef class Factory(Provider):
         self.__attributes_len = 0
 
         super(Factory, self).__init__()
-
 
     def __str__(self):
         """Return string representation of provider.

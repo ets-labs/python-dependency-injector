@@ -88,4 +88,4 @@ class DelegatedCallableTests(unittest.TestCase):
 
     def test_is_delegated_provider(self):
         provider = providers.DelegatedCallable(len)
-        self.assertIs(provider.provide_injection(), provider)
+        self.assertTrue(providers.is_delegated(provider))
