@@ -12,7 +12,10 @@ from .injections cimport (
     parse_positional_injections,
     parse_named_injections,
 )
-from .utils cimport represent_provider
+from .utils cimport (
+    represent_provider,
+    deepcopy,
+)
 
 
 cdef class Callable(Provider):
@@ -67,6 +70,21 @@ cdef class Callable(Provider):
         self.set_kwargs(**kwargs)
 
         super(Callable, self).__init__()
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__(self.__provies,
+                                *deepcopy(self.args, memo),
+                                **deepcopy(self.kwargs, memo))
+
+        for overriding_provider in self.overridden:
+            copied.override(deepcopy(overriding_provider, memo))
+
+        return copied
 
     def __str__(self):
         """Return string representation of provider.
@@ -132,13 +150,13 @@ cdef class Callable(Provider):
     def kwargs(self):
         """Return keyword argument injections."""
         cdef int index
-        cdef NamedInjection arg
+        cdef NamedInjection kwarg
         cdef dict kwargs
 
         kwargs = dict()
-        for index in range(self.__args_len):
-            arg = self.__args[index]
-            kwargs[arg.__name] = arg.__value
+        for index in range(self.__kwargs_len):
+            kwarg = self.__kwargs[index]
+            kwargs[kwarg.__name] = kwarg.__value
         return kwargs
 
     def add_kwargs(self, **kwargs):

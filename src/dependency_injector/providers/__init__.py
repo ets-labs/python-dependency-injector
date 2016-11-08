@@ -2,6 +2,10 @@
 
 from .base import (
     Provider,
+    Object,
+    Delegate,
+    ExternalDependency,
+    OverridingContext,
 )
 from .callables import (
     Callable,
@@ -23,27 +27,26 @@ from .singletons import (
     ThreadLocalSingleton,
     DelegatedThreadLocalSingleton,
 )
-from .static import (
-    Object,
-    Delegate,
-    ExternalDependency,
-)
 from .injections import (
     Injection,
     PositionalInjection,
     NamedInjection,
 )
 from .utils import (
-    OverridingContext,
     is_provider,
     ensure_is_provider,
     is_delegated,
     represent_provider,
+    deepcopy,
 )
 
 
 __all__ = (
     'Provider',
+    'Object',
+    'Delegate',
+    'ExternalDependency',
+    'OverridingContext',
 
     'Callable',
     'DelegatedCallable',
@@ -62,17 +65,13 @@ __all__ = (
     'ThreadLocalSingleton',
     'DelegatedThreadLocalSingleton',
 
-    'Object',
-    'Delegate',
-    'ExternalDependency',
-
     'Injection',
     'PositionalInjection',
     'NamedInjection',
 
-    'OverridingContext',
     'is_provider',
     'ensure_is_provider',
     'is_delegated',
     'represent_provider',
+    'deepcopy',
 )

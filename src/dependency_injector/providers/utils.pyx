@@ -3,14 +3,12 @@
 Powered by Cython.
 """
 
+import copy
 import sys
 import types
-
 import threading
 
 from dependency_injector.errors import Error
-
-from .base cimport Provider
 
 
 if sys.version_info[0] == 3:  # pragma: no cover
@@ -18,40 +16,10 @@ if sys.version_info[0] == 3:  # pragma: no cover
 else:  # pragma: no cover
     CLASS_TYPES = (type, types.ClassType)
 
-
-cdef class OverridingContext(object):
-    """Provider overriding context.
-
-    :py:class:`OverridingContext` is used by :py:meth:`Provider.override` for
-    implemeting ``with`` contexts. When :py:class:`OverridingContext` is
-    closed, overriding that was created in this context is dropped also.
-
-    .. code-block:: python
-
-        with provider.override(another_provider):
-            assert provider.overridden
-        assert not provider.overridden
-    """
-
-    def __init__(self, Provider overridden, Provider overriding):
-        """Initializer.
-
-        :param overridden: Overridden provider.
-        :type overridden: :py:class:`Provider`
-
-        :param overriding: Overriding provider.
-        :type overriding: :py:class:`Provider`
-        """
-        self.__overridden = overridden
-        self.__overriding = overriding
-
-    def __enter__(self):
-        """Do nothing."""
-        return self.__overriding
-
-    def __exit__(self, *_):
-        """Exit overriding context."""
-        self.__overridden.reset_last_overriding()
+    copy._deepcopy_dispatch[types.MethodType] = \
+        lambda obj, memo: type(obj)(obj.im_func,
+                                    copy.deepcopy(obj.im_self, memo),
+                                    obj.im_class)
 
 
 cpdef bint is_provider(object instance):
@@ -112,3 +80,7 @@ cpdef str represent_provider(object provider, object provides):
                            provider.__class__.__name__)),
         provides=repr(provides) if provides is not None else '',
         address=hex(id(provider)))
+
+cpdef object deepcopy(object instance, dict memo=None):
+    """Return full copy of provider or container with providers."""
+    return copy.deepcopy(instance, memo)

@@ -1,18 +1,10 @@
 """Dependency injector container utils."""
 
-import copy as _copy
-import types
 
 import six
 
+from dependency_injector.providers import deepcopy
 from dependency_injector.errors import Error
-
-
-if six.PY2:  # pragma: no cover
-    _copy._deepcopy_dispatch[types.MethodType] = \
-        lambda obj, memo: type(obj)(obj.im_func,
-                                    _copy.deepcopy(obj.im_self, memo),
-                                    obj.im_class)
 
 
 def is_container(instance):
@@ -72,11 +64,6 @@ def copy(container):
 
         return copied_container
     return _decorator
-
-
-def deepcopy(instance, memo=None):
-    """Make full copy of instance."""
-    return _copy.deepcopy(instance, memo)
 
 
 def _check_provider_type(cls, provider):

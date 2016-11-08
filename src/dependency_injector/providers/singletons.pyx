@@ -9,7 +9,10 @@ from dependency_injector.errors import Error
 
 from .base cimport Provider
 from .factories cimport Factory
-from .utils cimport represent_provider
+from .utils cimport (
+    represent_provider,
+    deepcopy,
+)
 
 
 GLOBAL_LOCK = threading.RLock()
@@ -43,7 +46,7 @@ cdef class BaseSingleton(Provider):
 
         self.__instantiator = Factory(provides, *args, **kwargs)
 
-        super(Provider, self).__init__()
+        super(BaseSingleton, self).__init__()
 
     def __str__(self):
         """Return string representation of provider.
@@ -52,6 +55,22 @@ cdef class BaseSingleton(Provider):
         """
         return represent_provider(provider=self,
                                   provides=self.__instantiator.cls)
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__(self.cls,
+                                *deepcopy(self.args, memo),
+                                **deepcopy(self.kwargs, memo))
+        copied.set_attributes(**deepcopy(self.attributes, memo))
+
+        for overriding_provider in self.overridden:
+            copied.override(deepcopy(overriding_provider, memo))
+
+        return copied
 
     @property
     def cls(self):
@@ -178,7 +197,35 @@ cdef class BaseSingleton(Provider):
 
 
 cdef class Singleton(BaseSingleton):
-    """Singleton provider."""
+    """Singleton provider returns same instance on every call.
+
+    :py:class:`Singleton` provider creates instance once and returns it on
+    every call. :py:class:`Singleton` extends :py:class:`Factory`, so, please
+    follow :py:class:`Factory` documentation for getting familiar with
+    injections syntax.
+
+    Retrieving of provided instance can be performed via calling
+    :py:class:`Singleton` object:
+
+    .. code-block:: python
+
+        singleton = Singleton(SomeClass)
+        some_object = singleton()
+
+    .. py:attribute:: provided_type
+
+        If provided type is defined, provider checks that providing class is
+        its subclass.
+
+        :type: type | None
+
+    .. py:attribute:: cls
+
+        Class that provides object.
+        Alias for :py:attr:`provides`.
+
+        :type: type
+    """
 
     def __init__(self, provides, *args, **kwargs):
         """Initializer.
@@ -208,6 +255,23 @@ cdef class Singleton(BaseSingleton):
 
 
 cdef class DelegatedSingleton(Singleton):
+    """Delegated singleton is injected "as is".
+
+    .. py:attribute:: provided_type
+
+        If provided type is defined, provider checks that providing class is
+        its subclass.
+
+        :type: type | None
+
+    .. py:attribute:: cls
+
+        Class that provides object.
+        Alias for :py:attr:`provides`.
+
+        :type: type
+    """
+
     __IS_DELEGATED__ = True
 
 
@@ -243,11 +307,43 @@ cdef class ThreadSafeSingleton(BaseSingleton):
 
 
 cdef class DelegatedThreadSafeSingleton(ThreadSafeSingleton):
+    """Delegated thread-safe singleton is injected "as is".
+
+    .. py:attribute:: provided_type
+
+        If provided type is defined, provider checks that providing class is
+        its subclass.
+
+        :type: type | None
+
+    .. py:attribute:: cls
+
+        Class that provides object.
+        Alias for :py:attr:`provides`.
+
+        :type: type
+    """
+
     __IS_DELEGATED__ = True
 
 
 cdef class ThreadLocalSingleton(BaseSingleton):
-    """Thread local singleton provider."""
+    """Thread-local singleton provides single objects in scope of thread.
+
+    .. py:attribute:: provided_type
+
+        If provided type is defined, provider checks that providing class is
+        its subclass.
+
+        :type: type | None
+
+    .. py:attribute:: cls
+
+        Class that provides object.
+        Alias for :py:attr:`provides`.
+
+        :type: type
+    """
 
     def __init__(self, provides, *args, **kwargs):
         """Initializer.
@@ -277,4 +373,21 @@ cdef class ThreadLocalSingleton(BaseSingleton):
 
 
 cdef class DelegatedThreadLocalSingleton(ThreadLocalSingleton):
+    """Delegated thread-local singleton is injected "as is".
+
+    .. py:attribute:: provided_type
+
+        If provided type is defined, provider checks that providing class is
+        its subclass.
+
+        :type: type | None
+
+    .. py:attribute:: cls
+
+        Class that provides object.
+        Alias for :py:attr:`provides`.
+
+        :type: type
+    """
+
     __IS_DELEGATED__ = True

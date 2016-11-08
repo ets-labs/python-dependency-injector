@@ -6,7 +6,7 @@ Powered by Cython.
 cimport cython
 
 
-cdef class Injection:
+cdef class Injection(object):
     pass
 
 

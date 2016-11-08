@@ -11,7 +11,10 @@ from .injections cimport (
     NamedInjection,
     parse_named_injections,
 )
-from .utils cimport represent_provider
+from .utils cimport (
+    represent_provider,
+    deepcopy,
+)
 
 
 cdef class Factory(Provider):
@@ -89,6 +92,22 @@ cdef class Factory(Provider):
         self.__attributes_len = 0
 
         super(Factory, self).__init__()
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__(self.cls,
+                                *deepcopy(self.args, memo),
+                                **deepcopy(self.kwargs, memo))
+        copied.set_attributes(**deepcopy(self.attributes, memo))
+
+        for overriding_provider in self.overridden:
+            copied.override(deepcopy(overriding_provider, memo))
+
+        return copied
 
     def __str__(self):
         """Return string representation of provider.
@@ -185,8 +204,8 @@ cdef class Factory(Provider):
         cdef dict attributes
 
         attributes = dict()
-        for index in range(self.__args_len):
-            attribute = self.__args[index]
+        for index in range(self.__attributes_len):
+            attribute = self.__attributes[index]
             attributes[attribute.__name] = attribute.__value
         return attributes
 
