@@ -77,7 +77,7 @@ cdef class Callable(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(self.__provies,
+        copied = self.__class__(self.provides,
                                 *deepcopy(self.args, memo),
                                 **deepcopy(self.kwargs, memo))
 
