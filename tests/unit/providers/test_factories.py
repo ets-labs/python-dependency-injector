@@ -179,6 +179,42 @@ class FactoryTests(unittest.TestCase):
         self.assertEqual(instance.attribute1, 5)
         self.assertEqual(instance.attribute2, 6)
 
+    def test_set_args(self):
+        provider = providers.Factory(Example) \
+            .add_args(1, 2) \
+            .set_args(3, 4)
+        self.assertEqual(provider.args, tuple([3, 4]))
+
+    def test_set_kwargs(self):
+        provider = providers.Factory(Example) \
+            .add_kwargs(init_arg3=3, init_arg4=4) \
+            .set_kwargs(init_arg3=4, init_arg4=5)
+        self.assertEqual(provider.kwargs, dict(init_arg3=4, init_arg4=5))
+
+    def test_set_attributes(self):
+        provider = providers.Factory(Example) \
+            .add_attributes(attribute1=5, attribute2=6) \
+            .set_attributes(attribute1=6, attribute2=7)
+        self.assertEqual(provider.attributes, dict(attribute1=6, attribute2=7))
+
+    def test_clear_args(self):
+        provider = providers.Factory(Example) \
+            .add_args(1, 2) \
+            .clear_args()
+        self.assertEqual(provider.args, tuple())
+
+    def test_clear_kwargs(self):
+        provider = providers.Factory(Example) \
+            .add_kwargs(init_arg3=3, init_arg4=4) \
+            .clear_kwargs()
+        self.assertEqual(provider.kwargs, dict())
+
+    def test_clear_attributes(self):
+        provider = providers.Factory(Example) \
+            .add_attributes(attribute1=5, attribute2=6) \
+            .clear_attributes()
+        self.assertEqual(provider.attributes, dict())
+
     def test_call_overridden(self):
         provider = providers.Factory(Example)
         overriding_provider1 = providers.Factory(dict)
@@ -193,6 +229,97 @@ class FactoryTests(unittest.TestCase):
         self.assertIsNot(instance1, instance2)
         self.assertIsInstance(instance1, list)
         self.assertIsInstance(instance2, list)
+
+    def test_deepcopy(self):
+        provider = providers.Factory(Example)
+
+        provider_copy = providers.deepcopy(provider)
+
+        self.assertIsNot(provider, provider_copy)
+        self.assertIs(provider.cls, provider_copy.cls)
+        self.assertIsInstance(provider, providers.Factory)
+
+    def test_deepcopy_from_memo(self):
+        provider = providers.Factory(Example)
+        provider_copy_memo = providers.Factory(Example)
+
+        provider_copy = providers.deepcopy(
+            provider, memo={id(provider): provider_copy_memo})
+
+        self.assertIs(provider_copy, provider_copy_memo)
+
+    def test_deepcopy_args(self):
+        provider = providers.Factory(Example)
+        dependent_provider1 = providers.Factory(list)
+        dependent_provider2 = providers.Factory(dict)
+
+        provider.add_args(dependent_provider1, dependent_provider2)
+
+        provider_copy = providers.deepcopy(provider)
+        dependent_provider_copy1 = provider_copy.args[0]
+        dependent_provider_copy2 = provider_copy.args[1]
+
+        self.assertNotEqual(provider.args, provider_copy.args)
+
+        self.assertIs(dependent_provider1.cls, dependent_provider_copy1.cls)
+        self.assertIsNot(dependent_provider1, dependent_provider_copy1)
+
+        self.assertIs(dependent_provider2.cls, dependent_provider_copy2.cls)
+        self.assertIsNot(dependent_provider2, dependent_provider_copy2)
+
+    def test_deepcopy_kwargs(self):
+        provider = providers.Factory(Example)
+        dependent_provider1 = providers.Factory(list)
+        dependent_provider2 = providers.Factory(dict)
+
+        provider.add_kwargs(a1=dependent_provider1, a2=dependent_provider2)
+
+        provider_copy = providers.deepcopy(provider)
+        dependent_provider_copy1 = provider_copy.kwargs['a1']
+        dependent_provider_copy2 = provider_copy.kwargs['a2']
+
+        self.assertNotEqual(provider.kwargs, provider_copy.kwargs)
+
+        self.assertIs(dependent_provider1.cls, dependent_provider_copy1.cls)
+        self.assertIsNot(dependent_provider1, dependent_provider_copy1)
+
+        self.assertIs(dependent_provider2.cls, dependent_provider_copy2.cls)
+        self.assertIsNot(dependent_provider2, dependent_provider_copy2)
+
+    def test_deepcopy_attributes(self):
+        provider = providers.Factory(Example)
+        dependent_provider1 = providers.Factory(list)
+        dependent_provider2 = providers.Factory(dict)
+
+        provider.add_attributes(a1=dependent_provider1, a2=dependent_provider2)
+
+        provider_copy = providers.deepcopy(provider)
+        dependent_provider_copy1 = provider_copy.attributes['a1']
+        dependent_provider_copy2 = provider_copy.attributes['a2']
+
+        self.assertNotEqual(provider.attributes, provider_copy.attributes)
+
+        self.assertIs(dependent_provider1.cls, dependent_provider_copy1.cls)
+        self.assertIsNot(dependent_provider1, dependent_provider_copy1)
+
+        self.assertIs(dependent_provider2.cls, dependent_provider_copy2.cls)
+        self.assertIsNot(dependent_provider2, dependent_provider_copy2)
+
+    def test_deepcopy_overridden(self):
+        provider = providers.Factory(Example)
+        object_provider = providers.Object(object())
+
+        provider.override(object_provider)
+
+        provider_copy = providers.deepcopy(provider)
+        object_provider_copy = provider_copy.overridden[0]
+
+        self.assertIsNot(provider, provider_copy)
+        self.assertIs(provider.cls, provider_copy.cls)
+        self.assertIsInstance(provider, providers.Factory)
+
+        self.assertIsNot(object_provider, object_provider_copy)
+        self.assertIsInstance(object_provider_copy, providers.Object)
 
     def test_repr(self):
         provider = providers.Factory(Example)
