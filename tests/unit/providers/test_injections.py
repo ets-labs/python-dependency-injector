@@ -30,6 +30,28 @@ class PositionalInjectionTests(unittest.TestCase):
         injection = providers.PositionalInjection(provider)
         self.assertIs(injection.get_original_value(), provider)
 
+    def test_deepcopy(self):
+        provider = providers.Factory(object)
+        injection = providers.PositionalInjection(provider)
+
+        injection_copy = providers.deepcopy(injection)
+
+        self.assertIsNot(injection_copy, injection)
+        self.assertIsNot(injection_copy.get_original_value(),
+                         injection.get_original_value())
+
+    def test_deepcopy_memo(self):
+        provider = providers.Factory(object)
+        injection = providers.PositionalInjection(provider)
+        injection_copy_orig = providers.PositionalInjection(provider)
+
+        injection_copy = providers.deepcopy(
+            injection, {id(injection): injection_copy_orig})
+
+        self.assertIs(injection_copy, injection_copy_orig)
+        self.assertIs(injection_copy.get_original_value(),
+                      injection.get_original_value())
+
 
 class NamedInjectionTests(unittest.TestCase):
 
@@ -60,3 +82,25 @@ class NamedInjectionTests(unittest.TestCase):
         provider = providers.Factory(object)
         injection = providers.NamedInjection('name', provider)
         self.assertIs(injection.get_original_value(), provider)
+
+    def test_deepcopy(self):
+        provider = providers.Factory(object)
+        injection = providers.NamedInjection('name', provider)
+
+        injection_copy = providers.deepcopy(injection)
+
+        self.assertIsNot(injection_copy, injection)
+        self.assertIsNot(injection_copy.get_original_value(),
+                         injection.get_original_value())
+
+    def test_deepcopy_memo(self):
+        provider = providers.Factory(object)
+        injection = providers.NamedInjection('name', provider)
+        injection_copy_orig = providers.NamedInjection('name', provider)
+
+        injection_copy = providers.deepcopy(
+            injection, {id(injection): injection_copy_orig})
+
+        self.assertIs(injection_copy, injection_copy_orig)
+        self.assertIs(injection_copy.get_original_value(),
+                      injection.get_original_value())
