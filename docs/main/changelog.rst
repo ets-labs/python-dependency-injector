@@ -11,6 +11,11 @@ Development version
 -------------------
 - No features.
 
+3.1.0
+-----
+- Add "Services mini application" example.
+- Fix minor error in ``Factory`` provider API doc.
+
 3.0.1
 -----
 - Add ``*.c`` source files under version control.
