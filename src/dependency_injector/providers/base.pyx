@@ -179,8 +179,6 @@ cdef class Provider(object):
     @cython.wraparound(False)
     cpdef object _call_last_overriding(self, tuple args, dict kwargs):
         """Call last overriding provider and return result."""
-        if self.__overridden_len == 0:
-            return None
         return  <object>self.__overridden[self.__overridden_len - 1](*args,
                                                                      **kwargs)
 
