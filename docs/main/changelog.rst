@@ -9,6 +9,11 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+.. - No features.
+
+3.0.0
+-----
+
 - **Providers**
 
   1. All providers from ``dependency_injector.providers`` package are 
@@ -43,8 +48,6 @@ Development version
   3. Update repository structure:
     1. Sources are moved under ``src/`` folder.
     2. Tests are moved under ``tests/unit/`` folder.
-
-.. - No features.
 
 
 2.2.10
