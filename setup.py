@@ -79,10 +79,10 @@ setup(name='dependency-injector',
       license='BSD New',
       platforms=['any'],
       keywords=[
-          'DI',
           'Dependency injection',
-          'IoC',
+          'DI',
           'Inversion of Control',
+          'IoC',
       ],
       classifiers=[
           'Development Status :: 5 - Production/Stable',

@@ -9,7 +9,13 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-.. - No features.
+- No features.
+
+3.0.1
+-----
+- Add ``*.c`` source files under version control.
+- Change keywords.
+
 
 3.0.0
 -----
