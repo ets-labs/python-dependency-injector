@@ -17,7 +17,7 @@ Also, for both of these and some other cases, it might be useful to attach
 some init / shutdown functionality or something else, that deals with group 
 of providers.
 
-Containers module API docs - :py:mod:`dependency_injector.containers`.
+Containers package API docs - :py:mod:`dependency_injector.containers`.
 
 ..  toctree::
     :maxdepth: 2

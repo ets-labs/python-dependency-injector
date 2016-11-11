@@ -8,10 +8,11 @@ cimport cython
 from .utils cimport (
     is_provider,
     is_delegated,
+    deepcopy,
 )
 
 
-cdef class Injection:
+cdef class Injection(object):
     """Abstract injection class."""
 
 
@@ -23,7 +24,16 @@ cdef class PositionalInjection(Injection):
         self.__value = value
         self.__is_provider = <int>is_provider(value)
         self.__is_delegated = <int>is_delegated(value)
-        self.__call = <int>self.__is_provider == 1 and self.__is_delegated == 0
+        self.__call = <int>(self.__is_provider == 1 and
+                            self.__is_delegated == 0)
+        super(PositionalInjection, self).__init__()
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+        return self.__class__(deepcopy(self.__value, memo))
 
     def get_value(self):
         """Return injection value."""
@@ -43,7 +53,17 @@ cdef class NamedInjection(Injection):
         self.__value = value
         self.__is_provider = <int>is_provider(value)
         self.__is_delegated = <int>is_delegated(value)
-        self.__call = <int>self.__is_provider == 1 and self.__is_delegated == 0
+        self.__call = <int>(self.__is_provider == 1 and
+                            self.__is_delegated == 0)
+        super(NamedInjection, self).__init__()
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+        return self.__class__(deepcopy(self.__name, memo),
+                              deepcopy(self.__value, memo))
 
     def get_name(self):
         """Return injection value."""

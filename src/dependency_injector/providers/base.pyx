@@ -1,17 +1,22 @@
-"""Dependency injector base providers."""
+"""Dependency injector base providers.
 
-import six
+Powered by Cython.
+"""
+
+cimport cython
 
 from dependency_injector.errors import Error
-from .utils import (
+
+from .utils cimport (
+    CLASS_TYPES,
     is_provider,
     ensure_is_provider,
     represent_provider,
+    deepcopy,
 )
 
 
-@six.python_2_unicode_compatible
-class Provider(object):
+cdef class Provider(object):
     """Base provider class.
 
     :py:class:`Provider` is callable (implements ``__call__`` method). Every
@@ -59,38 +64,53 @@ class Provider(object):
     """
 
     __IS_PROVIDER__ = True
-    __OPTIMIZED_CALLS__ = True
-    __slots__ = ('overridden', 'provide', '__call__')
 
     def __init__(self):
         """Initializer."""
-        self.overridden = tuple()
+        self.__overridden = tuple()
+        self.__overridden_len = 0
         super(Provider, self).__init__()
-        # Enable __call__() / _provide() optimization
-        if self.__class__.__OPTIMIZED_CALLS__:
-            self.__call__ = self.provide = self._provide
 
-    def _provide(self, *args, **kwargs):
-        """Providing strategy implementation.
+    def __call__(self, *args, **kwargs):
+        """Return provided object.
 
-        Abstract protected method that implements providing strategy of
-        particular provider. Current method is called every time when not
-        overridden provider is called. Need to be overridden in subclasses.
+        Callable interface implementation.
         """
-        raise NotImplementedError()
+        if self.__overridden_len != 0:
+            return self._call_last_overriding(args, kwargs)
+        return self._provide(args, kwargs)
 
-    def _call_last_overriding(self, *args, **kwargs):
-        """Call last overriding provider and return result."""
-        return (self.overridden[-1](*args, **kwargs)
-                if self.overridden
-                else None)
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
 
-    def provide_injection(self):
-        """Injection strategy implementation.
+        copied = self.__class__()
 
-        :rtype: object
+        for overriding_provider in self.overridden:
+            copied.override(deepcopy(overriding_provider, memo))
+
+        return copied
+
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
         """
-        return self.provide()
+        return represent_provider(provider=self, provides=None)
+
+    def __repr__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return self.__str__()
+
+    @property
+    def overridden(self):
+        """Return tuple of overriding providers."""
+        return self.__overridden
 
     def override(self, provider):
         """Override provider with another provider.
@@ -100,8 +120,8 @@ class Provider(object):
 
         :raise: :py:exc:`dependency_injector.errors.Error`
 
-        :return: Overriding provider.
-        :rtype: :py:class:`Provider`
+        :return: Overriding context.
+        :rtype: :py:class:`OverridingContext`
         """
         if provider is self:
             raise Error('Provider {0} could not be overridden '
@@ -110,14 +130,13 @@ class Provider(object):
         if not is_provider(provider):
             provider = Object(provider)
 
-        self.overridden += (ensure_is_provider(provider),)
-
-        # Disable __call__() / _provide() optimization
-        if self.__class__.__OPTIMIZED_CALLS__:
-            self.__call__ = self.provide = self._call_last_overriding
+        self.__overridden += (provider,)
+        self.__overridden_len += 1
 
         return OverridingContext(self, provider)
 
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
     def reset_last_overriding(self):
         """Reset last overriding provider.
 
@@ -126,26 +145,19 @@ class Provider(object):
 
         :rtype: None
         """
-        if not self.overridden:
+        if self.__overridden_len == 0:
             raise Error('Provider {0} is not overridden'.format(str(self)))
 
-        self.overridden = self.overridden[:-1]
-
-        if not self.overridden:
-            # Enable __call__() / _provide() optimization
-            if self.__class__.__OPTIMIZED_CALLS__:
-                self.__call__ = self.provide = self._provide
+        self.__overridden = self.__overridden[:self.__overridden_len - 1]
+        self.__overridden_len -= 1
 
     def reset_override(self):
         """Reset all overriding providers.
 
         :rtype: None
         """
-        self.overridden = tuple()
-
-        # Enable __call__() / _provide() optimization
-        if self.__class__.__OPTIMIZED_CALLS__:
-            self.__call__ = self.provide = self._provide
+        self.__overridden = tuple()
+        self.__overridden_len = 0
 
     def delegate(self):
         """Return provider's delegate.
@@ -154,73 +166,25 @@ class Provider(object):
         """
         return Delegate(self)
 
-    def __str__(self):
-        """Return string representation of provider.
+    cpdef object _provide(self, tuple args, dict kwargs):
+        """Providing strategy implementation.
 
-        :rtype: str
+        Abstract protected method that implements providing strategy of
+        particular provider. Current method is called every time when not
+        overridden provider is called. Need to be overridden in subclasses.
         """
-        return represent_provider(provider=self, provides=None)
+        raise NotImplementedError()
 
-    __repr__ = __str__
-
-
-@six.python_2_unicode_compatible
-class Delegate(Provider):
-    """:py:class:`Delegate` provider delegates another provider.
-
-    .. code-block:: python
-
-        provider = Factory(object)
-        delegate = Delegate(provider)
-
-        delegated = delegate()
-
-        assert provider is delegated
-
-    .. py:attribute:: delegated
-
-        Delegated provider.
-
-        :type: :py:class:`Provider`
-    """
-
-    __slots__ = ('delegated',)
-
-    def __init__(self, delegated):
-        """Initializer.
-
-        :provider delegated: Delegated provider.
-        :type delegated: :py:class:`Provider`
-        """
-        self.delegated = ensure_is_provider(delegated)
-        super(Delegate, self).__init__()
-
-    def _provide(self, *args, **kwargs):
-        """Return provided instance.
-
-        :param args: Tuple of context positional arguments.
-        :type args: tuple[object]
-
-        :param kwargs: Dictionary of context keyword arguments.
-        :type kwargs: dict[str, object]
-
-        :rtype: object
-        """
-        return self.delegated
-
-    def __str__(self):
-        """Return string representation of provider.
-
-        :rtype: str
-        """
-        return represent_provider(provider=self, provides=self.delegated)
-
-    __repr__ = __str__
+    @cython.boundscheck(False)
+    @cython.wraparound(False)
+    cpdef object _call_last_overriding(self, tuple args, dict kwargs):
+        """Call last overriding provider and return result."""
+        return  <object>self.__overridden[self.__overridden_len - 1](*args,
+                                                                     **kwargs)
 
 
-@six.python_2_unicode_compatible
-class Object(Provider):
-    """:py:class:`Object` provider returns provided instance "as is".
+cdef class Object(Provider):
+    """Object provider returns provided instance "as is".
 
     .. py:attribute:: provides
 
@@ -229,18 +193,43 @@ class Object(Provider):
         :type: object
     """
 
-    __slots__ = ('provides',)
-
     def __init__(self, provides):
         """Initializer.
 
         :param provides: Value that have to be provided.
         :type provides: object
         """
-        self.provides = provides
+        self.__provides = provides
         super(Object, self).__init__()
 
-    def _provide(self, *args, **kwargs):
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__(deepcopy(self.__provides, memo))
+
+        for overriding_provider in self.overridden:
+            copied.override(deepcopy(overriding_provider, memo))
+
+        return copied
+
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.__provides)
+
+    def __repr__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return self.__str__()
+
+    cpdef object _provide(self, tuple args, dict kwargs):
         """Return provided instance.
 
         :param args: Tuple of context positional arguments.
@@ -251,20 +240,29 @@ class Object(Provider):
 
         :rtype: object
         """
-        return self.provides
+        return self.__provides
 
-    def __str__(self):
-        """Return string representation of provider.
 
-        :rtype: str
+cdef class Delegate(Object):
+    """Delegate provider returns provider "as is".
+
+    .. py:attribute:: provides
+
+        Value that have to be provided.
+
+        :type: object
+    """
+
+    def __init__(self, provides):
+        """Initializer.
+
+        :param provides: Value that have to be provided.
+        :type provides: object
         """
-        return represent_provider(provider=self, provides=self.provides)
-
-    __repr__ = __str__
+        super(Delegate, self).__init__(ensure_is_provider(provides))
 
 
-@six.python_2_unicode_compatible
-class ExternalDependency(Provider):
+cdef class ExternalDependency(Provider):
     """:py:class:`ExternalDependency` provider describes dependency interface.
 
     This provider is used for description of dependency interface. That might
@@ -286,17 +284,23 @@ class ExternalDependency(Provider):
         :type: type
     """
 
-    __OPTIMIZED_CALLS__ = False
-    __slots__ = ('instance_of',)
-
-    def __init__(self, instance_of):
+    def __init__(self, type instance_of):
         """Initializer."""
-        if not isinstance(instance_of, six.class_types):
-            raise Error('ExternalDependency provider expects to get class, ' +
-                        'got {0} instead'.format(str(instance_of)))
-        self.instance_of = instance_of
-        self.provide = self.__call__
+        self.__instance_of = instance_of
         super(ExternalDependency, self).__init__()
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__(self.__instance_of)
+
+        for overriding_provider in self.overridden:
+            copied.override(deepcopy(overriding_provider, memo))
+
+        return copied
 
     def __call__(self, *args, **kwargs):
         """Return provided instance.
@@ -311,16 +315,37 @@ class ExternalDependency(Provider):
 
         :rtype: object
         """
-        if not self.overridden:
+        cdef object instance
+
+        if self.__overridden_len == 0:
             raise Error('Dependency is not defined')
 
-        instance = self._call_last_overriding(*args, **kwargs)
+        instance = self._call_last_overriding(args, kwargs)
 
         if not isinstance(instance, self.instance_of):
             raise Error('{0} is not an '.format(instance) +
                         'instance of {0}'.format(self.instance_of))
 
         return instance
+
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.__instance_of)
+
+    def __repr__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return self.__str__()
+
+    @property
+    def instance_of(self):
+        """Return class of required dependency."""
+        return self.__instance_of
 
     def provided_by(self, provider):
         """Set external dependency provider.
@@ -332,17 +357,8 @@ class ExternalDependency(Provider):
         """
         return self.override(provider)
 
-    def __str__(self):
-        """Return string representation of provider.
 
-        :rtype: str
-        """
-        return represent_provider(provider=self, provides=self.instance_of)
-
-    __repr__ = __str__
-
-
-class OverridingContext(object):
+cdef class OverridingContext(object):
     """Provider overriding context.
 
     :py:class:`OverridingContext` is used by :py:meth:`Provider.override` for
@@ -356,7 +372,7 @@ class OverridingContext(object):
         assert not provider.overridden
     """
 
-    def __init__(self, overridden, overriding):
+    def __init__(self, Provider overridden, Provider overriding):
         """Initializer.
 
         :param overridden: Overridden provider.
@@ -365,52 +381,14 @@ class OverridingContext(object):
         :param overriding: Overriding provider.
         :type overriding: :py:class:`Provider`
         """
-        self.overridden = overridden
-        self.overriding = overriding
+        self.__overridden = overridden
+        self.__overriding = overriding
+        super(OverridingContext, self).__init__()
 
     def __enter__(self):
         """Do nothing."""
-        return self.overriding
+        return self.__overriding
 
     def __exit__(self, *_):
         """Exit overriding context."""
-        self.overridden.reset_last_overriding()
-
-
-def override(overridden):
-    """Decorator for overriding providers.
-
-    This decorator overrides ``overridden`` provider by decorated one.
-
-    .. code-block:: python
-
-        @Factory
-        class SomeClass(object):
-            pass
-
-
-        @override(SomeClass)
-        @Factory
-        class ExtendedSomeClass(SomeClass.cls):
-            pass
-
-    :param overridden: Provider that should be overridden.
-    :type overridden: :py:class:`Provider`
-
-    :return: Overriding provider.
-    :rtype: :py:class:`Provider`
-    """
-    def decorator(overriding):
-        overridden.override(overriding)
-        return overriding
-    return decorator
-
-
-def _parse_positional_injections(args):
-    return tuple(arg if is_provider(arg) else Object(arg)
-                 for arg in args)
-
-
-def _parse_keyword_injections(kwargs):
-    return dict((name, arg if is_provider(arg) else Object(arg))
-                for name, arg in six.iteritems(kwargs))
+        self.__overridden.reset_last_overriding()

@@ -25,6 +25,33 @@ class PositionalInjectionTests(unittest.TestCase):
         self.assertIs(type(obj2), object)
         self.assertIsNot(obj1, obj2)
 
+    def test_get_original_value(self):
+        provider = providers.Factory(object)
+        injection = providers.PositionalInjection(provider)
+        self.assertIs(injection.get_original_value(), provider)
+
+    def test_deepcopy(self):
+        provider = providers.Factory(object)
+        injection = providers.PositionalInjection(provider)
+
+        injection_copy = providers.deepcopy(injection)
+
+        self.assertIsNot(injection_copy, injection)
+        self.assertIsNot(injection_copy.get_original_value(),
+                         injection.get_original_value())
+
+    def test_deepcopy_memo(self):
+        provider = providers.Factory(object)
+        injection = providers.PositionalInjection(provider)
+        injection_copy_orig = providers.PositionalInjection(provider)
+
+        injection_copy = providers.deepcopy(
+            injection, {id(injection): injection_copy_orig})
+
+        self.assertIs(injection_copy, injection_copy_orig)
+        self.assertIs(injection_copy.get_original_value(),
+                      injection.get_original_value())
+
 
 class NamedInjectionTests(unittest.TestCase):
 
@@ -50,3 +77,30 @@ class NamedInjectionTests(unittest.TestCase):
         self.assertIs(type(obj1), object)
         self.assertIs(type(obj2), object)
         self.assertIsNot(obj1, obj2)
+
+    def test_get_original_value(self):
+        provider = providers.Factory(object)
+        injection = providers.NamedInjection('name', provider)
+        self.assertIs(injection.get_original_value(), provider)
+
+    def test_deepcopy(self):
+        provider = providers.Factory(object)
+        injection = providers.NamedInjection('name', provider)
+
+        injection_copy = providers.deepcopy(injection)
+
+        self.assertIsNot(injection_copy, injection)
+        self.assertIsNot(injection_copy.get_original_value(),
+                         injection.get_original_value())
+
+    def test_deepcopy_memo(self):
+        provider = providers.Factory(object)
+        injection = providers.NamedInjection('name', provider)
+        injection_copy_orig = providers.NamedInjection('name', provider)
+
+        injection_copy = providers.deepcopy(
+            injection, {id(injection): injection_copy_orig})
+
+        self.assertIs(injection_copy, injection_copy_orig)
+        self.assertIs(injection_copy.get_original_value(),
+                      injection.get_original_value())

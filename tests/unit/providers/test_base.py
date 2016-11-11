@@ -80,23 +80,113 @@ class ProviderTests(unittest.TestCase):
 
         self.assertEqual(self.provider.overridden, tuple())
 
+    def test_deepcopy(self):
+        provider = providers.Provider()
+
+        provider_copy = providers.deepcopy(provider)
+
+        self.assertIsNot(provider, provider_copy)
+        self.assertIsInstance(provider, providers.Provider)
+
+    def test_deepcopy_from_memo(self):
+        provider = providers.Provider()
+        provider_copy_memo = providers.Provider()
+
+        provider_copy = providers.deepcopy(
+            provider, memo={id(provider): provider_copy_memo})
+
+        self.assertIs(provider_copy, provider_copy_memo)
+
+    def test_deepcopy_overridden(self):
+        provider = providers.Provider()
+        overriding_provider = providers.Provider()
+
+        provider.override(overriding_provider)
+
+        provider_copy = providers.deepcopy(provider)
+        overriding_provider_copy = provider_copy.overridden[0]
+
+        self.assertIsNot(provider, provider_copy)
+        self.assertIsInstance(provider, providers.Provider)
+
+        self.assertIsNot(overriding_provider, overriding_provider_copy)
+        self.assertIsInstance(overriding_provider_copy, providers.Provider)
+
     def test_repr(self):
         self.assertEqual(repr(self.provider),
                          '<dependency_injector.providers.base.'
                          'Provider() at {0}>'.format(hex(id(self.provider))))
 
 
+class ObjectProviderTests(unittest.TestCase):
+
+    def test_is_provider(self):
+        self.assertTrue(providers.is_provider(providers.Object(object())))
+
+    def test_call_object_provider(self):
+        obj = object()
+        self.assertIs(providers.Object(obj)(), obj)
+
+    def test_call_overridden_object_provider(self):
+        obj1 = object()
+        obj2 = object()
+        provider = providers.Object(obj1)
+        provider.override(providers.Object(obj2))
+        self.assertIs(provider(), obj2)
+
+    def test_deepcopy(self):
+        provider = providers.Object(1)
+
+        provider_copy = providers.deepcopy(provider)
+
+        self.assertIsNot(provider, provider_copy)
+        self.assertIsInstance(provider, providers.Object)
+
+    def test_deepcopy_from_memo(self):
+        provider = providers.Object(1)
+        provider_copy_memo = providers.Provider()
+
+        provider_copy = providers.deepcopy(
+            provider, memo={id(provider): provider_copy_memo})
+
+        self.assertIs(provider_copy, provider_copy_memo)
+
+    def test_deepcopy_overridden(self):
+        provider = providers.Object(1)
+        overriding_provider = providers.Provider()
+
+        provider.override(overriding_provider)
+
+        provider_copy = providers.deepcopy(provider)
+        overriding_provider_copy = provider_copy.overridden[0]
+
+        self.assertIsNot(provider, provider_copy)
+        self.assertIsInstance(provider, providers.Object)
+
+        self.assertIsNot(overriding_provider, overriding_provider_copy)
+        self.assertIsInstance(overriding_provider_copy, providers.Provider)
+
+    def test_repr(self):
+        some_object = object()
+        provider = providers.Object(some_object)
+        self.assertEqual(repr(provider),
+                         '<dependency_injector.providers.base.'
+                         'Object({0}) at {1}>'.format(
+                             repr(some_object),
+                             hex(id(provider))))
+
+
 class DelegateTests(unittest.TestCase):
 
     def setUp(self):
         self.delegated = providers.Provider()
-        self.delegate = providers.Delegate(delegated=self.delegated)
+        self.delegate = providers.Delegate(self.delegated)
 
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(self.delegate))
 
     def test_init_with_not_provider(self):
-        self.assertRaises(errors.Error, providers.Delegate, delegated=object())
+        self.assertRaises(errors.Error, providers.Delegate, object())
 
     def test_call(self):
         delegated1 = self.delegate()
@@ -119,7 +209,7 @@ class ExternalDependencyTests(unittest.TestCase):
         self.provider = providers.ExternalDependency(instance_of=list)
 
     def test_init_with_not_class(self):
-        self.assertRaises(errors.Error, providers.ExternalDependency, object())
+        self.assertRaises(TypeError, providers.ExternalDependency, object())
 
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(self.provider))
@@ -134,6 +224,38 @@ class ExternalDependencyTests(unittest.TestCase):
 
     def test_call_not_overridden(self):
         self.assertRaises(errors.Error, self.provider)
+
+    def test_deepcopy(self):
+        provider = providers.ExternalDependency(int)
+
+        provider_copy = providers.deepcopy(provider)
+
+        self.assertIsNot(provider, provider_copy)
+        self.assertIsInstance(provider, providers.ExternalDependency)
+
+    def test_deepcopy_from_memo(self):
+        provider = providers.ExternalDependency(int)
+        provider_copy_memo = providers.Provider()
+
+        provider_copy = providers.deepcopy(
+            provider, memo={id(provider): provider_copy_memo})
+
+        self.assertIs(provider_copy, provider_copy_memo)
+
+    def test_deepcopy_overridden(self):
+        provider = providers.ExternalDependency(int)
+        overriding_provider = providers.Provider()
+
+        provider.override(overriding_provider)
+
+        provider_copy = providers.deepcopy(provider)
+        overriding_provider_copy = provider_copy.overridden[0]
+
+        self.assertIsNot(provider, provider_copy)
+        self.assertIsInstance(provider, providers.ExternalDependency)
+
+        self.assertIsNot(overriding_provider, overriding_provider_copy)
+        self.assertIsInstance(overriding_provider_copy, providers.Provider)
 
     def test_repr(self):
         self.assertEqual(repr(self.provider),

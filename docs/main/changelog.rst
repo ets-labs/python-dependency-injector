@@ -9,16 +9,40 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- Add ``dependency_injector.injections`` module (C extension).
-- Transfer ``dependency_injector.utils`` module to Cython (C extension).
-- Transfer ``dependency_injector.errors`` module to Cython (C extension).
-- Remove ``@inject`` decorator.
-- Add makefile (``clean``, ``test``, ``build``, ``install``, ``uninstall`` 
-  & ``publish`` commands).
-- Update repository structure:
+- **Providers**
 
-    - Sources are moved under ``src``.
-    - Tests are moved under ``tests/unit``.
+  1. All providers from ``dependency_injector.providers`` package are 
+     implemented as C extension types using Cython.
+  2. Add ``BaseSingleton`` super class for all singleton providers.
+  3. Make ``Singleton`` provider not thread-safe. It makes performance of 
+     ``Singleton`` provider  10x times faster.
+  4. Add ``ThreadSafeSingleton`` provider - thread-safe version of 
+     ``Singleton`` provider.
+  5. Add ``ThreadLocalSingleton`` provider - ``Singleton`` provider that uses 
+     thread-local storage.
+  6. Remove ``provides`` attribute from ``Factory`` and ``Singleton`` 
+     providers.
+  7. Add ``set_args()`` and ``clear_args()`` methods for ``Callable``, 
+     ``Factory`` and ``Singleton`` providers.
+
+- **Containers**
+
+  1. Module ``dependency_injector.containers`` was splitted into submodules 
+     without any functional changes.
+
+- **Utils**
+
+  1. Module ``dependency_injector.utils`` is splitted into 
+     ``dependency_injector.containers`` and ``dependency_injector.providers``.
+
+- **Miscellaneous**
+
+  1. Remove ``@inject`` decorator.
+  2. Add makefile (``clean``, ``test``, ``build``, ``install``, ``uninstall`` 
+     & ``publish`` commands).
+  3. Update repository structure:
+    1. Sources are moved under ``src/`` folder.
+    2. Tests are moved under ``tests/unit/`` folder.
 
 .. - No features.
 

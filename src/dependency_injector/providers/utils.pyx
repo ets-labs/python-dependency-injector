@@ -3,23 +3,23 @@
 Powered by Cython.
 """
 
+import copy
 import sys
 import types
-
 import threading
 
 from dependency_injector.errors import Error
 
-GLOBAL_LOCK = threading.RLock()
-"""Global reentrant lock.
-
-:type: :py:class:`threading.RLock`
-"""
 
 if sys.version_info[0] == 3:  # pragma: no cover
-    _CLASS_TYPES = (type,)
+    CLASS_TYPES = (type,)
 else:  # pragma: no cover
-    _CLASS_TYPES = (type, types.ClassType)
+    CLASS_TYPES = (type, types.ClassType)
+
+    copy._deepcopy_dispatch[types.MethodType] = \
+        lambda obj, memo: type(obj)(obj.im_func,
+                                    copy.deepcopy(obj.im_self, memo),
+                                    obj.im_class)
 
 
 cpdef bint is_provider(object instance):
@@ -30,7 +30,7 @@ cpdef bint is_provider(object instance):
 
     :rtype: bool
     """
-    return (not isinstance(instance, _CLASS_TYPES) and
+    return (not isinstance(instance, CLASS_TYPES) and
             getattr(instance, '__IS_PROVIDER__', False) is True)
 
 
@@ -59,7 +59,7 @@ cpdef bint is_delegated(object instance):
 
     :rtype: bool
     """
-    return (not isinstance(instance, _CLASS_TYPES) and
+    return (not isinstance(instance, CLASS_TYPES) and
             getattr(instance, '__IS_DELEGATED__', False) is True)
 
 
@@ -80,3 +80,7 @@ cpdef str represent_provider(object provider, object provides):
                            provider.__class__.__name__)),
         provides=repr(provides) if provides is not None else '',
         address=hex(id(provider)))
+
+cpdef object deepcopy(object instance, dict memo=None):
+    """Return full copy of provider or container with providers."""
+    return copy.deepcopy(instance, memo)
