@@ -15,6 +15,7 @@ clean:
 	find src -name '*.py[cod]' -delete
 	find src -name '__pycache__' -delete
 	find src -name '*.c' -delete
+	find src -name '*.h' -delete
 	find src -name '*.so' -delete
 	find src -name '*.html' -delete
 	# Clean tests

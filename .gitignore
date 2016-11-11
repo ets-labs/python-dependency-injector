@@ -64,6 +64,7 @@ venv/
 
 # C extensions
 src/dependency_injector/*.c
+src/dependency_injector/*.h
 src/dependency_injector/*.so
 src/dependency_injector/providers/*.c
 src/dependency_injector/providers/*.so
