@@ -12,8 +12,13 @@ framework can be installed from PyPi_:
     pip install dependency_injector
 
     # Installing particular version:
-    pip install dependency_injector==2.0.0
+    pip install dependency-injector==3.0.0
     
+.. note::
+    Some components of *Dependency Injector* are implemented as C extension types. 
+    *Dependency Injector* is distributed as an archive with a source code, so 
+    C compiler and Python header files are required for the installation.
+
 Sources can be cloned from GitHub_:
 
 .. code-block:: bash
@@ -30,7 +35,7 @@ Verification of currently installed version could be done using
 
     >>> from dependency_injector import VERSION
     >>> VERSION
-    '2.0.0'
+    '3.0.0'
 
 .. _PyPi: https://pypi.python.org/pypi/dependency_injector
 .. _GitHub: https://github.com/ets-labs/python-dependency-injector

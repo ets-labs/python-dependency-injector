@@ -121,7 +121,7 @@ code for specification of dependencies. Nevertheless, this disadvantage could
 be easily avoided by creating inversion of control container (IoC container).
 
 Example of creation of several inversion of control containers (IoC containers)
-using *Dependency Injector*:
+using :doc:`Dependency Injector <../index>`:
 
 .. literalinclude:: ../../examples/miniapps/engines_cars/example_ioc_containers.py
    :language: python

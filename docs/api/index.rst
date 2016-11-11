@@ -7,5 +7,4 @@ API Documentation
     top_level
     providers
     containers
-    utils
     errors

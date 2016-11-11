@@ -21,7 +21,7 @@ Singleton providers resetting
 
 Created and memorized by :py:class:`Singleton` instance can be reset. Reset of
 :py:class:`Singleton`'s memorized instance is done by clearing reference to 
-it.  Further lifecycle of memorized instance is out of :py:class:`Singleton` 
+it. Further lifecycle of memorized instance is out of :py:class:`Singleton` 
 provider's control and dependes on garbage collection strategy.
 
 Example:
@@ -33,15 +33,15 @@ Example:
 Singleton providers and injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:py:class:`Singleton` provider extends :py:class:`Factory` provider, so, all 
-of the rules about injections are the same, as for :py:class:`Factory` 
-provider.
+:py:class:`Singleton` provider has same interface as :py:class:`Factory` 
+provider, so, all of the rules about injections are the same, as for 
+:py:class:`Factory` provider.
 
 .. note::
 
     Due that :py:class:`Singleton` provider creates specified class instance 
     only on the first call, all injections are done once, during the first 
-    call, also.  Every next call, while instance has been already created 
+    call. Every next call, while instance has been already created 
     and memorized, no injections are done, :py:class:`Singleton` provider just 
     returns memorized earlier instance.
 
@@ -81,10 +81,12 @@ Specialization of :py:class:`Singleton` providers is the same as
 Singleton providers and multi-threading
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:py:class:`Singleton` provider is thread-safe and could be used in 
-multi-threading applications without any negative impact. Race condition on 
-singleton's initialization is escaped by using a global reentrant mutex - 
-:py:obj:`dependency_injector.utils.GLOBAL_LOCK`.
+:py:class:`Singleton` provider is NOT thread-safe and should be used in  
+multi-threading applications with manually controlled locking.
+
+:py:class:`ThreadSafeSingleton` is a thread-safe version of 
+:py:class:`Singleton` and could be used in multi-threading applications 
+without any additional locking.
 
 Also there could be a need to use thread-scoped singletons and there is a 
 special provider for such case - :py:class:`ThreadLocalSingleton`.

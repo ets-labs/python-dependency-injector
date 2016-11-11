@@ -16,6 +16,9 @@ dependency injection pattern in formal, pretty, Pythonic way.
 + Documentation.
 + Semantic versioning.
 
+*Dependency Injector* providers are implemented as C extension types using 
+Cython.
+
 Status
 ------
 

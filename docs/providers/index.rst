@@ -12,16 +12,7 @@ Current documentation section consists from description of standard providers
 library and some useful information like overriding of providers and writing 
 of custom providers.
 
-All providers are validated in multithreading environment and considered to 
-be thread safe.
-
-+ Base providers class is: :py:class:`dependency_injector.providers.Provider`
-+ Providers module API docs: :py:mod:`dependency_injector.providers`
-+ Providers class diagram:
-
-.. image:: /images/providers/providers_class_diagram.png
-    :width: 100%
-    :align: center
+Providers package API docs - :py:mod:`dependency_injector.providers`
 
 ..  toctree::
     :maxdepth: 2
