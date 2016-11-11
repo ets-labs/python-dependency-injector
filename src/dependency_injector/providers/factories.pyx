@@ -44,7 +44,8 @@ cdef class Factory(Provider):
         factory.add_kwargs(keyword_argument1=3, keyword_argument=4)
 
 
-    Attribute injections are defined by using :py:meth:`Factory.attributes`:
+    Attribute injections are defined by using
+    :py:meth:`Factory.add_attributes`:
 
     .. code-block:: python
 
