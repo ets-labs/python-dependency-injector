@@ -11,6 +11,7 @@ dependency injection pattern in formal, pretty, Pythonic way.
 + Easy, smart, pythonic style.
 + Obvious, clear structure.
 + Extensibility and flexibility.
++ High performance.
 + Memory efficiency.
 + Thread safety.
 + Documentation.

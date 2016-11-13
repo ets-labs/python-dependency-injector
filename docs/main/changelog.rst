@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+3.1.1
+-----
+- Fix minor typo in README.
+
 3.1.0
 -----
 - Add "Services mini application" example.
