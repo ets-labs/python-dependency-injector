@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+3.1.3
+-----
+- Fix flake8 ``E305`` error in examples.
+
 3.1.2
 -----
 - Remove ``public`` (``extern``) modifier utils constants.

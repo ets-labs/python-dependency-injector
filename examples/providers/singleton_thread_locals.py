@@ -10,6 +10,7 @@ def example(example_object, queue):
     """Example function that puts provided object in the provided queue."""
     queue.put(example_object)
 
+
 # Create thread-local singleton provider for some object (main thread):
 thread_local_object = providers.ThreadLocalSingleton(object)
 
