@@ -3,7 +3,7 @@
 Powered by Cython.
 """
 
-cdef public object CLASS_TYPES
+cdef object CLASS_TYPES
 
 
 cpdef bint is_provider(object instance)

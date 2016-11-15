@@ -975,7 +975,7 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
 /* Module declarations from 'dependency_injector.providers.utils' */
-__PYX_EXTERN_C DL_EXPORT(PyObject) *__pyx_v_19dependency_injector_9providers_5utils_CLASS_TYPES;
+static PyObject *__pyx_v_19dependency_injector_9providers_5utils_CLASS_TYPES = 0;
 static int __pyx_f_19dependency_injector_9providers_5utils_is_provider(PyObject *, int __pyx_skip_dispatch); /*proto*/
 static PyObject *__pyx_f_19dependency_injector_9providers_5utils_ensure_is_provider(PyObject *, int __pyx_skip_dispatch); /*proto*/
 static int __pyx_f_19dependency_injector_9providers_5utils_is_delegated(PyObject *, int __pyx_skip_dispatch); /*proto*/
@@ -1313,7 +1313,6 @@ static PyObject *__pyx_lambda_funcdef_19dependency_injector_9providers_5utils_la
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-PyObject *__pyx_v_19dependency_injector_9providers_5utils_CLASS_TYPES = 0;
 
 /* "dependency_injector/providers/utils.pyx":25
  * 
