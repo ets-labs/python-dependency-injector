@@ -71,6 +71,7 @@ class CsvApplication(containers.DeclarativeContainer):
                                  csv_file_path=settings.MOVIES_CSV_PATH,
                                  delimiter=',')
 
+
 if __name__ == '__main__':
     DbApplication.init_db()
     DbApplication.main()

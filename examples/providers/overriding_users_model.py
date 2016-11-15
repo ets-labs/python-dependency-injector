@@ -25,6 +25,7 @@ class UsersService(object):
         """Find user by his id and return user model."""
         return self.user_cls(id=id, password='secret' + str(id))
 
+
 # Users factory and UsersService provider:
 users_service = providers.Factory(UsersService, user_cls=User)
 
@@ -68,6 +69,7 @@ class ExtendedUsersService(UsersService):
         user.last_name = 'Smith' + str(id)
         user.gender = 'male'
         return user
+
 
 # Overriding users_service provider:
 extended_users_service = providers.Factory(ExtendedUsersService,
