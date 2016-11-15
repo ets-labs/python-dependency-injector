@@ -12,6 +12,7 @@ class Container(containers.DeclarativeContainer):
 
     factory2 = providers.Factory(object)
 
+
 # Creating some objects:
 object1 = Container.factory1()
 object2 = Container.factory2()
