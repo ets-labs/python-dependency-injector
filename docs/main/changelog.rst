@@ -11,6 +11,11 @@ Development version
 -------------------
 - No features.
 
+3.1.4
+-----
+- Move ``inline`` functions from class level to module level for removing them 
+  from virtual table and enable inlining.
+
 3.1.3
 -----
 - Fix flake8 ``E305`` error in examples.
