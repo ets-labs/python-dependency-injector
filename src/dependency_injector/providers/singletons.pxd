@@ -16,11 +16,6 @@ cdef class Singleton(BaseSingleton):
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
-    cdef inline object __provide(self, tuple args, dict kwargs):
-        if self.__storage is None:
-            self.__storage = self.__instantiator.__provide(args, kwargs)
-        return self.__storage
-
 
 cdef class DelegatedSingleton(Singleton):
     pass
@@ -32,12 +27,6 @@ cdef class ThreadSafeSingleton(BaseSingleton):
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
-    cdef inline object __provide(self, tuple args, dict kwargs):
-        with self.__lock:
-            if self.__storage is None:
-                self.__storage = self.__instantiator.__provide(args, kwargs)
-        return self.__storage
-
 
 cdef class DelegatedThreadSafeSingleton(ThreadSafeSingleton):
     pass
@@ -47,17 +36,6 @@ cdef class ThreadLocalSingleton(BaseSingleton):
     cdef object __storage
 
     cpdef object _provide(self, tuple args, dict kwargs)
-
-    cdef inline object __provide(self, tuple args, dict kwargs):
-        cdef object instance
-
-        try:
-            instance = self.__storage.instance
-        except AttributeError:
-            instance = self.__instantiator.__provide(args, kwargs)
-            self.__storage.instance = instance
-        finally:
-            return instance
 
 
 cdef class DelegatedThreadLocalSingleton(ThreadLocalSingleton):

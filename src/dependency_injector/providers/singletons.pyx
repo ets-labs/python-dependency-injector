@@ -8,7 +8,10 @@ import threading
 from dependency_injector.errors import Error
 
 from .base cimport Provider
-from .factories cimport Factory
+from .factories cimport (
+    Factory,
+    __call as __call_factory,
+)
 from .utils cimport (
     represent_provider,
     deepcopy,
@@ -251,7 +254,10 @@ cdef class Singleton(BaseSingleton):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
-        return self.__provide(args, kwargs)
+        if self.__storage is None:
+            self.__storage = __call_factory(self.__instantiator,
+                                            args, kwargs)
+        return self.__storage
 
 
 cdef class DelegatedSingleton(Singleton):
@@ -303,7 +309,11 @@ cdef class ThreadSafeSingleton(BaseSingleton):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
-        return self.__provide(args, kwargs)
+        with self.__lock:
+            if self.__storage is None:
+                self.__storage = __call_factory(self.__instantiator,
+                                                args, kwargs)
+        return self.__storage
 
 
 cdef class DelegatedThreadSafeSingleton(ThreadSafeSingleton):
@@ -369,7 +379,15 @@ cdef class ThreadLocalSingleton(BaseSingleton):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
-        return self.__provide(args, kwargs)
+        cdef object instance
+
+        try:
+            instance = self.__storage.instance
+        except AttributeError:
+            instance = __call_factory(self.__instantiator, args, kwargs)
+            self.__storage.instance = instance
+        finally:
+            return instance
 
 
 cdef class DelegatedThreadLocalSingleton(ThreadLocalSingleton):

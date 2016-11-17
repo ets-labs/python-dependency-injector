@@ -7,35 +7,28 @@ cimport cython
 
 
 cdef class Injection(object):
-    pass
-
-
-cdef class PositionalInjection(Injection):
     cdef object __value
     cdef int __is_provider
     cdef int __is_delegated
     cdef int __call
 
-    cdef inline object __get_value(self):
-        if self.__call == 0:
-            return self.__value
-        return self.__value()
+
+cdef class PositionalInjection(Injection):
+    pass
 
 
 cdef class NamedInjection(Injection):
     cdef object __name
-    cdef object __value
-    cdef int __is_provider
-    cdef int __is_delegated
-    cdef int __call
 
-    cdef inline object __get_name(self):
-        return self.__name
 
-    cdef inline object __get_value(self):
-        if self.__call == 0:
-            return self.__value
-        return self.__value()
+cdef inline object __get_name(NamedInjection self):
+    return self.__name
+
+
+cdef inline object __get_value(Injection self):
+    if self.__call == 0:
+        return self.__value
+    return self.__value()
 
 
 @cython.boundscheck(False)
@@ -53,7 +46,7 @@ cdef inline tuple __provide_positional_args(tuple args,
     positional_args = list()
     for index in range(inj_args_len):
         injection = <PositionalInjection>inj_args[index]
-        positional_args.append(injection.__get_value())
+        positional_args.append(__get_value(injection))
     positional_args.extend(args)
 
     return tuple(positional_args)
@@ -71,14 +64,14 @@ cdef inline dict __provide_keyword_args(dict kwargs,
     if len(kwargs) == 0:
         for index in range(inj_kwargs_len):
             kw_injection = <NamedInjection>inj_kwargs[index]
-            name = kw_injection.__get_name()
-            kwargs[name] = kw_injection.__get_value()
+            name = __get_name(kw_injection)
+            kwargs[name] = __get_value(kw_injection)
     else:
         for index in range(inj_kwargs_len):
             kw_injection = <NamedInjection>inj_kwargs[index]
-            name = kw_injection.__get_name()
+            name = __get_name(kw_injection)
             if name not in kwargs:
-                kwargs[name] = kw_injection.__get_value()
+                kwargs[name] = __get_value(kw_injection)
 
     return kwargs
 
@@ -92,8 +85,8 @@ cdef inline object __inject_attributes(object instance,
     for index in range(attributes_len):
         attr_injection = <NamedInjection>attributes[index]
         setattr(instance,
-                attr_injection.__get_name(),
-                attr_injection.__get_value())
+                __get_name(attr_injection),
+                __get_value(attr_injection))
 
 
 cpdef tuple parse_positional_injections(tuple args)

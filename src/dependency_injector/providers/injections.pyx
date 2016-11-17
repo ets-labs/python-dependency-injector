@@ -5,6 +5,10 @@ Powered by Cython.
 
 cimport cython
 
+from .injections cimport (
+    __get_name,
+    __get_value,
+)
 from .utils cimport (
     is_provider,
     is_delegated,
@@ -37,7 +41,7 @@ cdef class PositionalInjection(Injection):
 
     def get_value(self):
         """Return injection value."""
-        return self.__get_value()
+        return __get_value(self)
 
     def get_original_value(self):
         """Return original value."""
@@ -67,11 +71,11 @@ cdef class NamedInjection(Injection):
 
     def get_name(self):
         """Return injection value."""
-        return self.__get_name()
+        return __get_name(self)
 
     def get_value(self):
         """Return injection value."""
-        return self.__get_value()
+        return __get_value(self)
 
     def get_original_value(self):
         """Return original value."""
