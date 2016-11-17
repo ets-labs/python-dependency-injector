@@ -117,33 +117,33 @@ class Tester(object):
         for x in xrange(int(5000000 * self.duration_factor)):
             test_factory()
 
-    def test_factory_subcls_3_factory_subcls_kw_injections(self, providers):
-        """Test factory with 3 keyword argument injections via factories."""
-        class MyFactory(providers.Factory):
-            pass
-
-        class A(object):
-            pass
-
-        class B(object):
-            pass
-
-        class C(object):
-            pass
-
-        class Test(object):
-            def __init__(self, a, b, c):
-                pass
-
-        a_factory = MyFactory(A)
-        b_factory = MyFactory(B)
-        c_factory = MyFactory(C)
-        test_factory = MyFactory(Test,
-                                 a=a_factory,
-                                 b=b_factory,
-                                 c=c_factory)
-        for x in xrange(int(5000000 * self.duration_factor)):
-            test_factory()
+#     def test_factory_subcls_3_factory_subcls_kw_injections(self, providers):
+#         """Test factory with 3 keyword argument injections via factories."""
+#         class MyFactory(providers.Factory):
+#             pass
+#
+#         class A(object):
+#             pass
+#
+#         class B(object):
+#             pass
+#
+#         class C(object):
+#             pass
+#
+#         class Test(object):
+#             def __init__(self, a, b, c):
+#                 pass
+#
+#         a_factory = MyFactory(A)
+#         b_factory = MyFactory(B)
+#         c_factory = MyFactory(C)
+#         test_factory = MyFactory(Test,
+#                                  a=a_factory,
+#                                  b=b_factory,
+#                                  c=c_factory)
+#         for x in xrange(int(5000000 * self.duration_factor)):
+#             test_factory()
 
 #     def test_singleton(self, providers):
 #         """Test factory with 3 keyword argument injections via factories."""
