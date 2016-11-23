@@ -11,6 +11,11 @@ Development version
 -------------------
 - No features.
 
+3.1.5
+-----
+- Refactor provider internals: C functions naming scheme and code layout.
+- Add Terrence Brannon (metaperl) to the list of contributors.
+
 3.1.4
 -----
 - Move ``inline`` functions from class level to module level for removing them 
