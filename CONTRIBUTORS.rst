@@ -1,5 +1,6 @@
 Dependency Injector Contributors
 ================================
 
-+ Roman Mogilatov
-+ Konstantin vz'One Enchant
++ Roman Mogilatov (rmk135)
++ Konstantin vz'One Enchant (sirkonst)
++ Terrence Brannon (metaperl)
