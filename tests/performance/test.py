@@ -74,7 +74,7 @@ class Tester(object):
 #         for x in xrange(int(5000000 * self.duration_factor)):
 #             test_factory(1, 2, 3)
 
-    def test_3_kw_injections(self, providers):
+    def test_instance_3_kw_injections(self, providers):
         """Test 3 keyword argument injections."""
         class A(object):
             pass
@@ -92,7 +92,7 @@ class Tester(object):
         for x in xrange(int(5000000 * self.duration_factor)):
             Test(a=A(), b=B(), c=C())
 
-    def test_factory_3_factory_kw_injections(self, providers):
+    def test_instance_factory_3_factory_kw_injections(self, providers):
         """Test factory with 3 keyword argument injections via factories."""
         class A(object):
             pass
@@ -173,5 +173,5 @@ if __name__ == '__main__':
         provider_modules=[
             dependency_injector.providers,
         ],
-        duration_factor=1)
+        duration_factor=0.5)
     tester.run()
