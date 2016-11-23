@@ -6,7 +6,6 @@ Powered by Cython.
 from dependency_injector.errors import Error
 
 from .base cimport Provider
-from .callables cimport __call
 from .injections cimport (
     PositionalInjection,
     NamedInjection,
@@ -197,7 +196,7 @@ cdef class Callable(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable's call."""
-        return __call(self, args, kwargs)
+        return __callable_call(self, args, kwargs)
 
 
 cdef class DelegatedCallable(Callable):

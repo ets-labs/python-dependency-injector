@@ -621,9 +621,9 @@ static const char *__pyx_f[] = {
 /*--- Type declarations ---*/
 struct __pyx_opt_args_19dependency_injector_9providers_5utils_deepcopy;
 
-/* "dependency_injector/providers/utils.pxd":13
- * cpdef bint is_delegated(object instance)
- * cpdef str represent_provider(object provider, object provides)
+/* "dependency_injector/providers/utils.pxd":21
+ * 
+ * 
  * cpdef object deepcopy(object instance, dict memo=*)             # <<<<<<<<<<<<<<
  */
 struct __pyx_opt_args_19dependency_injector_9providers_5utils_deepcopy {

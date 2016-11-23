@@ -10,7 +10,7 @@ from dependency_injector.errors import Error
 from .base cimport Provider
 from .factories cimport (
     Factory,
-    __call as __call_factory,
+    __factory_call,
 )
 from .utils cimport (
     represent_provider,
@@ -255,7 +255,7 @@ cdef class Singleton(BaseSingleton):
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
         if self.__storage is None:
-            self.__storage = __call_factory(self.__instantiator,
+            self.__storage = __factory_call(self.__instantiator,
                                             args, kwargs)
         return self.__storage
 
@@ -311,7 +311,7 @@ cdef class ThreadSafeSingleton(BaseSingleton):
         """Return single instance."""
         with self.__lock:
             if self.__storage is None:
-                self.__storage = __call_factory(self.__instantiator,
+                self.__storage = __factory_call(self.__instantiator,
                                                 args, kwargs)
         return self.__storage
 
@@ -384,7 +384,7 @@ cdef class ThreadLocalSingleton(BaseSingleton):
         try:
             instance = self.__storage.instance
         except AttributeError:
-            instance = __call_factory(self.__instantiator, args, kwargs)
+            instance = __factory_call(self.__instantiator, args, kwargs)
             self.__storage.instance = instance
         finally:
             return instance

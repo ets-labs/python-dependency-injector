@@ -644,9 +644,9 @@ struct __pyx_obj_19dependency_injector_9providers_10singletons_ThreadLocalSingle
 struct __pyx_obj_19dependency_injector_9providers_10singletons_DelegatedThreadLocalSingleton;
 struct __pyx_opt_args_19dependency_injector_9providers_5utils_deepcopy;
 
-/* "utils.pxd":13
- * cpdef bint is_delegated(object instance)
- * cpdef str represent_provider(object provider, object provides)
+/* "utils.pxd":21
+ * 
+ * 
  * cpdef object deepcopy(object instance, dict memo=*)             # <<<<<<<<<<<<<<
  */
 struct __pyx_opt_args_19dependency_injector_9providers_5utils_deepcopy {
@@ -1512,12 +1512,12 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_10inject
 /* Module declarations from 'dependency_injector.providers.callables' */
 static PyTypeObject *__pyx_ptype_19dependency_injector_9providers_9callables_Callable = 0;
 static PyTypeObject *__pyx_ptype_19dependency_injector_9providers_9callables_DelegatedCallable = 0;
-static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_9callables___call(struct __pyx_obj_19dependency_injector_9providers_9callables_Callable *, PyObject *, PyObject *); /*proto*/
+static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_9callables___callable_call(struct __pyx_obj_19dependency_injector_9providers_9callables_Callable *, PyObject *, PyObject *); /*proto*/
 
 /* Module declarations from 'dependency_injector.providers.factories' */
 static PyTypeObject *__pyx_ptype_19dependency_injector_9providers_9factories_Factory = 0;
 static PyTypeObject *__pyx_ptype_19dependency_injector_9providers_9factories_DelegatedFactory = 0;
-static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_9factories___call(struct __pyx_obj_19dependency_injector_9providers_9factories_Factory *, PyObject *, PyObject *); /*proto*/
+static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_9factories___factory_call(struct __pyx_obj_19dependency_injector_9providers_9factories_Factory *, PyObject *, PyObject *); /*proto*/
 
 /* Module declarations from 'dependency_injector.providers.utils' */
 static PyObject **__pyx_vp_19dependency_injector_9providers_5utils_CLASS_TYPES = 0;
@@ -3926,7 +3926,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_10singletons_9Singleto
  *     cpdef object _provide(self, tuple args, dict kwargs):
  *         """Return single instance."""
  *         if self.__storage is None:             # <<<<<<<<<<<<<<
- *             self.__storage = __call_factory(self.__instantiator,
+ *             self.__storage = __factory_call(self.__instantiator,
  *                                             args, kwargs)
  */
   __pyx_t_7 = (__pyx_v_self->__pyx___storage == Py_None);
@@ -3936,7 +3936,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_10singletons_9Singleto
     /* "dependency_injector/providers/singletons.pyx":258
  *         """Return single instance."""
  *         if self.__storage is None:
- *             self.__storage = __call_factory(self.__instantiator,             # <<<<<<<<<<<<<<
+ *             self.__storage = __factory_call(self.__instantiator,             # <<<<<<<<<<<<<<
  *                                             args, kwargs)
  *         return self.__storage
  */
@@ -3945,19 +3945,19 @@ static PyObject *__pyx_f_19dependency_injector_9providers_10singletons_9Singleto
 
     /* "dependency_injector/providers/singletons.pyx":259
  *         if self.__storage is None:
- *             self.__storage = __call_factory(self.__instantiator,
+ *             self.__storage = __factory_call(self.__instantiator,
  *                                             args, kwargs)             # <<<<<<<<<<<<<<
  *         return self.__storage
  * 
  */
-    __pyx_t_2 = __pyx_f_19dependency_injector_9providers_9factories___call(((struct __pyx_obj_19dependency_injector_9providers_9factories_Factory *)__pyx_t_1), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 258, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_19dependency_injector_9providers_9factories___factory_call(((struct __pyx_obj_19dependency_injector_9providers_9factories_Factory *)__pyx_t_1), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 258, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "dependency_injector/providers/singletons.pyx":258
  *         """Return single instance."""
  *         if self.__storage is None:
- *             self.__storage = __call_factory(self.__instantiator,             # <<<<<<<<<<<<<<
+ *             self.__storage = __factory_call(self.__instantiator,             # <<<<<<<<<<<<<<
  *                                             args, kwargs)
  *         return self.__storage
  */
@@ -3971,13 +3971,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_10singletons_9Singleto
  *     cpdef object _provide(self, tuple args, dict kwargs):
  *         """Return single instance."""
  *         if self.__storage is None:             # <<<<<<<<<<<<<<
- *             self.__storage = __call_factory(self.__instantiator,
+ *             self.__storage = __factory_call(self.__instantiator,
  *                                             args, kwargs)
  */
   }
 
   /* "dependency_injector/providers/singletons.pyx":260
- *             self.__storage = __call_factory(self.__instantiator,
+ *             self.__storage = __factory_call(self.__instantiator,
  *                                             args, kwargs)
  *         return self.__storage             # <<<<<<<<<<<<<<
  * 
@@ -4421,7 +4421,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_10singletons_19ThreadS
  *         """Return single instance."""
  *         with self.__lock:             # <<<<<<<<<<<<<<
  *             if self.__storage is None:
- *                 self.__storage = __call_factory(self.__instantiator,
+ *                 self.__storage = __factory_call(self.__instantiator,
  */
   /*with:*/ {
     __pyx_t_7 = __Pyx_PyObject_LookupSpecial(__pyx_v_self->__pyx___lock, __pyx_n_s_exit); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 312, __pyx_L1_error)
@@ -4461,7 +4461,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_10singletons_19ThreadS
  *         """Return single instance."""
  *         with self.__lock:
  *             if self.__storage is None:             # <<<<<<<<<<<<<<
- *                 self.__storage = __call_factory(self.__instantiator,
+ *                 self.__storage = __factory_call(self.__instantiator,
  *                                                 args, kwargs)
  */
           __pyx_t_11 = (__pyx_v_self->__pyx___storage == Py_None);
@@ -4471,7 +4471,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_10singletons_19ThreadS
             /* "dependency_injector/providers/singletons.pyx":314
  *         with self.__lock:
  *             if self.__storage is None:
- *                 self.__storage = __call_factory(self.__instantiator,             # <<<<<<<<<<<<<<
+ *                 self.__storage = __factory_call(self.__instantiator,             # <<<<<<<<<<<<<<
  *                                                 args, kwargs)
  *         return self.__storage
  */
@@ -4480,19 +4480,19 @@ static PyObject *__pyx_f_19dependency_injector_9providers_10singletons_19ThreadS
 
             /* "dependency_injector/providers/singletons.pyx":315
  *             if self.__storage is None:
- *                 self.__storage = __call_factory(self.__instantiator,
+ *                 self.__storage = __factory_call(self.__instantiator,
  *                                                 args, kwargs)             # <<<<<<<<<<<<<<
  *         return self.__storage
  * 
  */
-            __pyx_t_2 = __pyx_f_19dependency_injector_9providers_9factories___call(((struct __pyx_obj_19dependency_injector_9providers_9factories_Factory *)__pyx_t_1), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 314, __pyx_L7_error)
+            __pyx_t_2 = __pyx_f_19dependency_injector_9providers_9factories___factory_call(((struct __pyx_obj_19dependency_injector_9providers_9factories_Factory *)__pyx_t_1), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 314, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_2);
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
             /* "dependency_injector/providers/singletons.pyx":314
  *         with self.__lock:
  *             if self.__storage is None:
- *                 self.__storage = __call_factory(self.__instantiator,             # <<<<<<<<<<<<<<
+ *                 self.__storage = __factory_call(self.__instantiator,             # <<<<<<<<<<<<<<
  *                                                 args, kwargs)
  *         return self.__storage
  */
@@ -4506,7 +4506,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_10singletons_19ThreadS
  *         """Return single instance."""
  *         with self.__lock:
  *             if self.__storage is None:             # <<<<<<<<<<<<<<
- *                 self.__storage = __call_factory(self.__instantiator,
+ *                 self.__storage = __factory_call(self.__instantiator,
  *                                                 args, kwargs)
  */
           }
@@ -4516,7 +4516,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_10singletons_19ThreadS
  *         """Return single instance."""
  *         with self.__lock:             # <<<<<<<<<<<<<<
  *             if self.__storage is None:
- *                 self.__storage = __call_factory(self.__instantiator,
+ *                 self.__storage = __factory_call(self.__instantiator,
  */
         }
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -4597,7 +4597,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_10singletons_19ThreadS
   }
 
   /* "dependency_injector/providers/singletons.pyx":316
- *                 self.__storage = __call_factory(self.__instantiator,
+ *                 self.__storage = __factory_call(self.__instantiator,
  *                                                 args, kwargs)
  *         return self.__storage             # <<<<<<<<<<<<<<
  * 
@@ -5067,7 +5067,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_10singletons_20ThreadL
  *         try:
  *             instance = self.__storage.instance             # <<<<<<<<<<<<<<
  *         except AttributeError:
- *             instance = __call_factory(self.__instantiator, args, kwargs)
+ *             instance = __factory_call(self.__instantiator, args, kwargs)
  */
         __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->__pyx___storage, __pyx_n_s_instance); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 385, __pyx_L6_error)
         __Pyx_GOTREF(__pyx_t_1);
@@ -5098,7 +5098,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_10singletons_20ThreadL
  *         try:
  *             instance = self.__storage.instance
  *         except AttributeError:             # <<<<<<<<<<<<<<
- *             instance = __call_factory(self.__instantiator, args, kwargs)
+ *             instance = __factory_call(self.__instantiator, args, kwargs)
  *             self.__storage.instance = instance
  */
       __pyx_t_5 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_AttributeError);
@@ -5112,13 +5112,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_10singletons_20ThreadL
         /* "dependency_injector/providers/singletons.pyx":387
  *             instance = self.__storage.instance
  *         except AttributeError:
- *             instance = __call_factory(self.__instantiator, args, kwargs)             # <<<<<<<<<<<<<<
+ *             instance = __factory_call(self.__instantiator, args, kwargs)             # <<<<<<<<<<<<<<
  *             self.__storage.instance = instance
  *         finally:
  */
         __pyx_t_6 = ((PyObject *)__pyx_v_self->__pyx_base.__pyx___instantiator);
         __Pyx_INCREF(__pyx_t_6);
-        __pyx_t_4 = __pyx_f_19dependency_injector_9providers_9factories___call(((struct __pyx_obj_19dependency_injector_9providers_9factories_Factory *)__pyx_t_6), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 387, __pyx_L8_except_error)
+        __pyx_t_4 = __pyx_f_19dependency_injector_9providers_9factories___factory_call(((struct __pyx_obj_19dependency_injector_9providers_9factories_Factory *)__pyx_t_6), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 387, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_XDECREF_SET(__pyx_v_instance, __pyx_t_4);
@@ -5126,7 +5126,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_10singletons_20ThreadL
 
         /* "dependency_injector/providers/singletons.pyx":388
  *         except AttributeError:
- *             instance = __call_factory(self.__instantiator, args, kwargs)
+ *             instance = __factory_call(self.__instantiator, args, kwargs)
  *             self.__storage.instance = instance             # <<<<<<<<<<<<<<
  *         finally:
  *             return instance
@@ -5955,19 +5955,19 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_10inject
 /* "callables.pxd":32
  * 
  * 
- * cdef inline object __call(Callable self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
+ * cdef inline object __callable_call(Callable self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
  *     cdef tuple positional_args
  *     cdef dict keyword_args
  */
 
-static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_9callables___call(struct __pyx_obj_19dependency_injector_9providers_9callables_Callable *__pyx_v_self, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs) {
+static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_9callables___callable_call(struct __pyx_obj_19dependency_injector_9providers_9callables_Callable *__pyx_v_self, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs) {
   PyObject *__pyx_v_positional_args = 0;
   PyObject *__pyx_v_keyword_args = 0;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
-  __Pyx_RefNannySetupContext("__call", 0);
+  __Pyx_RefNannySetupContext("__callable_call", 0);
 
   /* "callables.pxd":37
  * 
@@ -6038,7 +6038,7 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_9callabl
   /* "callables.pxd":32
  * 
  * 
- * cdef inline object __call(Callable self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
+ * cdef inline object __callable_call(Callable self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
  *     cdef tuple positional_args
  *     cdef dict keyword_args
  */
@@ -6047,7 +6047,7 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_9callabl
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("dependency_injector.providers.callables.__call", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("dependency_injector.providers.callables.__callable_call", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_positional_args);
@@ -6060,37 +6060,37 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_9callabl
 /* "factories.pxd":27
  * 
  * 
- * cdef inline object __call(Factory self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
+ * cdef inline object __factory_call(Factory self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
  *     cdef object instance
  * 
  */
 
-static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_9factories___call(struct __pyx_obj_19dependency_injector_9providers_9factories_Factory *__pyx_v_self, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs) {
+static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_9factories___factory_call(struct __pyx_obj_19dependency_injector_9providers_9factories_Factory *__pyx_v_self, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs) {
   PyObject *__pyx_v_instance = 0;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   int __pyx_t_3;
-  __Pyx_RefNannySetupContext("__call", 0);
+  __Pyx_RefNannySetupContext("__factory_call", 0);
 
   /* "factories.pxd":30
  *     cdef object instance
  * 
- *     instance = __call_callable(self.__instantiator, args, kwargs)             # <<<<<<<<<<<<<<
+ *     instance = __callable_call(self.__instantiator, args, kwargs)             # <<<<<<<<<<<<<<
  * 
  *     if self.__attributes_len > 0:
  */
   __pyx_t_1 = ((PyObject *)__pyx_v_self->__pyx___instantiator);
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_9callables___call(((struct __pyx_obj_19dependency_injector_9providers_9callables_Callable *)__pyx_t_1), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 30, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_9callables___callable_call(((struct __pyx_obj_19dependency_injector_9providers_9callables_Callable *)__pyx_t_1), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(3, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_instance = __pyx_t_2;
   __pyx_t_2 = 0;
 
   /* "factories.pxd":32
- *     instance = __call_callable(self.__instantiator, args, kwargs)
+ *     instance = __callable_call(self.__instantiator, args, kwargs)
  * 
  *     if self.__attributes_len > 0:             # <<<<<<<<<<<<<<
  *         __inject_attributes(instance,
@@ -6122,7 +6122,7 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_9factori
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "factories.pxd":32
- *     instance = __call_callable(self.__instantiator, args, kwargs)
+ *     instance = __callable_call(self.__instantiator, args, kwargs)
  * 
  *     if self.__attributes_len > 0:             # <<<<<<<<<<<<<<
  *         __inject_attributes(instance,
@@ -6134,7 +6134,6 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_9factori
  *                             self.__attributes_len)
  * 
  *     return instance             # <<<<<<<<<<<<<<
- * 
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_instance);
@@ -6144,7 +6143,7 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_9factori
   /* "factories.pxd":27
  * 
  * 
- * cdef inline object __call(Factory self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
+ * cdef inline object __factory_call(Factory self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
  *     cdef object instance
  * 
  */
@@ -6153,7 +6152,7 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers_9factori
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("dependency_injector.providers.factories.__call", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("dependency_injector.providers.factories.__factory_call", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_instance);
@@ -6962,7 +6961,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         """Return single instance."""
  *         with self.__lock:             # <<<<<<<<<<<<<<
  *             if self.__storage is None:
- *                 self.__storage = __call_factory(self.__instantiator,
+ *                 self.__storage = __factory_call(self.__instantiator,
  */
   __pyx_tuple_ = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 312, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
@@ -7330,7 +7329,7 @@ PyMODINIT_FUNC PyInit_singletons(void)
   /* "factories.pxd":27
  * 
  * 
- * cdef inline object __call(Factory self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
+ * cdef inline object __factory_call(Factory self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
  *     cdef object instance
  * 
  */

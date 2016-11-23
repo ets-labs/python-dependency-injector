@@ -625,9 +625,9 @@ struct __pyx_obj_19dependency_injector_9providers_10injections_PositionalInjecti
 struct __pyx_obj_19dependency_injector_9providers_10injections_NamedInjection;
 struct __pyx_opt_args_19dependency_injector_9providers_5utils_deepcopy;
 
-/* "utils.pxd":13
- * cpdef bint is_delegated(object instance)
- * cpdef str represent_provider(object provider, object provides)
+/* "utils.pxd":21
+ * 
+ * 
  * cpdef object deepcopy(object instance, dict memo=*)             # <<<<<<<<<<<<<<
  */
 struct __pyx_opt_args_19dependency_injector_9providers_5utils_deepcopy {

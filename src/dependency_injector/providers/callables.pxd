@@ -29,7 +29,7 @@ cdef class DelegatedCallable(Callable):
     pass
 
 
-cdef inline object __call(Callable self, tuple args, dict kwargs):
+cdef inline object __callable_call(Callable self, tuple args, dict kwargs):
     cdef tuple positional_args
     cdef dict keyword_args
 

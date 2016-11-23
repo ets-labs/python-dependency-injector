@@ -7,7 +7,6 @@ from dependency_injector.errors import Error
 
 from .base cimport Provider
 from .callables cimport Callable
-from .factories cimport __call
 from .injections cimport (
     NamedInjection,
     parse_named_injections,
@@ -248,7 +247,7 @@ cdef class Factory(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return new instance."""
-        return __call(self, args, kwargs)
+        return __factory_call(self, args, kwargs)
 
 
 cdef class DelegatedFactory(Factory):
