@@ -7,6 +7,9 @@ from .base import (
     ExternalDependency,
     OverridingContext,
 )
+from .configuration import (
+    Configuration,
+)
 from .callables import (
     Callable,
     DelegatedCallable,
@@ -47,6 +50,8 @@ __all__ = (
     'Delegate',
     'ExternalDependency',
     'OverridingContext',
+
+    'Configuration',
 
     'Callable',
     'DelegatedCallable',
