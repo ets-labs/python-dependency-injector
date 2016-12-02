@@ -126,13 +126,15 @@ several IoC containers for some example application:
     class Platform(containers.DeclarativeContainer):
         """IoC container of platform service providers."""
 
+        configuration = providers.Configuration('config')
+
         logger = providers.Singleton(logging.Logger, name='example')
 
-        database = providers.Singleton(sqlite3.connect, ':memory:')
+        database = providers.Singleton(sqlite3.connect, configuration.database.dsn)
 
         s3 = providers.Singleton(boto.s3.connection.S3Connection,
-                                 aws_access_key_id='KEY',
-                                 aws_secret_access_key='SECRET')
+                                 configuration.aws.access_key_id,
+                                 configuration.aws.secret_access_key)
 
 
     class Services(containers.DeclarativeContainer):
@@ -145,7 +147,7 @@ several IoC containers for some example application:
         auth = providers.Factory(example.services.AuthService,
                                  logger=Platform.logger,
                                  db=Platform.database,
-                                 token_ttl=3600)
+                                 token_ttl=Platform.configuration.auth.token_ttl)
 
         photos = providers.Factory(example.services.PhotosService,
                                    logger=Platform.logger,
@@ -174,7 +176,11 @@ Next example demonstrates run of example application defined above:
 
 
     if __name__ == '__main__':
-        # Configure platform logger:
+        # Configure platform:
+        Platform.configuration.update({'database': {'dsn': ':memory:'},
+                                       'aws': {'access_key_id': 'KEY',
+                                               'secret_access_key': 'SECRET'},
+                                       'auth': {'token_ttl': 3600}})
         Platform.logger().addHandler(logging.StreamHandler(sys.stdout))
 
         # Run application:

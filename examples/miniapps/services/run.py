@@ -7,7 +7,11 @@ from containers import Platform, Application
 
 
 if __name__ == '__main__':
-    # Configure platform logger:
+    # Configure platform:
+    Platform.configuration.update({'database': {'dsn': ':memory:'},
+                                   'aws': {'access_key_id': 'KEY',
+                                           'secret_access_key': 'SECRET'},
+                                   'auth': {'token_ttl': 3600}})
     Platform.logger().addHandler(logging.StreamHandler(sys.stdout))
 
     # Run application:
