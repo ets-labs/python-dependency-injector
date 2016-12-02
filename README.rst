@@ -123,36 +123,41 @@ several IoC containers for some example application:
     import dependency_injector.providers as providers
 
 
-    class Platform(containers.DeclarativeContainer):
-        """IoC container of platform service providers."""
+    class Core(containers.DeclarativeContainer):
+        """IoC container of core component providers."""
 
         configuration = providers.Configuration('config')
 
         logger = providers.Singleton(logging.Logger, name='example')
 
-        database = providers.Singleton(sqlite3.connect, configuration.database.dsn)
+
+    class Gateways(containers.DeclarativeContainer):
+        """IoC container of gateway (API clients to remote services) providers."""
+
+        database = providers.Singleton(sqlite3.connect,
+                                       Core.configuration.database.dsn)
 
         s3 = providers.Singleton(boto.s3.connection.S3Connection,
-                                 configuration.aws.access_key_id,
-                                 configuration.aws.secret_access_key)
+                                 Core.configuration.aws.access_key_id,
+                                 Core.configuration.aws.secret_access_key)
 
 
     class Services(containers.DeclarativeContainer):
         """IoC container of business service providers."""
 
         users = providers.Factory(example.services.UsersService,
-                                  logger=Platform.logger,
-                                  db=Platform.database)
+                                  db=Gateways.database,
+                                  logger=Core.logger)
 
         auth = providers.Factory(example.services.AuthService,
-                                 logger=Platform.logger,
-                                 db=Platform.database,
-                                 token_ttl=Platform.configuration.auth.token_ttl)
+                                 db=Gateways.database,
+                                 logger=Core.logger,
+                                 token_ttl=Core.configuration.auth.token_ttl)
 
         photos = providers.Factory(example.services.PhotosService,
-                                   logger=Platform.logger,
-                                   db=Platform.database,
-                                   s3=Platform.s3)
+                                   db=Gateways.database,
+                                   s3=Gateways.s3,
+                                   logger=Core.logger)
 
 
     class Application(containers.DeclarativeContainer):
@@ -172,82 +177,21 @@ Next example demonstrates run of example application defined above:
     import sys
     import logging
 
-    from containers import Platform, Application
+    from containers import Core, Application
 
 
     if __name__ == '__main__':
         # Configure platform:
-        Platform.configuration.update({'database': {'dsn': ':memory:'},
-                                       'aws': {'access_key_id': 'KEY',
-                                               'secret_access_key': 'SECRET'},
-                                       'auth': {'token_ttl': 3600}})
-        Platform.logger().addHandler(logging.StreamHandler(sys.stdout))
+        Core.configuration.update({'database': {'dsn': ':memory:'},
+                                   'aws': {'access_key_id': 'KEY',
+                                           'secret_access_key': 'SECRET'},
+                                   'auth': {'token_ttl': 3600}})
+        Core.logger().addHandler(logging.StreamHandler(sys.stdout))
 
         # Run application:
         Application.main(uid=sys.argv[1],
                          password=sys.argv[2],
                          photo=sys.argv[3])
-
-        # Previous call is an equivalent of next operations:
-        #
-        # logger = logging.Logger(name='example')
-        # database = sqlite3.connect(':memory:')
-        # s3 = boto.s3.connection.S3Connection(aws_access_key_id='KEY',
-        #                                      aws_secret_access_key='SECRET')
-        #
-        # example.main.main(
-        #     uid=sys.argv[1],
-        #     password=sys.argv[2],
-        #     photo=sys.argv[3],
-        #     users_service=example.services.UsersService(logger=logger,
-        #                                                 db=database),
-        #     auth_service=example.services.AuthService(logger=logger,
-        #                                               db=database,
-        #                                               token_ttl=3600),
-        #     photos_service=example.services.PhotosService(logger=logger,
-        #                                                   db=database,
-        #                                                   s3=s3))
-   
-Alternative definition styles of providers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-*Dependecy Injector* supports few other styles of dependency injections 
-definition.
-
-IoC containers from previous example could look like these:
-
-.. code-block:: python
-
-    class Platform(containers.DeclarativeContainer):
-        """IoC container of platform service providers."""
-
-        logger = providers.Singleton(logging.Logger) \
-            .add_kwargs(name='example')
-
-        database = providers.Singleton(sqlite3.connect) \
-            .add_args(':memory:')
-
-        s3 = providers.Singleton(boto.s3.connection.S3Connection) \
-            .add_kwargs(aws_access_key_id='KEY',
-                        aws_secret_access_key='SECRET')
-
-or like this these:
-
-.. code-block:: python
-
-    class Platform(containers.DeclarativeContainer):
-        """IoC container of platform service providers."""
-
-        logger = providers.Singleton(logging.Logger)
-        logger.add_kwargs(name='example')
-
-        database = providers.Singleton(sqlite3.connect)
-        database.add_args(':memory:')
-
-        s3 = providers.Singleton(boto.s3.connection.S3Connection)
-        s3.add_kwargs(aws_access_key_id='KEY',
-                      aws_secret_access_key='SECRET')
-
 
 You can get more *Dependency Injector* examples in ``/examples`` directory on
 GitHub:

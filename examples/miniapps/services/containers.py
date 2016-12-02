@@ -12,36 +12,41 @@ import dependency_injector.containers as containers
 import dependency_injector.providers as providers
 
 
-class Platform(containers.DeclarativeContainer):
-    """IoC container of platform service providers."""
+class Core(containers.DeclarativeContainer):
+    """IoC container of core component providers."""
 
     configuration = providers.Configuration('config')
 
     logger = providers.Singleton(logging.Logger, name='example')
 
-    database = providers.Singleton(sqlite3.connect, configuration.database.dsn)
+
+class Gateways(containers.DeclarativeContainer):
+    """IoC container of gateway (API clients to remote services) providers."""
+
+    database = providers.Singleton(sqlite3.connect,
+                                   Core.configuration.database.dsn)
 
     s3 = providers.Singleton(boto.s3.connection.S3Connection,
-                             configuration.aws.access_key_id,
-                             configuration.aws.secret_access_key)
+                             Core.configuration.aws.access_key_id,
+                             Core.configuration.aws.secret_access_key)
 
 
 class Services(containers.DeclarativeContainer):
     """IoC container of business service providers."""
 
     users = providers.Factory(example.services.UsersService,
-                              logger=Platform.logger,
-                              db=Platform.database)
+                              db=Gateways.database,
+                              logger=Core.logger)
 
     auth = providers.Factory(example.services.AuthService,
-                             logger=Platform.logger,
-                             db=Platform.database,
-                             token_ttl=Platform.configuration.auth.token_ttl)
+                             db=Gateways.database,
+                             logger=Core.logger,
+                             token_ttl=Core.configuration.auth.token_ttl)
 
     photos = providers.Factory(example.services.PhotosService,
-                               logger=Platform.logger,
-                               db=Platform.database,
-                               s3=Platform.s3)
+                               db=Gateways.database,
+                               s3=Gateways.s3,
+                               logger=Core.logger)
 
 
 class Application(containers.DeclarativeContainer):
