@@ -15,7 +15,7 @@ from .utils cimport (
 cdef class Configuration(Provider):
     """Configuration provider.
 
-    Configudation provider helps with implementing late static binding of
+    Configuration provider helps with implementing late static binding of
     configuration options - use first, set last.
 
     .. code-block:: python
@@ -33,7 +33,11 @@ cdef class Configuration(Provider):
     """
 
     def __init__(self, name):
-        """Initializer."""
+        """Initializer.
+
+        :param name: Name of configuration unit.
+        :type name: str
+        """
         self.__name = name
         self.__value = None
         self.__children = dict()
@@ -82,7 +86,13 @@ cdef class Configuration(Provider):
         return self.__name
 
     cpdef object update(self, value):
-        """Set configuration options."""
+        """Set configuration options.
+
+        :param value: Value of configuration option.
+        :type value: object | dict
+
+        :rtype: None
+        """
         cdef Configuration child_provider
         cdef object child_value
 
