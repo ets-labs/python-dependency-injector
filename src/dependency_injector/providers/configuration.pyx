@@ -13,7 +13,24 @@ from .utils cimport (
 
 
 cdef class Configuration(Provider):
-    """Configuration provider."""
+    """Configuration provider.
+
+    Configudation provider helps with implementing late static binding of
+    configuration options - use first, set last.
+
+    .. code-block:: python
+
+        config = Configuration('config')
+
+        print(config.section1.option1())  # None
+        print(config.section1.option2())  # None
+
+        config.update({'section1': {'option1': 1,
+                                    'option2': 2}})
+
+        print(config.section1.option1())  # 1
+        print(config.section1.option2())  # 2
+    """
 
     def __init__(self, name):
         """Initializer."""
