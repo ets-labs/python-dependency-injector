@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+3.2.1
+-----
+- Update ``services`` miniapp example.
+
 3.2.0
 -----
 - Add ``Configuration`` provider for late static binding of configuration 
