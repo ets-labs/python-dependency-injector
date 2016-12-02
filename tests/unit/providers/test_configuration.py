@@ -47,6 +47,19 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual(abc(), 1)
         self.assertEqual(abd(), 2)
 
+    def test_providers_with_already_set_value(self):
+        self.config.update({'a': {'b': {'c': 1, 'd': 2}}})
+
+        a = self.config.a
+        ab = self.config.a.b
+        abc = self.config.a.b.c
+        abd = self.config.a.b.d
+
+        self.assertEqual(a(), {'b': {'c': 1, 'd': 2}})
+        self.assertEqual(ab(), {'c': 1, 'd': 2})
+        self.assertEqual(abc(), 1)
+        self.assertEqual(abd(), 2)
+
     def test_value_of_undefined_option(self):
         self.assertIsNone(self.config.a())
 
