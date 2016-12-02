@@ -9,7 +9,9 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- No features.
+.. - No features.
+- Add ``Configuration`` provider for late static binding of configuration 
+  options.
 
 3.1.5
 -----
