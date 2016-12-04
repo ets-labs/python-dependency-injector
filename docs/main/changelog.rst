@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+3.2.2
+-----
+- Change name of version variable to follow PEP8: ``VERSION`` -> ``__version__``.
+
 3.2.1
 -----
 - Update ``services`` miniapp example.

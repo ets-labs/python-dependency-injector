@@ -14,12 +14,12 @@ with open('README.rst') as readme_file:
     description = readme_file.read()
 
 # Getting requirements:
-with open('requirements.txt') as version:
-    requirements = version.readlines()
+with open('requirements.txt') as requirements_file:
+    requirements = requirements_file.readlines()
 
 # Getting version:
 with open('src/dependency_injector/__init__.py') as init_file:
-    version = re.search('VERSION = \'(.*?)\'', init_file.read()).group(1)
+    version = re.search('__version__ = \'(.*?)\'', init_file.read()).group(1)
 
 # Adding debug options:
 if os.environ.get('DEPENDENCY_INJECTOR_DEBUG_MODE') == '1':

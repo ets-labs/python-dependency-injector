@@ -57,7 +57,7 @@ author = u'ETS Labs'
 # The short X.Y version.
 # Getting version:
 with open('../src/dependency_injector/__init__.py') as init_file:
-    version = re.search('VERSION = \'(.*?)\'', init_file.read()).group(1)
+    version = re.search('__version__ = \'(.*?)\'', init_file.read()).group(1)
 
 # The full version, including alpha/beta/rc tags.
 release = version

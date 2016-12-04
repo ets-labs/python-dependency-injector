@@ -1,6 +1,6 @@
 """Dependency injector top-level package."""
 
-VERSION = '3.2.1'
+__version__ = '3.2.2'
 """Version number that follows semantic versioning.
 
 :type: str
