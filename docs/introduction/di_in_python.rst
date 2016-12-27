@@ -115,10 +115,11 @@ Next example demonstrates creation of several cars with different engines:
    :language: python
    :linenos:
 
-While previous example demonstrates advantage of dependency injection, there 
+While previous example demonstrates advantages of dependency injection, there 
 is a disadvantage demonstration as well - creation of car requires additional 
 code for specification of dependencies. Nevertheless, this disadvantage could 
-be easily avoided by creating inversion of control container (IoC container).
+be easily avoided by using a dependency injection framework for creation of 
+inversion of control container (IoC container).
 
 Example of creation of several inversion of control containers (IoC containers)
 using :doc:`Dependency Injector <../index>`:
