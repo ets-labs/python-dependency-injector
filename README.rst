@@ -104,8 +104,124 @@ Dependency injection pattern provides the following advantages:
 Example of dependency injection
 -------------------------------
 
-Brief example below demonstrates usage of *Dependency Injector* for creating 
-several IoC containers for some example application:
+Let's go through next example:
+
+.. image:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/engines_cars/diagram.png
+    :width: 100%
+    :align: center
+
+Listing of ``example.engines`` module:
+
+.. code-block:: python
+
+    """Dependency injection example, engines module."""
+
+
+    class Engine(object):
+        """Example engine base class.
+
+        Engine is a heart of every car. Engine is a very common term and could be
+        implemented in very different ways.
+        """
+
+
+    class GasolineEngine(Engine):
+        """Gasoline engine."""
+
+
+    class DieselEngine(Engine):
+        """Diesel engine."""
+
+
+    class ElectroEngine(Engine):
+        """Electro engine."""
+
+Listing of ``example.cars`` module:
+
+.. code-block:: python
+
+    """Dependency injection example, cars module."""
+
+
+    class Car(object):
+        """Example car."""
+
+        def __init__(self, engine):
+            """Initializer."""
+            self._engine = engine  # Engine is injected
+
+Next example demonstrates creation of several cars with different engines:
+
+.. code-block:: python
+
+    """Dependency injection example, Cars & Engines."""
+
+    import example.cars
+    import example.engines
+
+
+    if __name__ == '__main__':
+        gasoline_car = example.cars.Car(example.engines.GasolineEngine())
+        diesel_car = example.cars.Car(example.engines.DieselEngine())
+        electro_car = example.cars.Car(example.engines.ElectroEngine())
+
+While previous example demonstrates advantages of dependency injection, there 
+is a disadvantage demonstration as well - creation of car requires additional 
+code for specification of dependencies. Nevertheless, this disadvantage could 
+be easily avoided by using a dependency injection framework for creation of 
+inversion of control container (IoC container).
+
+Example of creation of several inversion of control containers (IoC containers)
+using *Dependency Injector*:
+
+.. code-block:: python
+
+    """Dependency injection example, Cars & Engines IoC containers."""
+
+    import example.cars
+    import example.engines
+
+    import dependency_injector.containers as containers
+    import dependency_injector.providers as providers
+
+
+    class Engines(containers.DeclarativeContainer):
+        """IoC container of engine providers."""
+
+        gasoline = providers.Factory(example.engines.GasolineEngine)
+
+        diesel = providers.Factory(example.engines.DieselEngine)
+
+        electro = providers.Factory(example.engines.ElectroEngine)
+
+
+    class Cars(containers.DeclarativeContainer):
+        """IoC container of car providers."""
+
+        gasoline = providers.Factory(example.cars.Car,
+                                     engine=Engines.gasoline)
+
+        diesel = providers.Factory(example.cars.Car,
+                                   engine=Engines.diesel)
+
+        electro = providers.Factory(example.cars.Car,
+                                    engine=Engines.electro)
+
+
+    if __name__ == '__main__':
+        gasoline_car = Cars.gasoline()
+        diesel_car = Cars.diesel()
+        electro_car = Cars.electro()
+
+Dependency injection in action
+------------------------------
+
+Brief example below is a simplified version of inversion of control 
+containters from one of the real-life applications. This example demonstrates 
+usage of *Dependency Injector* inversion of control containers & providers 
+for specifying all application components and their dependencies beetween 
+each other in one module. Besides other listed above advantages, it gives a 
+great opportunity to control & manage application's structure in one place.
 
 .. code-block:: python
 
