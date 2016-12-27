@@ -11,6 +11,11 @@ Development version
 -------------------
 - No features.
 
+3.2.3
+-----
+- Add examples into README.
+- Make minor documentation updates.
+
 3.2.2
 -----
 - Change name of version variable to follow PEP8: ``VERSION`` -> ``__version__``.
