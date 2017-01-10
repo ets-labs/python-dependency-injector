@@ -343,5 +343,5 @@ Your feedback is quite important!
 .. _Dependency injection: http://en.wikipedia.org/wiki/Dependency_injection
 .. _Inversion of control: https://en.wikipedia.org/wiki/Inversion_of_control
 .. _PyPi: https://pypi.python.org/pypi/dependency_injector
-.. _User's guide: http://python-dependency-injector.ets-labs.org/en/stable/
-.. _API docs: http://python-dependency-injector.ets-labs.org/en/stable/api/
+.. _User's guide: http://python-dependency-injector.ets-labs.org/
+.. _API docs: http://python-dependency-injector.ets-labs.org/api/
