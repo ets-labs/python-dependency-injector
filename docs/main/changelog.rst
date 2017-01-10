@@ -11,6 +11,13 @@ Development version
 -------------------
 - No features.
 
+3.2.4
+-----
+- Switch to single version of documentation for getting shorter urls (without 
+  ``/en/stable/``). Add appropriate redirects for compatibility with previous 
+  links.
+- Update copyright date.
+
 3.2.3
 -----
 - Add examples into README.
