@@ -3009,7 +3009,7 @@ static PyTypeObject __pyx_type_19dependency_injector_9providers_13configuration_
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  "Configuration provider.\n\n    Configuration provider helps with implementing late static binding of\n    configuration options - use first, set last.\n\n    .. code-block:: python\n\n        config = Configuration('config')\n\n        print(config.section1.option1())  # None\n        print(config.section1.option2())  # None\n\n        config.update({'section1': {'option1': 1,\n                                    'option2': 2}})\n\n        print(config.section1.option1())  # 1\n        print(config.section1.option2())  # 2\n    ", /*tp_doc*/
+  "Configuration provider.\n\n    Configuration provider helps with implementing late static binding of\n    configuration options - use first, define later.\n\n    .. code-block:: python\n\n        config = Configuration('config')\n\n        print(config.section1.option1())  # None\n        print(config.section1.option2())  # None\n\n        config.update({'section1': {'option1': 1,\n                                    'option2': 2}})\n\n        print(config.section1.option1())  # 1\n        print(config.section1.option2())  # 2\n    ", /*tp_doc*/
   __pyx_tp_traverse_19dependency_injector_9providers_13configuration_Configuration, /*tp_traverse*/
   __pyx_tp_clear_19dependency_injector_9providers_13configuration_Configuration, /*tp_clear*/
   0, /*tp_richcompare*/

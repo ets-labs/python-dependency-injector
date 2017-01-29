@@ -16,7 +16,7 @@ cdef class Configuration(Provider):
     """Configuration provider.
 
     Configuration provider helps with implementing late static binding of
-    configuration options - use first, set last.
+    configuration options - use first, define later.
 
     .. code-block:: python
 
