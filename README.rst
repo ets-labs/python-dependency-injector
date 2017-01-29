@@ -213,8 +213,58 @@ using *Dependency Injector*:
         diesel_car = Cars.diesel()
         electro_car = Cars.electro()
 
-Dependency injection in action
-------------------------------
+Dependency Injector structure
+-----------------------------
+
+Dependency Injector is a microframework and has a very simple structure.
+
+There are 2 main entities: providers & containers.
+
+.. image:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/internals.png
+    :width: 100%
+    :align: center
+
+Providers
+~~~~~~~~~
+
+Providers are strategies of accessing objects. They define how particular 
+objects are provided.
+
+- **Provider** - base provider class.
+- **Callable** - provider that calls wrapped callable on every call. Supports 
+  positional & keyword argument injections.
+- **Factory** - provider that creates new instance of specified class on every 
+  call. Supports positional & keyword argument injections, as well as 
+  attribute injections.
+- **Singleton** - provider that creates new instance of specified class on first 
+  call and returns same instance on every next call. Supports positional & 
+  keyword argument injections, as well as attribute injections.
+- **Object** - provider that returns provided instance "as is".
+- **ExternalDependency** - provider that can be useful for development of 
+  self-sufficient libraries / modules / applications that has required 
+  external dependencies.
+- **Configuration** - provider that helps with implementing late static binding 
+  of configuration options - use first, define later.
+
+Containers
+~~~~~~~~~~
+
+Containers are collections of providers. Main purpose of containers is to 
+group providers.
+
+- **DeclarativeContainer** - is inversion of control container that could be 
+  defined in declarative manner. It should cover most of the cases when list 
+  of providers that would be included in container is deterministic 
+  (container will not change its structure in runtime).
+- **DynamicContainer** - is an inversion of control container with dynamic 
+  structure. It should cover most of the cases when list of providers that 
+  would be included in container is non-deterministic and depends on 
+  application's flow or its configuration (container's structure could be 
+  determined just after application will be started and will do some initial 
+  work, like parsing list of container’s providers from the configuration).
+
+Dependency Injector in action
+-----------------------------
 
 Brief example below is a simplified version of inversion of control 
 containters from one of the real-life applications. This example demonstrates 
