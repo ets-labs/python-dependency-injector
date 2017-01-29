@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+3.3.0
+-----
+- Add support of Python 3.6.
+
 3.2.5
 -----
 - Add description of structure into README.
