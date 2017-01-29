@@ -4,7 +4,7 @@ External dependency providers
 .. currentmodule:: dependency_injector.providers
 
 :py:class:`ExternalDependency` provider can be useful for development of
-self-sufficient libraries / modules / applications that has required external
+self-sufficient libraries / modules / applications that have required external
 dependencies.
 
 For example, you have created self-sufficient library / module / application,
