@@ -11,6 +11,11 @@ Development version
 -------------------
 - No features.
 
+3.2.5
+-----
+- Add description of structure into README.
+- Fix documentation errors.
+
 3.2.4
 -----
 - Switch to single version of documentation for getting shorter urls (without 
