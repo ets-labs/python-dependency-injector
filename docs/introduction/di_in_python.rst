@@ -6,7 +6,9 @@ Dependency injection and inversion of control in Python
    :description: This article describes benefits of dependency injection and 
                  inversion of control for Python applications. Also it 
                  contains some Python examples that show how dependency 
-                 injection and inversion could be implemented.
+                 injection and inversion could be implemented. In addition, it 
+                 demonstrates usage of dependency injection framework, 
+                 IoC container and such popular design pattern as Factory.
 
 History
 ~~~~~~~
