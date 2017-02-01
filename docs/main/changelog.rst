@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+3.3.1
+-----
+- Add some improvements to the documentation.
+
 3.3.0
 -----
 - Add support of Python 3.6.
