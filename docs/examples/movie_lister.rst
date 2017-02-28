@@ -123,4 +123,8 @@ Listing of ``app_db_csv.py``:
    :language: python
    :linenos:
 
+
+.. disqus::
+
+
 .. _GitHub: https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/movie_lister

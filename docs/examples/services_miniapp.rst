@@ -71,3 +71,6 @@ Listing of ``run.py``:
 .. literalinclude:: ../../examples/miniapps/services/run.py
    :language: python
    :linenos:
+
+
+.. disqus::
