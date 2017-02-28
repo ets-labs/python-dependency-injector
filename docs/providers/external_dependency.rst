@@ -40,3 +40,6 @@ Example:
 .. literalinclude:: ../../examples/providers/external_dependency.py
    :language: python
    :linenos:
+
+
+.. disqus::

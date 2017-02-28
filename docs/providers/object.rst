@@ -10,3 +10,6 @@ Example:
 .. literalinclude:: ../../examples/providers/object.py
    :language: python
    :linenos:
+
+
+.. disqus::

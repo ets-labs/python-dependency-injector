@@ -56,3 +56,6 @@ Delegation of :py:class:`Callable` providers is the same as
 :ref:`factory_providers_delegation` section for examples (with exception 
 about using :py:class:`DelegatedCallable` instead of 
 :py:class:`DelegatedFactory`).
+
+
+.. disqus::

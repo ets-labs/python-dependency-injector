@@ -43,3 +43,6 @@ Components of *Dependency Injector* framework could be used:
 
 Main idea of *Dependency Injector* framework is to be useful tool for the 
 right thing.
+
+
+.. disqus::

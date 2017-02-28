@@ -44,3 +44,6 @@ Example:
 .. literalinclude:: ../../examples/providers/overriding_users_model.py
    :language: python
    :linenos:
+
+
+.. disqus::
