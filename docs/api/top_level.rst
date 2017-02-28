@@ -2,7 +2,7 @@
 -----------------------
 
 .. automodule:: dependency_injector
-   :members: VERSION
+   :members: __version__
 
 
 .. disqus::
