@@ -116,6 +116,9 @@ And `John Munsch`_ provided absolutely Great answer:
     down to eat.
 
 
+.. disqus::
+
+
 .. _Dependency injection: http://en.wikipedia.org/wiki/Dependency_injection
 .. _Inversion of control: https://en.wikipedia.org/wiki/Inversion_of_control
 .. _Dependency inversion: https://en.wikipedia.org/wiki/Dependency_inversion_principle
