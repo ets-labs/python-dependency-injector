@@ -3,3 +3,6 @@
 
 .. automodule:: dependency_injector.errors
    :members:
+
+
+.. disqus::
