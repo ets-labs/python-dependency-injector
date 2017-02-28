@@ -11,6 +11,14 @@ Development version
 -------------------
 - No features.
 
+3.3.2
+-----
+- Add `disqus.com <https://disqus.com/>`_ comments for documentation.
+- Fix reference to version in api docs.
+- Fix title underline in containers api docs.
+- Update documentation copyright year.
+- Update example version in installation document.
+
 3.3.1
 -----
 - Add some improvements to the documentation.
