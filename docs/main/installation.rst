@@ -40,3 +40,6 @@ Verification of currently installed version could be done using
 .. _PyPi: https://pypi.python.org/pypi/dependency_injector
 .. _GitHub: https://github.com/ets-labs/python-dependency-injector
 .. _GitHub releases page: https://github.com/ets-labs/python-dependency-injector/releases
+
+
+.. disqus::

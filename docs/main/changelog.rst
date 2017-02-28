@@ -470,4 +470,7 @@ Previous versions
 
 - While *Objects* was in alpha state, changes were not tracked.
 
+.. disqus::
+
+
 .. _Semantic versioning: http://semver.org/
