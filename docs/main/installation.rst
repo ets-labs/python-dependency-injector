@@ -12,7 +12,7 @@ framework can be installed from PyPi_:
     pip install dependency_injector
 
     # Installing particular version:
-    pip install dependency-injector==3.2.2
+    pip install dependency-injector==3.3.2
     
 .. note::
     Some components of *Dependency Injector* are implemented as C extension types. 
@@ -35,7 +35,7 @@ Verification of currently installed version could be done using
 
     >>> import dependency_injector
     >>> dependency_injector.__version__
-    '3.2.2'
+    '3.3.2'
 
 .. _PyPi: https://pypi.python.org/pypi/dependency_injector
 .. _GitHub: https://github.com/ets-labs/python-dependency-injector
