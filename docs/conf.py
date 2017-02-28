@@ -48,7 +48,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Dependency Injector'
-copyright = u'2016, ETS Labs'
+copyright = u'2017, ETS Labs'
 author = u'ETS Labs'
 
 # The version info for the project you're documenting, acts as replacement for
