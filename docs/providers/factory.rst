@@ -105,3 +105,6 @@ provided type:
 .. literalinclude:: ../../examples/providers/factory_provided_type.py
    :language: python
    :linenos:
+
+
+.. disqus::

@@ -98,3 +98,6 @@ Example:
 .. literalinclude:: ../../examples/providers/singleton_thread_locals.py
    :language: python
    :linenos:
+
+
+.. disqus::
