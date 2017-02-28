@@ -53,3 +53,6 @@ Example of declarative containers's provider injections:
 .. literalinclude:: ../../examples/containers/declarative_injections.py
    :language: python
    :linenos:
+
+
+.. disqus::

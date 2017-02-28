@@ -22,3 +22,6 @@ as well:
 .. literalinclude:: ../../examples/containers/dynamic_provider_type.py
    :language: python
    :linenos:
+
+
+.. disqus::
