@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+3.3.3
+-----
+- Update services miniapp example.
+
 3.3.2
 -----
 - Add `disqus.com <https://disqus.com/>`_ comments for documentation.
