@@ -82,7 +82,7 @@ class PhotosService(BaseService):
         :type db: sqlite3.Connection
 
         :param s3: AWS S3 client.
-        :type s3: boto.s3.connection.S3Connection
+        :type s3: botocore.client.S3
         """
         self.logger = logger
         self.db = db

@@ -3,7 +3,7 @@
 import logging
 import sqlite3
 
-import boto.s3.connection
+import boto3
 
 import example.main
 import example.services
@@ -15,7 +15,7 @@ import dependency_injector.providers as providers
 class Core(containers.DeclarativeContainer):
     """IoC container of core component providers."""
 
-    configuration = providers.Configuration('config')
+    config = providers.Configuration('config')
 
     logger = providers.Singleton(logging.Logger, name='example')
 
@@ -23,12 +23,12 @@ class Core(containers.DeclarativeContainer):
 class Gateways(containers.DeclarativeContainer):
     """IoC container of gateway (API clients to remote services) providers."""
 
-    database = providers.Singleton(sqlite3.connect,
-                                   Core.configuration.database.dsn)
+    database = providers.Singleton(sqlite3.connect, Core.config.database.dsn)
 
-    s3 = providers.Singleton(boto.s3.connection.S3Connection,
-                             Core.configuration.aws.access_key_id,
-                             Core.configuration.aws.secret_access_key)
+    s3 = providers.Singleton(
+        boto3.client, 's3',
+        aws_access_key_id=Core.config.aws.access_key_id,
+        aws_secret_access_key=Core.config.aws.secret_access_key)
 
 
 class Services(containers.DeclarativeContainer):
@@ -41,7 +41,7 @@ class Services(containers.DeclarativeContainer):
     auth = providers.Factory(example.services.AuthService,
                              db=Gateways.database,
                              logger=Core.logger,
-                             token_ttl=Core.configuration.auth.token_ttl)
+                             token_ttl=Core.config.auth.token_ttl)
 
     photos = providers.Factory(example.services.PhotosService,
                                db=Gateways.database,
