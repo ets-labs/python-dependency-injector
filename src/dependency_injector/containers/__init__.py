@@ -14,6 +14,16 @@ from .utils import (
 )
 
 
+# Set package name as a name of module for all public members of this package:
+for item in (DeclarativeContainerMetaClass,
+             DeclarativeContainer,
+             DynamicContainer,
+             is_container,
+             override,
+             copy,):
+    item.__module__ = __name__
+
+
 __all__ = (
     'DeclarativeContainerMetaClass',
     'DeclarativeContainer',

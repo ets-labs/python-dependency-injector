@@ -9,7 +9,13 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-.. - No features.
+- No features.
+
+3.3.4
+-----
+- Change ``__module__`` attribute for all members of
+  ``dependency_injector.containers`` package to point to package, but not to
+  package modules.
 - Regenerate C sources using Cython 0.25.2.
 
 3.3.3
