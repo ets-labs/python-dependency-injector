@@ -9,7 +9,8 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- No features.
+.. - No features.
+- Regenerate C sources using Cython 0.25.2.
 
 3.3.3
 -----
