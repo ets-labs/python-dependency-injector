@@ -170,7 +170,7 @@ class CallableTests(unittest.TestCase):
         provider = providers.Callable(self.example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.callables.'
+                         '<dependency_injector.providers.'
                          'Callable({0}) at {1}>'.format(
                              repr(self.example),
                              hex(id(provider))))
@@ -189,3 +189,12 @@ class DelegatedCallableTests(unittest.TestCase):
     def test_is_delegated_provider(self):
         provider = providers.DelegatedCallable(len)
         self.assertTrue(providers.is_delegated(provider))
+
+    def test_repr(self):
+        provider = providers.DelegatedCallable(len)
+
+        self.assertEqual(repr(provider),
+                         '<dependency_injector.providers.'
+                         'DelegatedCallable({0}) at {1}>'.format(
+                             repr(len),
+                             hex(id(provider))))
