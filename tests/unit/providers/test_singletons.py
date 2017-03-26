@@ -344,7 +344,7 @@ class SingletonTests(_BaseSingletonTestCase, unittest.TestCase):
         provider = self.singleton_cls(Example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.singletons.'
+                         '<dependency_injector.providers.'
                          'Singleton({0}) at {1}>'.format(
                              repr(Example),
                              hex(id(provider))))
@@ -362,7 +362,7 @@ class DelegatedSingletonTests(_BaseSingletonTestCase, unittest.TestCase):
         provider = self.singleton_cls(Example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.singletons.'
+                         '<dependency_injector.providers.'
                          'DelegatedSingleton({0}) at {1}>'.format(
                              repr(Example),
                              hex(id(provider))))
@@ -376,7 +376,7 @@ class ThreadLocalSingletonTests(_BaseSingletonTestCase, unittest.TestCase):
         provider = providers.ThreadLocalSingleton(Example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.singletons.'
+                         '<dependency_injector.providers.'
                          'ThreadLocalSingleton({0}) at {1}>'.format(
                              repr(Example),
                              hex(id(provider))))
@@ -395,7 +395,7 @@ class DelegatedThreadLocalSingletonTests(_BaseSingletonTestCase,
         provider = self.singleton_cls(Example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.singletons.'
+                         '<dependency_injector.providers.'
                          'DelegatedThreadLocalSingleton({0}) at {1}>'.format(
                              repr(Example),
                              hex(id(provider))))
@@ -409,7 +409,7 @@ class ThreadSafeSingletonTests(_BaseSingletonTestCase, unittest.TestCase):
         provider = self.singleton_cls(Example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.singletons.'
+                         '<dependency_injector.providers.'
                          'ThreadSafeSingleton({0}) at {1}>'.format(
                              repr(Example),
                              hex(id(provider))))
@@ -428,7 +428,7 @@ class DelegatedThreadSafeSingletonTests(_BaseSingletonTestCase,
         provider = self.singleton_cls(Example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.singletons.'
+                         '<dependency_injector.providers.'
                          'DelegatedThreadSafeSingleton({0}) at {1}>'.format(
                              repr(Example),
                              hex(id(provider))))

@@ -114,7 +114,7 @@ class ProviderTests(unittest.TestCase):
 
     def test_repr(self):
         self.assertEqual(repr(self.provider),
-                         '<dependency_injector.providers.base.'
+                         '<dependency_injector.providers.'
                          'Provider() at {0}>'.format(hex(id(self.provider))))
 
 
@@ -170,7 +170,7 @@ class ObjectProviderTests(unittest.TestCase):
         some_object = object()
         provider = providers.Object(some_object)
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.base.'
+                         '<dependency_injector.providers.'
                          'Object({0}) at {1}>'.format(
                              repr(some_object),
                              hex(id(provider))))
@@ -197,7 +197,7 @@ class DelegateTests(unittest.TestCase):
 
     def test_repr(self):
         self.assertEqual(repr(self.delegate),
-                         '<dependency_injector.providers.base.'
+                         '<dependency_injector.providers.'
                          'Delegate({0}) at {1}>'.format(
                              repr(self.delegated),
                              hex(id(self.delegate))))
@@ -259,7 +259,7 @@ class ExternalDependencyTests(unittest.TestCase):
 
     def test_repr(self):
         self.assertEqual(repr(self.provider),
-                         '<dependency_injector.providers.base.'
+                         '<dependency_injector.providers.'
                          'ExternalDependency({0}) at {1}>'.format(
                              repr(list),
                              hex(id(self.provider))))

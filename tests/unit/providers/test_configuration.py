@@ -96,14 +96,14 @@ class ConfigTests(unittest.TestCase):
 
     def test_repr(self):
         self.assertEqual(repr(self.config),
-                         '<dependency_injector.providers.configuration.'
+                         '<dependency_injector.providers.'
                          'Configuration({0}) at {1}>'.format(
                              repr('config'),
                              hex(id(self.config))))
 
     def test_repr_child(self):
         self.assertEqual(repr(self.config.a.b.c),
-                         '<dependency_injector.providers.configuration.'
+                         '<dependency_injector.providers.'
                          'Configuration({0}) at {1}>'.format(
                              repr('config.a.b.c'),
                              hex(id(self.config.a.b.c))))

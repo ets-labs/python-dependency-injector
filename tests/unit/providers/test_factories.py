@@ -325,7 +325,7 @@ class FactoryTests(unittest.TestCase):
         provider = providers.Factory(Example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.factories.'
+                         '<dependency_injector.providers.'
                          'Factory({0}) at {1}>'.format(
                              repr(Example),
                              hex(id(provider))))
@@ -344,3 +344,12 @@ class DelegatedFactoryTests(unittest.TestCase):
     def test_is_delegated_provider(self):
         self.assertTrue(
             providers.is_delegated(providers.DelegatedFactory(object)))
+
+    def test_repr(self):
+        provider = providers.DelegatedFactory(Example)
+
+        self.assertEqual(repr(provider),
+                         '<dependency_injector.providers.'
+                         'DelegatedFactory({0}) at {1}>'.format(
+                             repr(Example),
+                             hex(id(provider))))
