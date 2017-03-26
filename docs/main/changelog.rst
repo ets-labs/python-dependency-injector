@@ -9,8 +9,10 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-.. - No features.
+- No features.
 
+3.3.5
+-----
 - [Refactoring] Consolidate all containers in
   ``dependency_injector.containers`` module.
 - [Refactoring] Consolidate all providers in
