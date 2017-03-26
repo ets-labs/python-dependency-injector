@@ -9,7 +9,10 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- No features.
+.. - No features.
+
+- [Refactoring] Consolidate all providers in
+  ``dependency_injector.providers`` module.
 
 3.3.4
 -----
