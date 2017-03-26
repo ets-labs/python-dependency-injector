@@ -40,12 +40,15 @@ setup(name='dependency-injector',
       install_requires=requirements,
       packages=[
           'dependency_injector',
-          'dependency_injector.containers',
       ],
       package_dir={
           '': 'src',
       },
       ext_modules=[
+          Extension('dependency_injector.containers',
+                    ['src/dependency_injector/containers.c'],
+                    define_macros=defined_macros,
+                    extra_compile_args=['-O2']),
           Extension('dependency_injector.providers',
                     ['src/dependency_injector/providers.c'],
                     define_macros=defined_macros,

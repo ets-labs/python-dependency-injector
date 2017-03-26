@@ -11,6 +11,8 @@ Development version
 -------------------
 .. - No features.
 
+- [Refactoring] Consolidate all containers in
+  ``dependency_injector.containers`` module.
 - [Refactoring] Consolidate all providers in
   ``dependency_injector.providers`` module.
 
