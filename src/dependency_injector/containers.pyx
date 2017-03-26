@@ -88,7 +88,7 @@ class DynamicContainer(object):
             del self.providers[name]
         super(DynamicContainer, self).__delattr__(name)
 
-    def override(self, overriding):
+    def override(self, object overriding):
         """Override current container by overriding container.
 
         :param overriding: Overriding container.
@@ -138,8 +138,12 @@ class DynamicContainer(object):
 class DeclarativeContainerMetaClass(type):
     """Declarative inversion of control container meta class."""
 
-    def __new__(mcs, class_name, bases, attributes):
+    def __new__(type mcs, str class_name, tuple bases, dict attributes):
         """Declarative container class factory."""
+        cdef tuple cls_providers
+        cdef tuple inherited_providers
+        cdef type cls
+
         cls_providers = tuple((name, provider)
                               for name, provider in six.iteritems(attributes)
                               if isinstance(provider, Provider))
@@ -154,14 +158,14 @@ class DeclarativeContainerMetaClass(type):
         attributes['inherited_providers'] = dict(inherited_providers)
         attributes['providers'] = dict(cls_providers + inherited_providers)
 
-        cls = type.__new__(mcs, class_name, bases, attributes)
+        cls = <type>type.__new__(mcs, class_name, bases, attributes)
 
         for provider in six.itervalues(cls.providers):
             _check_provider_type(cls, provider)
 
         return cls
 
-    def __setattr__(cls, name, value):
+    def __setattr__(cls, str name, object value):
         """Set class attribute.
 
         If value of attribute is provider, it will be added into providers
@@ -181,7 +185,7 @@ class DeclarativeContainerMetaClass(type):
             cls.cls_providers[name] = value
         super(DeclarativeContainerMetaClass, cls).__setattr__(name, value)
 
-    def __delattr__(cls, name):
+    def __delattr__(cls, str name):
         """Delete class attribute.
 
         If value of attribute is provider, it will be deleted from providers
@@ -264,7 +268,7 @@ class DeclarativeContainer(object):
         return container
 
     @classmethod
-    def override(cls, overriding):
+    def override(cls, object overriding):
         """Override current container by overriding container.
 
         :param overriding: Overriding container.
@@ -323,7 +327,7 @@ def override(object container):
     :return: Declarative container's overriding decorator.
     :rtype: callable(:py:class:`DeclarativeContainer`)
     """
-    def _decorator(overriding_container):
+    def _decorator(object overriding_container):
         """Overriding decorator."""
         container.override(overriding_container)
         return overriding_container
@@ -344,7 +348,7 @@ def copy(object container):
     :rtype: callable(:py:class:`DeclarativeContainer`)
     """
     def _decorator(copied_container):
-        memo = dict()
+        cdef dict memo = dict()
         for name, provider in six.iteritems(copied_container.cls_providers):
             try:
                 source_provider = getattr(container, name)
