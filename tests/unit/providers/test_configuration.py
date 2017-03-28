@@ -63,6 +63,15 @@ class ConfigTests(unittest.TestCase):
     def test_value_of_undefined_option(self):
         self.assertIsNone(self.config.a())
 
+    def test_getting_of_special_attributes(self):
+        with self.assertRaises(AttributeError):
+            self.config.__name__
+
+    def test_getting_of_special_attributes_from_child(self):
+        a = self.config.a
+        with self.assertRaises(AttributeError):
+            a.__name__
+
     def test_deepcopy(self):
         provider = providers.Configuration('config')
         provider_copy = providers.deepcopy(provider)

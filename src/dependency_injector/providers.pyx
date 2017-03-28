@@ -641,10 +641,16 @@ cdef class Configuration(Provider):
         """
         return represent_provider(provider=self, provides=self.__name)
 
-    def __getattr__(self, name):
+    def __getattr__(self, str name):
         """Return child configuration provider."""
         cdef Configuration child_provider
         cdef object value
+
+        if name.startswith('__'):
+            raise AttributeError(
+                '\'{cls}\' object has no attribute '
+                '\'{attribute_name}\''.format(cls=self.__class__.__name__,
+                                              attribute_name=name))
 
         child_provider = self.__children.get(name)
 
