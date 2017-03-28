@@ -11,6 +11,14 @@ Development version
 -------------------
 - No features.
 
+3.3.6
+-----
+- Patch ``Configuration`` provider to raise ``AttributeError`` when there
+  is an attempt to access special attribute like ``__module__`` or
+  ``__name__`` (this behaviour is identical to behaviour of ``object``).
+- Apply minor refactoring for ``providers`` module.
+- Remove cythonization from travis building process.
+
 3.3.5
 -----
 - [Refactoring] Consolidate all containers in
