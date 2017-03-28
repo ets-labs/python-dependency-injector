@@ -11,6 +11,13 @@ Development version
 -------------------
 - No features.
 
+3.3.7
+-----
+- Fix minor bug related to patch of ``Configuration`` provider in version
+  3.3.6 - special attribues were identified by formula ``__{text}`` - now
+  they are identified by formula ``__{text}__``, that is more correct
+  according to Python Data Model.
+
 3.3.6
 -----
 - Patch ``Configuration`` provider to raise ``AttributeError`` when there
