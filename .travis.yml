@@ -9,6 +9,10 @@ matrix:
   include:
     - python: 2.7
       env: TOXENV=coveralls DEPENDENCY_INJECTOR_DEBUG_MODE=1
+      install:
+        - pip install tox
+        - pip install cython
+        - make cythonize
     - python: 2.7
       env: TOXENV=pylint
     - python: 2.7
