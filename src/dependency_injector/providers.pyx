@@ -656,7 +656,7 @@ cdef class Configuration(Provider):
         cdef Configuration child_provider
         cdef object value
 
-        if name.startswith('__'):
+        if name.startswith('__') and name.endswith('__'):
             raise AttributeError(
                 '\'{cls}\' object has no attribute '
                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
