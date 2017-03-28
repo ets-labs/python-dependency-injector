@@ -14,6 +14,16 @@ from .errors import Error
 cimport cython
 
 
+if sys.version_info[0] == 3:  # pragma: no cover
+    CLASS_TYPES = (type,)
+else:  # pragma: no cover
+    CLASS_TYPES = (type, types.ClassType)
+
+    copy._deepcopy_dispatch[types.MethodType] = \
+        lambda obj, memo: type(obj)(obj.im_func,
+                                    copy.deepcopy(obj.im_self, memo),
+                                    obj.im_class)
+
 GLOBAL_LOCK = threading.RLock()
 """Global reentrant lock.
 
@@ -1449,17 +1459,6 @@ cpdef tuple parse_named_injections(dict kwargs):
         injections.append(injection)
 
     return tuple(injections)
-
-
-if sys.version_info[0] == 3:  # pragma: no cover
-    CLASS_TYPES = (type,)
-else:  # pragma: no cover
-    CLASS_TYPES = (type, types.ClassType)
-
-    copy._deepcopy_dispatch[types.MethodType] = \
-        lambda obj, memo: type(obj)(obj.im_func,
-                                    copy.deepcopy(obj.im_self, memo),
-                                    obj.im_class)
 
 
 cpdef bint is_provider(object instance):
