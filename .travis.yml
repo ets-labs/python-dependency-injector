@@ -1,8 +1,6 @@
 sudo: false
 install: 
     - pip install tox
-    - pip install cython
-    - make cythonize
 script: 
     - tox
 language:
