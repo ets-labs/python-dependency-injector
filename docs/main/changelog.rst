@@ -13,6 +13,9 @@ Development version
 
 3.4.0
 -----
+- Add ``AbstractCallable`` provider.
+- Add ``AbstractFactory`` provider.
+- Add ``AbstractSingleton`` provider.
 - Optimize calling of overridden providers (~15% faster).
 
 3.3.7

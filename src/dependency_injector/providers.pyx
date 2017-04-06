@@ -593,6 +593,47 @@ cdef class DelegatedCallable(Callable):
     __IS_DELEGATED__ = True
 
 
+cdef class AbstractCallable(Callable):
+    """Abstract callable provider.
+
+    :py:class:`AbstractCallable` is a :py:class:`Callable` provider that must
+    be explicitly overridden before calling.
+
+    Overriding of :py:class:`AbstractCallable` is possible only by another
+    :py:class:`Callable` provider.
+    """
+
+    def __call__(self, *args, **kwargs):
+        """Return provided object.
+
+        Callable interface implementation.
+        """
+        if self.__last_overriding is None:
+            raise Error('{0} must be overridden before calling'.format(self))
+        return self.__last_overriding._provide(args, kwargs)
+
+    def override(self, provider):
+        """Override provider with another provider.
+
+        :param provider: Overriding provider.
+        :type provider: :py:class:`Provider`
+
+        :raise: :py:exc:`dependency_injector.errors.Error`
+
+        :return: Overriding context.
+        :rtype: :py:class:`OverridingContext`
+        """
+        if not isinstance(provider, Callable):
+            raise Error('{0} must be overridden only by '
+                        '{1} providers'.format(self, Callable))
+        return super(AbstractCallable, self).override(provider)
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        """Return result of provided callable's call."""
+        raise NotImplementedError('Abstract provider forward providing logic '
+                                  'to overriding provider')
+
+
 cdef class Configuration(Provider):
     """Configuration provider.
 
@@ -966,6 +1007,46 @@ cdef class DelegatedFactory(Factory):
 
     __IS_DELEGATED__ = True
 
+
+cdef class AbstractFactory(Factory):
+    """Abstract factory provider.
+
+    :py:class:`AbstractFactory` is a :py:class:`Factory` provider that must
+    be explicitly overridden before calling.
+
+    Overriding of :py:class:`AbstractFactory` is possible only by another
+    :py:class:`Factory` provider.
+    """
+
+    def __call__(self, *args, **kwargs):
+        """Return provided object.
+
+        Callable interface implementation.
+        """
+        if self.__last_overriding is None:
+            raise Error('{0} must be overridden before calling'.format(self))
+        return self.__last_overriding._provide(args, kwargs)
+
+    def override(self, provider):
+        """Override provider with another provider.
+
+        :param provider: Overriding provider.
+        :type provider: :py:class:`Provider`
+
+        :raise: :py:exc:`dependency_injector.errors.Error`
+
+        :return: Overriding context.
+        :rtype: :py:class:`OverridingContext`
+        """
+        if not isinstance(provider, Factory):
+            raise Error('{0} must be overridden only by '
+                        '{1} providers'.format(self, Factory))
+        return super(AbstractFactory, self).override(provider)
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        """Return result of provided callable's call."""
+        raise NotImplementedError('Abstract provider forward providing logic '
+                                  'to overriding provider')
 
 cdef class BaseSingleton(Provider):
     """Base class of singleton providers."""
@@ -1351,6 +1432,51 @@ cdef class DelegatedThreadLocalSingleton(ThreadLocalSingleton):
     """
 
     __IS_DELEGATED__ = True
+
+
+cdef class AbstractSingleton(BaseSingleton):
+    """Abstract singleton provider.
+
+    :py:class:`AbstractSingleton` is a :py:class:`Singleton` provider that must
+    be explicitly overridden before calling.
+
+    Overriding of :py:class:`AbstractSingleton` is possible only by another
+    :py:class:`BaseSingleton` provider.
+    """
+
+    def __call__(self, *args, **kwargs):
+        """Return provided object.
+
+        Callable interface implementation.
+        """
+        if self.__last_overriding is None:
+            raise Error('{0} must be overridden before calling'.format(self))
+        return self.__last_overriding._provide(args, kwargs)
+
+    def override(self, provider):
+        """Override provider with another provider.
+
+        :param provider: Overriding provider.
+        :type provider: :py:class:`Provider`
+
+        :raise: :py:exc:`dependency_injector.errors.Error`
+
+        :return: Overriding context.
+        :rtype: :py:class:`OverridingContext`
+        """
+        if not isinstance(provider, BaseSingleton):
+            raise Error('{0} must be overridden only by '
+                        '{1} providers'.format(self, BaseSingleton))
+        return super(AbstractSingleton, self).override(provider)
+
+    def reset(self):
+        """Reset cached instance, if any.
+
+        :rtype: None
+        """
+        if self.__last_overriding is None:
+            raise Error('{0} must be overridden before calling'.format(self))
+        return self.__last_overriding.reset()
 
 
 cdef class Injection(object):

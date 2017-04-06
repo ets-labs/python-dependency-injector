@@ -117,7 +117,7 @@ class Tester(object):
         for x in xrange(int(5000000 * self.duration_factor)):
             test_factory()
 
-    def test_overridden_factory_3_factory_kw_injections(self, providers):
+    def test_abstract_factory_3_factory_kw_injections(self, providers):
         """Test factory with 3 keyword argument injections via factories."""
         class A(object):
             pass
@@ -135,7 +135,7 @@ class Tester(object):
         a_factory = providers.Factory(A)
         b_factory = providers.Factory(B)
         c_factory = providers.Factory(C)
-        test_factory = providers.Factory(object)
+        test_factory = providers.AbstractFactory(object)
         test_factory.override(providers.Factory(Test,
                                                 a=a_factory,
                                                 b=b_factory,
