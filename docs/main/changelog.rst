@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+3.4.0
+-----
+- No features.
+
 3.3.7
 -----
 - Fix minor bug related to patch of ``Configuration`` provider in version
