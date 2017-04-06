@@ -83,7 +83,7 @@ cdef class Provider(object):
     def __init__(self):
         """Initializer."""
         self.__overridden = tuple()
-        self.__overridden_len = 0
+        self.__last_overriding = None
         super(Provider, self).__init__()
 
     def __call__(self, *args, **kwargs):
@@ -91,8 +91,8 @@ cdef class Provider(object):
 
         Callable interface implementation.
         """
-        if self.__overridden_len != 0:
-            return self._call_last_overriding(args, kwargs)
+        if self.__last_overriding is not None:
+            return self.__last_overriding._provide(args, kwargs)
         return self._provide(args, kwargs)
 
     def __deepcopy__(self, memo):
@@ -146,12 +146,10 @@ cdef class Provider(object):
             provider = Object(provider)
 
         self.__overridden += (provider,)
-        self.__overridden_len += 1
+        self.__last_overriding = provider
 
         return OverridingContext(self, provider)
 
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
     def reset_last_overriding(self):
         """Reset last overriding provider.
 
@@ -160,11 +158,14 @@ cdef class Provider(object):
 
         :rtype: None
         """
-        if self.__overridden_len == 0:
+        if len(self.__overridden) == 0:
             raise Error('Provider {0} is not overridden'.format(str(self)))
 
-        self.__overridden = self.__overridden[:self.__overridden_len - 1]
-        self.__overridden_len -= 1
+        self.__overridden = self.__overridden[:-1]
+        try:
+            self.__last_overriding = self.__overridden[-1]
+        except IndexError:
+            self.__last_overriding = None
 
     def reset_override(self):
         """Reset all overriding providers.
@@ -172,7 +173,7 @@ cdef class Provider(object):
         :rtype: None
         """
         self.__overridden = tuple()
-        self.__overridden_len = 0
+        self.__last_overriding = None
 
     def delegate(self):
         """Return provider's delegate.
@@ -189,13 +190,6 @@ cdef class Provider(object):
         overridden provider is called. Need to be overridden in subclasses.
         """
         raise NotImplementedError()
-
-    @cython.boundscheck(False)
-    @cython.wraparound(False)
-    cpdef object _call_last_overriding(self, tuple args, dict kwargs):
-        """Call last overriding provider and return result."""
-        return  <object>self.__overridden[self.__overridden_len - 1](*args,
-                                                                     **kwargs)
 
 
 cdef class Object(Provider):
@@ -332,10 +326,10 @@ cdef class ExternalDependency(Provider):
         """
         cdef object instance
 
-        if self.__overridden_len == 0:
+        if self.__last_overriding is None:
             raise Error('Dependency is not defined')
 
-        instance = self._call_last_overriding(args, kwargs)
+        instance = self.__last_overriding._provide(args, kwargs)
 
         if not isinstance(instance, self.instance_of):
             raise Error('{0} is not an '.format(instance) +

@@ -9,10 +9,9 @@ cimport cython
 # Base providers
 cdef class Provider(object):
     cdef tuple __overridden
-    cdef int __overridden_len
+    cdef Provider __last_overriding
 
     cpdef object _provide(self, tuple args, dict kwargs)
-    cpdef object _call_last_overriding(self, tuple args, dict kwargs)
 
 
 cdef class Object(Provider):
