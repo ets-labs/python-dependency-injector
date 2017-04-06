@@ -106,16 +106,18 @@ provided type:
    :language: python
    :linenos:
 
+.. _abstract_factory_providers:
+
 Abstract factory providers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:py:class:`AbstractFactory` is a :py:class:`Factory` provider that must be
-explicitly overridden before calling.
+:py:class:`AbstractFactory` provider is a :py:class:`Factory` provider that
+must be explicitly overridden before calling.
 
 .. note::
 
-    Overriding of :py:class:`AbstractFactory` is possible only by another
-    :py:class:`Factory` provider.
+    Overriding of :py:class:`AbstractFactory` provider is possible only by
+    another :py:class:`Factory` provider.
 
 :py:class:`AbstractFactory` provider is useful when it is needed to specify
 explicitly that it only provides abstraction, but not an implementation.
