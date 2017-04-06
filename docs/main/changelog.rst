@@ -11,6 +11,13 @@ Development version
 -------------------
 - No features.
 
+3.4.0
+-----
+- Add ``AbstractCallable`` provider.
+- Add ``AbstractFactory`` provider.
+- Add ``AbstractSingleton`` provider.
+- Optimize calling of overridden providers (~15% faster).
+
 3.3.7
 -----
 - Fix minor bug related to patch of ``Configuration`` provider in version

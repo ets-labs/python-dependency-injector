@@ -54,8 +54,18 @@ any kind of injection.
 Delegation of :py:class:`Callable` providers is the same as 
 :py:class:`Factory` providers delegation, please follow 
 :ref:`factory_providers_delegation` section for examples (with exception 
-about using :py:class:`DelegatedCallable` instead of 
+of using :py:class:`DelegatedCallable` instead of
 :py:class:`DelegatedFactory`).
 
+Abstract callable providers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:py:class:`AbstractCallable` provider is a :py:class:`Callable` provider that
+must be explicitly overridden before calling.
+
+Behaviour of :py:class:`AbstractCallable` providers is the same as of
+:py:class:`AbstractFactory`, please follow :ref:`abstract_factory_providers`
+section for examples (with exception of using :py:class:`AbstractCallable`
+provider instead of :py:class:`AbstractFactory`).
 
 .. disqus::

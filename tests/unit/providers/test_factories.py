@@ -353,3 +353,49 @@ class DelegatedFactoryTests(unittest.TestCase):
                          'DelegatedFactory({0}) at {1}>'.format(
                              repr(Example),
                              hex(id(provider))))
+
+
+class AbstractFactoryTests(unittest.TestCase):
+
+    def test_inheritance(self):
+        self.assertIsInstance(providers.AbstractFactory(Example),
+                              providers.Factory)
+
+    def test_call_overridden_by_factory(self):
+        provider = providers.AbstractFactory(object)
+        provider.override(providers.Factory(Example))
+
+        self.assertIsInstance(provider(), Example)
+
+    def test_call_overridden_by_delegated_factory(self):
+        provider = providers.AbstractFactory(object)
+        provider.override(providers.DelegatedFactory(Example))
+
+        self.assertIsInstance(provider(), Example)
+
+    def test_call_not_overridden(self):
+        provider = providers.AbstractFactory(object)
+
+        with self.assertRaises(errors.Error):
+            provider()
+
+    def test_override_by_not_factory(self):
+        provider = providers.AbstractFactory(object)
+
+        with self.assertRaises(errors.Error):
+            provider.override(providers.Callable(object))
+
+    def test_provide_not_implemented(self):
+        provider = providers.AbstractFactory(Example)
+
+        with self.assertRaises(NotImplementedError):
+            provider._provide(tuple(), dict())
+
+    def test_repr(self):
+        provider = providers.AbstractFactory(Example)
+
+        self.assertEqual(repr(provider),
+                         '<dependency_injector.providers.'
+                         'AbstractFactory({0}) at {1}>'.format(
+                             repr(Example),
+                             hex(id(provider))))

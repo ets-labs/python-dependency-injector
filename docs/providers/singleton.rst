@@ -65,7 +65,7 @@ any kind of injection.
 Delegation of :py:class:`Singleton` providers is the same as 
 :py:class:`Factory` providers delegation, please follow 
 :ref:`factory_providers_delegation` section for examples (with exception 
-about using :py:class:`DelegatedSingleton` instead of 
+of using :py:class:`DelegatedSingleton` instead of
 :py:class:`DelegatedFactory`).
 
 Singleton providers specialization
@@ -77,6 +77,17 @@ declaring its subclasses.
 Specialization of :py:class:`Singleton` providers is the same as 
 :py:class:`Factory` providers specialization, please follow 
 :ref:`factory_providers_specialization` section for examples.
+
+Abstract singleton providers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:py:class:`AbstractSingleton` provider is a :py:class:`Singleton` provider that
+must be explicitly overridden before calling.
+
+Behaviour of :py:class:`AbstractSingleton` providers is the same as of
+:py:class:`AbstractFactory`, please follow :ref:`abstract_factory_providers`
+section for examples (with exception of using :py:class:`AbstractSingleton`
+provider instead of :py:class:`AbstractFactory`).
 
 Singleton providers and multi-threading
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -9,10 +9,9 @@ cimport cython
 # Base providers
 cdef class Provider(object):
     cdef tuple __overridden
-    cdef int __overridden_len
+    cdef Provider __last_overriding
 
     cpdef object _provide(self, tuple args, dict kwargs)
-    cpdef object _call_last_overriding(self, tuple args, dict kwargs)
 
 
 cdef class Object(Provider):
@@ -51,6 +50,10 @@ cdef class DelegatedCallable(Callable):
     pass
 
 
+cdef class AbstractCallable(Callable):
+    cpdef object _provide(self, tuple args, dict kwargs)
+
+
 # Configuration providers
 cdef class Configuration(Provider):
     cdef str __name
@@ -75,6 +78,10 @@ cdef class Factory(Provider):
 
 cdef class DelegatedFactory(Factory):
     pass
+
+
+cdef class AbstractFactory(Factory):
+    cpdef object _provide(self, tuple args, dict kwargs)
 
 
 # Singleton providers
@@ -110,6 +117,10 @@ cdef class ThreadLocalSingleton(BaseSingleton):
 
 
 cdef class DelegatedThreadLocalSingleton(ThreadLocalSingleton):
+    pass
+
+
+cdef class AbstractSingleton(BaseSingleton):
     pass
 
 
