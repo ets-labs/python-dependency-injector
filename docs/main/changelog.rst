@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+3.4.1
+-----
+- Update movie lister example miniapp with ``AbstractFactory`` provider.
+
 3.4.0
 -----
 - Add ``AbstractCallable`` provider.

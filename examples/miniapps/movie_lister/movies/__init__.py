@@ -25,8 +25,8 @@ class MoviesModule(containers.DeclarativeContainer):
 
     movie_model = providers.DelegatedFactory(movies.models.Movie)
 
-    movie_finder = providers.Factory(movies.finders.MovieFinder,
-                                     movie_model=movie_model)
+    movie_finder = providers.AbstractFactory(movies.finders.MovieFinder,
+                                             movie_model=movie_model)
 
     movie_lister = providers.Factory(movies.listers.MovieLister,
                                      movie_finder=movie_finder)
