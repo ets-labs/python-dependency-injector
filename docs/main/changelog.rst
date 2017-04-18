@@ -9,7 +9,10 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-.. - No features.
+- No features.
+
+3.4.2
+-----
 - Make ``Provider`` overriding methods thread safe:
   ``Provider.override(provider)``, ``Provider.reset_last_overriding()``, 
   ``Provider.reset_override()``.
