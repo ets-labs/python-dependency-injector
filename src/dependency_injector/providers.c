@@ -25935,7 +25935,7 @@ PyMODINIT_FUNC PyInit_providers(void)
  *     __IS_PROVIDER__ = True
  * 
  *     overriding_lock = threading.RLock()             # <<<<<<<<<<<<<<
- *     """Storage reentrant lock.
+ *     """Overriding reentrant lock.
  * 
  */
   __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_threading); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 77, __pyx_L1_error)

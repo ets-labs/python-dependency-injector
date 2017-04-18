@@ -75,7 +75,7 @@ cdef class Provider(object):
     __IS_PROVIDER__ = True
 
     overriding_lock = threading.RLock()
-    """Storage reentrant lock.
+    """Overriding reentrant lock.
 
     :type: :py:class:`threading.RLock`
     """

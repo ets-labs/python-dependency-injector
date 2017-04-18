@@ -11,6 +11,10 @@ Development version
 -------------------
 - No features.
 
+3.4.3
+-----
+- Update doc block for ``Provider.overriding_lock`` attribute.
+
 3.4.2
 -----
 - Make ``Provider`` overriding methods thread safe:
