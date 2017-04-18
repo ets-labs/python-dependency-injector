@@ -2,7 +2,7 @@
 
 
 def main(movie_lister):
-    """Main function.
+    """Run application.
 
     This program prints info about all movies that were directed by different
     persons and then prints all movies that were released in 2015.

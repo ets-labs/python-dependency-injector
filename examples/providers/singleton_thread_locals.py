@@ -7,7 +7,7 @@ import dependency_injector.providers as providers
 
 
 def example(example_object, queue):
-    """Example function that puts provided object in the provided queue."""
+    """Put provided object in the provided queue."""
     queue.put(example_object)
 
 

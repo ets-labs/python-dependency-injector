@@ -14,6 +14,7 @@ Development version
   ``Provider.override(provider)``, ``Provider.reset_last_overriding()``, 
   ``Provider.reset_override()``.
 - Refactor storage locking of ``ThreadSafeSingleton`` provider.
+- Fix few ``pydocstyle`` errors in examples.
 
 3.4.1
 -----
