@@ -876,12 +876,12 @@ struct __pyx_obj_19dependency_injector_9providers_DelegatedSingleton {
  * 
  * cdef class ThreadSafeSingleton(BaseSingleton):             # <<<<<<<<<<<<<<
  *     cdef object __storage
- *     cdef object __lock
+ *     cdef object __storage_lock
  */
 struct __pyx_obj_19dependency_injector_9providers_ThreadSafeSingleton {
   struct __pyx_obj_19dependency_injector_9providers_BaseSingleton __pyx_base;
   PyObject *__pyx___storage;
-  PyObject *__pyx___lock;
+  PyObject *__pyx___storage_lock;
 };
 
 
@@ -1259,7 +1259,7 @@ static struct __pyx_vtabstruct_19dependency_injector_9providers_DelegatedSinglet
  * 
  * cdef class ThreadSafeSingleton(BaseSingleton):             # <<<<<<<<<<<<<<
  *     cdef object __storage
- *     cdef object __lock
+ *     cdef object __storage_lock
  */
 
 struct __pyx_vtabstruct_19dependency_injector_9providers_ThreadSafeSingleton {

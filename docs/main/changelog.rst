@@ -9,7 +9,8 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- No features.
+.. - No features.
+- Refactor storage locking of ``ThreadSafeSingleton`` provider.
 
 3.4.1
 -----

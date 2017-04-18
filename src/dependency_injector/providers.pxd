@@ -101,7 +101,7 @@ cdef class DelegatedSingleton(Singleton):
 
 cdef class ThreadSafeSingleton(BaseSingleton):
     cdef object __storage
-    cdef object __lock
+    cdef object __storage_lock
 
     cpdef object _provide(self, tuple args, dict kwargs)
 

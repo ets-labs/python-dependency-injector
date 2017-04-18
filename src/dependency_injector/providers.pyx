@@ -24,12 +24,6 @@ else:  # pragma: no cover
                                     copy.deepcopy(obj.im_self, memo),
                                     obj.im_class)
 
-GLOBAL_LOCK = threading.RLock()
-"""Global reentrant lock.
-
-:type: :py:class:`threading.RLock`
-"""
-
 
 cdef class Provider(object):
     """Base provider class.
@@ -1307,6 +1301,12 @@ cdef class DelegatedSingleton(Singleton):
 cdef class ThreadSafeSingleton(BaseSingleton):
     """Thread-safe singleton provider."""
 
+    storage_lock = threading.RLock()
+    """Storage reentrant lock.
+
+    :type: :py:class:`threading.RLock`
+    """
+
     def __init__(self, provides, *args, **kwargs):
         """Initializer.
 
@@ -1320,7 +1320,7 @@ cdef class ThreadSafeSingleton(BaseSingleton):
         :type kwargs: dict[str, object]
         """
         self.__storage = None
-        self.__lock = GLOBAL_LOCK
+        self.__storage_lock = self.__class__.storage_lock
         super(ThreadSafeSingleton, self).__init__(provides, *args, **kwargs)
 
     def reset(self):
@@ -1332,7 +1332,7 @@ cdef class ThreadSafeSingleton(BaseSingleton):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
-        with self.__lock:
+        with self.__storage_lock:
             if self.__storage is None:
                 self.__storage = __factory_call(self.__instantiator,
                                                 args, kwargs)
