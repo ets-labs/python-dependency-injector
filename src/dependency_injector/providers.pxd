@@ -10,6 +10,7 @@ cimport cython
 cdef class Provider(object):
     cdef tuple __overridden
     cdef Provider __last_overriding
+    cdef object __overriding_lock
 
     cpdef object _provide(self, tuple args, dict kwargs)
 

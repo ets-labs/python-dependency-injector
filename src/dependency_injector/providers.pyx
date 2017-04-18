@@ -74,10 +74,17 @@ cdef class Provider(object):
 
     __IS_PROVIDER__ = True
 
+    overriding_lock = threading.RLock()
+    """Storage reentrant lock.
+
+    :type: :py:class:`threading.RLock`
+    """
+
     def __init__(self):
         """Initializer."""
         self.__overridden = tuple()
         self.__last_overriding = None
+        self.__overriding_lock = self.__class__.overriding_lock
         super(Provider, self).__init__()
 
     def __call__(self, *args, **kwargs):
@@ -119,7 +126,8 @@ cdef class Provider(object):
     @property
     def overridden(self):
         """Return tuple of overriding providers."""
-        return self.__overridden
+        with self.__overriding_lock:
+            return self.__overridden
 
     def override(self, provider):
         """Override provider with another provider.
@@ -139,8 +147,9 @@ cdef class Provider(object):
         if not is_provider(provider):
             provider = Object(provider)
 
-        self.__overridden += (provider,)
-        self.__last_overriding = provider
+        with self.__overriding_lock:
+            self.__overridden += (provider,)
+            self.__last_overriding = provider
 
         return OverridingContext(self, provider)
 
@@ -152,22 +161,24 @@ cdef class Provider(object):
 
         :rtype: None
         """
-        if len(self.__overridden) == 0:
-            raise Error('Provider {0} is not overridden'.format(str(self)))
+        with self.__overriding_lock:
+            if len(self.__overridden) == 0:
+                raise Error('Provider {0} is not overridden'.format(str(self)))
 
-        self.__overridden = self.__overridden[:-1]
-        try:
-            self.__last_overriding = self.__overridden[-1]
-        except IndexError:
-            self.__last_overriding = None
+            self.__overridden = self.__overridden[:-1]
+            try:
+                self.__last_overriding = self.__overridden[-1]
+            except IndexError:
+                self.__last_overriding = None
 
     def reset_override(self):
         """Reset all overriding providers.
 
         :rtype: None
         """
-        self.__overridden = tuple()
-        self.__last_overriding = None
+        with self.__overriding_lock:
+            self.__overridden = tuple()
+            self.__last_overriding = None
 
     def delegate(self):
         """Return provider's delegate.
