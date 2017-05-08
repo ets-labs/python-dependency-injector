@@ -18,6 +18,7 @@ Development version
   would be returned.
 - Update example of writing custom providers.
 - Update movie lister example miniapp.
+- Update source of ``coveralls.io`` badge.
 
 3.4.3
 -----
