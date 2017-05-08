@@ -16,6 +16,7 @@ Development version
 - Add ``Provider.last_overriding`` read-only property that points to last 
   overriding provider, if any. If target provider is not overridden, ``None``
   would be returned.
+- Update example of writing custom providers.
 
 3.4.3
 -----

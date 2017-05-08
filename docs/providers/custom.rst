@@ -12,9 +12,7 @@ Below are some tips and recommendations that have to be met:
     2. Cusom provider's ``__init__()`` could be overriden, but parent's
        initializer (:py:meth:`Provider.__init__`) has to be called.
     3. Providing strategy has to be implemented in custom provider's 
-       :py:meth:`Provider._provide` method. All ``*args`` & ``**kwargs`` 
-       that will be recieved by :py:meth:`Provider.__call__` will be 
-       transefed to custom provider's :py:meth:`Provider._provide`. 
+       :py:meth:`Provider.__call__` method.
     4. If custom provider is based on some standard providers, it is better to
        use delegation of standard providers, then extending of them.
     5. If custom provider defines any attributes, it is good to list them in 

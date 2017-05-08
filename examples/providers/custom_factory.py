@@ -17,17 +17,13 @@ class UsersFactory(providers.Provider):
         self._factory = providers.Factory(User)
         super(UsersFactory, self).__init__()
 
-    def _provide(self, *args, **kwargs):
-        """Return provided instance.
+    def __call__(self, *args, **kwargs):
+        """Return provided object.
 
-        :param args: tuple of context positional arguments
-        :type args: tuple[object]
-
-        :param kwargs: dictionary of context keyword arguments
-        :type kwargs: dict[str, object]
-
-        :rtype: object
+        Callable interface implementation.
         """
+        if self.last_overriding is not None:
+            return self.last_overriding._provide(args, kwargs)
         return self._factory(*args, **kwargs)
 
 
