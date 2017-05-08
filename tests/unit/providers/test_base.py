@@ -36,6 +36,7 @@ class ProviderTests(unittest.TestCase):
         overriding_provider = providers.Provider()
         self.provider.override(overriding_provider)
         self.assertTrue(self.provider.overridden)
+        self.assertIs(self.provider.last_overriding, overriding_provider)
 
     def test_overriding_context(self):
         overriding_provider = providers.Provider()
@@ -59,12 +60,15 @@ class ProviderTests(unittest.TestCase):
         self.provider.override(overriding_provider2)
 
         self.assertIs(self.provider.overridden[-1], overriding_provider2)
+        self.assertIs(self.provider.last_overriding, overriding_provider2)
 
         self.provider.reset_last_overriding()
         self.assertIs(self.provider.overridden[-1], overriding_provider1)
+        self.assertIs(self.provider.last_overriding, overriding_provider1)
 
         self.provider.reset_last_overriding()
         self.assertFalse(self.provider.overridden)
+        self.assertIsNone(self.provider.last_overriding)
 
     def test_reset_last_overriding_of_not_overridden_provider(self):
         self.assertRaises(errors.Error, self.provider.reset_last_overriding)

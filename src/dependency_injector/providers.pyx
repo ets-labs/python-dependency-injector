@@ -129,6 +129,14 @@ cdef class Provider(object):
         with self.__overriding_lock:
             return self.__overridden
 
+    @property
+    def last_overriding(self):
+        """Return last overriding provider.
+
+        If provider is not overridden, then None is returned.
+        """
+        return self.__last_overriding
+
     def override(self, provider):
         """Override provider with another provider.
 

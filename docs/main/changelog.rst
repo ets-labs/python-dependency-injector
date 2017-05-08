@@ -11,6 +11,12 @@ Development version
 -------------------
 - No features.
 
+3.4.4
+-----
+- Add ``Provider.last_overriding`` read-only property that points to last 
+  overriding provider, if any. If target provider is not overridden, ``None``
+  would be returned.
+
 3.4.3
 -----
 - Update doc block for ``Provider.overriding_lock`` attribute.
