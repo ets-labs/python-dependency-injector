@@ -5,7 +5,7 @@ movies module component providers - ``MoviesModule``. It is recommended to use
 movies library functionality by fetching required instances from
 ``MoviesModule`` providers.
 
-``MoviesModule.movie_finder`` is a factory that provides abstract component
+``MoviesModule.finder`` is a factory that provides abstract component
 ``finders.MovieFinder``. This provider should be overridden by provider of
 concrete finder implementation in terms of library configuration.
 
@@ -23,10 +23,10 @@ import dependency_injector.providers as providers
 class MoviesModule(containers.DeclarativeContainer):
     """IoC container of movies module component providers."""
 
-    movie_model = providers.DelegatedFactory(movies.models.Movie)
+    models_factory = providers.Factory(movies.models.Movie)
 
-    movie_finder = providers.AbstractFactory(movies.finders.MovieFinder,
-                                             movie_model=movie_model)
+    finder = providers.AbstractFactory(movies.finders.MovieFinder,
+                                       movie_model=models_factory.delegate())
 
-    movie_lister = providers.Factory(movies.listers.MovieLister,
-                                     movie_finder=movie_finder)
+    lister = providers.Factory(movies.listers.MovieLister,
+                               movie_finder=finder)

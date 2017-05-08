@@ -34,26 +34,26 @@ class ResourcesModule(containers.DeclarativeContainer):
 class DbMoviesModule(movies.MoviesModule):
     """IoC container for overriding movies module component providers."""
 
-    movie_finder = providers.Factory(movies.finders.SqliteMovieFinder,
-                                     database=ResourcesModule.database,
-                                     **movies.MoviesModule.movie_finder.kwargs)
+    finder = providers.Factory(movies.finders.SqliteMovieFinder,
+                               database=ResourcesModule.database,
+                               **movies.MoviesModule.finder.kwargs)
 
 
 @containers.copy(movies.MoviesModule)
 class CsvMoviesModule(movies.MoviesModule):
     """IoC container for overriding movies module component providers."""
 
-    movie_finder = providers.Factory(movies.finders.CsvMovieFinder,
-                                     csv_file_path=settings.MOVIES_CSV_PATH,
-                                     delimiter=',',
-                                     **movies.MoviesModule.movie_finder.kwargs)
+    finder = providers.Factory(movies.finders.CsvMovieFinder,
+                               csv_file_path=settings.MOVIES_CSV_PATH,
+                               delimiter=',',
+                               **movies.MoviesModule.finder.kwargs)
 
 
 class DbApplication(containers.DeclarativeContainer):
     """IoC container of database application component providers."""
 
     main = providers.Callable(example.main.main,
-                              movie_lister=DbMoviesModule.movie_lister)
+                              movie_lister=DbMoviesModule.lister)
 
     init_db = providers.Callable(example.db.init_sqlite,
                                  movies_data=fixtures.MOVIES_SAMPLE_DATA,
@@ -64,7 +64,7 @@ class CsvApplication(containers.DeclarativeContainer):
     """IoC container of csv application component providers."""
 
     main = providers.Callable(example.main.main,
-                              movie_lister=CsvMoviesModule.movie_lister)
+                              movie_lister=CsvMoviesModule.lister)
 
     init_db = providers.Callable(example.db.init_csv,
                                  movies_data=fixtures.MOVIES_SAMPLE_DATA,

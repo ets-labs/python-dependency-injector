@@ -34,16 +34,16 @@ class ResourcesModule(containers.DeclarativeContainer):
 class MyMoviesModule(containers.DeclarativeContainer):
     """IoC container for overriding movies module component providers."""
 
-    movie_finder = providers.Factory(movies.finders.SqliteMovieFinder,
-                                     database=ResourcesModule.database,
-                                     **movies.MoviesModule.movie_finder.kwargs)
+    finder = providers.Factory(movies.finders.SqliteMovieFinder,
+                               database=ResourcesModule.database,
+                               **movies.MoviesModule.finder.kwargs)
 
 
 class DbApplication(containers.DeclarativeContainer):
     """IoC container of database application component providers."""
 
     main = providers.Callable(example.main.main,
-                              movie_lister=movies.MoviesModule.movie_lister)
+                              movie_lister=movies.MoviesModule.lister)
 
     init_db = providers.Callable(example.db.init_sqlite,
                                  movies_data=fixtures.MOVIES_SAMPLE_DATA,

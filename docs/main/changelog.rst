@@ -17,6 +17,7 @@ Development version
   overriding provider, if any. If target provider is not overridden, ``None``
   would be returned.
 - Update example of writing custom providers.
+- Update movie lister example miniapp.
 
 3.4.3
 -----
