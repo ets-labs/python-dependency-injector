@@ -11,6 +11,11 @@ Development version
 -------------------
 - No features.
 
+3.4.5
+-----
+- Remove non-ascii character from README. This character created an
+  installation problem on Debian (Python 3.4).
+
 3.4.4
 -----
 - Add ``Provider.last_overriding`` read-only property that points to last 
