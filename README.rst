@@ -261,7 +261,7 @@ group providers.
   would be included in container is non-deterministic and depends on 
   application's flow or its configuration (container's structure could be 
   determined just after application will be started and will do some initial 
-  work, like parsing list of container’s providers from the configuration).
+  work, like parsing list of container providers from the configuration).
 
 Dependency Injector in action
 -----------------------------
