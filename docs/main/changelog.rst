@@ -11,6 +11,11 @@ Development version
 -------------------
 - No features.
 
+3.4.6
+-----
+- Add section "Useful links" section to the "Dependency injection and 
+  inversion of control in Python" article.
+
 3.4.5
 -----
 - Remove non-ascii character from README. This character created an
