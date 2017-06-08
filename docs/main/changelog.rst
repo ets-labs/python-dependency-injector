@@ -9,7 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- No features.
+- Code style fixes in ``providers`` module.
 
 3.4.7
 -----
