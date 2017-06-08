@@ -60,8 +60,7 @@ check:
 publish: cythonize
 	# Merge release to master branch
 	git checkout master
-	git merge --no-ff release/$(VERSION)
-	git commit -m 'Release $(VERSION)'
+	git merge --no-ff release/$(VERSION) -m 'Merge branch release/$(VERSION)'
 	git push origin master
 	# Create and upload tag
 	git tag -a $(VERSION) -m 'version $(VERSION)'
