@@ -8815,8 +8815,8 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers___callab
   /* "providers.pxd":246
  *                                                 self.__args_len)
  *     keyword_args = __provide_keyword_args(kwargs,
- *                                             self.__kwargs,             # <<<<<<<<<<<<<<
- *                                             self.__kwargs_len)
+ *                                           self.__kwargs,             # <<<<<<<<<<<<<<
+ *                                           self.__kwargs_len)
  * 
  */
   __pyx_t_2 = __pyx_v_self->__pyx___kwargs;
@@ -8826,8 +8826,8 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers___callab
  *                                                 self.__args,
  *                                                 self.__args_len)
  *     keyword_args = __provide_keyword_args(kwargs,             # <<<<<<<<<<<<<<
- *                                             self.__kwargs,
- *                                             self.__kwargs_len)
+ *                                           self.__kwargs,
+ *                                           self.__kwargs_len)
  */
   __pyx_t_1 = __pyx_f_19dependency_injector_9providers___provide_keyword_args(__pyx_v_kwargs, ((PyObject*)__pyx_t_2), __pyx_v_self->__pyx___kwargs_len); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 245, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -8836,7 +8836,7 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers___callab
   __pyx_t_1 = 0;
 
   /* "providers.pxd":249
- *                                             self.__kwargs_len)
+ *                                           self.__kwargs_len)
  * 
  *     return self.__provides(*positional_args, **keyword_args)             # <<<<<<<<<<<<<<
  * 

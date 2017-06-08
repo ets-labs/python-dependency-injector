@@ -243,8 +243,8 @@ cdef inline object __callable_call(Callable self, tuple args, dict kwargs):
                                                 self.__args,
                                                 self.__args_len)
     keyword_args = __provide_keyword_args(kwargs,
-                                            self.__kwargs,
-                                            self.__kwargs_len)
+                                          self.__kwargs,
+                                          self.__kwargs_len)
 
     return self.__provides(*positional_args, **keyword_args)
 

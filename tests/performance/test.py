@@ -38,42 +38,6 @@ class Tester(object):
         gc.enable()
         print('\n')
 
-#     def test_simple_object(self, providers):
-#         """Test simple object's creation."""
-#         class Test(object):
-#             pass
-#
-#         for x in xrange(int(5000000 * self.duration_factor)):
-#             Test()
-#
-#     def test_simple_object_factory(self, providers):
-#         """Test simple object's factory."""
-#         class Test(object):
-#             pass
-#
-#         test_factory = providers.Factory(Test)
-#         for x in xrange(int(5000000 * self.duration_factor)):
-#             test_factory()
-#
-#     def test_3_ctx_positional_injections(self, providers):
-#         """Test factory with 3 context positional injections."""
-#         class Test(object):
-#             def __init__(self, a, b, c):
-#                 pass
-#
-#         for x in xrange(int(5000000 * self.duration_factor)):
-#             Test(1, 2, 3)
-#
-#     def test_factory_3_ctx_positional_injections(self, providers):
-#         """Test factory with 3 context positional injections."""
-#         class Test(object):
-#             def __init__(self, a, b, c):
-#                 pass
-#
-#         test_factory = providers.Factory(Test)
-#         for x in xrange(int(5000000 * self.duration_factor)):
-#             test_factory(1, 2, 3)
-
     def test_raw_3_kw_injections(self, providers):
         """Test 3 keyword argument injections."""
         class A(object):
@@ -143,55 +107,35 @@ class Tester(object):
         for x in xrange(int(5000000 * self.duration_factor)):
             test_factory()
 
-#     def test_factory_subcls_3_factory_subcls_kw_injections(self, providers):
-#         """Test factory with 3 keyword argument injections via factories."""
-#         class MyFactory(providers.Factory):
-#             pass
-#
-#         class A(object):
-#             pass
-#
-#         class B(object):
-#             pass
-#
-#         class C(object):
-#             pass
-#
-#         class Test(object):
-#             def __init__(self, a, b, c):
-#                 pass
-#
-#         a_factory = MyFactory(A)
-#         b_factory = MyFactory(B)
-#         c_factory = MyFactory(C)
-#         test_factory = MyFactory(Test,
-#                                  a=a_factory,
-#                                  b=b_factory,
-#                                  c=c_factory)
-#         for x in xrange(int(5000000 * self.duration_factor)):
-#             test_factory()
+    def test_factory_6_factory_kw_injections_0_context(self, providers):
+        """Test factory with 6 keyword argument injections."""
+        class Test(object):
+            def __init__(self, a, b, c, d, e, f):
+                pass
 
-#     def test_singleton(self, providers):
-#         """Test factory with 3 keyword argument injections via factories."""
-#         class Test(object):
-#             def __init__(self):
-#                 pass
-#
-#         test_factory = providers.Singleton(Test)
-#         for x in xrange(int(5000000 * self.duration_factor)):
-#             test_factory()
-#
-#     def test_singleton_subcls(self, providers):
-#         """Test factory with 3 keyword argument injections via factories."""
-#         class MySingleton(providers.Singleton):
-#             pass
-#
-#         class Test(object):
-#             pass
-#
-#         test_factory = MySingleton(Test)
-#         for x in xrange(int(5000000 * self.duration_factor)):
-#             test_factory()
+        test_factory = providers.Factory(Test, a=1, b=2, c=3, d=4, e=5, f=6)
+        for x in xrange(int(5000000 * self.duration_factor)):
+            test_factory()
+
+    def test_factory_6_factory_kw_injections_1_context(self, providers):
+        """Test factory with 6 keyword argument injections."""
+        class Test(object):
+            def __init__(self, a, b, c, d, e, f):
+                pass
+
+        test_factory = providers.Factory(Test, f=6)
+        for x in xrange(int(5000000 * self.duration_factor)):
+            test_factory(a=1, b=2, c=3, d=4, e=5)
+
+    def test_factory_6_factory_kw_injections_3_context(self, providers):
+        """Test factory with 6 keyword argument injections."""
+        class Test(object):
+            def __init__(self, a, b, c, d, e, f):
+                pass
+
+        test_factory = providers.Factory(Test, a=1, b=2, c=3)
+        for x in xrange(int(5000000 * self.duration_factor)):
+            test_factory(d=4, e=5, f=6)
 
 
 if __name__ == '__main__':

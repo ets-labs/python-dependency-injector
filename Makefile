@@ -58,8 +58,12 @@ check:
 	pydocstyle examples/
 
 publish: cythonize
-	# Create and upload build
-	python setup.py sdist upload
+	# Merge release to master branch
+	git checkout master
+	git merge --no-ff release/$(VERSION) -m 'Merge branch release/$(VERSION)'
+	git push origin master
 	# Create and upload tag
 	git tag -a $(VERSION) -m 'version $(VERSION)'
 	git push --tags
+	# Create and upload build
+	python setup.py sdist upload
