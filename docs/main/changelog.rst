@@ -9,7 +9,8 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- No features.
+- Add functionality for initializing ``Configuration`` provider with default 
+  values.
 
 3.4.8
 -----
