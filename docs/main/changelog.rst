@@ -7,9 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
-- No features.
+3.5.0
+-----
+- Add functionality for initializing ``Configuration`` provider with default 
+  values.
 
 3.4.8
 -----
