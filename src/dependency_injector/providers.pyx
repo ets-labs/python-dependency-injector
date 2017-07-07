@@ -667,15 +667,20 @@ cdef class Configuration(Provider):
         print(config.section1.option2())  # 2
     """
 
-    def __init__(self, name):
+    def __init__(self, name, default=None):
         """Initializer.
 
         :param name: Name of configuration unit.
         :type name: str
+
+        :param default: Default values of configuration unit.
+        :type default: dict
         """
         self.__name = name
         self.__value = None
         self.__children = dict()
+        if default is not None:
+            self.update(default)
         super(Configuration, self).__init__()
 
     def __deepcopy__(self, memo):
