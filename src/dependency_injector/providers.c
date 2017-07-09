@@ -10016,7 +10016,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16AbstractCallable_4_
 
 /* Python wrapper */
 static int __pyx_pw_19dependency_injector_9providers_16CallableDelegate_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_9providers_16CallableDelegate___init__[] = "Initializer.\n\n        :param provides: Value that have to be provided.\n        :type provides: object\n        ";
+static char __pyx_doc_19dependency_injector_9providers_16CallableDelegate___init__[] = "Initializer.\n\n        :param callable: Value that have to be provided.\n        :type callable: object\n        ";
 #if CYTHON_COMPILING_IN_CPYTHON
 struct wrapperbase __pyx_wrapperbase_19dependency_injector_9providers_16CallableDelegate___init__;
 #endif
@@ -10083,7 +10083,7 @@ static int __pyx_pf_19dependency_injector_9providers_16CallableDelegate___init__
   __Pyx_RefNannySetupContext("__init__", 0);
 
   /* "dependency_injector/providers.pyx":666
- *         :type provides: object
+ *         :type callable: object
  *         """
  *         if isinstance(callable, Callable) is False:             # <<<<<<<<<<<<<<
  *             raise Error('{0} can wrap only {1} providers'.format(
@@ -10212,7 +10212,7 @@ static int __pyx_pf_19dependency_injector_9providers_16CallableDelegate___init__
     __PYX_ERR(1, 667, __pyx_L1_error)
 
     /* "dependency_injector/providers.pyx":666
- *         :type provides: object
+ *         :type callable: object
  *         """
  *         if isinstance(callable, Callable) is False:             # <<<<<<<<<<<<<<
  *             raise Error('{0} can wrap only {1} providers'.format(

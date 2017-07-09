@@ -660,8 +660,8 @@ cdef class CallableDelegate(Delegate):
     def __init__(self, callable):
         """Initializer.
 
-        :param provides: Value that have to be provided.
-        :type provides: object
+        :param callable: Value that have to be provided.
+        :type callable: object
         """
         if isinstance(callable, Callable) is False:
             raise Error('{0} can wrap only {1} providers'.format(
