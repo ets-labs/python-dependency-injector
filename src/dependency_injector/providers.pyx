@@ -1066,6 +1066,29 @@ cdef class AbstractFactory(Factory):
         raise NotImplementedError('Abstract provider forward providing logic '
                                   'to overriding provider')
 
+
+cdef class FactoryDelegate(Delegate):
+    """Factory delegate injects delegating factory "as is".
+
+    .. py:attribute:: provides
+
+        Value that have to be provided.
+
+        :type: object
+    """
+
+    def __init__(self, factory):
+        """Initializer.
+
+        :param provides: Value that have to be provided.
+        :type provides: object
+        """
+        if isinstance(factory, Factory) is False:
+            raise Error('{0} can wrap only {1} providers'.format(
+                self.__class__, Factory))
+        super(Delegate, self).__init__(factory)
+
+
 cdef class BaseSingleton(Provider):
     """Base class of singleton providers."""
 
