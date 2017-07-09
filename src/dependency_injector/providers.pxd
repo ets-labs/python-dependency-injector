@@ -133,6 +133,10 @@ cdef class AbstractSingleton(BaseSingleton):
     pass
 
 
+cdef class SingletonDelegate(Delegate):
+    pass
+
+
 # Injections
 cdef class Injection(object):
     cdef object __value

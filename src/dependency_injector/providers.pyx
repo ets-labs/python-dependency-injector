@@ -1548,6 +1548,28 @@ cdef class AbstractSingleton(BaseSingleton):
         return self.__last_overriding.reset()
 
 
+cdef class SingletonDelegate(Delegate):
+    """Singleton delegate injects delegating singleton "as is".
+
+    .. py:attribute:: provides
+
+        Value that have to be provided.
+
+        :type: object
+    """
+
+    def __init__(self, singleton):
+        """Initializer.
+
+        :param singleton: Value that have to be provided.
+        :type singleton: py:class:`BaseSingleton`
+        """
+        if isinstance(singleton, BaseSingleton) is False:
+            raise Error('{0} can wrap only {1} providers'.format(
+                self.__class__, BaseSingleton))
+        super(Delegate, self).__init__(singleton)
+
+
 cdef class Injection(object):
     """Abstract injection class."""
 

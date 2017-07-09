@@ -492,3 +492,18 @@ class AbstractSingletonTests(unittest.TestCase):
                          'AbstractSingleton({0}) at {1}>'.format(
                              repr(Example),
                              hex(id(provider))))
+
+
+class SingletonDelegateTests(unittest.TestCase):
+
+    def setUp(self):
+        self.delegated = providers.Singleton(Example)
+        self.delegate = providers.SingletonDelegate(self.delegated)
+
+    def test_is_delegate(self):
+        self.assertIsInstance(self.delegate, providers.Delegate)
+
+    def test_init_with_not_singleton(self):
+        self.assertRaises(errors.Error,
+                          providers.SingletonDelegate,
+                          providers.Object(object()))
