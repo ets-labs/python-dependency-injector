@@ -399,3 +399,18 @@ class AbstractFactoryTests(unittest.TestCase):
                          'AbstractFactory({0}) at {1}>'.format(
                              repr(Example),
                              hex(id(provider))))
+
+
+class FactoryDelegateTests(unittest.TestCase):
+
+    def setUp(self):
+        self.delegated = providers.Factory(object)
+        self.delegate = providers.FactoryDelegate(self.delegated)
+
+    def test_is_delegate(self):
+        self.assertIsInstance(self.delegate, providers.Delegate)
+
+    def test_init_with_not_factory(self):
+        self.assertRaises(errors.Error,
+                          providers.FactoryDelegate,
+                          providers.Object(object()))

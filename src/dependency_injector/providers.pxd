@@ -85,6 +85,10 @@ cdef class AbstractFactory(Factory):
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
+cdef class FactoryDelegate(Delegate):
+    pass
+
+
 # Singleton providers
 cdef class BaseSingleton(Provider):
     cdef Factory __instantiator
