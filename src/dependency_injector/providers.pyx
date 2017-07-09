@@ -647,6 +647,28 @@ cdef class AbstractCallable(Callable):
                                   'to overriding provider')
 
 
+cdef class CallableDelegate(Delegate):
+    """Callable delegate injects delegating callable "as is".
+
+    .. py:attribute:: provides
+
+        Value that have to be provided.
+
+        :type: object
+    """
+
+    def __init__(self, callable):
+        """Initializer.
+
+        :param provides: Value that have to be provided.
+        :type provides: object
+        """
+        if isinstance(callable, Callable) is False:
+            raise Error('{0} can wrap only {1} providers'.format(
+                self.__class__, Callable))
+        super(Delegate, self).__init__(callable)
+
+
 cdef class Configuration(Provider):
     """Configuration provider.
 

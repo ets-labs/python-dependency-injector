@@ -55,6 +55,10 @@ cdef class AbstractCallable(Callable):
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
+cdef class CallableDelegate(Delegate):
+    pass
+
+
 # Configuration providers
 cdef class Configuration(Provider):
     cdef str __name
