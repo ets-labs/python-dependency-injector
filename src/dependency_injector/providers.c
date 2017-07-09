@@ -15193,7 +15193,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory_4_p
 
 /* Python wrapper */
 static int __pyx_pw_19dependency_injector_9providers_15FactoryDelegate_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_9providers_15FactoryDelegate___init__[] = "Initializer.\n\n        :param provides: Value that have to be provided.\n        :type provides: object\n        ";
+static char __pyx_doc_19dependency_injector_9providers_15FactoryDelegate___init__[] = "Initializer.\n\n        :param factory: Value that have to be provided.\n        :type factory: object\n        ";
 #if CYTHON_COMPILING_IN_CPYTHON
 struct wrapperbase __pyx_wrapperbase_19dependency_injector_9providers_15FactoryDelegate___init__;
 #endif
@@ -15260,7 +15260,7 @@ static int __pyx_pf_19dependency_injector_9providers_15FactoryDelegate___init__(
   __Pyx_RefNannySetupContext("__init__", 0);
 
   /* "dependency_injector/providers.pyx":1108
- *         :type provides: object
+ *         :type factory: object
  *         """
  *         if isinstance(factory, Factory) is False:             # <<<<<<<<<<<<<<
  *             raise Error('{0} can wrap only {1} providers'.format(
@@ -15389,7 +15389,7 @@ static int __pyx_pf_19dependency_injector_9providers_15FactoryDelegate___init__(
     __PYX_ERR(1, 1109, __pyx_L1_error)
 
     /* "dependency_injector/providers.pyx":1108
- *         :type provides: object
+ *         :type factory: object
  *         """
  *         if isinstance(factory, Factory) is False:             # <<<<<<<<<<<<<<
  *             raise Error('{0} can wrap only {1} providers'.format(

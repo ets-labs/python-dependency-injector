@@ -1102,8 +1102,8 @@ cdef class FactoryDelegate(Delegate):
     def __init__(self, factory):
         """Initializer.
 
-        :param provides: Value that have to be provided.
-        :type provides: object
+        :param factory: Value that have to be provided.
+        :type factory: object
         """
         if isinstance(factory, Factory) is False:
             raise Error('{0} can wrap only {1} providers'.format(
