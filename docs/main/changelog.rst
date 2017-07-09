@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development
 -----------
+- Add ``CallableDelegate`` provider.
 - Add ``FactoryDelegate`` provider.
 
 3.5.0
