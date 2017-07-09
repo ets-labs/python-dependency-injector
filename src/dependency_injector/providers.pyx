@@ -660,8 +660,8 @@ cdef class CallableDelegate(Delegate):
     def __init__(self, callable):
         """Initializer.
 
-        :param provides: Value that have to be provided.
-        :type provides: object
+        :param callable: Value that have to be provided.
+        :type callable: object
         """
         if isinstance(callable, Callable) is False:
             raise Error('{0} can wrap only {1} providers'.format(
@@ -1102,8 +1102,8 @@ cdef class FactoryDelegate(Delegate):
     def __init__(self, factory):
         """Initializer.
 
-        :param provides: Value that have to be provided.
-        :type provides: object
+        :param factory: Value that have to be provided.
+        :type factory: object
         """
         if isinstance(factory, Factory) is False:
             raise Error('{0} can wrap only {1} providers'.format(
@@ -1546,6 +1546,28 @@ cdef class AbstractSingleton(BaseSingleton):
         if self.__last_overriding is None:
             raise Error('{0} must be overridden before calling'.format(self))
         return self.__last_overriding.reset()
+
+
+cdef class SingletonDelegate(Delegate):
+    """Singleton delegate injects delegating singleton "as is".
+
+    .. py:attribute:: provides
+
+        Value that have to be provided.
+
+        :type: object
+    """
+
+    def __init__(self, singleton):
+        """Initializer.
+
+        :param singleton: Value that have to be provided.
+        :type singleton: py:class:`BaseSingleton`
+        """
+        if isinstance(singleton, BaseSingleton) is False:
+            raise Error('{0} can wrap only {1} providers'.format(
+                self.__class__, BaseSingleton))
+        super(Delegate, self).__init__(singleton)
 
 
 cdef class Injection(object):

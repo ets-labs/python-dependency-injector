@@ -11,6 +11,7 @@ Development
 -----------
 - Add ``CallableDelegate`` provider.
 - Add ``FactoryDelegate`` provider.
+- Add ``SingletonDelegate`` provider.
 
 3.5.0
 -----
