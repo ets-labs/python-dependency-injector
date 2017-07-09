@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.6.0
+-----
+- Add ``CallableDelegate`` provider.
+- Add ``FactoryDelegate`` provider.
+- Add ``SingletonDelegate`` provider.
+
 3.5.0
 -----
 - Add functionality for initializing ``Configuration`` provider with default 

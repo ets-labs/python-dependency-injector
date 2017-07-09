@@ -55,6 +55,10 @@ cdef class AbstractCallable(Callable):
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
+cdef class CallableDelegate(Delegate):
+    pass
+
+
 # Configuration providers
 cdef class Configuration(Provider):
     cdef str __name
@@ -83,6 +87,10 @@ cdef class DelegatedFactory(Factory):
 
 cdef class AbstractFactory(Factory):
     cpdef object _provide(self, tuple args, dict kwargs)
+
+
+cdef class FactoryDelegate(Delegate):
+    pass
 
 
 # Singleton providers
@@ -122,6 +130,10 @@ cdef class DelegatedThreadLocalSingleton(ThreadLocalSingleton):
 
 
 cdef class AbstractSingleton(BaseSingleton):
+    pass
+
+
+cdef class SingletonDelegate(Delegate):
     pass
 
 

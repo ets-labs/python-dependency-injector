@@ -251,3 +251,18 @@ class AbstractCallableTests(unittest.TestCase):
                          'AbstractCallable({0}) at {1}>'.format(
                              repr(_example),
                              hex(id(provider))))
+
+
+class CallableDelegateTests(unittest.TestCase):
+
+    def setUp(self):
+        self.delegated = providers.Callable(_example)
+        self.delegate = providers.CallableDelegate(self.delegated)
+
+    def test_is_delegate(self):
+        self.assertIsInstance(self.delegate, providers.Delegate)
+
+    def test_init_with_not_callable(self):
+        self.assertRaises(errors.Error,
+                          providers.CallableDelegate,
+                          providers.Object(object()))
