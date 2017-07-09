@@ -262,7 +262,7 @@ class CallableDelegateTests(unittest.TestCase):
     def test_is_delegate(self):
         self.assertIsInstance(self.delegate, providers.Delegate)
 
-    def test_init_with_not_factory(self):
+    def test_init_with_not_callable(self):
         self.assertRaises(errors.Error,
                           providers.CallableDelegate,
                           providers.Object(object()))
