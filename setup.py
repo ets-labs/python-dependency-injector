@@ -7,7 +7,8 @@ from setuptools import setup, Extension
 
 
 # Defining setup variables:
-defined_macros = list()
+defined_macros = dict()
+defined_macros['CYTHON_CLINE_IN_TRACEBACK'] = 0
 
 # Getting description:
 with open('README.rst') as readme_file:
@@ -23,8 +24,9 @@ with open('src/dependency_injector/__init__.py') as init_file:
 
 # Adding debug options:
 if os.environ.get('DEPENDENCY_INJECTOR_DEBUG_MODE') == '1':
-    defined_macros.append(('CYTHON_TRACE', 1))
-    defined_macros.append(('CYTHON_TRACE_NOGIL', 1))
+    defined_macros['CYTHON_TRACE'] = 1
+    defined_macros['CYTHON_TRACE_NOGIL'] = 1
+    defined_macros['CYTHON_CLINE_IN_TRACEBACK'] = 1
 
 
 setup(name='dependency-injector',
@@ -47,11 +49,11 @@ setup(name='dependency-injector',
       ext_modules=[
           Extension('dependency_injector.containers',
                     ['src/dependency_injector/containers.c'],
-                    define_macros=defined_macros,
+                    define_macros=list(defined_macros.items()),
                     extra_compile_args=['-O2']),
           Extension('dependency_injector.providers',
                     ['src/dependency_injector/providers.c'],
-                    define_macros=defined_macros,
+                    define_macros=list(defined_macros.items()),
                     extra_compile_args=['-O2']),
       ],
       package_data={
