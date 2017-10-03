@@ -93,6 +93,12 @@ cdef class FactoryDelegate(Delegate):
     pass
 
 
+cdef class FactoryAggregate(Provider):
+    cdef dict __factories
+
+    cdef object __get_factory(self, str factory_name)
+
+
 # Singleton providers
 cdef class BaseSingleton(Provider):
     cdef Factory __instantiator
