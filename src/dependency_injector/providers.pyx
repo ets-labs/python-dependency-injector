@@ -9,7 +9,10 @@ import sys
 import types
 import threading
 
-from .errors import Error
+from .errors import (
+    Error,
+    NoSuchProviderError,
+)
 
 cimport cython
 
@@ -1109,6 +1112,89 @@ cdef class FactoryDelegate(Delegate):
             raise Error('{0} can wrap only {1} providers'.format(
                 self.__class__, Factory))
         super(Delegate, self).__init__(factory)
+
+
+cdef class FactoryAggregate(Provider):
+    """Aggregate of factory providers.
+
+    :py:class:`FactoryAggregate` is an aggregate of :py:class:`Factory`
+    providers.
+
+    :py:class:`FactoryAggregate` is a delegated provider, meaning that it is
+    injected "as is".
+
+    Also, while :py:class:`FactoryAggregate` is a sort of container for other
+    factories, it is not callable and it does not support overriding.
+
+    However, all aggregated factories could be retrieved as an attributes and
+    could be used without any limitations.
+    """
+
+    __IS_DELEGATED__ = True
+
+    def __init__(self, **factories):
+        """Initializer.
+
+        :param factories: Dictionary of aggregate factories.
+        :type factories: dict[str, :py:class:`Factory`]
+        """
+        for factory in factories.values():
+            if isinstance(factory, Factory) is False:
+                raise Error(
+                    '{0} can aggregate only instances of {1}, given - {2}'
+                    .format(self.__class__, Factory, factory))
+        self.__factories = factories
+        super(FactoryAggregate, self).__init__()
+
+    def __call__(self):
+        """Return provided object.
+
+        Callable interface implementation.
+        """
+        raise Error('{0} is not callable'.format(self.__class__))
+
+    def __getattr__(self, factory_name):
+        """Return factory by factory name."""
+        return self.__get_factory(factory_name)
+
+    @property
+    def factories(self):
+        """Return dictionary of factories, read-only."""
+        return self.__factories
+
+    def create(self, factory_name, *args, **kwargs):
+        """Create object using factory that is associated with provided name.
+
+        :param factory_name: Name of factory.
+        :type factory_name: str
+
+        :param args: Tuple of positional argument injections.
+        :type args: tuple[object]
+
+        :param kwargs: Dictionary of context keyword argument injections.
+        :type kwargs: dict[str, object]
+        """
+        return self.__get_factory(factory_name)(*args, **kwargs)
+
+    def override(self, _):
+        """Override provider with another provider.
+
+        :param provider: Overriding provider.
+        :type provider: :py:class:`Provider`
+
+        :raise: :py:exc:`dependency_injector.errors.Error`
+
+        :return: Overriding context.
+        :rtype: :py:class:`OverridingContext`
+        """
+        raise Error('{0} can not be overridden'.format(self.__class__))
+
+    cdef object __get_factory(self, str factory_name):
+        if factory_name not in self.__factories:
+            raise NoSuchProviderError(
+                '{0} does not contain factory with name {1}'.format(
+                    self, factory_name))
+        return self.__factories[factory_name]
 
 
 cdef class BaseSingleton(Provider):
