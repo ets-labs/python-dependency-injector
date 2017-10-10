@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Add support of six 1.11.0.
 - Regenerate C sources using Cython 0.27.
 
 3.6.1
