@@ -10,6 +10,8 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Add ``FactoryAggregate`` provider.
+- Add ``Provider.provider`` dynamic attribute that return new provider's 
+  delegate (alias of method ``Provider.delegate()``).
 - Add support of six 1.11.0.
 - Regenerate C sources using Cython 0.27.1.
 

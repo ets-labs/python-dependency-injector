@@ -32,6 +32,19 @@ class ProviderTests(unittest.TestCase):
 
         self.assertIsNot(delegate1, delegate2)
 
+    def test_provider(self):
+        delegate1 = self.provider.provider
+
+        self.assertIsInstance(delegate1, providers.Delegate)
+        self.assertIs(delegate1(), self.provider)
+
+        delegate2 = self.provider.provider
+
+        self.assertIsInstance(delegate2, providers.Delegate)
+        self.assertIs(delegate2(), self.provider)
+
+        self.assertIsNot(delegate1, delegate2)
+
     def test_override(self):
         overriding_provider = providers.Provider()
         self.provider.override(overriding_provider)
