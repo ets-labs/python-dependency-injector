@@ -414,3 +414,77 @@ class FactoryDelegateTests(unittest.TestCase):
         self.assertRaises(errors.Error,
                           providers.FactoryDelegate,
                           providers.Object(object()))
+
+
+class FactoryAggregateTests(unittest.TestCase):
+
+    class ExampleA(Example):
+        pass
+
+    class ExampleB(Example):
+        pass
+
+    def setUp(self):
+        self.example_a_factory = providers.Factory(self.ExampleA)
+        self.example_b_factory = providers.Factory(self.ExampleB)
+        self.factory_aggregate = providers.FactoryAggregate(
+            example_a=self.example_a_factory,
+            example_b=self.example_b_factory)
+
+    def test_is_provider(self):
+        self.assertTrue(providers.is_provider(self.factory_aggregate))
+
+    def test_is_delegated_provider(self):
+        self.assertTrue(providers.is_delegated(self.factory_aggregate))
+
+    def test_init_with_not_a_factory(self):
+        with self.assertRaises(errors.Error):
+            providers.FactoryAggregate(
+                example_a=providers.Factory(self.ExampleA),
+                example_b=object())
+
+    def test_call(self):
+        object_a = self.factory_aggregate('example_a',
+                                          1, 2, init_arg3=3, init_arg4=4)
+        object_b = self.factory_aggregate('example_b',
+                                          11, 22, init_arg3=33, init_arg4=44)
+
+        self.assertIsInstance(object_a, self.ExampleA)
+        self.assertEqual(object_a.init_arg1, 1)
+        self.assertEqual(object_a.init_arg2, 2)
+        self.assertEqual(object_a.init_arg3, 3)
+        self.assertEqual(object_a.init_arg4, 4)
+
+        self.assertIsInstance(object_b, self.ExampleB)
+        self.assertEqual(object_b.init_arg1, 11)
+        self.assertEqual(object_b.init_arg2, 22)
+        self.assertEqual(object_b.init_arg3, 33)
+        self.assertEqual(object_b.init_arg4, 44)
+
+    def test_call_no_such_provider(self):
+        with self.assertRaises(errors.NoSuchProviderError):
+            self.factory_aggregate('unknown')
+
+    def test_overridden(self):
+        with self.assertRaises(errors.Error):
+            self.factory_aggregate.override(providers.Object(object()))
+
+    def test_getattr(self):
+        self.assertIs(self.factory_aggregate.example_a, self.example_a_factory)
+        self.assertIs(self.factory_aggregate.example_b, self.example_b_factory)
+
+    def test_getattr_no_such_provider(self):
+        with self.assertRaises(errors.NoSuchProviderError):
+            self.factory_aggregate.unknown
+
+    def test_factories(self):
+        self.assertDictEqual(self.factory_aggregate.factories,
+                             dict(example_a=self.example_a_factory,
+                                  example_b=self.example_b_factory))
+
+    def test_repr(self):
+        self.assertEqual(repr(self.factory_aggregate),
+                         '<dependency_injector.providers.'
+                         'FactoryAggregate({0}) at {1}>'.format(
+                             repr(self.factory_aggregate.factories),
+                             hex(id(self.factory_aggregate))))
