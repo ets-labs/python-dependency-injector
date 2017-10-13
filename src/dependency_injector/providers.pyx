@@ -198,6 +198,14 @@ cdef class Provider(object):
         """
         return Delegate(self)
 
+    @property
+    def provider(self):
+        """Return provider's delegate.
+
+        :rtype: :py:class:`Delegate`
+        """
+        return self.delegate()
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Providing strategy implementation.
 
