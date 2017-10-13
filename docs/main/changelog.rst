@@ -11,7 +11,7 @@ Development version
 -------------------
 - Add ``FactoryAggregate`` provider.
 - Add support of six 1.11.0.
-- Regenerate C sources using Cython 0.27.
+- Regenerate C sources using Cython 0.27.1.
 
 3.6.1
 -----
