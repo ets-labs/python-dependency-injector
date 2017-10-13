@@ -80,6 +80,9 @@ Actually, there are three ways for creating factory delegates:
   :py:class:`Delegate` provider.
 + ``Factory(...).delegate()`` - calling factory :py:meth:`Factory.delegate` 
   method, that returns delegate wrapper for current factory.
++ ``Factory(...).provider`` - getting factory :py:attr:`Factory.provider` 
+  attribute, that returns delegate wrapper for current factory (alias of 
+  ``Factory(...).delegate()`` method).
 
 Example:
 
