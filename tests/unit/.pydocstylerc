@@ -1,2 +1,2 @@
 [pydocstyle]
-ignore = D101,D102
+ignore = D101,D102,D106,D107
