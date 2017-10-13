@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Add ``FactoryAggregate`` provider.
+- Add support of six 1.11.0.
+- Regenerate C sources using Cython 0.27.
+
 3.6.1
 -----
 - Regenerate C sources using Cython 0.26.
