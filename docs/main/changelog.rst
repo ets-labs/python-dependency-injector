@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+3.7.0
+-----
 - Add ``FactoryAggregate`` provider.
 - Add ``Provider.provider`` dynamic attribute that return new provider's 
   delegate (alias of method ``Provider.delegate()``).
