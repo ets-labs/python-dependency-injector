@@ -147,4 +147,38 @@ Listing of ``example.py``:
    :language: python
    :linenos:
 
+Factory aggregate providers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:py:class:`FactoryAggregate` provider is a special type of provider that 
+aggregates other :py:class:`Factory` providers.
+
+.. note::
+
+    :py:class:`FactoryAggregate` is not overridable. Calling of 
+    :py:meth:`FactoryAggregate.override` will result in raising of an 
+    expection.
+
+Next prototype might be the best demonstration of 
+:py:class:`FactoryAggregate` features:
+
+.. literalinclude:: ../../examples/providers/factory_aggregate/prototype.py
+   :language: python
+   :linenos:
+
+Example below shows one of the :py:class:`FactoryAggregate` use cases, when 
+concrete implementation (game) must be selected based on dynamic input (CLI). 
+
+Listing of ``games.py``:
+
+.. literalinclude:: ../../examples/providers/factory_aggregate/games.py
+   :language: python
+   :linenos:
+
+Listing of ``example.py``:
+
+.. literalinclude:: ../../examples/providers/factory_aggregate/example.py
+   :language: python
+   :linenos:
+
 .. disqus::
