@@ -1115,7 +1115,7 @@ cdef class FactoryDelegate(Delegate):
 
 
 cdef class FactoryAggregate(Provider):
-    """Aggregate of factory providers.
+    """Factory providers aggregate.
 
     :py:class:`FactoryAggregate` is an aggregate of :py:class:`Factory`
     providers.
@@ -1123,11 +1123,9 @@ cdef class FactoryAggregate(Provider):
     :py:class:`FactoryAggregate` is a delegated provider, meaning that it is
     injected "as is".
 
-    Also, while :py:class:`FactoryAggregate` is a sort of container for other
-    factories, it is not callable and it does not support overriding.
-
-    However, all aggregated factories could be retrieved as an attributes and
-    could be used without any limitations.
+    All aggregated factories could be retrieved as a read-only
+    dictionary :py:attr:`FactoryAggregate.factories` or just as an attribute of
+    :py:class:`FactoryAggregate`.
     """
 
     __IS_DELEGATED__ = True
@@ -1146,35 +1144,28 @@ cdef class FactoryAggregate(Provider):
         self.__factories = factories
         super(FactoryAggregate, self).__init__()
 
-    def __call__(self):
-        """Return provided object.
+    def __call__(self, factory_name, *args, **kwargs):
+        """Create new object using factory with provided name.
 
         Callable interface implementation.
         """
-        raise Error('{0} is not callable'.format(self.__class__))
+        return self.__get_factory(factory_name)(*args, **kwargs)
 
     def __getattr__(self, factory_name):
-        """Return factory by factory name."""
+        """Return aggregated factory."""
         return self.__get_factory(factory_name)
+
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.factories)
 
     @property
     def factories(self):
         """Return dictionary of factories, read-only."""
         return self.__factories
-
-    def create(self, factory_name, *args, **kwargs):
-        """Create object using factory that is associated with provided name.
-
-        :param factory_name: Name of factory.
-        :type factory_name: str
-
-        :param args: Tuple of positional argument injections.
-        :type args: tuple[object]
-
-        :param kwargs: Dictionary of context keyword argument injections.
-        :type kwargs: dict[str, object]
-        """
-        return self.__get_factory(factory_name)(*args, **kwargs)
 
     def override(self, _):
         """Override provider with another provider.
@@ -1187,14 +1178,15 @@ cdef class FactoryAggregate(Provider):
         :return: Overriding context.
         :rtype: :py:class:`OverridingContext`
         """
-        raise Error('{0} can not be overridden'.format(self.__class__))
+        raise Error(
+            '{0} providers could not be overridden'.format(self.__class__))
 
-    cdef object __get_factory(self, str factory_name):
+    cdef Factory __get_factory(self, str factory_name):
         if factory_name not in self.__factories:
             raise NoSuchProviderError(
                 '{0} does not contain factory with name {1}'.format(
                     self, factory_name))
-        return self.__factories[factory_name]
+        return <Factory> self.__factories[factory_name]
 
 
 cdef class BaseSingleton(Provider):
