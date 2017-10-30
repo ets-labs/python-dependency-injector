@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.7.1
+-----
+- Add support of six 1.11.0.
+
 3.7.0
 -----
 - Add ``FactoryAggregate`` provider.
