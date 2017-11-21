@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.8.0
+-----
+- Add ``DeclarativeContainer.containers`` attribute that stores dictionary of
+  nested containers.
+- Fix bug related to double-overridden providers (provider1 -> provider2 ->
+  provider3).
+
 3.7.1
 -----
 - Add support of six 1.11.0.
