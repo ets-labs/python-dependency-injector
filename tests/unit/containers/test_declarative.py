@@ -250,3 +250,18 @@ class DeclarativeContainerTests(unittest.TestCase):
 
         self.assertEqual(_Container1.p13(), 11)
         self.assertEqual(_Container2.p13(), 22)
+
+    def test_containers_attribute(self):
+        class Container(containers.DeclarativeContainer):
+            class Container1(containers.DeclarativeContainer):
+                pass
+
+            class Container2(containers.DeclarativeContainer):
+                pass
+
+            Container3 = containers.DynamicContainer()
+
+        self.assertEqual(Container.containers,
+                         dict(Container1=Container.Container1,
+                              Container2=Container.Container2,
+                              Container3=Container.Container3))

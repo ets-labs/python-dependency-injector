@@ -144,6 +144,12 @@ class DeclarativeContainerMetaClass(type):
         cdef tuple inherited_providers
         cdef type cls
 
+        containers = tuple((name, container)
+                           for name, container in six.iteritems(attributes)
+                           if is_container(container))
+
+        attributes['containers'] = dict(containers)
+
         cls_providers = tuple((name, provider)
                               for name, provider in six.iteritems(attributes)
                               if isinstance(provider, Provider))
@@ -227,6 +233,12 @@ class DeclarativeContainer(object):
     container.
 
     :type: type
+    """
+
+    containers = dict()
+    """Read-only dictionary of all nested containers.
+
+    :type: dict[str, :py:class:`DeclarativeContainer`]
     """
 
     providers = dict()
