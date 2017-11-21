@@ -3214,7 +3214,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_2__call__(s
  *         Callable interface implementation.
  *         """
  *         if self.__last_overriding is not None:             # <<<<<<<<<<<<<<
- *             return self.__last_overriding._provide(args, kwargs)
+ *             return self.__last_overriding(*args, **kwargs)
  *         return self._provide(args, kwargs)
  */
   __pyx_t_1 = (((PyObject *)__pyx_v_self->__pyx___last_overriding) != Py_None);
@@ -3224,12 +3224,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_2__call__(s
     /* "dependency_injector/providers.pyx":99
  *         """
  *         if self.__last_overriding is not None:
- *             return self.__last_overriding._provide(args, kwargs)             # <<<<<<<<<<<<<<
+ *             return self.__last_overriding(*args, **kwargs)             # <<<<<<<<<<<<<<
  *         return self._provide(args, kwargs)
  * 
  */
     __Pyx_XDECREF(__pyx_r);
-    __pyx_t_3 = ((struct __pyx_vtabstruct_19dependency_injector_9providers_Provider *)__pyx_v_self->__pyx___last_overriding->__pyx_vtab)->_provide(__pyx_v_self->__pyx___last_overriding, __pyx_v_args, __pyx_v_kwargs, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 99, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_v_self->__pyx___last_overriding), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 99, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_r = __pyx_t_3;
     __pyx_t_3 = 0;
@@ -3239,14 +3239,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_2__call__(s
  *         Callable interface implementation.
  *         """
  *         if self.__last_overriding is not None:             # <<<<<<<<<<<<<<
- *             return self.__last_overriding._provide(args, kwargs)
+ *             return self.__last_overriding(*args, **kwargs)
  *         return self._provide(args, kwargs)
  */
   }
 
   /* "dependency_injector/providers.pyx":100
  *         if self.__last_overriding is not None:
- *             return self.__last_overriding._provide(args, kwargs)
+ *             return self.__last_overriding(*args, **kwargs)
  *         return self._provide(args, kwargs)             # <<<<<<<<<<<<<<
  * 
  *     def __deepcopy__(self, memo):
@@ -7940,8 +7940,12 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_18ExternalDependency_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__call__ (wrapper)", 0);
   if (unlikely(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__call__", 1))) return NULL;
-  __pyx_v_kwargs = (__pyx_kwds) ? PyDict_Copy(__pyx_kwds) : PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return NULL;
-  __Pyx_GOTREF(__pyx_v_kwargs);
+  if (unlikely(__pyx_kwds)) {
+    __pyx_v_kwargs = PyDict_Copy(__pyx_kwds); if (unlikely(!__pyx_v_kwargs)) return NULL;
+    __Pyx_GOTREF(__pyx_v_kwargs);
+  } else {
+    __pyx_v_kwargs = NULL;
+  }
   __Pyx_INCREF(__pyx_args);
   __pyx_v_args = __pyx_args;
   __pyx_r = __pyx_pf_19dependency_injector_9providers_18ExternalDependency_4__call__(((struct __pyx_obj_19dependency_injector_9providers_ExternalDependency *)__pyx_v_self), __pyx_v_args, __pyx_v_kwargs);
@@ -7985,7 +7989,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_18ExternalDependency_
  *         if self.__last_overriding is None:
  *             raise Error('Dependency is not defined')             # <<<<<<<<<<<<<<
  * 
- *         instance = self.__last_overriding._provide(args, kwargs)
+ *         instance = self.__last_overriding(*args, **kwargs)
  */
     __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_Error); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 354, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -8008,17 +8012,17 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_18ExternalDependency_
   /* "dependency_injector/providers.pyx":356
  *             raise Error('Dependency is not defined')
  * 
- *         instance = self.__last_overriding._provide(args, kwargs)             # <<<<<<<<<<<<<<
+ *         instance = self.__last_overriding(*args, **kwargs)             # <<<<<<<<<<<<<<
  * 
  *         if not isinstance(instance, self.instance_of):
  */
-  __pyx_t_4 = ((struct __pyx_vtabstruct_19dependency_injector_9providers_Provider *)__pyx_v_self->__pyx_base.__pyx___last_overriding->__pyx_vtab)->_provide(__pyx_v_self->__pyx_base.__pyx___last_overriding, __pyx_v_args, __pyx_v_kwargs, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 356, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_v_self->__pyx_base.__pyx___last_overriding), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 356, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_v_instance = __pyx_t_4;
   __pyx_t_4 = 0;
 
   /* "dependency_injector/providers.pyx":358
- *         instance = self.__last_overriding._provide(args, kwargs)
+ *         instance = self.__last_overriding(*args, **kwargs)
  * 
  *         if not isinstance(instance, self.instance_of):             # <<<<<<<<<<<<<<
  *             raise Error('{0} is not an '.format(instance) +
@@ -8206,7 +8210,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_18ExternalDependency_
     __PYX_ERR(1, 359, __pyx_L1_error)
 
     /* "dependency_injector/providers.pyx":358
- *         instance = self.__last_overriding._provide(args, kwargs)
+ *         instance = self.__last_overriding(*args, **kwargs)
  * 
  *         if not isinstance(instance, self.instance_of):             # <<<<<<<<<<<<<<
  *             raise Error('{0} is not an '.format(instance) +
@@ -12215,8 +12219,12 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_16AbstractCallable_1_
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__call__ (wrapper)", 0);
   if (unlikely(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__call__", 1))) return NULL;
-  __pyx_v_kwargs = (__pyx_kwds) ? PyDict_Copy(__pyx_kwds) : PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return NULL;
-  __Pyx_GOTREF(__pyx_v_kwargs);
+  if (unlikely(__pyx_kwds)) {
+    __pyx_v_kwargs = PyDict_Copy(__pyx_kwds); if (unlikely(!__pyx_v_kwargs)) return NULL;
+    __Pyx_GOTREF(__pyx_v_kwargs);
+  } else {
+    __pyx_v_kwargs = NULL;
+  }
   __Pyx_INCREF(__pyx_args);
   __pyx_v_args = __pyx_args;
   __pyx_r = __pyx_pf_19dependency_injector_9providers_16AbstractCallable___call__(((struct __pyx_obj_19dependency_injector_9providers_AbstractCallable *)__pyx_v_self), __pyx_v_args, __pyx_v_kwargs);
@@ -12246,7 +12254,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16AbstractCallable___
  *         """
  *         if self.__last_overriding is None:             # <<<<<<<<<<<<<<
  *             raise Error('{0} must be overridden before calling'.format(self))
- *         return self.__last_overriding._provide(args, kwargs)
+ *         return self.__last_overriding(*args, **kwargs)
  */
   __pyx_t_1 = (((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding) == Py_None);
   __pyx_t_2 = (__pyx_t_1 != 0);
@@ -12256,7 +12264,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16AbstractCallable___
  *         """
  *         if self.__last_overriding is None:
  *             raise Error('{0} must be overridden before calling'.format(self))             # <<<<<<<<<<<<<<
- *         return self.__last_overriding._provide(args, kwargs)
+ *         return self.__last_overriding(*args, **kwargs)
  * 
  */
     __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 636, __pyx_L1_error)
@@ -12361,19 +12369,19 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16AbstractCallable___
  *         """
  *         if self.__last_overriding is None:             # <<<<<<<<<<<<<<
  *             raise Error('{0} must be overridden before calling'.format(self))
- *         return self.__last_overriding._provide(args, kwargs)
+ *         return self.__last_overriding(*args, **kwargs)
  */
   }
 
   /* "dependency_injector/providers.pyx":637
  *         if self.__last_overriding is None:
  *             raise Error('{0} must be overridden before calling'.format(self))
- *         return self.__last_overriding._provide(args, kwargs)             # <<<<<<<<<<<<<<
+ *         return self.__last_overriding(*args, **kwargs)             # <<<<<<<<<<<<<<
  * 
  *     def override(self, provider):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = ((struct __pyx_vtabstruct_19dependency_injector_9providers_Provider *)__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding->__pyx_vtab)->_provide(__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding, __pyx_v_args, __pyx_v_kwargs, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 637, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 637, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
@@ -12404,7 +12412,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16AbstractCallable___
 }
 
 /* "dependency_injector/providers.pyx":639
- *         return self.__last_overriding._provide(args, kwargs)
+ *         return self.__last_overriding(*args, **kwargs)
  * 
  *     def override(self, provider):             # <<<<<<<<<<<<<<
  *         """Override provider with another provider.
@@ -12643,7 +12651,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16AbstractCallable_2o
   goto __pyx_L0;
 
   /* "dependency_injector/providers.pyx":639
- *         return self.__last_overriding._provide(args, kwargs)
+ *         return self.__last_overriding(*args, **kwargs)
  * 
  *     def override(self, provider):             # <<<<<<<<<<<<<<
  *         """Override provider with another provider.
@@ -19092,8 +19100,12 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_15AbstractFactory_1__
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__call__ (wrapper)", 0);
   if (unlikely(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__call__", 1))) return NULL;
-  __pyx_v_kwargs = (__pyx_kwds) ? PyDict_Copy(__pyx_kwds) : PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return NULL;
-  __Pyx_GOTREF(__pyx_v_kwargs);
+  if (unlikely(__pyx_kwds)) {
+    __pyx_v_kwargs = PyDict_Copy(__pyx_kwds); if (unlikely(!__pyx_v_kwargs)) return NULL;
+    __Pyx_GOTREF(__pyx_v_kwargs);
+  } else {
+    __pyx_v_kwargs = NULL;
+  }
   __Pyx_INCREF(__pyx_args);
   __pyx_v_args = __pyx_args;
   __pyx_r = __pyx_pf_19dependency_injector_9providers_15AbstractFactory___call__(((struct __pyx_obj_19dependency_injector_9providers_AbstractFactory *)__pyx_v_self), __pyx_v_args, __pyx_v_kwargs);
@@ -19123,7 +19135,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory___c
  *         """
  *         if self.__last_overriding is None:             # <<<<<<<<<<<<<<
  *             raise Error('{0} must be overridden before calling'.format(self))
- *         return self.__last_overriding._provide(args, kwargs)
+ *         return self.__last_overriding(*args, **kwargs)
  */
   __pyx_t_1 = (((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding) == Py_None);
   __pyx_t_2 = (__pyx_t_1 != 0);
@@ -19133,7 +19145,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory___c
  *         """
  *         if self.__last_overriding is None:
  *             raise Error('{0} must be overridden before calling'.format(self))             # <<<<<<<<<<<<<<
- *         return self.__last_overriding._provide(args, kwargs)
+ *         return self.__last_overriding(*args, **kwargs)
  * 
  */
     __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1078, __pyx_L1_error)
@@ -19238,19 +19250,19 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory___c
  *         """
  *         if self.__last_overriding is None:             # <<<<<<<<<<<<<<
  *             raise Error('{0} must be overridden before calling'.format(self))
- *         return self.__last_overriding._provide(args, kwargs)
+ *         return self.__last_overriding(*args, **kwargs)
  */
   }
 
   /* "dependency_injector/providers.pyx":1079
  *         if self.__last_overriding is None:
  *             raise Error('{0} must be overridden before calling'.format(self))
- *         return self.__last_overriding._provide(args, kwargs)             # <<<<<<<<<<<<<<
+ *         return self.__last_overriding(*args, **kwargs)             # <<<<<<<<<<<<<<
  * 
  *     def override(self, provider):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = ((struct __pyx_vtabstruct_19dependency_injector_9providers_Provider *)__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding->__pyx_vtab)->_provide(__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding, __pyx_v_args, __pyx_v_kwargs, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1079, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1079, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
@@ -19281,7 +19293,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory___c
 }
 
 /* "dependency_injector/providers.pyx":1081
- *         return self.__last_overriding._provide(args, kwargs)
+ *         return self.__last_overriding(*args, **kwargs)
  * 
  *     def override(self, provider):             # <<<<<<<<<<<<<<
  *         """Override provider with another provider.
@@ -19520,7 +19532,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory_2ov
   goto __pyx_L0;
 
   /* "dependency_injector/providers.pyx":1081
- *         return self.__last_overriding._provide(args, kwargs)
+ *         return self.__last_overriding(*args, **kwargs)
  * 
  *     def override(self, provider):             # <<<<<<<<<<<<<<
  *         """Override provider with another provider.
@@ -28109,8 +28121,12 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_17AbstractSingleton_1
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__call__ (wrapper)", 0);
   if (unlikely(__pyx_kwds) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__call__", 1))) return NULL;
-  __pyx_v_kwargs = (__pyx_kwds) ? PyDict_Copy(__pyx_kwds) : PyDict_New(); if (unlikely(!__pyx_v_kwargs)) return NULL;
-  __Pyx_GOTREF(__pyx_v_kwargs);
+  if (unlikely(__pyx_kwds)) {
+    __pyx_v_kwargs = PyDict_Copy(__pyx_kwds); if (unlikely(!__pyx_v_kwargs)) return NULL;
+    __Pyx_GOTREF(__pyx_v_kwargs);
+  } else {
+    __pyx_v_kwargs = NULL;
+  }
   __Pyx_INCREF(__pyx_args);
   __pyx_v_args = __pyx_args;
   __pyx_r = __pyx_pf_19dependency_injector_9providers_17AbstractSingleton___call__(((struct __pyx_obj_19dependency_injector_9providers_AbstractSingleton *)__pyx_v_self), __pyx_v_args, __pyx_v_kwargs);
@@ -28140,7 +28156,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton__
  *         """
  *         if self.__last_overriding is None:             # <<<<<<<<<<<<<<
  *             raise Error('{0} must be overridden before calling'.format(self))
- *         return self.__last_overriding._provide(args, kwargs)
+ *         return self.__last_overriding(*args, **kwargs)
  */
   __pyx_t_1 = (((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding) == Py_None);
   __pyx_t_2 = (__pyx_t_1 != 0);
@@ -28150,7 +28166,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton__
  *         """
  *         if self.__last_overriding is None:
  *             raise Error('{0} must be overridden before calling'.format(self))             # <<<<<<<<<<<<<<
- *         return self.__last_overriding._provide(args, kwargs)
+ *         return self.__last_overriding(*args, **kwargs)
  * 
  */
     __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1608, __pyx_L1_error)
@@ -28255,19 +28271,19 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton__
  *         """
  *         if self.__last_overriding is None:             # <<<<<<<<<<<<<<
  *             raise Error('{0} must be overridden before calling'.format(self))
- *         return self.__last_overriding._provide(args, kwargs)
+ *         return self.__last_overriding(*args, **kwargs)
  */
   }
 
   /* "dependency_injector/providers.pyx":1609
  *         if self.__last_overriding is None:
  *             raise Error('{0} must be overridden before calling'.format(self))
- *         return self.__last_overriding._provide(args, kwargs)             # <<<<<<<<<<<<<<
+ *         return self.__last_overriding(*args, **kwargs)             # <<<<<<<<<<<<<<
  * 
  *     def override(self, provider):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = ((struct __pyx_vtabstruct_19dependency_injector_9providers_Provider *)__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding->__pyx_vtab)->_provide(__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding, __pyx_v_args, __pyx_v_kwargs, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1609, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1609, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
@@ -28298,7 +28314,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton__
 }
 
 /* "dependency_injector/providers.pyx":1611
- *         return self.__last_overriding._provide(args, kwargs)
+ *         return self.__last_overriding(*args, **kwargs)
  * 
  *     def override(self, provider):             # <<<<<<<<<<<<<<
  *         """Override provider with another provider.
@@ -28537,7 +28553,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_2
   goto __pyx_L0;
 
   /* "dependency_injector/providers.pyx":1611
- *         return self.__last_overriding._provide(args, kwargs)
+ *         return self.__last_overriding(*args, **kwargs)
  * 
  *     def override(self, provider):             # <<<<<<<<<<<<<<
  *         """Override provider with another provider.
@@ -51397,7 +51413,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         if self.__last_overriding is None:
  *             raise Error('Dependency is not defined')             # <<<<<<<<<<<<<<
  * 
- *         instance = self.__last_overriding._provide(args, kwargs)
+ *         instance = self.__last_overriding(*args, **kwargs)
  */
   __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_Dependency_is_not_defined); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(1, 354, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);

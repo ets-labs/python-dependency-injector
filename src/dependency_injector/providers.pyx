@@ -96,7 +96,7 @@ cdef class Provider(object):
         Callable interface implementation.
         """
         if self.__last_overriding is not None:
-            return self.__last_overriding._provide(args, kwargs)
+            return self.__last_overriding(*args, **kwargs)
         return self._provide(args, kwargs)
 
     def __deepcopy__(self, memo):
@@ -353,7 +353,7 @@ cdef class ExternalDependency(Provider):
         if self.__last_overriding is None:
             raise Error('Dependency is not defined')
 
-        instance = self.__last_overriding._provide(args, kwargs)
+        instance = self.__last_overriding(*args, **kwargs)
 
         if not isinstance(instance, self.instance_of):
             raise Error('{0} is not an '.format(instance) +
@@ -634,7 +634,7 @@ cdef class AbstractCallable(Callable):
         """
         if self.__last_overriding is None:
             raise Error('{0} must be overridden before calling'.format(self))
-        return self.__last_overriding._provide(args, kwargs)
+        return self.__last_overriding(*args, **kwargs)
 
     def override(self, provider):
         """Override provider with another provider.
@@ -1076,7 +1076,7 @@ cdef class AbstractFactory(Factory):
         """
         if self.__last_overriding is None:
             raise Error('{0} must be overridden before calling'.format(self))
-        return self.__last_overriding._provide(args, kwargs)
+        return self.__last_overriding(*args, **kwargs)
 
     def override(self, provider):
         """Override provider with another provider.
@@ -1606,7 +1606,7 @@ cdef class AbstractSingleton(BaseSingleton):
         """
         if self.__last_overriding is None:
             raise Error('{0} must be overridden before calling'.format(self))
-        return self.__last_overriding._provide(args, kwargs)
+        return self.__last_overriding(*args, **kwargs)
 
     def override(self, provider):
         """Override provider with another provider.
