@@ -51,6 +51,15 @@ class ProviderTests(unittest.TestCase):
         self.assertTrue(self.provider.overridden)
         self.assertIs(self.provider.last_overriding, overriding_provider)
 
+    def test_double_override(self):
+        overriding_provider1 = providers.Object(1)
+        overriding_provider2 = providers.Object(2)
+
+        self.provider.override(overriding_provider1)
+        overriding_provider1.override(overriding_provider2)
+
+        self.assertEqual(self.provider(), overriding_provider2())
+
     def test_overriding_context(self):
         overriding_provider = providers.Provider()
         with self.provider.override(overriding_provider):
