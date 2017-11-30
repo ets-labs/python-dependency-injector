@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.8.2
+-----
+- Fix padding problem in code samples in docs (part 2).
+
 3.8.1
 -----
 - Fix padding problem in code samples in docs.
