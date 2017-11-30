@@ -33,3 +33,5 @@ matrix:
       env: TOXENV=py36
     - python: pypy
       env: TOXENV=pypy
+notifications:
+  slack: ets-labs:g9OU0r5PXjA5ueeoQw01dVvV
