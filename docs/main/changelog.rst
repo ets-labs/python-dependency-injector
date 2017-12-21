@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Rename ``ExternalDependency`` provider to ``Dependency``.
+- Add default value for ``instance_of`` argument of ``Dependency`` provider -
+  ``Dependency(instance_of=object)``.
+
+
 3.8.2
 -----
 - Fix padding problem in code samples in docs (part 2).

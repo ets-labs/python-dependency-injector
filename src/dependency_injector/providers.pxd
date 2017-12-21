@@ -25,8 +25,12 @@ cdef class Delegate(Object):
     pass
 
 
-cdef class ExternalDependency(Provider):
+cdef class Dependency(Provider):
     cdef type __instance_of
+
+
+cdef class ExternalDependency(Dependency):
+    pass
 
 
 cdef class OverridingContext(object):
