@@ -1,9 +1,9 @@
-External dependency providers
------------------------------
+Dependency providers
+--------------------
 
 .. currentmodule:: dependency_injector.providers
 
-:py:class:`ExternalDependency` provider can be useful for development of
+:py:class:`Dependency` provider can be useful for development of
 self-sufficient libraries / modules / applications that have required external
 dependencies.
 
@@ -35,11 +35,10 @@ Example:
     Instead of this, ``UsersService`` has external dependency, that has to
     be satisfied by cleint's code, out of library's scope.
 
-.. image:: /images/providers/external_dependency.png
+.. image:: /images/providers/dependency.png
 
-.. literalinclude:: ../../examples/providers/external_dependency.py
+.. literalinclude:: ../../examples/providers/dependency.py
    :language: python
    :linenos:
-
 
 .. disqus::

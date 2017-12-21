@@ -21,6 +21,6 @@ Providers package API docs - :py:mod:`dependency_injector.providers`
     singleton
     callable
     object
-    external_dependency
+    dependency
     overriding
     custom
