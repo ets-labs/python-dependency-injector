@@ -1,9 +1,9 @@
-"""Example applications."""
+"""Example application - Bundles."""
 
 from core import containers, providers
 
-from users import Users
-from photos import Photos
+from bundles.users import Users
+from bundles.photos import Photos
 
 
 class Core(containers.DeclarativeContainer):

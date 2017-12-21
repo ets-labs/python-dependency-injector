@@ -1,4 +1,4 @@
-"""Photos package."""
+"""Photos bundle."""
 
 from core import containers
 from core import providers
@@ -8,7 +8,7 @@ from . import repositories
 
 
 class Photos(containers.DeclarativeContainer):
-    """Photos package container."""
+    """Photos bundle container."""
 
     database = providers.Dependency()
     file_storage = providers.Dependency()

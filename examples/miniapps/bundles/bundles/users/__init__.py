@@ -1,4 +1,4 @@
-"""Users package."""
+"""Users bundle."""
 
 from core import containers
 from core import providers
@@ -8,7 +8,7 @@ from . import repositories
 
 
 class Users(containers.DeclarativeContainer):
-    """Users container."""
+    """Users bundle container."""
 
     database = providers.Dependency()
 
