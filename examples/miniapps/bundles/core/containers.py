@@ -2,9 +2,7 @@
 
 import six
 
-from dependency_injector import containers
-
-from core import providers
+from dependency_injector import containers, providers
 
 
 class DeclarativeContainer(containers.DeclarativeContainer):

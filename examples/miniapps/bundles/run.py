@@ -1,6 +1,7 @@
 """Example application - Bundles."""
 
-from core import containers, providers
+from core import containers
+from dependency_injector import providers
 
 from bundles.users import Users
 from bundles.photos import Photos

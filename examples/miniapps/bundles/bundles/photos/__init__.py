@@ -1,7 +1,7 @@
 """Photos bundle."""
 
 from core import containers
-from core import providers
+from dependency_injector import providers
 
 from . import entities
 from . import repositories
