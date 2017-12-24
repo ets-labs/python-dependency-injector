@@ -1,6 +1,6 @@
 """Users bundle."""
 
-from core import containers
+from dependency_injector import containers
 from dependency_injector import providers
 
 from . import entities

@@ -88,6 +88,18 @@ class DynamicContainer(object):
             del self.providers[name]
         super(DynamicContainer, self).__delattr__(name)
 
+    def set_providers(self, **providers):
+        """Set container providers.
+
+        :param providers: Dictionary of providers
+        :type providers:
+            dict[str, :py:class:`dependency_injector.providers.Provider`]
+
+        :rtype: None
+        """
+        for name, provider in six.iteritems(providers):
+            setattr(self, name, provider)
+
     def override(self, object overriding):
         """Override current container by overriding container.
 
@@ -110,6 +122,19 @@ class DynamicContainer(object):
                 getattr(self, name).override(provider)
             except AttributeError:
                 pass
+
+    def override_providers(self, **overriding_providers):
+        """Override container providers.
+
+        :param overriding_providers: Dictionary of providers
+        :type overriding_providers:
+            dict[str, :py:class:`dependency_injector.providers.Provider`]
+
+        :rtype: None
+        """
+        for name, overriding_provider in six.iteritems(overriding_providers):
+            container_provider = getattr(self, name)
+            container_provider.override(overriding_provider)
 
     def reset_last_overriding(self):
         """Reset last overriding provider for each container providers.
@@ -265,18 +290,16 @@ class DeclarativeContainer(object):
     :type: tuple[:py:class:`DeclarativeContainer`]
     """
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, **overriding_providers):
         """Constructor.
 
         :return: Dynamic container with copy of all providers.
         :rtype: :py:class:`DynamicContainer`
         """
-        container = cls.instance_type(*args, **kwargs)
+        container = cls.instance_type()
         container.provider_type = cls.provider_type
-
-        for name, provider in six.iteritems(deepcopy(cls.providers)):
-            setattr(container, name, provider)
-
+        container.set_providers(**deepcopy(cls.providers))
+        container.override_providers(**overriding_providers)
         return container
 
     @classmethod

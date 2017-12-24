@@ -265,3 +265,12 @@ class DeclarativeContainerTests(unittest.TestCase):
                          dict(Container1=Container.Container1,
                               Container2=Container.Container2,
                               Container3=Container.Container3))
+
+    def test_init_with_overriding_providers(self):
+        p1 = providers.Provider()
+        p2 = providers.Provider()
+
+        container = ContainerA(p11=p1, p12=p2)
+
+        self.assertIs(container.p11.last_overriding, p1)
+        self.assertIs(container.p12.last_overriding, p2)

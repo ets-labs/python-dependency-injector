@@ -12,6 +12,13 @@ Development version
 - Rename ``ExternalDependency`` provider to ``Dependency``.
 - Add default value for ``instance_of`` argument of ``Dependency`` provider -
   ``Dependency(instance_of=object)``.
+- Change initialization of declarative container, so it accepts overriding 
+  providers as keyword arguments - 
+  ``DeclarativeContainer(**overriding_providers)``.
+- Add method to dynamic catalog for setting groups of providers -  
+  ``DynamicContainer.set_providers(**providers)``.
+- Add method to dynamic catalog for overriding groups of providers -  
+  ``DynamicContainer.set_providers(**overriding_providers)``.
 
 
 3.8.2

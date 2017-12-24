@@ -75,6 +75,16 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertIs(ContainerA.provider_type,
                       containers.DeclarativeContainer.provider_type)
 
+    def test_set_providers(self):
+        p13 = providers.Provider()
+        p14 = providers.Provider()
+        container_a = ContainerA()
+
+        container_a.set_providers(p13=p13, p14=p14)
+
+        self.assertIs(container_a.p13, p13)
+        self.assertIs(container_a.p14, p14)
+
     def test_override(self):
         class _Container(containers.DeclarativeContainer):
             p11 = providers.Provider()
@@ -107,6 +117,22 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         container = ContainerA()
         with self.assertRaises(errors.Error):
             container.override(container)
+
+    def test_override_providers(self):
+        p1 = providers.Provider()
+        p2 = providers.Provider()
+        container_a = ContainerA()
+
+        container_a.override_providers(p11=p1, p12=p2)
+
+        self.assertIs(container_a.p11.last_overriding, p1)
+        self.assertIs(container_a.p12.last_overriding, p2)
+
+    def test_override_providers_with_unknown_provider(self):
+        container_a = ContainerA()
+
+        with self.assertRaises(AttributeError):
+            container_a.override_providers(unknown=providers.Provider())
 
     def test_reset_last_overridding(self):
         class _Container(containers.DeclarativeContainer):
