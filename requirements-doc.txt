@@ -1,4 +1,4 @@
-sphinx
+sphinx==1.5.6
 sphinx_rtd_theme>=0.2.5b1
 sphinx_autobuild
 sphinxcontrib-disqus
