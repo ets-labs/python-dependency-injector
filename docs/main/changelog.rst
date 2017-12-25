@@ -7,11 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
-- Rename ``ExternalDependency`` provider to ``Dependency``.
-- Add default value for ``instance_of`` argument of ``Dependency`` provider -
-  ``Dependency(instance_of=object)``.
+3.9.0
+-----
 - Change initialization of declarative container, so it accepts overriding 
   providers as keyword arguments - 
   ``DeclarativeContainer(**overriding_providers)``.
@@ -19,6 +16,9 @@ Development version
   ``DynamicContainer.set_providers(**providers)``.
 - Add method to dynamic catalog for overriding groups of providers -  
   ``DynamicContainer.set_providers(**overriding_providers)``.
+- Rename ``ExternalDependency`` provider to ``Dependency``.
+- Add default value for ``instance_of`` argument of ``Dependency`` provider -
+  ``Dependency(instance_of=object)``.
 - Fix bug when copying ``Configuration`` provider.
 - Regenerate C sources using Cython 0.27.3.
 - Add "bundles" example miniapp.
