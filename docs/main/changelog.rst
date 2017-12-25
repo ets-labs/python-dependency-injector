@@ -19,6 +19,7 @@ Development version
   ``DynamicContainer.set_providers(**providers)``.
 - Add method to dynamic catalog for overriding groups of providers -  
   ``DynamicContainer.set_providers(**overriding_providers)``.
+- Fix bug when copying ``Configuration`` provider.
 
 
 3.8.2

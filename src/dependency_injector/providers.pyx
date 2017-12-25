@@ -745,12 +745,15 @@ cdef class Configuration(Provider):
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
+        cdef Configuration copied
+
         copied = memo.get(id(self))
         if copied is not None:
             return copied
 
         copied = self.__class__(self.__name)
-        copied.update(deepcopy(self.__value))
+        copied.__value = deepcopy(self.__value, memo)
+        copied.__children = deepcopy(self.__children, memo)
 
         for overriding_provider in self.overridden:
             copied.override(deepcopy(overriding_provider, memo))
