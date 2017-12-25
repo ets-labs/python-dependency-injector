@@ -1,2 +1,5 @@
+"""Photos bundle entities module."""
+
+
 class Photo(object):
-    pass
+    """Photo entity."""
