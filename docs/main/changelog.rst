@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.9.1
+-----
+- Fix docs build problem (``sphinx`` is frozen on ``1.5.6`` version because of
+  incompatibility with ``sphinxcontrib-discus``). 
+- Add badge for docs.
+
 3.9.0
 -----
 - Change initialization of declarative container, so it accepts overriding 
