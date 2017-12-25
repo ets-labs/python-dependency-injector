@@ -1,4 +1,4 @@
-"""`ExternalDependency` providers example."""
+"""`Dependency` providers example."""
 
 import sqlite3
 import contextlib
@@ -45,7 +45,7 @@ class UsersService(object):
 
 
 # Database and UsersService providers:
-database = providers.ExternalDependency(instance_of=sqlite3.dbapi2.Connection)
+database = providers.Dependency(instance_of=sqlite3.dbapi2.Connection)
 users_service_factory = providers.Factory(UsersService,
                                           database=database)
 

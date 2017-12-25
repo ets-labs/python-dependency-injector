@@ -295,8 +295,8 @@ cdef class Delegate(Object):
         super(Delegate, self).__init__(ensure_is_provider(provides))
 
 
-cdef class ExternalDependency(Provider):
-    """:py:class:`ExternalDependency` provider describes dependency interface.
+cdef class Dependency(Provider):
+    """:py:class:`Dependency` provider describes dependency interface.
 
     This provider is used for description of dependency interface. That might
     be useful when dependency could be provided in the client's code only,
@@ -305,7 +305,7 @@ cdef class ExternalDependency(Provider):
 
     .. code-block:: python
 
-        database_provider = ExternalDependency(sqlite3.dbapi2.Connection)
+        database_provider = Dependency(sqlite3.dbapi2.Connection)
         database_provider.override(Factory(sqlite3.connect, ':memory:'))
 
         database = database_provider()
@@ -315,12 +315,12 @@ cdef class ExternalDependency(Provider):
         Class of required dependency.
 
         :type: type
-    """
+   """
 
-    def __init__(self, type instance_of):
+    def __init__(self, type instance_of=object):
         """Initializer."""
         self.__instance_of = instance_of
-        super(ExternalDependency, self).__init__()
+        super(Dependency, self).__init__()
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
@@ -389,6 +389,33 @@ cdef class ExternalDependency(Provider):
         :rtype: None
         """
         return self.override(provider)
+
+
+cdef class ExternalDependency(Dependency):
+    """:py:class:`ExternalDependency` provider describes dependency interface.
+
+    This provider is used for description of dependency interface. That might
+    be useful when dependency could be provided in the client's code only,
+    but it's interface is known. Such situations could happen when required
+    dependency has non-determenistic list of dependencies itself.
+
+    .. code-block:: python
+
+        database_provider = ExternalDependency(sqlite3.dbapi2.Connection)
+        database_provider.override(Factory(sqlite3.connect, ':memory:'))
+
+        database = database_provider()
+
+    .. deprecated:: 3.9
+
+        Use :py:class:`Dependency` instead.
+
+    .. py:attribute:: instance_of
+
+        Class of required dependency.
+
+        :type: type
+    """
 
 
 cdef class OverridingContext(object):
@@ -718,12 +745,15 @@ cdef class Configuration(Provider):
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
+        cdef Configuration copied
+
         copied = memo.get(id(self))
         if copied is not None:
             return copied
 
         copied = self.__class__(self.__name)
-        copied.update(deepcopy(self.__value))
+        copied.__value = deepcopy(self.__value, memo)
+        copied.__children = deepcopy(self.__children, memo)
 
         for overriding_provider in self.overridden:
             copied.override(deepcopy(overriding_provider, memo))

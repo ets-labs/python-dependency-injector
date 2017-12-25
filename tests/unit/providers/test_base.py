@@ -229,13 +229,13 @@ class DelegateTests(unittest.TestCase):
                              hex(id(self.delegate))))
 
 
-class ExternalDependencyTests(unittest.TestCase):
+class DependencyTests(unittest.TestCase):
 
     def setUp(self):
-        self.provider = providers.ExternalDependency(instance_of=list)
+        self.provider = providers.Dependency(instance_of=list)
 
     def test_init_with_not_class(self):
-        self.assertRaises(TypeError, providers.ExternalDependency, object())
+        self.assertRaises(TypeError, providers.Dependency, object())
 
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(self.provider))
@@ -252,15 +252,15 @@ class ExternalDependencyTests(unittest.TestCase):
         self.assertRaises(errors.Error, self.provider)
 
     def test_deepcopy(self):
-        provider = providers.ExternalDependency(int)
+        provider = providers.Dependency(int)
 
         provider_copy = providers.deepcopy(provider)
 
         self.assertIsNot(provider, provider_copy)
-        self.assertIsInstance(provider, providers.ExternalDependency)
+        self.assertIsInstance(provider, providers.Dependency)
 
     def test_deepcopy_from_memo(self):
-        provider = providers.ExternalDependency(int)
+        provider = providers.Dependency(int)
         provider_copy_memo = providers.Provider()
 
         provider_copy = providers.deepcopy(
@@ -269,7 +269,7 @@ class ExternalDependencyTests(unittest.TestCase):
         self.assertIs(provider_copy, provider_copy_memo)
 
     def test_deepcopy_overridden(self):
-        provider = providers.ExternalDependency(int)
+        provider = providers.Dependency(int)
         overriding_provider = providers.Provider()
 
         provider.override(overriding_provider)
@@ -278,7 +278,7 @@ class ExternalDependencyTests(unittest.TestCase):
         overriding_provider_copy = provider_copy.overridden[0]
 
         self.assertIsNot(provider, provider_copy)
-        self.assertIsInstance(provider, providers.ExternalDependency)
+        self.assertIsInstance(provider, providers.Dependency)
 
         self.assertIsNot(overriding_provider, overriding_provider_copy)
         self.assertIsInstance(overriding_provider_copy, providers.Provider)
@@ -286,6 +286,15 @@ class ExternalDependencyTests(unittest.TestCase):
     def test_repr(self):
         self.assertEqual(repr(self.provider),
                          '<dependency_injector.providers.'
-                         'ExternalDependency({0}) at {1}>'.format(
+                         'Dependency({0}) at {1}>'.format(
                              repr(list),
                              hex(id(self.provider))))
+
+
+class ExternalDependencyTests(unittest.TestCase):
+
+    def setUp(self):
+        self.provider = providers.ExternalDependency(instance_of=list)
+
+    def test_is_instance(self):
+        self.assertIsInstance(self.provider, providers.Dependency)
