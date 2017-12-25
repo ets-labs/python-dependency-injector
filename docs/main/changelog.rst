@@ -20,6 +20,7 @@ Development version
 - Add method to dynamic catalog for overriding groups of providers -  
   ``DynamicContainer.set_providers(**overriding_providers)``.
 - Fix bug when copying ``Configuration`` provider.
+- Add "bundles" example miniapp.
 
 
 3.8.2
