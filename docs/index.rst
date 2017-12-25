@@ -56,6 +56,9 @@ Status
 | *Builds and tests coverage*           | .. image:: https://travis-ci.org/ets-labs/python-dependency-injector.svg?branch=master                             |
 |                                       |    :target: https://travis-ci.org/ets-labs/python-dependency-injector                                              |
 |                                       |    :alt: Build Status                                                                                              |
+|                                       | .. image:: http://readthedocs.org/projects/python-dependency-injector/badge/?version=latest                        |
+|                                       |    :target: http://python-dependency-injector.ets-labs.org/                                                        |
+|                                       |    :alt: Docs Status                                                                                               |
 |                                       | .. image:: https://coveralls.io/repos/github/ets-labs/python-dependency-injector/badge.svg?branch=master           |
 |                                       |    :target: https://coveralls.io/github/ets-labs/python-dependency-injector?branch=master                          |
 |                                       |    :alt: Coverage Status                                                                                           |
