@@ -20,6 +20,7 @@ Development version
 - Add method to dynamic catalog for overriding groups of providers -  
   ``DynamicContainer.set_providers(**overriding_providers)``.
 - Fix bug when copying ``Configuration`` provider.
+- Regenerate C sources using Cython 0.27.3.
 - Add "bundles" example miniapp.
 
 
