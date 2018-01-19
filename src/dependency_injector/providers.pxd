@@ -13,6 +13,7 @@ cdef class Provider(object):
     cdef object __overriding_lock
 
     cpdef object _provide(self, tuple args, dict kwargs)
+    cpdef void _copy_overridings(self, Provider copied)
 
 
 cdef class Object(Provider):
@@ -31,6 +32,12 @@ cdef class Dependency(Provider):
 
 cdef class ExternalDependency(Dependency):
     pass
+
+
+cdef class DependenciesContainer(Object):
+    cdef dict __providers
+
+    cpdef object _override_providers(self, object container)
 
 
 cdef class OverridingContext(object):
