@@ -3,6 +3,7 @@
 import unittest2 as unittest
 
 from dependency_injector import (
+    containers,
     providers,
     errors,
 )
@@ -298,3 +299,52 @@ class ExternalDependencyTests(unittest.TestCase):
 
     def test_is_instance(self):
         self.assertIsInstance(self.provider, providers.Dependency)
+
+
+class DependenciesContainerTests(unittest.TestCase):
+
+    class Container(containers.DeclarativeContainer):
+
+        dependency = providers.Provider()
+
+    def setUp(self):
+        self.provider = providers.DependenciesContainer()
+        self.container = self.Container()
+
+    def test_getattr(self):
+        has_dependency = hasattr(self.provider, 'dependency')
+        dependency = self.provider.dependency
+
+        self.assertIsInstance(dependency, providers.Dependency)
+        self.assertIs(dependency, self.provider.dependency)
+        self.assertTrue(has_dependency)
+        self.assertIsNone(dependency.last_overriding)
+
+    def test_getattr_with_container(self):
+        self.provider.override(self.container)
+
+        dependency = self.provider.dependency
+
+        self.assertTrue(dependency.overridden)
+        self.assertIs(dependency.last_overriding, self.container.dependency)
+
+    def test_providers(self):
+        dependency1 = self.provider.dependency1
+        dependency2 = self.provider.dependency2
+        self.assertEqual(self.provider.providers, {'dependency1': dependency1,
+                                                   'dependency2': dependency2})
+
+    def test_override(self):
+        dependency = self.provider.dependency
+        self.provider.override(self.container)
+
+        self.assertTrue(dependency.overridden)
+        self.assertIs(dependency.last_overriding, self.container.dependency)
+
+    def test_init_with_container_and_providers(self):
+        provider = providers.DependenciesContainer(
+            self.container, dependency=providers.Dependency())
+        dependency = provider.dependency
+
+        self.assertTrue(dependency.overridden)
+        self.assertIs(dependency.last_overriding, self.container.dependency)

@@ -23,10 +23,10 @@ import dependency_injector.providers as providers
 class MoviesModule(containers.DeclarativeContainer):
     """IoC container of movies module component providers."""
 
-    models_factory = providers.Factory(movies.models.Movie)
+    movie = providers.Factory(movies.models.Movie)
 
     finder = providers.AbstractFactory(movies.finders.MovieFinder,
-                                       movie_model=models_factory.delegate())
+                                       movie_model=movie.provider)
 
     lister = providers.Factory(movies.listers.MovieLister,
                                movie_finder=finder)
