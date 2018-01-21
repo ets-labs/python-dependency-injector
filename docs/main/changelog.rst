@@ -7,6 +7,15 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+
+3.10.0
+------
+- Add ``DependenciesContainer`` provider.
+- Add "use_cases" example miniapp.
+- Update documentation requirements to use fixed version of 
+  ``sphinxcontrib-disqus``.
+
+
 3.9.1
 -----
 - Fix docs build problem (``sphinx`` is frozen on ``1.5.6`` version because of

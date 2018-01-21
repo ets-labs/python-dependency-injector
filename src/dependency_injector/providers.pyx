@@ -107,8 +107,7 @@ cdef class Provider(object):
 
         copied = self.__class__()
 
-        for overriding_provider in self.overridden:
-            copied.override(deepcopy(overriding_provider, memo))
+        self._copy_overridings(copied)
 
         return copied
 
@@ -215,6 +214,11 @@ cdef class Provider(object):
         """
         raise NotImplementedError()
 
+    cpdef void _copy_overridings(self, Provider copied):
+        """Copy provider overridings to a newly copied provider."""
+        copied.__overridden = deepcopy(self.__overridden)
+        copied.__last_overriding = deepcopy(self.__last_overriding)
+
 
 cdef class Object(Provider):
     """Object provider returns provided instance "as is".
@@ -243,8 +247,7 @@ cdef class Object(Provider):
 
         copied = self.__class__(deepcopy(self.__provides, memo))
 
-        for overriding_provider in self.overridden:
-            copied.override(deepcopy(overriding_provider, memo))
+        self._copy_overridings(copied)
 
         return copied
 
@@ -330,8 +333,7 @@ cdef class Dependency(Provider):
 
         copied = self.__class__(self.__instance_of)
 
-        for overriding_provider in self.overridden:
-            copied.override(deepcopy(overriding_provider, memo))
+        self._copy_overridings(copied)
 
         return copied
 
@@ -416,6 +418,121 @@ cdef class ExternalDependency(Dependency):
 
         :type: type
     """
+
+
+cdef class DependenciesContainer(Object):
+    """:py:class:`DependenciesContainer` provider provides set of dependencies.
+
+
+    Dependencies container provider is used to implement late static binding
+    for a set of providers of a particular container.
+
+
+    Example code:
+
+    .. code-block:: python
+
+        class Adapters(containers.DeclarativeContainer):
+            email_sender = providers.Singleton(SmtpEmailSender)
+
+        class TestAdapters(containers.DeclarativeContainer):
+            email_sender = providers.Singleton(EchoEmailSender)
+
+        class UseCases(containers.DeclarativeContainer):
+            adapters = providers.DependenciesContainer()
+
+            signup = providers.Factory(SignupUseCase,
+                                       email_sender=adapters.email_sender)
+
+        use_cases = UseCases(adapters=Adapters)
+        # or
+        use_cases = UseCases(adapters=TestAdapters)
+
+        # Another file
+        from .containers import use_cases
+
+        use_case = use_cases.signup()
+        use_case.execute()
+    """
+
+    def __init__(self, provides=None, **dependencies):
+        """Initializer."""
+        self.__providers = dependencies
+
+        if provides:
+            self._override_providers(container=provides)
+
+        super(DependenciesContainer, self).__init__(provides)
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        cdef DependenciesContainer copied
+
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__()
+        copied.__provides = deepcopy(self.__provides, memo)
+        copied.__providers = deepcopy(self.__providers, memo)
+
+        self._copy_overridings(copied)
+
+        return copied
+
+    def __getattr__(self, name):
+        """Return dependency provider."""
+        if name.startswith('__') and name.endswith('__'):
+            raise AttributeError(
+                '\'{cls}\' object has no attribute '
+                '\'{attribute_name}\''.format(cls=self.__class__.__name__,
+                                              attribute_name=name))
+
+        provider = self.__providers.get(name)
+        if not provider:
+            provider = Dependency()
+            self.__providers[name] = provider
+
+            container = self.__call__()
+            if container:
+                dependency_provider = container.providers.get(name)
+                if dependency_provider:
+                    provider.override(dependency_provider)
+
+        return provider
+
+    @property
+    def providers(self):
+        """Read-only dictionary of dependency providers."""
+        return self.__providers
+
+    def override(self, provider):
+        """Override provider with another provider.
+
+        :param provider: Overriding provider.
+        :type provider: :py:class:`Provider`
+
+        :raise: :py:exc:`dependency_injector.errors.Error`
+
+        :return: Overriding context.
+        :rtype: :py:class:`OverridingContext`
+        """
+        self._override_providers(container=provider)
+        return super(DependenciesContainer, self).override(provider)
+
+
+    cpdef object _override_providers(self, object container):
+        """Override providers with providers from provided container."""
+        for name, dependency_provider in container.providers.items():
+            provider = self.__providers.get(name)
+
+            if not provider:
+                continue
+
+            if provider.last_overriding is dependency_provider:
+                continue
+
+            provider.override(dependency_provider)
 
 
 cdef class OverridingContext(object):
@@ -517,8 +634,7 @@ cdef class Callable(Provider):
                                 *deepcopy(self.args, memo),
                                 **deepcopy(self.kwargs, memo))
 
-        for overriding_provider in self.overridden:
-            copied.override(deepcopy(overriding_provider, memo))
+        self._copy_overridings(copied)
 
         return copied
 
@@ -755,8 +871,7 @@ cdef class Configuration(Provider):
         copied.__value = deepcopy(self.__value, memo)
         copied.__children = deepcopy(self.__children, memo)
 
-        for overriding_provider in self.overridden:
-            copied.override(deepcopy(overriding_provider, memo))
+        self._copy_overridings(copied)
 
         return copied
 
@@ -923,8 +1038,7 @@ cdef class Factory(Provider):
                                 **deepcopy(self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
 
-        for overriding_provider in self.overridden:
-            copied.override(deepcopy(overriding_provider, memo))
+        self._copy_overridings(copied)
 
         return copied
 
@@ -1272,8 +1386,7 @@ cdef class BaseSingleton(Provider):
                                 **deepcopy(self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
 
-        for overriding_provider in self.overridden:
-            copied.override(deepcopy(overriding_provider, memo))
+        self._copy_overridings(copied)
 
         return copied
 

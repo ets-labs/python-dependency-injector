@@ -18,3 +18,4 @@ and powered by *Dependency Injector* framework.
     movie_lister
     services_miniapp
     bundles_miniapp
+    use_cases_miniapp
