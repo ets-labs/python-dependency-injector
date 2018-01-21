@@ -1,5 +1,5 @@
-sphinx==1.5.6
-sphinx_rtd_theme>=0.2.5b1
+sphinx
+-e git://github.com/rmk135/sphinxcontrib-disqus.git#egg=sphinxcontrib-disqus
 sphinx_autobuild
 sphinxcontrib-disqus
 autodoc
