@@ -12,6 +12,9 @@ follows `Semantic versioning`_
 ------
 - Add ``DependenciesContainer`` provider.
 - Add "use_cases" example miniapp.
+- Update documentation requirements to use fixed version of 
+  ``sphinxcontrib-disqus``.
+
 
 3.9.1
 -----
