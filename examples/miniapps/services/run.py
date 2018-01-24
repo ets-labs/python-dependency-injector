@@ -8,10 +8,10 @@ from containers import Core, Application
 
 if __name__ == '__main__':
     # Configure platform:
-    Core.config.update({'database': {'dsn': ':memory:'},
-                        'aws': {'access_key_id': 'KEY',
-                                'secret_access_key': 'SECRET'},
-                        'auth': {'token_ttl': 3600}})
+    Core.config.override({'database': {'dsn': ':memory:'},
+                          'aws': {'access_key_id': 'KEY',
+                                  'secret_access_key': 'SECRET'},
+                          'auth': {'token_ttl': 3600}})
     Core.logger().addHandler(logging.StreamHandler(sys.stdout))
 
     # Run application:

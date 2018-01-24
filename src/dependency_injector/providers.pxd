@@ -71,15 +71,9 @@ cdef class CallableDelegate(Delegate):
 
 
 # Configuration providers
-cdef class Configuration(Provider):
+cdef class Configuration(Object):
     cdef str __name
-    cdef object __value
     cdef dict __children
-
-    cpdef str get_name(self)
-    cpdef object update(self, object value)
-    cpdef object _provide(self, tuple args, dict kwargs)
-    cpdef str _get_child_name(self, str child_name)
 
 
 # Factory providers

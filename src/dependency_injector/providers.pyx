@@ -427,7 +427,6 @@ cdef class DependenciesContainer(Object):
     Dependencies container provider is used to implement late static binding
     for a set of providers of a particular container.
 
-
     Example code:
 
     .. code-block:: python
@@ -520,6 +519,29 @@ cdef class DependenciesContainer(Object):
         self._override_providers(container=provider)
         return super(DependenciesContainer, self).override(provider)
 
+    def reset_last_overriding(self):
+        """Reset last overriding provider.
+
+        :raise: :py:exc:`dependency_injector.errors.Error` if provider is not
+                overridden.
+
+        :rtype: None
+        """
+        for child in self.__providers.values():
+            try:
+                child.reset_last_overriding()
+            except Error:
+                pass
+        super(DependenciesContainer, self).reset_last_overriding()
+
+    def reset_override(self):
+        """Reset all overriding providers.
+
+        :rtype: None
+        """
+        for child in self.__providers.values():
+            child.reset_override()
+        super(DependenciesContainer, self).reset_override()
 
     cpdef object _override_providers(self, object container):
         """Override providers with providers from provided container."""
@@ -823,7 +845,7 @@ cdef class CallableDelegate(Delegate):
         super(Delegate, self).__init__(callable)
 
 
-cdef class Configuration(Provider):
+cdef class Configuration(Object):
     """Configuration provider.
 
     Configuration provider helps with implementing late static binding of
@@ -836,8 +858,8 @@ cdef class Configuration(Provider):
         print(config.section1.option1())  # None
         print(config.section1.option2())  # None
 
-        config.update({'section1': {'option1': 1,
-                                    'option2': 2}})
+        config.override({'section1': {'option1': 1,
+                                      'option2': 2}})
 
         print(config.section1.option1())  # 1
         print(config.section1.option2())  # 2
@@ -852,12 +874,10 @@ cdef class Configuration(Provider):
         :param default: Default values of configuration unit.
         :type default: dict
         """
+        super(Configuration, self).__init__(default)
+
         self.__name = name
-        self.__value = None
-        self.__children = dict()
-        if default is not None:
-            self.update(default)
-        super(Configuration, self).__init__()
+        self.__children = self._create_children(default)
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
@@ -868,7 +888,7 @@ cdef class Configuration(Provider):
             return copied
 
         copied = self.__class__(self.__name)
-        copied.__value = deepcopy(self.__value, memo)
+        copied.__provides = deepcopy(self.__provides, memo)
         copied.__children = deepcopy(self.__children, memo)
 
         self._copy_overridings(copied)
@@ -884,9 +904,6 @@ cdef class Configuration(Provider):
 
     def __getattr__(self, str name):
         """Return child configuration provider."""
-        cdef Configuration child_provider
-        cdef object value
-
         if name.startswith('__') and name.endswith('__'):
             raise AttributeError(
                 '\'{cls}\' object has no attribute '
@@ -896,55 +913,103 @@ cdef class Configuration(Provider):
         child_provider = self.__children.get(name)
 
         if child_provider is None:
-            child_provider = self.__class__(self._get_child_name(name))
+            child_name = self._get_child_full_name(name)
+            child_provider = self.__class__(child_name)
 
-            if isinstance(self.__value, dict):
-                child_provider.update(self.__value.get(name))
+            value = self.__call__()
+            if isinstance(value, dict):
+                child_value = value.get(name)
+                child_provider.override(child_value)
 
             self.__children[name] = child_provider
 
         return child_provider
 
-    cpdef str get_name(self):
+    def get_name(self):
         """Name of configuration unit."""
         return self.__name
 
-    cpdef object update(self, value):
+    def override(self, provider):
+        """Override provider with another provider.
+
+        :param provider: Overriding provider.
+        :type provider: :py:class:`Provider`
+
+        :raise: :py:exc:`dependency_injector.errors.Error`
+
+        :return: Overriding context.
+        :rtype: :py:class:`OverridingContext`
+        """
+        overriding_context = super(Configuration, self).override(provider)
+
+        value = self.__call__()
+        if not isinstance(value, dict):
+            return
+
+        for name in value:
+            child_provider = self.__children.get(name)
+            if child_provider is None:
+                continue
+            child_provider.override(value.get(name))
+
+        return overriding_context
+
+    def reset_last_overriding(self):
+        """Reset last overriding provider.
+
+        :raise: :py:exc:`dependency_injector.errors.Error` if provider is not
+                overridden.
+
+        :rtype: None
+        """
+        for child in self.__children.values():
+            try:
+                child.reset_last_overriding()
+            except Error:
+                pass
+        super(Configuration, self).reset_last_overriding()
+
+    def reset_override(self):
+        """Reset all overriding providers.
+
+        :rtype: None
+        """
+        for child in self.__children.values():
+            child.reset_override()
+        super(Configuration, self).reset_override()
+
+    def update(self, value):
         """Set configuration options.
+
+        .. deprecated:: 3.11
+
+            Use :py:meth:`Configuration.override` instead.
 
         :param value: Value of configuration option.
         :type value: object | dict
 
         :rtype: None
         """
-        cdef Configuration child_provider
-        cdef object child_value
+        self.override(value)
 
-        self.__value = value
+    def _create_children(self, value):
+        children = dict()
 
-        if not isinstance(self.__value, dict):
-            return
+        if not isinstance(value, dict):
+            return children
 
-        for name in self.__value:
-            child_provider = self.__children.get(name)
+        for child_name, child_value in value.items():
+            child_full_name = self._get_child_full_name(child_name)
+            child_provider = self.__class__(child_full_name, child_value)
+            children[child_name] = child_provider
 
-            if child_provider is None:
-                continue
+        return children
 
-            child_provider.update(self.__value.get(name))
-
-    cpdef object _provide(self, tuple args, dict kwargs):
-        """Return result of provided callable's call."""
-        return self.__value
-
-    cpdef str _get_child_name(self, str child_name):
-        cdef str child_full_name
-
+    def _get_child_full_name(self, child_name):
         child_full_name = ''
 
         if self.__name:
             child_full_name += self.__name + '.'
-
         child_full_name += child_name
 
         return child_full_name

@@ -60,8 +60,33 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual(abc(), 1)
         self.assertEqual(abd(), 2)
 
-    def test_providers_with_default_value(self):
+    def test_providers_value_override(self):
+        a = self.config.a
+        ab = self.config.a.b
+        abc = self.config.a.b.c
+        abd = self.config.a.b.d
 
+        self.config.override({'a': {'b': {'c': 1, 'd': 2}}})
+
+        self.assertEqual(a(), {'b': {'c': 1, 'd': 2}})
+        self.assertEqual(ab(), {'c': 1, 'd': 2})
+        self.assertEqual(abc(), 1)
+        self.assertEqual(abd(), 2)
+
+    def test_providers_with_already_overridden_value(self):
+        self.config.override({'a': {'b': {'c': 1, 'd': 2}}})
+
+        a = self.config.a
+        ab = self.config.a.b
+        abc = self.config.a.b.c
+        abd = self.config.a.b.d
+
+        self.assertEqual(a(), {'b': {'c': 1, 'd': 2}})
+        self.assertEqual(ab(), {'c': 1, 'd': 2})
+        self.assertEqual(abc(), 1)
+        self.assertEqual(abd(), 2)
+
+    def test_providers_with_default_value(self):
         self.config = providers.Configuration(
             name='config', default={'a': {'b': {'c': 1, 'd': 2}}})
 
@@ -74,6 +99,27 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual(ab(), {'c': 1, 'd': 2})
         self.assertEqual(abc(), 1)
         self.assertEqual(abd(), 2)
+
+    def test_providers_with_default_value_overriding(self):
+        self.config = providers.Configuration(
+            name='config', default={'a': {'b': {'c': 1, 'd': 2}}})
+
+        self.assertEqual(self.config.a(), {'b': {'c': 1, 'd': 2}})
+        self.assertEqual(self.config.a.b(), {'c': 1, 'd': 2})
+        self.assertEqual(self.config.a.b.c(), 1)
+        self.assertEqual(self.config.a.b.d(), 2)
+
+        self.config.override({'a': {'b': {'c': 3, 'd': 4}}})
+        self.assertEqual(self.config.a(), {'b': {'c': 3, 'd': 4}})
+        self.assertEqual(self.config.a.b(), {'c': 3, 'd': 4})
+        self.assertEqual(self.config.a.b.c(), 3)
+        self.assertEqual(self.config.a.b.d(), 4)
+
+        self.config.reset_override()
+        self.assertEqual(self.config.a(), {'b': {'c': 1, 'd': 2}})
+        self.assertEqual(self.config.a.b(), {'c': 1, 'd': 2})
+        self.assertEqual(self.config.a.b.c(), 1)
+        self.assertEqual(self.config.a.b.d(), 2)
 
     def test_value_of_undefined_option(self):
         self.assertIsNone(self.config.a())

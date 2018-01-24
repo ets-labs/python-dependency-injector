@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.11.0
+------
+- Improve ``Configuration`` provider overriding logic.
+- Refactor ``Configuration`` provider.
+- Improve ``DependenciesContainer`` provider overriding logic.
+- Update "services" example miniapp.
+- Update "bundles" example miniapp.
 
 3.10.0
 ------
