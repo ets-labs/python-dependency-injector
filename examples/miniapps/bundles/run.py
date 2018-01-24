@@ -23,8 +23,7 @@ class Core(containers.DeclarativeContainer):
 
 if __name__ == '__main__':
     # Initializing containers
-    core = Core()
-    core.config.update({'database': {'dsn': ':memory:'},
+    core = Core(config={'database': {'dsn': ':memory:'},
                         'aws': {'access_key_id': 'KEY',
                                 'secret_access_key': 'SECRET'}})
     users = Users(database=core.sqlite)
