@@ -9,6 +9,9 @@ follows `Semantic versioning`_
 
 3.11.0
 ------
+- Improve ``Configuration`` provider overriding logic.
+- Refactor ``Configuration`` provider.
+- Update "bundles" example miniapp.
 
 3.10.0
 ------
