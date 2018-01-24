@@ -11,6 +11,7 @@ follows `Semantic versioning`_
 ------
 - Improve ``Configuration`` provider overriding logic.
 - Refactor ``Configuration`` provider.
+- Improve ``DependenciesContainer`` provider overriding logic.
 - Update "bundles" example miniapp.
 
 3.10.0

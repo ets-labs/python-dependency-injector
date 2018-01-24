@@ -341,6 +341,22 @@ class DependenciesContainerTests(unittest.TestCase):
         self.assertTrue(dependency.overridden)
         self.assertIs(dependency.last_overriding, self.container.dependency)
 
+    def test_reset_last_overriding(self):
+        dependency = self.provider.dependency
+        self.provider.override(self.container)
+        self.provider.reset_last_overriding()
+
+        self.assertIsNone(dependency.last_overriding)
+        self.assertIsNone(dependency.last_overriding)
+
+    def test_reset_override(self):
+        dependency = self.provider.dependency
+        self.provider.override(self.container)
+        self.provider.reset_override()
+
+        self.assertFalse(dependency.overridden)
+        self.assertFalse(dependency.overridden)
+
     def test_init_with_container_and_providers(self):
         provider = providers.DependenciesContainer(
             self.container, dependency=providers.Dependency())

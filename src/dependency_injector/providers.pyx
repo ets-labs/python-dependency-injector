@@ -427,7 +427,6 @@ cdef class DependenciesContainer(Object):
     Dependencies container provider is used to implement late static binding
     for a set of providers of a particular container.
 
-
     Example code:
 
     .. code-block:: python
@@ -520,6 +519,29 @@ cdef class DependenciesContainer(Object):
         self._override_providers(container=provider)
         return super(DependenciesContainer, self).override(provider)
 
+    def reset_last_overriding(self):
+        """Reset last overriding provider.
+
+        :raise: :py:exc:`dependency_injector.errors.Error` if provider is not
+                overridden.
+
+        :rtype: None
+        """
+        for child in self.__providers.values():
+            try:
+                child.reset_last_overriding()
+            except Error:
+                pass
+        super(DependenciesContainer, self).reset_last_overriding()
+
+    def reset_override(self):
+        """Reset all overriding providers.
+
+        :rtype: None
+        """
+        for child in self.__providers.values():
+            child.reset_override()
+        super(DependenciesContainer, self).reset_override()
 
     cpdef object _override_providers(self, object container):
         """Override providers with providers from provided container."""
