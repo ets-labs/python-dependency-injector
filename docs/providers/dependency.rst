@@ -33,7 +33,7 @@ Example:
     DBAPI 2.0 database connection. Being a self-sufficient library,
     ``UsersService`` doesn't hardcode any kind of database management logic.
     Instead of this, ``UsersService`` has external dependency, that has to
-    be satisfied by cleint's code, out of library's scope.
+    be satisfied by client's code, out of library's scope.
 
 .. image:: /images/providers/dependency.png
 
