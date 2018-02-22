@@ -1,0 +1,3 @@
+.rst-content .highlight>pre, .rst-content .linenodiv>pre {
+    line-height: normal;
+}
