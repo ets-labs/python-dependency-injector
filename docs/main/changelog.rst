@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.11.2
+------
+- Fix padding problem in code samples in docs.
+- Remove ``autodoc`` from the list of documentation dependencies.
+
 3.11.1
 ------
 - Fix small typo in documentation (thanks to James Lafa).
