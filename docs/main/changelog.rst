@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.12.0
+------
+- Regenerate C sources using Cython 0.28.2.
+
 3.11.3
 ------
 - Fix padding problem in code samples in docs.
