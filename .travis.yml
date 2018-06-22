@@ -1,7 +1,8 @@
 sudo: false
 install: 
     - pip install tox
-script: 
+    - if [[ $TRAVIS_PYTHON_VERSION == 3.3 ]]; then pip install virtualenv==15.2.0; fi
+script:
     - tox
 language:
     - python
