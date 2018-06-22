@@ -10,6 +10,10 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Add new example miniapp "ioc_container".
+- Fix incompatibility issue between Python 3.3, pip 10.0.0 and virtualenv
+  16.0.0 (`details <https://github.com/awslabs/base64io-python/issues/4>`_)
+  that caused failures of Python 3.3 tests on Travis.
+- Regenerate C sources using Cython 0.28.3.
 
 3.12.0
 ------
