@@ -9,9 +9,11 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- Update main page example from "services" to "ioc_container".
+- Update main page example from "services_v1" to "services_v2".
 - Fix few typos on main page.
-- Add new example miniapp "ioc_container".
+- Add new example miniapp "password_hashing".
+- Add new example miniapp "services_v2".
+- Rename example miniapp "services" to "services_v1".
 - Fix incompatibility issue between Python 3.3, pip 10.0.0 and virtualenv
   16.0.0 (`details <https://github.com/awslabs/base64io-python/issues/4>`_)
   that caused failures of Python 3.3 tests on Travis.

@@ -20,3 +20,4 @@ and powered by *Dependency Injector* framework.
     services_miniapp_v2
     bundles_miniapp
     use_cases_miniapp
+    password_hashing_miniapp
