@@ -9,6 +9,8 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Update main page example from "services" to "ioc_container".
+- Fix few typos on main page.
 - Add new example miniapp "ioc_container".
 - Fix incompatibility issue between Python 3.3, pip 10.0.0 and virtualenv
   16.0.0 (`details <https://github.com/awslabs/base64io-python/issues/4>`_)
