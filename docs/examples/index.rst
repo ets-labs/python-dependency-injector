@@ -16,6 +16,7 @@ and powered by *Dependency Injector* framework.
     :maxdepth: 2
 
     movie_lister
-    services_miniapp
+    services_miniapp_v1
+    services_miniapp_v2
     bundles_miniapp
     use_cases_miniapp
