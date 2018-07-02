@@ -270,9 +270,9 @@ Dependency Injector in action
 -----------------------------
 
 Brief example below is a simplified version of inversion of control 
-containters from one of the real-life applications. This example demonstrates 
-usage of *Dependency Injector* inversion of control containers & providers 
-for specifying all application components and their dependencies beetween 
+container from one of the real-life applications. This example demonstrates
+usage of *Dependency Injector* inversion of control container & providers
+for specifying all application components and their dependencies between
 each other in one module. Besides other listed above advantages, it gives a 
 great opportunity to control & manage application's structure in one place.
 
@@ -285,82 +285,89 @@ great opportunity to control & manage application's structure in one place.
 
     import boto3
 
-    import example.main
-    import example.services
-
-    import dependency_injector.containers as containers
-    import dependency_injector.providers as providers
+    from dependency_injector import containers, providers
+    from example import services, main
 
 
-    class Core(containers.DeclarativeContainer):
-        """IoC container of core component providers."""
+    class IocContainer(containers.DeclarativeContainer):
+        """Application IoC container."""
 
         config = providers.Configuration('config')
-
         logger = providers.Singleton(logging.Logger, name='example')
 
+        # Gateways
 
-    class Gateways(containers.DeclarativeContainer):
-        """IoC container of gateway (API clients to remote services) providers."""
+        database_client = providers.Singleton(sqlite3.connect, config.database.dsn)
 
-        database = providers.Singleton(sqlite3.connect, Core.config.database.dsn)
-
-        s3 = providers.Singleton(
+        s3_client = providers.Singleton(
             boto3.client, 's3',
-            aws_access_key_id=Core.config.aws.access_key_id,
-            aws_secret_access_key=Core.config.aws.secret_access_key)
+            aws_access_key_id=config.aws.access_key_id,
+            aws_secret_access_key=config.aws.secret_access_key
+        )
 
+        # Services
 
-    class Services(containers.DeclarativeContainer):
-        """IoC container of business service providers."""
+        users_service = providers.Factory(
+            services.UsersService,
+            db=database_client,
+            logger=logger
+        )
 
-        users = providers.Factory(example.services.UsersService,
-                                  db=Gateways.database,
-                                  logger=Core.logger)
+        auth_service = providers.Factory(
+            services.AuthService,
+            token_ttl=config.auth.token_ttl,
+            db=database_client,
+            logger=logger
+        )
 
-        auth = providers.Factory(example.services.AuthService,
-                                 db=Gateways.database,
-                                 logger=Core.logger,
-                                 token_ttl=Core.config.auth.token_ttl)
+        photos_service = providers.Factory(
+            services.PhotosService,
+            db=database_client,
+            s3=s3_client,
+            logger=logger
+        )
 
-        photos = providers.Factory(example.services.PhotosService,
-                                   db=Gateways.database,
-                                   s3=Gateways.s3,
-                                   logger=Core.logger)
+        # Misc
 
-
-    class Application(containers.DeclarativeContainer):
-        """IoC container of application component providers."""
-
-        main = providers.Callable(example.main.main,
-                                  users_service=Services.users,
-                                  auth_service=Services.auth,
-                                  photos_service=Services.photos)
+        main = providers.Callable(
+            main.main,
+            users_service=users_service,
+            auth_service=auth_service,
+            photos_service=photos_service
+        )
 
 Next example demonstrates run of example application defined above:
 
 .. code-block:: python
 
-    """Run example application."""
+    """Run example of dependency injection in Python."""
 
     import sys
     import logging
 
-    from containers import Core, Application
+    from container import IocContainer
 
 
     if __name__ == '__main__':
-        # Configure platform:
-        Core.config.override({'database': {'dsn': ':memory:'},
-                              'aws': {'access_key_id': 'KEY',
-                                      'secret_access_key': 'SECRET'},
-                              'auth': {'token_ttl': 3600}})
-        Core.logger().addHandler(logging.StreamHandler(sys.stdout))
+        # Configure container:
+        container = IocContainer(
+            config={
+                'database': {
+                    'dsn': ':memory:'
+                },
+                'aws': {
+                    'access_key_id': 'KEY',
+                    'secret_access_key': 'SECRET'
+                },
+                'auth': {
+                    'token_ttl': 3600
+                }
+            }
+        )
+        container.logger().addHandler(logging.StreamHandler(sys.stdout))
 
         # Run application:
-        Application.main(uid=sys.argv[1],
-                         password=sys.argv[2],
-                         photo=sys.argv[3])
+        container.main(*sys.argv[1:])
 
 You can get more *Dependency Injector* examples in ``/examples`` directory on
 GitHub:
