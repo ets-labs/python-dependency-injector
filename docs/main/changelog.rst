@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+3.12.1
+------
 - Update main page example from "services_v1" to "services_v2".
 - Fix few typos on main page.
 - Add new example miniapp "password_hashing".
