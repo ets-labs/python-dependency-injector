@@ -5,11 +5,8 @@ import sqlite3
 
 import boto3
 
-import example.main
-import example.services
-
-import dependency_injector.containers as containers
-import dependency_injector.providers as providers
+from dependency_injector import containers, providers
+from example import services, main
 
 
 class IocContainer(containers.DeclarativeContainer):
@@ -25,31 +22,36 @@ class IocContainer(containers.DeclarativeContainer):
     s3_client = providers.Singleton(
         boto3.client, 's3',
         aws_access_key_id=config.aws.access_key_id,
-        aws_secret_access_key=config.aws.secret_access_key)
+        aws_secret_access_key=config.aws.secret_access_key
+    )
 
     # Services
 
     users_service = providers.Factory(
-        example.services.UsersService,
+        services.UsersService,
         db=database_client,
-        logger=logger)
+        logger=logger
+    )
 
     auth_service = providers.Factory(
-        example.services.AuthService,
+        services.AuthService,
         token_ttl=config.auth.token_ttl,
         db=database_client,
-        logger=logger)
+        logger=logger
+    )
 
     photos_service = providers.Factory(
-        example.services.PhotosService,
+        services.PhotosService,
         db=database_client,
         s3=s3_client,
-        logger=logger)
+        logger=logger
+    )
 
     # Misc
 
     main = providers.Callable(
-        example.main.main,
+        main.main,
         users_service=users_service,
         auth_service=auth_service,
-        photos_service=photos_service)
+        photos_service=photos_service
+    )

@@ -285,11 +285,8 @@ great opportunity to control & manage application's structure in one place.
 
     import boto3
 
-    import example.main
-    import example.services
-
-    import dependency_injector.containers as containers
-    import dependency_injector.providers as providers
+    from dependency_injector import containers, providers
+    from example import services, main
 
 
     class IocContainer(containers.DeclarativeContainer):
@@ -305,34 +302,39 @@ great opportunity to control & manage application's structure in one place.
         s3_client = providers.Singleton(
             boto3.client, 's3',
             aws_access_key_id=config.aws.access_key_id,
-            aws_secret_access_key=config.aws.secret_access_key)
+            aws_secret_access_key=config.aws.secret_access_key
+        )
 
         # Services
 
         users_service = providers.Factory(
-            example.services.UsersService,
+            services.UsersService,
             db=database_client,
-            logger=logger)
+            logger=logger
+        )
 
         auth_service = providers.Factory(
-            example.services.AuthService,
+            services.AuthService,
             token_ttl=config.auth.token_ttl,
             db=database_client,
-            logger=logger)
+            logger=logger
+        )
 
         photos_service = providers.Factory(
-            example.services.PhotosService,
+            services.PhotosService,
             db=database_client,
             s3=s3_client,
-            logger=logger)
+            logger=logger
+        )
 
         # Misc
 
         main = providers.Callable(
-            example.main.main,
+            main.main,
             users_service=users_service,
             auth_service=auth_service,
-            photos_service=photos_service)
+            photos_service=photos_service
+        )
 
 Next example demonstrates run of example application defined above:
 
@@ -347,18 +349,25 @@ Next example demonstrates run of example application defined above:
 
 
     if __name__ == '__main__':
-        # Configure platform:
+        # Configure container:
         container = IocContainer(
-            config={'database': {'dsn': ':memory:'},
-                    'aws': {'access_key_id': 'KEY',
-                            'secret_access_key': 'SECRET'},
-                    'auth': {'token_ttl': 3600}})
+            config={
+                'database': {
+                    'dsn': ':memory:'
+                },
+                'aws': {
+                    'access_key_id': 'KEY',
+                    'secret_access_key': 'SECRET'
+                },
+                'auth': {
+                    'token_ttl': 3600
+                }
+            }
+        )
         container.logger().addHandler(logging.StreamHandler(sys.stdout))
 
         # Run application:
-        container.main(uid=sys.argv[1],
-                       password=sys.argv[2],
-                       photo=sys.argv[3])
+        container.main(*sys.argv[1:])
 
 You can get more *Dependency Injector* examples in ``/examples`` directory on
 GitHub:
