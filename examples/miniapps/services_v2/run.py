@@ -11,15 +11,15 @@ if __name__ == '__main__':
     container = IocContainer(
         config={
             'database': {
-                'dsn': ':memory:'
+                'dsn': ':memory:',
             },
             'aws': {
                 'access_key_id': 'KEY',
-                'secret_access_key': 'SECRET'
+                'secret_access_key': 'SECRET',
             },
             'auth': {
-                'token_ttl': 3600
-            }
+                'token_ttl': 3600,
+            },
         }
     )
     container.logger().addHandler(logging.StreamHandler(sys.stdout))

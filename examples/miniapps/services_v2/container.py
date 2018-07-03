@@ -22,7 +22,7 @@ class IocContainer(containers.DeclarativeContainer):
     s3_client = providers.Singleton(
         boto3.client, 's3',
         aws_access_key_id=config.aws.access_key_id,
-        aws_secret_access_key=config.aws.secret_access_key
+        aws_secret_access_key=config.aws.secret_access_key,
     )
 
     # Services
@@ -30,21 +30,21 @@ class IocContainer(containers.DeclarativeContainer):
     users_service = providers.Factory(
         services.UsersService,
         db=database_client,
-        logger=logger
+        logger=logger,
     )
 
     auth_service = providers.Factory(
         services.AuthService,
         token_ttl=config.auth.token_ttl,
         db=database_client,
-        logger=logger
+        logger=logger,
     )
 
     photos_service = providers.Factory(
         services.PhotosService,
         db=database_client,
         s3=s3_client,
-        logger=logger
+        logger=logger,
     )
 
     # Misc
@@ -53,5 +53,5 @@ class IocContainer(containers.DeclarativeContainer):
         main.main,
         users_service=users_service,
         auth_service=auth_service,
-        photos_service=photos_service
+        photos_service=photos_service,
     )
