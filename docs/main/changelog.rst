@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.12.2
+------
+- Apply code style fixes to "services_v2" example miniapp.
+
 3.12.1
 ------
 - Update main page example from "services_v1" to "services_v2".
