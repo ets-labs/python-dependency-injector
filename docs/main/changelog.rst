@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.12.3
+------
+- Fix bug `#198 <https://github.com/ets-labs/python-dependency-injector/issues/198>`_.
+- Regenerate C sources using Cython 0.28.4.
+
 3.12.2
 ------
 - Apply code style fixes to "services_v2" example miniapp.

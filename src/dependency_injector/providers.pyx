@@ -107,7 +107,7 @@ cdef class Provider(object):
 
         copied = self.__class__()
 
-        self._copy_overridings(copied)
+        self._copy_overridings(copied, memo)
 
         return copied
 
@@ -214,10 +214,10 @@ cdef class Provider(object):
         """
         raise NotImplementedError()
 
-    cpdef void _copy_overridings(self, Provider copied):
+    cpdef void _copy_overridings(self, Provider copied, dict memo):
         """Copy provider overridings to a newly copied provider."""
-        copied.__overridden = deepcopy(self.__overridden)
-        copied.__last_overriding = deepcopy(self.__last_overriding)
+        copied.__overridden = deepcopy(self.__overridden, memo)
+        copied.__last_overriding = deepcopy(self.__last_overriding, memo)
 
 
 cdef class Object(Provider):
@@ -247,7 +247,7 @@ cdef class Object(Provider):
 
         copied = self.__class__(deepcopy(self.__provides, memo))
 
-        self._copy_overridings(copied)
+        self._copy_overridings(copied, memo)
 
         return copied
 
@@ -333,7 +333,7 @@ cdef class Dependency(Provider):
 
         copied = self.__class__(self.__instance_of)
 
-        self._copy_overridings(copied)
+        self._copy_overridings(copied, memo)
 
         return copied
 
@@ -475,7 +475,7 @@ cdef class DependenciesContainer(Object):
         copied.__provides = deepcopy(self.__provides, memo)
         copied.__providers = deepcopy(self.__providers, memo)
 
-        self._copy_overridings(copied)
+        self._copy_overridings(copied, memo)
 
         return copied
 
@@ -656,7 +656,7 @@ cdef class Callable(Provider):
                                 *deepcopy(self.args, memo),
                                 **deepcopy(self.kwargs, memo))
 
-        self._copy_overridings(copied)
+        self._copy_overridings(copied, memo)
 
         return copied
 
@@ -891,7 +891,7 @@ cdef class Configuration(Object):
         copied.__provides = deepcopy(self.__provides, memo)
         copied.__children = deepcopy(self.__children, memo)
 
-        self._copy_overridings(copied)
+        self._copy_overridings(copied, memo)
 
         return copied
 
@@ -1103,7 +1103,7 @@ cdef class Factory(Provider):
                                 **deepcopy(self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
 
-        self._copy_overridings(copied)
+        self._copy_overridings(copied, memo)
 
         return copied
 
@@ -1451,7 +1451,7 @@ cdef class BaseSingleton(Provider):
                                 **deepcopy(self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
 
-        self._copy_overridings(copied)
+        self._copy_overridings(copied, memo)
 
         return copied
 
