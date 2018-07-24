@@ -1203,7 +1203,7 @@ struct __pyx_obj_19dependency_injector_9providers_NamedInjection {
 
 struct __pyx_vtabstruct_19dependency_injector_9providers_Provider {
   PyObject *(*_provide)(struct __pyx_obj_19dependency_injector_9providers_Provider *, PyObject *, PyObject *, int __pyx_skip_dispatch);
-  void (*_copy_overridings)(struct __pyx_obj_19dependency_injector_9providers_Provider *, struct __pyx_obj_19dependency_injector_9providers_Provider *, int __pyx_skip_dispatch);
+  void (*_copy_overridings)(struct __pyx_obj_19dependency_injector_9providers_Provider *, struct __pyx_obj_19dependency_injector_9providers_Provider *, PyObject *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_19dependency_injector_9providers_Provider *__pyx_vtabptr_19dependency_injector_9providers_Provider;
 
@@ -2149,7 +2149,7 @@ static int __Pyx_ExportFunction(const char *name, void (*f)(void), const char *s
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 static PyObject *__pyx_f_19dependency_injector_9providers_8Provider__provide(CYTHON_UNUSED struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_args, CYTHON_UNUSED PyObject *__pyx_v_kwargs, int __pyx_skip_dispatch); /* proto*/
-static void __pyx_f_19dependency_injector_9providers_8Provider__copy_overridings(struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self, struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_copied, int __pyx_skip_dispatch); /* proto*/
+static void __pyx_f_19dependency_injector_9providers_8Provider__copy_overridings(struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self, struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_copied, PyObject *__pyx_v_memo, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_19dependency_injector_9providers_6Object__provide(struct __pyx_obj_19dependency_injector_9providers_Object *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v_args, CYTHON_UNUSED PyObject *__pyx_v_kwargs, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_19dependency_injector_9providers_21DependenciesContainer__override_providers(struct __pyx_obj_19dependency_injector_9providers_DependenciesContainer *__pyx_v_self, PyObject *__pyx_v_container, int __pyx_skip_dispatch); /* proto*/
 static PyObject *__pyx_f_19dependency_injector_9providers_8Callable__provide(struct __pyx_obj_19dependency_injector_9providers_Callable *__pyx_v_self, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs, int __pyx_skip_dispatch); /* proto*/
@@ -2283,6 +2283,7 @@ static const char __pyx_k_reset[] = "reset";
 static const char __pyx_k_super[] = "super";
 static const char __pyx_k_types[] = "types";
 static const char __pyx_k_value[] = "value";
+static const char __pyx_k_copied[] = "copied";
 static const char __pyx_k_errors[] = "errors";
 static const char __pyx_k_format[] = "format";
 static const char __pyx_k_import[] = "__import__";
@@ -2487,6 +2488,7 @@ static PyObject *__pyx_n_s_clear_kwargs;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_cls;
 static PyObject *__pyx_kp_s_cls_object_has_no_attribute_att;
+static PyObject *__pyx_n_s_copied;
 static PyObject *__pyx_n_s_copy;
 static PyObject *__pyx_n_s_copy_overridings;
 static PyObject *__pyx_n_s_create_children;
@@ -2619,7 +2621,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_14reset_ove
 static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_16delegate(struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_8provider___get__(struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_18_provide(struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_20_copy_overridings(struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self, struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_copied); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_20_copy_overridings(struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self, struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_copied, PyObject *__pyx_v_memo); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_22__reduce_cython__(struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_24__setstate_cython__(struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self, PyObject *__pyx_v___pyx_state); /* proto */
 static int __pyx_pf_19dependency_injector_9providers_6Object___init__(struct __pyx_obj_19dependency_injector_9providers_Object *__pyx_v_self, PyObject *__pyx_v_provides); /* proto */
@@ -3578,7 +3580,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_4__deepcopy
  * 
  *         copied = self.__class__()             # <<<<<<<<<<<<<<
  * 
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 108, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -3606,15 +3608,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_4__deepcopy
   /* "dependency_injector/providers.pyx":110
  *         copied = self.__class__()
  * 
- *         self._copy_overridings(copied)             # <<<<<<<<<<<<<<
+ *         self._copy_overridings(copied, memo)             # <<<<<<<<<<<<<<
  * 
  *         return copied
  */
   if (!(likely(((__pyx_v_copied) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_copied, __pyx_ptype_19dependency_injector_9providers_Provider))))) __PYX_ERR(1, 110, __pyx_L1_error)
-  ((struct __pyx_vtabstruct_19dependency_injector_9providers_Provider *)__pyx_v_self->__pyx_vtab)->_copy_overridings(__pyx_v_self, ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), 0);
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 110, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_19dependency_injector_9providers_Provider *)__pyx_v_self->__pyx_vtab)->_copy_overridings(__pyx_v_self, ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), ((PyObject*)__pyx_v_memo), 0);
 
   /* "dependency_injector/providers.pyx":112
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  * 
  *         return copied             # <<<<<<<<<<<<<<
  * 
@@ -5319,7 +5322,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_8Provider__provide(CYT
  *         """
  *         raise NotImplementedError()             # <<<<<<<<<<<<<<
  * 
- *     cpdef void _copy_overridings(self, Provider copied):
+ *     cpdef void _copy_overridings(self, Provider copied, dict memo):
  */
   __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_NotImplementedError); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 215, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -5444,19 +5447,21 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_18_provide(
 /* "dependency_injector/providers.pyx":217
  *         raise NotImplementedError()
  * 
- *     cpdef void _copy_overridings(self, Provider copied):             # <<<<<<<<<<<<<<
+ *     cpdef void _copy_overridings(self, Provider copied, dict memo):             # <<<<<<<<<<<<<<
  *         """Copy provider overridings to a newly copied provider."""
- *         copied.__overridden = deepcopy(self.__overridden)
+ *         copied.__overridden = deepcopy(self.__overridden, memo)
  */
 
-static PyObject *__pyx_pw_19dependency_injector_9providers_8Provider_21_copy_overridings(PyObject *__pyx_v_self, PyObject *__pyx_v_copied); /*proto*/
-static void __pyx_f_19dependency_injector_9providers_8Provider__copy_overridings(struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self, struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_copied, int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_8Provider_21_copy_overridings(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static void __pyx_f_19dependency_injector_9providers_8Provider__copy_overridings(struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self, struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_copied, PyObject *__pyx_v_memo, int __pyx_skip_dispatch) {
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
+  int __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  struct __pyx_opt_args_19dependency_injector_9providers_deepcopy __pyx_t_7;
   __Pyx_RefNannySetupContext("_copy_overridings", 0);
   /* Check if called by wrapper */
   if (unlikely(__pyx_skip_dispatch)) ;
@@ -5467,6 +5472,7 @@ static void __pyx_f_19dependency_injector_9providers_8Provider__copy_overridings
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_19dependency_injector_9providers_8Provider_21_copy_overridings)) {
       __Pyx_INCREF(__pyx_t_1);
       __pyx_t_3 = __pyx_t_1; __pyx_t_4 = NULL;
+      __pyx_t_5 = 0;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
         __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
         if (likely(__pyx_t_4)) {
@@ -5474,39 +5480,40 @@ static void __pyx_f_19dependency_injector_9providers_8Provider__copy_overridings
           __Pyx_INCREF(__pyx_t_4);
           __Pyx_INCREF(function);
           __Pyx_DECREF_SET(__pyx_t_3, function);
+          __pyx_t_5 = 1;
         }
       }
-      if (!__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_v_copied)); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 217, __pyx_L1_error)
+      #if CYTHON_FAST_PYCALL
+      if (PyFunction_Check(__pyx_t_3)) {
+        PyObject *__pyx_temp[3] = {__pyx_t_4, ((PyObject *)__pyx_v_copied), __pyx_v_memo};
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 217, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
-      } else {
-        #if CYTHON_FAST_PYCALL
-        if (PyFunction_Check(__pyx_t_3)) {
-          PyObject *__pyx_temp[2] = {__pyx_t_4, ((PyObject *)__pyx_v_copied)};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 217, __pyx_L1_error)
-          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __Pyx_GOTREF(__pyx_t_2);
-        } else
-        #endif
-        #if CYTHON_FAST_PYCCALL
-        if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-          PyObject *__pyx_temp[2] = {__pyx_t_4, ((PyObject *)__pyx_v_copied)};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 217, __pyx_L1_error)
-          __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __Pyx_GOTREF(__pyx_t_2);
-        } else
-        #endif
-        {
-          __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 217, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_5);
-          __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
-          __Pyx_INCREF(((PyObject *)__pyx_v_copied));
-          __Pyx_GIVEREF(((PyObject *)__pyx_v_copied));
-          PyTuple_SET_ITEM(__pyx_t_5, 0+1, ((PyObject *)__pyx_v_copied));
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 217, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      } else
+      #endif
+      #if CYTHON_FAST_PYCCALL
+      if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+        PyObject *__pyx_temp[3] = {__pyx_t_4, ((PyObject *)__pyx_v_copied), __pyx_v_memo};
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 217, __pyx_L1_error)
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_GOTREF(__pyx_t_2);
+      } else
+      #endif
+      {
+        __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 217, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        if (__pyx_t_4) {
+          __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
         }
+        __Pyx_INCREF(((PyObject *)__pyx_v_copied));
+        __Pyx_GIVEREF(((PyObject *)__pyx_v_copied));
+        PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_5, ((PyObject *)__pyx_v_copied));
+        __Pyx_INCREF(__pyx_v_memo);
+        __Pyx_GIVEREF(__pyx_v_memo);
+        PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_memo);
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 217, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -5517,15 +5524,17 @@ static void __pyx_f_19dependency_injector_9providers_8Provider__copy_overridings
   }
 
   /* "dependency_injector/providers.pyx":219
- *     cpdef void _copy_overridings(self, Provider copied):
+ *     cpdef void _copy_overridings(self, Provider copied, dict memo):
  *         """Copy provider overridings to a newly copied provider."""
- *         copied.__overridden = deepcopy(self.__overridden)             # <<<<<<<<<<<<<<
- *         copied.__last_overriding = deepcopy(self.__last_overriding)
+ *         copied.__overridden = deepcopy(self.__overridden, memo)             # <<<<<<<<<<<<<<
+ *         copied.__last_overriding = deepcopy(self.__last_overriding, memo)
  * 
  */
   __pyx_t_1 = __pyx_v_self->__pyx___overridden;
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_1, 0, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 219, __pyx_L1_error)
+  __pyx_t_7.__pyx_n = 1;
+  __pyx_t_7.memo = __pyx_v_memo;
+  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_1, 0, &__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 219, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (!(likely(PyTuple_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "tuple", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(1, 219, __pyx_L1_error)
@@ -5537,14 +5546,16 @@ static void __pyx_f_19dependency_injector_9providers_8Provider__copy_overridings
 
   /* "dependency_injector/providers.pyx":220
  *         """Copy provider overridings to a newly copied provider."""
- *         copied.__overridden = deepcopy(self.__overridden)
- *         copied.__last_overriding = deepcopy(self.__last_overriding)             # <<<<<<<<<<<<<<
+ *         copied.__overridden = deepcopy(self.__overridden, memo)
+ *         copied.__last_overriding = deepcopy(self.__last_overriding, memo)             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __pyx_t_2 = ((PyObject *)__pyx_v_self->__pyx___last_overriding);
   __Pyx_INCREF(__pyx_t_2);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_2, 0, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 220, __pyx_L1_error)
+  __pyx_t_7.__pyx_n = 1;
+  __pyx_t_7.memo = __pyx_v_memo;
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_2, 0, &__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 220, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_19dependency_injector_9providers_Provider))))) __PYX_ERR(1, 220, __pyx_L1_error)
@@ -5557,9 +5568,9 @@ static void __pyx_f_19dependency_injector_9providers_8Provider__copy_overridings
   /* "dependency_injector/providers.pyx":217
  *         raise NotImplementedError()
  * 
- *     cpdef void _copy_overridings(self, Provider copied):             # <<<<<<<<<<<<<<
+ *     cpdef void _copy_overridings(self, Provider copied, dict memo):             # <<<<<<<<<<<<<<
  *         """Copy provider overridings to a newly copied provider."""
- *         copied.__overridden = deepcopy(self.__overridden)
+ *         copied.__overridden = deepcopy(self.__overridden, memo)
  */
 
   /* function exit code */
@@ -5569,21 +5580,70 @@ static void __pyx_f_19dependency_injector_9providers_8Provider__copy_overridings
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_WriteUnraisable("dependency_injector.providers.Provider._copy_overridings", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_8Provider_21_copy_overridings(PyObject *__pyx_v_self, PyObject *__pyx_v_copied); /*proto*/
+static PyObject *__pyx_pw_19dependency_injector_9providers_8Provider_21_copy_overridings(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static char __pyx_doc_19dependency_injector_9providers_8Provider_20_copy_overridings[] = "Copy provider overridings to a newly copied provider.";
-static PyObject *__pyx_pw_19dependency_injector_9providers_8Provider_21_copy_overridings(PyObject *__pyx_v_self, PyObject *__pyx_v_copied) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_8Provider_21_copy_overridings(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_copied = 0;
+  PyObject *__pyx_v_memo = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_copy_overridings (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_copied,&__pyx_n_s_memo,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_copied)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_memo)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("_copy_overridings", 1, 2, 2, 1); __PYX_ERR(1, 217, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_copy_overridings") < 0)) __PYX_ERR(1, 217, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_copied = ((struct __pyx_obj_19dependency_injector_9providers_Provider *)values[0]);
+    __pyx_v_memo = ((PyObject*)values[1]);
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("_copy_overridings", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 217, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("dependency_injector.providers.Provider._copy_overridings", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_copied), __pyx_ptype_19dependency_injector_9providers_Provider, 1, "copied", 0))) __PYX_ERR(1, 217, __pyx_L1_error)
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_8Provider_20_copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied));
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_memo), (&PyDict_Type), 1, "memo", 1))) __PYX_ERR(1, 217, __pyx_L1_error)
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_8Provider_20_copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), __pyx_v_copied, __pyx_v_memo);
 
   /* function exit code */
   goto __pyx_L0;
@@ -5594,13 +5654,13 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_8Provider_21_copy_ove
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_20_copy_overridings(struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self, struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_copied) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_20_copy_overridings(struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self, struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_copied, PyObject *__pyx_v_memo) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("_copy_overridings", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_19dependency_injector_9providers_8Provider__copy_overridings(__pyx_v_self, __pyx_v_copied, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 217, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_void_to_None(__pyx_f_19dependency_injector_9providers_8Provider__copy_overridings(__pyx_v_self, __pyx_v_copied, __pyx_v_memo, 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 217, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6207,7 +6267,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_6Object_2__deepcopy__
  * 
  *         copied = self.__class__(deepcopy(self.__provides, memo))             # <<<<<<<<<<<<<<
  * 
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 248, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -6271,15 +6331,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_6Object_2__deepcopy__
   /* "dependency_injector/providers.pyx":250
  *         copied = self.__class__(deepcopy(self.__provides, memo))
  * 
- *         self._copy_overridings(copied)             # <<<<<<<<<<<<<<
+ *         self._copy_overridings(copied, memo)             # <<<<<<<<<<<<<<
  * 
  *         return copied
  */
   if (!(likely(((__pyx_v_copied) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_copied, __pyx_ptype_19dependency_injector_9providers_Provider))))) __PYX_ERR(1, 250, __pyx_L1_error)
-  ((struct __pyx_vtabstruct_19dependency_injector_9providers_Object *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), 0);
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 250, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_19dependency_injector_9providers_Object *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), ((PyObject*)__pyx_v_memo), 0);
 
   /* "dependency_injector/providers.pyx":252
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  * 
  *         return copied             # <<<<<<<<<<<<<<
  * 
@@ -7774,7 +7835,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_10Dependency_2__deepc
  * 
  *         copied = self.__class__(self.__instance_of)             # <<<<<<<<<<<<<<
  * 
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 334, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -7827,15 +7888,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_10Dependency_2__deepc
   /* "dependency_injector/providers.pyx":336
  *         copied = self.__class__(self.__instance_of)
  * 
- *         self._copy_overridings(copied)             # <<<<<<<<<<<<<<
+ *         self._copy_overridings(copied, memo)             # <<<<<<<<<<<<<<
  * 
  *         return copied
  */
   if (!(likely(((__pyx_v_copied) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_copied, __pyx_ptype_19dependency_injector_9providers_Provider))))) __PYX_ERR(1, 336, __pyx_L1_error)
-  ((struct __pyx_vtabstruct_19dependency_injector_9providers_Dependency *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), 0);
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 336, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_19dependency_injector_9providers_Dependency *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), ((PyObject*)__pyx_v_memo), 0);
 
   /* "dependency_injector/providers.pyx":338
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  * 
  *         return copied             # <<<<<<<<<<<<<<
  * 
@@ -9569,7 +9631,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_21DependenciesContain
  *         copied.__provides = deepcopy(self.__provides, memo)
  *         copied.__providers = deepcopy(self.__providers, memo)             # <<<<<<<<<<<<<<
  * 
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  */
   __pyx_t_2 = __pyx_v_self->__pyx___providers;
   __Pyx_INCREF(__pyx_t_2);
@@ -9589,14 +9651,15 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_21DependenciesContain
   /* "dependency_injector/providers.pyx":478
  *         copied.__providers = deepcopy(self.__providers, memo)
  * 
- *         self._copy_overridings(copied)             # <<<<<<<<<<<<<<
+ *         self._copy_overridings(copied, memo)             # <<<<<<<<<<<<<<
  * 
  *         return copied
  */
-  ((struct __pyx_vtabstruct_19dependency_injector_9providers_DependenciesContainer *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), 0);
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 478, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_19dependency_injector_9providers_DependenciesContainer *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), ((PyObject*)__pyx_v_memo), 0);
 
   /* "dependency_injector/providers.pyx":480
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  * 
  *         return copied             # <<<<<<<<<<<<<<
  * 
@@ -12675,7 +12738,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Callable_2__deepcopy
  *                                 *deepcopy(self.args, memo),
  *                                 **deepcopy(self.kwargs, memo))             # <<<<<<<<<<<<<<
  * 
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  */
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_kwargs); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 657, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
@@ -12717,15 +12780,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Callable_2__deepcopy
   /* "dependency_injector/providers.pyx":659
  *                                 **deepcopy(self.kwargs, memo))
  * 
- *         self._copy_overridings(copied)             # <<<<<<<<<<<<<<
+ *         self._copy_overridings(copied, memo)             # <<<<<<<<<<<<<<
  * 
  *         return copied
  */
   if (!(likely(((__pyx_v_copied) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_copied, __pyx_ptype_19dependency_injector_9providers_Provider))))) __PYX_ERR(1, 659, __pyx_L1_error)
-  ((struct __pyx_vtabstruct_19dependency_injector_9providers_Callable *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), 0);
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 659, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_19dependency_injector_9providers_Callable *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), ((PyObject*)__pyx_v_memo), 0);
 
   /* "dependency_injector/providers.pyx":661
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  * 
  *         return copied             # <<<<<<<<<<<<<<
  * 
@@ -16746,7 +16810,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_2__de
  *         copied.__provides = deepcopy(self.__provides, memo)
  *         copied.__children = deepcopy(self.__children, memo)             # <<<<<<<<<<<<<<
  * 
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  */
   __pyx_t_2 = __pyx_v_self->__pyx___children;
   __Pyx_INCREF(__pyx_t_2);
@@ -16766,14 +16830,15 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_2__de
   /* "dependency_injector/providers.pyx":894
  *         copied.__children = deepcopy(self.__children, memo)
  * 
- *         self._copy_overridings(copied)             # <<<<<<<<<<<<<<
+ *         self._copy_overridings(copied, memo)             # <<<<<<<<<<<<<<
  * 
  *         return copied
  */
-  ((struct __pyx_vtabstruct_19dependency_injector_9providers_Configuration *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), 0);
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 894, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_19dependency_injector_9providers_Configuration *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), ((PyObject*)__pyx_v_memo), 0);
 
   /* "dependency_injector/providers.pyx":896
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  * 
  *         return copied             # <<<<<<<<<<<<<<
  * 
@@ -19874,7 +19939,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_2__deepcopy_
  *                                 **deepcopy(self.kwargs, memo))
  *         copied.set_attributes(**deepcopy(self.attributes, memo))             # <<<<<<<<<<<<<<
  * 
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_copied, __pyx_n_s_set_attributes); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1104, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -19908,15 +19973,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_2__deepcopy_
   /* "dependency_injector/providers.pyx":1106
  *         copied.set_attributes(**deepcopy(self.attributes, memo))
  * 
- *         self._copy_overridings(copied)             # <<<<<<<<<<<<<<
+ *         self._copy_overridings(copied, memo)             # <<<<<<<<<<<<<<
  * 
  *         return copied
  */
   if (!(likely(((__pyx_v_copied) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_copied, __pyx_ptype_19dependency_injector_9providers_Provider))))) __PYX_ERR(1, 1106, __pyx_L1_error)
-  ((struct __pyx_vtabstruct_19dependency_injector_9providers_Factory *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), 0);
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1106, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_19dependency_injector_9providers_Factory *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), ((PyObject*)__pyx_v_memo), 0);
 
   /* "dependency_injector/providers.pyx":1108
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  * 
  *         return copied             # <<<<<<<<<<<<<<
  * 
@@ -25715,7 +25781,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_4__de
  *                                 **deepcopy(self.kwargs, memo))
  *         copied.set_attributes(**deepcopy(self.attributes, memo))             # <<<<<<<<<<<<<<
  * 
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  */
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_copied, __pyx_n_s_set_attributes); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1452, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -25749,15 +25815,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_4__de
   /* "dependency_injector/providers.pyx":1454
  *         copied.set_attributes(**deepcopy(self.attributes, memo))
  * 
- *         self._copy_overridings(copied)             # <<<<<<<<<<<<<<
+ *         self._copy_overridings(copied, memo)             # <<<<<<<<<<<<<<
  * 
  *         return copied
  */
   if (!(likely(((__pyx_v_copied) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_copied, __pyx_ptype_19dependency_injector_9providers_Provider))))) __PYX_ERR(1, 1454, __pyx_L1_error)
-  ((struct __pyx_vtabstruct_19dependency_injector_9providers_BaseSingleton *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), 0);
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1454, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_19dependency_injector_9providers_BaseSingleton *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), ((PyObject*)__pyx_v_memo), 0);
 
   /* "dependency_injector/providers.pyx":1456
- *         self._copy_overridings(copied)
+ *         self._copy_overridings(copied, memo)
  * 
  *         return copied             # <<<<<<<<<<<<<<
  * 
@@ -52077,7 +52144,7 @@ static PyMethodDef __pyx_methods_19dependency_injector_9providers_Provider[] = {
   {"reset_override", (PyCFunction)__pyx_pw_19dependency_injector_9providers_8Provider_15reset_override, METH_NOARGS, __pyx_doc_19dependency_injector_9providers_8Provider_14reset_override},
   {"delegate", (PyCFunction)__pyx_pw_19dependency_injector_9providers_8Provider_17delegate, METH_NOARGS, __pyx_doc_19dependency_injector_9providers_8Provider_16delegate},
   {"_provide", (PyCFunction)__pyx_pw_19dependency_injector_9providers_8Provider_19_provide, METH_VARARGS|METH_KEYWORDS, __pyx_doc_19dependency_injector_9providers_8Provider_18_provide},
-  {"_copy_overridings", (PyCFunction)__pyx_pw_19dependency_injector_9providers_8Provider_21_copy_overridings, METH_O, __pyx_doc_19dependency_injector_9providers_8Provider_20_copy_overridings},
+  {"_copy_overridings", (PyCFunction)__pyx_pw_19dependency_injector_9providers_8Provider_21_copy_overridings, METH_VARARGS|METH_KEYWORDS, __pyx_doc_19dependency_injector_9providers_8Provider_20_copy_overridings},
   {"__reduce_cython__", (PyCFunction)__pyx_pw_19dependency_injector_9providers_8Provider_23__reduce_cython__, METH_NOARGS, 0},
   {"__setstate_cython__", (PyCFunction)__pyx_pw_19dependency_injector_9providers_8Provider_25__setstate_cython__, METH_O, 0},
   {0, 0, 0, 0}
@@ -55296,6 +55363,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_cls, __pyx_k_cls, sizeof(__pyx_k_cls), 0, 0, 1, 1},
   {&__pyx_kp_s_cls_object_has_no_attribute_att, __pyx_k_cls_object_has_no_attribute_att, sizeof(__pyx_k_cls_object_has_no_attribute_att), 0, 0, 1, 0},
+  {&__pyx_n_s_copied, __pyx_k_copied, sizeof(__pyx_k_copied), 0, 0, 1, 1},
   {&__pyx_n_s_copy, __pyx_k_copy, sizeof(__pyx_k_copy), 0, 0, 1, 1},
   {&__pyx_n_s_copy_overridings, __pyx_k_copy_overridings, sizeof(__pyx_k_copy_overridings), 0, 0, 1, 1},
   {&__pyx_n_s_create_children, __pyx_k_create_children, sizeof(__pyx_k_create_children), 0, 0, 1, 1},
@@ -55745,7 +55813,7 @@ static int __Pyx_modinit_type_init_code(void) {
   /*--- Type init code ---*/
   __pyx_vtabptr_19dependency_injector_9providers_Provider = &__pyx_vtable_19dependency_injector_9providers_Provider;
   __pyx_vtable_19dependency_injector_9providers_Provider._provide = (PyObject *(*)(struct __pyx_obj_19dependency_injector_9providers_Provider *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_19dependency_injector_9providers_8Provider__provide;
-  __pyx_vtable_19dependency_injector_9providers_Provider._copy_overridings = (void (*)(struct __pyx_obj_19dependency_injector_9providers_Provider *, struct __pyx_obj_19dependency_injector_9providers_Provider *, int __pyx_skip_dispatch))__pyx_f_19dependency_injector_9providers_8Provider__copy_overridings;
+  __pyx_vtable_19dependency_injector_9providers_Provider._copy_overridings = (void (*)(struct __pyx_obj_19dependency_injector_9providers_Provider *, struct __pyx_obj_19dependency_injector_9providers_Provider *, PyObject *, int __pyx_skip_dispatch))__pyx_f_19dependency_injector_9providers_8Provider__copy_overridings;
   if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_Provider) < 0) __PYX_ERR(1, 31, __pyx_L1_error)
   __pyx_type_19dependency_injector_9providers_Provider.tp_print = 0;
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19dependency_injector_9providers_Provider.tp_dictoffset && __pyx_type_19dependency_injector_9providers_Provider.tp_getattro == PyObject_GenericGetAttr)) {

@@ -1305,7 +1305,7 @@ struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_5_copy {
 
 struct __pyx_vtabstruct_19dependency_injector_9providers_Provider {
   PyObject *(*_provide)(struct __pyx_obj_19dependency_injector_9providers_Provider *, PyObject *, PyObject *, int __pyx_skip_dispatch);
-  void (*_copy_overridings)(struct __pyx_obj_19dependency_injector_9providers_Provider *, struct __pyx_obj_19dependency_injector_9providers_Provider *, int __pyx_skip_dispatch);
+  void (*_copy_overridings)(struct __pyx_obj_19dependency_injector_9providers_Provider *, struct __pyx_obj_19dependency_injector_9providers_Provider *, PyObject *, int __pyx_skip_dispatch);
 };
 static struct __pyx_vtabstruct_19dependency_injector_9providers_Provider *__pyx_vtabptr_19dependency_injector_9providers_Provider;
 

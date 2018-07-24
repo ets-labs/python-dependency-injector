@@ -13,7 +13,7 @@ cdef class Provider(object):
     cdef object __overriding_lock
 
     cpdef object _provide(self, tuple args, dict kwargs)
-    cpdef void _copy_overridings(self, Provider copied)
+    cpdef void _copy_overridings(self, Provider copied, dict memo)
 
 
 cdef class Object(Provider):
