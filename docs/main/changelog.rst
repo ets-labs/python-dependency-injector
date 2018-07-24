@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 3.12.3
 ------
 - Fix bug `#198 <https://github.com/ets-labs/python-dependency-injector/issues/198>`_.
+- Regenerate C sources using Cython 0.28.4.
 
 3.12.2
 ------
