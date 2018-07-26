@@ -299,3 +299,17 @@ class DeclarativeContainerTests(unittest.TestCase):
             _Container.p2.last_overriding.kwargs['p1'],
             _Container.p1,
         )
+
+    def test_init_with_chained_dependency(self):
+        # Bug:
+        # https://github.com/ets-labs/python-dependency-injector/issues/200
+        class _Container(containers.DeclarativeContainer):
+            p1 = providers.Dependency(instance_of=int)
+            p2 = providers.Factory(p1)
+
+        container = _Container(p1=1)
+
+        self.assertEqual(container.p2(), 1)
+        self.assertIs(container.p2.cls, container.p1)
+        self.assertIs(_Container.p2.cls, _Container.p1)
+        self.assertIsNot(container.p2.cls,  _Container.p1)

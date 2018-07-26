@@ -652,7 +652,11 @@ cdef class Callable(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(self.provides,
+        provides = self.provides
+        if isinstance(provides, Provider):
+            provides = deepcopy(provides, memo)
+
+        copied = self.__class__(provides,
                                 *deepcopy(self.args, memo),
                                 **deepcopy(self.kwargs, memo))
 
@@ -1098,7 +1102,11 @@ cdef class Factory(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(self.cls,
+        cls = self.cls
+        if isinstance(cls, Provider):
+            cls = deepcopy(cls, memo)
+
+        copied = self.__class__(cls,
                                 *deepcopy(self.args, memo),
                                 **deepcopy(self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
@@ -1446,7 +1454,11 @@ cdef class BaseSingleton(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(self.cls,
+        cls = self.cls
+        if isinstance(cls, Provider):
+            cls = deepcopy(cls, memo)
+
+        copied = self.__class__(cls,
                                 *deepcopy(self.args, memo),
                                 **deepcopy(self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
