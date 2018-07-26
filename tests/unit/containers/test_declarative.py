@@ -279,7 +279,7 @@ class DeclarativeContainerTests(unittest.TestCase):
         # Bug:
         # https://github.com/ets-labs/python-dependency-injector/issues/198
         class _Container(containers.DeclarativeContainer):
-            p1 = providers.Object(1)
+            p1 = providers.Dependency(instance_of=int)
 
             p2 = providers.Dependency(object)
             p2.override(providers.Factory(dict, p1=p1))
