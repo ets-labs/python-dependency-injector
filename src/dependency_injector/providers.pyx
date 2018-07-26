@@ -87,7 +87,6 @@ cdef class Provider(object):
         """Initializer."""
         self.__overridden = tuple()
         self.__last_overriding = None
-        self.__overriding_lock = self.__class__.overriding_lock
         super(Provider, self).__init__()
 
     def __call__(self, *args, **kwargs):
@@ -128,7 +127,7 @@ cdef class Provider(object):
     @property
     def overridden(self):
         """Return tuple of overriding providers."""
-        with self.__overriding_lock:
+        with self.overriding_lock:
             return self.__overridden
 
     @property
@@ -157,7 +156,7 @@ cdef class Provider(object):
         if not is_provider(provider):
             provider = Object(provider)
 
-        with self.__overriding_lock:
+        with self.overriding_lock:
             self.__overridden += (provider,)
             self.__last_overriding = provider
 
@@ -171,7 +170,7 @@ cdef class Provider(object):
 
         :rtype: None
         """
-        with self.__overriding_lock:
+        with self.overriding_lock:
             if len(self.__overridden) == 0:
                 raise Error('Provider {0} is not overridden'.format(str(self)))
 
@@ -186,7 +185,7 @@ cdef class Provider(object):
 
         :rtype: None
         """
-        with self.__overriding_lock:
+        with self.overriding_lock:
             self.__overridden = tuple()
             self.__last_overriding = None
 
