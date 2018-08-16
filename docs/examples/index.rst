@@ -21,3 +21,5 @@ and powered by *Dependency Injector* framework.
     bundles_miniapp
     use_cases_miniapp
     password_hashing_miniapp
+    chained_factories
+    factory_of_factories

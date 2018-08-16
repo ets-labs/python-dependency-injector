@@ -7,6 +7,14 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.13.0
+------
+- Add Python 3.7 support.
+- Drop Python 3.3 support.
+- Drop Python 2.6 support.
+- Add example of "Chained Factories" pattern.
+- Add example of "Factory of Factories" pattern.
+
 3.12.4
 ------
 - Fix bug `#200 <https://github.com/ets-labs/python-dependency-injector/issues/200>`_.
