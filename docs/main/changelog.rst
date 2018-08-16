@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.13.1
+------
+- Fix typo on "Chained Factories" pattern docs page.
+
 3.13.0
 ------
 - Add Python 3.7 support.

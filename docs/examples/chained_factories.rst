@@ -2,8 +2,9 @@ Chained Factories pattern
 =========================
 
 This example demonstrate implementation of "Chained Factories" pattern.
-Main idea of this pattern is about wrapping `Factory` into other `Factory`
-that mix additional arguments or keyword arguments to a wrapped one.
+Main idea of this pattern is about wrapping :py:class:`Factory` into
+another :py:class:`Factory` that mix additional arguments or keyword
+arguments to a wrapped one.
 
 Listing of ``data.py``, demonstrates sample classes structure:
 
