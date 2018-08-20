@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Add additional benchmark of ``Factory`` provider.
+
 3.13.1
 ------
 - Fix typo on "Chained Factories" pattern docs page.
