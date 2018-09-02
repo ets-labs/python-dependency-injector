@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.13.2
+------
+- Add additional benchmark of ``Factory`` provider.
+- Add tests and tox.ini to the distribution, so that they could be used after
+  package is installed (thanks to
+  `Tobias Happ <https://github.com/Gerschtli>`_).
+
 3.13.1
 ------
 - Fix typo on "Chained Factories" pattern docs page.
