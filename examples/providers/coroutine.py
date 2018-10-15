@@ -10,7 +10,7 @@ import dependency_injector.providers as providers
 
 @asyncio.coroutine
 def coroutine_function(arg1, arg2):
-    """Example coroutine function."""
+    """Sample coroutine function."""
     yield from asyncio.sleep(0.1)
     return arg1, arg2
 
