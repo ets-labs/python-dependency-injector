@@ -11,9 +11,16 @@ import threading
 
 try:
     import asyncio
-    import asyncio.coroutines
 except ImportError:
     asyncio = None
+    _is_coroutine_marker = None
+else:
+    if sys.version_info[0:2] == (3, 4):
+        _is_coroutine_marker = True
+    else:
+        import asyncio.coroutines
+        _is_coroutine_marker = asyncio.coroutines._is_coroutine
+
 
 from .errors import (
     Error,
@@ -878,8 +885,7 @@ cdef class Coroutine(Callable):
         some_coroutine.add_kwargs(keyword_argument1=3, keyword_argument=4)
     """
 
-    if asyncio:
-        _is_coroutine = asyncio.coroutines._is_coroutine
+    _is_coroutine = _is_coroutine_marker
 
     def __init__(self, provides, *args, **kwargs):
         """Initializer.
