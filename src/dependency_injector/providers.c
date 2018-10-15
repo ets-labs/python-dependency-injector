@@ -2575,7 +2575,7 @@ static const char __pyx_k_Incompatible_checksums_s_vs_0xd8[] = "Incompatible che
 static const char __pyx_k_Incompatible_checksums_s_vs_0xf1[] = "Incompatible checksums (%s vs 0xf1f5217 = (__instance_of, __last_overriding, __overridden))";
 static const char __pyx_k_Provider_0_could_not_be_overridd[] = "Provider {0} could not be overridden with itself";
 static const char __pyx_k_Provider_0_expected_to_get_calla[] = "Provider {0} expected to get callable, got {0}";
-static const char __pyx_k_Provider_0_expected_to_get_corou[] = "Provider {0} expected to get coroutine function, got {0}";
+static const char __pyx_k_Provider_0_expected_to_get_corou[] = "Provider {0} expected to get coroutine function, got {1}";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xa7_2[] = "Incompatible checksums (%s vs 0xa73b866 = (__attributes, __attributes_len, __instantiator, __last_overriding, __overridden))";
 static PyObject *__pyx_kp_s_0_can_aggregate_only_instances;
 static PyObject *__pyx_kp_s_0_can_provide_only_1_instances;
@@ -16634,7 +16634,7 @@ static int __pyx_pf_19dependency_injector_9providers_9Coroutine___init__(struct 
  * 
  *         if not asyncio.iscoroutinefunction(provides):             # <<<<<<<<<<<<<<
  *             raise Error('Provider {0} expected to get coroutine function, '
- *                         'got {0}'.format('.'.join((self.__class__.__module__,
+ *                         'got {1}'.format('.'.join((self.__class__.__module__,
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_asyncio); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 905, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -16693,7 +16693,7 @@ static int __pyx_pf_19dependency_injector_9providers_9Coroutine___init__(struct 
  * 
  *         if not asyncio.iscoroutinefunction(provides):
  *             raise Error('Provider {0} expected to get coroutine function, '             # <<<<<<<<<<<<<<
- *                         'got {0}'.format('.'.join((self.__class__.__module__,
+ *                         'got {1}'.format('.'.join((self.__class__.__module__,
  *                                                    self.__class__.__name__)),
  */
     __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_Error); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 906, __pyx_L1_error)
@@ -16702,7 +16702,7 @@ static int __pyx_pf_19dependency_injector_9providers_9Coroutine___init__(struct 
     /* "dependency_injector/providers.pyx":907
  *         if not asyncio.iscoroutinefunction(provides):
  *             raise Error('Provider {0} expected to get coroutine function, '
- *                         'got {0}'.format('.'.join((self.__class__.__module__,             # <<<<<<<<<<<<<<
+ *                         'got {1}'.format('.'.join((self.__class__.__module__,             # <<<<<<<<<<<<<<
  *                                                    self.__class__.__name__)),
  *                                          provides))
  */
@@ -16716,7 +16716,7 @@ static int __pyx_pf_19dependency_injector_9providers_9Coroutine___init__(struct 
 
     /* "dependency_injector/providers.pyx":908
  *             raise Error('Provider {0} expected to get coroutine function, '
- *                         'got {0}'.format('.'.join((self.__class__.__module__,
+ *                         'got {1}'.format('.'.join((self.__class__.__module__,
  *                                                    self.__class__.__name__)),             # <<<<<<<<<<<<<<
  *                                          provides))
  * 
@@ -16730,7 +16730,7 @@ static int __pyx_pf_19dependency_injector_9providers_9Coroutine___init__(struct 
     /* "dependency_injector/providers.pyx":907
  *         if not asyncio.iscoroutinefunction(provides):
  *             raise Error('Provider {0} expected to get coroutine function, '
- *                         'got {0}'.format('.'.join((self.__class__.__module__,             # <<<<<<<<<<<<<<
+ *                         'got {1}'.format('.'.join((self.__class__.__module__,             # <<<<<<<<<<<<<<
  *                                                    self.__class__.__name__)),
  *                                          provides))
  */
@@ -16747,7 +16747,7 @@ static int __pyx_pf_19dependency_injector_9providers_9Coroutine___init__(struct 
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
     /* "dependency_injector/providers.pyx":909
- *                         'got {0}'.format('.'.join((self.__class__.__module__,
+ *                         'got {1}'.format('.'.join((self.__class__.__module__,
  *                                                    self.__class__.__name__)),
  *                                          provides))             # <<<<<<<<<<<<<<
  * 
@@ -16855,7 +16855,7 @@ static int __pyx_pf_19dependency_injector_9providers_9Coroutine___init__(struct 
  * 
  *         if not asyncio.iscoroutinefunction(provides):             # <<<<<<<<<<<<<<
  *             raise Error('Provider {0} expected to get coroutine function, '
- *                         'got {0}'.format('.'.join((self.__class__.__module__,
+ *                         'got {1}'.format('.'.join((self.__class__.__module__,
  */
   }
 
@@ -18720,7 +18720,7 @@ static int __pyx_pf_19dependency_injector_9providers_17CoroutineDelegate___init_
  *         if isinstance(coroutine, Coroutine) is False:
  *             raise Error('{0} can wrap only {1} providers'.format(             # <<<<<<<<<<<<<<
  *                 self.__class__, Callable))
- *         super(CoroutineDelegate, self).__init__(callable)
+ *         super(CoroutineDelegate, self).__init__(coroutine)
  */
     __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 981, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
@@ -18731,7 +18731,7 @@ static int __pyx_pf_19dependency_injector_9providers_17CoroutineDelegate___init_
  *         if isinstance(coroutine, Coroutine) is False:
  *             raise Error('{0} can wrap only {1} providers'.format(
  *                 self.__class__, Callable))             # <<<<<<<<<<<<<<
- *         super(CoroutineDelegate, self).__init__(callable)
+ *         super(CoroutineDelegate, self).__init__(coroutine)
  * 
  */
     __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 982, __pyx_L1_error)
@@ -18845,7 +18845,7 @@ static int __pyx_pf_19dependency_injector_9providers_17CoroutineDelegate___init_
   /* "dependency_injector/providers.pyx":983
  *             raise Error('{0} can wrap only {1} providers'.format(
  *                 self.__class__, Callable))
- *         super(CoroutineDelegate, self).__init__(callable)             # <<<<<<<<<<<<<<
+ *         super(CoroutineDelegate, self).__init__(coroutine)             # <<<<<<<<<<<<<<
  * 
  * 
  */
@@ -18863,51 +18863,46 @@ static int __pyx_pf_19dependency_injector_9providers_17CoroutineDelegate___init_
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_init); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 983, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_GetBuiltinName(__pyx_n_s_callable); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 983, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_10);
-  __pyx_t_5 = NULL;
+  __pyx_t_10 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_5)) {
+    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_10)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_10);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_4, function);
     }
   }
-  if (!__pyx_t_5) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_10); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 983, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+  if (!__pyx_t_10) {
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_coroutine); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 983, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_10};
+      PyObject *__pyx_temp[2] = {__pyx_t_10, __pyx_v_coroutine};
       __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 983, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     } else
     #endif
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_10};
+      PyObject *__pyx_temp[2] = {__pyx_t_10, __pyx_v_coroutine};
       __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 983, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 983, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
-      __Pyx_GIVEREF(__pyx_t_10);
-      PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_10);
-      __pyx_t_10 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 983, __pyx_L1_error)
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 983, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_10); __pyx_t_10 = NULL;
+      __Pyx_INCREF(__pyx_v_coroutine);
+      __Pyx_GIVEREF(__pyx_v_coroutine);
+      PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_v_coroutine);
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 983, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;

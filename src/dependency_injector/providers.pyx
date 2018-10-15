@@ -904,7 +904,7 @@ cdef class Coroutine(Callable):
 
         if not asyncio.iscoroutinefunction(provides):
             raise Error('Provider {0} expected to get coroutine function, '
-                        'got {0}'.format('.'.join((self.__class__.__module__,
+                        'got {1}'.format('.'.join((self.__class__.__module__,
                                                    self.__class__.__name__)),
                                          provides))
 
@@ -980,7 +980,7 @@ cdef class CoroutineDelegate(Delegate):
         if isinstance(coroutine, Coroutine) is False:
             raise Error('{0} can wrap only {1} providers'.format(
                 self.__class__, Callable))
-        super(CoroutineDelegate, self).__init__(callable)
+        super(CoroutineDelegate, self).__init__(coroutine)
 
 
 cdef class Configuration(Object):
