@@ -18,7 +18,8 @@ if asyncio:
     def _example(arg1, arg2, arg3, arg4):
         future = asyncio.Future()
         future.set_result(None)
-        yield from future
+        for _ in future:
+            yield _
         return arg1, arg2, arg3, arg4
 
     def _run(coro):
