@@ -9,6 +9,12 @@ import sys
 import types
 import threading
 
+try:
+    import asyncio
+    import asyncio.coroutines
+except ImportError:
+    asyncio = None
+
 from .errors import (
     Error,
     NoSuchProviderError,
@@ -846,6 +852,129 @@ cdef class CallableDelegate(Delegate):
             raise Error('{0} can wrap only {1} providers'.format(
                 self.__class__, Callable))
         super(Delegate, self).__init__(callable)
+
+
+cdef class Coroutine(Callable):
+    r"""Coroutine provider calls wrapped coroutine on every call.
+
+    Coroutine supports positional and keyword argument injections:
+
+    .. code-block:: python
+
+        some_coroutine = Coroutine(some_coroutine,
+                                   'positional_arg1', 'positional_arg2',
+                                   keyword_argument1=3, keyword_argument=4)
+
+        # or
+
+        some_coroutine = Coroutine(some_coroutine) \
+            .add_args('positional_arg1', 'positional_arg2') \
+            .add_kwargs(keyword_argument1=3, keyword_argument=4)
+
+        # or
+
+        some_coroutine = Coroutine(some_coroutine)
+        some_coroutine.add_args('positional_arg1', 'positional_arg2')
+        some_coroutine.add_kwargs(keyword_argument1=3, keyword_argument=4)
+    """
+
+    if asyncio:
+        _is_coroutine = asyncio.coroutines._is_coroutine
+
+    def __init__(self, provides, *args, **kwargs):
+        """Initializer.
+
+        :param provides: Wrapped callable.
+        :type provides: callable
+
+        :param args: Tuple of positional argument injections.
+        :type args: tuple[object]
+
+        :param kwargs: Dictionary of context keyword argument injections.
+        :type kwargs: dict[str, object]
+        """
+        if not asyncio:
+            raise Error('Module asyncio is not available')
+
+        if not asyncio.iscoroutinefunction(provides):
+            raise Error('Provider {0} expected to get coroutine function, '
+                        'got {0}'.format('.'.join((self.__class__.__module__,
+                                                   self.__class__.__name__)),
+                                         provides))
+
+        super(Coroutine, self).__init__(provides, *args, **kwargs)
+
+
+cdef class DelegatedCoroutine(Coroutine):
+    """Coroutine that is injected "as is".
+
+    DelegatedCoroutine is a :py:class:`Coroutine`, that is injected "as is".
+    """
+
+    __IS_DELEGATED__ = True
+
+
+cdef class AbstractCoroutine(Coroutine):
+    """Abstract coroutine provider.
+
+    :py:class:`AbstractCoroutine` is a :py:class:`Coroutine` provider that must
+    be explicitly overridden before calling.
+
+    Overriding of :py:class:`AbstractCoroutine` is possible only by another
+    :py:class:`Coroutine` provider.
+    """
+
+    def __call__(self, *args, **kwargs):
+        """Return provided object.
+
+        Callable interface implementation.
+        """
+        if self.__last_overriding is None:
+            raise Error('{0} must be overridden before calling'.format(self))
+        return self.__last_overriding(*args, **kwargs)
+
+    def override(self, provider):
+        """Override provider with another provider.
+
+        :param provider: Overriding provider.
+        :type provider: :py:class:`Provider`
+
+        :raise: :py:exc:`dependency_injector.errors.Error`
+
+        :return: Overriding context.
+        :rtype: :py:class:`OverridingContext`
+        """
+        if not isinstance(provider, Coroutine):
+            raise Error('{0} must be overridden only by '
+                        '{1} providers'.format(self, Coroutine))
+        return super(AbstractCoroutine, self).override(provider)
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        """Return result of provided callable's call."""
+        raise NotImplementedError('Abstract provider forward providing logic '
+                                  'to overriding provider')
+
+
+cdef class CoroutineDelegate(Delegate):
+    """Coroutine delegate injects delegating coroutine "as is".
+
+    .. py:attribute:: provides
+
+        Value that have to be provided.
+
+        :type: object
+    """
+
+    def __init__(self, coroutine):
+        """Initializer.
+
+        :param coroutine: Value that have to be provided.
+        :type coroutine: object
+        """
+        if isinstance(coroutine, Coroutine) is False:
+            raise Error('{0} can wrap only {1} providers'.format(
+                self.__class__, Callable))
+        super(CoroutineDelegate, self).__init__(callable)
 
 
 cdef class Configuration(Object):
