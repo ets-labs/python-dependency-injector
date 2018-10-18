@@ -9,6 +9,10 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Add ``Coroutine`` provider.
+- Add ``DelegatedCoroutine`` provider.
+- Add ``AbstractCoroutine`` provider.
+- Add ``CoroutineDelegate`` provider.
 - Regenerate C sources using Cython 0.28.5.
 
 3.13.2

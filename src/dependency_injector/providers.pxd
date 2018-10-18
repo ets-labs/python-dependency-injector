@@ -69,6 +69,22 @@ cdef class CallableDelegate(Delegate):
     pass
 
 
+# Coroutine providers
+cdef class Coroutine(Callable):
+    pass
+
+cdef class DelegatedCoroutine(Coroutine):
+    pass
+
+
+cdef class AbstractCoroutine(Coroutine):
+    cpdef object _provide(self, tuple args, dict kwargs)
+
+
+cdef class CoroutineDelegate(Delegate):
+    pass
+
+
 # Configuration providers
 cdef class Configuration(Object):
     cdef str __name

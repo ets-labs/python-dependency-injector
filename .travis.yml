@@ -7,17 +7,17 @@ language:
     - python
 matrix:
   include:
-    - python: 2.7
+    - python: 3.6
       env: TOXENV=coveralls DEPENDENCY_INJECTOR_DEBUG_MODE=1
       install:
         - pip install tox
         - pip install cython
         - make cythonize
-    - python: 2.7
+    - python: 3.6
       env: TOXENV=pylint
-    - python: 2.7
+    - python: 3.6
       env: TOXENV=flake8
-    - python: 2.7
+    - python: 3.6
       env: TOXENV=pydocstyle
     - python: 2.7
       env: TOXENV=py27
