@@ -11,7 +11,7 @@ Callable providers and injections
 :py:class:`Callable` provider takes a various number of positional and keyword 
 arguments that are used as wrapped callable injections. Every time, when 
 :py:class:`Callable` provider is called, positional and keyword argument 
-injections would be passed as an callable arguments.
+injections would be passed as callable arguments.
 
 Injections are done according to the next rules:
 

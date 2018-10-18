@@ -1390,7 +1390,7 @@ static struct __pyx_vtabstruct_19dependency_injector_9providers_CallableDelegate
  * 
  * 
  * cdef class Coroutine(Callable):             # <<<<<<<<<<<<<<
- *     r"""Coroutine provider calls wrapped coroutine on every call.
+ *     r"""Coroutine provider creates wrapped coroutine on every call.
  * 
  */
 
@@ -1404,7 +1404,7 @@ static struct __pyx_vtabstruct_19dependency_injector_9providers_Coroutine *__pyx
  * 
  * 
  * cdef class DelegatedCoroutine(Coroutine):             # <<<<<<<<<<<<<<
- *     """Coroutine that is injected "as is".
+ *     """Coroutine provider that is injected "as is".
  * 
  */
 
@@ -58057,7 +58057,7 @@ static PyTypeObject __pyx_type_19dependency_injector_9providers_Coroutine = {
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  "Coroutine provider calls wrapped coroutine on every call.\n\n    Coroutine supports positional and keyword argument injections:\n\n    .. code-block:: python\n\n        some_coroutine = Coroutine(some_coroutine,\n                                   'positional_arg1', 'positional_arg2',\n                                   keyword_argument1=3, keyword_argument=4)\n\n        # or\n\n        some_coroutine = Coroutine(some_coroutine) \\\n            .add_args('positional_arg1', 'positional_arg2') \\\n            .add_kwargs(keyword_argument1=3, keyword_argument=4)\n\n        # or\n\n        some_coroutine = Coroutine(some_coroutine)\n        some_coroutine.add_args('positional_arg1', 'positional_arg2')\n        some_coroutine.add_kwargs(keyword_argument1=3, keyword_argument=4)\n    ", /*tp_doc*/
+  "Coroutine provider creates wrapped coroutine on every call.\n\n    Coroutine supports positional and keyword argument injections:\n\n    .. code-block:: python\n\n        some_coroutine = Coroutine(some_coroutine,\n                                   'positional_arg1', 'positional_arg2',\n                                   keyword_argument1=3, keyword_argument=4)\n\n        # or\n\n        some_coroutine = Coroutine(some_coroutine) \\\n            .add_args('positional_arg1', 'positional_arg2') \\\n            .add_kwargs(keyword_argument1=3, keyword_argument=4)\n\n        # or\n\n        some_coroutine = Coroutine(some_coroutine)\n        some_coroutine.add_args('positional_arg1', 'positional_arg2')\n        some_coroutine.add_kwargs(keyword_argument1=3, keyword_argument=4)\n    ", /*tp_doc*/
   __pyx_tp_traverse_19dependency_injector_9providers_Callable, /*tp_traverse*/
   __pyx_tp_clear_19dependency_injector_9providers_Callable, /*tp_clear*/
   0, /*tp_richcompare*/
@@ -58143,7 +58143,7 @@ static PyTypeObject __pyx_type_19dependency_injector_9providers_DelegatedCorouti
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  "Coroutine that is injected \"as is\".\n\n    DelegatedCoroutine is a :py:class:`Coroutine`, that is injected \"as is\".\n    ", /*tp_doc*/
+  "Coroutine provider that is injected \"as is\".\n\n    DelegatedCoroutine is a :py:class:`Coroutine`, that is injected \"as is\".\n    ", /*tp_doc*/
   __pyx_tp_traverse_19dependency_injector_9providers_Callable, /*tp_traverse*/
   __pyx_tp_clear_19dependency_injector_9providers_Callable, /*tp_clear*/
   0, /*tp_richcompare*/

@@ -22,7 +22,7 @@ Factory providers and __init__ injections
 :py:class:`Factory` takes a various number of positional and keyword arguments 
 that are used as ``__init__()`` injections. Every time, when 
 :py:class:`Factory` creates new one instance, positional and keyword 
-argument injections would be passed as an instance's arguments.
+argument injections would be passed as instance arguments.
 
 Injections are done according to the next rules:
 

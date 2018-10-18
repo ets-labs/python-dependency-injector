@@ -862,7 +862,7 @@ cdef class CallableDelegate(Delegate):
 
 
 cdef class Coroutine(Callable):
-    r"""Coroutine provider calls wrapped coroutine on every call.
+    r"""Coroutine provider creates wrapped coroutine on every call.
 
     Coroutine supports positional and keyword argument injections:
 
@@ -912,7 +912,7 @@ cdef class Coroutine(Callable):
 
 
 cdef class DelegatedCoroutine(Coroutine):
-    """Coroutine that is injected "as is".
+    """Coroutine provider that is injected "as is".
 
     DelegatedCoroutine is a :py:class:`Coroutine`, that is injected "as is".
     """
