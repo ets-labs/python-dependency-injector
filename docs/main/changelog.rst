@@ -13,6 +13,8 @@ Development version
 - Add ``DelegatedCoroutine`` provider.
 - Add ``AbstractCoroutine`` provider.
 - Add ``CoroutineDelegate`` provider.
+- Fix type-hinting of ``*args`` & ``**kwargs`` that was specified in doc
+  blocks of various providers and caused inspection problems in PyCharm.
 - Regenerate C sources using Cython 0.28.5.
 
 3.13.2
