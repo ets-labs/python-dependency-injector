@@ -9,6 +9,19 @@ import sys
 import types
 import threading
 
+try:
+    import asyncio
+except ImportError:
+    asyncio = None
+    _is_coroutine_marker = None
+else:
+    if sys.version_info[0:2] == (3, 4):
+        _is_coroutine_marker = True
+    else:
+        import asyncio.coroutines
+        _is_coroutine_marker = asyncio.coroutines._is_coroutine
+
+
 from .errors import (
     Error,
     NoSuchProviderError,
@@ -339,12 +352,6 @@ cdef class Dependency(Provider):
     def __call__(self, *args, **kwargs):
         """Return provided instance.
 
-        :param args: Tuple of context positional arguments.
-        :type args: tuple[object]
-
-        :param kwargs: Dictionary of context keyword arguments.
-        :type kwargs: dict[str, object]
-
         :raise: :py:exc:`dependency_injector.errors.Error`
 
         :rtype: object
@@ -621,12 +628,6 @@ cdef class Callable(Provider):
 
         :param provides: Wrapped callable.
         :type provides: callable
-
-        :param args: Tuple of positional argument injections.
-        :type args: tuple[object]
-
-        :param kwargs: Dictionary of context keyword argument injections.
-        :type kwargs: dict[str, object]
         """
         if not callable(provides):
             raise Error('Provider {0} expected to get callable, '
@@ -689,10 +690,7 @@ cdef class Callable(Provider):
         return tuple(args)
 
     def add_args(self, *args):
-        """Add postional argument injections.
-
-        :param args: Tuple of injections.
-        :type args: tuple
+        """Add positional argument injections.
 
         :return: Reference ``self``
         """
@@ -704,9 +702,6 @@ cdef class Callable(Provider):
         """Set postional argument injections.
 
         Existing positional argument injections are dropped.
-
-        :param args: Tuple of injections.
-        :type args: tuple
 
         :return: Reference ``self``
         """
@@ -739,9 +734,6 @@ cdef class Callable(Provider):
     def add_kwargs(self, **kwargs):
         """Add keyword argument injections.
 
-        :param kwargs: Dictionary of injections.
-        :type kwargs: dict
-
         :return: Reference ``self``
         """
         self.__kwargs += parse_named_injections(kwargs)
@@ -752,9 +744,6 @@ cdef class Callable(Provider):
         """Set keyword argument injections.
 
         Existing keyword argument injections are dropped.
-
-        :param kwargs: Dictionary of injections.
-        :type kwargs: dict
 
         :return: Reference ``self``
         """
@@ -846,6 +835,122 @@ cdef class CallableDelegate(Delegate):
             raise Error('{0} can wrap only {1} providers'.format(
                 self.__class__, Callable))
         super(Delegate, self).__init__(callable)
+
+
+cdef class Coroutine(Callable):
+    r"""Coroutine provider creates wrapped coroutine on every call.
+
+    Coroutine supports positional and keyword argument injections:
+
+    .. code-block:: python
+
+        some_coroutine = Coroutine(some_coroutine,
+                                   'positional_arg1', 'positional_arg2',
+                                   keyword_argument1=3, keyword_argument=4)
+
+        # or
+
+        some_coroutine = Coroutine(some_coroutine) \
+            .add_args('positional_arg1', 'positional_arg2') \
+            .add_kwargs(keyword_argument1=3, keyword_argument=4)
+
+        # or
+
+        some_coroutine = Coroutine(some_coroutine)
+        some_coroutine.add_args('positional_arg1', 'positional_arg2')
+        some_coroutine.add_kwargs(keyword_argument1=3, keyword_argument=4)
+    """
+
+    _is_coroutine = _is_coroutine_marker
+
+    def __init__(self, provides, *args, **kwargs):
+        """Initializer.
+
+        :param provides: Wrapped callable.
+        :type provides: callable
+        """
+        if not asyncio:
+            raise Error('Package asyncio is not available')
+
+        if not asyncio.iscoroutinefunction(provides):
+            raise Error('Provider {0} expected to get coroutine function, '
+                        'got {1}'.format('.'.join((self.__class__.__module__,
+                                                   self.__class__.__name__)),
+                                         provides))
+
+        super(Coroutine, self).__init__(provides, *args, **kwargs)
+
+
+cdef class DelegatedCoroutine(Coroutine):
+    """Coroutine provider that is injected "as is".
+
+    DelegatedCoroutine is a :py:class:`Coroutine`, that is injected "as is".
+    """
+
+    __IS_DELEGATED__ = True
+
+
+cdef class AbstractCoroutine(Coroutine):
+    """Abstract coroutine provider.
+
+    :py:class:`AbstractCoroutine` is a :py:class:`Coroutine` provider that must
+    be explicitly overridden before calling.
+
+    Overriding of :py:class:`AbstractCoroutine` is possible only by another
+    :py:class:`Coroutine` provider.
+    """
+
+    def __call__(self, *args, **kwargs):
+        """Return provided object.
+
+        Callable interface implementation.
+        """
+        if self.__last_overriding is None:
+            raise Error('{0} must be overridden before calling'.format(self))
+        return self.__last_overriding(*args, **kwargs)
+
+    def override(self, provider):
+        """Override provider with another provider.
+
+        :param provider: Overriding provider.
+        :type provider: :py:class:`Provider`
+
+        :raise: :py:exc:`dependency_injector.errors.Error`
+
+        :return: Overriding context.
+        :rtype: :py:class:`OverridingContext`
+        """
+        if not isinstance(provider, Coroutine):
+            raise Error('{0} must be overridden only by '
+                        '{1} providers'.format(self, Coroutine))
+        return super(AbstractCoroutine, self).override(provider)
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        """Return result of provided callable's call."""
+        raise NotImplementedError('Abstract provider forward providing logic '
+                                  'to overriding provider')
+
+
+cdef class CoroutineDelegate(Delegate):
+    """Coroutine delegate injects delegating coroutine "as is".
+
+    .. py:attribute:: provides
+
+        Value that have to be provided.
+
+        :type: object
+    """
+
+    def __init__(self, coroutine):
+        """Initializer.
+
+        :param coroutine: Value that have to be provided.
+        :type coroutine: object
+        """
+        if isinstance(coroutine, Coroutine) is False:
+            raise Error('{0} can wrap only {1} providers'.format(
+                self.__class__, Callable))
+        super(CoroutineDelegate, self).__init__(coroutine)
 
 
 cdef class Configuration(Object):
@@ -1076,12 +1181,6 @@ cdef class Factory(Provider):
 
         :param provides: Provided type.
         :type provides: type
-
-        :param args: Tuple of positional argument injections.
-        :type args: tuple[object]
-
-        :param kwargs: Dictionary of context keyword argument injections.
-        :type kwargs: dict[str, object]
         """
         if (self.__class__.provided_type and
                 not issubclass(provides, self.__class__.provided_type)):
@@ -1135,9 +1234,6 @@ cdef class Factory(Provider):
     def add_args(self, *args):
         """Add __init__ postional argument injections.
 
-        :param args: Tuple of injections.
-        :type args: tuple
-
         :return: Reference ``self``
         """
         self.__instantiator.add_args(*args)
@@ -1147,9 +1243,6 @@ cdef class Factory(Provider):
         """Set __init__ postional argument injections.
 
         Existing __init__ positional argument injections are dropped.
-
-        :param args: Tuple of injections.
-        :type args: tuple
 
         :return: Reference ``self``
         """
@@ -1172,9 +1265,6 @@ cdef class Factory(Provider):
     def add_kwargs(self, **kwargs):
         """Add __init__ keyword argument injections.
 
-        :param kwargs: Dictionary of injections.
-        :type kwargs: dict
-
         :return: Reference ``self``
         """
         self.__instantiator.add_kwargs(**kwargs)
@@ -1184,9 +1274,6 @@ cdef class Factory(Provider):
         """Set __init__ keyword argument injections.
 
         Existing __init__ keyword argument injections are dropped.
-
-        :param kwargs: Dictionary of injections.
-        :type kwargs: dict
 
         :return: Reference ``self``
         """
@@ -1217,9 +1304,6 @@ cdef class Factory(Provider):
     def add_attributes(self, **kwargs):
         """Add attribute injections.
 
-        :param args: Tuple of injections.
-        :type args: tuple
-
         :return: Reference ``self``
         """
         self.__attributes += parse_named_injections(kwargs)
@@ -1230,9 +1314,6 @@ cdef class Factory(Provider):
         """Set attribute injections.
 
         Existing attribute injections are dropped.
-
-        :param args: Tuple of injections.
-        :type args: tuple
 
         :return: Reference ``self``
         """
@@ -1394,9 +1475,6 @@ cdef class FactoryAggregate(Provider):
     def override(self, _):
         """Override provider with another provider.
 
-        :param provider: Overriding provider.
-        :type provider: :py:class:`Provider`
-
         :raise: :py:exc:`dependency_injector.errors.Error`
 
         :return: Overriding context.
@@ -1423,12 +1501,6 @@ cdef class BaseSingleton(Provider):
 
         :param provides: Provided type.
         :type provides: type
-
-        :param args: Tuple of positional argument injections.
-        :type args: tuple[object]
-
-        :param kwargs: Dictionary of context keyword argument injections.
-        :type kwargs: dict[str, object]
         """
         if (self.__class__.provided_type and
                 not issubclass(provides, self.__class__.provided_type)):
@@ -1477,10 +1549,7 @@ cdef class BaseSingleton(Provider):
         return self.__instantiator.args
 
     def add_args(self, *args):
-        """Add __init__ postional argument injections.
-
-        :param args: Tuple of injections.
-        :type args: tuple
+        """Add __init__ positional argument injections.
 
         :return: Reference ``self``
         """
@@ -1488,12 +1557,9 @@ cdef class BaseSingleton(Provider):
         return self
 
     def set_args(self, *args):
-        """Set __init__ postional argument injections.
+        """Set __init__ positional argument injections.
 
         Existing __init__ positional argument injections are dropped.
-
-        :param args: Tuple of injections.
-        :type args: tuple
 
         :return: Reference ``self``
         """
@@ -1501,7 +1567,7 @@ cdef class BaseSingleton(Provider):
         return self
 
     def clear_args(self):
-        """Drop __init__ postional argument injections.
+        """Drop __init__ positional argument injections.
 
         :return: Reference ``self``
         """
@@ -1516,9 +1582,6 @@ cdef class BaseSingleton(Provider):
     def add_kwargs(self, **kwargs):
         """Add __init__ keyword argument injections.
 
-        :param kwargs: Dictionary of injections.
-        :type kwargs: dict
-
         :return: Reference ``self``
         """
         self.__instantiator.add_kwargs(**kwargs)
@@ -1528,9 +1591,6 @@ cdef class BaseSingleton(Provider):
         """Set __init__ keyword argument injections.
 
         Existing __init__ keyword argument injections are dropped.
-
-        :param kwargs: Dictionary of injections.
-        :type kwargs: dict
 
         :return: Reference ``self``
         """
@@ -1553,9 +1613,6 @@ cdef class BaseSingleton(Provider):
     def add_attributes(self, **kwargs):
         """Add attribute injections.
 
-        :param args: Tuple of injections.
-        :type args: tuple
-
         :return: Reference ``self``
         """
         self.__instantiator.add_attributes(**kwargs)
@@ -1565,9 +1622,6 @@ cdef class BaseSingleton(Provider):
         """Set attribute injections.
 
         Existing attribute injections are dropped.
-
-        :param args: Tuple of injections.
-        :type args: tuple
 
         :return: Reference ``self``
         """
@@ -1626,12 +1680,6 @@ cdef class Singleton(BaseSingleton):
 
         :param provides: Provided type.
         :type provides: type
-
-        :param args: Tuple of positional argument injections.
-        :type args: tuple[object]
-
-        :param kwargs: Dictionary of context keyword argument injections.
-        :type kwargs: dict[str, object]
         """
         self.__storage = None
         super(Singleton, self).__init__(provides, *args, **kwargs)
@@ -1686,12 +1734,6 @@ cdef class ThreadSafeSingleton(BaseSingleton):
 
         :param provides: Provided type.
         :type provides: type
-
-        :param args: Tuple of positional argument injections.
-        :type args: tuple[object]
-
-        :param kwargs: Dictionary of context keyword argument injections.
-        :type kwargs: dict[str, object]
         """
         self.__storage = None
         self.__storage_lock = self.__class__.storage_lock
@@ -1757,12 +1799,6 @@ cdef class ThreadLocalSingleton(BaseSingleton):
 
         :param provides: Provided type.
         :type provides: type
-
-        :param args: Tuple of positional argument injections.
-        :type args: tuple[object]
-
-        :param kwargs: Dictionary of context keyword argument injections.
-        :type kwargs: dict[str, object]
         """
         self.__storage = threading.local()
         super(ThreadLocalSingleton, self).__init__(provides, *args, **kwargs)

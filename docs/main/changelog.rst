@@ -7,6 +7,16 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.14.0
+------
+- Add ``Coroutine`` provider.
+- Add ``DelegatedCoroutine`` provider.
+- Add ``AbstractCoroutine`` provider.
+- Add ``CoroutineDelegate`` provider.
+- Fix type-hinting of ``*args`` & ``**kwargs`` that was specified in doc
+  blocks of various providers and caused inspection problems in PyCharm.
+- Regenerate C sources using Cython 0.28.5.
+
 3.13.2
 ------
 - Add additional benchmark of ``Factory`` provider.
