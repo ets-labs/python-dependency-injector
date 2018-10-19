@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+3.14.0
+------
 - Add ``Coroutine`` provider.
 - Add ``DelegatedCoroutine`` provider.
 - Add ``AbstractCoroutine`` provider.
