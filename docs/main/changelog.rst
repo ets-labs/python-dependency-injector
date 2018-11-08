@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Fix bug `#208 <https://github.com/ets-labs/python-dependency-injector/issues/208>`_:
+  version ``3.14.0`` hasn't worked on Python 3.5.2 (thanks to
+  `Jeroen Entjes <https://github.com/JeroenEntjes>`_).
+
 3.14.0
 ------
 - Add ``Coroutine`` provider.
