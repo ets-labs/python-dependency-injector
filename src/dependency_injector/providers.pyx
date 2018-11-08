@@ -15,11 +15,11 @@ except ImportError:
     asyncio = None
     _is_coroutine_marker = None
 else:
-    if sys.version_info[0:2] == (3, 4):
-        _is_coroutine_marker = True
-    else:
+    if sys.version_info >= (3, 5, 3):
         import asyncio.coroutines
         _is_coroutine_marker = asyncio.coroutines._is_coroutine
+    else:
+        _is_coroutine_marker = True
 
 
 from .errors import (
