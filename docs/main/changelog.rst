@@ -13,6 +13,7 @@ Development version
   version ``3.14.0`` hasn't worked on Python 3.5.2 (thanks to
   `Jeroen Entjes <https://github.com/JeroenEntjes>`_).
 - Remove deprecated ``assertEquals`` from tests.
+- Regenerate C sources using Cython 0.29.
 
 3.14.0
 ------
