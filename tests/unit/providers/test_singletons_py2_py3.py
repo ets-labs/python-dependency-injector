@@ -1,5 +1,7 @@
 """Dependency injector singleton providers unit tests."""
 
+import sys
+
 import unittest2 as unittest
 
 from dependency_injector import (
@@ -321,6 +323,20 @@ class _BaseSingletonTestCase(object):
 
         self.assertIsNot(object_provider, object_provider_copy)
         self.assertIsInstance(object_provider_copy, providers.Object)
+
+    def test_deepcopy_with_sys_streams(self):
+        provider = providers.Singleton(Example)
+        provider.add_args(sys.stdin)
+        provider.add_kwargs(a2=sys.stdout)
+        provider.add_attributes(a3=sys.stderr)
+
+        provider_copy = providers.deepcopy(provider)
+
+        self.assertIsNot(provider, provider_copy)
+        self.assertIsInstance(provider_copy, providers.Singleton)
+        self.assertIs(provider.args[0], sys.stdin)
+        self.assertIs(provider.kwargs['a2'], sys.stdout)
+        self.assertIs(provider.attributes['a3'], sys.stderr)
 
     def test_reset(self):
         provider = self.singleton_cls(object)

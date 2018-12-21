@@ -2487,6 +2487,7 @@ static const char __pyx_k_items[] = "items";
 static const char __pyx_k_local[] = "local";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_reset[] = "reset";
+static const char __pyx_k_stdin[] = "stdin";
 static const char __pyx_k_super[] = "super";
 static const char __pyx_k_types[] = "types";
 static const char __pyx_k_value[] = "value";
@@ -2502,6 +2503,8 @@ static const char __pyx_k_name_2[] = "name";
 static const char __pyx_k_object[] = "object";
 static const char __pyx_k_pickle[] = "pickle";
 static const char __pyx_k_reduce[] = "__reduce__";
+static const char __pyx_k_stderr[] = "stderr";
+static const char __pyx_k_stdout[] = "stdout";
 static const char __pyx_k_update[] = "update";
 static const char __pyx_k_values[] = "values";
 static const char __pyx_k_Factory[] = "Factory";
@@ -2583,6 +2586,7 @@ static const char __pyx_k_reset_override[] = "reset_override";
 static const char __pyx_k_set_attributes[] = "set_attributes";
 static const char __pyx_k_AbstractFactory[] = "AbstractFactory";
 static const char __pyx_k_FactoryDelegate[] = "FactoryDelegate";
+static const char __pyx_k_add_sys_streams[] = "__add_sys_streams";
 static const char __pyx_k_create_children[] = "_create_children";
 static const char __pyx_k_last_overriding[] = "last_overriding";
 static const char __pyx_k_overriding_lock[] = "overriding_lock";
@@ -2684,6 +2688,7 @@ static const char __pyx_k_Package_asyncio_is_not_available[] = "Package asyncio 
 static const char __pyx_k_Provider_0_could_not_be_overridd[] = "Provider {0} could not be overridden with itself";
 static const char __pyx_k_Provider_0_expected_to_get_calla[] = "Provider {0} expected to get callable, got {0}";
 static const char __pyx_k_Provider_0_expected_to_get_corou[] = "Provider {0} expected to get coroutine function, got {1}";
+static const char __pyx_k_src_dependency_injector_provider[] = "src/dependency_injector/providers.pyx";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xa7_2[] = "Incompatible checksums (%s vs 0xa73b866 = (__attributes, __attributes_len, __instantiator, __last_overriding, __overridden))";
 static PyObject *__pyx_kp_s_0_can_aggregate_only_instances;
 static PyObject *__pyx_kp_s_0_can_provide_only_1_instances;
@@ -2767,6 +2772,7 @@ static PyObject *__pyx_kp_s__6;
 static PyObject *__pyx_n_s_add_args;
 static PyObject *__pyx_n_s_add_attributes;
 static PyObject *__pyx_n_s_add_kwargs;
+static PyObject *__pyx_n_s_add_sys_streams;
 static PyObject *__pyx_n_s_address;
 static PyObject *__pyx_n_s_args;
 static PyObject *__pyx_n_s_asyncio;
@@ -2899,7 +2905,11 @@ static PyObject *__pyx_n_s_set_kwargs;
 static PyObject *__pyx_n_s_setstate;
 static PyObject *__pyx_n_s_setstate_cython;
 static PyObject *__pyx_n_s_singleton;
+static PyObject *__pyx_kp_s_src_dependency_injector_provider;
 static PyObject *__pyx_n_s_startswith;
+static PyObject *__pyx_n_s_stderr;
+static PyObject *__pyx_n_s_stdin;
+static PyObject *__pyx_n_s_stdout;
 static PyObject *__pyx_n_s_storage_lock;
 static PyObject *__pyx_n_s_str;
 static PyObject *__pyx_kp_s_stringsource;
@@ -3123,39 +3133,40 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_6ensure_is_provider(C
 static PyObject *__pyx_pf_19dependency_injector_9providers_8is_delegated(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_instance); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_9providers_10represent_provider(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_provider, PyObject *__pyx_v_provides); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_9providers_12deepcopy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_instance, PyObject *__pyx_v_memo); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_15__pyx_unpickle_Provider(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_17__pyx_unpickle_Object(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_19__pyx_unpickle_Delegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_21__pyx_unpickle_Dependency(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_23__pyx_unpickle_ExternalDependency(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_25__pyx_unpickle_DependenciesContainer(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_27__pyx_unpickle_OverridingContext(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_29__pyx_unpickle_Callable(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_31__pyx_unpickle_DelegatedCallable(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_33__pyx_unpickle_AbstractCallable(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_35__pyx_unpickle_CallableDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_37__pyx_unpickle_Coroutine(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_39__pyx_unpickle_DelegatedCoroutine(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_41__pyx_unpickle_AbstractCoroutine(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_43__pyx_unpickle_CoroutineDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_45__pyx_unpickle_Configuration(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_47__pyx_unpickle_Factory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_49__pyx_unpickle_DelegatedFactory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_51__pyx_unpickle_AbstractFactory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_53__pyx_unpickle_FactoryDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_55__pyx_unpickle_FactoryAggregate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_57__pyx_unpickle_BaseSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_59__pyx_unpickle_Singleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_61__pyx_unpickle_DelegatedSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_63__pyx_unpickle_ThreadSafeSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_65__pyx_unpickle_DelegatedThreadSafeSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_67__pyx_unpickle_ThreadLocalSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_69__pyx_unpickle_DelegatedThreadLocalSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_71__pyx_unpickle_AbstractSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_73__pyx_unpickle_SingletonDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_75__pyx_unpickle_Injection(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_77__pyx_unpickle_PositionalInjection(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_9providers_79__pyx_unpickle_NamedInjection(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_14__add_sys_streams(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_memo); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_17__pyx_unpickle_Provider(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_19__pyx_unpickle_Object(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_21__pyx_unpickle_Delegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_23__pyx_unpickle_Dependency(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_25__pyx_unpickle_ExternalDependency(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_27__pyx_unpickle_DependenciesContainer(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_29__pyx_unpickle_OverridingContext(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_31__pyx_unpickle_Callable(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_33__pyx_unpickle_DelegatedCallable(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_35__pyx_unpickle_AbstractCallable(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_37__pyx_unpickle_CallableDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_39__pyx_unpickle_Coroutine(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_41__pyx_unpickle_DelegatedCoroutine(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_43__pyx_unpickle_AbstractCoroutine(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_45__pyx_unpickle_CoroutineDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_47__pyx_unpickle_Configuration(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_49__pyx_unpickle_Factory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_51__pyx_unpickle_DelegatedFactory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_53__pyx_unpickle_AbstractFactory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_55__pyx_unpickle_FactoryDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_57__pyx_unpickle_FactoryAggregate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_59__pyx_unpickle_BaseSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_61__pyx_unpickle_Singleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_63__pyx_unpickle_DelegatedSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_65__pyx_unpickle_ThreadSafeSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_67__pyx_unpickle_DelegatedThreadSafeSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_69__pyx_unpickle_ThreadLocalSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_71__pyx_unpickle_DelegatedThreadLocalSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_73__pyx_unpickle_AbstractSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_75__pyx_unpickle_SingletonDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_77__pyx_unpickle_Injection(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_79__pyx_unpickle_PositionalInjection(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_9providers_81__pyx_unpickle_NamedInjection(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state); /* proto */
 static PyObject *__pyx_tp_new_19dependency_injector_9providers_Provider(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_19dependency_injector_9providers_Object(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_19dependency_injector_9providers_Delegate(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -3245,6 +3256,7 @@ static PyObject *__pyx_tuple__66;
 static PyObject *__pyx_tuple__68;
 static PyObject *__pyx_tuple__70;
 static PyObject *__pyx_tuple__72;
+static PyObject *__pyx_tuple__74;
 static PyObject *__pyx_codeobj__9;
 static PyObject *__pyx_codeobj__11;
 static PyObject *__pyx_codeobj__13;
@@ -3278,6 +3290,7 @@ static PyObject *__pyx_codeobj__67;
 static PyObject *__pyx_codeobj__69;
 static PyObject *__pyx_codeobj__71;
 static PyObject *__pyx_codeobj__73;
+static PyObject *__pyx_codeobj__75;
 /* Late includes */
 
 /* "dependency_injector/providers.pyx":39
@@ -3289,9 +3302,9 @@ static PyObject *__pyx_codeobj__73;
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_14lambda(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_14lambda = {"lambda", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_14lambda, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_14lambda(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_16lambda(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_16lambda = {"lambda", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_16lambda, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_16lambda(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_obj = 0;
   PyObject *__pyx_v_memo = 0;
   PyObject *__pyx_r = 0;
@@ -36662,7 +36675,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_10represent_provider(
  * 
  * cpdef object deepcopy(object instance, dict memo=None):             # <<<<<<<<<<<<<<
  *     """Return full copy of provider or container with providers."""
- *     return copy.deepcopy(instance, memo)
+ *     if memo is None:
  */
 
 static PyObject *__pyx_pw_19dependency_injector_9providers_13deepcopy(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
@@ -36670,76 +36683,139 @@ static PyObject *__pyx_f_19dependency_injector_9providers_deepcopy(PyObject *__p
   PyObject *__pyx_v_memo = ((PyObject*)Py_None);
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_1;
+  int __pyx_t_2;
   PyObject *__pyx_t_3 = NULL;
-  int __pyx_t_4;
+  PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
+  int __pyx_t_6;
+  PyObject *__pyx_t_7 = NULL;
   __Pyx_RefNannySetupContext("deepcopy", 0);
   if (__pyx_optional_args) {
     if (__pyx_optional_args->__pyx_n > 0) {
       __pyx_v_memo = __pyx_optional_args->memo;
     }
   }
+  __Pyx_INCREF(__pyx_v_memo);
 
   /* "dependency_injector/providers.pyx":2078
  * cpdef object deepcopy(object instance, dict memo=None):
  *     """Return full copy of provider or container with providers."""
+ *     if memo is None:             # <<<<<<<<<<<<<<
+ *         memo = dict()
+ * 
+ */
+  __pyx_t_1 = (__pyx_v_memo == ((PyObject*)Py_None));
+  __pyx_t_2 = (__pyx_t_1 != 0);
+  if (__pyx_t_2) {
+
+    /* "dependency_injector/providers.pyx":2079
+ *     """Return full copy of provider or container with providers."""
+ *     if memo is None:
+ *         memo = dict()             # <<<<<<<<<<<<<<
+ * 
+ *     __add_sys_streams(memo)
+ */
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2079, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF_SET(__pyx_v_memo, ((PyObject*)__pyx_t_3));
+    __pyx_t_3 = 0;
+
+    /* "dependency_injector/providers.pyx":2078
+ * cpdef object deepcopy(object instance, dict memo=None):
+ *     """Return full copy of provider or container with providers."""
+ *     if memo is None:             # <<<<<<<<<<<<<<
+ *         memo = dict()
+ * 
+ */
+  }
+
+  /* "dependency_injector/providers.pyx":2081
+ *         memo = dict()
+ * 
+ *     __add_sys_streams(memo)             # <<<<<<<<<<<<<<
+ * 
+ *     return copy.deepcopy(instance, memo)
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_add_sys_streams); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2081, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_v_memo) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_memo);
+  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2081, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+  /* "dependency_injector/providers.pyx":2083
+ *     __add_sys_streams(memo)
+ * 
  *     return copy.deepcopy(instance, memo)             # <<<<<<<<<<<<<<
+ * 
+ * def __add_sys_streams(memo):
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_copy); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2078, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_deepcopy); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2078, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  __pyx_t_4 = 0;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-      __Pyx_INCREF(__pyx_t_2);
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_copy); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2083, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_deepcopy); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2083, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = NULL;
+  __pyx_t_6 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_4);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_3, function);
-      __pyx_t_4 = 1;
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+      __pyx_t_6 = 1;
     }
   }
   #if CYTHON_FAST_PYCALL
-  if (PyFunction_Check(__pyx_t_3)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_instance, __pyx_v_memo};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2078, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_GOTREF(__pyx_t_1);
+  if (PyFunction_Check(__pyx_t_5)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_instance, __pyx_v_memo};
+    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2083, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_3);
   } else
   #endif
   #if CYTHON_FAST_PYCCALL
-  if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_instance, __pyx_v_memo};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2078, __pyx_L1_error)
-    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_GOTREF(__pyx_t_1);
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_instance, __pyx_v_memo};
+    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2083, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_3);
   } else
   #endif
   {
-    __pyx_t_5 = PyTuple_New(2+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2078, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    if (__pyx_t_2) {
-      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2); __pyx_t_2 = NULL;
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 2083, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    if (__pyx_t_4) {
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
     }
     __Pyx_INCREF(__pyx_v_instance);
     __Pyx_GIVEREF(__pyx_v_instance);
-    PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_4, __pyx_v_instance);
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_6, __pyx_v_instance);
     __Pyx_INCREF(__pyx_v_memo);
     __Pyx_GIVEREF(__pyx_v_memo);
-    PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_4, __pyx_v_memo);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2078, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_v_memo);
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2083, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_r = __pyx_t_3;
+  __pyx_t_3 = 0;
   goto __pyx_L0;
 
   /* "dependency_injector/providers.pyx":2076
@@ -36747,18 +36823,19 @@ static PyObject *__pyx_f_19dependency_injector_9providers_deepcopy(PyObject *__p
  * 
  * cpdef object deepcopy(object instance, dict memo=None):             # <<<<<<<<<<<<<<
  *     """Return full copy of provider or container with providers."""
- *     return copy.deepcopy(instance, memo)
+ *     if memo is None:
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_7);
   __Pyx_AddTraceback("dependency_injector.providers.deepcopy", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_memo);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -36861,6 +36938,129 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_12deepcopy(CYTHON_UNU
   return __pyx_r;
 }
 
+/* "dependency_injector/providers.pyx":2085
+ *     return copy.deepcopy(instance, memo)
+ * 
+ * def __add_sys_streams(memo):             # <<<<<<<<<<<<<<
+ *     """Add system streams to memo dictionary.
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_19dependency_injector_9providers_15__add_sys_streams(PyObject *__pyx_self, PyObject *__pyx_v_memo); /*proto*/
+static char __pyx_doc_19dependency_injector_9providers_14__add_sys_streams[] = "Add system streams to memo dictionary.\n\n    This helps to avoid copying of system streams while making a deepcopy of\n    objects graph.\n    ";
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_15__add_sys_streams = {"__add_sys_streams", (PyCFunction)__pyx_pw_19dependency_injector_9providers_15__add_sys_streams, METH_O, __pyx_doc_19dependency_injector_9providers_14__add_sys_streams};
+static PyObject *__pyx_pw_19dependency_injector_9providers_15__add_sys_streams(PyObject *__pyx_self, PyObject *__pyx_v_memo) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__add_sys_streams (wrapper)", 0);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_14__add_sys_streams(__pyx_self, ((PyObject *)__pyx_v_memo));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_19dependency_injector_9providers_14__add_sys_streams(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_memo) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  __Pyx_RefNannySetupContext("__add_sys_streams", 0);
+
+  /* "dependency_injector/providers.pyx":2091
+ *     objects graph.
+ *     """
+ *     memo[id(sys.stdin)] = sys.stdin             # <<<<<<<<<<<<<<
+ *     memo[id(sys.stdout)] = sys.stdout
+ *     memo[id(sys.stderr)] = sys.stderr
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_sys); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2091, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_stdin); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2091, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_sys); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2091, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_stdin); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2091, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2091, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(PyObject_SetItem(__pyx_v_memo, __pyx_t_1, __pyx_t_2) < 0)) __PYX_ERR(1, 2091, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "dependency_injector/providers.pyx":2092
+ *     """
+ *     memo[id(sys.stdin)] = sys.stdin
+ *     memo[id(sys.stdout)] = sys.stdout             # <<<<<<<<<<<<<<
+ *     memo[id(sys.stderr)] = sys.stderr
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2092, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_stdout); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2092, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2092, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_stdout); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2092, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2092, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(PyObject_SetItem(__pyx_v_memo, __pyx_t_2, __pyx_t_1) < 0)) __PYX_ERR(1, 2092, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "dependency_injector/providers.pyx":2093
+ *     memo[id(sys.stdin)] = sys.stdin
+ *     memo[id(sys.stdout)] = sys.stdout
+ *     memo[id(sys.stderr)] = sys.stderr             # <<<<<<<<<<<<<<
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_sys); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2093, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_stderr); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2093, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_sys); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2093, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_stderr); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2093, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2093, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(PyObject_SetItem(__pyx_v_memo, __pyx_t_1, __pyx_t_2) < 0)) __PYX_ERR(1, 2093, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "dependency_injector/providers.pyx":2085
+ *     return copy.deepcopy(instance, memo)
+ * 
+ * def __add_sys_streams(memo):             # <<<<<<<<<<<<<<
+ *     """Add system streams to memo dictionary.
+ * 
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_AddTraceback("dependency_injector.providers.__add_sys_streams", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
 /* "(tree fragment)":1
  * def __pyx_unpickle_Provider(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     if __pyx_checksum != 0x0f5c5dd:
@@ -36868,9 +37068,9 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_12deepcopy(CYTHON_UNU
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_16__pyx_unpickle_Provider(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_16__pyx_unpickle_Provider = {"__pyx_unpickle_Provider", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_16__pyx_unpickle_Provider, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_16__pyx_unpickle_Provider(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_18__pyx_unpickle_Provider(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_18__pyx_unpickle_Provider = {"__pyx_unpickle_Provider", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_18__pyx_unpickle_Provider, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_18__pyx_unpickle_Provider(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -36933,14 +37133,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_16__pyx_unpickle_Prov
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_15__pyx_unpickle_Provider(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_17__pyx_unpickle_Provider(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_15__pyx_unpickle_Provider(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_17__pyx_unpickle_Provider(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -37267,9 +37467,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Provide
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_18__pyx_unpickle_Object(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_18__pyx_unpickle_Object = {"__pyx_unpickle_Object", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_18__pyx_unpickle_Object, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_18__pyx_unpickle_Object(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_20__pyx_unpickle_Object(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_20__pyx_unpickle_Object = {"__pyx_unpickle_Object", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_20__pyx_unpickle_Object, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_20__pyx_unpickle_Object(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -37332,14 +37532,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_18__pyx_unpickle_Obje
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_17__pyx_unpickle_Object(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_19__pyx_unpickle_Object(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_17__pyx_unpickle_Object(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_19__pyx_unpickle_Object(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -37677,9 +37877,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Object_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_20__pyx_unpickle_Delegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_20__pyx_unpickle_Delegate = {"__pyx_unpickle_Delegate", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_20__pyx_unpickle_Delegate, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_20__pyx_unpickle_Delegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_22__pyx_unpickle_Delegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_22__pyx_unpickle_Delegate = {"__pyx_unpickle_Delegate", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_22__pyx_unpickle_Delegate, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_22__pyx_unpickle_Delegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -37742,14 +37942,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_20__pyx_unpickle_Dele
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_19__pyx_unpickle_Delegate(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_21__pyx_unpickle_Delegate(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_19__pyx_unpickle_Delegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_21__pyx_unpickle_Delegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -38087,9 +38287,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Delegat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_22__pyx_unpickle_Dependency(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_22__pyx_unpickle_Dependency = {"__pyx_unpickle_Dependency", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_22__pyx_unpickle_Dependency, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_22__pyx_unpickle_Dependency(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_24__pyx_unpickle_Dependency(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_24__pyx_unpickle_Dependency = {"__pyx_unpickle_Dependency", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_24__pyx_unpickle_Dependency, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_24__pyx_unpickle_Dependency(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -38152,14 +38352,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_22__pyx_unpickle_Depe
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_21__pyx_unpickle_Dependency(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_23__pyx_unpickle_Dependency(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_21__pyx_unpickle_Dependency(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_23__pyx_unpickle_Dependency(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -38498,9 +38698,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Depende
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_24__pyx_unpickle_ExternalDependency(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_24__pyx_unpickle_ExternalDependency = {"__pyx_unpickle_ExternalDependency", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_24__pyx_unpickle_ExternalDependency, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_24__pyx_unpickle_ExternalDependency(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_26__pyx_unpickle_ExternalDependency(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_26__pyx_unpickle_ExternalDependency = {"__pyx_unpickle_ExternalDependency", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_26__pyx_unpickle_ExternalDependency, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_26__pyx_unpickle_ExternalDependency(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -38563,14 +38763,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_24__pyx_unpickle_Exte
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_23__pyx_unpickle_ExternalDependency(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_25__pyx_unpickle_ExternalDependency(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_23__pyx_unpickle_ExternalDependency(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_25__pyx_unpickle_ExternalDependency(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -38909,9 +39109,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Externa
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_26__pyx_unpickle_DependenciesContainer(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_26__pyx_unpickle_DependenciesContainer = {"__pyx_unpickle_DependenciesContainer", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_26__pyx_unpickle_DependenciesContainer, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_26__pyx_unpickle_DependenciesContainer(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_28__pyx_unpickle_DependenciesContainer(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_28__pyx_unpickle_DependenciesContainer = {"__pyx_unpickle_DependenciesContainer", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_28__pyx_unpickle_DependenciesContainer, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_28__pyx_unpickle_DependenciesContainer(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -38974,14 +39174,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_26__pyx_unpickle_Depe
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_25__pyx_unpickle_DependenciesContainer(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_27__pyx_unpickle_DependenciesContainer(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_25__pyx_unpickle_DependenciesContainer(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_27__pyx_unpickle_DependenciesContainer(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -39331,9 +39531,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Depende
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_28__pyx_unpickle_OverridingContext(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_28__pyx_unpickle_OverridingContext = {"__pyx_unpickle_OverridingContext", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_28__pyx_unpickle_OverridingContext, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_28__pyx_unpickle_OverridingContext(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_30__pyx_unpickle_OverridingContext(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_30__pyx_unpickle_OverridingContext = {"__pyx_unpickle_OverridingContext", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_30__pyx_unpickle_OverridingContext, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_30__pyx_unpickle_OverridingContext(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -39396,14 +39596,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_28__pyx_unpickle_Over
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_27__pyx_unpickle_OverridingContext(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_29__pyx_unpickle_OverridingContext(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_27__pyx_unpickle_OverridingContext(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_29__pyx_unpickle_OverridingContext(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -39730,9 +39930,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Overrid
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_30__pyx_unpickle_Callable(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_30__pyx_unpickle_Callable = {"__pyx_unpickle_Callable", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_30__pyx_unpickle_Callable, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_30__pyx_unpickle_Callable(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_32__pyx_unpickle_Callable(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_32__pyx_unpickle_Callable = {"__pyx_unpickle_Callable", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_32__pyx_unpickle_Callable, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_32__pyx_unpickle_Callable(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -39795,14 +39995,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_30__pyx_unpickle_Call
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_29__pyx_unpickle_Callable(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_31__pyx_unpickle_Callable(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_29__pyx_unpickle_Callable(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_31__pyx_unpickle_Callable(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -40183,9 +40383,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Callabl
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_32__pyx_unpickle_DelegatedCallable(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_32__pyx_unpickle_DelegatedCallable = {"__pyx_unpickle_DelegatedCallable", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_32__pyx_unpickle_DelegatedCallable, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_32__pyx_unpickle_DelegatedCallable(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_34__pyx_unpickle_DelegatedCallable(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_34__pyx_unpickle_DelegatedCallable = {"__pyx_unpickle_DelegatedCallable", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_34__pyx_unpickle_DelegatedCallable, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_34__pyx_unpickle_DelegatedCallable(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -40248,14 +40448,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_32__pyx_unpickle_Dele
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_31__pyx_unpickle_DelegatedCallable(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_33__pyx_unpickle_DelegatedCallable(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_31__pyx_unpickle_DelegatedCallable(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_33__pyx_unpickle_DelegatedCallable(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -40636,9 +40836,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Delegat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_34__pyx_unpickle_AbstractCallable(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_34__pyx_unpickle_AbstractCallable = {"__pyx_unpickle_AbstractCallable", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_34__pyx_unpickle_AbstractCallable, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_34__pyx_unpickle_AbstractCallable(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_36__pyx_unpickle_AbstractCallable(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_36__pyx_unpickle_AbstractCallable = {"__pyx_unpickle_AbstractCallable", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_36__pyx_unpickle_AbstractCallable, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_36__pyx_unpickle_AbstractCallable(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -40701,14 +40901,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_34__pyx_unpickle_Abst
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_33__pyx_unpickle_AbstractCallable(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_35__pyx_unpickle_AbstractCallable(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_33__pyx_unpickle_AbstractCallable(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_35__pyx_unpickle_AbstractCallable(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -41089,9 +41289,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Abstrac
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_36__pyx_unpickle_CallableDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_36__pyx_unpickle_CallableDelegate = {"__pyx_unpickle_CallableDelegate", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_36__pyx_unpickle_CallableDelegate, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_36__pyx_unpickle_CallableDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_38__pyx_unpickle_CallableDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_38__pyx_unpickle_CallableDelegate = {"__pyx_unpickle_CallableDelegate", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_38__pyx_unpickle_CallableDelegate, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_38__pyx_unpickle_CallableDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -41154,14 +41354,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_36__pyx_unpickle_Call
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_35__pyx_unpickle_CallableDelegate(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_37__pyx_unpickle_CallableDelegate(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_35__pyx_unpickle_CallableDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_37__pyx_unpickle_CallableDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -41499,9 +41699,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Callabl
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_38__pyx_unpickle_Coroutine(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_38__pyx_unpickle_Coroutine = {"__pyx_unpickle_Coroutine", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_38__pyx_unpickle_Coroutine, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_38__pyx_unpickle_Coroutine(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_40__pyx_unpickle_Coroutine(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_40__pyx_unpickle_Coroutine = {"__pyx_unpickle_Coroutine", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_40__pyx_unpickle_Coroutine, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_40__pyx_unpickle_Coroutine(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -41564,14 +41764,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_38__pyx_unpickle_Coro
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_37__pyx_unpickle_Coroutine(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_39__pyx_unpickle_Coroutine(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_37__pyx_unpickle_Coroutine(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_39__pyx_unpickle_Coroutine(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -41952,9 +42152,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Corouti
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_40__pyx_unpickle_DelegatedCoroutine(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_40__pyx_unpickle_DelegatedCoroutine = {"__pyx_unpickle_DelegatedCoroutine", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_40__pyx_unpickle_DelegatedCoroutine, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_40__pyx_unpickle_DelegatedCoroutine(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_42__pyx_unpickle_DelegatedCoroutine(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_42__pyx_unpickle_DelegatedCoroutine = {"__pyx_unpickle_DelegatedCoroutine", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_42__pyx_unpickle_DelegatedCoroutine, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_42__pyx_unpickle_DelegatedCoroutine(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -42017,14 +42217,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_40__pyx_unpickle_Dele
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_39__pyx_unpickle_DelegatedCoroutine(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_41__pyx_unpickle_DelegatedCoroutine(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_39__pyx_unpickle_DelegatedCoroutine(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_41__pyx_unpickle_DelegatedCoroutine(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -42405,9 +42605,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Delegat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_42__pyx_unpickle_AbstractCoroutine(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_42__pyx_unpickle_AbstractCoroutine = {"__pyx_unpickle_AbstractCoroutine", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_42__pyx_unpickle_AbstractCoroutine, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_42__pyx_unpickle_AbstractCoroutine(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_44__pyx_unpickle_AbstractCoroutine(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_44__pyx_unpickle_AbstractCoroutine = {"__pyx_unpickle_AbstractCoroutine", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_44__pyx_unpickle_AbstractCoroutine, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_44__pyx_unpickle_AbstractCoroutine(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -42470,14 +42670,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_42__pyx_unpickle_Abst
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_41__pyx_unpickle_AbstractCoroutine(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_43__pyx_unpickle_AbstractCoroutine(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_41__pyx_unpickle_AbstractCoroutine(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_43__pyx_unpickle_AbstractCoroutine(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -42858,9 +43058,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Abstrac
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_44__pyx_unpickle_CoroutineDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_44__pyx_unpickle_CoroutineDelegate = {"__pyx_unpickle_CoroutineDelegate", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_44__pyx_unpickle_CoroutineDelegate, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_44__pyx_unpickle_CoroutineDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_46__pyx_unpickle_CoroutineDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_46__pyx_unpickle_CoroutineDelegate = {"__pyx_unpickle_CoroutineDelegate", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_46__pyx_unpickle_CoroutineDelegate, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_46__pyx_unpickle_CoroutineDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -42923,14 +43123,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_44__pyx_unpickle_Coro
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_43__pyx_unpickle_CoroutineDelegate(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_45__pyx_unpickle_CoroutineDelegate(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_43__pyx_unpickle_CoroutineDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_45__pyx_unpickle_CoroutineDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -43268,9 +43468,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Corouti
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_46__pyx_unpickle_Configuration(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_46__pyx_unpickle_Configuration = {"__pyx_unpickle_Configuration", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_46__pyx_unpickle_Configuration, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_46__pyx_unpickle_Configuration(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_48__pyx_unpickle_Configuration(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_48__pyx_unpickle_Configuration = {"__pyx_unpickle_Configuration", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_48__pyx_unpickle_Configuration, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_48__pyx_unpickle_Configuration(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -43333,14 +43533,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_46__pyx_unpickle_Conf
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_45__pyx_unpickle_Configuration(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_47__pyx_unpickle_Configuration(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_45__pyx_unpickle_Configuration(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_47__pyx_unpickle_Configuration(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -43702,9 +43902,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Configu
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_48__pyx_unpickle_Factory(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_48__pyx_unpickle_Factory = {"__pyx_unpickle_Factory", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_48__pyx_unpickle_Factory, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_48__pyx_unpickle_Factory(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_50__pyx_unpickle_Factory(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_50__pyx_unpickle_Factory = {"__pyx_unpickle_Factory", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_50__pyx_unpickle_Factory, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_50__pyx_unpickle_Factory(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -43767,14 +43967,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_48__pyx_unpickle_Fact
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_47__pyx_unpickle_Factory(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_49__pyx_unpickle_Factory(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_47__pyx_unpickle_Factory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_49__pyx_unpickle_Factory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -44135,9 +44335,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Factory
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_50__pyx_unpickle_DelegatedFactory(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_50__pyx_unpickle_DelegatedFactory = {"__pyx_unpickle_DelegatedFactory", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_50__pyx_unpickle_DelegatedFactory, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_50__pyx_unpickle_DelegatedFactory(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_52__pyx_unpickle_DelegatedFactory(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_52__pyx_unpickle_DelegatedFactory = {"__pyx_unpickle_DelegatedFactory", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_52__pyx_unpickle_DelegatedFactory, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_52__pyx_unpickle_DelegatedFactory(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -44200,14 +44400,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_50__pyx_unpickle_Dele
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_49__pyx_unpickle_DelegatedFactory(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_51__pyx_unpickle_DelegatedFactory(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_49__pyx_unpickle_DelegatedFactory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_51__pyx_unpickle_DelegatedFactory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -44568,9 +44768,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Delegat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_52__pyx_unpickle_AbstractFactory(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_52__pyx_unpickle_AbstractFactory = {"__pyx_unpickle_AbstractFactory", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_52__pyx_unpickle_AbstractFactory, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_52__pyx_unpickle_AbstractFactory(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_54__pyx_unpickle_AbstractFactory(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_54__pyx_unpickle_AbstractFactory = {"__pyx_unpickle_AbstractFactory", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_54__pyx_unpickle_AbstractFactory, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_54__pyx_unpickle_AbstractFactory(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -44633,14 +44833,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_52__pyx_unpickle_Abst
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_51__pyx_unpickle_AbstractFactory(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_53__pyx_unpickle_AbstractFactory(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_51__pyx_unpickle_AbstractFactory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_53__pyx_unpickle_AbstractFactory(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -45001,9 +45201,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Abstrac
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_54__pyx_unpickle_FactoryDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_54__pyx_unpickle_FactoryDelegate = {"__pyx_unpickle_FactoryDelegate", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_54__pyx_unpickle_FactoryDelegate, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_54__pyx_unpickle_FactoryDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_56__pyx_unpickle_FactoryDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_56__pyx_unpickle_FactoryDelegate = {"__pyx_unpickle_FactoryDelegate", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_56__pyx_unpickle_FactoryDelegate, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_56__pyx_unpickle_FactoryDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -45066,14 +45266,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_54__pyx_unpickle_Fact
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_53__pyx_unpickle_FactoryDelegate(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_55__pyx_unpickle_FactoryDelegate(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_53__pyx_unpickle_FactoryDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_55__pyx_unpickle_FactoryDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -45411,9 +45611,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Factory
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_56__pyx_unpickle_FactoryAggregate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_56__pyx_unpickle_FactoryAggregate = {"__pyx_unpickle_FactoryAggregate", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_56__pyx_unpickle_FactoryAggregate, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_56__pyx_unpickle_FactoryAggregate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_58__pyx_unpickle_FactoryAggregate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_58__pyx_unpickle_FactoryAggregate = {"__pyx_unpickle_FactoryAggregate", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_58__pyx_unpickle_FactoryAggregate, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_58__pyx_unpickle_FactoryAggregate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -45476,14 +45676,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_56__pyx_unpickle_Fact
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_55__pyx_unpickle_FactoryAggregate(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_57__pyx_unpickle_FactoryAggregate(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_55__pyx_unpickle_FactoryAggregate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_57__pyx_unpickle_FactoryAggregate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -45822,9 +46022,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Factory
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_58__pyx_unpickle_BaseSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_58__pyx_unpickle_BaseSingleton = {"__pyx_unpickle_BaseSingleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_58__pyx_unpickle_BaseSingleton, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_58__pyx_unpickle_BaseSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_60__pyx_unpickle_BaseSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_60__pyx_unpickle_BaseSingleton = {"__pyx_unpickle_BaseSingleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_60__pyx_unpickle_BaseSingleton, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_60__pyx_unpickle_BaseSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -45887,14 +46087,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_58__pyx_unpickle_Base
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_57__pyx_unpickle_BaseSingleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_59__pyx_unpickle_BaseSingleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_57__pyx_unpickle_BaseSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_59__pyx_unpickle_BaseSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -46233,9 +46433,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_BaseSin
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_60__pyx_unpickle_Singleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_60__pyx_unpickle_Singleton = {"__pyx_unpickle_Singleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_60__pyx_unpickle_Singleton, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_60__pyx_unpickle_Singleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_62__pyx_unpickle_Singleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_62__pyx_unpickle_Singleton = {"__pyx_unpickle_Singleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_62__pyx_unpickle_Singleton, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_62__pyx_unpickle_Singleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -46298,14 +46498,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_60__pyx_unpickle_Sing
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_59__pyx_unpickle_Singleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_61__pyx_unpickle_Singleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_59__pyx_unpickle_Singleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_61__pyx_unpickle_Singleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -46655,9 +46855,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Singlet
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_62__pyx_unpickle_DelegatedSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_62__pyx_unpickle_DelegatedSingleton = {"__pyx_unpickle_DelegatedSingleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_62__pyx_unpickle_DelegatedSingleton, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_62__pyx_unpickle_DelegatedSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_64__pyx_unpickle_DelegatedSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_64__pyx_unpickle_DelegatedSingleton = {"__pyx_unpickle_DelegatedSingleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_64__pyx_unpickle_DelegatedSingleton, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_64__pyx_unpickle_DelegatedSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -46720,14 +46920,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_62__pyx_unpickle_Dele
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_61__pyx_unpickle_DelegatedSingleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_63__pyx_unpickle_DelegatedSingleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_61__pyx_unpickle_DelegatedSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_63__pyx_unpickle_DelegatedSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -47077,9 +47277,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Delegat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_64__pyx_unpickle_ThreadSafeSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_64__pyx_unpickle_ThreadSafeSingleton = {"__pyx_unpickle_ThreadSafeSingleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_64__pyx_unpickle_ThreadSafeSingleton, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_64__pyx_unpickle_ThreadSafeSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_66__pyx_unpickle_ThreadSafeSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_66__pyx_unpickle_ThreadSafeSingleton = {"__pyx_unpickle_ThreadSafeSingleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_66__pyx_unpickle_ThreadSafeSingleton, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_66__pyx_unpickle_ThreadSafeSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -47142,14 +47342,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_64__pyx_unpickle_Thre
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_63__pyx_unpickle_ThreadSafeSingleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_65__pyx_unpickle_ThreadSafeSingleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_63__pyx_unpickle_ThreadSafeSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_65__pyx_unpickle_ThreadSafeSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -47510,9 +47710,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_ThreadS
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_66__pyx_unpickle_DelegatedThreadSafeSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_66__pyx_unpickle_DelegatedThreadSafeSingleton = {"__pyx_unpickle_DelegatedThreadSafeSingleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_66__pyx_unpickle_DelegatedThreadSafeSingleton, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_66__pyx_unpickle_DelegatedThreadSafeSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_68__pyx_unpickle_DelegatedThreadSafeSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_68__pyx_unpickle_DelegatedThreadSafeSingleton = {"__pyx_unpickle_DelegatedThreadSafeSingleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_68__pyx_unpickle_DelegatedThreadSafeSingleton, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_68__pyx_unpickle_DelegatedThreadSafeSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -47575,14 +47775,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_66__pyx_unpickle_Dele
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_65__pyx_unpickle_DelegatedThreadSafeSingleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_67__pyx_unpickle_DelegatedThreadSafeSingleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_65__pyx_unpickle_DelegatedThreadSafeSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_67__pyx_unpickle_DelegatedThreadSafeSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -47943,9 +48143,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Delegat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_68__pyx_unpickle_ThreadLocalSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_68__pyx_unpickle_ThreadLocalSingleton = {"__pyx_unpickle_ThreadLocalSingleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_68__pyx_unpickle_ThreadLocalSingleton, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_68__pyx_unpickle_ThreadLocalSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_70__pyx_unpickle_ThreadLocalSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_70__pyx_unpickle_ThreadLocalSingleton = {"__pyx_unpickle_ThreadLocalSingleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_70__pyx_unpickle_ThreadLocalSingleton, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_70__pyx_unpickle_ThreadLocalSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -48008,14 +48208,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_68__pyx_unpickle_Thre
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_67__pyx_unpickle_ThreadLocalSingleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_69__pyx_unpickle_ThreadLocalSingleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_67__pyx_unpickle_ThreadLocalSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_69__pyx_unpickle_ThreadLocalSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -48365,9 +48565,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_ThreadL
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_70__pyx_unpickle_DelegatedThreadLocalSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_70__pyx_unpickle_DelegatedThreadLocalSingleton = {"__pyx_unpickle_DelegatedThreadLocalSingleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_70__pyx_unpickle_DelegatedThreadLocalSingleton, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_70__pyx_unpickle_DelegatedThreadLocalSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_72__pyx_unpickle_DelegatedThreadLocalSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_72__pyx_unpickle_DelegatedThreadLocalSingleton = {"__pyx_unpickle_DelegatedThreadLocalSingleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_72__pyx_unpickle_DelegatedThreadLocalSingleton, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_72__pyx_unpickle_DelegatedThreadLocalSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -48430,14 +48630,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_70__pyx_unpickle_Dele
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_69__pyx_unpickle_DelegatedThreadLocalSingleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_71__pyx_unpickle_DelegatedThreadLocalSingleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_69__pyx_unpickle_DelegatedThreadLocalSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_71__pyx_unpickle_DelegatedThreadLocalSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -48787,9 +48987,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Delegat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_72__pyx_unpickle_AbstractSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_72__pyx_unpickle_AbstractSingleton = {"__pyx_unpickle_AbstractSingleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_72__pyx_unpickle_AbstractSingleton, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_72__pyx_unpickle_AbstractSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_74__pyx_unpickle_AbstractSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_74__pyx_unpickle_AbstractSingleton = {"__pyx_unpickle_AbstractSingleton", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_74__pyx_unpickle_AbstractSingleton, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_74__pyx_unpickle_AbstractSingleton(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -48852,14 +49052,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_72__pyx_unpickle_Abst
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_71__pyx_unpickle_AbstractSingleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_73__pyx_unpickle_AbstractSingleton(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_71__pyx_unpickle_AbstractSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_73__pyx_unpickle_AbstractSingleton(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -49198,9 +49398,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Abstrac
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_74__pyx_unpickle_SingletonDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_74__pyx_unpickle_SingletonDelegate = {"__pyx_unpickle_SingletonDelegate", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_74__pyx_unpickle_SingletonDelegate, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_74__pyx_unpickle_SingletonDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_76__pyx_unpickle_SingletonDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_76__pyx_unpickle_SingletonDelegate = {"__pyx_unpickle_SingletonDelegate", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_76__pyx_unpickle_SingletonDelegate, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_76__pyx_unpickle_SingletonDelegate(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -49263,14 +49463,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_74__pyx_unpickle_Sing
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_73__pyx_unpickle_SingletonDelegate(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_75__pyx_unpickle_SingletonDelegate(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_73__pyx_unpickle_SingletonDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_75__pyx_unpickle_SingletonDelegate(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -49608,9 +49808,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Singlet
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_76__pyx_unpickle_Injection(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_76__pyx_unpickle_Injection = {"__pyx_unpickle_Injection", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_76__pyx_unpickle_Injection, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_76__pyx_unpickle_Injection(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_78__pyx_unpickle_Injection(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_78__pyx_unpickle_Injection = {"__pyx_unpickle_Injection", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_78__pyx_unpickle_Injection, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_78__pyx_unpickle_Injection(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -49673,14 +49873,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_76__pyx_unpickle_Inje
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_75__pyx_unpickle_Injection(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_77__pyx_unpickle_Injection(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_75__pyx_unpickle_Injection(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_77__pyx_unpickle_Injection(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -50022,9 +50222,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Injecti
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_78__pyx_unpickle_PositionalInjection(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_78__pyx_unpickle_PositionalInjection = {"__pyx_unpickle_PositionalInjection", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_78__pyx_unpickle_PositionalInjection, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_78__pyx_unpickle_PositionalInjection(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_80__pyx_unpickle_PositionalInjection(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_80__pyx_unpickle_PositionalInjection = {"__pyx_unpickle_PositionalInjection", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_80__pyx_unpickle_PositionalInjection, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_80__pyx_unpickle_PositionalInjection(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -50087,14 +50287,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_78__pyx_unpickle_Posi
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_77__pyx_unpickle_PositionalInjection(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_79__pyx_unpickle_PositionalInjection(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_77__pyx_unpickle_PositionalInjection(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_79__pyx_unpickle_PositionalInjection(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -50436,9 +50636,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers___pyx_unpickle_Positio
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_9providers_80__pyx_unpickle_NamedInjection(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_9providers_80__pyx_unpickle_NamedInjection = {"__pyx_unpickle_NamedInjection", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_80__pyx_unpickle_NamedInjection, METH_VARARGS|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_19dependency_injector_9providers_80__pyx_unpickle_NamedInjection(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_9providers_82__pyx_unpickle_NamedInjection(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_9providers_82__pyx_unpickle_NamedInjection = {"__pyx_unpickle_NamedInjection", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_9providers_82__pyx_unpickle_NamedInjection, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_9providers_82__pyx_unpickle_NamedInjection(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v___pyx_type = 0;
   long __pyx_v___pyx_checksum;
   PyObject *__pyx_v___pyx_state = 0;
@@ -50501,14 +50701,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_80__pyx_unpickle_Name
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_9providers_79__pyx_unpickle_NamedInjection(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
+  __pyx_r = __pyx_pf_19dependency_injector_9providers_81__pyx_unpickle_NamedInjection(__pyx_self, __pyx_v___pyx_type, __pyx_v___pyx_checksum, __pyx_v___pyx_state);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_9providers_79__pyx_unpickle_NamedInjection(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
+static PyObject *__pyx_pf_19dependency_injector_9providers_81__pyx_unpickle_NamedInjection(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v___pyx_type, long __pyx_v___pyx_checksum, PyObject *__pyx_v___pyx_state) {
   PyObject *__pyx_v___pyx_PickleError = NULL;
   PyObject *__pyx_v___pyx_result = NULL;
   PyObject *__pyx_r = NULL;
@@ -55352,6 +55552,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_add_args, __pyx_k_add_args, sizeof(__pyx_k_add_args), 0, 0, 1, 1},
   {&__pyx_n_s_add_attributes, __pyx_k_add_attributes, sizeof(__pyx_k_add_attributes), 0, 0, 1, 1},
   {&__pyx_n_s_add_kwargs, __pyx_k_add_kwargs, sizeof(__pyx_k_add_kwargs), 0, 0, 1, 1},
+  {&__pyx_n_s_add_sys_streams, __pyx_k_add_sys_streams, sizeof(__pyx_k_add_sys_streams), 0, 0, 1, 1},
   {&__pyx_n_s_address, __pyx_k_address, sizeof(__pyx_k_address), 0, 0, 1, 1},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
   {&__pyx_n_s_asyncio, __pyx_k_asyncio, sizeof(__pyx_k_asyncio), 0, 0, 1, 1},
@@ -55484,7 +55685,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
   {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
   {&__pyx_n_s_singleton, __pyx_k_singleton, sizeof(__pyx_k_singleton), 0, 0, 1, 1},
+  {&__pyx_kp_s_src_dependency_injector_provider, __pyx_k_src_dependency_injector_provider, sizeof(__pyx_k_src_dependency_injector_provider), 0, 0, 1, 0},
   {&__pyx_n_s_startswith, __pyx_k_startswith, sizeof(__pyx_k_startswith), 0, 0, 1, 1},
+  {&__pyx_n_s_stderr, __pyx_k_stderr, sizeof(__pyx_k_stderr), 0, 0, 1, 1},
+  {&__pyx_n_s_stdin, __pyx_k_stdin, sizeof(__pyx_k_stdin), 0, 0, 1, 1},
+  {&__pyx_n_s_stdout, __pyx_k_stdout, sizeof(__pyx_k_stdout), 0, 0, 1, 1},
   {&__pyx_n_s_storage_lock, __pyx_k_storage_lock, sizeof(__pyx_k_storage_lock), 0, 0, 1, 1},
   {&__pyx_n_s_str, __pyx_k_str, sizeof(__pyx_k_str), 0, 0, 1, 1},
   {&__pyx_kp_s_stringsource, __pyx_k_stringsource, sizeof(__pyx_k_stringsource), 0, 0, 1, 0},
@@ -55620,143 +55825,155 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
+  /* "dependency_injector/providers.pyx":2085
+ *     return copy.deepcopy(instance, memo)
+ * 
+ * def __add_sys_streams(memo):             # <<<<<<<<<<<<<<
+ *     """Add system streams to memo dictionary.
+ * 
+ */
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_n_s_memo); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 2085, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector_provider, __pyx_n_s_add_sys_streams, 2085, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(1, 2085, __pyx_L1_error)
+
   /* "(tree fragment)":1
  * def __pyx_unpickle_Provider(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     if __pyx_checksum != 0x0f5c5dd:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_tuple__8 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(2, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
-  __pyx_codeobj__9 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__8, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Provider, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__9)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__10 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
-  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Object, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__11 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__10, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Provider, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__11)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__12 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
-  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Delegate, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Object, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__14 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Dependency, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Delegate, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__16 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__16);
   __Pyx_GIVEREF(__pyx_tuple__16);
-  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_ExternalDependenc, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Dependency, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__18 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__18);
   __Pyx_GIVEREF(__pyx_tuple__18);
-  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_DependenciesConta, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_ExternalDependenc, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__20 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_OverridingContext, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_DependenciesConta, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__22 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__22);
   __Pyx_GIVEREF(__pyx_tuple__22);
-  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__22, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Callable, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__22, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_OverridingContext, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__24 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__24);
   __Pyx_GIVEREF(__pyx_tuple__24);
-  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_DelegatedCallable, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__25 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__24, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Callable, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__25)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__26 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__26);
   __Pyx_GIVEREF(__pyx_tuple__26);
-  __pyx_codeobj__27 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__26, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_AbstractCallable, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__27)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__27 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__26, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_DelegatedCallable, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__27)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__28 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__28);
   __Pyx_GIVEREF(__pyx_tuple__28);
-  __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_CallableDelegate, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__29 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__28, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_AbstractCallable, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__29)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__30 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
-  __pyx_codeobj__31 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Coroutine, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__31)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__31 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__30, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_CallableDelegate, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__31)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__32 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__32)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__32);
   __Pyx_GIVEREF(__pyx_tuple__32);
-  __pyx_codeobj__33 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__32, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_DelegatedCoroutin, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__33)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__33 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__32, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Coroutine, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__33)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__34 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__34);
   __Pyx_GIVEREF(__pyx_tuple__34);
-  __pyx_codeobj__35 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__34, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_AbstractCoroutine, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__35)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__35 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__34, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_DelegatedCoroutin, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__35)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__36 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__36);
   __Pyx_GIVEREF(__pyx_tuple__36);
-  __pyx_codeobj__37 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_CoroutineDelegate, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__37)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__37 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_AbstractCoroutine, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__37)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__38 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__38);
   __Pyx_GIVEREF(__pyx_tuple__38);
-  __pyx_codeobj__39 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__38, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Configuration, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__39)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__39 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__38, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_CoroutineDelegate, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__39)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__40 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__40);
   __Pyx_GIVEREF(__pyx_tuple__40);
-  __pyx_codeobj__41 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__40, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Factory, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__41)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__41 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__40, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Configuration, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__41)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__42 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__42);
   __Pyx_GIVEREF(__pyx_tuple__42);
-  __pyx_codeobj__43 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__42, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_DelegatedFactory, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__43)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__43 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__42, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Factory, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__43)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__44 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__44);
   __Pyx_GIVEREF(__pyx_tuple__44);
-  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_AbstractFactory, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_DelegatedFactory, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__46 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__46);
   __Pyx_GIVEREF(__pyx_tuple__46);
-  __pyx_codeobj__47 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__46, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_FactoryDelegate, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__47)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__47 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__46, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_AbstractFactory, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__47)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__48 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__48);
   __Pyx_GIVEREF(__pyx_tuple__48);
-  __pyx_codeobj__49 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__48, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_FactoryAggregate, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__49)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__49 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__48, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_FactoryDelegate, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__49)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__50 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__50);
   __Pyx_GIVEREF(__pyx_tuple__50);
-  __pyx_codeobj__51 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__50, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_BaseSingleton, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__51)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__51 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__50, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_FactoryAggregate, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__51)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__52 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__52);
   __Pyx_GIVEREF(__pyx_tuple__52);
-  __pyx_codeobj__53 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Singleton, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__53)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__53 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_BaseSingleton, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__53)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__54 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__54);
   __Pyx_GIVEREF(__pyx_tuple__54);
-  __pyx_codeobj__55 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__54, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_DelegatedSingleto, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__55)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__55 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__54, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Singleton, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__55)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__56 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__56);
   __Pyx_GIVEREF(__pyx_tuple__56);
-  __pyx_codeobj__57 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__56, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_ThreadSafeSinglet, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__57)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__57 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__56, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_DelegatedSingleto, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__57)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__58 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__58);
   __Pyx_GIVEREF(__pyx_tuple__58);
-  __pyx_codeobj__59 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__58, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_DelegatedThreadSa, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__59)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__59 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__58, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_ThreadSafeSinglet, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__59)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__60 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__60);
   __Pyx_GIVEREF(__pyx_tuple__60);
-  __pyx_codeobj__61 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__60, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_ThreadLocalSingle, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__61)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__61 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__60, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_DelegatedThreadSa, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__61)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__62 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__62)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__62);
   __Pyx_GIVEREF(__pyx_tuple__62);
-  __pyx_codeobj__63 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__62, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_DelegatedThreadLo, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__63)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__63 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__62, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_ThreadLocalSingle, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__63)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__64 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__64)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__64);
   __Pyx_GIVEREF(__pyx_tuple__64);
-  __pyx_codeobj__65 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__64, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_AbstractSingleton, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__65)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__65 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__64, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_DelegatedThreadLo, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__65)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__66 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__66)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__66);
   __Pyx_GIVEREF(__pyx_tuple__66);
-  __pyx_codeobj__67 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__66, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_SingletonDelegate, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__67)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__67 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__66, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_AbstractSingleton, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__67)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__68 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__68)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__68);
   __Pyx_GIVEREF(__pyx_tuple__68);
-  __pyx_codeobj__69 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__68, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Injection, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__69)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__69 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__68, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_SingletonDelegate, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__69)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__70 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__70)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__70);
   __Pyx_GIVEREF(__pyx_tuple__70);
-  __pyx_codeobj__71 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__70, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_PositionalInjecti, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__71)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__71 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__70, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Injection, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__71)) __PYX_ERR(2, 1, __pyx_L1_error)
   __pyx_tuple__72 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__72)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__72);
   __Pyx_GIVEREF(__pyx_tuple__72);
-  __pyx_codeobj__73 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__72, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_NamedInjection, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__73)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_codeobj__73 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__72, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_PositionalInjecti, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__73)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_tuple__74 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__74)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__74);
+  __Pyx_GIVEREF(__pyx_tuple__74);
+  __pyx_codeobj__75 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__74, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_NamedInjection, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__75)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -57221,7 +57438,7 @@ if (!__Pyx_RefNanny) {
  *                                     copy.deepcopy(obj.im_self, memo),
  *                                     obj.im_class)
  */
-    __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_14lambda, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_dependency_injector_providers, __pyx_d, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 39, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_16lambda, 0, __pyx_n_s_lambda, NULL, __pyx_n_s_dependency_injector_providers, __pyx_d, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 39, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
 
     /* "dependency_injector/providers.pyx":38
@@ -57435,12 +57652,24 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_DelegatedThreadLocalSingleton->tp_dict, __pyx_n_s_IS_DELEGATED, Py_True) < 0) __PYX_ERR(1, 1844, __pyx_L1_error)
   PyType_Modified(__pyx_ptype_19dependency_injector_9providers_DelegatedThreadLocalSingleton);
 
+  /* "dependency_injector/providers.pyx":2085
+ *     return copy.deepcopy(instance, memo)
+ * 
+ * def __add_sys_streams(memo):             # <<<<<<<<<<<<<<
+ *     """Add system streams to memo dictionary.
+ * 
+ */
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_15__add_sys_streams, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 2085, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_8);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_add_sys_streams, __pyx_t_8) < 0) __PYX_ERR(1, 2085, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+
   /* "(tree fragment)":1
  * def __pyx_unpickle_Provider(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     if __pyx_checksum != 0x0f5c5dd:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_16__pyx_unpickle_Provider, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_18__pyx_unpickle_Provider, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Provider, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57452,7 +57681,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__last_overriding = __pyx_state[0]; __pyx_result.__overridden = __pyx_state[1]
  *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_18__pyx_unpickle_Object, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_20__pyx_unpickle_Object, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Object, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57462,7 +57691,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0x3f4a3b6:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_20__pyx_unpickle_Delegate, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_22__pyx_unpickle_Delegate, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Delegate, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57474,7 +57703,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__last_overriding = __pyx_state[0]; __pyx_result.__overridden = __pyx_state[1]; __pyx_result.__provides = __pyx_state[2]
  *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_22__pyx_unpickle_Dependency, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_24__pyx_unpickle_Dependency, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Dependency, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57484,7 +57713,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0xf1f5217:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_24__pyx_unpickle_ExternalDependency, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_26__pyx_unpickle_ExternalDependency, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_ExternalDependenc, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57496,7 +57725,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__instance_of = __pyx_state[0]; __pyx_result.__last_overriding = __pyx_state[1]; __pyx_result.__overridden = __pyx_state[2]
  *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_26__pyx_unpickle_DependenciesContainer, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_28__pyx_unpickle_DependenciesContainer, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_DependenciesConta, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57506,7 +57735,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0x2071b6b:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_28__pyx_unpickle_OverridingContext, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_30__pyx_unpickle_OverridingContext, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_OverridingContext, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57518,7 +57747,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__overridden = __pyx_state[0]; __pyx_result.__overriding = __pyx_state[1]
  *     if len(__pyx_state) > 2 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_30__pyx_unpickle_Callable, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_32__pyx_unpickle_Callable, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Callable, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57528,7 +57757,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0x03251dc:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_32__pyx_unpickle_DelegatedCallable, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_34__pyx_unpickle_DelegatedCallable, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_DelegatedCallable, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57540,7 +57769,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__args = __pyx_state[0]; __pyx_result.__args_len = __pyx_state[1]; __pyx_result.__kwargs = __pyx_state[2]; __pyx_result.__kwargs_len = __pyx_state[3]; __pyx_result.__last_overriding = __pyx_state[4]; __pyx_result.__overridden = __pyx_state[5]; __pyx_result.__provides = __pyx_state[6]
  *     if len(__pyx_state) > 7 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_34__pyx_unpickle_AbstractCallable, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_36__pyx_unpickle_AbstractCallable, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_AbstractCallable, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57550,7 +57779,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0x3f4a3b6:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_36__pyx_unpickle_CallableDelegate, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_38__pyx_unpickle_CallableDelegate, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_CallableDelegate, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57562,7 +57791,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__last_overriding = __pyx_state[0]; __pyx_result.__overridden = __pyx_state[1]; __pyx_result.__provides = __pyx_state[2]
  *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_38__pyx_unpickle_Coroutine, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_40__pyx_unpickle_Coroutine, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Coroutine, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57572,7 +57801,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0x03251dc:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_40__pyx_unpickle_DelegatedCoroutine, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_42__pyx_unpickle_DelegatedCoroutine, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_DelegatedCoroutin, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57584,7 +57813,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__args = __pyx_state[0]; __pyx_result.__args_len = __pyx_state[1]; __pyx_result.__kwargs = __pyx_state[2]; __pyx_result.__kwargs_len = __pyx_state[3]; __pyx_result.__last_overriding = __pyx_state[4]; __pyx_result.__overridden = __pyx_state[5]; __pyx_result.__provides = __pyx_state[6]
  *     if len(__pyx_state) > 7 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_42__pyx_unpickle_AbstractCoroutine, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_44__pyx_unpickle_AbstractCoroutine, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_AbstractCoroutine, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57594,7 +57823,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0x3f4a3b6:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_44__pyx_unpickle_CoroutineDelegate, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_46__pyx_unpickle_CoroutineDelegate, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_CoroutineDelegate, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57606,7 +57835,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__last_overriding = __pyx_state[0]; __pyx_result.__overridden = __pyx_state[1]; __pyx_result.__provides = __pyx_state[2]
  *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_46__pyx_unpickle_Configuration, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_48__pyx_unpickle_Configuration, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Configuration, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57616,7 +57845,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0xa73b866:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_48__pyx_unpickle_Factory, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_50__pyx_unpickle_Factory, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Factory, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57628,7 +57857,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__attributes = __pyx_state[0]; __pyx_result.__attributes_len = __pyx_state[1]; __pyx_result.__instantiator = __pyx_state[2]; __pyx_result.__last_overriding = __pyx_state[3]; __pyx_result.__overridden = __pyx_state[4]
  *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_50__pyx_unpickle_DelegatedFactory, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_52__pyx_unpickle_DelegatedFactory, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_DelegatedFactory, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57638,7 +57867,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0xa73b866:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_52__pyx_unpickle_AbstractFactory, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_54__pyx_unpickle_AbstractFactory, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_AbstractFactory, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57650,7 +57879,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__attributes = __pyx_state[0]; __pyx_result.__attributes_len = __pyx_state[1]; __pyx_result.__instantiator = __pyx_state[2]; __pyx_result.__last_overriding = __pyx_state[3]; __pyx_result.__overridden = __pyx_state[4]
  *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_54__pyx_unpickle_FactoryDelegate, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_56__pyx_unpickle_FactoryDelegate, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_FactoryDelegate, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57660,7 +57889,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0xa6696fd:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_56__pyx_unpickle_FactoryAggregate, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_58__pyx_unpickle_FactoryAggregate, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_FactoryAggregate, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57672,7 +57901,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__factories = __pyx_state[0]; __pyx_result.__last_overriding = __pyx_state[1]; __pyx_result.__overridden = __pyx_state[2]
  *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_58__pyx_unpickle_BaseSingleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_60__pyx_unpickle_BaseSingleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_BaseSingleton, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57682,7 +57911,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0x76eb8a2:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_60__pyx_unpickle_Singleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_62__pyx_unpickle_Singleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Singleton, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57694,7 +57923,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__instantiator = __pyx_state[0]; __pyx_result.__last_overriding = __pyx_state[1]; __pyx_result.__overridden = __pyx_state[2]; __pyx_result.__storage = __pyx_state[3]
  *     if len(__pyx_state) > 4 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_62__pyx_unpickle_DelegatedSingleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_64__pyx_unpickle_DelegatedSingleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_DelegatedSingleto, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57704,7 +57933,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0xa5833ef:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_64__pyx_unpickle_ThreadSafeSingleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_66__pyx_unpickle_ThreadSafeSingleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_ThreadSafeSinglet, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57716,7 +57945,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__instantiator = __pyx_state[0]; __pyx_result.__last_overriding = __pyx_state[1]; __pyx_result.__overridden = __pyx_state[2]; __pyx_result.__storage = __pyx_state[3]; __pyx_result.__storage_lock = __pyx_state[4]
  *     if len(__pyx_state) > 5 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_66__pyx_unpickle_DelegatedThreadSafeSingleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_68__pyx_unpickle_DelegatedThreadSafeSingleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_DelegatedThreadSa, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57726,7 +57955,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0x76eb8a2:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_68__pyx_unpickle_ThreadLocalSingleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_70__pyx_unpickle_ThreadLocalSingleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_ThreadLocalSingle, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57738,7 +57967,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__instantiator = __pyx_state[0]; __pyx_result.__last_overriding = __pyx_state[1]; __pyx_result.__overridden = __pyx_state[2]; __pyx_result.__storage = __pyx_state[3]
  *     if len(__pyx_state) > 4 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_70__pyx_unpickle_DelegatedThreadLocalSingleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_72__pyx_unpickle_DelegatedThreadLocalSingleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_DelegatedThreadLo, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57748,7 +57977,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0x0c49df0:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_72__pyx_unpickle_AbstractSingleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_74__pyx_unpickle_AbstractSingleton, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_AbstractSingleton, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57760,7 +57989,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__instantiator = __pyx_state[0]; __pyx_result.__last_overriding = __pyx_state[1]; __pyx_result.__overridden = __pyx_state[2]
  *     if len(__pyx_state) > 3 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_74__pyx_unpickle_SingletonDelegate, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_76__pyx_unpickle_SingletonDelegate, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_SingletonDelegate, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57770,7 +57999,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0x2e1d18f:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_76__pyx_unpickle_Injection, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_78__pyx_unpickle_Injection, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Injection, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57782,7 +58011,7 @@ if (!__Pyx_RefNanny) {
  *     __pyx_result.__call = __pyx_state[0]; __pyx_result.__is_delegated = __pyx_state[1]; __pyx_result.__is_provider = __pyx_state[2]; __pyx_result.__value = __pyx_state[3]
  *     if len(__pyx_state) > 4 and hasattr(__pyx_result, '__dict__'):
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_78__pyx_unpickle_PositionalInjection, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_80__pyx_unpickle_PositionalInjection, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_PositionalInjecti, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -57792,7 +58021,7 @@ if (!__Pyx_RefNanny) {
  *     if __pyx_checksum != 0x64f395f:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_80__pyx_unpickle_NamedInjection, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_82__pyx_unpickle_NamedInjection, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_8)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_NamedInjection, __pyx_t_8) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;

@@ -2075,4 +2075,19 @@ cpdef str represent_provider(object provider, object provides):
 
 cpdef object deepcopy(object instance, dict memo=None):
     """Return full copy of provider or container with providers."""
+    if memo is None:
+        memo = dict()
+
+    __add_sys_streams(memo)
+
     return copy.deepcopy(instance, memo)
+
+def __add_sys_streams(memo):
+    """Add system streams to memo dictionary.
+
+    This helps to avoid copying of system streams while making a deepcopy of
+    objects graph.
+    """
+    memo[id(sys.stdin)] = sys.stdin
+    memo[id(sys.stdout)] = sys.stdout
+    memo[id(sys.stderr)] = sys.stderr
