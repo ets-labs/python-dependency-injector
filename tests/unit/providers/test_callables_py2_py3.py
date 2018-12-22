@@ -1,5 +1,7 @@
 """Dependency injector callable providers unit tests."""
 
+import sys
+
 import unittest2 as unittest
 
 from dependency_injector import (
@@ -166,6 +168,18 @@ class CallableTests(unittest.TestCase):
 
         self.assertIsNot(object_provider, object_provider_copy)
         self.assertIsInstance(object_provider_copy, providers.Object)
+
+    def test_deepcopy_with_sys_streams(self):
+        provider = providers.Callable(_example)
+        provider.add_args(sys.stdin)
+        provider.add_kwargs(a2=sys.stdout)
+
+        provider_copy = providers.deepcopy(provider)
+
+        self.assertIsNot(provider, provider_copy)
+        self.assertIsInstance(provider_copy, providers.Callable)
+        self.assertIs(provider.args[0], sys.stdin)
+        self.assertIs(provider.kwargs['a2'], sys.stdout)
 
     def test_repr(self):
         provider = providers.Callable(_example)
