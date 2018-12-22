@@ -11,6 +11,7 @@ Development version
 -------------------
 - Fix issue with copying providers that have  system streams injections
   (``sys.stdin``, ``sys.stdout`` and ``sys.stderr``).
+- Add support of six 1.12.0.
 
 3.14.2
 ------
