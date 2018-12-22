@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Fix issue with copying providers that have  system streams injections
+  (``sys.stdin``, ``sys.stdout`` and ``sys.stderr``).
+
 3.14.2
 ------
 - Set Cython ``language_level=2``.
