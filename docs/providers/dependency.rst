@@ -17,7 +17,7 @@ applications.
 It may be good idea, to move all external dependencies (like
 *database connection*) to the top level and make them to be injected on your
 software component's initialization. It will make third party developers feel
-themselves free about integration of yours component in their applications,
+themselves free about integration of your component in their applications,
 because they would be able to find right place / right way for doing this
 in their application's architectures.
 
