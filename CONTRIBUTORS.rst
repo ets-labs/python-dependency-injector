@@ -6,3 +6,4 @@ Dependency Injector Contributors
 + Terrence Brannon (metaperl)
 + Stanislav Lobanov (asyncee)
 + James Lafa (jameslafa)
++ Vlad Ghita (vlad-ghita)
