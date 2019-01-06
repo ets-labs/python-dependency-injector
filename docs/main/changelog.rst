@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.14.4
+------
+- Fix typo in providers doc (thanks to `Vlad Ghita <https://github.com/vlad-ghita>`_).
+
 3.14.3
 ------
 - Fix issue with copying providers that have  system streams injections
