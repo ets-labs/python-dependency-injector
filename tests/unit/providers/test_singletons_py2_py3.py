@@ -347,7 +347,7 @@ class _BaseSingletonTestCase(object):
         provider.reset()
 
         instance2 = provider()
-        self.assertIsInstance(instance1, object)
+        self.assertIsInstance(instance2, object)
 
         self.assertIsNot(instance1, instance2)
 
@@ -396,6 +396,19 @@ class ThreadLocalSingletonTests(_BaseSingletonTestCase, unittest.TestCase):
                          'ThreadLocalSingleton({0}) at {1}>'.format(
                              repr(Example),
                              hex(id(provider))))
+
+    def test_reset(self):
+        provider = providers.ThreadLocalSingleton(Example)
+
+        instance1 = provider()
+        self.assertIsInstance(instance1, Example)
+
+        provider.reset()
+
+        instance2 = provider()
+        self.assertIsInstance(instance2, Example)
+
+        self.assertIsNot(instance1, instance2)
 
 
 class DelegatedThreadLocalSingletonTests(_BaseSingletonTestCase,
