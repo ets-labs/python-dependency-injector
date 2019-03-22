@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Fix issue causing ``ThreadLocalSingleton`` provider to return ``None`` after
+  reset (thanks to `Jeroen Rietveld <https://github.com/jeroenrietveld>`_).
+- Add test for ``ThreadLocalSingleton`` provider reset functionality (thanks
+  to `Jeroen Rietveld <https://github.com/jeroenrietveld>`_).
+
 3.14.4
 ------
 - Fix typo in providers doc (thanks to `Vlad Ghita <https://github.com/vlad-ghita>`_).
