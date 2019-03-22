@@ -31149,11 +31149,11 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_20ThreadLocalSingleto
   /* "dependency_injector/providers.pyx":1811
  *         :rtype: None
  *         """
- *         self.__storage.instance = None             # <<<<<<<<<<<<<<
+ *         del self.__storage.instance             # <<<<<<<<<<<<<<
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self->__pyx___storage, __pyx_n_s_instance, Py_None) < 0) __PYX_ERR(1, 1811, __pyx_L1_error)
+  if (__Pyx_PyObject_DelAttrStr(__pyx_v_self->__pyx___storage, __pyx_n_s_instance) < 0) __PYX_ERR(1, 1811, __pyx_L1_error)
 
   /* "dependency_injector/providers.pyx":1806
  *         super(ThreadLocalSingleton, self).__init__(provides, *args, **kwargs)
@@ -31176,7 +31176,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_20ThreadLocalSingleto
 }
 
 /* "dependency_injector/providers.pyx":1813
- *         self.__storage.instance = None
+ *         del self.__storage.instance
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
  *         """Return single instance."""
@@ -31461,7 +31461,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton
   }
 
   /* "dependency_injector/providers.pyx":1813
- *         self.__storage.instance = None
+ *         del self.__storage.instance
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
  *         """Return single instance."""
