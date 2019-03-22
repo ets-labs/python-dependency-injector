@@ -7,3 +7,4 @@ Dependency Injector Contributors
 + Stanislav Lobanov (asyncee)
 + James Lafa (jameslafa)
 + Vlad Ghita (vlad-ghita)
++ Jeroen Rietveld (jeroenrietveld)

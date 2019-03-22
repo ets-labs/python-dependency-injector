@@ -1808,7 +1808,7 @@ cdef class ThreadLocalSingleton(BaseSingleton):
 
         :rtype: None
         """
-        self.__storage.instance = None
+        del self.__storage.instance
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
