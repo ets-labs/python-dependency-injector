@@ -13,6 +13,8 @@ Development version
   reset (thanks to `Jeroen Rietveld <https://github.com/jeroenrietveld>`_).
 - Add test for ``ThreadLocalSingleton`` provider reset functionality (thanks
   to `Jeroen Rietveld <https://github.com/jeroenrietveld>`_).
+- Regenerate C sources using Cython 0.29.6.
+
 
 3.14.4
 ------
