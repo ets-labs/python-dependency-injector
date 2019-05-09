@@ -498,6 +498,14 @@ class FactoryAggregateTests(unittest.TestCase):
                              dict(example_a=self.example_a_factory,
                                   example_b=self.example_b_factory))
 
+    def test_deepcopy(self):
+        provider_copy = providers.deepcopy(self.factory_aggregate)
+
+        self.assertIsNot(self.factory_aggregate, provider_copy)
+        self.assertIs(self.factory_aggregate.example_a.cls, provider_copy.example_a.cls)
+        self.assertIs(self.factory_aggregate.example_b.cls, provider_copy.example_b.cls)
+        self.assertIsInstance(provider_copy, type(self.factory_aggregate))
+
     def test_repr(self):
         self.assertEqual(repr(self.factory_aggregate),
                          '<dependency_injector.providers.'
