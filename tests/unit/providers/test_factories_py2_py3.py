@@ -502,6 +502,7 @@ class FactoryAggregateTests(unittest.TestCase):
         provider_copy = providers.deepcopy(self.factory_aggregate)
 
         self.assertIsNot(self.factory_aggregate, provider_copy)
+        self.assertIsInstance(provider_copy, type(self.factory_aggregate))
 
         self.assertIsNot(self.factory_aggregate.example_a, provider_copy.example_a)
         self.assertIsInstance(self.factory_aggregate.example_a, type(provider_copy.example_a))
@@ -510,8 +511,6 @@ class FactoryAggregateTests(unittest.TestCase):
         self.assertIsNot(self.factory_aggregate.example_b, provider_copy.example_b)
         self.assertIsInstance(self.factory_aggregate.example_b, type(provider_copy.example_b))
         self.assertIs(self.factory_aggregate.example_b.cls, provider_copy.example_b.cls)
-
-        self.assertIsInstance(provider_copy, type(self.factory_aggregate))
 
     def test_repr(self):
         self.assertEqual(repr(self.factory_aggregate),
