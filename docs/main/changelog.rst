@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.14.6
+------
+- Fix ``FactoryAggregate`` provider copying issue.
+- Regenerate C sources using Cython 0.29.7.
+
 3.14.5
 ------
 - Fix issue causing ``ThreadLocalSingleton`` provider to return ``None`` after
