@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Regenerate C sources using Cython 0.29.7.
+
 3.14.5
 ------
 - Fix issue causing ``ThreadLocalSingleton`` provider to return ``None`` after
