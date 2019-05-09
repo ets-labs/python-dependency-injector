@@ -1449,6 +1449,21 @@ cdef class FactoryAggregate(Provider):
         self.__factories = factories
         super(FactoryAggregate, self).__init__()
 
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        cdef FactoryAggregate copied
+
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__()
+        copied.__factories = deepcopy(self.__factories, memo)
+
+        self._copy_overridings(copied, memo)
+
+        return copied
+
     def __call__(self, factory_name, *args, **kwargs):
         """Create new object using factory with provided name.
 

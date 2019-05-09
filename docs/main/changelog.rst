@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Fix ``FactoryAggregate`` provider copying issue.
 - Regenerate C sources using Cython 0.29.7.
 
 3.14.5
