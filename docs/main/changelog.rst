@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.14.7
+------
+- Fix typo on "Dependency injection and inversion of control in Python" docs page (thanks to
+  `Dmitry (xotonic) <https://github.com/xotonic>`_).
+
 3.14.6
 ------
 - Fix ``FactoryAggregate`` provider copying issue.
