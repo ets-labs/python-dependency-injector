@@ -131,7 +131,7 @@ using :doc:`Dependency Injector <../index>`:
    :linenos:
 
 Useful links
-~~~~~~~~~~~~~
+~~~~~~~~~~~~
 
 There are some useful links related to dependency injection design pattern 
 that could be used for further reading:
