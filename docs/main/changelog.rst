@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.14.8
+------
+- Regenerate C sources using Cython 0.29.13.
+
 3.14.7
 ------
 - Fix typo on "Dependency injection and inversion of control in Python" docs page (thanks to
