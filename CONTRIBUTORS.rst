@@ -9,3 +9,4 @@ Dependency Injector Contributors
 + Vlad Ghita (vlad-ghita)
 + Jeroen Rietveld (jeroenrietveld)
 + Dmitry Kuzmin (xotonic)
++ supakeen (supakeen)
