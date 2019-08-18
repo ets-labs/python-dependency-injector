@@ -3,19 +3,20 @@ Dependency Injector - Dependency injection microframework for Python
 ====================================================================
 
 *Dependency Injector* is a dependency injection microframework for Python. 
-It was designed to be unified, developer-friendly tool that helps to implement 
-dependency injection design pattern in formal, pretty, Pythonic way.
+It was designed to be a unified and developer-friendly tool that helps
+implement a dependency injection design pattern in a formal, pretty, and
+Pythonic way.
 
-*Dependency Injector* framework key features are:
+The key features of the *Dependency Injector* framework are:
 
-+ Easy, smart, pythonic style.
-+ Obvious, clear structure.
++ Easy, smart, and pythonic style.
++ Obvious and clear structure.
 + Extensibility and flexibility.
 + High performance.
 + Memory efficiency.
 + Thread safety.
-+ Documentation.
-+ Semantic versioning.
++ Documented.
++ Semantically versioned.
 
 *Dependency Injector* containers and providers are implemented as C extension 
 types using Cython.
@@ -63,46 +64,47 @@ Dependency injection
 --------------------
 
 `Dependency injection`_ is a software design pattern that implements 
-`Inversion of control`_ for resolving dependencies. Formally, if object **A** 
+`Inversion of control`_ to resolve dependencies. Formally, if object **A** 
 depends on object **B**, object **A** must not create or import object **B** 
-directly. Instead of this object **A** must provide a way for *injecting* 
-object **B**. The responsibilities of objects creation and dependencies 
+directly. Instead of this object **A** must provide a way to *inject* 
+object **B**. The responsibilities of objects creation and dependency
 injection are delegated to external code - the *dependency injector*. 
 
-Popular terminology of dependency injection pattern:
+Popular terminology of the dependency injection pattern:
 
-+ Object **A**, that is dependant on object **B**, is often called - 
++ Object **A**, which depends on object **B**, is often called - 
   the *client*.
-+ Object **B**, that is a dependency, is often called - the *service*.
++ Object **B**, which is depended on, is often called - the *service*.
 + External code that is responsible for creation of objects and injection 
   of dependencies is often called - the *dependency injector*.
 
-There are several ways of how *service* can be injected into the *client*: 
+There are several ways to inject a *service* into a *client*: 
 
-+ by passing it as ``__init__`` argument (constructor / initializer injection)
-+ by setting it as attribute's value (attribute injection)
-+ by passing it as method's argument (method injection)
++ by passing it as an ``__init__`` argument (constructor / initializer
+  injection)
++ by setting it as an attribute's value (attribute injection)
++ by passing it as a method's argument (method injection)
 
-Dependency injection pattern has few strict rules that should be followed:
+The dependency injection pattern has few strict rules that should be followed:
 
 + The *client* delegates to the *dependency injector* the responsibility 
   of injecting its dependencies - the *service(s)*.
 + The *client* doesn't know how to create the *service*, it knows only 
-  interface of the *service*. The *service* doesn't know that it is used by 
+  the interface of the *service*. The *service* doesn't know that it is used by 
   the *client*.
 + The *dependency injector* knows how to create the *client* and 
-  the *service*, it also knows that the *client* depends on the *service*, 
+  the *service*. It also knows that the *client* depends on the *service*, 
   and knows how to inject the *service* into the *client*.
 + The *client* and the *service* know nothing about the *dependency injector*.
 
-Dependency injection pattern provides the following advantages: 
+The dependency injection pattern provides the following advantages: 
 
-+ Control on application structure.
-+ Decreased coupling between application components.
++ Control of application structure.
++ Decreased coupling of application components.
 + Increased code reusability.
 + Increased testability.
 + Increased maintainability.
-+ Reconfiguration of system without rebuilding.
++ Reconfiguration of a system without rebuilding.
 
 Example of dependency injection
 -------------------------------
@@ -153,7 +155,7 @@ Listing of ``example.cars`` module:
             """Initializer."""
             self._engine = engine  # Engine is injected
 
-Next example demonstrates creation of several cars with different engines:
+The next example demonstrates the creation of several cars with different engines:
 
 .. code-block:: python
 
@@ -168,14 +170,14 @@ Next example demonstrates creation of several cars with different engines:
         diesel_car = example.cars.Car(example.engines.DieselEngine())
         electro_car = example.cars.Car(example.engines.ElectroEngine())
 
-While previous example demonstrates advantages of dependency injection, there 
-is a disadvantage demonstration as well - creation of car requires additional 
-code for specification of dependencies. Nevertheless, this disadvantage could 
-be easily avoided by using a dependency injection framework for creation of 
-inversion of control container (IoC container).
+While the previous example demonstrates the advantages of dependency injection,
+there is a disadvantage demonstrated as well - the creation of a car requires 
+additional code to specificaty its dependencies. However, this disadvantage
+could be avoided by using a dependency injection framework for the creation of 
+an inversion of control container (IoC container).
 
-Example of creation of several inversion of control containers (IoC containers)
-using *Dependency Injector*:
+Here's an example of the creation of several inversion of control containers
+(IoC containers) using *Dependency Injector*:
 
 .. code-block:: python
 
@@ -219,9 +221,9 @@ using *Dependency Injector*:
 Dependency Injector structure
 -----------------------------
 
-Dependency Injector is a microframework and has a very simple structure.
+*Dependency Injector* is a microframework and has a simple structure.
 
-There are 2 main entities: providers & containers.
+There are two main entities: providers and containers.
 
 .. image:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/internals.png
     :width: 100%
@@ -230,51 +232,51 @@ There are 2 main entities: providers & containers.
 Providers
 ~~~~~~~~~
 
-Providers are strategies of accessing objects. They define how particular 
+Providers describe strategies of accessing objects. They define how particular 
 objects are provided.
 
 - **Provider** - base provider class.
-- **Callable** - provider that calls wrapped callable on every call. Supports 
-  positional & keyword argument injections.
+- **Callable** - provider that calls a wrapped callable on every call. Supports 
+  positional and keyword argument injections.
 - **Factory** - provider that creates new instance of specified class on every 
-  call. Supports positional & keyword argument injections, as well as 
+  call. Supports positional and keyword argument injections, as well as 
   attribute injections.
-- **Singleton** - provider that creates new instance of specified class on first 
-  call and returns same instance on every next call. Supports positional & 
-  keyword argument injections, as well as attribute injections.
+- **Singleton** - provider that creates new instance of specified class on its
+  first call and returns the same instance on every next call. Supports
+  position and keyword argument injections, as well as attribute injections.
 - **Object** - provider that returns provided instance "as is".
 - **ExternalDependency** - provider that can be useful for development of 
-  self-sufficient libraries / modules / applications that has required 
-  external dependencies.
+  self-sufficient libraries, modules, and applications that require external
+  dependencies.
 - **Configuration** - provider that helps with implementing late static binding 
   of configuration options - use first, define later.
 
 Containers
 ~~~~~~~~~~
 
-Containers are collections of providers. Main purpose of containers is to 
+Containers are collections of providers. The main purpose of containers is to 
 group providers.
 
-- **DeclarativeContainer** - is inversion of control container that could be 
-  defined in declarative manner. It should cover most of the cases when list 
-  of providers that would be included in container is deterministic 
-  (container will not change its structure in runtime).
-- **DynamicContainer** - is an inversion of control container with dynamic 
-  structure. It should cover most of the cases when list of providers that 
-  would be included in container is non-deterministic and depends on 
+- **DeclarativeContainer** - is an inversion of control container that can be 
+  defined in a declarative manner. It covers most of the cases where a list of
+  providers that is be included in a container is deterministic 
+  (that means the container will not change its structure in runtime).
+- **DynamicContainer** - is an inversion of control container with a dynamic 
+  structure. It covers most of the cases where a  list of providers that 
+  would be included in container is non-deterministic and depends on  the
   application's flow or its configuration (container's structure could be 
-  determined just after application will be started and will do some initial 
-  work, like parsing list of container providers from the configuration).
+  determined just after the application starts and might perform some initial 
+  work, like parsing a list of container providers from a configuration).
 
 Dependency Injector in action
 -----------------------------
 
-Brief example below is a simplified version of inversion of control 
-container from one of the real-life applications. This example demonstrates
-usage of *Dependency Injector* inversion of control container & providers
-for specifying all application components and their dependencies between
-each other in one module. Besides other listed above advantages, it gives a 
-great opportunity to control & manage application's structure in one place.
+The brief example below is a simplified version of inversion of control 
+containers from a real-life application. The example demonstrates the usage
+of *Dependency Injector* inversion of control container and  providers for
+specifying application components and their dependencies on each other in one
+module. Besides other previously mentioned advantages, it shows a great
+opportunity to control and manage application's structure in one place.
 
 .. code-block:: python
 
@@ -336,7 +338,7 @@ great opportunity to control & manage application's structure in one place.
             photos_service=photos_service,
         )
 
-Next example demonstrates run of example application defined above:
+The next example demonstrates a run of the example application defined above:
 
 .. code-block:: python
 
@@ -369,22 +371,22 @@ Next example demonstrates run of example application defined above:
         # Run application:
         container.main(*sys.argv[1:])
 
-You can get more *Dependency Injector* examples in ``/examples`` directory on
-GitHub:
+You can find more *Dependency Injector* examples in the ``/examples`` directory
+on our GitHub:
 
     https://github.com/ets-labs/python-dependency-injector
 
 Installation
 ------------
 
-*Dependency Injector* library is available on `PyPi`_::
+The *Dependency Injector* library is available on `PyPi`_::
 
     pip install dependency_injector
 
 Documentation
 -------------
 
-*Dependency Injector* documentation is hosted on ReadTheDocs:
+The *Dependency Injector* documentation is hosted on ReadTheDocs:
 
 - `User's guide`_ 
 - `API docs`_
@@ -392,8 +394,8 @@ Documentation
 Feedback & Support
 ------------------
 
-Feel free to post questions, bugs, feature requests, proposals etc. on
-*Dependency Injector*  GitHub Issues:
+Feel free to post questions, bugs, feature requests, proposals, etc. on
+the *Dependency Injector*  GitHub issues page:
 
     https://github.com/ets-labs/python-dependency-injector/issues
 
