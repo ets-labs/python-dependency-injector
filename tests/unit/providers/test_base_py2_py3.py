@@ -193,6 +193,17 @@ class ObjectProviderTests(unittest.TestCase):
         self.assertIsNot(overriding_provider, overriding_provider_copy)
         self.assertIsInstance(overriding_provider_copy, providers.Provider)
 
+    def test_deepcopy_doesnt_copy_provided_object(self):
+        # Fixes bug #231
+        # Details: https://github.com/ets-labs/python-dependency-injector/issues/231
+        some_object = object()
+        provider = providers.Object(some_object)
+
+        provider_copy = providers.deepcopy(provider)
+
+        self.assertIs(provider(), some_object)
+        self.assertIs(provider_copy(), some_object)
+
     def test_repr(self):
         some_object = object()
         provider = providers.Object(some_object)
