@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+3.14.11
+-------
 + Fix issue causing creation of a copy of provided object by ``Object`` provider when it was a
   part of ``DeclarativeContainer`` and this container was instantiated (thanks to
   `davidcim <https://github.com/davidcim>`_, issue details are
