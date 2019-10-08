@@ -257,7 +257,7 @@ cdef class Object(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(deepcopy(self.__provides, memo))
+        copied = self.__class__(self.__provides)
 
         self._copy_overridings(copied, memo)
 
