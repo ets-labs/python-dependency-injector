@@ -21,8 +21,10 @@ cdef class Object(Provider):
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
-cdef class Delegate(Object):
-    pass
+cdef class Delegate(Provider):
+    cdef object __provides
+
+    cpdef object _provide(self, tuple args, dict kwargs)
 
 
 cdef class Dependency(Provider):
