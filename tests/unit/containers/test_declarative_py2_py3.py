@@ -1,5 +1,6 @@
 """Dependency injector declarative container unit tests."""
 
+import collections
 import unittest2 as unittest
 
 from dependency_injector import (
@@ -313,3 +314,19 @@ class DeclarativeContainerTests(unittest.TestCase):
         self.assertIs(container.p2.cls, container.p1)
         self.assertIs(_Container.p2.cls, _Container.p1)
         self.assertIsNot(container.p2.cls,  _Container.p1)
+
+    def test_init_with_dependency_delegation(self):
+        # Bug:
+        # https://github.com/ets-labs/python-dependency-injector/issues/235
+        A = collections.namedtuple('A', [])
+        B = collections.namedtuple('B', ['fa'])
+        C = collections.namedtuple('B', ['a'])
+
+        class Services(containers.DeclarativeContainer):
+            a = providers.Dependency()
+            c = providers.Factory(C, a=a)
+            b = providers.Factory(B, fa=a.delegate())
+
+        a = providers.Factory(A)
+        assert isinstance(Services(a=a).c().a, A)  # ok
+        Services(a=a).b().fa()

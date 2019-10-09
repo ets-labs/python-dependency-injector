@@ -291,7 +291,7 @@ cdef class Object(Provider):
         return self.__provides
 
 
-cdef class Delegate(Object):
+cdef class Delegate(Provider):
     """Delegate provider returns provider "as is".
 
     .. py:attribute:: provides
@@ -305,9 +305,49 @@ cdef class Delegate(Object):
         """Initializer.
 
         :param provides: Value that have to be provided.
-        :type provides: object
+        :type provides: :py:class:`Provider`
         """
-        super(Delegate, self).__init__(ensure_is_provider(provides))
+        self.__provides = ensure_is_provider(provides)
+        super(Delegate, self).__init__()
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__(deepcopy(self.__provides, memo))
+
+        self._copy_overridings(copied, memo)
+
+        return copied
+
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.__provides)
+
+    def __repr__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return self.__str__()
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        """Return provided instance.
+
+        :param args: Tuple of context positional arguments.
+        :type args: tuple[object]
+
+        :param kwargs: Dictionary of context keyword arguments.
+        :type kwargs: dict[str, object]
+
+        :rtype: object
+        """
+        return self.__provides
 
 
 cdef class Dependency(Provider):
@@ -834,7 +874,7 @@ cdef class CallableDelegate(Delegate):
         if isinstance(callable, Callable) is False:
             raise Error('{0} can wrap only {1} providers'.format(
                 self.__class__, Callable))
-        super(Delegate, self).__init__(callable)
+        super(CallableDelegate, self).__init__(callable)
 
 
 cdef class Coroutine(Callable):
@@ -1416,7 +1456,7 @@ cdef class FactoryDelegate(Delegate):
         if isinstance(factory, Factory) is False:
             raise Error('{0} can wrap only {1} providers'.format(
                 self.__class__, Factory))
-        super(Delegate, self).__init__(factory)
+        super(FactoryDelegate, self).__init__(factory)
 
 
 cdef class FactoryAggregate(Provider):
@@ -1923,7 +1963,7 @@ cdef class SingletonDelegate(Delegate):
         if isinstance(singleton, BaseSingleton) is False:
             raise Error('{0} can wrap only {1} providers'.format(
                 self.__class__, BaseSingleton))
-        super(Delegate, self).__init__(singleton)
+        super(SingletonDelegate, self).__init__(singleton)
 
 
 cdef class Injection(object):
