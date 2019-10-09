@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+3.14.12
+-------
 + Fix ``3.14.11`` degradation issue causing inability of using ``Delegate`` provider in
   ``DeclarativeContainer`` when this container is instantiated with overriding of delegating
   provider (thanks to `GitterRemote <https://github .com/GitterRemote>`_, issue details are
