@@ -31,6 +31,10 @@ matrix:
       env: TOXENV=py37
       sudo: required
       dist: xenial
+    - python: 3.8
+      env: TOXENV=py38
+      sudo: required
+      dist: xenial
     - python: pypy
       env: TOXENV=pypy
 notifications:
