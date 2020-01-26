@@ -1,7 +1,7 @@
 """Dependency injection example, cars module."""
 
 
-class Car(object):
+class Car:
     """Example car."""
 
     def __init__(self, engine):

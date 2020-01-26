@@ -4,7 +4,7 @@ This module contains all lister implementations.
 """
 
 
-class MovieLister(object):
+class MovieLister:
     """Movie lister component.
 
     Movie lister component provides several methods for filtering movies by

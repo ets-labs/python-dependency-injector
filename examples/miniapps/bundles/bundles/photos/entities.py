@@ -1,5 +1,5 @@
 """Photos bundle entities module."""
 
 
-class Photo(object):
+class Photo:
     """Photo entity."""

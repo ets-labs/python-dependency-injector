@@ -1,7 +1,7 @@
 """Photos bundle entity repositories module."""
 
 
-class PhotoRepository(object):
+class PhotoRepository:
     """Photo entity repository."""
 
     def __init__(self, object_factory, fs, db):

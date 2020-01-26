@@ -1,7 +1,7 @@
 """Example games module."""
 
 
-class Game(object):
+class Game:
     """Base game class."""
 
     def __init__(self, player1, player2):

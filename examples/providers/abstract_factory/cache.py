@@ -1,7 +1,7 @@
 """Example hierarchy of cache clients with abstract base class."""
 
 
-class AbstractCacheClient(object):
+class AbstractCacheClient:
     """Abstract cache client."""
 
 

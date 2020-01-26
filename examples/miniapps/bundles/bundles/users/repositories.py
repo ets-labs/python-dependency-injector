@@ -1,7 +1,7 @@
 """Users bundle entity repositories module."""
 
 
-class UserRepository(object):
+class UserRepository:
     """User entity repository."""
 
     def __init__(self, object_factory, db):

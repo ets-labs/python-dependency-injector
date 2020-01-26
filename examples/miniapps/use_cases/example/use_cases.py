@@ -1,7 +1,7 @@
 """Example use cases package."""
 
 
-class UseCase(object):
+class UseCase:
     """Abstract use case."""
 
     def execute(self):
@@ -9,7 +9,7 @@ class UseCase(object):
         raise NotImplementedError()
 
 
-class SignupUseCase(object):
+class SignupUseCase:
     """Sign up use cases registers users."""
 
     def __init__(self, email_sender):

@@ -1,7 +1,7 @@
 """Example business services module."""
 
 
-class BaseService(object):
+class BaseService:
     """Service base class."""
 
 

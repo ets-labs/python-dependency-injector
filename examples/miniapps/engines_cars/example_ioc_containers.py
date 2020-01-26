@@ -14,7 +14,7 @@ class Engines(containers.DeclarativeContainer):
 
     diesel = providers.Factory(example.engines.DieselEngine)
 
-    electro = providers.Factory(example.engines.ElectroEngine)
+    electric = providers.Factory(example.engines.ElectricEngine)
 
 
 class Cars(containers.DeclarativeContainer):
@@ -26,11 +26,11 @@ class Cars(containers.DeclarativeContainer):
     diesel = providers.Factory(example.cars.Car,
                                engine=Engines.diesel)
 
-    electro = providers.Factory(example.cars.Car,
-                                engine=Engines.electro)
+    electric = providers.Factory(example.cars.Car,
+                                 engine=Engines.electric)
 
 
 if __name__ == '__main__':
     gasoline_car = Cars.gasoline()
     diesel_car = Cars.diesel()
-    electro_car = Cars.electro()
+    electric_car = Cars.electric()

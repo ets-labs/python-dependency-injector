@@ -1,7 +1,7 @@
 """Mail service and user registration example."""
 
 
-class AbstractMailService(object):
+class AbstractMailService:
     """Abstract mail service."""
 
     def send(self, email, body):

@@ -8,7 +8,7 @@ import dependency_injector.providers as providers
 Photo = collections.namedtuple('Photo', [])
 
 
-class User(object):
+class User:
     """Example user model."""
 
     def __init__(self, photos_factory):

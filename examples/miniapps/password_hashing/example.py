@@ -6,7 +6,7 @@ import dependency_injector.containers as containers
 import dependency_injector.providers as providers
 
 
-class UsersService(object):
+class UsersService:
     """Users service."""
 
     def __init__(self, password_hasher):

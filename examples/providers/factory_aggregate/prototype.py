@@ -1,7 +1,7 @@
 """FactoryAggregate provider prototype."""
 
 
-class FactoryAggregate(object):
+class FactoryAggregate:
     """FactoryAggregate provider prototype."""
 
     def __init__(self, **factories):

@@ -1,7 +1,7 @@
 """Users bundle entities module."""
 
 
-class User(object):
+class User:
     """User entity."""
 
     def __init__(self, id):

@@ -6,7 +6,7 @@ import contextlib
 import dependency_injector.providers as providers
 
 
-class UsersService(object):
+class UsersService:
     """Example class UsersService.
 
     UsersService has dependency on DBAPI 2.0 database connection.

@@ -4,7 +4,7 @@ This module contains all model implementations.
 """
 
 
-class Movie(object):
+class Movie:
     """Base movie model."""
 
     def __init__(self, name, year, director):

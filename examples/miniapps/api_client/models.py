@@ -1,7 +1,7 @@
-"""TBD."""
+"""Models module."""
 
 
-class User(object):
+class User:
     """User model."""
 
     def __init__(self, id, api_client):
