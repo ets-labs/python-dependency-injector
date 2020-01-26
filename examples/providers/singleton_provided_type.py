@@ -4,7 +4,7 @@ import dependency_injector.providers as providers
 import dependency_injector.errors as errors
 
 
-class BaseService(object):
+class BaseService:
     """Base service class."""
 
 

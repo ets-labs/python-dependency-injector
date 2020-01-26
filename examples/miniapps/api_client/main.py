@@ -1,4 +1,4 @@
-"""TBD."""
+"""Main module."""
 
 from dependency_injector import providers
 

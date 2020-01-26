@@ -1,11 +1,11 @@
-"""TBD."""
+"""API client module."""
 
 
-class ApiClient(object):
+class ApiClient:
     """Some API client."""
 
     def __init__(self, host, api_key):
-        """Initializer."""
+        """Initialize instance."""
         self.host = host
         self.api_key = api_key
 

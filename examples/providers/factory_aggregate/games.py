@@ -1,11 +1,11 @@
 """Example games module."""
 
 
-class Game(object):
+class Game:
     """Base game class."""
 
     def __init__(self, player1, player2):
-        """Initializer."""
+        """Initialize instance."""
         self.player1 = player1
         self.player2 = player2
 

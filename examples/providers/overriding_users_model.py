@@ -3,23 +3,23 @@
 import dependency_injector.providers as providers
 
 
-class User(object):
+class User:
     """Example class User."""
 
     def __init__(self, id, password):
-        """Initializer."""
+        """Initialize instance."""
         self.id = id
         self.password = password
-        super(User, self).__init__()
+        super().__init__()
 
 
-class UsersService(object):
+class UsersService:
     """Example class UsersService."""
 
     def __init__(self, user_cls):
-        """Initializer."""
+        """Initialize instance."""
         self.user_cls = user_cls
-        super(UsersService, self).__init__()
+        super().__init__()
 
     def get_by_id(self, id):
         """Find user by his id and return user model."""
@@ -52,11 +52,11 @@ class ExtendedUser(User):
 
     def __init__(self, id, password, first_name=None, last_name=None,
                  gender=None):
-        """Initializer."""
+        """Initialize instance."""
         self.first_name = first_name
         self.last_name = last_name
         self.gender = gender
-        super(ExtendedUser, self).__init__(id, password)
+        super().__init__(id, password)
 
 
 class ExtendedUsersService(UsersService):

@@ -6,15 +6,15 @@ This module contains all finder implementations.
 import csv
 
 
-class MovieFinder(object):
+class MovieFinder:
     """Movie finder component.
 
     Movie finder component is responsible for fetching movies data from
-    different storages.
+    various storage.
     """
 
     def __init__(self, movie_model):
-        """Initializer.
+        """Initialize instance.
 
         :param movie_model: Movie model's factory
         :type movie_model: movies.models.Movie
@@ -34,7 +34,7 @@ class CsvMovieFinder(MovieFinder):
     """Movie finder that fetches movies data from csv file."""
 
     def __init__(self, movie_model, csv_file_path, delimiter):
-        """Initializer.
+        """Initialize instance.
 
         :param movie_model: Movie model's factory
         :type movie_model: movies.models.Movie
@@ -47,7 +47,7 @@ class CsvMovieFinder(MovieFinder):
         """
         self._csv_file_path = csv_file_path
         self._delimiter = delimiter
-        super(CsvMovieFinder, self).__init__(movie_model)
+        super().__init__(movie_model)
 
     def find_all(self):
         """Return all found movies.
@@ -64,7 +64,7 @@ class SqliteMovieFinder(MovieFinder):
     """Movie finder that fetches movies data from sqlite database."""
 
     def __init__(self, movie_model, database):
-        """Initializer.
+        """Initialize instance.
 
         :param movie_model: Movie model's factory
         :type movie_model: (object) -> movies.models.Movie
@@ -73,7 +73,7 @@ class SqliteMovieFinder(MovieFinder):
         :type database: sqlite3.Connection
         """
         self._database = database
-        super(SqliteMovieFinder, self).__init__(movie_model)
+        super().__init__(movie_model)
 
     def find_all(self):
         """Return all found movies.

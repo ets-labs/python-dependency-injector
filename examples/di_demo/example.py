@@ -1,15 +1,15 @@
 """The Code."""
 
 
-class Service(object):
+class Service:
     """Some "Service"."""
 
 
-class Client(object):
+class Client:
     """Some "Client" that uses "Service"."""
 
     def __init__(self):
-        """Initializer."""
+        """Initialize instance."""
         self.service = Service()  # Service instance is created inside Client
 
 

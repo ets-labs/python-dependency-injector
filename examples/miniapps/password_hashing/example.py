@@ -6,11 +6,11 @@ import dependency_injector.containers as containers
 import dependency_injector.providers as providers
 
 
-class UsersService(object):
+class UsersService:
     """Users service."""
 
     def __init__(self, password_hasher):
-        """Initializer."""
+        """Initialize instance."""
         self._password_hasher = password_hasher
 
     def create_user(self, name, password):
@@ -23,7 +23,7 @@ class Container(containers.DeclarativeContainer):
     """Inversion of control container."""
 
     password_hasher = providers.Callable(
-        passlib.hash.sha256_crypt.encrypt,
+        passlib.hash.sha256_crypt.hash,
         salt_size=16,
         rounds=10000)
 

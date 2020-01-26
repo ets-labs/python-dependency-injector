@@ -3,7 +3,7 @@
 import dependency_injector.providers as providers
 
 
-class User(object):
+class User:
     """Example class User."""
 
 
@@ -13,9 +13,9 @@ class UsersFactory(providers.Provider):
     __slots__ = ('_factory',)
 
     def __init__(self):
-        """Initializer."""
+        """Initialize instance."""
         self._factory = providers.Factory(User)
-        super(UsersFactory, self).__init__()
+        super().__init__()
 
     def __call__(self, *args, **kwargs):
         """Return provided object.

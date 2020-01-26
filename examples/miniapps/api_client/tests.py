@@ -1,6 +1,6 @@
-"""TBD."""
+"""Tests module."""
 
-from mock import Mock
+from unittest.mock import Mock
 
 import main
 import api

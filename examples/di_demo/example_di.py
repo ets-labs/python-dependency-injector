@@ -1,15 +1,15 @@
 """The Code, that demonstrates dependency injection pattern."""
 
 
-class Service(object):
+class Service:
     """Some "Service"."""
 
 
-class Client(object):
+class Client:
     """Some "Client" that uses "Service"."""
 
     def __init__(self, service):  # Service instance is injected into Client
-        """Initializer."""
+        """Initialize instance."""
         self.service = service
 
 

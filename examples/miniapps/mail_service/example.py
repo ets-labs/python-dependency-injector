@@ -1,7 +1,7 @@
 """Mail service and user registration example."""
 
 
-class AbstractMailService(object):
+class AbstractMailService:
     """Abstract mail service."""
 
     def send(self, email, body):
@@ -13,7 +13,7 @@ class MailService(AbstractMailService):
     """Mail service."""
 
     def __init__(self, host, port, login, password):
-        """Initializer."""
+        """Initialize instance."""
         self._host = host
         self._port = port
         self._login = login

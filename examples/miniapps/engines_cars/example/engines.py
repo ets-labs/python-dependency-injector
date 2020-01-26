@@ -1,7 +1,7 @@
 """Dependency injection example, engines module."""
 
 
-class Engine(object):
+class Engine:
     """Example engine base class.
 
     Engine is a heart of every car. Engine is a very common term and could be
@@ -17,5 +17,5 @@ class DieselEngine(Engine):
     """Diesel engine."""
 
 
-class ElectroEngine(Engine):
-    """Electro engine."""
+class ElectricEngine(Engine):
+    """Electric engine."""

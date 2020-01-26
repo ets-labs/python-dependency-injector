@@ -4,7 +4,7 @@ This module contains all lister implementations.
 """
 
 
-class MovieLister(object):
+class MovieLister:
     """Movie lister component.
 
     Movie lister component provides several methods for filtering movies by
@@ -12,7 +12,7 @@ class MovieLister(object):
     """
 
     def __init__(self, movie_finder):
-        """Initializer.
+        """Initialize instance.
 
         :param movie_finder: Movie finder instance
         :type movie_finder: movies.finders.MovieFinder

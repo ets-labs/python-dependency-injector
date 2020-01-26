@@ -3,7 +3,7 @@
 import dependency_injector.providers as providers
 
 
-class User(object):
+class User:
     """Example class User."""
 
 

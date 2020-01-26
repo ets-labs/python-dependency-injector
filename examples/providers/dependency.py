@@ -6,14 +6,14 @@ import contextlib
 import dependency_injector.providers as providers
 
 
-class UsersService(object):
+class UsersService:
     """Example class UsersService.
 
     UsersService has dependency on DBAPI 2.0 database connection.
     """
 
     def __init__(self, database):
-        """Initializer.
+        """Initialize instance.
 
         :param database: Database connection.
         :type database: sqlite3.dbapi2.Connection

@@ -1,7 +1,7 @@
 """Example adapters package."""
 
 
-class EmailSender(object):
+class EmailSender:
     """Abstract email sender."""
 
     def send(self, to, body):
@@ -9,7 +9,7 @@ class EmailSender(object):
         raise NotImplementedError()
 
 
-class SmtpEmailSender(object):
+class SmtpEmailSender:
     """SMTP email sender uses SMTP protocol for sending emails."""
 
     def send(self, to, body):
@@ -17,7 +17,7 @@ class SmtpEmailSender(object):
         # Send email via SMTP
 
 
-class EchoEmailSender(object):
+class EchoEmailSender:
     """Echo email sender prints emails to stdout."""
 
     def send(self, to, body):
