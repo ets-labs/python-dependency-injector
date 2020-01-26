@@ -9,30 +9,30 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-+ Regenerate C sources using Cython 0.29.14.
-+ Fix PEP257 doc block errors in example modules.
+- Regenerate C sources using Cython 0.29.14.
+- Fix PEP257 doc block errors in example modules.
 
 3.14.12
 -------
-+ Fix ``3.14.11`` degradation issue causing inability of using ``Delegate`` provider in
+- Fix ``3.14.11`` degradation issue causing inability of using ``Delegate`` provider in
   ``DeclarativeContainer`` when this container is instantiated with overriding of delegating
   provider (thanks to `GitterRemote <https://github .com/GitterRemote>`_, issue details are
   `here <https://github.com/ets-labs/python-dependency-injector/issues/235>`_).
 
 3.14.11
 -------
-+ Fix issue causing creation of a copy of provided object by ``Object`` provider when it was a
+- Fix issue causing creation of a copy of provided object by ``Object`` provider when it was a
   part of ``DeclarativeContainer`` and this container was instantiated (thanks to
   `davidcim <https://github.com/davidcim>`_, issue details are
   `here <https://github.com/ets-labs/python-dependency-injector/issues/231>`_).
 
 3.14.10
 ------
-+ Make spelling fix for the list of contributors.
+- Make spelling fix for the list of contributors.
 
 3.14.9
 ------
-+ Improve README - minor English nitpicking (thanks to `supakeen <https://github.com/supakeen>`_).
+- Improve README - minor English nitpicking (thanks to `supakeen <https://github.com/supakeen>`_).
 
 3.14.8
 ------
