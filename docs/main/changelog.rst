@@ -15,6 +15,7 @@ Development version
 - Add support of six 1.13.0.
 - Regenerate C sources using Cython 0.29.14.
 - Fix PEP257 doc block errors in example modules.
+- Clean up tox.ini file.
 
 3.14.12
 -------
