@@ -37,5 +37,7 @@ matrix:
       dist: xenial
     - python: pypy
       env: TOXENV=pypy
+    - python: pypy3
+      env: TOXENV=pypy3
 notifications:
   slack: ets-labs:g9OU0r5PXjA5ueeoQw01dVvV
