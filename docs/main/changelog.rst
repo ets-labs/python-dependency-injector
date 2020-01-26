@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Add Python 3.8 support.
 - Add support of six 1.14.0.
 - Add support of six 1.13.0.
 - Regenerate C sources using Cython 0.29.14.
