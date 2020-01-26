@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
++ Regenerate C sources using Cython 0.29.14.
 + Fix PEP257 doc block errors in example modules.
 
 3.14.12
