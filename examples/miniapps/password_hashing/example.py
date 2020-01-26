@@ -23,7 +23,7 @@ class Container(containers.DeclarativeContainer):
     """Inversion of control container."""
 
     password_hasher = providers.Callable(
-        passlib.hash.sha256_crypt.encrypt,
+        passlib.hash.sha256_crypt.hash,
         salt_size=16,
         rounds=10000)
 
