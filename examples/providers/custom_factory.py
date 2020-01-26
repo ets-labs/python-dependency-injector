@@ -13,7 +13,7 @@ class UsersFactory(providers.Provider):
     __slots__ = ('_factory',)
 
     def __init__(self):
-        """Initializer."""
+        """Initialize instance."""
         self._factory = providers.Factory(User)
         super(UsersFactory, self).__init__()
 

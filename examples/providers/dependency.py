@@ -13,7 +13,7 @@ class UsersService(object):
     """
 
     def __init__(self, database):
-        """Initializer.
+        """Initialize instance.
 
         :param database: Database connection.
         :type database: sqlite3.dbapi2.Connection

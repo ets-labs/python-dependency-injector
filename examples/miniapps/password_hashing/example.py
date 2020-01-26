@@ -10,7 +10,7 @@ class UsersService(object):
     """Users service."""
 
     def __init__(self, password_hasher):
-        """Initializer."""
+        """Initialize instance."""
         self._password_hasher = password_hasher
 
     def create_user(self, name, password):

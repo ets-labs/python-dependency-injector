@@ -7,7 +7,7 @@ class User(object):
     """Example class User."""
 
     def __init__(self, id, password):
-        """Initializer."""
+        """Initialize instance."""
         self.id = id
         self.password = password
         super(User, self).__init__()
@@ -17,7 +17,7 @@ class UsersService(object):
     """Example class UsersService."""
 
     def __init__(self, user_cls):
-        """Initializer."""
+        """Initialize instance."""
         self.user_cls = user_cls
         super(UsersService, self).__init__()
 
@@ -52,7 +52,7 @@ class ExtendedUser(User):
 
     def __init__(self, id, password, first_name=None, last_name=None,
                  gender=None):
-        """Initializer."""
+        """Initialize instance."""
         self.first_name = first_name
         self.last_name = last_name
         self.gender = gender

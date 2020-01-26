@@ -8,7 +8,7 @@ class Movie(object):
     """Base movie model."""
 
     def __init__(self, name, year, director):
-        """Initializer.
+        """Initialize instance.
 
         :param name: Movie's name
         :type name: str

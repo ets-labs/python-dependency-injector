@@ -5,7 +5,7 @@ class UserRepository(object):
     """User entity repository."""
 
     def __init__(self, object_factory, db):
-        """Initializer."""
+        """Initialize instance."""
         self.object_factory = object_factory
         self.db = db
 

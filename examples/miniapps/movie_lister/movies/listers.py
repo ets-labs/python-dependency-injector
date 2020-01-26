@@ -12,7 +12,7 @@ class MovieLister(object):
     """
 
     def __init__(self, movie_finder):
-        """Initializer.
+        """Initialize instance.
 
         :param movie_finder: Movie finder instance
         :type movie_finder: movies.finders.MovieFinder

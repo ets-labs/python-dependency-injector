@@ -14,7 +14,7 @@ class MovieFinder(object):
     """
 
     def __init__(self, movie_model):
-        """Initializer.
+        """Initialize instance.
 
         :param movie_model: Movie model's factory
         :type movie_model: movies.models.Movie
@@ -34,7 +34,7 @@ class CsvMovieFinder(MovieFinder):
     """Movie finder that fetches movies data from csv file."""
 
     def __init__(self, movie_model, csv_file_path, delimiter):
-        """Initializer.
+        """Initialize instance.
 
         :param movie_model: Movie model's factory
         :type movie_model: movies.models.Movie
@@ -64,7 +64,7 @@ class SqliteMovieFinder(MovieFinder):
     """Movie finder that fetches movies data from sqlite database."""
 
     def __init__(self, movie_model, database):
-        """Initializer.
+        """Initialize instance.
 
         :param movie_model: Movie model's factory
         :type movie_model: (object) -> movies.models.Movie

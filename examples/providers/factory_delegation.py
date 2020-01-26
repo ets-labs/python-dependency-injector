@@ -12,7 +12,7 @@ class User(object):
     """Example user model."""
 
     def __init__(self, photos_factory):
-        """Initializer."""
+        """Initialize instance."""
         self.photos_factory = photos_factory
         self._main_photo = None
 

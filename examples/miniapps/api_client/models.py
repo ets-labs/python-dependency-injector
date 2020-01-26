@@ -5,7 +5,7 @@ class User(object):
     """User model."""
 
     def __init__(self, id, api_client):
-        """Initializer."""
+        """Initialize instance."""
         self.id = id
         self.api_client = api_client
 

@@ -9,7 +9,7 @@ class UsersService(BaseService):
     """Users service."""
 
     def __init__(self, logger, db):
-        """Initializer."""
+        """Initialize instance."""
         self.logger = logger
         self.db = db
 
@@ -23,7 +23,7 @@ class AuthService(BaseService):
     """Authentication service."""
 
     def __init__(self, logger, db, token_ttl):
-        """Initializer."""
+        """Initialize instance."""
         self.logger = logger
         self.db = db
         self.token_ttl = token_ttl
@@ -39,7 +39,7 @@ class PhotosService(BaseService):
     """Photos service."""
 
     def __init__(self, logger, db, s3):
-        """Initializer."""
+        """Initialize instance."""
         self.logger = logger
         self.db = db
         self.s3 = s3

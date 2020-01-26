@@ -5,5 +5,5 @@ class Car(object):
     """Example car."""
 
     def __init__(self, engine):
-        """Initializer."""
+        """Initialize instance."""
         self._engine = engine  # Engine is injected

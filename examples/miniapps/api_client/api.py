@@ -5,7 +5,7 @@ class ApiClient(object):
     """Some API client."""
 
     def __init__(self, host, api_key):
-        """Initializer."""
+        """Initialize instance."""
         self.host = host
         self.api_key = api_key
 

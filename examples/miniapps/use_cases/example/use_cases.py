@@ -13,7 +13,7 @@ class SignupUseCase(object):
     """Sign up use cases registers users."""
 
     def __init__(self, email_sender):
-        """Initializer."""
+        """Initialize instance."""
         self.email_sender = email_sender
 
     def execute(self, email):

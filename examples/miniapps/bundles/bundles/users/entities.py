@@ -5,5 +5,5 @@ class User(object):
     """User entity."""
 
     def __init__(self, id):
-        """Initializer."""
+        """Initialize instance."""
         self.id = id

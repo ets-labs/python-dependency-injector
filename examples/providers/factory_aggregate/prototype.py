@@ -5,7 +5,7 @@ class FactoryAggregate(object):
     """FactoryAggregate provider prototype."""
 
     def __init__(self, **factories):
-        """Initializer."""
+        """Initialize instance."""
         self.factories = factories
 
     def __call__(self, factory_name, *args, **kwargs):

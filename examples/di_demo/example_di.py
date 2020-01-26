@@ -9,7 +9,7 @@ class Client(object):
     """Some "Client" that uses "Service"."""
 
     def __init__(self, service):  # Service instance is injected into Client
-        """Initializer."""
+        """Initialize instance."""
         self.service = service
 
 
