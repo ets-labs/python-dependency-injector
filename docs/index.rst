@@ -41,17 +41,17 @@ Status
 
 +---------------------------------------+--------------------------------------------------------------------------------------------------------------------+
 | *PyPi*                                | .. image:: https://img.shields.io/pypi/v/dependency_injector.svg                                                   |
-|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                                                      |
+|                                       |    :target: https://pypi.org/project/dependency-injector/                                                          |
 |                                       |    :alt: Latest Version                                                                                            |
 |                                       | .. image:: https://img.shields.io/pypi/l/dependency_injector.svg                                                   |
-|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                                                      |
+|                                       |    :target: https://pypi.org/project/dependency-injector/                                                          |
 |                                       |    :alt: License                                                                                                   |
 +---------------------------------------+--------------------------------------------------------------------------------------------------------------------+
 | *Python versions and implementations* | .. image:: https://img.shields.io/pypi/pyversions/dependency_injector.svg                                          |
-|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                                                      |
+|                                       |    :target: https://pypi.org/project/dependency-injector/                                                          |
 |                                       |    :alt: Supported Python versions                                                                                 |
 |                                       | .. image:: https://img.shields.io/pypi/implementation/dependency_injector.svg                                      |
-|                                       |    :target: https://pypi.python.org/pypi/dependency_injector/                                                      |
+|                                       |    :target: https://pypi.org/project/dependency-injector/                                                          |
 |                                       |    :alt: Supported Python implementations                                                                          |
 +---------------------------------------+--------------------------------------------------------------------------------------------------------------------+
 | *Builds and tests coverage*           | .. image:: https://travis-ci.org/ets-labs/python-dependency-injector.svg?branch=master                             |
