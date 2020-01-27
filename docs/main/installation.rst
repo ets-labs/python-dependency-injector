@@ -33,7 +33,7 @@ Verification of currently installed version could be done using
     >>> dependency_injector.__version__
     '3.15.2'
 
-.. _PyPi: https://pypi.python.org/pypi/dependency_injector
+.. _PyPi: https://pypi.org/project/dependency-injector/
 .. _GitHub: https://github.com/ets-labs/python-dependency-injector
 .. _GitHub releases page: https://github.com/ets-labs/python-dependency-injector/releases
 
