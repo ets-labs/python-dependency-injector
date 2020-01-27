@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.15.4
+------
+- Update a link to the PyPi page on the README page.
+
 3.15.3
 ------
 - Fix a typo in the link to the PyPi on the "Dependency Injection in Python" documentation page.
