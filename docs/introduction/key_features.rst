@@ -13,13 +13,14 @@ of Python objects and their dependencies in formal, pretty way.
 
 *Dependency Injector* framework key features are:
 
-+ Easy, smart, pythonic style.
-+ Obvious, clear structure.
++ Easy, smart, and pythonic style.
++ Obvious and clear structure.
 + Extensibility and flexibility.
++ High performance.
 + Memory efficiency.
 + Thread safety.
-+ Documentation.
-+ Semantic versioning.
++ Documented.
++ Semantically versioned.
 
 *Dependency Injector* framework could be used in different application types:
 

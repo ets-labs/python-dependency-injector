@@ -17,22 +17,23 @@ Dependency Injector --- Dependency injection microframework for Python
 
 .. _index:
 
-*Dependency Injector* is a dependency injection microframework for Python. 
-It was designed to be unified, developer-friendly tool that helps to implement 
-dependency injection design pattern in formal, pretty, Pythonic way. 
+*Dependency Injector* is a dependency injection microframework for Python.
+It was designed to be a unified and developer-friendly tool that helps
+implement a dependency injection design pattern in a formal, pretty, and
+Pythonic way.
 
-*Dependency Injector* framework key features are:
+The key features of the *Dependency Injector* framework are:
 
-+ Easy, smart, pythonic style.
-+ Obvious, clear structure.
++ Easy, smart, and pythonic style.
++ Obvious and clear structure.
 + Extensibility and flexibility.
 + High performance.
 + Memory efficiency.
 + Thread safety.
-+ Documentation.
-+ Semantic versioning.
++ Documented.
++ Semantically versioned.
 
-*Dependency Injector* containers and providers are implemented as C extension 
+*Dependency Injector* containers and providers are implemented as C extension
 types using Cython.
 
 Status

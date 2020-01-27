@@ -139,6 +139,6 @@ that could be used for further reading:
 + https://en.wikipedia.org/wiki/Dependency_injection
 + https://martinfowler.com/articles/injection.html
 + https://github.com/ets-labs/python-dependency-injector
-+ https://pypi.python.org/pypi/dependency_injector
++ https://pypi.python.org/pypi/dependency-injector
 
 .. disqus::
