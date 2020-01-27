@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.15.1
+------
+- Fix a couple of typos in the README.
+- Fix a couple of types in the diagram of "Engines-Cars" example.
+
 3.15.0
 ------
 - Add Python 3.8 support.

@@ -60,6 +60,21 @@ Status
 |                                       |    :alt: Github forks                                                                                              |
 +---------------------------------------+--------------------------------------------------------------------------------------------------------------------+
 
+Installation
+------------
+
+The *Dependency Injector* library is available on `PyPi`_::
+
+    pip install dependency_injector
+
+Documentation
+-------------
+
+The *Dependency Injector* documentation is hosted on ReadTheDocs:
+
+- `User's guide`_
+- `API docs`_
+
 Dependency injection
 --------------------
 
@@ -122,7 +137,7 @@ Listing of ``example.engines`` module:
     """Dependency injection example, engines module."""
 
 
-    class Engine(object):
+    class Engine:
         """Example engine base class.
 
         Engine is a heart of every car. Engine is a very common term and could be
@@ -138,8 +153,8 @@ Listing of ``example.engines`` module:
         """Diesel engine."""
 
 
-    class ElectroEngine(Engine):
-        """Electro engine."""
+    class ElectricEngine(Engine):
+        """Electric engine."""
 
 Listing of ``example.cars`` module:
 
@@ -148,7 +163,7 @@ Listing of ``example.cars`` module:
     """Dependency injection example, cars module."""
 
 
-    class Car(object):
+    class Car:
         """Example car."""
 
         def __init__(self, engine):
@@ -168,11 +183,11 @@ The next example demonstrates the creation of several cars with different engine
     if __name__ == '__main__':
         gasoline_car = example.cars.Car(example.engines.GasolineEngine())
         diesel_car = example.cars.Car(example.engines.DieselEngine())
-        electro_car = example.cars.Car(example.engines.ElectroEngine())
+        electric_car = example.cars.Car(example.engines.ElectricEngine())
 
 While the previous example demonstrates the advantages of dependency injection,
 there is a disadvantage demonstrated as well - the creation of a car requires 
-additional code to specificaty its dependencies. However, this disadvantage
+additional code to specify its dependencies. However, this disadvantage
 could be avoided by using a dependency injection framework for the creation of 
 an inversion of control container (IoC container).
 
@@ -197,7 +212,7 @@ Here's an example of the creation of several inversion of control containers
 
         diesel = providers.Factory(example.engines.DieselEngine)
 
-        electro = providers.Factory(example.engines.ElectroEngine)
+        electric = providers.Factory(example.engines.ElectricEngine)
 
 
     class Cars(containers.DeclarativeContainer):
@@ -209,14 +224,14 @@ Here's an example of the creation of several inversion of control containers
         diesel = providers.Factory(example.cars.Car,
                                    engine=Engines.diesel)
 
-        electro = providers.Factory(example.cars.Car,
-                                    engine=Engines.electro)
+        electric = providers.Factory(example.cars.Car,
+                                     engine=Engines.electric)
 
 
     if __name__ == '__main__':
         gasoline_car = Cars.gasoline()
         diesel_car = Cars.diesel()
-        electro_car = Cars.electro()
+        electric_car = Cars.electric()
 
 Dependency Injector structure
 -----------------------------
@@ -375,21 +390,6 @@ You can find more *Dependency Injector* examples in the ``/examples`` directory
 on our GitHub:
 
     https://github.com/ets-labs/python-dependency-injector
-
-Installation
-------------
-
-The *Dependency Injector* library is available on `PyPi`_::
-
-    pip install dependency_injector
-
-Documentation
--------------
-
-The *Dependency Injector* documentation is hosted on ReadTheDocs:
-
-- `User's guide`_ 
-- `API docs`_
 
 Feedback & Support
 ------------------
