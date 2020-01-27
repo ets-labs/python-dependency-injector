@@ -8,12 +8,8 @@ framework can be installed from PyPi_:
 
 .. code-block:: bash
 
-    # Installing latest version:
-    pip install dependency_injector
+    pip install dependency-injector
 
-    # Installing particular version:
-    pip install dependency-injector==3.3.2
-    
 .. note::
     Some components of *Dependency Injector* are implemented as C extension types. 
     *Dependency Injector* is distributed as an archive with a source code, so 
@@ -35,7 +31,7 @@ Verification of currently installed version could be done using
 
     >>> import dependency_injector
     >>> dependency_injector.__version__
-    '3.3.2'
+    '3.15.2'
 
 .. _PyPi: https://pypi.python.org/pypi/dependency_injector
 .. _GitHub: https://github.com/ets-labs/python-dependency-injector
