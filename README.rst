@@ -65,7 +65,7 @@ Installation
 
 The *Dependency Injector* library is available on `PyPi`_::
 
-    pip install dependency_injector
+    pip install dependency-injector
 
 Documentation
 -------------
