@@ -47,7 +47,7 @@ Status
 |                                       |    :target: https://pypi.org/project/dependency-injector/                                                          |
 |                                       |    :alt: License                                                                                                   |
 |                                       | .. image:: https://pepy.tech/badge/dependency-injector                                                             |
-|                                       |    :target: https://pypi.org/project/dependency-injector/                                                          |
+|                                       |    :target: https://pepy.tech/project/dependency-injector                                                          |
 |                                       |    :alt: Downloads                                                                                                 |
 +---------------------------------------+--------------------------------------------------------------------------------------------------------------------+
 | *Python versions and implementations* | .. image:: https://img.shields.io/pypi/pyversions/dependency_injector.svg                                          |
