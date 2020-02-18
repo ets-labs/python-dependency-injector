@@ -9,6 +9,10 @@ follows `Semantic versioning`_
 
 3.15.4
 ------
+- Add downloads badge.
+
+3.15.4
+------
 - Update a link to the PyPi page on the README page.
 
 3.15.3
