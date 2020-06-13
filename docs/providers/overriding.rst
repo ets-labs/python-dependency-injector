@@ -9,7 +9,7 @@ This gives opportunity to make system behaviour more flexible at some point.
 The main feature is that while your code is using providers, it depends on 
 providers, but not on the objects that providers provide. As a result of this, 
 you can change providing by provider object to a different one, but still
-compatible one, without chaning your previously written code.
+compatible one, without changing your previously written code.
 
 Provider overriding functionality has such interface:
 

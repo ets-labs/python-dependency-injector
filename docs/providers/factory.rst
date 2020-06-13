@@ -160,7 +160,7 @@ aggregates other :py:class:`Factory` providers.
 
     :py:class:`FactoryAggregate` is not overridable. Calling of 
     :py:meth:`FactoryAggregate.override` will result in raising of an 
-    expection.
+    exception.
 
 Next prototype might be the best demonstration of 
 :py:class:`FactoryAggregate` features:
