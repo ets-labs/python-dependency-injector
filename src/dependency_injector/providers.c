@@ -34739,18 +34739,25 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_4__str__(struct
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("__str__", 0);
 
   /* "dependency_injector/providers.pyx":2021
  *         :rtype: str
  *         """
- *         return represent_provider(provider=self, provides=list)             # <<<<<<<<<<<<<<
+ *         return represent_provider(provider=self, provides=list(self.args))             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_represent_provider(((PyObject *)__pyx_v_self), ((PyObject *)(&PyList_Type)), 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2021, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2021, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PySequence_List(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2021, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_represent_provider(((PyObject *)__pyx_v_self), __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2021, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
@@ -34766,6 +34773,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_4__str__(struct
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_AddTraceback("dependency_injector.providers.List.__str__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;

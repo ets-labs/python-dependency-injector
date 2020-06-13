@@ -2018,7 +2018,7 @@ cdef class List(Provider):
 
         :rtype: str
         """
-        return represent_provider(provider=self, provides=list)
+        return represent_provider(provider=self, provides=list(self.args))
 
     @property
     def args(self):
