@@ -1966,6 +1966,107 @@ cdef class SingletonDelegate(Delegate):
         super(SingletonDelegate, self).__init__(singleton)
 
 
+cdef class List(Provider):
+    """List provider provides a list of values.
+
+    :py:class:`List` provider is needed for injecting a list of dependencies. It handles
+    positional argument injections the same way like :py:class:`Callable` and :py:class:`Factory`
+    providers. Keyword argument injections are not supported.
+
+    .. code-block:: python
+
+        dispatcher_factory = Factory(
+            Dispatcher,
+            modules=List(
+                Factory(ModuleA, dependency_a),
+                Factory(ModuleB, dependency_b),
+            ),
+        )
+
+        dispatcher = dispatcher_factory()
+
+        # is equivalent to:
+
+        dispatcher = Dispatcher(
+            modules=[
+                ModuleA(dependency_a),
+                ModuleB(dependency_b),
+            ],
+        )
+    """
+
+    def __init__(self, *args):
+        """Initializer."""
+        self.__args = tuple()
+        self.__args_len = 0
+        self.set_args(*args)
+        super(List, self).__init__()
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__(*deepcopy(self.args, memo))
+        self._copy_overridings(copied, memo)
+
+        return copied
+
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=list)
+
+    @property
+    def args(self):
+        """Return positional argument injections."""
+        cdef int index
+        cdef PositionalInjection arg
+        cdef list args
+
+        args = list()
+        for index in range(self.__args_len):
+            arg = self.__args[index]
+            args.append(arg.__value)
+        return tuple(args)
+
+    def add_args(self, *args):
+        """Add positional argument injections.
+
+        :return: Reference ``self``
+        """
+        self.__args += parse_positional_injections(args)
+        self.__args_len = len(self.__args)
+        return self
+
+    def set_args(self, *args):
+        """Set positional argument injections.
+
+        Existing positional argument injections are dropped.
+
+        :return: Reference ``self``
+        """
+        self.__args = parse_positional_injections(args)
+        self.__args_len = len(self.__args)
+        return self
+
+    def clear_args(self):
+        """Drop positional argument injections.
+
+        :return: Reference ``self``
+        """
+        self.__args = tuple()
+        self.__args_len = len(self.__args)
+        return self
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        """Return result of provided callable's call."""
+        return list(__provide_positional_args(args, self.__args, self.__args_len))
+
+
 cdef class Injection(object):
     """Abstract injection class."""
 

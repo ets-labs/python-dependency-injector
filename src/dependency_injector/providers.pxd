@@ -75,6 +75,7 @@ cdef class CallableDelegate(Delegate):
 cdef class Coroutine(Callable):
     pass
 
+
 cdef class DelegatedCoroutine(Coroutine):
     pass
 
@@ -163,6 +164,15 @@ cdef class AbstractSingleton(BaseSingleton):
 
 cdef class SingletonDelegate(Delegate):
     pass
+
+
+# Miscellaneous providers
+
+cdef class List(Provider):
+    cdef tuple __args
+    cdef int __args_len
+
+    cpdef object _provide(self, tuple args, dict kwargs)
 
 
 # Injections
