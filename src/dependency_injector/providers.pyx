@@ -1972,8 +1972,7 @@ cdef class List(Provider):
     :py:class:`List` provider is needed for injecting a list of dependencies. It handles
     positional argument injections the same way as :py:class:`Factory` provider.
 
-    Positional context argument injections and keyword argument injections are not
-    supported.
+    Keyword argument injections are not supported.
 
     .. code-block:: python
 

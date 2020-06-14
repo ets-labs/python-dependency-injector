@@ -18,6 +18,7 @@ positional argument injections the same way as :py:class:`Factory` provider:
 + Providers could be injected "as is" (delegated), if it is defined explicitly. Check out
   :ref:`factory_providers_delegation`.
 + All other values are injected *"as is"*.
++ Positional context arguments will be appended after :py:class:`List` positional injections.
 
 Full example:
 
@@ -28,7 +29,6 @@ Full example:
 
 .. note::
 
-    Positional context argument injections and keyword argument injections are not
-    supported.
+    Keyword argument injections are not supported.
 
 .. disqus::

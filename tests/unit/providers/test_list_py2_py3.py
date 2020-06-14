@@ -23,6 +23,11 @@ class ListTests(unittest.TestCase):
 
         self.assertIsNot(list1, list2)
 
+    def test_call_with_context_args(self):
+        provider = providers.List('i1', 'i2')
+
+        self.assertEqual(provider('i3', 'i4'), ['i1', 'i2', 'i3', 'i4'])
+
     def test_fluent_interface(self):
         provider = providers.List() \
             .add_args(1, 2)
