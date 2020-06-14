@@ -22,6 +22,7 @@ Providers package API docs - :py:mod:`dependency_injector.providers`
     callable
     coroutine
     object
+    list
     dependency
     overriding
     custom
