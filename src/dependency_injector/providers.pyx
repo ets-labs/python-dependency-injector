@@ -356,7 +356,7 @@ cdef class Dependency(Provider):
     This provider is used for description of dependency interface. That might
     be useful when dependency could be provided in the client's code only,
     but it's interface is known. Such situations could happen when required
-    dependency has non-determenistic list of dependencies itself.
+    dependency has non-deterministic list of dependencies itself.
 
     .. code-block:: python
 
@@ -445,7 +445,7 @@ cdef class ExternalDependency(Dependency):
     This provider is used for description of dependency interface. That might
     be useful when dependency could be provided in the client's code only,
     but it's interface is known. Such situations could happen when required
-    dependency has non-determenistic list of dependencies itself.
+    dependency has non-deterministic list of dependencies itself.
 
     .. code-block:: python
 
@@ -607,7 +607,7 @@ cdef class OverridingContext(object):
     """Provider overriding context.
 
     :py:class:`OverridingContext` is used by :py:meth:`Provider.override` for
-    implemeting ``with`` contexts. When :py:class:`OverridingContext` is
+    implementing ``with`` contexts. When :py:class:`OverridingContext` is
     closed, overriding that was created in this context is dropped also.
 
     .. code-block:: python
@@ -739,7 +739,7 @@ cdef class Callable(Provider):
         return self
 
     def set_args(self, *args):
-        """Set postional argument injections.
+        """Set positional argument injections.
 
         Existing positional argument injections are dropped.
 
@@ -750,7 +750,7 @@ cdef class Callable(Provider):
         return self
 
     def clear_args(self):
-        """Drop postional argument injections.
+        """Drop positional argument injections.
 
         :return: Reference ``self``
         """
@@ -1272,7 +1272,7 @@ cdef class Factory(Provider):
         return self.__instantiator.args
 
     def add_args(self, *args):
-        """Add __init__ postional argument injections.
+        """Add __init__ positional argument injections.
 
         :return: Reference ``self``
         """
@@ -1280,7 +1280,7 @@ cdef class Factory(Provider):
         return self
 
     def set_args(self, *args):
-        """Set __init__ postional argument injections.
+        """Set __init__ positional argument injections.
 
         Existing __init__ positional argument injections are dropped.
 
@@ -1290,7 +1290,7 @@ cdef class Factory(Provider):
         return self
 
     def clear_args(self):
-        """Drop __init__ postional argument injections.
+        """Drop __init__ positional argument injections.
 
         :return: Reference ``self``
         """
@@ -1964,6 +1964,108 @@ cdef class SingletonDelegate(Delegate):
             raise Error('{0} can wrap only {1} providers'.format(
                 self.__class__, BaseSingleton))
         super(SingletonDelegate, self).__init__(singleton)
+
+
+cdef class List(Provider):
+    """List provider provides a list of values.
+
+    :py:class:`List` provider is needed for injecting a list of dependencies. It handles
+    positional argument injections the same way as :py:class:`Factory` provider.
+
+    Keyword argument injections are not supported.
+
+    .. code-block:: python
+
+        dispatcher_factory = Factory(
+            Dispatcher,
+            modules=List(
+                Factory(ModuleA, dependency_a),
+                Factory(ModuleB, dependency_b),
+            ),
+        )
+
+        dispatcher = dispatcher_factory()
+
+        # is equivalent to:
+
+        dispatcher = Dispatcher(
+            modules=[
+                ModuleA(dependency_a),
+                ModuleB(dependency_b),
+            ],
+        )
+    """
+
+    def __init__(self, *args):
+        """Initializer."""
+        self.__args = tuple()
+        self.__args_len = 0
+        self.set_args(*args)
+        super(List, self).__init__()
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__(*deepcopy(self.args, memo))
+        self._copy_overridings(copied, memo)
+
+        return copied
+
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=list(self.args))
+
+    @property
+    def args(self):
+        """Return positional argument injections."""
+        cdef int index
+        cdef PositionalInjection arg
+        cdef list args
+
+        args = list()
+        for index in range(self.__args_len):
+            arg = self.__args[index]
+            args.append(arg.__value)
+        return tuple(args)
+
+    def add_args(self, *args):
+        """Add positional argument injections.
+
+        :return: Reference ``self``
+        """
+        self.__args += parse_positional_injections(args)
+        self.__args_len = len(self.__args)
+        return self
+
+    def set_args(self, *args):
+        """Set positional argument injections.
+
+        Existing positional argument injections are dropped.
+
+        :return: Reference ``self``
+        """
+        self.__args = parse_positional_injections(args)
+        self.__args_len = len(self.__args)
+        return self
+
+    def clear_args(self):
+        """Drop positional argument injections.
+
+        :return: Reference ``self``
+        """
+        self.__args = tuple()
+        self.__args_len = len(self.__args)
+        return self
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        """Return result of provided callable's call."""
+        return list(__provide_positional_args(args, self.__args, self.__args_len))
 
 
 cdef class Injection(object):

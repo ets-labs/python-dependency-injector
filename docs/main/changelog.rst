@@ -7,6 +7,19 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.16.0
+------
+
+- Add ``List`` provider
+  `issue #243 <https://github.com/ets-labs/python-dependency-injector/issues/243>`_,
+  `PR #251 <https://github.com/ets-labs/python-dependency-injector/pull/251>`_.
+- Fix a few typos in docs (thanks to `Bruno P. Kinoshita <https://github.com/kinow>`_,
+  `issue #249 <https://github.com/ets-labs/python-dependency-injector/issues/249>`_,
+  `PR #250 <https://github.com/ets-labs/python-dependency-injector/pull/250>`_).
+- Add support of six 1.15.0.
+- Regenerate C sources using Cython 0.29.20.
+
+
 3.15.6
 ------
 - Fix changelog typo.
@@ -322,7 +335,7 @@ follows `Semantic versioning`_
 3.3.7
 -----
 - Fix minor bug related to patch of ``Configuration`` provider in version
-  3.3.6 - special attribues were identified by formula ``__{text}`` - now
+  3.3.6 - special attributes were identified by formula ``__{text}`` - now
   they are identified by formula ``__{text}__``, that is more correct
   according to Python Data Model.
 
@@ -453,12 +466,12 @@ follows `Semantic versioning`_
 
 - **Containers**
 
-  1. Module ``dependency_injector.containers`` was splitted into submodules 
+  1. Module ``dependency_injector.containers`` was split into submodules 
      without any functional changes.
 
 - **Utils**
 
-  1. Module ``dependency_injector.utils`` is splitted into 
+  1. Module ``dependency_injector.utils`` is split into 
      ``dependency_injector.containers`` and ``dependency_injector.providers``.
 
 - **Miscellaneous**
@@ -805,9 +818,9 @@ to be the first major release.
   ``Provider._provide()``.
 - ``NewInstance`` provider was renamed to ``Factory`` provider. 
   ``NewInstance`` still can be used, but it considered to be deprecated and 
-  will be removed in futher releases.
+  will be removed in further releases.
 - ``@inject`` decorator was refactored to keep all injections in 
-  ``_injections`` attribute of decorated callback. It will give a possibilty to
+  ``_injections`` attribute of decorated callback. It will give a possibility to
   track all the injections of particular callbacks and gives some performance 
   boost due minimizing number of calls for doing injections.
 - A lot of documentation updates were made.

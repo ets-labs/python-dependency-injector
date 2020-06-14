@@ -22,11 +22,11 @@ Singleton providers resetting
 Created and memorized by :py:class:`Singleton` instance can be reset. Reset of
 :py:class:`Singleton`'s memorized instance is done by clearing reference to 
 it. Further lifecycle of memorized instance is out of :py:class:`Singleton` 
-provider's control and dependes on garbage collection strategy.
+provider's control and depends on garbage collection strategy.
 
 Example:
 
-.. literalinclude:: ../../examples/providers/singleton_reseting.py
+.. literalinclude:: ../../examples/providers/singleton_resetting.py
    :language: python
    :linenos:
 

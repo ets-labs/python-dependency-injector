@@ -1,4 +1,4 @@
-cython==0.29.14
+cython==0.29.20
 tox
 unittest2
 coverage

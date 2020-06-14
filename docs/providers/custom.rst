@@ -9,7 +9,7 @@ Below are some tips and recommendations that have to be met:
 
     1. Every custom provider has to extend base provider class - 
        :py:class:`Provider`.
-    2. Cusom provider's ``__init__()`` could be overriden, but parent's
+    2. Custom provider's ``__init__()`` could be overridden, but parent's
        initializer (:py:meth:`Provider.__init__`) has to be called.
     3. Providing strategy has to be implemented in custom provider's 
        :py:meth:`Provider.__call__` method.

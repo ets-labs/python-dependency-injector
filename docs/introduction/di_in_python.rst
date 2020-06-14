@@ -77,7 +77,7 @@ definitely quite lower than in other languages (even with dynamic typing).
     supported.
 
 Talking about inversion of control, it is a software design principle that 
-also works for each programming language, not dependending on its typing type.
+also works for each programming language, not depending on its typing type.
 
 Inversion of control is used to increase modularity of the program and make 
 it extensible.

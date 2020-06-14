@@ -3,7 +3,7 @@ Bundles mini application example
 
 .. currentmodule:: dependency_injector.containers
 
-"Bundles" is an example mini application that is intented to demonstrate the 
+"Bundles" is an example mini application that is intended to demonstrate the
 power of dependency injection for creation of re-usable application components
 ("bundles") with 100% transparency of their dependencies.
 
@@ -33,7 +33,7 @@ IoC containers
 Next two listings show :py:class:`DeclarativeContainer`'s for "users" and 
 "photos" bundles.
 
-Listing of ``bundeles/users/__init__.py``:
+Listing of ``bundles/users/__init__.py``:
 
 .. literalinclude:: ../../examples/miniapps/bundles/bundles/users/__init__.py
    :language: python
@@ -43,7 +43,7 @@ Listing of ``bundeles/users/__init__.py``:
 
     - ``Users`` container has dependency on database.
 
-Listing of ``bundeles/photos/__init__.py``:
+Listing of ``bundles/photos/__init__.py``:
 
 .. literalinclude:: ../../examples/miniapps/bundles/bundles/photos/__init__.py
    :language: python

@@ -36,6 +36,9 @@ build: clean cythonize
 	# Compile C extensions
 	python setup.py build_ext --inplace
 
+docs-live: clean
+	sphinx-autobuild docs docs/_build/html
+
 install: uninstall clean cythonize
 	pip install -ve .
 
