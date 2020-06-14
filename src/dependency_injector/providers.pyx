@@ -356,7 +356,7 @@ cdef class Dependency(Provider):
     This provider is used for description of dependency interface. That might
     be useful when dependency could be provided in the client's code only,
     but it's interface is known. Such situations could happen when required
-    dependency has non-determenistic list of dependencies itself.
+    dependency has non-deterministic list of dependencies itself.
 
     .. code-block:: python
 
@@ -445,7 +445,7 @@ cdef class ExternalDependency(Dependency):
     This provider is used for description of dependency interface. That might
     be useful when dependency could be provided in the client's code only,
     but it's interface is known. Such situations could happen when required
-    dependency has non-determenistic list of dependencies itself.
+    dependency has non-deterministic list of dependencies itself.
 
     .. code-block:: python
 
@@ -607,7 +607,7 @@ cdef class OverridingContext(object):
     """Provider overriding context.
 
     :py:class:`OverridingContext` is used by :py:meth:`Provider.override` for
-    implemeting ``with`` contexts. When :py:class:`OverridingContext` is
+    implementing ``with`` contexts. When :py:class:`OverridingContext` is
     closed, overriding that was created in this context is dropped also.
 
     .. code-block:: python
@@ -739,7 +739,7 @@ cdef class Callable(Provider):
         return self
 
     def set_args(self, *args):
-        """Set postional argument injections.
+        """Set positional argument injections.
 
         Existing positional argument injections are dropped.
 
@@ -750,7 +750,7 @@ cdef class Callable(Provider):
         return self
 
     def clear_args(self):
-        """Drop postional argument injections.
+        """Drop positional argument injections.
 
         :return: Reference ``self``
         """
@@ -1272,7 +1272,7 @@ cdef class Factory(Provider):
         return self.__instantiator.args
 
     def add_args(self, *args):
-        """Add __init__ postional argument injections.
+        """Add __init__ positional argument injections.
 
         :return: Reference ``self``
         """
@@ -1280,7 +1280,7 @@ cdef class Factory(Provider):
         return self
 
     def set_args(self, *args):
-        """Set __init__ postional argument injections.
+        """Set __init__ positional argument injections.
 
         Existing __init__ positional argument injections are dropped.
 
@@ -1290,7 +1290,7 @@ cdef class Factory(Provider):
         return self
 
     def clear_args(self):
-        """Drop __init__ postional argument injections.
+        """Drop __init__ positional argument injections.
 
         :return: Reference ``self``
         """
