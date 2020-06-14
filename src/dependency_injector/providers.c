@@ -13462,13 +13462,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Callable_6add_args(s
  *         return self
  * 
  *     def set_args(self, *args):             # <<<<<<<<<<<<<<
- *         """Set postional argument injections.
+ *         """Set positional argument injections.
  * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_9providers_8Callable_9set_args(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_9providers_8Callable_8set_args[] = "Set postional argument injections.\n\n        Existing positional argument injections are dropped.\n\n        :return: Reference ``self``\n        ";
+static char __pyx_doc_19dependency_injector_9providers_8Callable_8set_args[] = "Set positional argument injections.\n\n        Existing positional argument injections are dropped.\n\n        :return: Reference ``self``\n        ";
 static PyObject *__pyx_pw_19dependency_injector_9providers_8Callable_9set_args(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_args = 0;
   PyObject *__pyx_r = 0;
@@ -13540,7 +13540,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Callable_8set_args(s
  *         return self
  * 
  *     def set_args(self, *args):             # <<<<<<<<<<<<<<
- *         """Set postional argument injections.
+ *         """Set positional argument injections.
  * 
  */
 
@@ -13559,13 +13559,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Callable_8set_args(s
  *         return self
  * 
  *     def clear_args(self):             # <<<<<<<<<<<<<<
- *         """Drop postional argument injections.
+ *         """Drop positional argument injections.
  * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_9providers_8Callable_11clear_args(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_19dependency_injector_9providers_8Callable_10clear_args[] = "Drop postional argument injections.\n\n        :return: Reference ``self``\n        ";
+static char __pyx_doc_19dependency_injector_9providers_8Callable_10clear_args[] = "Drop positional argument injections.\n\n        :return: Reference ``self``\n        ";
 static PyObject *__pyx_pw_19dependency_injector_9providers_8Callable_11clear_args(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -13632,7 +13632,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Callable_10clear_arg
  *         return self
  * 
  *     def clear_args(self):             # <<<<<<<<<<<<<<
- *         """Drop postional argument injections.
+ *         """Drop positional argument injections.
  * 
  */
 
@@ -22449,13 +22449,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_4args___get_
  *         return self.__instantiator.args
  * 
  *     def add_args(self, *args):             # <<<<<<<<<<<<<<
- *         """Add __init__ postional argument injections.
+ *         """Add __init__ positional argument injections.
  * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_9providers_7Factory_7add_args(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_9providers_7Factory_6add_args[] = "Add __init__ postional argument injections.\n\n        :return: Reference ``self``\n        ";
+static char __pyx_doc_19dependency_injector_9providers_7Factory_6add_args[] = "Add __init__ positional argument injections.\n\n        :return: Reference ``self``\n        ";
 static PyObject *__pyx_pw_19dependency_injector_9providers_7Factory_7add_args(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_args = 0;
   PyObject *__pyx_r = 0;
@@ -22509,7 +22509,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_6add_args(st
  *         return self.__instantiator.args
  * 
  *     def add_args(self, *args):             # <<<<<<<<<<<<<<
- *         """Add __init__ postional argument injections.
+ *         """Add __init__ positional argument injections.
  * 
  */
 
@@ -22529,13 +22529,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_6add_args(st
  *         return self
  * 
  *     def set_args(self, *args):             # <<<<<<<<<<<<<<
- *         """Set __init__ postional argument injections.
+ *         """Set __init__ positional argument injections.
  * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_9providers_7Factory_9set_args(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_9providers_7Factory_8set_args[] = "Set __init__ postional argument injections.\n\n        Existing __init__ positional argument injections are dropped.\n\n        :return: Reference ``self``\n        ";
+static char __pyx_doc_19dependency_injector_9providers_7Factory_8set_args[] = "Set __init__ positional argument injections.\n\n        Existing __init__ positional argument injections are dropped.\n\n        :return: Reference ``self``\n        ";
 static PyObject *__pyx_pw_19dependency_injector_9providers_7Factory_9set_args(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_args = 0;
   PyObject *__pyx_r = 0;
@@ -22589,7 +22589,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_8set_args(st
  *         return self
  * 
  *     def set_args(self, *args):             # <<<<<<<<<<<<<<
- *         """Set __init__ postional argument injections.
+ *         """Set __init__ positional argument injections.
  * 
  */
 
@@ -22609,13 +22609,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_8set_args(st
  *         return self
  * 
  *     def clear_args(self):             # <<<<<<<<<<<<<<
- *         """Drop __init__ postional argument injections.
+ *         """Drop __init__ positional argument injections.
  * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_9providers_7Factory_11clear_args(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_19dependency_injector_9providers_7Factory_10clear_args[] = "Drop __init__ postional argument injections.\n\n        :return: Reference ``self``\n        ";
+static char __pyx_doc_19dependency_injector_9providers_7Factory_10clear_args[] = "Drop __init__ positional argument injections.\n\n        :return: Reference ``self``\n        ";
 static PyObject *__pyx_pw_19dependency_injector_9providers_7Factory_11clear_args(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
@@ -22677,7 +22677,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_10clear_args
  *         return self
  * 
  *     def clear_args(self):             # <<<<<<<<<<<<<<
- *         """Drop __init__ postional argument injections.
+ *         """Drop __init__ positional argument injections.
  * 
  */
 
@@ -55011,7 +55011,7 @@ static PyTypeObject __pyx_type_19dependency_injector_9providers_Dependency = {
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  ":py:class:`Dependency` provider describes dependency interface.\n\n    This provider is used for description of dependency interface. That might\n    be useful when dependency could be provided in the client's code only,\n    but it's interface is known. Such situations could happen when required\n    dependency has non-determenistic list of dependencies itself.\n\n    .. code-block:: python\n\n        database_provider = Dependency(sqlite3.dbapi2.Connection)\n        database_provider.override(Factory(sqlite3.connect, ':memory:'))\n\n        database = database_provider()\n\n    .. py:attribute:: instance_of\n\n        Class of required dependency.\n\n        :type: type\n   ", /*tp_doc*/
+  ":py:class:`Dependency` provider describes dependency interface.\n\n    This provider is used for description of dependency interface. That might\n    be useful when dependency could be provided in the client's code only,\n    but it's interface is known. Such situations could happen when required\n    dependency has non-deterministic list of dependencies itself.\n\n    .. code-block:: python\n\n        database_provider = Dependency(sqlite3.dbapi2.Connection)\n        database_provider.override(Factory(sqlite3.connect, ':memory:'))\n\n        database = database_provider()\n\n    .. py:attribute:: instance_of\n\n        Class of required dependency.\n\n        :type: type\n   ", /*tp_doc*/
   __pyx_tp_traverse_19dependency_injector_9providers_Dependency, /*tp_traverse*/
   __pyx_tp_clear_19dependency_injector_9providers_Dependency, /*tp_clear*/
   0, /*tp_richcompare*/
@@ -55108,7 +55108,7 @@ static PyTypeObject __pyx_type_19dependency_injector_9providers_ExternalDependen
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  ":py:class:`ExternalDependency` provider describes dependency interface.\n\n    This provider is used for description of dependency interface. That might\n    be useful when dependency could be provided in the client's code only,\n    but it's interface is known. Such situations could happen when required\n    dependency has non-determenistic list of dependencies itself.\n\n    .. code-block:: python\n\n        database_provider = ExternalDependency(sqlite3.dbapi2.Connection)\n        database_provider.override(Factory(sqlite3.connect, ':memory:'))\n\n        database = database_provider()\n\n    .. deprecated:: 3.9\n\n        Use :py:class:`Dependency` instead.\n\n    .. py:attribute:: instance_of\n\n        Class of required dependency.\n\n        :type: type\n    ", /*tp_doc*/
+  ":py:class:`ExternalDependency` provider describes dependency interface.\n\n    This provider is used for description of dependency interface. That might\n    be useful when dependency could be provided in the client's code only,\n    but it's interface is known. Such situations could happen when required\n    dependency has non-deterministic list of dependencies itself.\n\n    .. code-block:: python\n\n        database_provider = ExternalDependency(sqlite3.dbapi2.Connection)\n        database_provider.override(Factory(sqlite3.connect, ':memory:'))\n\n        database = database_provider()\n\n    .. deprecated:: 3.9\n\n        Use :py:class:`Dependency` instead.\n\n    .. py:attribute:: instance_of\n\n        Class of required dependency.\n\n        :type: type\n    ", /*tp_doc*/
   __pyx_tp_traverse_19dependency_injector_9providers_Dependency, /*tp_traverse*/
   __pyx_tp_clear_19dependency_injector_9providers_Dependency, /*tp_clear*/
   0, /*tp_richcompare*/
@@ -55396,7 +55396,7 @@ static PyTypeObject __pyx_type_19dependency_injector_9providers_OverridingContex
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  "Provider overriding context.\n\n    :py:class:`OverridingContext` is used by :py:meth:`Provider.override` for\n    implemeting ``with`` contexts. When :py:class:`OverridingContext` is\n    closed, overriding that was created in this context is dropped also.\n\n    .. code-block:: python\n\n        with provider.override(another_provider):\n            assert provider.overridden\n        assert not provider.overridden\n    ", /*tp_doc*/
+  "Provider overriding context.\n\n    :py:class:`OverridingContext` is used by :py:meth:`Provider.override` for\n    implementing ``with`` contexts. When :py:class:`OverridingContext` is\n    closed, overriding that was created in this context is dropped also.\n\n    .. code-block:: python\n\n        with provider.override(another_provider):\n            assert provider.overridden\n        assert not provider.overridden\n    ", /*tp_doc*/
   __pyx_tp_traverse_19dependency_injector_9providers_OverridingContext, /*tp_traverse*/
   __pyx_tp_clear_19dependency_injector_9providers_OverridingContext, /*tp_clear*/
   0, /*tp_richcompare*/
