@@ -34,3 +34,12 @@ if __name__ == '__main__':
     assert isinstance(dispatcher.modules, list)
     assert dispatcher.modules[0].name == 'm1'
     assert dispatcher.modules[1].name == 'm2'
+
+    # Call of dispatcher_factory() is equivalent to:
+
+    dispatcher = Dispatcher(
+        modules=[
+            Module(name='m1'),
+            Module(name='m2'),
+        ],
+    )
