@@ -10,6 +10,9 @@ follows `Semantic versioning`_
 Development version
 -------------------
 
+- Add ``List`` provider
+  `issue #243 <https://github.com/ets-labs/python-dependency-injector/issues/243>`_,
+  `PR #251 <https://github.com/ets-labs/python-dependency-injector/pull/251>`_.
 - Fix a few typos in docs (thanks to `Bruno P. Kinoshita <https://github.com/kinow>`_,
   `issue #249 <https://github.com/ets-labs/python-dependency-injector/issues/249>`_,
   `PR #250 <https://github.com/ets-labs/python-dependency-injector/pull/250>`_).
