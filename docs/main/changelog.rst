@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+
+- Fix a few typos in docs (thanks to `Bruno P. Kinoshita <https://github.com/kinow>`_,
+  `issue #249 <https://github.com/ets-labs/python-dependency-injector/issues/249>`_,
+  `PR #250 <https://github.com/ets-labs/python-dependency-injector/pull/250>`_).
+
 3.15.6
 ------
 - Fix changelog typo.

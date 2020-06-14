@@ -10,3 +10,4 @@ Dependency Injector Contributors
 + Jeroen Rietveld (jeroenrietveld)
 + Dmitry Kuzmin (xotonic)
 + supakeen (supakeen)
++ Bruno P. Kinoshita (kinow)
