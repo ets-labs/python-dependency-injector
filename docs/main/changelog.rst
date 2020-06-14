@@ -16,6 +16,8 @@ Development version
 - Fix a few typos in docs (thanks to `Bruno P. Kinoshita <https://github.com/kinow>`_,
   `issue #249 <https://github.com/ets-labs/python-dependency-injector/issues/249>`_,
   `PR #250 <https://github.com/ets-labs/python-dependency-injector/pull/250>`_).
+- Regenerate C sources using Cython 0.29.20.
+
 
 3.15.6
 ------
