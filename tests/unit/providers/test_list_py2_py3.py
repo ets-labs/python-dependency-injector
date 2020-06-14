@@ -4,26 +4,10 @@ import sys
 
 import unittest2 as unittest
 
-from dependency_injector import (
-    providers,
-    errors,
-)
+from dependency_injector import providers
 
 
-class Example(object):
-
-    def __init__(self, init_arg1=None, init_arg2=None, init_arg3=None,
-                 init_arg4=None):
-        self.init_arg1 = init_arg1
-        self.init_arg2 = init_arg2
-        self.init_arg3 = init_arg3
-        self.init_arg4 = init_arg4
-
-        self.attribute1 = None
-        self.attribute2 = None
-
-
-class FactoryTests(unittest.TestCase):
+class ListTests(unittest.TestCase):
 
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(providers.List()))
