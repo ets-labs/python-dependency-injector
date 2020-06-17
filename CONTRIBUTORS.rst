@@ -11,3 +11,4 @@ Dependency Injector Contributors
 + Dmitry Kuzmin (xotonic)
 + supakeen (supakeen)
 + Bruno P. Kinoshita (kinow)
++ RobinsonMa (RobinsonMa)

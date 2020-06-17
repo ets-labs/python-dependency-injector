@@ -82,6 +82,7 @@ cdef class Provider(object):
     All providers should extend this class.
 
     .. py:attribute:: overridden
+       :noindex:
 
         Tuple of overriding providers, if any.
 
@@ -366,6 +367,7 @@ cdef class Dependency(Provider):
         database = database_provider()
 
     .. py:attribute:: instance_of
+       :noindex:
 
         Class of required dependency.
 
@@ -459,6 +461,7 @@ cdef class ExternalDependency(Dependency):
         Use :py:class:`Dependency` instead.
 
     .. py:attribute:: instance_of
+       :noindex:
 
         Class of required dependency.
 
@@ -1386,6 +1389,7 @@ cdef class DelegatedFactory(Factory):
         :type: type | None
 
     .. py:attribute:: cls
+       :noindex:
 
         Class that provides object.
         Alias for :py:attr:`provides`.
@@ -1723,6 +1727,7 @@ cdef class Singleton(BaseSingleton):
         :type: type | None
 
     .. py:attribute:: cls
+       :noindex:
 
         Class that provides object.
         Alias for :py:attr:`provides`.
@@ -1765,6 +1770,7 @@ cdef class DelegatedSingleton(Singleton):
         :type: type | None
 
     .. py:attribute:: cls
+       :noindex:
 
         Class that provides object.
         Alias for :py:attr:`provides`.
@@ -1821,6 +1827,7 @@ cdef class DelegatedThreadSafeSingleton(ThreadSafeSingleton):
         :type: type | None
 
     .. py:attribute:: cls
+       :noindex:
 
         Class that provides object.
         Alias for :py:attr:`provides`.
@@ -1842,6 +1849,7 @@ cdef class ThreadLocalSingleton(BaseSingleton):
         :type: type | None
 
     .. py:attribute:: cls
+       :noindex:
 
         Class that provides object.
         Alias for :py:attr:`provides`.
@@ -1889,6 +1897,7 @@ cdef class DelegatedThreadLocalSingleton(ThreadLocalSingleton):
         :type: type | None
 
     .. py:attribute:: cls
+       :noindex:
 
         Class that provides object.
         Alias for :py:attr:`provides`.

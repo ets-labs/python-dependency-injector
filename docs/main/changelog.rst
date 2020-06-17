@@ -7,9 +7,16 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.16.1
+------
+- Update ``singleton_thread_locals.py`` to support Python 3 (thanks to
+  `RobinsonMa <https://github.com/RobinsonMa>`_,
+  `PR #252 <https://github.com/ets-labs/python-dependency-injector/pull/252>`_).
+- Fix Disqus comments.
+- Fix warnings in API docs.
+
 3.16.0
 ------
-
 - Add ``List`` provider
   `issue #243 <https://github.com/ets-labs/python-dependency-injector/issues/243>`_,
   `PR #251 <https://github.com/ets-labs/python-dependency-injector/pull/251>`_.
@@ -18,7 +25,6 @@ follows `Semantic versioning`_
   `PR #250 <https://github.com/ets-labs/python-dependency-injector/pull/250>`_).
 - Add support of six 1.15.0.
 - Regenerate C sources using Cython 0.29.20.
-
 
 3.15.6
 ------
@@ -65,18 +71,18 @@ follows `Semantic versioning`_
 -------
 - Fix ``3.14.11`` degradation issue causing inability of using ``Delegate`` provider in
   ``DeclarativeContainer`` when this container is instantiated with overriding of delegating
-  provider (thanks to `GitterRemote <https://github .com/GitterRemote>`_, issue details are
-  `here <https://github.com/ets-labs/python-dependency-injector/issues/235>`_).
+  provider (thanks to `GitterRemote <https://github .com/GitterRemote>`_, issue details are here
+  `#235 <https://github.com/ets-labs/python-dependency-injector/issues/235>`_).
 
 3.14.11
 -------
 - Fix issue causing creation of a copy of provided object by ``Object`` provider when it was a
   part of ``DeclarativeContainer`` and this container was instantiated (thanks to
-  `davidcim <https://github.com/davidcim>`_, issue details are
-  `here <https://github.com/ets-labs/python-dependency-injector/issues/231>`_).
+  `davidcim <https://github.com/davidcim>`_, issue details are here
+  `#231 <https://github.com/ets-labs/python-dependency-injector/issues/231>`_).
 
 3.14.10
-------
+-------
 - Make spelling fix for the list of contributors.
 
 3.14.9
@@ -480,6 +486,7 @@ follows `Semantic versioning`_
   2. Add makefile (``clean``, ``test``, ``build``, ``install``, ``uninstall`` 
      & ``publish`` commands).
   3. Update repository structure:
+
     1. Sources are moved under ``src/`` folder.
     2. Tests are moved under ``tests/unit/`` folder.
 
