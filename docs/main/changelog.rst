@@ -7,9 +7,16 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.16.1
+------
+- Update ``singleton_thread_locals.py`` to support Python 3 (thanks to
+  `RobinsonMa <https://github.com/RobinsonMa>`_,
+  `PR #252 <https://github.com/ets-labs/python-dependency-injector/pull/252>`_).
+- Fix Disqus comments.
+- Fix warnings in API docs.
+
 3.16.0
 ------
-
 - Add ``List`` provider
   `issue #243 <https://github.com/ets-labs/python-dependency-injector/issues/243>`_,
   `PR #251 <https://github.com/ets-labs/python-dependency-injector/pull/251>`_.
@@ -18,7 +25,6 @@ follows `Semantic versioning`_
   `PR #250 <https://github.com/ets-labs/python-dependency-injector/pull/250>`_).
 - Add support of six 1.15.0.
 - Regenerate C sources using Cython 0.29.20.
-
 
 3.15.6
 ------
