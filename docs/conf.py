@@ -293,4 +293,4 @@ disqus_shortname = 'python-dependency-injector'
 
 
 def setup(app):
-    app.add_stylesheet('sphinx_rtd_theme-hotfix.css')
+    app.add_css_file('sphinx_rtd_theme-hotfix.css')
