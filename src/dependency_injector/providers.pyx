@@ -612,6 +612,22 @@ class Container(DependenciesContainer):
         self.container = container
         super().__init__()
 
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        cdef DependenciesContainer copied
+
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__(self.container)
+        copied.__provides = deepcopy(self.__provides, memo)
+        copied.__providers = deepcopy(self.__providers, memo)
+
+        self._copy_overridings(copied, memo)
+
+        return copied
+
 
 cdef class OverridingContext(object):
     """Provider overriding context.
