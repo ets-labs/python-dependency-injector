@@ -41,6 +41,10 @@ cdef class DependenciesContainer(Object):
     cpdef object _override_providers(self, object container)
 
 
+cdef class Container(DependenciesContainer):
+    cpdef object container
+
+
 cdef class OverridingContext(object):
     cdef Provider __overridden
     cdef Provider __overriding

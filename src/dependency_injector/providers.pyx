@@ -606,9 +606,9 @@ cdef class DependenciesContainer(Object):
             provider.override(dependency_provider)
 
 
-class Container(DependenciesContainer):
+cdef class Container(DependenciesContainer):
 
-    def __init__(self, container):
+    def __init__(self, object container):
         self.container = container
         super().__init__()
 
