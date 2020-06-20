@@ -609,8 +609,12 @@ cdef class DependenciesContainer(Object):
 cdef class Container(DependenciesContainer):
 
     def __init__(self, object container):
-        self.container = container
+        self.__container = container
         super().__init__()
+
+    @property
+    def container(self):
+        return self.__container
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
@@ -620,7 +624,7 @@ cdef class Container(DependenciesContainer):
         if copied is not None:
             return copied
 
-        copied = self.__class__(self.container)
+        copied = self.__class__(self.__container)
         copied.__provides = deepcopy(self.__provides, memo)
         copied.__providers = deepcopy(self.__providers, memo)
 

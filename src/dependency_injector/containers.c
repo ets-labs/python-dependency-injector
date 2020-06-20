@@ -952,12 +952,12 @@ struct __pyx_obj_19dependency_injector_9providers_DependenciesContainer {
  * 
  * 
  * cdef class Container(DependenciesContainer):             # <<<<<<<<<<<<<<
- *     cpdef object container
+ *     cdef object __container
  * 
  */
 struct __pyx_obj_19dependency_injector_9providers_Container {
   struct __pyx_obj_19dependency_injector_9providers_DependenciesContainer __pyx_base;
-  PyObject *container;
+  PyObject *__pyx___container;
 };
 
 
@@ -1510,7 +1510,7 @@ static struct __pyx_vtabstruct_19dependency_injector_9providers_DependenciesCont
  * 
  * 
  * cdef class Container(DependenciesContainer):             # <<<<<<<<<<<<<<
- *     cpdef object container
+ *     cdef object __container
  * 
  */
 

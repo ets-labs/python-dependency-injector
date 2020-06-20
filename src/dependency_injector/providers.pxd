@@ -42,7 +42,7 @@ cdef class DependenciesContainer(Object):
 
 
 cdef class Container(DependenciesContainer):
-    cpdef object container
+    cdef object __container
 
 
 cdef class OverridingContext(object):
