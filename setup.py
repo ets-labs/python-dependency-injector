@@ -57,7 +57,11 @@ setup(name='dependency-injector',
                     extra_compile_args=['-O2']),
       ],
       package_data={
-          'dependency_injector': ['*.pxd'],
+          'dependency_injector': [
+              '*.pxd',
+              '*.pyi',
+              'py.typed',
+          ],
       },
       zip_safe=True,
       license='BSD New',
