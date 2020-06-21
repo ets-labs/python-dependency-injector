@@ -1097,7 +1097,7 @@ cdef class Configuration(Object):
         if not isinstance(value, dict):
             return
 
-        for name in value:
+        for name in value.keys():
             child_provider = self.__children.get(name)
             if child_provider is None:
                 continue
