@@ -606,33 +606,6 @@ cdef class DependenciesContainer(Object):
             provider.override(dependency_provider)
 
 
-cdef class Container(DependenciesContainer):
-
-    def __init__(self, object container):
-        self.__container = container
-        super().__init__()
-
-    @property
-    def container(self):
-        return self.__container
-
-    def __deepcopy__(self, memo):
-        """Create and return full copy of provider."""
-        cdef DependenciesContainer copied
-
-        copied = memo.get(id(self))
-        if copied is not None:
-            return copied
-
-        copied = self.__class__(self.__container)
-        copied.__provides = deepcopy(self.__provides, memo)
-        copied.__providers = deepcopy(self.__providers, memo)
-
-        self._copy_overridings(copied, memo)
-
-        return copied
-
-
 cdef class OverridingContext(object):
     """Provider overriding context.
 
@@ -2102,6 +2075,68 @@ cdef class List(Provider):
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable's call."""
         return list(__provide_positional_args(args, self.__args, self.__args_len))
+
+
+cdef class Container(Singleton):
+
+    def __getattr__(self, name):
+        """Return dependency provider."""
+        if name.startswith('__') and name.endswith('__'):
+            raise AttributeError(
+                '\'{cls}\' object has no attribute '
+                '\'{attribute_name}\''.format(cls=self.__class__.__name__,
+                                              attribute_name=name))
+
+        container = self.__call__()
+        provider = container.providers.get(name)
+
+        if not provider:
+            provider = Dependency()
+            setattr(container, name, provider)
+
+        return provider
+
+    @property
+    def providers(self):
+        """Read-only dictionary of dependency providers."""
+        container = self.__call__()
+        return container.providers
+
+    def override(self, provider):
+        """Override provider with another provider.
+
+        :param provider: Overriding provider.
+        :type provider: :py:class:`Provider`
+
+        :raise: :py:exc:`dependency_injector.errors.Error`
+
+        :return: Overriding context.
+        :rtype: :py:class:`OverridingContext`
+        """
+        container = self.__call__()
+        container.override(container)
+        return super(Container, self).override(provider)
+
+    def reset_last_overriding(self):
+        """Reset last overriding provider.
+
+        :raise: :py:exc:`dependency_injector.errors.Error` if provider is not
+                overridden.
+
+        :rtype: None
+        """
+        container = self.__call()
+        container.reset_last_overriding()
+        super(Container, self).reset_last_overriding()
+
+    def reset_override(self):
+        """Reset all overriding providers.
+
+        :rtype: None
+        """
+        container = self.__call()
+        container.reset_override()
+        super(Container, self).reset_override()
 
 
 cdef class Injection(object):

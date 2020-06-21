@@ -41,10 +41,6 @@ cdef class DependenciesContainer(Object):
     cpdef object _override_providers(self, object container)
 
 
-cdef class Container(DependenciesContainer):
-    cdef object __container
-
-
 cdef class OverridingContext(object):
     cdef Provider __overridden
     cdef Provider __overriding
@@ -177,6 +173,10 @@ cdef class List(Provider):
     cdef int __args_len
 
     cpdef object _provide(self, tuple args, dict kwargs)
+
+
+cdef class Container(Singleton):
+    pass
 
 
 # Injections
