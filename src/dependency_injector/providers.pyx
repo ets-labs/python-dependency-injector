@@ -2079,6 +2079,30 @@ cdef class List(Provider):
 
 cdef class Container(Singleton):
 
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        cdef Container copied
+
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        cls = self.cls
+        if isinstance(cls, Provider):
+            cls = deepcopy(cls, memo)
+
+        copied = self.__class__(cls,
+                                *deepcopy(self.args, memo),
+                                **deepcopy(self.kwargs, memo))
+        copied.set_attributes(**deepcopy(self.attributes, memo))
+
+        self._copy_overridings(copied, memo)
+
+        if copied.__storage:
+            copied.__storage = deepcopy(copied.__storage, memo)
+
+        return copied
+
     def __getattr__(self, name):
         """Return dependency provider."""
         if name.startswith('__') and name.endswith('__'):
