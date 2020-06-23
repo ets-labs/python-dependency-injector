@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Add ``Container`` provider.
 - Add ``Configuration`` providers linking.
 
 3.16.1
