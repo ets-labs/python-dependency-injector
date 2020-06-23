@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.17.1
+------
+- Fix ``DynamicContainer`` deep-copying bug.
+
 3.17.0
 ------
 - Add ``Container`` provider.
