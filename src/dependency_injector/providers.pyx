@@ -21,6 +21,10 @@ else:
     else:
         _is_coroutine_marker = True
 
+try:
+    import ConfigParser as iniconfigparser
+except ImportError:
+    import configparser as iniconfigparser
 
 from .errors import (
     Error,
@@ -1154,6 +1158,23 @@ cdef class Configuration(Object):
         :rtype: None
         """
         self.override(value)
+
+    def from_ini(self, filepath):
+        """Load configuration from ini file.
+
+        :param filepath: Path to the configuration file.
+        :type filepath: str
+
+        :rtype: None
+        """
+        parser = iniconfigparser.ConfigParser()
+        parser.read([filepath])
+
+        config = {}
+        for section in parser.sections():
+            config[section] = dict(parser[section])
+
+        self.override(config)
 
     def _create_children(self, value):
         children = dict()

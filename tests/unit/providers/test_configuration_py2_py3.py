@@ -1,5 +1,8 @@
 """Dependency injector config providers unit tests."""
 
+import os
+import tempfile
+
 import unittest2 as unittest
 
 from dependency_injector import containers, providers
@@ -246,3 +249,32 @@ class ConfigLinkingTests(unittest.TestCase):
         self.assertEqual(services.config(), {'value': 'services2'})
         self.assertEqual(services.config.value(), 'services2')
         self.assertEqual(services.value_getter(), 'services2')
+
+
+class ConfigFromIniTests(unittest.TestCase):
+
+    def setUp(self):
+        self.config = providers.Configuration(name='config')
+        _, self.config_file = tempfile.mkstemp()
+
+        with open(self.config_file, 'w') as config_file:
+            config_file.write(
+                '[section1]\n'
+                'value1=1\n'
+                '\n'
+                '[section2]\n'
+                'value2=2\n'
+            )
+
+    def tearDown(self):
+        del self.config
+        os.unlink(self.config_file)
+
+    def test(self):
+        self.config.from_ini(self.config_file)
+
+        self.assertEqual(self.config(), {'section1': {'value1': '1'}, 'section2': {'value2': '2'}})
+        self.assertEqual(self.config.section1(), {'value1': '1'})
+        self.assertEqual(self.config.section1.value1(), '1')
+        self.assertEqual(self.config.section2(), {'value2': '2'})
+        self.assertEqual(self.config.section2.value2(), '2')
