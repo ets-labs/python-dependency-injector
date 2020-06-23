@@ -92,6 +92,7 @@ cdef class CoroutineDelegate(Delegate):
 cdef class Configuration(Object):
     cdef str __name
     cdef dict __children
+    cdef tuple __linked
 
 
 # Factory providers

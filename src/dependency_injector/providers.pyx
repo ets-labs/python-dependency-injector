@@ -1029,6 +1029,7 @@ cdef class Configuration(Object):
 
         self.__name = name
         self.__children = self._create_children(default)
+        self.__linked = tuple()
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
@@ -1041,6 +1042,7 @@ cdef class Configuration(Object):
         copied = self.__class__(self.__name)
         copied.__provides = deepcopy(self.__provides, memo)
         copied.__children = deepcopy(self.__children, memo)
+        copied.__linked = deepcopy(self.__linked, memo)
 
         self._copy_overridings(copied, memo)
 
@@ -1093,11 +1095,17 @@ cdef class Configuration(Object):
         """
         overriding_context = super(Configuration, self).override(provider)
 
+        for linked in self.__linked:
+            linked.override(provider)
+
+        if isinstance(provider, Configuration):
+            provider.link_provider(self)
+
         value = self.__call__()
         if not isinstance(value, dict):
             return
 
-        for name in value:
+        for name in value.keys():
             child_provider = self.__children.get(name)
             if child_provider is None:
                 continue
@@ -1128,6 +1136,10 @@ cdef class Configuration(Object):
         for child in self.__children.values():
             child.reset_override()
         super(Configuration, self).reset_override()
+
+    def link_provider(self, provider):
+        """Configuration link two configuration providers."""
+        self.__linked += (<Configuration?>provider,)
 
     def update(self, value):
         """Set configuration options.
