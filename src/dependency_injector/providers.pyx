@@ -541,7 +541,7 @@ cdef class DependenciesContainer(Object):
             provider = Dependency()
             self.__providers[name] = provider
 
-            container = self.__call__()
+            container = self.__provides
             if container:
                 dependency_provider = container.providers.get(name)
                 if dependency_provider:
@@ -598,6 +598,9 @@ cdef class DependenciesContainer(Object):
             provider = self.__providers.get(name)
 
             if not provider:
+                provider = Dependency()
+                provider.override(dependency_provider)
+                self.__providers[name] = provider
                 continue
 
             if provider.last_overriding is dependency_provider:
@@ -1029,6 +1032,7 @@ cdef class Configuration(Object):
 
         self.__name = name
         self.__children = self._create_children(default)
+        self.__linked = list()
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
@@ -1041,6 +1045,7 @@ cdef class Configuration(Object):
         copied = self.__class__(self.__name)
         copied.__provides = deepcopy(self.__provides, memo)
         copied.__children = deepcopy(self.__children, memo)
+        copied.__linked = deepcopy(self.__linked, memo)
 
         self._copy_overridings(copied, memo)
 
@@ -1076,6 +1081,21 @@ cdef class Configuration(Object):
 
         return child_provider
 
+    @property
+    def children(self):
+        """Return children providers."""
+        return self.__children
+
+    @property
+    def linked(self):
+        """Return linked providers."""
+        return self.__linked
+
+    def link_provider(self, Configuration provider):
+        """Link providers."""
+        assert isinstance(provider, Configuration)
+        self.__linked.append(provider)
+
     def get_name(self):
         """Name of configuration unit."""
         return self.__name
@@ -1092,6 +1112,12 @@ cdef class Configuration(Object):
         :rtype: :py:class:`OverridingContext`
         """
         overriding_context = super(Configuration, self).override(provider)
+
+        for linked in self.__linked:
+            linked.override(provider)
+
+        if isinstance(provider, Configuration):
+            provider.link_provider(self)
 
         value = self.__call__()
         if not isinstance(value, dict):
@@ -2077,29 +2103,29 @@ cdef class List(Provider):
         return list(__provide_positional_args(args, self.__args, self.__args_len))
 
 
-cdef class Container(Singleton):
+cdef class Container(Provider):
+
+    def __init__(self, container_cls, container=None, **overriding_providers):
+        self.container_cls = container_cls
+        self.overriding_providers = overriding_providers
+
+        if container is None:
+            container = container_cls()
+            container.override_providers(**overriding_providers)
+        self.container = container
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
-        cdef Container copied
-
         copied = memo.get(id(self))
         if copied is not None:
             return copied
 
-        cls = self.cls
-        if isinstance(cls, Provider):
-            cls = deepcopy(cls, memo)
-
-        copied = self.__class__(cls,
-                                *deepcopy(self.args, memo),
-                                **deepcopy(self.kwargs, memo))
-        copied.set_attributes(**deepcopy(self.attributes, memo))
-
+        copied = self.__class__(
+            self.container_cls,
+            self.container,
+            **deepcopy(self.overriding_providers, memo),
+        )
         self._copy_overridings(copied, memo)
-
-        if copied.__storage:
-            copied.__storage = deepcopy(copied.__storage, memo)
 
         return copied
 
@@ -2110,57 +2136,11 @@ cdef class Container(Singleton):
                 '\'{cls}\' object has no attribute '
                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
                                               attribute_name=name))
+        return getattr(self.container, name)
 
-        container = self.__call__()
-        provider = container.providers.get(name)
-
-        if not provider:
-            provider = Dependency()
-            setattr(container, name, provider)
-
-        return provider
-
-    @property
-    def providers(self):
-        """Read-only dictionary of dependency providers."""
-        container = self.__call__()
-        return container.providers
-
-    def override(self, provider):
-        """Override provider with another provider.
-
-        :param provider: Overriding provider.
-        :type provider: :py:class:`Provider`
-
-        :raise: :py:exc:`dependency_injector.errors.Error`
-
-        :return: Overriding context.
-        :rtype: :py:class:`OverridingContext`
-        """
-        container = self.__call__()
-        container.override(container)
-        return super(Container, self).override(provider)
-
-    def reset_last_overriding(self):
-        """Reset last overriding provider.
-
-        :raise: :py:exc:`dependency_injector.errors.Error` if provider is not
-                overridden.
-
-        :rtype: None
-        """
-        container = self.__call()
-        container.reset_last_overriding()
-        super(Container, self).reset_last_overriding()
-
-    def reset_override(self):
-        """Reset all overriding providers.
-
-        :rtype: None
-        """
-        container = self.__call()
-        container.reset_override()
-        super(Container, self).reset_override()
+    cpdef object _provide(self, tuple args, dict kwargs):
+        """Return single instance."""
+        return self.container
 
 
 cdef class Injection(object):
