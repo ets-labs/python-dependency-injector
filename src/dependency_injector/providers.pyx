@@ -1172,7 +1172,7 @@ cdef class Configuration(Object):
 
         config = {}
         for section in parser.sections():
-            config[section] = dict(parser[section])
+            config[section] = dict(parser.items(section))
 
         self.override(config)
 

@@ -2228,13 +2228,6 @@ static int __Pyx_PyUnicode_Tailmatch(
 static CYTHON_INLINE int __Pyx_PyStr_Tailmatch(PyObject* self, PyObject* arg, Py_ssize_t start,
                                                Py_ssize_t end, int direction);
 
-/* ObjectGetItem.proto */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* key);
-#else
-#define __Pyx_PyObject_GetItem(obj, key)  PyObject_GetItem(obj, key)
-#endif
-
 /* PyDictContains.proto */
 static CYTHON_INLINE int __Pyx_PyDict_ContainsTF(PyObject* item, PyObject* dict, int eq) {
     int result = PyDict_Contains(dict, item);
@@ -21571,7 +21564,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_20fro
  * 
  *         config = {}             # <<<<<<<<<<<<<<
  *         for section in parser.sections():
- *             config[section] = dict(parser[section])
+ *             config[section] = dict(parser.items(section))
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1173, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -21582,7 +21575,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_20fro
  * 
  *         config = {}
  *         for section in parser.sections():             # <<<<<<<<<<<<<<
- *             config[section] = dict(parser[section])
+ *             config[section] = dict(parser.items(section))
  * 
  */
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_sections); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1174, __pyx_L1_error)
@@ -21648,12 +21641,27 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_20fro
     /* "dependency_injector/providers.pyx":1175
  *         config = {}
  *         for section in parser.sections():
- *             config[section] = dict(parser[section])             # <<<<<<<<<<<<<<
+ *             config[section] = dict(parser.items(section))             # <<<<<<<<<<<<<<
  * 
  *         self.override(config)
  */
-    __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_parser, __pyx_v_section); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1175, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_items); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1175, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_4 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
+      if (likely(__pyx_t_4)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_2, function);
+      }
+    }
+    __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_v_section) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_section);
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1175, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_2 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyDict_Type)), __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1175, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -21664,14 +21672,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_20fro
  * 
  *         config = {}
  *         for section in parser.sections():             # <<<<<<<<<<<<<<
- *             config[section] = dict(parser[section])
+ *             config[section] = dict(parser.items(section))
  * 
  */
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "dependency_injector/providers.pyx":1177
- *             config[section] = dict(parser[section])
+ *             config[section] = dict(parser.items(section))
  * 
  *         self.override(config)             # <<<<<<<<<<<<<<
  * 
@@ -66827,35 +66835,6 @@ static CYTHON_INLINE int __Pyx_PyStr_Tailmatch(PyObject* self, PyObject* arg, Py
     else
         return __Pyx_PyUnicode_Tailmatch(self, arg, start, end, direction);
 }
-
-/* ObjectGetItem */
-#if CYTHON_USE_TYPE_SLOTS
-static PyObject *__Pyx_PyObject_GetIndex(PyObject *obj, PyObject* index) {
-    PyObject *runerr;
-    Py_ssize_t key_value;
-    PySequenceMethods *m = Py_TYPE(obj)->tp_as_sequence;
-    if (unlikely(!(m && m->sq_item))) {
-        PyErr_Format(PyExc_TypeError, "'%.200s' object is not subscriptable", Py_TYPE(obj)->tp_name);
-        return NULL;
-    }
-    key_value = __Pyx_PyIndex_AsSsize_t(index);
-    if (likely(key_value != -1 || !(runerr = PyErr_Occurred()))) {
-        return __Pyx_GetItemInt_Fast(obj, key_value, 0, 1, 1);
-    }
-    if (PyErr_GivenExceptionMatches(runerr, PyExc_OverflowError)) {
-        PyErr_Clear();
-        PyErr_Format(PyExc_IndexError, "cannot fit '%.200s' into an index-sized integer", Py_TYPE(index)->tp_name);
-    }
-    return NULL;
-}
-static PyObject *__Pyx_PyObject_GetItem(PyObject *obj, PyObject* key) {
-    PyMappingMethods *m = Py_TYPE(obj)->tp_as_mapping;
-    if (likely(m && m->mp_subscript)) {
-        return m->mp_subscript(obj, key);
-    }
-    return __Pyx_PyObject_GetIndex(obj, key);
-}
-#endif
 
 /* DictGetItem */
 #if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
