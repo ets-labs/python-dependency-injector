@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Add ``Configuration.from_ini()`` method to load configuration from ini file.
+- Add ``Configuration.from_dict()`` method to load configuration from dictionary.
 
 3.17.1
 ------

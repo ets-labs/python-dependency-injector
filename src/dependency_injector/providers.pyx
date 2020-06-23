@@ -1159,8 +1159,25 @@ cdef class Configuration(Object):
         """
         self.override(value)
 
+    def from_dict(self, options):
+        """Load configuration from dictionary.
+
+        Loaded configuration is merged recursively over current configuration.
+
+        :param options: Configuration options.
+        :type options: dict
+
+        :rtype: None
+        """
+        current_config = self.__call__()
+        if not current_config:
+            current_config = {}
+        self.override(merge_dicts(current_config, options))
+
     def from_ini(self, filepath):
         """Load configuration from ini file.
+
+        Loaded configuration is merged recursively over current configuration.
 
         :param filepath: Path to the configuration file.
         :type filepath: str
@@ -1174,7 +1191,10 @@ cdef class Configuration(Object):
         for section in parser.sections():
             config[section] = dict(parser.items(section))
 
-        self.override(config)
+        current_config = self.__call__()
+        if not current_config:
+            current_config = {}
+        self.override(merge_dicts(current_config, config))
 
     def _create_children(self, value):
         children = dict()
@@ -2342,3 +2362,24 @@ def __add_sys_streams(memo):
     memo[id(sys.stdin)] = sys.stdin
     memo[id(sys.stdout)] = sys.stdout
     memo[id(sys.stderr)] = sys.stderr
+
+
+def merge_dicts(dict1, dict2):
+    """Merge dictionaries recursively.
+
+    :param dict1: Dictionary 1
+    :type dict1: dict
+
+    :param dict2: Dictionary 2
+    :type dict2: dict
+
+    :return: New resulting dictionary
+    :rtype: dict
+    """
+    for key, value in dict1.items():
+        if key in dict2:
+            if isinstance(value, dict) and isinstance(dict2[key], dict):
+                dict2[key] = merge_dicts(value, dict2[key])
+    result = dict1.copy()
+    result.update(dict2)
+    return result

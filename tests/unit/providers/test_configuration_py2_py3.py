@@ -251,13 +251,73 @@ class ConfigLinkingTests(unittest.TestCase):
         self.assertEqual(services.value_getter(), 'services2')
 
 
+class ConfigFromDict(unittest.TestCase):
+
+    def setUp(self):
+        self.config = providers.Configuration(name='config')
+
+        self.config_options_1 = {
+            'section1': {
+                'value1': '1',
+            },
+            'section2': {
+                'value2': '2',
+            },
+        }
+        self.config_options_2 = {
+            'section1': {
+                'value1': '11',
+                'value11': '11',
+            },
+            'section3': {
+                'value3': '3',
+            },
+        }
+
+    def test(self):
+        self.config.from_dict(self.config_options_1)
+
+        self.assertEqual(self.config(), {'section1': {'value1': '1'}, 'section2': {'value2': '2'}})
+        self.assertEqual(self.config.section1(), {'value1': '1'})
+        self.assertEqual(self.config.section1.value1(), '1')
+        self.assertEqual(self.config.section2(), {'value2': '2'})
+        self.assertEqual(self.config.section2.value2(), '2')
+
+    def test_merge(self):
+        self.config.from_dict(self.config_options_1)
+        self.config.from_dict(self.config_options_2)
+
+        self.assertEqual(
+            self.config(),
+            {
+                'section1': {
+                    'value1': '11',
+                    'value11': '11',
+                },
+                'section2': {
+                    'value2': '2',
+                },
+                'section3': {
+                    'value3': '3',
+                },
+            },
+        )
+        self.assertEqual(self.config.section1(), {'value1': '11', 'value11': '11'})
+        self.assertEqual(self.config.section1.value1(), '11')
+        self.assertEqual(self.config.section1.value11(), '11')
+        self.assertEqual(self.config.section2(), {'value2': '2'})
+        self.assertEqual(self.config.section2.value2(), '2')
+        self.assertEqual(self.config.section3(), {'value3': '3'})
+        self.assertEqual(self.config.section3.value3(), '3')
+
+
 class ConfigFromIniTests(unittest.TestCase):
 
     def setUp(self):
         self.config = providers.Configuration(name='config')
-        _, self.config_file = tempfile.mkstemp()
 
-        with open(self.config_file, 'w') as config_file:
+        _, self.config_file_1 = tempfile.mkstemp()
+        with open(self.config_file_1, 'w') as config_file:
             config_file.write(
                 '[section1]\n'
                 'value1=1\n'
@@ -266,15 +326,53 @@ class ConfigFromIniTests(unittest.TestCase):
                 'value2=2\n'
             )
 
+        _, self.config_file_2 = tempfile.mkstemp()
+        with open(self.config_file_2, 'w') as config_file:
+            config_file.write(
+                '[section1]\n'
+                'value1=11\n'
+                'value11=11\n'
+                '[section3]\n'
+                'value3=3\n'
+            )
+
     def tearDown(self):
         del self.config
-        os.unlink(self.config_file)
+        os.unlink(self.config_file_1)
+        os.unlink(self.config_file_2)
 
     def test(self):
-        self.config.from_ini(self.config_file)
+        self.config.from_ini(self.config_file_1)
 
         self.assertEqual(self.config(), {'section1': {'value1': '1'}, 'section2': {'value2': '2'}})
         self.assertEqual(self.config.section1(), {'value1': '1'})
         self.assertEqual(self.config.section1.value1(), '1')
         self.assertEqual(self.config.section2(), {'value2': '2'})
         self.assertEqual(self.config.section2.value2(), '2')
+
+    def test_merge(self):
+        self.config.from_ini(self.config_file_1)
+        self.config.from_ini(self.config_file_2)
+
+        self.assertEqual(
+            self.config(),
+            {
+                'section1': {
+                    'value1': '11',
+                    'value11': '11',
+                },
+                'section2': {
+                    'value2': '2',
+                },
+                'section3': {
+                    'value3': '3',
+                },
+            },
+        )
+        self.assertEqual(self.config.section1(), {'value1': '11', 'value11': '11'})
+        self.assertEqual(self.config.section1.value1(), '11')
+        self.assertEqual(self.config.section1.value11(), '11')
+        self.assertEqual(self.config.section2(), {'value2': '2'})
+        self.assertEqual(self.config.section2.value2(), '2')
+        self.assertEqual(self.config.section3(), {'value3': '3'})
+        self.assertEqual(self.config.section3.value3(), '3')
