@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Add ``Configuration`` providers linking.
+
 3.16.1
 ------
 - Update ``singleton_thread_locals.py`` to support Python 3 (thanks to
