@@ -92,6 +92,7 @@ cdef class CoroutineDelegate(Delegate):
 cdef class Configuration(Object):
     cdef str __name
     cdef dict __children
+    cdef list __linked
 
 
 # Factory providers
@@ -171,6 +172,14 @@ cdef class SingletonDelegate(Delegate):
 cdef class List(Provider):
     cdef tuple __args
     cdef int __args_len
+
+    cpdef object _provide(self, tuple args, dict kwargs)
+
+
+cdef class Container(Provider):
+    cdef object container_cls
+    cdef dict overriding_providers
+    cdef object container
 
     cpdef object _provide(self, tuple args, dict kwargs)
 

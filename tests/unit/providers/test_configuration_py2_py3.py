@@ -2,7 +2,7 @@
 
 import unittest2 as unittest
 
-from dependency_injector import providers
+from dependency_injector import containers, providers
 
 
 class ConfigTests(unittest.TestCase):
@@ -177,3 +177,72 @@ class ConfigTests(unittest.TestCase):
                          'Configuration({0}) at {1}>'.format(
                              repr('config.a.b.c'),
                              hex(id(self.config.a.b.c))))
+
+
+class ConfigLinkingTests(unittest.TestCase):
+
+    class TestCore(containers.DeclarativeContainer):
+        config = providers.Configuration('core')
+        value_getter = providers.Callable(lambda _: _, config.value)
+
+    class TestServices(containers.DeclarativeContainer):
+        config = providers.Configuration('services')
+        value_getter = providers.Callable(lambda _: _, config.value)
+
+    def test(self):
+        root_config = providers.Configuration('main')
+        core = self.TestCore(config=root_config.core)
+        services = self.TestServices(config=root_config.services)
+
+        root_config.override(
+            {
+                'core': {
+                    'value': 'core',
+                },
+                'services': {
+                    'value': 'services',
+                },
+            },
+        )
+
+        self.assertEqual(core.config(), {'value': 'core'})
+        self.assertEqual(core.config.value(), 'core')
+        self.assertEqual(core.value_getter(), 'core')
+
+        self.assertEqual(services.config(), {'value': 'services'})
+        self.assertEqual(services.config.value(), 'services')
+        self.assertEqual(services.value_getter(), 'services')
+
+    def test_double_override(self):
+        root_config = providers.Configuration('main')
+        core = self.TestCore(config=root_config.core)
+        services = self.TestServices(config=root_config.services)
+
+        root_config.override(
+            {
+                'core': {
+                    'value': 'core1',
+                },
+                'services': {
+                    'value': 'services1',
+                },
+            },
+        )
+        root_config.override(
+            {
+                'core': {
+                    'value': 'core2',
+                },
+                'services': {
+                    'value': 'services2',
+                },
+            },
+        )
+
+        self.assertEqual(core.config(), {'value': 'core2'})
+        self.assertEqual(core.config.value(), 'core2')
+        self.assertEqual(core.value_getter(), 'core2')
+
+        self.assertEqual(services.config(), {'value': 'services2'})
+        self.assertEqual(services.config.value(), 'services2')
+        self.assertEqual(services.value_getter(), 'services2')

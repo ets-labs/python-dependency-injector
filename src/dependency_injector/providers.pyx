@@ -1029,6 +1029,7 @@ cdef class Configuration(Object):
 
         self.__name = name
         self.__children = self._create_children(default)
+        self.__linked = list()
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
@@ -1041,6 +1042,7 @@ cdef class Configuration(Object):
         copied = self.__class__(self.__name)
         copied.__provides = deepcopy(self.__provides, memo)
         copied.__children = deepcopy(self.__children, memo)
+        copied.__linked = deepcopy(self.__linked, memo)
 
         self._copy_overridings(copied, memo)
 
@@ -1093,11 +1095,17 @@ cdef class Configuration(Object):
         """
         overriding_context = super(Configuration, self).override(provider)
 
+        for linked in self.__linked:
+            linked.override(provider)
+
+        if isinstance(provider, Configuration):
+            provider.link_provider(self)
+
         value = self.__call__()
         if not isinstance(value, dict):
             return
 
-        for name in value:
+        for name in value.keys():
             child_provider = self.__children.get(name)
             if child_provider is None:
                 continue
@@ -1128,6 +1136,10 @@ cdef class Configuration(Object):
         for child in self.__children.values():
             child.reset_override()
         super(Configuration, self).reset_override()
+
+    def link_provider(self, provider):
+        """Configuration link two configuration providers."""
+        self.__linked.append(<Configuration?>provider)
 
     def update(self, value):
         """Set configuration options.
@@ -2075,6 +2087,58 @@ cdef class List(Provider):
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable's call."""
         return list(__provide_positional_args(args, self.__args, self.__args_len))
+
+
+cdef class Container(Provider):
+    """Container provider provides an instance of declarative container.
+
+    .. warning::
+        Provider is experimental. Its interface may change.
+    """
+
+    def __init__(self, container_cls, container=None, **overriding_providers):
+        """Initialize provider."""
+        self.container_cls = container_cls
+        self.overriding_providers = overriding_providers
+
+        if container is None:
+            container = container_cls()
+            container.override_providers(**overriding_providers)
+        self.container = container
+
+        super(Container, self).__init__()
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__(
+            self.container_cls,
+            deepcopy(self.container, memo),
+            **deepcopy(self.overriding_providers, memo),
+        )
+        # self._copy_overridings(copied, memo)
+
+        return copied
+
+    def __getattr__(self, name):
+        """Return dependency provider."""
+        if name.startswith('__') and name.endswith('__'):
+            raise AttributeError(
+                '\'{cls}\' object has no attribute '
+                '\'{attribute_name}\''.format(cls=self.__class__.__name__,
+                                              attribute_name=name))
+        return getattr(self.container, name)
+
+    def override(self, provider):
+        """Override provider with another provider."""
+        raise Error('Provider {0} can not be overridden'.format(self))
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        """Return single instance."""
+        return self.container
 
 
 cdef class Injection(object):
