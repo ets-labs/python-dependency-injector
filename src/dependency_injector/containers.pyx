@@ -62,8 +62,10 @@ class DynamicContainer(object):
 
         copied = self.__class__()
         copied.provider_type = Provider
-        copied.providers = deepcopy(self.providers, memo)
         copied.overridden = deepcopy(self.overridden, memo)
+
+        for name, provider in deepcopy(self.providers, memo).items():
+            setattr(copied, name, provider)
 
         return copied
 
