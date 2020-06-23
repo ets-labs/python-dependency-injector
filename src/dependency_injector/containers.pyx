@@ -54,6 +54,19 @@ class DynamicContainer(object):
         self.overridden = tuple()
         super(DynamicContainer, self).__init__()
 
+    def __deepcopy__(self, memo):
+        """Create and return full copy of container."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__()
+        copied.provider_type = Provider
+        copied.providers = deepcopy(self.providers, memo)
+        copied.overridden = deepcopy(self.overridden, memo)
+
+        return copied
+
     def __setattr__(self, str name, object value):
         """Set instance attribute.
 
