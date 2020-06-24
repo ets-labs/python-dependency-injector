@@ -381,91 +381,91 @@ class ConfigFromIniTests(unittest.TestCase):
         self.assertEqual(self.config.section2.value2(), '2')
         self.assertEqual(self.config.section3(), {'value3': '3'})
         self.assertEqual(self.config.section3.value3(), '3')
-
-
-class ConfigFromYamlTests(unittest.TestCase):
-
-    def setUp(self):
-        self.config = providers.Configuration(name='config')
-
-        _, self.config_file_1 = tempfile.mkstemp()
-        with open(self.config_file_1, 'w') as config_file:
-            config_file.write(
-                'section1:\n'
-                '  value1: 1\n'
-                '\n'
-                'section2:\n'
-                '  value2: 2\n'
-            )
-
-        _, self.config_file_2 = tempfile.mkstemp()
-        with open(self.config_file_2, 'w') as config_file:
-            config_file.write(
-                'section1:\n'
-                '  value1: 11\n'
-                '  value11: 11\n'
-                'section3:\n'
-                '  value3: 3\n'
-            )
-
-    def tearDown(self):
-        del self.config
-        os.unlink(self.config_file_1)
-        os.unlink(self.config_file_2)
-
-    def test(self):
-        self.config.from_yaml(self.config_file_1)
-
-        self.assertEqual(self.config(), {'section1': {'value1': 1}, 'section2': {'value2': 2}})
-        self.assertEqual(self.config.section1(), {'value1': 1})
-        self.assertEqual(self.config.section1.value1(), 1)
-        self.assertEqual(self.config.section2(), {'value2': 2})
-        self.assertEqual(self.config.section2.value2(), 2)
-
-    def test_merge(self):
-        self.config.from_yaml(self.config_file_1)
-        self.config.from_yaml(self.config_file_2)
-
-        self.assertEqual(
-            self.config(),
-            {
-                'section1': {
-                    'value1': 11,
-                    'value11': 11,
-                },
-                'section2': {
-                    'value2': 2,
-                },
-                'section3': {
-                    'value3': 3,
-                },
-            },
-        )
-        self.assertEqual(self.config.section1(), {'value1': 11, 'value11': 11})
-        self.assertEqual(self.config.section1.value1(), 11)
-        self.assertEqual(self.config.section1.value11(), 11)
-        self.assertEqual(self.config.section2(), {'value2': 2})
-        self.assertEqual(self.config.section2.value2(), 2)
-        self.assertEqual(self.config.section3(), {'value3': 3})
-        self.assertEqual(self.config.section3.value3(), 3)
-
-    def test_no_yaml_installed(self):
-        @contextlib.contextmanager
-        def no_yaml_module():
-            yaml = providers.yaml
-            providers.yaml = None
-
-            yield
-
-            providers.yaml = yaml
-
-        with no_yaml_module():
-            with self.assertRaises(errors.Error) as error:
-                self.config.from_yaml(self.config_file_1)
-
-        self.assertEqual(
-            error.exception.args[0],
-            'Unable to load yaml configuration - PyYAML is not installed. '
-            'Install PyYAML or install Dependency Injector with yaml extras: '
-            '"pip install dependency-injector[yaml]"',
-        )
+#
+#
+# class ConfigFromYamlTests(unittest.TestCase):
+#
+#     def setUp(self):
+#         self.config = providers.Configuration(name='config')
+#
+#         _, self.config_file_1 = tempfile.mkstemp()
+#         with open(self.config_file_1, 'w') as config_file:
+#             config_file.write(
+#                 'section1:\n'
+#                 '  value1: 1\n'
+#                 '\n'
+#                 'section2:\n'
+#                 '  value2: 2\n'
+#             )
+#
+#         _, self.config_file_2 = tempfile.mkstemp()
+#         with open(self.config_file_2, 'w') as config_file:
+#             config_file.write(
+#                 'section1:\n'
+#                 '  value1: 11\n'
+#                 '  value11: 11\n'
+#                 'section3:\n'
+#                 '  value3: 3\n'
+#             )
+#
+#     def tearDown(self):
+#         del self.config
+#         os.unlink(self.config_file_1)
+#         os.unlink(self.config_file_2)
+#
+#     def test(self):
+#         self.config.from_yaml(self.config_file_1)
+#
+#         self.assertEqual(self.config(), {'section1': {'value1': 1}, 'section2': {'value2': 2}})
+#         self.assertEqual(self.config.section1(), {'value1': 1})
+#         self.assertEqual(self.config.section1.value1(), 1)
+#         self.assertEqual(self.config.section2(), {'value2': 2})
+#         self.assertEqual(self.config.section2.value2(), 2)
+#
+#     def test_merge(self):
+#         self.config.from_yaml(self.config_file_1)
+#         self.config.from_yaml(self.config_file_2)
+#
+#         self.assertEqual(
+#             self.config(),
+#             {
+#                 'section1': {
+#                     'value1': 11,
+#                     'value11': 11,
+#                 },
+#                 'section2': {
+#                     'value2': 2,
+#                 },
+#                 'section3': {
+#                     'value3': 3,
+#                 },
+#             },
+#         )
+#         self.assertEqual(self.config.section1(), {'value1': 11, 'value11': 11})
+#         self.assertEqual(self.config.section1.value1(), 11)
+#         self.assertEqual(self.config.section1.value11(), 11)
+#         self.assertEqual(self.config.section2(), {'value2': 2})
+#         self.assertEqual(self.config.section2.value2(), 2)
+#         self.assertEqual(self.config.section3(), {'value3': 3})
+#         self.assertEqual(self.config.section3.value3(), 3)
+#
+#     def test_no_yaml_installed(self):
+#         @contextlib.contextmanager
+#         def no_yaml_module():
+#             yaml = providers.yaml
+#             providers.yaml = None
+#
+#             yield
+#
+#             providers.yaml = yaml
+#
+#         with no_yaml_module():
+#             with self.assertRaises(errors.Error) as error:
+#                 self.config.from_yaml(self.config_file_1)
+#
+#         self.assertEqual(
+#             error.exception.args[0],
+#             'Unable to load yaml configuration - PyYAML is not installed. '
+#             'Install PyYAML or install Dependency Injector with yaml extras: '
+#             '"pip install dependency-injector[yaml]"',
+#         )

@@ -26,10 +26,11 @@ try:
 except ImportError:
     import configparser as iniconfigparser
 
-try:
-    import yaml
-except ImportError:
-    yaml = None
+# try:
+#     import yaml
+# except ImportError:
+#     yaml = None
+# yaml = None
 
 from .errors import (
     Error,
@@ -1021,7 +1022,9 @@ cdef class Configuration(Object):
         print(config.section1.option2())  # 2
     """
 
-    def __init__(self, name='config', default=None):
+    DEFAULT_NAME = 'config'
+
+    def __init__(self, name=None, default=None):
         """Initializer.
 
         :param name: Name of configuration unit.
@@ -1031,6 +1034,9 @@ cdef class Configuration(Object):
         :type default: dict
         """
         super(Configuration, self).__init__(default)
+
+        if name is None:
+            name = self.DEFAULT_NAME
 
         self.__name = name
         self.__children = self._create_children(default)
@@ -1197,30 +1203,30 @@ cdef class Configuration(Object):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    def from_yaml(self, filepath):
-        """Load configuration from yaml file.
-
-        Loaded configuration is merged recursively over current configuration.
-
-        :param filepath: Path to the configuration file.
-        :type filepath: str
-
-        :rtype: None
-        """
-        if yaml is None:
-            raise Error(
-                'Unable to load yaml configuration - PyYAML is not installed. '
-                'Install PyYAML or install Dependency Injector with yaml extras: '
-                '"pip install dependency-injector[yaml]"'
-            )
-
-        with open(filepath) as opened_file:
-            config = yaml.load(opened_file, yaml.Loader)
-
-        current_config = self.__call__()
-        if not current_config:
-            current_config = {}
-        self.override(merge_dicts(current_config, config))
+    # def from_yaml(self, filepath):
+    #     """Load configuration from yaml file.
+    #
+    #     Loaded configuration is merged recursively over current configuration.
+    #
+    #     :param filepath: Path to the configuration file.
+    #     :type filepath: str
+    #
+    #     :rtype: None
+    #     """
+    #     if yaml is None:
+    #         raise Error(
+    #             'Unable to load yaml configuration - PyYAML is not installed. '
+    #             'Install PyYAML or install Dependency Injector with yaml extras: '
+    #             '"pip install dependency-injector[yaml]"'
+    #         )
+    #
+    #     with open(filepath) as opened_file:
+    #         config = yaml.load(opened_file, yaml.Loader)
+    #
+    #     current_config = self.__call__()
+    #     if not current_config:
+    #         current_config = {}
+    #     self.override(merge_dicts(current_config, config))
 
     def _create_children(self, value):
         children = dict()
