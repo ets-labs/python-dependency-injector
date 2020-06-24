@@ -40,9 +40,11 @@ setup(name='dependency-injector',
       url='https://github.com/ets-labs/python-dependency-injector',
       download_url='https://pypi.python.org/pypi/dependency_injector',
       install_requires=requirements,
-      packages=[
-          'dependency_injector',
-      ],
+      extras_require={
+          'yaml': [
+              'pyyaml',
+          ],
+      },
       package_dir={
           '': 'src',
       },

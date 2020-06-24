@@ -26,6 +26,11 @@ try:
 except ImportError:
     import configparser as iniconfigparser
 
+try:
+    import yaml
+except ImportError:
+    yaml = None
+
 from .errors import (
     Error,
     NoSuchProviderError,
@@ -1186,6 +1191,31 @@ cdef class Configuration(Object):
         config = {}
         for section in parser.sections():
             config[section] = dict(parser.items(section))
+
+        current_config = self.__call__()
+        if not current_config:
+            current_config = {}
+        self.override(merge_dicts(current_config, config))
+
+    def from_yaml(self, filepath):
+        """Load configuration from yaml file.
+
+        Loaded configuration is merged recursively over current configuration.
+
+        :param filepath: Path to the configuration file.
+        :type filepath: str
+
+        :rtype: None
+        """
+        if yaml is None:
+            raise Error(
+                'Unable to load yaml configuration - PyYAML is not installed. '
+                'Install PyYAML or install Dependency Injector with yaml extras: '
+                '"pip install dependency-injector[yaml]"'
+            )
+
+        with open(filepath) as opened_file:
+            config = yaml.load(opened_file, yaml.Loader)
 
         current_config = self.__call__()
         if not current_config:
