@@ -507,14 +507,10 @@ cdef class DependenciesContainer(Object):
         use_case.execute()
     """
 
-    def __init__(self, provides=None, **dependencies):
+    def __init__(self, **dependencies):
         """Initializer."""
         self.__providers = dependencies
-
-        if provides:
-            self._override_providers(container=provides)
-
-        super(DependenciesContainer, self).__init__(provides)
+        super(DependenciesContainer, self).__init__(None)
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
@@ -2160,7 +2156,6 @@ cdef class Container(Provider):
             deepcopy(self.container, memo),
             **deepcopy(self.overriding_providers, memo),
         )
-        # self._copy_overridings(copied, memo)
 
         return copied
 
