@@ -1,12 +1,11 @@
 """Dependency injector config providers unit tests."""
 
-import contextlib
 import os
 import tempfile
 
 import unittest2 as unittest
 
-from dependency_injector import containers, providers, errors
+from dependency_injector import containers, providers
 
 
 class ConfigTests(unittest.TestCase):

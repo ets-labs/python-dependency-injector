@@ -2596,7 +2596,6 @@ static const char __pyx_k_memo[] = "memo";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_read[] = "read";
 static const char __pyx_k_test[] = "__test__";
-static const char __pyx_k_yaml[] = "yaml";
 static const char __pyx_k_Error[] = "Error";
 static const char __pyx_k_RLock[] = "RLock";
 static const char __pyx_k_class[] = "__class__";
@@ -3084,7 +3083,6 @@ static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_value;
 static PyObject *__pyx_n_s_values;
 static PyObject *__pyx_n_s_version_info;
-static PyObject *__pyx_n_s_yaml;
 static PyObject *__pyx_lambda_funcdef_19dependency_injector_9providers_lambda(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_obj, PyObject *__pyx_v_memo); /* proto */
 static int __pyx_pf_19dependency_injector_9providers_8Provider___init__(struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_9providers_8Provider_2__call__(struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx_v_self, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs); /* proto */
@@ -63370,7 +63368,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_value, __pyx_k_value, sizeof(__pyx_k_value), 0, 0, 1, 1},
   {&__pyx_n_s_values, __pyx_k_values, sizeof(__pyx_k_values), 0, 0, 1, 1},
   {&__pyx_n_s_version_info, __pyx_k_version_info, sizeof(__pyx_k_version_info), 0, 0, 1, 1},
-  {&__pyx_n_s_yaml, __pyx_k_yaml, sizeof(__pyx_k_yaml), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
@@ -65210,15 +65207,6 @@ if (!__Pyx_RefNanny) {
     __pyx_L16_try_end:;
   }
 
-  /* "dependency_injector/providers.pyx":33
- * # except ImportError:
- * #     yaml = None
- * yaml = None             # <<<<<<<<<<<<<<
- * 
- * from .errors import (
- */
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_yaml, Py_None) < 0) __PYX_ERR(1, 33, __pyx_L1_error)
-
   /* "dependency_injector/providers.pyx":36
  * 
  * from .errors import (
@@ -65236,7 +65224,7 @@ if (!__Pyx_RefNanny) {
   PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_NoSuchProviderError);
 
   /* "dependency_injector/providers.pyx":35
- * yaml = None
+ * # yaml = None
  * 
  * from .errors import (             # <<<<<<<<<<<<<<
  *     Error,
