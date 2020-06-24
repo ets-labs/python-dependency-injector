@@ -2160,7 +2160,7 @@ cdef class Container(Provider):
             deepcopy(self.container, memo),
             **deepcopy(self.overriding_providers, memo),
         )
-        self._copy_overridings(copied, memo)
+        # self._copy_overridings(copied, memo)
 
         return copied
 
@@ -2175,18 +2175,7 @@ cdef class Container(Provider):
 
     def override(self, provider):
         """Override provider with another provider."""
-        self.container.override(provider)
-        return super(Container, self).override(provider)
-
-    def reset_last_overriding(self):
-        """Reset last overriding provider."""
-        self.container.reset_last_overriding()
-        return super(Container, self).reset_last_overriding()
-
-    def reset_override(self):
-        """Reset all overriding providers."""
-        self.container.reset_override()
-        return super(Container, self).reset_override()
+        raise Error('Provider {0} can not be overridden'.format(self))
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
