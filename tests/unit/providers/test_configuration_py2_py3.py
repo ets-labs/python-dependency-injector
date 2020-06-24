@@ -17,6 +17,10 @@ class ConfigTests(unittest.TestCase):
     def tearDown(self):
         del self.config
 
+    def test_default_name(self):
+        config = providers.Configuration()
+        self.assertEqual(config.get_name(), 'config')
+
     def test_providers_are_providers(self):
         self.assertTrue(providers.is_provider(self.config.a))
         self.assertTrue(providers.is_provider(self.config.a.b))

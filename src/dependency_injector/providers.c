@@ -2616,6 +2616,7 @@ static const char __pyx_k_types[] = "types";
 static const char __pyx_k_value[] = "value";
 static const char __pyx_k_Loader[] = "Loader";
 static const char __pyx_k_Object[] = "Object";
+static const char __pyx_k_config[] = "config";
 static const char __pyx_k_copied[] = "copied";
 static const char __pyx_k_errors[] = "errors";
 static const char __pyx_k_format[] = "format";
@@ -2938,6 +2939,7 @@ static PyObject *__pyx_n_s_clear_kwargs;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_cls;
 static PyObject *__pyx_kp_s_cls_object_has_no_attribute_att;
+static PyObject *__pyx_n_s_config;
 static PyObject *__pyx_n_s_configparser;
 static PyObject *__pyx_n_s_container;
 static PyObject *__pyx_n_s_container_cls;
@@ -19400,7 +19402,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17CoroutineDelegate_4
 /* "dependency_injector/providers.pyx":1024
  *     """
  * 
- *     def __init__(self, name, default=None):             # <<<<<<<<<<<<<<
+ *     def __init__(self, name='config', default=None):             # <<<<<<<<<<<<<<
  *         """Initializer.
  * 
  */
@@ -19423,6 +19425,7 @@ static int __pyx_pw_19dependency_injector_9providers_13Configuration_1__init__(P
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_name_2,&__pyx_n_s_default,0};
     PyObject* values[2] = {0,0};
+    values[0] = ((PyObject *)__pyx_n_s_config);
     values[1] = ((PyObject *)Py_None);
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
@@ -19438,8 +19441,10 @@ static int __pyx_pw_19dependency_injector_9providers_13Configuration_1__init__(P
       kw_args = PyDict_Size(__pyx_kwds);
       switch (pos_args) {
         case  0:
-        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name_2)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
+        if (kw_args > 0) {
+          PyObject* value = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_name_2);
+          if (value) { values[0] = value; kw_args--; }
+        }
         CYTHON_FALLTHROUGH;
         case  1:
         if (kw_args > 0) {
@@ -19455,7 +19460,8 @@ static int __pyx_pw_19dependency_injector_9providers_13Configuration_1__init__(P
         case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
         CYTHON_FALLTHROUGH;
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        break;
+        CYTHON_FALLTHROUGH;
+        case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
     }
@@ -19464,7 +19470,7 @@ static int __pyx_pw_19dependency_injector_9providers_13Configuration_1__init__(P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1024, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1024, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.Configuration.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -19591,7 +19597,7 @@ static int __pyx_pf_19dependency_injector_9providers_13Configuration___init__(st
   /* "dependency_injector/providers.pyx":1024
  *     """
  * 
- *     def __init__(self, name, default=None):             # <<<<<<<<<<<<<<
+ *     def __init__(self, name='config', default=None):             # <<<<<<<<<<<<<<
  *         """Initializer.
  * 
  */
@@ -63642,6 +63648,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_cls, __pyx_k_cls, sizeof(__pyx_k_cls), 0, 0, 1, 1},
   {&__pyx_kp_s_cls_object_has_no_attribute_att, __pyx_k_cls_object_has_no_attribute_att, sizeof(__pyx_k_cls_object_has_no_attribute_att), 0, 0, 1, 0},
+  {&__pyx_n_s_config, __pyx_k_config, sizeof(__pyx_k_config), 0, 0, 1, 1},
   {&__pyx_n_s_configparser, __pyx_k_configparser, sizeof(__pyx_k_configparser), 0, 0, 1, 1},
   {&__pyx_n_s_container, __pyx_k_container, sizeof(__pyx_k_container), 0, 0, 1, 1},
   {&__pyx_n_s_container_cls, __pyx_k_container_cls, sizeof(__pyx_k_container_cls), 0, 0, 1, 1},

@@ -1021,7 +1021,7 @@ cdef class Configuration(Object):
         print(config.section1.option2())  # 2
     """
 
-    def __init__(self, name, default=None):
+    def __init__(self, name='config', default=None):
         """Initializer.
 
         :param name: Name of configuration unit.
