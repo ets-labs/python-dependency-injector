@@ -2409,7 +2409,7 @@ def merge_dicts(dict1, dict2):
     """
     for key, value in dict1.items():
         if key in dict2:
-            if isinstance(value, dict) and isinstance(dict2[key], dict):
+            if isinstance(value, type(dict)) and isinstance(dict2[key], type(dict)):
                 dict2[key] = merge_dicts(value, dict2[key])
     result = dict1.copy()
     result.update(dict2)

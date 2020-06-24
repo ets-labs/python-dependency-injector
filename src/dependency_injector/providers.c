@@ -42408,7 +42408,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16merge_dicts(CYTHON_
  *     """
  *     for key, value in dict1.items():             # <<<<<<<<<<<<<<
  *         if key in dict2:
- *             if isinstance(value, dict) and isinstance(dict2[key], dict):
+ *             if isinstance(value, type(dict)) and isinstance(dict2[key], type(dict)):
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_dict1, __pyx_n_s_items); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2410, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -42522,7 +42522,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16merge_dicts(CYTHON_
  *     """
  *     for key, value in dict1.items():
  *         if key in dict2:             # <<<<<<<<<<<<<<
- *             if isinstance(value, dict) and isinstance(dict2[key], dict):
+ *             if isinstance(value, type(dict)) and isinstance(dict2[key], type(dict)):
  *                 dict2[key] = merge_dicts(value, dict2[key])
  */
     __pyx_t_9 = (__Pyx_PySequence_ContainsTF(__pyx_v_key, __pyx_v_dict2, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 2411, __pyx_L1_error)
@@ -42532,11 +42532,11 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16merge_dicts(CYTHON_
       /* "dependency_injector/providers.pyx":2412
  *     for key, value in dict1.items():
  *         if key in dict2:
- *             if isinstance(value, dict) and isinstance(dict2[key], dict):             # <<<<<<<<<<<<<<
+ *             if isinstance(value, type(dict)) and isinstance(dict2[key], type(dict)):             # <<<<<<<<<<<<<<
  *                 dict2[key] = merge_dicts(value, dict2[key])
  *     result = dict1.copy()
  */
-      __pyx_t_9 = PyDict_Check(__pyx_v_value); 
+      __pyx_t_9 = PyObject_IsInstance(__pyx_v_value, ((PyObject *)Py_TYPE(((PyObject *)(&PyDict_Type))))); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 2412, __pyx_L1_error)
       __pyx_t_11 = (__pyx_t_9 != 0);
       if (__pyx_t_11) {
       } else {
@@ -42545,7 +42545,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16merge_dicts(CYTHON_
       }
       __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_dict2, __pyx_v_key); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2412, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_11 = PyDict_Check(__pyx_t_1); 
+      __pyx_t_11 = PyObject_IsInstance(__pyx_t_1, ((PyObject *)Py_TYPE(((PyObject *)(&PyDict_Type))))); if (unlikely(__pyx_t_11 == ((int)-1))) __PYX_ERR(1, 2412, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_9 = (__pyx_t_11 != 0);
       __pyx_t_10 = __pyx_t_9;
@@ -42554,7 +42554,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16merge_dicts(CYTHON_
 
         /* "dependency_injector/providers.pyx":2413
  *         if key in dict2:
- *             if isinstance(value, dict) and isinstance(dict2[key], dict):
+ *             if isinstance(value, type(dict)) and isinstance(dict2[key], type(dict)):
  *                 dict2[key] = merge_dicts(value, dict2[key])             # <<<<<<<<<<<<<<
  *     result = dict1.copy()
  *     result.update(dict2)
@@ -42616,7 +42616,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16merge_dicts(CYTHON_
         /* "dependency_injector/providers.pyx":2412
  *     for key, value in dict1.items():
  *         if key in dict2:
- *             if isinstance(value, dict) and isinstance(dict2[key], dict):             # <<<<<<<<<<<<<<
+ *             if isinstance(value, type(dict)) and isinstance(dict2[key], type(dict)):             # <<<<<<<<<<<<<<
  *                 dict2[key] = merge_dicts(value, dict2[key])
  *     result = dict1.copy()
  */
@@ -42626,7 +42626,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16merge_dicts(CYTHON_
  *     """
  *     for key, value in dict1.items():
  *         if key in dict2:             # <<<<<<<<<<<<<<
- *             if isinstance(value, dict) and isinstance(dict2[key], dict):
+ *             if isinstance(value, type(dict)) and isinstance(dict2[key], type(dict)):
  *                 dict2[key] = merge_dicts(value, dict2[key])
  */
     }
@@ -42636,13 +42636,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16merge_dicts(CYTHON_
  *     """
  *     for key, value in dict1.items():             # <<<<<<<<<<<<<<
  *         if key in dict2:
- *             if isinstance(value, dict) and isinstance(dict2[key], dict):
+ *             if isinstance(value, type(dict)) and isinstance(dict2[key], type(dict)):
  */
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "dependency_injector/providers.pyx":2414
- *             if isinstance(value, dict) and isinstance(dict2[key], dict):
+ *             if isinstance(value, type(dict)) and isinstance(dict2[key], type(dict)):
  *                 dict2[key] = merge_dicts(value, dict2[key])
  *     result = dict1.copy()             # <<<<<<<<<<<<<<
  *     result.update(dict2)
