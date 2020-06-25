@@ -2,6 +2,7 @@
 
 import contextlib
 import os
+import sys
 import tempfile
 
 import unittest2 as unittest
@@ -413,6 +414,7 @@ class ConfigFromYamlTests(unittest.TestCase):
         os.unlink(self.config_file_1)
         os.unlink(self.config_file_2)
 
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test(self):
         self.config.from_yaml(self.config_file_1)
 
@@ -422,6 +424,7 @@ class ConfigFromYamlTests(unittest.TestCase):
         self.assertEqual(self.config.section2(), {'value2': 2})
         self.assertEqual(self.config.section2.value2(), 2)
 
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test_merge(self):
         self.config.from_yaml(self.config_file_1)
         self.config.from_yaml(self.config_file_2)
