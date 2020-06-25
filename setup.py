@@ -39,12 +39,14 @@ setup(name='dependency-injector',
       maintainer_email='rmogilatov@gmail.com',
       url='https://github.com/ets-labs/python-dependency-injector',
       download_url='https://pypi.python.org/pypi/dependency_injector',
-      install_requires=requirements,
       packages=[
           'dependency_injector',
       ],
       package_dir={
           '': 'src',
+      },
+      package_data={
+          'dependency_injector': ['*.pxd'],
       },
       ext_modules=[
           Extension('dependency_injector.containers',
@@ -56,8 +58,11 @@ setup(name='dependency-injector',
                     define_macros=list(defined_macros.items()),
                     extra_compile_args=['-O2']),
       ],
-      package_data={
-          'dependency_injector': ['*.pxd'],
+      install_requires=requirements,
+      extras_require={
+          'yaml': [
+              'pyyaml',
+          ],
       },
       zip_safe=True,
       license='BSD New',

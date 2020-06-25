@@ -3,8 +3,8 @@
 Powered by Cython.
 """
 
-
 import copy
+import os
 import sys
 import types
 import threading
@@ -21,6 +21,15 @@ else:
     else:
         _is_coroutine_marker = True
 
+try:
+    import ConfigParser as iniconfigparser
+except ImportError:
+    import configparser as iniconfigparser
+
+try:
+    import yaml
+except ImportError:
+    yaml = None
 
 from .errors import (
     Error,
@@ -503,14 +512,10 @@ cdef class DependenciesContainer(Object):
         use_case.execute()
     """
 
-    def __init__(self, provides=None, **dependencies):
+    def __init__(self, **dependencies):
         """Initializer."""
         self.__providers = dependencies
-
-        if provides:
-            self._override_providers(container=provides)
-
-        super(DependenciesContainer, self).__init__(provides)
+        super(DependenciesContainer, self).__init__(None)
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
@@ -997,10 +1002,7 @@ cdef class CoroutineDelegate(Delegate):
 
 
 cdef class Configuration(Object):
-    """Configuration provider.
-
-    Configuration provider helps with implementing late static binding of
-    configuration options - use first, define later.
+    """Configuration provider provides configuration options to the other providers.
 
     .. code-block:: python
 
@@ -1009,14 +1011,22 @@ cdef class Configuration(Object):
         print(config.section1.option1())  # None
         print(config.section1.option2())  # None
 
-        config.override({'section1': {'option1': 1,
-                                      'option2': 2}})
+        config.from_dict(
+            {
+                'section1': {
+                    'option1': 1,
+                    'option2': 2,
+                },
+            },
+        )
 
         print(config.section1.option1())  # 1
         print(config.section1.option2())  # 2
     """
 
-    def __init__(self, name, default=None):
+    DEFAULT_NAME = 'config'
+
+    def __init__(self, name=None, default=None):
         """Initializer.
 
         :param name: Name of configuration unit.
@@ -1026,6 +1036,9 @@ cdef class Configuration(Object):
         :type default: dict
         """
         super(Configuration, self).__init__(default)
+
+        if name is None:
+            name = self.DEFAULT_NAME
 
         self.__name = name
         self.__children = self._create_children(default)
@@ -1153,6 +1166,82 @@ cdef class Configuration(Object):
 
         :rtype: None
         """
+        self.override(value)
+
+    def from_ini(self, filepath):
+        """Load configuration from the ini file.
+
+        Loaded configuration is merged recursively over existing configuration.
+
+        :param filepath: Path to the configuration file.
+        :type filepath: str
+
+        :rtype: None
+        """
+        parser = iniconfigparser.ConfigParser()
+        parser.read([filepath])
+
+        config = {}
+        for section in parser.sections():
+            config[section] = dict(parser.items(section))
+
+        current_config = self.__call__()
+        if not current_config:
+            current_config = {}
+        self.override(merge_dicts(current_config, config))
+
+    def from_yaml(self, filepath):
+        """Load configuration from the yaml file.
+
+        Loaded configuration is merged recursively over existing configuration.
+
+        :param filepath: Path to the configuration file.
+        :type filepath: str
+
+        :rtype: None
+        """
+        if yaml is None:
+            raise Error(
+                'Unable to load yaml configuration - PyYAML is not installed. '
+                'Install PyYAML or install Dependency Injector with yaml extras: '
+                '"pip install dependency-injector[yaml]"'
+            )
+
+        with open(filepath) as opened_file:
+            config = yaml.load(opened_file, yaml.Loader)
+
+        current_config = self.__call__()
+        if not current_config:
+            current_config = {}
+        self.override(merge_dicts(current_config, config))
+
+    def from_dict(self, options):
+        """Load configuration from the dictionary.
+
+        Loaded configuration is merged recursively over existing configuration.
+
+        :param options: Configuration options.
+        :type options: dict
+
+        :rtype: None
+        """
+        current_config = self.__call__()
+        if not current_config:
+            current_config = {}
+        self.override(merge_dicts(current_config, options))
+
+    def from_env(self, name, default=None):
+        """Load configuration value from the environment variable.
+
+        :param name: Name of the environment variable.
+        :type name: str
+
+        :param default: Default value that is used if environment variable does not exist.
+        :type default: str
+
+        :rtype: None
+        """
+        value = os.getenv(name, default)
         self.override(value)
 
     def _create_children(self, value):
@@ -2119,7 +2208,6 @@ cdef class Container(Provider):
             deepcopy(self.container, memo),
             **deepcopy(self.overriding_providers, memo),
         )
-        # self._copy_overridings(copied, memo)
 
         return copied
 
@@ -2321,3 +2409,24 @@ def __add_sys_streams(memo):
     memo[id(sys.stdin)] = sys.stdin
     memo[id(sys.stdout)] = sys.stdout
     memo[id(sys.stderr)] = sys.stderr
+
+
+def merge_dicts(dict1, dict2):
+    """Merge dictionaries recursively.
+
+    :param dict1: Dictionary 1
+    :type dict1: dict
+
+    :param dict2: Dictionary 2
+    :type dict2: dict
+
+    :return: New resulting dictionary
+    :rtype: dict
+    """
+    for key, value in dict1.items():
+        if key in dict2:
+            if isinstance(value, dict) and isinstance(dict2[key], dict):
+                dict2[key] = merge_dicts(value, dict2[key])
+    result = dict1.copy()
+    result.update(dict2)
+    return result

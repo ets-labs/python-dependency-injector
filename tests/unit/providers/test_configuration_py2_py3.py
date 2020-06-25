@@ -1,8 +1,13 @@
 """Dependency injector config providers unit tests."""
 
+import contextlib
+import os
+import sys
+import tempfile
+
 import unittest2 as unittest
 
-from dependency_injector import containers, providers
+from dependency_injector import containers, providers, errors
 
 
 class ConfigTests(unittest.TestCase):
@@ -12,6 +17,10 @@ class ConfigTests(unittest.TestCase):
 
     def tearDown(self):
         del self.config
+
+    def test_default_name(self):
+        config = providers.Configuration()
+        self.assertEqual(config.get_name(), 'config')
 
     def test_providers_are_providers(self):
         self.assertTrue(providers.is_provider(self.config.a))
@@ -246,3 +255,246 @@ class ConfigLinkingTests(unittest.TestCase):
         self.assertEqual(services.config(), {'value': 'services2'})
         self.assertEqual(services.config.value(), 'services2')
         self.assertEqual(services.value_getter(), 'services2')
+
+
+class ConfigFromIniTests(unittest.TestCase):
+
+    def setUp(self):
+        self.config = providers.Configuration(name='config')
+
+        _, self.config_file_1 = tempfile.mkstemp()
+        with open(self.config_file_1, 'w') as config_file:
+            config_file.write(
+                '[section1]\n'
+                'value1=1\n'
+                '\n'
+                '[section2]\n'
+                'value2=2\n'
+            )
+
+        _, self.config_file_2 = tempfile.mkstemp()
+        with open(self.config_file_2, 'w') as config_file:
+            config_file.write(
+                '[section1]\n'
+                'value1=11\n'
+                'value11=11\n'
+                '[section3]\n'
+                'value3=3\n'
+            )
+
+    def tearDown(self):
+        del self.config
+        os.unlink(self.config_file_1)
+        os.unlink(self.config_file_2)
+
+    def test(self):
+        self.config.from_ini(self.config_file_1)
+
+        self.assertEqual(self.config(), {'section1': {'value1': '1'}, 'section2': {'value2': '2'}})
+        self.assertEqual(self.config.section1(), {'value1': '1'})
+        self.assertEqual(self.config.section1.value1(), '1')
+        self.assertEqual(self.config.section2(), {'value2': '2'})
+        self.assertEqual(self.config.section2.value2(), '2')
+
+    def test_merge(self):
+        self.config.from_ini(self.config_file_1)
+        self.config.from_ini(self.config_file_2)
+
+        self.assertEqual(
+            self.config(),
+            {
+                'section1': {
+                    'value1': '11',
+                    'value11': '11',
+                },
+                'section2': {
+                    'value2': '2',
+                },
+                'section3': {
+                    'value3': '3',
+                },
+            },
+        )
+        self.assertEqual(self.config.section1(), {'value1': '11', 'value11': '11'})
+        self.assertEqual(self.config.section1.value1(), '11')
+        self.assertEqual(self.config.section1.value11(), '11')
+        self.assertEqual(self.config.section2(), {'value2': '2'})
+        self.assertEqual(self.config.section2.value2(), '2')
+        self.assertEqual(self.config.section3(), {'value3': '3'})
+        self.assertEqual(self.config.section3.value3(), '3')
+
+
+class ConfigFromYamlTests(unittest.TestCase):
+
+    def setUp(self):
+        self.config = providers.Configuration(name='config')
+
+        _, self.config_file_1 = tempfile.mkstemp()
+        with open(self.config_file_1, 'w') as config_file:
+            config_file.write(
+                'section1:\n'
+                '  value1: 1\n'
+                '\n'
+                'section2:\n'
+                '  value2: 2\n'
+            )
+
+        _, self.config_file_2 = tempfile.mkstemp()
+        with open(self.config_file_2, 'w') as config_file:
+            config_file.write(
+                'section1:\n'
+                '  value1: 11\n'
+                '  value11: 11\n'
+                'section3:\n'
+                '  value3: 3\n'
+            )
+
+    def tearDown(self):
+        del self.config
+        os.unlink(self.config_file_1)
+        os.unlink(self.config_file_2)
+
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
+    def test(self):
+        self.config.from_yaml(self.config_file_1)
+
+        self.assertEqual(self.config(), {'section1': {'value1': 1}, 'section2': {'value2': 2}})
+        self.assertEqual(self.config.section1(), {'value1': 1})
+        self.assertEqual(self.config.section1.value1(), 1)
+        self.assertEqual(self.config.section2(), {'value2': 2})
+        self.assertEqual(self.config.section2.value2(), 2)
+
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
+    def test_merge(self):
+        self.config.from_yaml(self.config_file_1)
+        self.config.from_yaml(self.config_file_2)
+
+        self.assertEqual(
+            self.config(),
+            {
+                'section1': {
+                    'value1': 11,
+                    'value11': 11,
+                },
+                'section2': {
+                    'value2': 2,
+                },
+                'section3': {
+                    'value3': 3,
+                },
+            },
+        )
+        self.assertEqual(self.config.section1(), {'value1': 11, 'value11': 11})
+        self.assertEqual(self.config.section1.value1(), 11)
+        self.assertEqual(self.config.section1.value11(), 11)
+        self.assertEqual(self.config.section2(), {'value2': 2})
+        self.assertEqual(self.config.section2.value2(), 2)
+        self.assertEqual(self.config.section3(), {'value3': 3})
+        self.assertEqual(self.config.section3.value3(), 3)
+
+    def test_no_yaml_installed(self):
+        @contextlib.contextmanager
+        def no_yaml_module():
+            yaml = providers.yaml
+            providers.yaml = None
+
+            yield
+
+            providers.yaml = yaml
+
+        with no_yaml_module():
+            with self.assertRaises(errors.Error) as error:
+                self.config.from_yaml(self.config_file_1)
+
+        self.assertEqual(
+            error.exception.args[0],
+            'Unable to load yaml configuration - PyYAML is not installed. '
+            'Install PyYAML or install Dependency Injector with yaml extras: '
+            '"pip install dependency-injector[yaml]"',
+        )
+
+
+class ConfigFromDict(unittest.TestCase):
+
+    def setUp(self):
+        self.config = providers.Configuration(name='config')
+
+        self.config_options_1 = {
+            'section1': {
+                'value1': '1',
+            },
+            'section2': {
+                'value2': '2',
+            },
+        }
+        self.config_options_2 = {
+            'section1': {
+                'value1': '11',
+                'value11': '11',
+            },
+            'section3': {
+                'value3': '3',
+            },
+        }
+
+    def test(self):
+        self.config.from_dict(self.config_options_1)
+
+        self.assertEqual(self.config(), {'section1': {'value1': '1'}, 'section2': {'value2': '2'}})
+        self.assertEqual(self.config.section1(), {'value1': '1'})
+        self.assertEqual(self.config.section1.value1(), '1')
+        self.assertEqual(self.config.section2(), {'value2': '2'})
+        self.assertEqual(self.config.section2.value2(), '2')
+
+    def test_merge(self):
+        self.config.from_dict(self.config_options_1)
+        self.config.from_dict(self.config_options_2)
+
+        self.assertEqual(
+            self.config(),
+            {
+                'section1': {
+                    'value1': '11',
+                    'value11': '11',
+                },
+                'section2': {
+                    'value2': '2',
+                },
+                'section3': {
+                    'value3': '3',
+                },
+            },
+        )
+        self.assertEqual(self.config.section1(), {'value1': '11', 'value11': '11'})
+        self.assertEqual(self.config.section1.value1(), '11')
+        self.assertEqual(self.config.section1.value11(), '11')
+        self.assertEqual(self.config.section2(), {'value2': '2'})
+        self.assertEqual(self.config.section2.value2(), '2')
+        self.assertEqual(self.config.section3(), {'value3': '3'})
+        self.assertEqual(self.config.section3.value3(), '3')
+
+
+class ConfigFromEnvTests(unittest.TestCase):
+
+    def setUp(self):
+        self.config = providers.Configuration(name='config')
+        os.environ['CONFIG_TEST_ENV'] = 'test-value'
+
+    def tearDown(self):
+        del self.config
+        del os.environ['CONFIG_TEST_ENV']
+
+    def test(self):
+        self.config.from_env('CONFIG_TEST_ENV')
+        self.assertEqual(self.config(), 'test-value')
+
+    def test_default(self):
+        self.config.from_env('UNDEFINED_ENV', 'default-value')
+        self.assertEqual(self.config(), 'default-value')
+
+    def test_with_children(self):
+        self.config.section1.value1.from_env('CONFIG_TEST_ENV')
+
+        self.assertIsNone(self.config())
+        self.assertIsNone(self.config.section1())
+        self.assertEqual(self.config.section1.value1(), 'test-value')

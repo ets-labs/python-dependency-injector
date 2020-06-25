@@ -7,6 +7,16 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.18.0
+------
+- Add ``Configuration.from_yaml()`` method to load configuration from the yaml file.
+- Add ``Configuration.from_ini()`` method to load configuration from the ini file.
+- Add ``Configuration.from_dict()`` method to load configuration from the dictionary.
+- Add ``Configuration.from_env()`` method to load configuration from the environment variable.
+- Add default value for ``name`` argument of ``Configuration`` provider.
+- Add documentation for ``Configuration`` provider.
+- Remove undocumented positional parameter of ``DependenciesContainer`` provider.
+
 3.17.1
 ------
 - Fix ``DynamicContainer`` deep-copying bug.
