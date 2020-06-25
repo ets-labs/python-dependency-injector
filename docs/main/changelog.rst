@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+3.18.0
+------
 - Add ``Configuration.from_yaml()`` method to load configuration from the yaml file.
 - Add ``Configuration.from_ini()`` method to load configuration from the ini file.
 - Add ``Configuration.from_dict()`` method to load configuration from the dictionary.
