@@ -26,11 +26,11 @@ try:
 except ImportError:
     import configparser as iniconfigparser
 
-# try:
-#     import yaml
-# except ImportError:
-#     yaml = None
-# yaml = None
+try:
+    import yaml
+except ImportError:
+    yaml = None
+yaml = None
 
 from .errors import (
     Error,
@@ -1203,30 +1203,30 @@ cdef class Configuration(Object):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    # def from_yaml(self, filepath):
-    #     """Load configuration from yaml file.
-    #
-    #     Loaded configuration is merged recursively over current configuration.
-    #
-    #     :param filepath: Path to the configuration file.
-    #     :type filepath: str
-    #
-    #     :rtype: None
-    #     """
-    #     if yaml is None:
-    #         raise Error(
-    #             'Unable to load yaml configuration - PyYAML is not installed. '
-    #             'Install PyYAML or install Dependency Injector with yaml extras: '
-    #             '"pip install dependency-injector[yaml]"'
-    #         )
-    #
-    #     with open(filepath) as opened_file:
-    #         config = yaml.load(opened_file, yaml.Loader)
-    #
-    #     current_config = self.__call__()
-    #     if not current_config:
-    #         current_config = {}
-    #     self.override(merge_dicts(current_config, config))
+    def from_yaml(self, filepath):
+        """Load configuration from yaml file.
+
+        Loaded configuration is merged recursively over current configuration.
+
+        :param filepath: Path to the configuration file.
+        :type filepath: str
+
+        :rtype: None
+        """
+        if yaml is None:
+            raise Error(
+                'Unable to load yaml configuration - PyYAML is not installed. '
+                'Install PyYAML or install Dependency Injector with yaml extras: '
+                '"pip install dependency-injector[yaml]"'
+            )
+
+        with open(filepath) as opened_file:
+            config = yaml.load(opened_file, yaml.Loader)
+
+        current_config = self.__call__()
+        if not current_config:
+            current_config = {}
+        self.override(merge_dicts(current_config, config))
 
     def _create_children(self, value):
         children = dict()
@@ -2409,7 +2409,7 @@ def merge_dicts(dict1, dict2):
     """
     for key, value in dict1.items():
         if key in dict2:
-            if isinstance(value, type(dict)) and isinstance(dict2[key], type(dict)):
+            if isinstance(value, dict) and isinstance(dict2[key], dict):
                 dict2[key] = merge_dicts(value, dict2[key])
     result = dict1.copy()
     result.update(dict2)
