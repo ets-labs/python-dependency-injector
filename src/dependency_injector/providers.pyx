@@ -30,7 +30,6 @@ try:
     import yaml
 except ImportError:
     yaml = None
-yaml = None
 
 from .errors import (
     Error,
