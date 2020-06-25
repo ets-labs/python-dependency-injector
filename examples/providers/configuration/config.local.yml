@@ -1,0 +1,3 @@
+aws:
+  access_key_id: "LOCAL-KEY"
+  secret_access_key: "LOCAL-SECRET"

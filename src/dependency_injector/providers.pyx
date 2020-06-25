@@ -1002,10 +1002,7 @@ cdef class CoroutineDelegate(Delegate):
 
 
 cdef class Configuration(Object):
-    """Configuration provider.
-
-    Configuration provider helps with implementing late static binding of
-    configuration options - use first, define later.
+    """Configuration provider provides configuration options to the other providers.
 
     .. code-block:: python
 
@@ -1014,8 +1011,14 @@ cdef class Configuration(Object):
         print(config.section1.option1())  # None
         print(config.section1.option2())  # None
 
-        config.override({'section1': {'option1': 1,
-                                      'option2': 2}})
+        config.from_dict(
+            {
+                'section1': {
+                    'option1': 1,
+                    'option2': 2,
+                },
+            },
+        )
 
         print(config.section1.option1())  # 1
         print(config.section1.option2())  # 2
@@ -1168,7 +1171,7 @@ cdef class Configuration(Object):
     def from_ini(self, filepath):
         """Load configuration from the ini file.
 
-        Loaded configuration is merged recursively over current configuration.
+        Loaded configuration is merged recursively over existing configuration.
 
         :param filepath: Path to the configuration file.
         :type filepath: str
@@ -1190,7 +1193,7 @@ cdef class Configuration(Object):
     def from_yaml(self, filepath):
         """Load configuration from the yaml file.
 
-        Loaded configuration is merged recursively over current configuration.
+        Loaded configuration is merged recursively over existing configuration.
 
         :param filepath: Path to the configuration file.
         :type filepath: str
@@ -1215,7 +1218,7 @@ cdef class Configuration(Object):
     def from_dict(self, options):
         """Load configuration from the dictionary.
 
-        Loaded configuration is merged recursively over current configuration.
+        Loaded configuration is merged recursively over existing configuration.
 
         :param options: Configuration options.
         :type options: dict
