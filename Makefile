@@ -61,8 +61,8 @@ test-py3: build
 
 check:
 	# Static analysis
-	flake8 --max-complexity=10 src/dependency_injector/
-	flake8 --max-complexity=10 examples/
+	flake8 src/dependency_injector/
+	flake8 examples/
 	# Code style analysis
 	pydocstyle src/dependency_injector/
 	pydocstyle examples/
