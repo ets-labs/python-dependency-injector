@@ -9,9 +9,10 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- Add ``Configuration.from_yaml()`` method to load configuration from yaml file.
-- Add ``Configuration.from_ini()`` method to load configuration from ini file.
-- Add ``Configuration.from_dict()`` method to load configuration from dictionary.
+- Add ``Configuration.from_yaml()`` method to load configuration from the yaml file.
+- Add ``Configuration.from_ini()`` method to load configuration from the ini file.
+- Add ``Configuration.from_dict()`` method to load configuration from the dictionary.
+- Add ``Configuration.from_env()`` method to load configuration from the environment variable.
 - Add default value for ``name`` argument of ``Configuration`` provider.
 - Remove undocumented positional parameter of ``DependenciesContainer`` provider.
 

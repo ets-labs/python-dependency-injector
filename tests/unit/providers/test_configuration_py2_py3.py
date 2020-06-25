@@ -257,66 +257,6 @@ class ConfigLinkingTests(unittest.TestCase):
         self.assertEqual(services.value_getter(), 'services2')
 
 
-class ConfigFromDict(unittest.TestCase):
-
-    def setUp(self):
-        self.config = providers.Configuration(name='config')
-
-        self.config_options_1 = {
-            'section1': {
-                'value1': '1',
-            },
-            'section2': {
-                'value2': '2',
-            },
-        }
-        self.config_options_2 = {
-            'section1': {
-                'value1': '11',
-                'value11': '11',
-            },
-            'section3': {
-                'value3': '3',
-            },
-        }
-
-    def test(self):
-        self.config.from_dict(self.config_options_1)
-
-        self.assertEqual(self.config(), {'section1': {'value1': '1'}, 'section2': {'value2': '2'}})
-        self.assertEqual(self.config.section1(), {'value1': '1'})
-        self.assertEqual(self.config.section1.value1(), '1')
-        self.assertEqual(self.config.section2(), {'value2': '2'})
-        self.assertEqual(self.config.section2.value2(), '2')
-
-    def test_merge(self):
-        self.config.from_dict(self.config_options_1)
-        self.config.from_dict(self.config_options_2)
-
-        self.assertEqual(
-            self.config(),
-            {
-                'section1': {
-                    'value1': '11',
-                    'value11': '11',
-                },
-                'section2': {
-                    'value2': '2',
-                },
-                'section3': {
-                    'value3': '3',
-                },
-            },
-        )
-        self.assertEqual(self.config.section1(), {'value1': '11', 'value11': '11'})
-        self.assertEqual(self.config.section1.value1(), '11')
-        self.assertEqual(self.config.section1.value11(), '11')
-        self.assertEqual(self.config.section2(), {'value2': '2'})
-        self.assertEqual(self.config.section2.value2(), '2')
-        self.assertEqual(self.config.section3(), {'value3': '3'})
-        self.assertEqual(self.config.section3.value3(), '3')
-
-
 class ConfigFromIniTests(unittest.TestCase):
 
     def setUp(self):
@@ -472,3 +412,89 @@ class ConfigFromYamlTests(unittest.TestCase):
             'Install PyYAML or install Dependency Injector with yaml extras: '
             '"pip install dependency-injector[yaml]"',
         )
+
+
+class ConfigFromDict(unittest.TestCase):
+
+    def setUp(self):
+        self.config = providers.Configuration(name='config')
+
+        self.config_options_1 = {
+            'section1': {
+                'value1': '1',
+            },
+            'section2': {
+                'value2': '2',
+            },
+        }
+        self.config_options_2 = {
+            'section1': {
+                'value1': '11',
+                'value11': '11',
+            },
+            'section3': {
+                'value3': '3',
+            },
+        }
+
+    def test(self):
+        self.config.from_dict(self.config_options_1)
+
+        self.assertEqual(self.config(), {'section1': {'value1': '1'}, 'section2': {'value2': '2'}})
+        self.assertEqual(self.config.section1(), {'value1': '1'})
+        self.assertEqual(self.config.section1.value1(), '1')
+        self.assertEqual(self.config.section2(), {'value2': '2'})
+        self.assertEqual(self.config.section2.value2(), '2')
+
+    def test_merge(self):
+        self.config.from_dict(self.config_options_1)
+        self.config.from_dict(self.config_options_2)
+
+        self.assertEqual(
+            self.config(),
+            {
+                'section1': {
+                    'value1': '11',
+                    'value11': '11',
+                },
+                'section2': {
+                    'value2': '2',
+                },
+                'section3': {
+                    'value3': '3',
+                },
+            },
+        )
+        self.assertEqual(self.config.section1(), {'value1': '11', 'value11': '11'})
+        self.assertEqual(self.config.section1.value1(), '11')
+        self.assertEqual(self.config.section1.value11(), '11')
+        self.assertEqual(self.config.section2(), {'value2': '2'})
+        self.assertEqual(self.config.section2.value2(), '2')
+        self.assertEqual(self.config.section3(), {'value3': '3'})
+        self.assertEqual(self.config.section3.value3(), '3')
+
+
+class ConfigFromEnvTests(unittest.TestCase):
+
+    def setUp(self):
+        self.config = providers.Configuration(name='config')
+        os.environ['CONFIG_TEST_ENV'] = 'test-value'
+
+    def tearDown(self):
+        del self.config
+        del os.environ['CONFIG_TEST_ENV']
+
+    def test(self):
+        self.config.from_env('CONFIG_TEST_ENV')
+        self.assertEqual(self.config(), 'test-value')
+
+    def test_default(self):
+        self.config.from_env('UNDEFINED_ENV', 'default-value')
+        self.assertEqual(self.config(), 'default-value')
+
+    def test_with_children(self):
+        self.config.section1.value1.from_env('CONFIG_TEST_ENV')
+
+        self.assertIsNone(self.config())
+        self.assertIsNone(self.config.section1())
+        self.assertEqual(self.config.section1.value1(), 'test-value')

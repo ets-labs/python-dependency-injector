@@ -4,6 +4,7 @@ Powered by Cython.
 """
 
 import copy
+import os
 import sys
 import types
 import threading
@@ -1164,23 +1165,8 @@ cdef class Configuration(Object):
         """
         self.override(value)
 
-    def from_dict(self, options):
-        """Load configuration from dictionary.
-
-        Loaded configuration is merged recursively over current configuration.
-
-        :param options: Configuration options.
-        :type options: dict
-
-        :rtype: None
-        """
-        current_config = self.__call__()
-        if not current_config:
-            current_config = {}
-        self.override(merge_dicts(current_config, options))
-
     def from_ini(self, filepath):
-        """Load configuration from ini file.
+        """Load configuration from the ini file.
 
         Loaded configuration is merged recursively over current configuration.
 
@@ -1202,7 +1188,7 @@ cdef class Configuration(Object):
         self.override(merge_dicts(current_config, config))
 
     def from_yaml(self, filepath):
-        """Load configuration from yaml file.
+        """Load configuration from the yaml file.
 
         Loaded configuration is merged recursively over current configuration.
 
@@ -1225,6 +1211,35 @@ cdef class Configuration(Object):
         if not current_config:
             current_config = {}
         self.override(merge_dicts(current_config, config))
+
+    def from_dict(self, options):
+        """Load configuration from the dictionary.
+
+        Loaded configuration is merged recursively over current configuration.
+
+        :param options: Configuration options.
+        :type options: dict
+
+        :rtype: None
+        """
+        current_config = self.__call__()
+        if not current_config:
+            current_config = {}
+        self.override(merge_dicts(current_config, options))
+
+    def from_env(self, name, default=None):
+        """Load configuration value from the environment variable.
+
+        :param name: Name of the environment variable.
+        :type name: str
+
+        :param default: Default value that is used if environment variable does not exist.
+        :type default: str
+
+        :rtype: None
+        """
+        value = os.getenv(name, default)
+        self.override(value)
 
     def _create_children(self, value):
         children = dict()
