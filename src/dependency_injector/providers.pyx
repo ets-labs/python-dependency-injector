@@ -5,6 +5,7 @@ Powered by Cython.
 
 import copy
 import os
+import re
 import sys
 import types
 import threading
@@ -48,6 +49,41 @@ else:  # pragma: no cover
         lambda obj, memo: type(obj)(obj.im_func,
                                     copy.deepcopy(obj.im_self, memo),
                                     obj.im_class)
+
+if yaml:
+    yaml_env_marker_pattern = re.compile(r'\$\{([^}^{]+)\}')
+    def yaml_env_marker_constructor(_, node):
+        """"Replace environment variable marker with its value."""
+        return os.path.expandvars(node.value)
+
+    yaml.add_implicit_resolver('!path', yaml_env_marker_pattern)
+    yaml.add_constructor('!path', yaml_env_marker_constructor)
+
+if sys.version_info[0] == 3:
+    class EnvInterpolation(iniconfigparser.BasicInterpolation):
+        """Interpolation which expands environment variables in values."""
+
+        def before_get(self, parser, section, option, value, defaults):
+            value = super().before_get(parser, section, option, value, defaults)
+            return os.path.expandvars(value)
+
+    def _parse_ini_file(filepath):
+        parser = iniconfigparser.ConfigParser(interpolation=EnvInterpolation())
+        parser.read(filepath)
+        return parser
+else:
+    import StringIO
+
+    def _parse_ini_file(filepath):
+        parser = iniconfigparser.ConfigParser()
+        try:
+            with open(filepath) as config_file:
+                config_string = os.path.expandvars(config_file.read())
+        except IOError:
+            return parser
+        else:
+            parser.readfp(StringIO.StringIO(config_string))
+            return parser
 
 
 cdef class Provider(object):
@@ -1178,8 +1214,7 @@ cdef class Configuration(Object):
 
         :rtype: None
         """
-        parser = iniconfigparser.ConfigParser()
-        parser.read([filepath])
+        parser = _parse_ini_file(filepath)
 
         config = {}
         for section in parser.sections():
@@ -1207,8 +1242,11 @@ cdef class Configuration(Object):
                 '"pip install dependency-injector[yaml]"'
             )
 
-        with open(filepath) as opened_file:
-            config = yaml.load(opened_file, yaml.Loader)
+        try:
+            with open(filepath) as opened_file:
+                config = yaml.load(opened_file, yaml.Loader)
+        except IOError:
+            return
 
         current_config = self.__call__()
         if not current_config:

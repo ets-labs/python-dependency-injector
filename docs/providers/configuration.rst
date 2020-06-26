@@ -30,6 +30,10 @@ where ``examples/providers/configuration/config.ini`` is:
    :language: ini
    :linenos:
 
+:py:meth:`Configuration.from_ini` supports environment variables interpolation. Use
+``${ENV_NAME}`` format in the configuration file to substitute value of environment
+variable ``ENV_NAME``.
+
 Loading from ``yaml`` file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -47,6 +51,10 @@ where ``examples/providers/configuration/config.yml`` is:
 .. literalinclude:: ../../examples/providers/configuration/config.yml
    :language: ini
    :linenos:
+
+:py:meth:`Configuration.from_yaml` supports environment variables interpolation. Use
+``${ENV_NAME}`` format in the configuration file to substitute value of environment
+variable ``ENV_NAME``.
 
 .. note::
 
