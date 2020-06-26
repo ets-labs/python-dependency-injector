@@ -5,6 +5,7 @@ Powered by Cython.
 
 import copy
 import os
+import re
 import sys
 import types
 import threading
@@ -48,6 +49,29 @@ else:  # pragma: no cover
         lambda obj, memo: type(obj)(obj.im_func,
                                     copy.deepcopy(obj.im_self, memo),
                                     obj.im_class)
+
+if yaml:
+    yaml_env_marker_pattern = re.compile(r'\$\{([^}^{]+)\}')
+    def yaml_env_marker_constructor(_, node):
+        """"Replace environment variable marker with its value."""
+        return os.path.expandvars(node.value)
+
+    yaml.add_implicit_resolver('!path', yaml_env_marker_pattern)
+    yaml.add_constructor('!path', yaml_env_marker_constructor)
+
+if sys.version_info[0] == 3:
+    class EnvInterpolation(iniconfigparser.BasicInterpolation):
+        """Interpolation which expands environment variables in values."""
+
+        def before_get(self, parser, section, option, value, defaults):
+            value = super().before_get(parser, section, option, value, defaults)
+            return os.path.expandvars(value)
+
+    def get_ini_parser():
+        return iniconfigparser.ConfigParser(interpolation=EnvInterpolation())
+else:
+    def get_ini_parser():
+        return iniconfigparser.SafeConfigParser(os.environ)
 
 
 cdef class Provider(object):
@@ -1178,7 +1202,7 @@ cdef class Configuration(Object):
 
         :rtype: None
         """
-        parser = iniconfigparser.ConfigParser()
+        parser = get_ini_parser()
         parser.read([filepath])
 
         config = {}

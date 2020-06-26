@@ -324,6 +324,41 @@ class ConfigFromIniTests(unittest.TestCase):
         self.assertEqual(self.config.section3.value3(), '3')
 
 
+class ConfigFromIniWithEnvInterpolationTests(unittest.TestCase):
+
+    def setUp(self):
+        self.config = providers.Configuration(name='config')
+
+        os.environ['CONFIG_TEST_ENV'] = 'test-value'
+
+        _, self.config_file = tempfile.mkstemp()
+        with open(self.config_file, 'w') as config_file:
+            config_file.write(
+                '[section1]\n'
+                'value1=${CONFIG_TEST_ENV}\n'
+            )
+
+    def tearDown(self):
+        del self.config
+        del os.environ['CONFIG_TEST_ENV']
+        os.unlink(self.config_file)
+
+    def test_env_variable_interpolation(self):
+        self.config.from_ini(self.config_file)
+
+        self.assertEqual(
+            self.config(),
+            {
+                'section1': {
+                    'value1': 'test-value',
+                },
+            },
+        )
+        self.assertEqual(self.config.section1(), {'value1': 'test-value'})
+        self.assertEqual(self.config.section1.value1(), 'test-value')
+
+
+
 class ConfigFromYamlTests(unittest.TestCase):
 
     def setUp(self):
@@ -412,6 +447,41 @@ class ConfigFromYamlTests(unittest.TestCase):
             'Install PyYAML or install Dependency Injector with yaml extras: '
             '"pip install dependency-injector[yaml]"',
         )
+
+
+class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
+
+    def setUp(self):
+        self.config = providers.Configuration(name='config')
+
+        os.environ['CONFIG_TEST_ENV'] = 'test-value'
+
+        _, self.config_file = tempfile.mkstemp()
+        with open(self.config_file, 'w') as config_file:
+            config_file.write(
+                'section1:\n'
+                '  value1: ${CONFIG_TEST_ENV}\n'
+            )
+
+    def tearDown(self):
+        del self.config
+        del os.environ['CONFIG_TEST_ENV']
+        os.unlink(self.config_file)
+
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
+    def test_env_variable_interpolation(self):
+        self.config.from_yaml(self.config_file)
+
+        self.assertEqual(
+            self.config(),
+            {
+                'section1': {
+                    'value1': 'test-value',
+                },
+            },
+        )
+        self.assertEqual(self.config.section1(), {'value1': 'test-value'})
+        self.assertEqual(self.config.section1.value1(), 'test-value')
 
 
 class ConfigFromDict(unittest.TestCase):
