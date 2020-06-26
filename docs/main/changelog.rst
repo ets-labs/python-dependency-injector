@@ -11,6 +11,7 @@ follows `Semantic versioning`_
 ------
 - Add interpolation of environment variables to ``Configuration.from_yaml()`` and
   ``Configuration.from_ini()``.
+- Add ignoring of ``IOError`` to ``Configuration.from_yaml()``.
 
 3.18.0
 ------

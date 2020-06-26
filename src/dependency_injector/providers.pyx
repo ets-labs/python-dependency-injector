@@ -67,11 +67,23 @@ if sys.version_info[0] == 3:
             value = super().before_get(parser, section, option, value, defaults)
             return os.path.expandvars(value)
 
-    def get_ini_parser():
-        return iniconfigparser.ConfigParser(interpolation=EnvInterpolation())
+    def _parse_ini_file(filepath):
+        parser = iniconfigparser.ConfigParser(interpolation=EnvInterpolation())
+        parser.read(filepath)
+        return parser
 else:
-    def get_ini_parser():
-        return iniconfigparser.SafeConfigParser(os.environ)
+    import StringIO
+
+    def _parse_ini_file(filepath):
+        parser = iniconfigparser.ConfigParser()
+        try:
+            with open(filepath) as config_file:
+                config_string = os.path.expandvars(config_file.read())
+        except IOError:
+            return parser
+        else:
+            parser.readfp(StringIO.StringIO(config_string))
+            return parser
 
 
 cdef class Provider(object):
@@ -1202,8 +1214,7 @@ cdef class Configuration(Object):
 
         :rtype: None
         """
-        parser = get_ini_parser()
-        parser.read([filepath])
+        parser = _parse_ini_file(filepath)
 
         config = {}
         for section in parser.sections():
@@ -1231,8 +1242,11 @@ cdef class Configuration(Object):
                 '"pip install dependency-injector[yaml]"'
             )
 
-        with open(filepath) as opened_file:
-            config = yaml.load(opened_file, yaml.Loader)
+        try:
+            with open(filepath) as opened_file:
+                config = yaml.load(opened_file, yaml.Loader)
+        except IOError:
+            return
 
         current_config = self.__call__()
         if not current_config:
