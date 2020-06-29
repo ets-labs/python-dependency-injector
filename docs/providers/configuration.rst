@@ -7,7 +7,8 @@ Configuration providers
 
 .. literalinclude:: ../../examples/providers/configuration/configuration.py
    :language: python
-   :emphasize-lines: 7,12-13,18-25
+   :emphasize-lines: 4,9-10
+   :lines: 4-14
    :linenos:
 
 It implements "use first, define later" principle.
@@ -20,8 +21,8 @@ Loading from ``ini`` file
 
 .. literalinclude:: ../../examples/providers/configuration/configuration_ini.py
    :language: python
-   :lines: 6-
-   :emphasize-lines: 3
+   :lines: 3-5,6-
+   :emphasize-lines: 6
    :linenos:
 
 where ``examples/providers/configuration/config.ini`` is:
@@ -42,8 +43,8 @@ Loading from ``yaml`` file
 
 .. literalinclude:: ../../examples/providers/configuration/configuration_yaml.py
    :language: python
-   :lines: 6-
-   :emphasize-lines: 3
+   :lines: 3-5,6-
+   :emphasize-lines: 6
    :linenos:
 
 where ``examples/providers/configuration/config.yml`` is:
@@ -62,6 +63,18 @@ variable ``ENV_NAME``.
     `Dependency Injector` with extras ``pip install dependency-injector[yaml]`` or install
     ``PyYAML`` separately  ``pip install pyyaml``.
 
+Loading from ``dict``
+~~~~~~~~~~~~~~~~~~~~~
+
+:py:class:`Configuration` provider can load configuration from Python ``dict`` using
+:py:meth:`Configuration.from_dict`:
+
+.. literalinclude:: ../../examples/providers/configuration/configuration_dict.py
+   :language: python
+   :lines: 3-5,6-
+   :emphasize-lines: 6-13
+   :linenos:
+
 Loading from environment variable
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -70,10 +83,9 @@ Loading from environment variable
 
 .. literalinclude:: ../../examples/providers/configuration/configuration_env.py
    :language: python
-   :lines: 13-21
-   :emphasize-lines: 3-5
+   :lines: 5-7,13-21
+   :emphasize-lines: 6-8
    :linenos:
-
 
 Loading from multiple sources
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -83,8 +95,8 @@ configuration is merged recursively over existing configuration.
 
 .. literalinclude:: ../../examples/providers/configuration/configuration_multiple.py
    :language: python
-   :lines: 6-14
-   :emphasize-lines: 3-4
+   :lines: 3-5,6-14
+   :emphasize-lines: 6-7
    :linenos:
 
 where ``examples/providers/configuration/config.local.yml`` is:

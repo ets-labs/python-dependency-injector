@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.19.0
+------
+- Add ``Selector`` provider.
+- Fix ``Configuration.override()`` to return ``OverridingContext`` for non-dictionary values.
+
 3.18.1
 ------
 - Add interpolation of environment variables to ``Configuration.from_yaml()`` and
