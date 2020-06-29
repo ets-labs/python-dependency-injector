@@ -1152,7 +1152,7 @@ cdef class Configuration(Object):
 
         value = self.__call__()
         if not isinstance(value, dict):
-            return
+            return overriding_context
 
         for name in value.keys():
             child_provider = self.__children.get(name)
@@ -2300,8 +2300,8 @@ cdef class Selector(Provider):
 
     def __init__(self, selector, **providers):
         """Initialize provider."""
-        self.selector = selector
-        self.providers = providers
+        self.__selector = selector
+        self.__providers = providers
         super(Selector, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -2311,8 +2311,8 @@ cdef class Selector(Provider):
             return copied
 
         copied = self.__class__(
-            deepcopy(self.selector, memo)
-            **deepcopy(self.providers, memo),
+            deepcopy(self.__selector, memo),
+            **deepcopy(self.__providers, memo),
         )
         self._copy_overridings(copied, memo)
 
@@ -2325,22 +2325,43 @@ cdef class Selector(Provider):
                 '\'{cls}\' object has no attribute '
                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
                                               attribute_name=name))
-        if name not in self.providers:
+        if name not in self.__providers:
             raise AttributeError('Selector has no "{0}" provider'.format(name))
 
-        return getattr(self.container, name)
+        return self.__providers[name]
+
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+
+        return '<{provider}({selector}, {providers}) at {address}>'.format(
+            provider='.'.join(( self.__class__.__module__, self.__class__.__name__)),
+            selector=self.__selector,
+            providers=', '.join((
+                '{0}={1}'.format(name, provider)
+                for name, provider in self.__providers.items()
+            )),
+            address=hex(id(self)),
+        )
+
+    @property
+    def providers(self):
+        """Return providers."""
+        return dict(self.__providers)
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
-        selector_value = self.selector()
+        selector_value = self.__selector()
 
         if selector_value is None:
             raise Error('Selector value is undefined')
 
-        if selector_value not in self.providers:
+        if selector_value not in self.__providers:
             raise Error('Selector has no "{0}" provider'.format(selector_value))
 
-        return self.providers[selector_value](*args, **kwargs)
+        return self.__providers[selector_value](*args, **kwargs)
 
 
 cdef class Injection(object):

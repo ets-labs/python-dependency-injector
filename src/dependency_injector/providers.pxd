@@ -185,8 +185,8 @@ cdef class Container(Provider):
 
 
 cdef class Selector(Provider):
-    cdef object selector
-    cdef dict providers
+    cdef object __selector
+    cdef dict __providers
 
     cpdef object _provide(self, tuple args, dict kwargs)
 

@@ -1289,13 +1289,13 @@ struct __pyx_obj_19dependency_injector_9providers_Container {
  * 
  * 
  * cdef class Selector(Provider):             # <<<<<<<<<<<<<<
- *     cdef object selector
- *     cdef dict providers
+ *     cdef object __selector
+ *     cdef dict __providers
  */
 struct __pyx_obj_19dependency_injector_9providers_Selector {
   struct __pyx_obj_19dependency_injector_9providers_Provider __pyx_base;
-  PyObject *selector;
-  PyObject *providers;
+  PyObject *__pyx___selector;
+  PyObject *__pyx___providers;
 };
 
 
@@ -1879,8 +1879,8 @@ static struct __pyx_vtabstruct_19dependency_injector_9providers_Container *__pyx
  * 
  * 
  * cdef class Selector(Provider):             # <<<<<<<<<<<<<<
- *     cdef object selector
- *     cdef dict providers
+ *     cdef object __selector
+ *     cdef dict __providers
  */
 
 struct __pyx_vtabstruct_19dependency_injector_9providers_Selector {
