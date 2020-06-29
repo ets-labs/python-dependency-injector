@@ -20,9 +20,9 @@ selector = providers.Selector(
 )
 
 config.override({'one_or_another': 'one'})
-some_instance_1 = selector()
-assert isinstance(some_instance_1, SomeClass)
+instance_1 = selector()
+assert isinstance(instance_1, SomeClass)
 
 config.override({'one_or_another': 'another'})
-some_instance_2 = selector()
-assert isinstance(some_instance_2, SomeOtherClass)
+instance_2 = selector()
+assert isinstance(instance_2, SomeOtherClass)

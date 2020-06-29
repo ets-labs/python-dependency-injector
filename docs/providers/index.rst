@@ -24,6 +24,7 @@ Providers package API docs - :py:mod:`dependency_injector.providers`
     object
     list
     configuration
+    selector
     dependency
     overriding
     custom

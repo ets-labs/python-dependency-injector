@@ -2290,12 +2290,12 @@ cdef class Selector(Provider):
         )
 
         config.override({'one_or_another': 'one'})
-        some_instance = selector()
-        assert isinstance(some_instance, SomeClass)
+        instance_1 = selector()
+        assert isinstance(instance_1, SomeClass)
 
         config.override({'one_or_another': 'another'})
-        some_instance = selector()
-        assert isinstance(some_instance, SomeOtherClass)
+        instance_2 = selector()
+        assert isinstance(instance_2, SomeOtherClass)
     """
 
     def __init__(self, selector, **providers):
