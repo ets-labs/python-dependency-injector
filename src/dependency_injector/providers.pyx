@@ -2267,6 +2267,82 @@ cdef class Container(Provider):
         return self.container
 
 
+cdef class Selector(Provider):
+    """Selector provider selects provider based on the configuration value or other callable.
+
+    :py:class:`Selector` provider has a callable called ``selector`` and a dictionary of providers.
+
+    The ``selector`` callable is provided as a first positional argument. It can be
+    :py:class:`Configuration` provider or any other callable. It has to return a string value.
+    That value is used as a key for selecting the provider from the dictionary of providers.
+
+    The providers are provided as keyword arguments. Argument name is used as a key for
+    selecting the provider.
+
+    .. code-block:: python
+
+        config = Configuration()
+
+        selector = Selector(
+            config.one_or_another,
+            one=providers.Factory(SomeClass),
+            another=providers.Factory(SomeOtherClass),
+        )
+
+        config.override({'one_or_another': 'one'})
+        some_instance = selector()
+        assert isinstance(some_instance, SomeClass)
+
+        config.override({'one_or_another': 'another'})
+        some_instance = selector()
+        assert isinstance(some_instance, SomeOtherClass)
+    """
+
+    def __init__(self, selector, **providers):
+        """Initialize provider."""
+        self.selector = selector
+        self.providers = providers
+        super(Selector, self).__init__()
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__(
+            deepcopy(self.selector, memo)
+            **deepcopy(self.providers, memo),
+        )
+        self._copy_overridings(copied, memo)
+
+        return copied
+
+    def __getattr__(self, name):
+        """Return provider."""
+        if name.startswith('__') and name.endswith('__'):
+            raise AttributeError(
+                '\'{cls}\' object has no attribute '
+                '\'{attribute_name}\''.format(cls=self.__class__.__name__,
+                                              attribute_name=name))
+        if name not in self.providers:
+            raise AttributeError('Selector has no "{0}" provider'.format(name))
+
+        return getattr(self.container, name)
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        """Return single instance."""
+        selector_value = self.selector()
+
+        if selector_value is None:
+            raise Error('Selector value is undefined')
+
+        if selector_value not in self.providers:
+            raise Error('Selector has no "{0}" provider'.format(selector_value))
+
+        return self.providers[selector_value](*args, **kwargs)
+
+
 cdef class Injection(object):
     """Abstract injection class."""
 

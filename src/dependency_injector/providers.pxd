@@ -184,6 +184,13 @@ cdef class Container(Provider):
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
+cdef class Selector(Provider):
+    cdef object selector
+    cdef dict providers
+
+    cpdef object _provide(self, tuple args, dict kwargs)
+
+
 # Injections
 cdef class Injection(object):
     cdef object __value
