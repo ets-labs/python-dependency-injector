@@ -7,7 +7,8 @@ List providers
 
 .. literalinclude:: ../../examples/providers/list.py
    :language: python
-   :lines: 23-29
+   :emphasize-lines: 6-9
+   :lines: 6-8, 23-29
    :linenos:
 
 :py:class:`List` provider is needed for injecting a list of dependencies. It handles
@@ -24,7 +25,8 @@ Full example:
 
 .. literalinclude:: ../../examples/providers/list.py
    :language: python
-   :emphasize-lines: 23-29
+   :emphasize-lines: 23-26
+   :lines: 3-
    :linenos:
 
 .. note::
