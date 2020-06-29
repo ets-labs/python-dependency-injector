@@ -141,12 +141,10 @@ class SelectorTests(unittest.TestCase):
             two=providers.Object(2),
         )
 
-        self.assertEqual(
+        self.assertIn(
+            '<dependency_injector.providers.Selector({0}'.format(repr(self.selector)),
             repr(provider),
-            '<dependency_injector.providers.Selector({0}, one={1}, two={2}) at {3}>'.format(
-                repr(self.selector),
-                repr(provider.one),
-                repr(provider.two),
-                hex(id(provider)),
-            ),
         )
+        self.assertIn('one={0}'.format(repr(provider.one)), repr(provider))
+        self.assertIn('two={0}'.format(repr(provider.two)), repr(provider))
+        self.assertIn('at {0}'.format(hex(id(provider))), repr(provider))
