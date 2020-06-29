@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Add ``Selector`` provider.
 - Fix ``Configuration.override()`` to return ``OverridingContext`` manager for non-dictionary
 values.
 
