@@ -1,43 +1,45 @@
 sudo: false
-install: 
-    - pip install tox
+install:
+- pip install tox
 script:
-    - tox
+- tox
 language:
-    - python
+- python
 matrix:
   include:
-    - python: 3.6
-      env: TOXENV=coveralls DEPENDENCY_INJECTOR_DEBUG_MODE=1
-      install:
-        - pip install tox
-        - pip install cython
-        - make cythonize
-    - python: 3.6
-      env: TOXENV=pylint
-    - python: 3.6
-      env: TOXENV=flake8
-    - python: 3.6
-      env: TOXENV=pydocstyle
-    - python: 2.7
-      env: TOXENV=py27
-    - python: 3.4
-      env: TOXENV=py34
-    - python: 3.5
-      env: TOXENV=py35
-    - python: 3.6
-      env: TOXENV=py36
-    - python: 3.7
-      env: TOXENV=py37
-      sudo: required
-      dist: xenial
-    - python: 3.8
-      env: TOXENV=py38
-      sudo: required
-      dist: xenial
-    - python: pypy
-      env: TOXENV=pypy
-    - python: pypy3
-      env: TOXENV=pypy3
+  - python: 3.6
+    env: TOXENV=coveralls DEPENDENCY_INJECTOR_DEBUG_MODE=1
+    install:
+    - pip install tox
+    - pip install cython
+    - make cythonize
+  - python: 3.6
+    env: TOXENV=pylint
+  - python: 3.6
+    env: TOXENV=flake8
+  - python: 3.6
+    env: TOXENV=pydocstyle
+  - python: 2.7
+    env: TOXENV=py27
+  - python: 3.4
+    env: TOXENV=py34
+  - python: 3.5
+    env: TOXENV=py35
+  - python: 3.6
+    env: TOXENV=py36
+  - python: 3.7
+    env: TOXENV=py37
+    sudo: required
+    dist: xenial
+  - python: 3.8
+    env: TOXENV=py38
+    sudo: required
+    dist: xenial
+  - python: pypy
+    env: TOXENV=pypy
+  - python: pypy3
+    env: TOXENV=pypy3
 notifications:
-  slack: ets-labs:g9OU0r5PXjA5ueeoQw01dVvV
+  slack:
+    rooms:
+      secure: CdWDgKnfYW7vvvoH3nS3yg3TcNZiYLRUyEp6ukQ4rQiiuR4+ltuvyGyFJWgP8r7VVJ9yHkB0jebCKWLUMsAEt1my33B6eMDEVefovpkdh2eJjGswmm80brt0EJULpgwPOtB1U47Mwca8L5jDW4KSv9RypUFRgn8eHDoWw6LKf5g=
