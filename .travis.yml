@@ -1,13 +1,13 @@
 os:
-- linux
+  linux
 dist:
-- xenial
-install:
-- pip install tox
-script:
-- tox
+  xenial
 language:
-- python
+  python
+install:
+  - pip install tox
+script:
+  - tox
 jobs:
   include:
   - python: 3.6
