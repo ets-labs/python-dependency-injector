@@ -67,6 +67,12 @@ check:
 	pydocstyle src/dependency_injector/
 	pydocstyle examples/
 
+test-publish: cythonize
+	# Create distributions
+	python setup.py sdist
+	# Upload distributions to PyPI
+	twine upload --repository testpypi dist/dependency-injector-$(VERSION)*
+
 publish: cythonize
 	# Merge release to master branch
 	git checkout master
@@ -75,5 +81,7 @@ publish: cythonize
 	# Create and upload tag
 	git tag -a $(VERSION) -m 'version $(VERSION)'
 	git push --tags
-	# Create and upload build
-	python setup.py sdist upload
+	# Create distributions
+	python setup.py sdist
+	# Upload distributions to PyPI
+	twine upload dist/dependency-injector-$(VERSION)*
