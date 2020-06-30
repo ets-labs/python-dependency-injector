@@ -4,7 +4,7 @@ script:
 - tox
 language:
 - python
-matrix:
+jobs:
   include:
   - python: 3.6
     env: TOXENV=coveralls DEPENDENCY_INJECTOR_DEBUG_MODE=1
