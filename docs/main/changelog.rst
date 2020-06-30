@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Start using ``twine`` for publishing package on PyPI.
+- Fix Travis CI configuration file warnings.
 
 3.19.0
 ------
