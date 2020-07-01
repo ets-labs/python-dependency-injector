@@ -54,6 +54,36 @@ jobs:
     env: TOXENV=pypy3
     install: pip install tox
     script: tox
+  - services: docker
+    install: python3 -m pip install cibuildwheel==1.5.1
+    script: python3 -m cibuildwheel --output-dir wheelhouse
+    after_success:
+      - |
+        if [[ $TRAVIS_TAG ]]; then
+          python3 -m pip install twine
+          python3 -m twine upload wheelhouse/*.whl
+        fi
+  - os: osx
+    language: shell
+    install: python3 -m pip install cibuildwheel==1.5.1
+    script: python3 -m cibuildwheel --output-dir wheelhouse
+    after_success:
+      - |
+        if [[ $TRAVIS_TAG ]]; then
+          python3 -m pip install twine
+          python3 -m twine upload wheelhouse/*.whl
+        fi
+  - os: windows
+    language: shell
+    before_install:
+      - choco install python --version 3.8.0
+      - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
+    after_success:
+      - |
+        if [[ $TRAVIS_TAG ]]; then
+          python3 -m pip install twine
+          python3 -m twine upload wheelhouse/*.whl
+        fi
 notifications:
   slack:
     rooms:
