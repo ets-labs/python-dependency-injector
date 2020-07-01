@@ -1,43 +1,70 @@
-os:
-  linux
-dist:
-  xenial
-language:
-  python
-install:
-  - pip install tox
-script:
-  - tox
+os: linux
+dist: xenial
 jobs:
   include:
   - python: 3.6
+    language: python
     env: TOXENV=coveralls DEPENDENCY_INJECTOR_DEBUG_MODE=1
     install:
-    - pip install tox
-    - pip install cython
-    - make cythonize
+      - pip install tox
+      - pip install cython
+      - make cythonize
+    script: tox
   - python: 3.6
+    language: python
     env: TOXENV=pylint
+    install: pip install tox
+    script: tox
   - python: 3.6
+    language: python
     env: TOXENV=flake8
+    install: pip install tox
+    script: tox
   - python: 3.6
+    language: python
     env: TOXENV=pydocstyle
+    install: pip install tox
+    script: tox
   - python: 2.7
+    language: python
     env: TOXENV=py27
+    install: pip install tox
+    script: tox
   - python: 3.4
+    language: python
     env: TOXENV=py34
+    install: pip install tox
+    script: tox
   - python: 3.5
+    language: python
     env: TOXENV=py35
+    install: pip install tox
+    script: tox
   - python: 3.6
+    language: python
     env: TOXENV=py36
+    install: pip install tox
+    script: tox
   - python: 3.7
+    language: python
     env: TOXENV=py37
+    install: pip install tox
+    script: tox
   - python: 3.8
+    language: python
     env: TOXENV=py38
+    install: pip install tox
+    script: tox
   - python: pypy
+    language: python
     env: TOXENV=pypy
+    install: pip install tox
+    script: tox
   - python: pypy3
+    language: python
     env: TOXENV=pypy3
+    install: pip install tox
+    script: tox
 notifications:
   slack:
     rooms:
