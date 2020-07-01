@@ -81,13 +81,13 @@ jobs:
     before_install:
       - choco install python --version 3.8.0
       - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
-    install: python3 -m pip install cibuildwheel==1.5.1
-    script: python3 -m cibuildwheel --output-dir wheelhouse
+    install: python -m pip install cibuildwheel==1.5.1
+    script: python -m cibuildwheel --output-dir wheelhouse
     after_success:
       - |
         if [[ $TRAVIS_TAG ]]; then
-          python3 -m pip install twine
-          python3 -m twine upload --repository testpypi wheelhouse/*.whl
+          python -m pip install twine
+          python -m twine upload --repository testpypi wheelhouse/*.whl
         fi
 notifications:
   slack:
