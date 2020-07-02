@@ -9,6 +9,9 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Start distributing wheels for Linux, MacOS, and Windows (thanks to
+  `Travis CI <https://travis-ci.org/>`_ and
+  `cibuildwheel <https://github.com/joerick/cibuildwheel>`_).
 - Start using ``twine`` for publishing package on PyPI.
 - Fix Travis CI configuration file warnings.
 
