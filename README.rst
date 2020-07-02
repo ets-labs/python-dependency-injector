@@ -1,6 +1,9 @@
 .. image:: ./docs/logo.svg
     :align: left
 
+|
+|
+
 .. image:: https://img.shields.io/pypi/v/dependency_injector.svg
    :target: https://pypi.org/project/dependency-injector/
    :alt: Latest Version
