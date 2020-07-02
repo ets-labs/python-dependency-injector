@@ -61,7 +61,7 @@ jobs:
       - pip install twine --upgrade
     script:
       - python setup.py sdist
-      - twine upload dist/*
+      - twine upload --repository testpypi dist/*
   - services: docker
     if: tag IS present
     env: TWINE_USERNAME=__token__
