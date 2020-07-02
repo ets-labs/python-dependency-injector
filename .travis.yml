@@ -56,23 +56,20 @@ jobs:
     script: tox
   - python: 3.8
     if: tag IS present
-    install:
-      - pip install pip --upgrade
-      - pip install twine --upgrade
-    script:
-      - python setup.py sdist
-      - twine upload --repository testpypi dist/*
+    env: TWINE_USERNAME=__token__
+    install: pip install pip --upgrade
+    script: python setup.py sdist
+    after_success:
+      - python3 -m pip install twine
+      - python3 -m twine upload --repository testpypi dist/*
   - services: docker
     if: tag IS present
     env: TWINE_USERNAME=__token__
     install: python3 -m pip install cibuildwheel==1.5.1
     script: python3 -m cibuildwheel --output-dir wheelhouse
     after_success:
-      - |
-        if [[ $TRAVIS_TAG ]]; then
-          python3 -m pip install twine
-          python3 -m twine upload --repository testpypi wheelhouse/*.whl
-        fi
+      - python3 -m pip install twine
+      - python3 -m twine upload --repository testpypi wheelhouse/*.whl
   - os: osx
     if: tag IS present
     language: shell
@@ -80,11 +77,8 @@ jobs:
     install: python3 -m pip install cibuildwheel==1.5.1
     script: python3 -m cibuildwheel --output-dir wheelhouse
     after_success:
-      - |
-        if [[ $TRAVIS_TAG ]]; then
-          python3 -m pip install twine
-          python3 -m twine upload --repository testpypi wheelhouse/*.whl
-        fi
+      - python3 -m pip install twine
+      - python3 -m twine upload --repository testpypi wheelhouse/*.whl
   - os: windows
     if: tag IS present
     language: shell
@@ -95,11 +89,8 @@ jobs:
     install: python -m pip install cibuildwheel==1.5.1
     script: python -m cibuildwheel --output-dir wheelhouse
     after_success:
-      - |
-        if [[ $TRAVIS_TAG ]]; then
-          python -m pip install twine
-          python -m twine upload --repository testpypi wheelhouse/*.whl
-        fi
+      - python -m pip install twine
+      - python -m twine upload --repository testpypi wheelhouse/*.whl
 notifications:
   slack:
     rooms:
