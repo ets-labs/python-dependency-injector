@@ -1,4 +1,4 @@
-.. image:: ./docs/logo.svg
+.. image:: ./docs/logo2.svg
     :align: left
 
 |
