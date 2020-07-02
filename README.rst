@@ -1,7 +1,3 @@
-====================================================================
-Dependency Injector - Dependency injection microframework for Python
-====================================================================
-
 .. image:: ./docs/logo.svg
     :align: left
 
