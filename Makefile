@@ -73,7 +73,7 @@ test-publish: cythonize
 	# Upload distributions to PyPI
 	twine upload --repository testpypi dist/dependency-injector-$(VERSION)*
 
-tag:
+publish:
 	# Merge release to master branch
 	git checkout master
 	git merge --no-ff release/$(VERSION) -m "Merge branch 'release/$(VERSION)' into master"
