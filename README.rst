@@ -1,5 +1,5 @@
-.. image:: ./docs/logo2.svg
-    :align: left
+.. figure:: ./docs/logo2.svg
+
 
 .. image:: https://img.shields.io/pypi/v/dependency_injector.svg
    :target: https://pypi.org/project/dependency-injector/
