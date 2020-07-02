@@ -54,7 +54,16 @@ jobs:
     env: TOXENV=pypy3
     install: pip install tox
     script: tox
+  - python: 3.8
+    if: tag IS present
+    install:
+      - pip install pip --upgrade
+      - pip install twine --upgrade
+    script:
+      - python setup.py sdist
+      - twine upload dist/*
   - services: docker
+    if: tag IS present
     env: TWINE_USERNAME=__token__
     install: python3 -m pip install cibuildwheel==1.5.1
     script: python3 -m cibuildwheel --output-dir wheelhouse
@@ -65,6 +74,7 @@ jobs:
           python3 -m twine upload --repository testpypi wheelhouse/*.whl
         fi
   - os: osx
+    if: tag IS present
     language: shell
     env: TWINE_USERNAME=__token__
     install: python3 -m pip install cibuildwheel==1.5.1
@@ -76,6 +86,7 @@ jobs:
           python3 -m twine upload --repository testpypi wheelhouse/*.whl
         fi
   - os: windows
+    if: tag IS present
     language: shell
     env: TWINE_USERNAME=__token__
     before_install:
