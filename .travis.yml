@@ -61,7 +61,7 @@ jobs:
     script: python setup.py sdist
     after_success:
       - python3 -m pip install twine
-      - python3 -m twine upload --repository testpypi dist/*
+      - python3 -m twine upload dist/*
   - services: docker
     if: tag IS present
     env: TWINE_USERNAME=__token__
@@ -69,7 +69,7 @@ jobs:
     script: python3 -m cibuildwheel --output-dir wheelhouse
     after_success:
       - python3 -m pip install twine
-      - python3 -m twine upload --repository testpypi wheelhouse/*.whl
+      - python3 -m twine upload wheelhouse/*.whl
   - os: osx
     if: tag IS present
     language: shell
@@ -78,7 +78,7 @@ jobs:
     script: python3 -m cibuildwheel --output-dir wheelhouse
     after_success:
       - python3 -m pip install twine
-      - python3 -m twine upload --repository testpypi wheelhouse/*.whl
+      - python3 -m twine upload wheelhouse/*.whl
   - os: windows
     if: tag IS present
     language: shell
@@ -90,7 +90,7 @@ jobs:
     script: python -m cibuildwheel --output-dir wheelhouse
     after_success:
       - python -m pip install twine
-      - python -m twine upload --repository testpypi wheelhouse/*.whl
+      - python -m twine upload wheelhouse/*.whl
 notifications:
   slack:
     rooms:
