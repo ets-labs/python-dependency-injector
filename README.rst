@@ -1,6 +1,8 @@
 .. figure:: ./docs/logo2.svg
 
 
+|
+
 .. image:: https://img.shields.io/pypi/v/dependency_injector.svg
    :target: https://pypi.org/project/dependency-injector/
    :alt: Latest Version
@@ -26,10 +28,7 @@
    :target: https://coveralls.io/github/ets-labs/python-dependency-injector?branch=master
    :alt: Coverage Status
 
-Dependency Injector
-===================
-
-*Dependency Injector* is a dependency injection microframework for Python.
+**Dependency Injector** is a dependency injection microframework for Python.
 It was designed to be a unified and developer-friendly tool that helps
 implement a dependency injection design pattern in a formal, pretty, and
 Pythonic way.
