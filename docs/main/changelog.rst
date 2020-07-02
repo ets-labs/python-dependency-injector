@@ -7,6 +7,14 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.19.1
+------
+- Start distributing wheels for Linux, MacOS, and Windows (thanks to
+  `Travis CI <https://travis-ci.org/>`_ and
+  `cibuildwheel <https://github.com/joerick/cibuildwheel>`_).
+- Start using ``twine`` for publishing package on PyPI.
+- Fix Travis CI configuration file warnings.
+
 3.19.0
 ------
 - Add ``Selector`` provider.

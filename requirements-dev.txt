@@ -5,3 +5,4 @@ coverage
 flake8
 pydocstyle
 sphinx_autobuild
+pip
