@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.19.2
+------
+- Add logo.
+
 3.19.1
 ------
 - Start distributing wheels for Linux, MacOS, and Windows (thanks to
