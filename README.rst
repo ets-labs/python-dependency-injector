@@ -26,15 +26,6 @@
 .. image:: https://coveralls.io/repos/github/ets-labs/python-dependency-injector/badge.svg?branch=master
    :target: https://coveralls.io/github/ets-labs/python-dependency-injector?branch=master
    :alt: Coverage Status
-.. image:: https://img.shields.io/github/watchers/ets-labs/python-dependency-injector.svg?style=social&label=Watch
-   :target: https://github.com/ets-labs/python-dependency-injector
-   :alt: Github watchers
-.. image:: https://img.shields.io/github/stars/ets-labs/python-dependency-injector.svg?style=social&label=Star
-   :target: https://github.com/ets-labs/python-dependency-injector
-   :alt: Github stargazers
-.. image:: https://img.shields.io/github/forks/ets-labs/python-dependency-injector.svg?style=social&label=Fork
-   :target: https://github.com/ets-labs/python-dependency-injector
-   :alt: Github forks
 
 What is ``Dependency Injector``?
 ================================
