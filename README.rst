@@ -1,4 +1,4 @@
-.. figure:: ./docs/logo2.svg
+.. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/logo.svg
 
 | 
 
