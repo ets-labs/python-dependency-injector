@@ -32,6 +32,11 @@ What is ``Dependency Injector``?
 
 ``Dependency Injector`` is a Python dependency injection framework for Python.
 
+How does ``Dependency Injector`` help me?
+=========================================
+
+``Dependency Injector`` helps you to keep your application structure in order.
+
 Example:
 
 .. code-block:: python
