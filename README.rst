@@ -36,19 +36,18 @@ Example:
 
 .. code-block:: python
 
-    import logging
     import sqlite3
 
     import boto3
-
     from dependency_injector import containers, providers
-    from example import services, main
+    
+    from .example import services, main
 
 
     class Application(containers.DeclarativeContainer):
         """Application container."""
 
-        config = providers.Configuration('config')
+        config = providers.Configuration()
 
         # Gateways
 
@@ -84,34 +83,27 @@ Run the application:
 
 .. code-block:: python
 
-    """Run example of dependency injection in Python."""
-
     import sys
-    import logging
 
-    from container import Application
+    from .application import Application
+    
+    
+    def main(uid, password, photo):
+       """Run application."""
+       application = Application()
+       application.config.from_yaml('config.yml')
+       
+       users_service = application.users_service()
+       auth_service = application.auth_service()
+       photos_service = application.photos_service()
+        
+       user = users_service.get_user_by_id(uid)
+       auth_service.authenticate(user, password)
+       photos_service.upload_photo(user['uid'], photo)
 
 
     if __name__ == '__main__':
-        # Configure container:
-        container = Application(
-            config={
-                'database': {
-                    'dsn': ':memory:',
-                },
-                'aws': {
-                    'access_key_id': 'KEY',
-                    'secret_access_key': 'SECRET',
-                },
-                'auth': {
-                    'token_ttl': 3600,
-                },
-            }
-        )
-        container.logger().addHandler(logging.StreamHandler(sys.stdout))
-
-        # Run application:
-        container.main(*sys.argv[1:])
+        main(*sys.argv[1:])
 
 You can find more *Dependency Injector* examples in the ``/examples`` directory
 on our GitHub:
