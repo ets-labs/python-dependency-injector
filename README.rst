@@ -30,7 +30,8 @@
 What is ``Dependency Injector``?
 ================================
 
-``Dependency Injector`` is a dependency injection microframework for Python.
+``Dependency Injector`` is a Python dependency injection framework for Python.
+
 It was designed to be a unified and developer-friendly tool that helps
 implement a dependency injection design pattern in a formal, pretty, and
 Pythonic way.
@@ -60,10 +61,7 @@ The *Dependency Injector* library is available on `PyPi`_::
 Documentation
 -------------
 
-The *Dependency Injector* documentation is hosted on ReadTheDocs:
-
-- `User's guide`_
-- `API docs`_
+Documentation is on `Read The Docs <http://python-dependency-injector.ets-labs.org/>`_
 
 Dependency injection
 --------------------
@@ -110,168 +108,6 @@ The dependency injection pattern provides the following advantages:
 + Increased testability.
 + Increased maintainability.
 + Reconfiguration of a system without rebuilding.
-
-Example of dependency injection
--------------------------------
-
-Let's go through next example:
-
-.. image:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/engines_cars/diagram.png
-    :width: 100%
-    :align: center
-
-Listing of ``example.engines`` module:
-
-.. code-block:: python
-
-    """Dependency injection example, engines module."""
-
-
-    class Engine:
-        """Example engine base class.
-
-        Engine is a heart of every car. Engine is a very common term and could be
-        implemented in very different ways.
-        """
-
-
-    class GasolineEngine(Engine):
-        """Gasoline engine."""
-
-
-    class DieselEngine(Engine):
-        """Diesel engine."""
-
-
-    class ElectricEngine(Engine):
-        """Electric engine."""
-
-Listing of ``example.cars`` module:
-
-.. code-block:: python
-
-    """Dependency injection example, cars module."""
-
-
-    class Car:
-        """Example car."""
-
-        def __init__(self, engine):
-            """Initializer."""
-            self._engine = engine  # Engine is injected
-
-The next example demonstrates the creation of several cars with different engines:
-
-.. code-block:: python
-
-    """Dependency injection example, Cars & Engines."""
-
-    import example.cars
-    import example.engines
-
-
-    if __name__ == '__main__':
-        gasoline_car = example.cars.Car(example.engines.GasolineEngine())
-        diesel_car = example.cars.Car(example.engines.DieselEngine())
-        electric_car = example.cars.Car(example.engines.ElectricEngine())
-
-While the previous example demonstrates the advantages of dependency injection,
-there is a disadvantage demonstrated as well - the creation of a car requires 
-additional code to specify its dependencies. However, this disadvantage
-could be avoided by using a dependency injection framework for the creation of 
-an inversion of control container (IoC container).
-
-Here's an example of the creation of several inversion of control containers
-(IoC containers) using *Dependency Injector*:
-
-.. code-block:: python
-
-    """Dependency injection example, Cars & Engines IoC containers."""
-
-    import example.cars
-    import example.engines
-
-    import dependency_injector.containers as containers
-    import dependency_injector.providers as providers
-
-
-    class Engines(containers.DeclarativeContainer):
-        """IoC container of engine providers."""
-
-        gasoline = providers.Factory(example.engines.GasolineEngine)
-
-        diesel = providers.Factory(example.engines.DieselEngine)
-
-        electric = providers.Factory(example.engines.ElectricEngine)
-
-
-    class Cars(containers.DeclarativeContainer):
-        """IoC container of car providers."""
-
-        gasoline = providers.Factory(example.cars.Car,
-                                     engine=Engines.gasoline)
-
-        diesel = providers.Factory(example.cars.Car,
-                                   engine=Engines.diesel)
-
-        electric = providers.Factory(example.cars.Car,
-                                     engine=Engines.electric)
-
-
-    if __name__ == '__main__':
-        gasoline_car = Cars.gasoline()
-        diesel_car = Cars.diesel()
-        electric_car = Cars.electric()
-
-Dependency Injector structure
------------------------------
-
-*Dependency Injector* is a microframework and has a simple structure.
-
-There are two main entities: providers and containers.
-
-.. image:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/internals.png
-    :width: 100%
-    :align: center
-
-Providers
-~~~~~~~~~
-
-Providers describe strategies of accessing objects. They define how particular 
-objects are provided.
-
-- **Provider** - base provider class.
-- **Callable** - provider that calls a wrapped callable on every call. Supports 
-  positional and keyword argument injections.
-- **Factory** - provider that creates new instance of specified class on every 
-  call. Supports positional and keyword argument injections, as well as 
-  attribute injections.
-- **Singleton** - provider that creates new instance of specified class on its
-  first call and returns the same instance on every next call. Supports
-  position and keyword argument injections, as well as attribute injections.
-- **Object** - provider that returns provided instance "as is".
-- **ExternalDependency** - provider that can be useful for development of 
-  self-sufficient libraries, modules, and applications that require external
-  dependencies.
-- **Configuration** - provider that helps with implementing late static binding 
-  of configuration options - use first, define later.
-
-Containers
-~~~~~~~~~~
-
-Containers are collections of providers. The main purpose of containers is to 
-group providers.
-
-- **DeclarativeContainer** - is an inversion of control container that can be 
-  defined in a declarative manner. It covers most of the cases where a list of
-  providers that is be included in a container is deterministic 
-  (that means the container will not change its structure in runtime).
-- **DynamicContainer** - is an inversion of control container with a dynamic 
-  structure. It covers most of the cases where a  list of providers that 
-  would be included in container is non-deterministic and depends on  the
-  application's flow or its configuration (container's structure could be 
-  determined just after the application starts and might perform some initial 
-  work, like parsing a list of container providers from a configuration).
 
 Dependency Injector in action
 -----------------------------
@@ -380,16 +216,6 @@ You can find more *Dependency Injector* examples in the ``/examples`` directory
 on our GitHub:
 
     https://github.com/ets-labs/python-dependency-injector
-
-Feedback & Support
-------------------
-
-Feel free to post questions, bugs, feature requests, proposals, etc. on
-the *Dependency Injector*  GitHub issues page:
-
-    https://github.com/ets-labs/python-dependency-injector/issues
-
-Your feedback is quite important!
 
 
 .. _Dependency injection: http://en.wikipedia.org/wiki/Dependency_injection
