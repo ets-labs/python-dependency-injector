@@ -46,7 +46,7 @@ Example:
     import boto3
     from dependency_injector import containers, providers
     
-    from .example import services, main
+    from .example import services
 
 
     class Application(containers.DeclarativeContainer):
