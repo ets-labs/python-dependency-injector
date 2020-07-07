@@ -113,9 +113,7 @@ Run the application:
        auth_service = application.auth_service()
        photos_service = application.photos_service()
         
-       user = users_service.get_user_by_id(uid)
-       auth_service.authenticate(user, password)
-       photos_service.upload_photo(user['uid'], photo)
+       ...
 
 
     if __name__ == '__main__':
@@ -130,7 +128,7 @@ on our GitHub:
 How to install?
 ---------------
 
-``Dependency Injector`` is available on `PyPi`_:
+``Dependency Injector`` is available on `PyPi`_::
 
     pip install dependency-injector
 
