@@ -44,9 +44,10 @@ Why do I need it?
 
 ``Dependency Injector`` helps you **improve application structure**.
 
-With the ``Dependency Injector`` you keep your **application structure in one place**. This place is called the **container**. You manage all of the application components and their dependencies there.
+With the ``Dependency Injector`` you keep **application structure in one place**.
+This place is called the **container**. You use the container to manage **all the components** of the application. **All the component dependencies** are defined explicitly.
 
-*The container is like a map of your application.*
+*The container is like a map of your application. You always know what depends on what.*
 
 Example:
 
