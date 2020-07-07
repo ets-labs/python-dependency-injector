@@ -42,9 +42,9 @@ What is ``Dependency Injector``?
 Why do I need it?
 =================
 
-``Dependency Injector`` helps you **improve application structure**.
+The ``Dependency Injector`` helps you **improve application structure**.
 
-With ``Dependency Injector`` you keep your **application structure in one place**. This place is called **container**. In the container you see all application components and their dependencies.
+With the ``Dependency Injector`` you keep your **application structure in one place**. This place is called the **container**. In the container you see all application components and their dependencies.
 
 *The container is like a map of your application.*
 
@@ -117,8 +117,8 @@ Run the application:
     if __name__ == '__main__':
         main()
 
-You can find more *Dependency Injector* examples in the ``/examples`` directory
-on our GitHub:
+You can find more ``Dependency Injector`` examples in the ``/examples`` directory
+on the GitHub:
 
     https://github.com/ets-labs/python-dependency-injector
 
@@ -140,6 +140,13 @@ Have a question?
 
 - Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
 
+
+Want to help?
+-------------
+
+- 🆕 Start a new project with the ``Dependency Injector``
+- 💬 Tell your friend about the ``Dependency Injector``
+- ⭐️ Star the ``Dependency Injector`` on the `Github <https://github.com/ets-labs/python-dependency-injector/>`_
 
 .. _Dependency injection: http://en.wikipedia.org/wiki/Dependency_injection
 .. _Inversion of control: https://en.wikipedia.org/wiki/Inversion_of_control
