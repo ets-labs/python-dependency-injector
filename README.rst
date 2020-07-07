@@ -116,21 +116,24 @@ on our GitHub:
     https://github.com/ets-labs/python-dependency-injector
 
 
-Installation
-------------
+How to install?
+---------------
 
-The *Dependency Injector* library is available on `PyPi`_::
+``Dependency Injector`` is available on `PyPi`_:
 
     pip install dependency-injector
 
-Documentation
--------------
+Where is the docs?
+------------------
 
-Documentation is on `Read The Docs <http://python-dependency-injector.ets-labs.org/>`_
+Documentation is on the `Read The Docs <http://python-dependency-injector.ets-labs.org/>`_
+
+Have a question?
+----------------
+
+- Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
 
 
 .. _Dependency injection: http://en.wikipedia.org/wiki/Dependency_injection
 .. _Inversion of control: https://en.wikipedia.org/wiki/Inversion_of_control
 .. _PyPi: https://pypi.org/project/dependency-injector/
-.. _User's guide: http://python-dependency-injector.ets-labs.org/
-.. _API docs: http://python-dependency-injector.ets-labs.org/api/
