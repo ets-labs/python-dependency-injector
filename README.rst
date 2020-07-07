@@ -127,14 +127,14 @@ on the GitHub:
 How to install?
 ---------------
 
-``Dependency Injector`` is available on `PyPi`_::
+The ``Dependency Injector`` is available on the `PyPi`_::
 
     pip install dependency-injector
 
 Where is the docs?
 ------------------
 
-Documentation is on the `Read The Docs <http://python-dependency-injector.ets-labs.org/>`_
+The documentation is available on the `Read The Docs <http://python-dependency-injector.ets-labs.org/>`_
 
 Have a question?
 ----------------
