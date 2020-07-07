@@ -99,12 +99,10 @@ Run the application:
 
 .. code-block:: python
 
-    import sys
-
     from .application import Application
     
     
-    def main(uid, password, photo):
+    def main():
        """Run application."""
        application = Application()
        application.config.from_yaml('config.yml')
@@ -112,12 +110,12 @@ Run the application:
        users_service = application.users_service()
        auth_service = application.auth_service()
        photos_service = application.photos_service()
-        
+
        ...
 
 
     if __name__ == '__main__':
-        main(*sys.argv[1:])
+        main()
 
 You can find more *Dependency Injector* examples in the ``/examples`` directory
 on our GitHub:
