@@ -147,10 +147,8 @@ Have a question?
 Want to help?
 -------------
 
+- ⭐️ Star the ``Dependency Injector`` on the `Github <https://github.com/ets-labs/python-dependency-injector/>`_
 - 🆕 Start a new project with the ``Dependency Injector``
 - 💬 Tell your friend about the ``Dependency Injector``
-- ⭐️ Star the ``Dependency Injector`` on the `Github <https://github.com/ets-labs/python-dependency-injector/>`_
 
-.. _Dependency injection: http://en.wikipedia.org/wiki/Dependency_injection
-.. _Inversion of control: https://en.wikipedia.org/wiki/Inversion_of_control
 .. _PyPi: https://pypi.org/project/dependency-injector/
