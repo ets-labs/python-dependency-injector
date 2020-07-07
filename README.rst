@@ -49,6 +49,8 @@ This place is called the **container**. You use the container to manage **all th
 
 *The container is like a map of your application. You always know what depends on what.*
 
+.. figure:: ./di-map.svg
+
 Example:
 
 .. code-block:: python
