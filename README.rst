@@ -1,4 +1,5 @@
 .. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/logo.svg
+   :target: https://github.com/ets-labs/python-dependency-injector
 
 | 
 
