@@ -30,7 +30,7 @@
 What is ``Dependency Injector``?
 ================================
 
-``Dependency Injector`` is a Python dependency injection framework.
+``Dependency Injector`` is a dependency injection framework for Python.
 
 How does ``Dependency Injector`` help me?
 =========================================
