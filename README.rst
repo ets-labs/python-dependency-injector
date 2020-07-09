@@ -145,6 +145,10 @@ Have a question?
 
 - Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
 
+Found a bug?
+------------
+
+- Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
 
 Want to help?
 -------------
@@ -152,5 +156,12 @@ Want to help?
 - ⭐️ Star the ``Dependency Injector`` on the `Github <https://github.com/ets-labs/python-dependency-injector/>`_
 - 🆕 Start a new project with the ``Dependency Injector``
 - 💬 Tell your friend about the ``Dependency Injector``
+
+
+Want to contribute?
+-------------------
+
+- 🔀 Fork the project
+- Open a pull request to the ``develop`` branch
 
 .. _PyPi: https://pypi.org/project/dependency-injector/
