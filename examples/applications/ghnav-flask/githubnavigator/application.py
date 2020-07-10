@@ -1,7 +1,7 @@
 """Application module."""
 
 from dependency_injector import containers, providers
-from dependency_injector.ext.flask import create_app, Route
+from dependency_injector.ext import flask
 from github import Github
 
 from . import services, views
@@ -31,9 +31,9 @@ class Application(containers.DeclarativeContainer):
     )
 
     app = providers.Factory(
-        create_app,
+        flask.create_app,
         name=__name__,
         routes=[
-            Route('/', 'index', index_view, methods=['GET']),
+            flask.Route('/', view_provider=index_view),
         ],
     )
