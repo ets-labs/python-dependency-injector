@@ -10,11 +10,7 @@
 .. image:: https://img.shields.io/pypi/l/dependency_injector.svg
    :target: https://pypi.org/project/dependency-injector/
    :alt: License
-   
-.. image:: https://pepy.tech/badge/dependency-injector
-   :target: https://pepy.tech/project/dependency-injector
-   :alt: Downloads
-   
+
 .. image:: https://img.shields.io/pypi/pyversions/dependency_injector.svg
    :target: https://pypi.org/project/dependency-injector/
    :alt: Supported Python versions
@@ -22,7 +18,23 @@
 .. image:: https://img.shields.io/pypi/implementation/dependency_injector.svg
    :target: https://pypi.org/project/dependency-injector/
    :alt: Supported Python implementations
-   
+
+.. image:: https://pepy.tech/badge/dependency-injector
+   :target: https://pepy.tech/project/dependency-injector
+   :alt: Downloads
+
+.. image:: https://pepy.tech/badge/dependency-injector/month
+   :target: https://pepy.tech/project/dependency-injector
+   :alt: Downloads
+
+.. image:: https://pepy.tech/badge/dependency-injector/week
+   :target: https://pepy.tech/project/dependency-injector
+   :alt: Downloads
+
+.. image:: https://img.shields.io/pypi/wheel/dependency-injector.svg
+   :target: https://pypi.org/project/dependency-injector/
+   :alt: Wheel
+
 .. image:: https://travis-ci.org/ets-labs/python-dependency-injector.svg?branch=master
    :target: https://travis-ci.org/ets-labs/python-dependency-injector
    :alt: Build Status
