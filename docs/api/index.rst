@@ -8,3 +8,4 @@ API Documentation
     providers
     containers
     errors
+    flaskext
