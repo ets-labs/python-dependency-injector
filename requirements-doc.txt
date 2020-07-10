@@ -1,3 +1,5 @@
 sphinx
 sphinx_rtd_theme>=0.2.5b2
 -e git://github.com/rmk135/sphinxcontrib-disqus.git#egg=sphinxcontrib-disqus
+
+-r requirements-ext.txt

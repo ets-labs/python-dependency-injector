@@ -6,3 +6,5 @@ flake8
 pydocstyle
 sphinx_autobuild
 pip
+
+-r requirements-ext.txt
