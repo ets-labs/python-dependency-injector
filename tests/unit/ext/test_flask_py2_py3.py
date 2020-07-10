@@ -1,7 +1,7 @@
 """Dependency injector Flask extension unit tests."""
 
 import unittest2 as unittest
-from flask import Flask, url_for
+from flask import url_for
 from flask.views import MethodView
 
 from dependency_injector import containers, providers
@@ -42,7 +42,7 @@ class ApplicationTests(unittest.TestCase):
 
     def setUp(self) -> None:
         application = Application()
-        self.app: Flask = application.app()
+        self.app = application.app()
         self.app.config['SERVER_NAME'] = 'test-server.com'
         self.client = self.app.test_client()
         self.client.__enter__()
