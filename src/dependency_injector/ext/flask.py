@@ -1,5 +1,7 @@
 """Flask extension module."""
 
+from __future__ import absolute_import
+
 from flask import Flask
 
 from dependency_injector import providers, errors
