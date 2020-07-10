@@ -58,8 +58,7 @@ class Route:
             endpoint=None,
             view_provider=None,
             provide_automatic_options=None,
-            **options,
-    ):
+            **options):
         """Initialize route."""
         self.view_provider = view_provider
         self.args = (rule, endpoint, as_view(view_provider, endpoint), provide_automatic_options)
