@@ -57,12 +57,10 @@ Example:
 
 .. code-block:: python
 
-    import sqlite3
-
-    import boto3
     from dependency_injector import containers, providers
-    
-    from .example import services
+    from github import Github
+
+    from . import services, views, webapp
 
 
     class Application(containers.DeclarativeContainer):
@@ -70,57 +68,32 @@ Example:
 
         config = providers.Configuration()
 
-        # Gateways
-
-        database_client = providers.Singleton(sqlite3.connect, config.database.dsn)
-
-        s3_client = providers.Singleton(
-            boto3.client, 's3',
-            aws_access_key_id=config.aws.access_key_id,
-            aws_secret_access_key=config.aws.secret_access_key,
+        github_client = providers.Factory(
+            Github,
+            login_or_token=config.github.auth_token,
+            timeout=config.github.request_timeout,
         )
 
-        # Services
-
-        users_service = providers.Factory(
-            services.UsersService,
-            db=database_client,
+        search_service = providers.Factory(
+            services.SearchService,
+            github_client=github_client,
         )
 
-        auth_service = providers.Factory(
-            services.AuthService,
-            token_ttl=config.auth.token_ttl,
-            db=database_client,
+        index_view = providers.Callable(
+            views.index,
+            search_service=search_service,
+            default_search_term=config.search.default_term,
+            default_search_limit=config.search.default_limit,
         )
 
-        photos_service = providers.Factory(
-            services.PhotosService,
-            db=database_client,
-            s3=s3_client,
+        app = providers.Factory(
+            webapp.create_app,
+            name=__name__,
+            routes=[
+                webapp.Route('/', 'index', index_view, methods=['GET']),
+            ],
         )
 
-
-Run the application:
-
-.. code-block:: python
-
-    from .application import Application
-    
-    
-    def main():
-       """Run application."""
-       application = Application()
-       application.config.from_yaml('config.yml')
-       
-       users_service = application.users_service()
-       auth_service = application.auth_service()
-       photos_service = application.photos_service()
-
-       ...
-
-
-    if __name__ == '__main__':
-        main()
 
 You can find more ``Dependency Injector`` examples in the ``/examples`` directory
 on the GitHub:
