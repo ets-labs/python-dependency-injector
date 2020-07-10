@@ -135,6 +135,6 @@ Want to contribute?
 -------------------
 
 - 🔀 Fork the project
-- Open a pull request to the ``develop`` branch
+- ⬅️ Open a pull request to the ``develop`` branch
 
 .. _PyPi: https://pypi.org/project/dependency-injector/
