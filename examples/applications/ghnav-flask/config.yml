@@ -1,5 +1,4 @@
 github:
-  auth_token: ${GITHUB_TOKEN}
   request_timeout: 10
 search:
   default_term: "Dependency Injector"
