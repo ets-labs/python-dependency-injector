@@ -78,5 +78,4 @@ class Route:
             endpoint,
             view_provider,
             provide_automatic_options,
-            **self.options,
-        )
+            **self.options)
