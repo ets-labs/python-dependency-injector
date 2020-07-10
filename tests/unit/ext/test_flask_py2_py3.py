@@ -40,14 +40,14 @@ class Application(containers.DeclarativeContainer):
 
 class ApplicationTests(unittest.TestCase):
 
-    def setUp(self) -> None:
+    def setUp(self):
         application = Application()
         self.app = application.app()
         self.app.config['SERVER_NAME'] = 'test-server.com'
         self.client = self.app.test_client()
         self.client.__enter__()
 
-    def tearDown(self) -> None:
+    def tearDown(self):
         self.client.__exit__(None, None, None)
 
     def test_index(self):
