@@ -2,14 +2,14 @@
 
 from flask import request, render_template
 
-from .github import GitHubApiClient
+from .services import SearchService
 
 
-def index(github_client: GitHubApiClient, default_search_term, default_search_limit):
+def index(search_service: SearchService, default_search_term, default_search_limit):
     search_term = request.args.get('search_term', default_search_term)
-    limit = request.args.get('limit', default_search_limit)
+    limit = request.args.get('limit', default_search_limit, int)
 
-    repositories = github_client.search_repositories(search_term, limit)
+    repositories = search_service.search_repositories(search_term, limit)
 
     return render_template(
         'index.html',

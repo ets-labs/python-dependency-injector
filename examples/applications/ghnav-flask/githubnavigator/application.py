@@ -1,8 +1,9 @@
 """Application module."""
 
 from dependency_injector import containers, providers
+import github
 
-from . import github, views, webapp
+from . import services, views, webapp
 
 
 class Application(containers.DeclarativeContainer):
@@ -11,14 +12,19 @@ class Application(containers.DeclarativeContainer):
     config = providers.Configuration()
 
     github_client = providers.Factory(
-        github.GitHubApiClient,
-        auth_token=config.github.auth_token,
-        request_timeout=config.github.request_timeout,
+        github.Github,
+        login_or_token=config.github.auth_token,
+        timeout=config.github.request_timeout,
+    )
+
+    search_service = providers.Factory(
+        services.SearchService,
+        github_client=github_client,
     )
 
     index_view = providers.Callable(
         views.index,
-        github_client=github_client,
+        search_service=search_service,
         default_search_term=config.search.default_term,
         default_search_limit=config.search.default_limit,
     )

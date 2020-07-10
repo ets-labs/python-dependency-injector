@@ -16,23 +16,23 @@
 {% if repositories|length == 0 %}
 <small>No search results</small>
 {% endif %}
-{% for repository, latest_commit in repositories %} {{n}}
+{% for repository in repositories %} {{n}}
 <p>
     <small>Search result # {{ loop.index }} from {{ repositories|length }}</small>
 </p>
 <p>
-    Repository: <a href="{{ repository['html_url'] }}">{{ repository['name'] }}</a>
+    Repository: <a href="{{ repository.url }}">{{ repository.name }}</a>
 </p>
 <p>
     Repository owner:
-    <a href="{{ repository['owner']['html_url'] }}"><img src="{{ repository['owner']['avatar_url'] }}" alt="avatar" height="24" width="24"/></a>
-    <a href="{{ repository['owner']['html_url'] }}">{{ repository['owner']['login'] }}</a>
+    <a href="{{ repository.owner.url }}"><img src="{{ repository.owner.avatar_url }}" alt="avatar" height="24" width="24"/></a>
+    <a href="{{ repository.owner.url }}">{{ repository.owner.login }}</a>
 </p>
 <p>
-    Created at: {{ repository['created_at'] }}
+    Created at: {{ repository.created_at }}
 </p>
 <p>
-    LastCommit: <a href="{{ latest_commit['html_url'] }}">{{ latest_commit['sha'] }}</a> {{ latest_commit['commit']['message'] }} {{ latest_commit['commit']['author']['name'] }}
+    LastCommit: <a href="{{ repository.latest_commit.url }}">{{ repository.latest_commit.sha }}</a> {{ repository.latest_commit['message'] }} {{ repository.latest_commit.author_name }}
 </p>
 <hr/>
 {% endfor %}
