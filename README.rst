@@ -58,9 +58,10 @@ Example:
 .. code-block:: python
 
     from dependency_injector import containers, providers
+    from dependency_injector.ext import flask
     from github import Github
 
-    from . import services, views, webapp
+    from . import services, views
 
 
     class Application(containers.DeclarativeContainer):
@@ -87,19 +88,15 @@ Example:
         )
 
         app = providers.Factory(
-            webapp.create_app,
+            flask.create_app,
             name=__name__,
             routes=[
-                webapp.Route('/', 'index', index_view, methods=['GET']),
+                flask.Route('/', view_provider=index_view),
             ],
         )
 
 
-You can find more ``Dependency Injector`` examples in the ``/examples`` directory
-on the GitHub:
-
-    https://github.com/ets-labs/python-dependency-injector
-
+See complete ``Flask`` + ``Dependency Injector`` `example <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/ghnav-flask>`_
 
 How to install?
 ---------------
