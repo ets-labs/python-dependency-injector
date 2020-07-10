@@ -53,7 +53,7 @@ This place is called **the container**. You use the container to manage all the 
 
 *The container is like a map of your application. You always know what depends on what.*
 
-Example:
+``Flask`` + ``Dependency Injector`` example:
 
 .. code-block:: python
 
@@ -96,7 +96,7 @@ Example:
         )
 
 
-See complete ``Flask`` + ``Dependency Injector`` `example <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/ghnav-flask>`_
+See complete example here - `Flask + Dependency Injector Example <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/ghnav-flask>`_
 
 How to install?
 ---------------
