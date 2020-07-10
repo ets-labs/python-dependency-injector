@@ -1,4 +1,4 @@
-"""Web application module."""
+"""Flask extension module."""
 
 from flask import Flask
 
