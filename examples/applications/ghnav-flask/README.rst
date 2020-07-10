@@ -51,7 +51,7 @@ After that visit http://127.0.0.1:5000/ in your browser.
 
    .. code-block:: bash
 
-      export GITHUB_TOKEN==<your token>
+      export GITHUB_TOKEN=<your token>
 
    - Restart the app with ``flask run``
 
