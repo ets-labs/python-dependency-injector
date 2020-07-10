@@ -76,6 +76,7 @@ setup(name='dependency-injector',
           'Factory',
           'Singleton',
           'Design patterns',
+          'Flask',
       ],
       classifiers=[
           'Development Status :: 5 - Production/Stable',
