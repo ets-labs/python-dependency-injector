@@ -55,7 +55,7 @@ After that visit http://127.0.0.1:5000/ in your browser.
 
    - Restart the app with ``flask run``
 
-   `Read more on rate limit <https://developer.github.com/v3/#rate-limiting>`_
+   `Read more on Github rate limit <https://developer.github.com/v3/#rate-limiting>`_
 
 Test
 ----
