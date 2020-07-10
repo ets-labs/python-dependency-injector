@@ -1,7 +1,7 @@
 """Application module."""
 
 from dependency_injector import containers, providers
-import github
+from github import Github
 
 from . import services, views, webapp
 
@@ -12,7 +12,7 @@ class Application(containers.DeclarativeContainer):
     config = providers.Configuration()
 
     github_client = providers.Factory(
-        github.Github,
+        Github,
         login_or_token=config.github.auth_token,
         timeout=config.github.request_timeout,
     )
