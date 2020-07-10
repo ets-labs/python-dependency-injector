@@ -1,6 +1,6 @@
-======================================================================
-Dependency Injector --- Dependency injection microframework for Python
-======================================================================
+=================================================================
+Dependency Injector --- Dependency injection framework for Python
+=================================================================
 
 .. meta::
    :google-site-verification: 6it89zX0_wccKEhAqbAiYQooS95f0BA8YfesHk6bsNA
