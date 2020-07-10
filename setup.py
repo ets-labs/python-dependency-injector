@@ -41,6 +41,7 @@ setup(name='dependency-injector',
       download_url='https://pypi.python.org/pypi/dependency_injector',
       packages=[
           'dependency_injector',
+          'dependency_injector.ext',
       ],
       package_dir={
           '': 'src',
