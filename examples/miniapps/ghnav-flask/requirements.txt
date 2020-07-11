@@ -1,4 +1,4 @@
-dependency-injector
+dependency-injector[flask,yaml]
 flask
 pygithub
 pytest-flask
