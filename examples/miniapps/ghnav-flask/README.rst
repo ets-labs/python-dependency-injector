@@ -19,7 +19,6 @@ To run the application do:
 
     export FLASK_APP=githubnavigator.entrypoint
     export FLASK_ENV=development
-    export GITHUB_TOKEN=
     flask run
 
 The output should be something like:
