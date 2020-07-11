@@ -147,7 +147,7 @@ Want to contribute?
 
 .. _PyPi: https://pypi.org/project/dependency-injector/
 
-.. |star| unicode:: 0xE2AD90EFB88F .. star sign
+.. |star| unicode:: U+2B50U+FE0F .. star sign
 .. |new| unicode:: 0xF09F8695 .. new sign
 .. |tell| unicode:: 0xF09F92AC .. tell sign
 .. |fork| unicode:: 0xF09F9480 .. fork sign
