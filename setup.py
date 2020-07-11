@@ -12,7 +12,7 @@ defined_macros['CYTHON_CLINE_IN_TRACEBACK'] = 0
 
 # Getting description:
 with open('README.rst') as readme_file:
-    description = readme_file.read()
+    description = readme_file.read().encode('utf-8')
 
 # Getting requirements:
 with open('requirements.txt') as requirements_file:

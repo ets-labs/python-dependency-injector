@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.20.1
+------
+- Hotfix Windows builds.
+
 3.20.0
 ------
 - Add ``Flask`` integration module ``dependency_injector.flask.ext``.
