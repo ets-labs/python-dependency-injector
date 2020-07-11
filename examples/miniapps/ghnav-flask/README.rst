@@ -89,5 +89,3 @@ The output should be something like:
    githubnavigator/views.py             7      0   100%
    ----------------------------------------------------
    TOTAL                               73      5    93%
-
-
