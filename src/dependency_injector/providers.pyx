@@ -1406,6 +1406,11 @@ cdef class Factory(Provider):
     @property
     def cls(self):
         """Return provided type."""
+        return self.provides
+
+    @property
+    def provides(self):
+        """Return provided type."""
         return self.__instantiator.provides
 
     @property
