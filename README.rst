@@ -135,7 +135,7 @@ Found a bug?
 Want to help?
 -------------
 
-- |star| Star the ``Dependency Injector`` on the `Github <https://github.com/ets-labs/python-dependency-injector/>`_
+- |star1||star2| Star the ``Dependency Injector`` on the `Github <https://github.com/ets-labs/python-dependency-injector/>`_
 - |new| Start a new project with the ``Dependency Injector``
 - |tell| Tell your friend about the ``Dependency Injector``
 
@@ -147,7 +147,8 @@ Want to contribute?
 
 .. _PyPi: https://pypi.org/project/dependency-injector/
 
-.. |star| unicode:: U+2B50U+FE0F .. star sign
+.. |star1| unicode:: U+2B50 .. star sign1
+.. |star2| unicode:: U+FE0F .. star sign2
 .. |new| unicode:: 0xF09F8695 .. new sign
 .. |tell| unicode:: 0xF09F92AC .. tell sign
 .. |fork| unicode:: 0xF09F9480 .. fork sign
