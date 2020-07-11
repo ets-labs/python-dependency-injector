@@ -12,6 +12,7 @@ Development version
 - Add ``Flask`` integration module ``dependency_injector.flask.ext``.
 - Add ``Flask`` + ``Dependency Injector`` example ``ghnav-flask``.
 - Add ``Factory.provides`` attribute. It is an alias to the ``Factory.cls``.
+- New README.
 
 3.19.2
 ------
