@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+3.20.0
+------
 - Add ``Flask`` integration module ``dependency_injector.flask.ext``.
 - Add ``Flask`` + ``Dependency Injector`` example ``ghnav-flask``.
 - Add ``Factory.provides`` attribute. It is an alias to the ``Factory.cls``.
