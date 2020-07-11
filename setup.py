@@ -41,6 +41,7 @@ setup(name='dependency-injector',
       download_url='https://pypi.python.org/pypi/dependency_injector',
       packages=[
           'dependency_injector',
+          'dependency_injector.ext',
       ],
       package_dir={
           '': 'src',
@@ -63,6 +64,9 @@ setup(name='dependency-injector',
           'yaml': [
               'pyyaml',
           ],
+          'flask': [
+              'flask',
+          ],
       },
       zip_safe=True,
       license='BSD New',
@@ -75,6 +79,7 @@ setup(name='dependency-injector',
           'Factory',
           'Singleton',
           'Design patterns',
+          'Flask',
       ],
       classifiers=[
           'Development Status :: 5 - Production/Stable',

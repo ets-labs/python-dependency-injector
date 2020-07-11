@@ -1,6 +1,6 @@
-======================================================================
-Dependency Injector --- Dependency injection microframework for Python
-======================================================================
+=================================================================
+Dependency Injector --- Dependency injection framework for Python
+=================================================================
 
 .. meta::
    :google-site-verification: 6it89zX0_wccKEhAqbAiYQooS95f0BA8YfesHk6bsNA
@@ -22,24 +22,43 @@ Dependency Injector --- Dependency injection microframework for Python
 .. image:: https://img.shields.io/pypi/v/dependency_injector.svg
    :target: https://pypi.org/project/dependency-injector/
    :alt: Latest Version
+
 .. image:: https://img.shields.io/pypi/l/dependency_injector.svg
    :target: https://pypi.org/project/dependency-injector/
    :alt: License
-.. image:: https://pepy.tech/badge/dependency-injector
-   :target: https://pepy.tech/project/dependency-injector
-   :alt: Downloads
+
 .. image:: https://img.shields.io/pypi/pyversions/dependency_injector.svg
    :target: https://pypi.org/project/dependency-injector/
    :alt: Supported Python versions
+
 .. image:: https://img.shields.io/pypi/implementation/dependency_injector.svg
    :target: https://pypi.org/project/dependency-injector/
    :alt: Supported Python implementations
+
+.. image:: https://pepy.tech/badge/dependency-injector
+   :target: https://pepy.tech/project/dependency-injector
+   :alt: Downloads
+
+.. image:: https://pepy.tech/badge/dependency-injector/month
+   :target: https://pepy.tech/project/dependency-injector
+   :alt: Downloads
+
+.. image:: https://pepy.tech/badge/dependency-injector/week
+   :target: https://pepy.tech/project/dependency-injector
+   :alt: Downloads
+
+.. image:: https://img.shields.io/pypi/wheel/dependency-injector.svg
+   :target: https://pypi.org/project/dependency-injector/
+   :alt: Wheel
+
 .. image:: https://travis-ci.org/ets-labs/python-dependency-injector.svg?branch=master
    :target: https://travis-ci.org/ets-labs/python-dependency-injector
    :alt: Build Status
+
 .. image:: http://readthedocs.org/projects/python-dependency-injector/badge/?version=latest
    :target: http://python-dependency-injector.ets-labs.org/
    :alt: Docs Status
+
 .. image:: https://coveralls.io/repos/github/ets-labs/python-dependency-injector/badge.svg?branch=master
    :target: https://coveralls.io/github/ets-labs/python-dependency-injector?branch=master
    :alt: Coverage Status
