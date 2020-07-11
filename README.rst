@@ -135,15 +135,20 @@ Found a bug?
 Want to help?
 -------------
 
-- ⭐️ Star the ``Dependency Injector`` on the `Github <https://github.com/ets-labs/python-dependency-injector/>`_
-- 🆕 Start a new project with the ``Dependency Injector``
-- 💬 Tell your friend about the ``Dependency Injector``
-
+- |star| Star the ``Dependency Injector`` on the `Github <https://github.com/ets-labs/python-dependency-injector/>`_
+- |new| Start a new project with the ``Dependency Injector``
+- |tell| Tell your friend about the ``Dependency Injector``
 
 Want to contribute?
 -------------------
 
-- 🔀 Fork the project
-- ⬅️ Open a pull request to the ``develop`` branch
+- |fork| Fork the project
+- |pull| Open a pull request to the ``develop`` branch
 
 .. _PyPi: https://pypi.org/project/dependency-injector/
+
+.. |star| unicode:: 0xE2AD90EFB88F .. star sign
+.. |new| unicode:: 0xF09F8695 .. new sign
+.. |tell| unicode:: 0xF09F92AC .. tell sign
+.. |fork| unicode:: 0xF09F9480 .. fork sign
+.. |pull| unicode:: 0xE2AC85EFB88F .. pull sign
