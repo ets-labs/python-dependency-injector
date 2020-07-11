@@ -64,6 +64,9 @@ setup(name='dependency-injector',
           'yaml': [
               'pyyaml',
           ],
+          'flask': [
+              'flask',
+          ],
       },
       zip_safe=True,
       license='BSD New',
