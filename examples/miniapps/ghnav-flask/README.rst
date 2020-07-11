@@ -76,7 +76,7 @@ The output should be something like:
    plugins: flask-1.0.0, cov-2.10.0, asyncio-0.14.0
    collected 2 items
 
-   githubnavigator/tests.py ..                                                                                                                                                                              [100%]
+   githubnavigator/tests.py ..                                     [100%]
 
    ---------- coverage: platform darwin, python 3.8.3-final-0 -----------
    Name                             Stmts   Miss  Cover
