@@ -143,13 +143,14 @@ Want to contribute?
 -------------------
 
 - |fork| Fork the project
-- |pull| Open a pull request to the ``develop`` branch
+- |pull1| |pull2| Open a pull request to the ``develop`` branch
 
 .. _PyPi: https://pypi.org/project/dependency-injector/
 
 .. |star1| unicode:: U+2B50 .. star sign1
 .. |star2| unicode:: U+FE0F .. star sign2
-.. |new| unicode:: 0xF09F8695 .. new sign
-.. |tell| unicode:: 0xF09F92AC .. tell sign
-.. |fork| unicode:: 0xF09F9480 .. fork sign
-.. |pull| unicode:: 0xE2AC85EFB88F .. pull sign
+.. |new| unicode:: U+1F195 .. new sign
+.. |tell| unicode:: U+1F4AC .. tell sign
+.. |fork| unicode:: U+1F500 .. fork sign
+.. |pull1| unicode:: U+2B05 .. pull sign
+.. |pull2| unicode:: U+FE0F .. pull sign
