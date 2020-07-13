@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Make cosmetic fixes for ``Selector`` provider docs.
+
 3.20.1
 ------
 - Hotfix Windows builds.

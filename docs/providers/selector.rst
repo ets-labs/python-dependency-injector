@@ -15,7 +15,7 @@ Selector providers
 
 The ``selector`` callable is provided as a first positional argument. It can be
 :py:class:`Configuration` provider or any other callable. It has to return a string value.
-That value is used as a key for selecting the provider from the dictionary of providers.
+This value is used as a key for selecting the provider from the dictionary of providers.
 
 The providers are provided as keyword arguments. Argument name is used as a key for
 selecting the provider.
