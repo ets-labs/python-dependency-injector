@@ -7,7 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-3.21.0
+3.21.2
+------
+- Hotfix changelog typo.
+
+3.21.1
 ------
 - Hotfix ``ghnav-flask`` example to read Github token from environment variable.
 
