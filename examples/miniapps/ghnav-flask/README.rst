@@ -7,6 +7,13 @@ Application ``githubnavigator`` is a `Flask <https://flask.palletsprojects.com/>
 Run
 ---
 
+Create virtual environment:
+
+.. code-block:: bash
+
+   virtualenv venv
+   . venv/bin/activate
+
 Install requirements:
 
 .. code-block:: bash
@@ -17,7 +24,7 @@ To run the application do:
 
 .. code-block:: bash
 
-    export FLASK_APP=githubnavigator.entrypoint
+    export FLASK_APP=githubnavigator.application
     export FLASK_ENV=development
     flask run
 
@@ -25,7 +32,7 @@ The output should be something like:
 
 .. code-block::
 
-    * Serving Flask app "githubnavigator.entrypoint" (lazy loading)
+    * Serving Flask app "githubnavigator.application" (lazy loading)
     * Environment: development
     * Debug mode: on
     * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
@@ -81,10 +88,10 @@ The output should be something like:
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
    githubnavigator/__init__.py          0      0   100%
-   githubnavigator/application.py      10      0   100%
-   githubnavigator/entrypoint.py        5      5     0%
-   githubnavigator/services.py         13      0   100%
-   githubnavigator/tests.py            38      0   100%
+   githubnavigator/application.py       8      0   100%
+   githubnavigator/containers.py       11      0   100%
+   githubnavigator/services.py         14      0   100%
+   githubnavigator/tests.py            33      0   100%
    githubnavigator/views.py             7      0   100%
    ----------------------------------------------------
-   TOTAL                               73      5    93%
+   TOTAL                               73      0   100%

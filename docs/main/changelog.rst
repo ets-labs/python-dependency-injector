@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Re-design ``Flask`` integration.
 - Make cosmetic fixes for ``Selector`` provider docs.
 
 3.20.1

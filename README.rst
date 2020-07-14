@@ -65,19 +65,22 @@ This place is called **the container**. You use the container to manage all the 
 
 *The container is like a map of your application. You always know what depends on what.*
 
-``Flask`` + ``Dependency Injector`` example:
+``Flask`` + ``Dependency Injector`` example application container:
 
 .. code-block:: python
 
     from dependency_injector import containers, providers
     from dependency_injector.ext import flask
+    from flask import Flask
     from github import Github
 
-    from . import services, views
+    from . import views, services
 
 
-    class Application(containers.DeclarativeContainer):
+    class ApplicationContainer(containers.DeclarativeContainer):
         """Application container."""
+
+        app = flask.Application(Flask, __name__)
 
         config = providers.Configuration()
 
@@ -92,21 +95,59 @@ This place is called **the container**. You use the container to manage all the 
             github_client=github_client,
         )
 
-        index_view = providers.Callable(
+        index_view = flask.View(
             views.index,
             search_service=search_service,
             default_search_term=config.search.default_term,
             default_search_limit=config.search.default_limit,
         )
 
-        app = providers.Factory(
-            flask.create_app,
-            name=__name__,
-            routes=[
-                flask.Route('/', view_provider=index_view),
-            ],
-        )
+Running such container looks like this:
 
+.. code-block:: python
+
+    from .containers import ApplicationContainer
+
+
+    def create_app():
+        """Create and return Flask application."""
+        container = ApplicationContainer()
+        container.config.from_yaml('config.yml')
+
+        app = container.app()
+        app.container = container
+
+        app.add_url_rule('/', view_func=container.index_view.as_view())
+
+        return app
+
+And testing looks like:
+
+.. code-block:: python
+
+    from unittest import mock
+
+    import pytest
+    from github import Github
+    from flask import url_for
+
+    from .application import create_app
+
+
+    @pytest.fixture
+    def app():
+        return create_app()
+
+
+    def test_index(client, app):
+        github_client_mock = mock.Mock(spec=Github)
+        # Configure mock
+
+        with app.container.github_client.override(github_client_mock):
+            response = client.get(url_for('index'))
+
+        assert response.status_code == 200
+        # Do more asserts
 
 See complete example here - `Flask + Dependency Injector Example <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/ghnav-flask>`_
 

@@ -1,7 +1,7 @@
 """Dependency injector Flask extension unit tests."""
 
 import unittest2 as unittest
-from flask import url_for
+from flask import Flask, url_for
 from flask.views import MethodView
 
 from dependency_injector import containers, providers
@@ -21,28 +21,29 @@ class Test(MethodView):
         return 'Test class-based!'
 
 
-class Application(containers.DeclarativeContainer):
+class ApplicationContainer(containers.DeclarativeContainer):
 
-    index_view = providers.Callable(index)
-    test_view = providers.Callable(test)
-    test_class_view = providers.Factory(Test)
+    app = flask.Application(Flask, __name__)
 
-    app = providers.Factory(
-        flask.create_app,
-        name=__name__,
-        routes=[
-            flask.Route('/', view_provider=index_view),
-            flask.Route('/test', 'test-test', test_view),
-            flask.Route('/test-class', 'test-class', test_class_view)
-        ],
-    )
+    index_view = flask.View(index)
+    test_view = flask.View(test)
+    test_class_view = flask.ClassBasedView(Test)
+
+
+def create_app():
+    container = ApplicationContainer()
+    app = container.app()
+    app.container = container
+    app.add_url_rule('/', view_func=container.index_view.as_view())
+    app.add_url_rule('/test', 'test-test', view_func=container.test_view.as_view())
+    app.add_url_rule('/test-class', view_func=container.test_class_view.as_view('test-class'))
+    return app
 
 
 class ApplicationTests(unittest.TestCase):
 
     def setUp(self):
-        application = Application()
-        self.app = application.app()
+        self.app = create_app()
         self.app.config['SERVER_NAME'] = 'test-server.com'
         self.client = self.app.test_client()
         self.client.__enter__()
