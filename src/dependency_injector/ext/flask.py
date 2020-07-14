@@ -2,17 +2,36 @@
 
 from __future__ import absolute_import
 
-from flask import Flask
+from flask import request as flask_request
 
 from dependency_injector import providers, errors
 
 
-def create_app(name, routes, **kwargs):
-    """Create Flask app and add routes."""
-    app = Flask(name, **kwargs)
-    for route in routes:
-        app.add_url_rule(*route.args, **route.options)
-    return app
+request = providers.Object(flask_request)
+
+
+class Application(providers.Singleton):
+    """Flask application provider."""
+
+
+class Extension(providers.Singleton):
+    """Flask extension provider."""
+
+
+class View(providers.Callable):
+    """Flask view provider."""
+
+    def as_view(self):
+        """Return Flask view function."""
+        return as_view(self)
+
+
+class ClassBasedView(providers.Factory):
+    """Flask class-based view provider."""
+
+    def as_view(self, name):
+        """Return Flask view function."""
+        return as_view(self, name)
 
 
 def as_view(provider, name=None):
@@ -49,35 +68,3 @@ def as_view(provider, name=None):
         view.provide_automatic_options = provider.provides.provide_automatic_options
 
     return view
-
-
-class Route:
-    """Route is a glue for Dependency Injector providers and Flask views."""
-
-    def __init__(
-            self,
-            rule,
-            endpoint=None,
-            view_provider=None,
-            provide_automatic_options=None,
-            **options):
-        """Initialize route."""
-        self.view_provider = view_provider
-        self.args = (rule, endpoint, as_view(view_provider, endpoint), provide_automatic_options)
-        self.options = options
-
-    def __deepcopy__(self, memo):
-        """Create and return full copy of provider."""
-        copied = memo.get(id(self))
-        if copied is not None:
-            return copied
-
-        rule, endpoint, _, provide_automatic_options = self.args
-        view_provider = providers.deepcopy(self.view_provider, memo)
-
-        return self.__class__(
-            rule,
-            endpoint,
-            view_provider,
-            provide_automatic_options,
-            **self.options)

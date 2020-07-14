@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.21.0
+------
+- Re-design ``Flask`` integration.
+- Make cosmetic fixes for ``Selector`` provider docs.
+
 3.20.1
 ------
 - Hotfix Windows builds.

@@ -6,33 +6,15 @@ import pytest
 from github import Github
 from flask import url_for
 
-from .application import Application
+from .application import create_app
 
 
 @pytest.fixture
-def application():
-    application = Application()
-    application.config.from_dict(
-        {
-            'github': {
-                'auth_token': 'test-token',
-                'request_timeout': 10,
-            },
-            'search': {
-                'default_term': 'Dependency Injector',
-                'default_limit': 5,
-            },
-        }
-    )
-    return application
+def app():
+    return create_app()
 
 
-@pytest.fixture()
-def app(application: Application):
-    return application.app()
-
-
-def test_index(client, application: Application):
+def test_index(client, app):
     github_client_mock = mock.Mock(spec=Github)
     github_client_mock.search_repositories.return_value = [
         mock.Mock(
@@ -59,7 +41,7 @@ def test_index(client, application: Application):
         ),
     ]
 
-    with application.github_client.override(github_client_mock):
+    with app.container.github_client.override(github_client_mock):
         response = client.get(url_for('index'))
 
     assert response.status_code == 200
@@ -79,11 +61,11 @@ def test_index(client, application: Application):
     assert b'repo2-created-at' in response.data
 
 
-def test_index_no_results(client, application: Application):
+def test_index_no_results(client, app):
     github_client_mock = mock.Mock(spec=Github)
     github_client_mock.search_repositories.return_value = []
 
-    with application.github_client.override(github_client_mock):
+    with app.container.github_client.override(github_client_mock):
         response = client.get(url_for('index'))
 
     assert response.status_code == 200

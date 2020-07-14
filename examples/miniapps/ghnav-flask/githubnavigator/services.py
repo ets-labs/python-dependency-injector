@@ -20,6 +20,7 @@ class SearchService:
         ]
 
     def _format_repo(self, repository: Repository):
+        commits = repository.get_commits()
         return {
             'url': repository.html_url,
             'name': repository.name,
@@ -29,7 +30,7 @@ class SearchService:
                 'avatar_url': repository.owner.avatar_url,
             },
             'created_at': repository.created_at,
-            'latest_commit': self._format_commit(repository.get_commits()[0]),
+            'latest_commit': self._format_commit(commits[0]) if commits else {},
         }
 
     def _format_commit(self, commit: Commit):
