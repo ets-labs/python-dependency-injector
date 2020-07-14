@@ -113,6 +113,7 @@ Running such container looks like this:
         """Create and return Flask application."""
         container = ApplicationContainer()
         container.config.from_yaml('config.yml')
+        container.config.github.auth_token.from_env('GITHUB_TOKEN')
 
         app = container.app()
         app.container = container
