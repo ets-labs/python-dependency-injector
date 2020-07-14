@@ -9,6 +9,10 @@ follows `Semantic versioning`_
 
 3.21.0
 ------
+- Hotfix ``ghnav-flask`` example to read Github token from environment variable.
+
+3.21.0
+------
 - Re-design ``Flask`` integration.
 - Make cosmetic fixes for ``Selector`` provider docs.
 
