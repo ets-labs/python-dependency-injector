@@ -25,7 +25,6 @@ def test_index(client, app):
                 html_url='owner1-url',
                 avatar_url='owner1-avatar-url',
             ),
-            created_at='repo1-created-at',
             get_commits=mock.Mock(return_value=[mock.Mock()]),
         ),
         mock.Mock(
@@ -36,7 +35,6 @@ def test_index(client, app):
                 html_url='owner2-url',
                 avatar_url='owner2-avatar-url',
             ),
-            created_at='repo2-created-at',
             get_commits=mock.Mock(return_value=[mock.Mock()]),
         ),
     ]
@@ -51,14 +49,12 @@ def test_index(client, app):
     assert b'owner1-login' in response.data
     assert b'owner1-url' in response.data
     assert b'owner1-avatar-url' in response.data
-    assert b'repo1-created-at' in response.data
 
     assert b'repo2-url' in response.data
     assert b'repo2-name' in response.data
     assert b'owner2-login' in response.data
     assert b'owner2-url' in response.data
     assert b'owner2-avatar-url' in response.data
-    assert b'repo2-created-at' in response.data
 
 
 def test_index_no_results(client, app):

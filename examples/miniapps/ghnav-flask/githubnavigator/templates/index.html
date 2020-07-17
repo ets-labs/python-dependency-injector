@@ -1,40 +1,55 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Github Navigator</title>
-</head>
-<body>
-<h1>Github Navigator</h1>
-<form method="get">
+{% extends "base.html" %}
+
+{% block title %}Github Navigator{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Github Navigator</h1>
+
+    <form>
+      <div class="form-group form-row">
+          <label for="mySearch" class="col-form-label">Search for:</label>
+          <div class="col-10">
+              <input class="form-control" type="text" id="mySearch"
+                     placeholder="Type something to search on GitHub"
+                     name="search_term"
+                     value="{{ search_term if search_term }}">
+          </div>
+      </div>
+    </form>
+
+    {% if repositories|length == 0 %}
+    <small>No search results</small>
+    {% endif %}
+
     <p>
-        Search term: <input type="text" name="search_term" value="{{ search_term if search_term }}">
-        Limit: <input type="text" name="limit" value="{{ limit }}">
-        <input type="submit">
+        <small>Results found: {{ repositories|length }}</small>
     </p>
-</form>
-<h2>Search results</h2>
-{% if repositories|length == 0 %}
-<small>No search results</small>
-{% endif %}
-{% for repository in repositories %} {{n}}
-<p>
-    <small>Search result # {{ loop.index }} from {{ repositories|length }}</small>
-</p>
-<p>
-    Repository: <a href="{{ repository.url }}">{{ repository.name }}</a>
-</p>
-<p>
-    Repository owner:
-    <a href="{{ repository.owner.url }}"><img src="{{ repository.owner.avatar_url }}" alt="avatar" height="24" width="24"/></a>
-    <a href="{{ repository.owner.url }}">{{ repository.owner.login }}</a>
-</p>
-<p>
-    Created at: {{ repository.created_at }}
-</p>
-<p>
-    LastCommit: <a href="{{ repository.latest_commit.url }}">{{ repository.latest_commit.sha }}</a> {{ repository.latest_commit['message'] }} {{ repository.latest_commit.author_name }}
-</p>
-<hr/>
-{% endfor %}
-</body>
-</html>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Repository</th>
+                <th class="text-nowrap">Repository owner</th>
+<!--                <th class="text-nowrap">Created at</th>-->
+                <th class="text-nowrap">Last commit</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for repository in repositories %} {{n}}
+            <tr>
+              <th>{{ loop.index }}</th>
+              <td><a href="{{ repository.url }}">{{ repository.name }}</a></td>
+              <td><a href="{{ repository.owner.url }}"><img src="{{ repository.owner.avatar_url }}" alt="avatar" height="24" width="24"/></a>
+                  <a href="{{ repository.owner.url }}">{{ repository.owner.login }}</a>
+              </td>
+              <td><a href="{{ repository.latest_commit.url }}">{{ repository.latest_commit.sha }}</a> {{ repository.latest_commit['message'] }} {{ repository.latest_commit.author_name }}</td>
+            </tr>
+    {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

@@ -3,6 +3,7 @@
 from dependency_injector import containers, providers
 from dependency_injector.ext import flask
 from flask import Flask
+from flask_bootstrap import Bootstrap
 from github import Github
 
 from . import views, services
@@ -12,6 +13,8 @@ class ApplicationContainer(containers.DeclarativeContainer):
     """Application container."""
 
     app = flask.Application(Flask, __name__)
+
+    bootstrap = flask.Extension(Bootstrap)
 
     config = providers.Configuration()
 
