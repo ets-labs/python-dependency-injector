@@ -72,6 +72,7 @@ This place is called **the container**. You use the container to manage all the 
     from dependency_injector import containers, providers
     from dependency_injector.ext import flask
     from flask import Flask
+    from flask_bootstrap import Bootstrap
     from github import Github
 
     from . import views, services
@@ -81,6 +82,8 @@ This place is called **the container**. You use the container to manage all the 
         """Application container."""
 
         app = flask.Application(Flask, __name__)
+
+        bootstrap = flask.Extension(Bootstrap)
 
         config = providers.Configuration()
 
@@ -117,6 +120,9 @@ Running such container looks like this:
 
         app = container.app()
         app.container = container
+
+        bootstrap = container.bootstrap()
+        bootstrap.init_app(app)
 
         app.add_url_rule('/', view_func=container.index_view.as_view())
 
