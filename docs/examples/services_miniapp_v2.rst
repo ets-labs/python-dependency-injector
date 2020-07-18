@@ -47,13 +47,11 @@ Listing of ``example/services.py``:
 
 .. literalinclude:: ../../examples/miniapps/services_v2/example/services.py
    :language: python
-   :linenos:
 
 Listing of ``example/main.py``:
 
 .. literalinclude:: ../../examples/miniapps/services_v2/example/main.py
    :language: python
-   :linenos:
 
 IoC container
 ~~~~~~~~~~~~~
@@ -62,7 +60,6 @@ Listing of ``container.py``:
 
 .. literalinclude:: ../../examples/miniapps/services_v2/container.py
    :language: python
-   :linenos:
 
 Run application
 ~~~~~~~~~~~~~~~
@@ -71,7 +68,6 @@ Listing of ``run.py``:
 
 .. literalinclude:: ../../examples/miniapps/services_v2/run.py
    :language: python
-   :linenos:
 
 
 .. disqus::

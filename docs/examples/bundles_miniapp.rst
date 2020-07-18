@@ -37,7 +37,6 @@ Listing of ``bundles/users/__init__.py``:
 
 .. literalinclude:: ../../examples/miniapps/bundles/bundles/users/__init__.py
    :language: python
-   :linenos:
 
 .. note::
 
@@ -47,7 +46,6 @@ Listing of ``bundles/photos/__init__.py``:
 
 .. literalinclude:: ../../examples/miniapps/bundles/bundles/photos/__init__.py
    :language: python
-   :linenos:
 
 .. note::
 
@@ -65,7 +63,6 @@ Listing of ``run.py``:
 
 .. literalinclude:: ../../examples/miniapps/bundles/run.py
    :language: python
-   :linenos:
 
 Links
 ~~~~~
