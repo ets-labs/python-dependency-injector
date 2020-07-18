@@ -83,14 +83,12 @@ Let's go through the code of ``example.py``:
 
 .. literalinclude:: ../../examples/di_demo/example.py
    :language: python
-   :linenos:
 
-At some point, things defined above mean, that the code from ``example.py``, 
+At some point, things defined above mean, that the code from ``example.py``,
 could look different, like in ``example_di.py``:
 
 .. literalinclude:: ../../examples/di_demo/example_di.py
    :language: python
-   :linenos:
 
 Best explanation, ever
 ~~~~~~~~~~~~~~~~~~~~~~

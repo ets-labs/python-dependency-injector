@@ -103,21 +103,18 @@ Listing of ``example.engines`` module:
 
 .. literalinclude:: ../../examples/miniapps/engines_cars/example/engines.py
    :language: python
-   :linenos:
 
 Listing of ``example.cars`` module:
 
 .. literalinclude:: ../../examples/miniapps/engines_cars/example/cars.py
    :language: python
-   :linenos:
 
 Next example demonstrates creation of several cars with different engines:
 
 .. literalinclude:: ../../examples/miniapps/engines_cars/example_di.py
    :language: python
-   :linenos:
 
-While previous example demonstrates advantages of dependency injection, there 
+While previous example demonstrates advantages of dependency injection, there
 is a disadvantage demonstration as well - creation of car requires additional 
 code for specification of dependencies. Nevertheless, this disadvantage could 
 be easily avoided by using a dependency injection framework for creation of 
@@ -128,7 +125,6 @@ using :doc:`Dependency Injector <../index>`:
 
 .. literalinclude:: ../../examples/miniapps/engines_cars/example_ioc_containers.py
    :language: python
-   :linenos:
 
 Useful links
 ~~~~~~~~~~~~

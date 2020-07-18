@@ -70,7 +70,6 @@ Listing of ``movies/__init__.py``:
 
 .. literalinclude:: ../../examples/miniapps/movie_lister/movies/__init__.py
    :language: python
-   :linenos:
 
 Example application
 ~~~~~~~~~~~~~~~~~~~
@@ -88,13 +87,11 @@ Listing of ``examples/main.py``:
 
 .. literalinclude:: ../../examples/miniapps/movie_lister/example/main.py
    :language: python
-   :linenos:
 
 Listing of ``examples/db.py``:
 
 .. literalinclude:: ../../examples/miniapps/movie_lister/example/db.py
    :language: python
-   :linenos:
 
 Csv application
 ~~~~~~~~~~~~~~~
@@ -103,7 +100,6 @@ Listing of ``app_csv.py``:
 
 .. literalinclude:: ../../examples/miniapps/movie_lister/app_csv.py
    :language: python
-   :linenos:
 
 Database application
 ~~~~~~~~~~~~~~~~~~~~
@@ -112,7 +108,6 @@ Listing of ``app_db.py``:
 
 .. literalinclude:: ../../examples/miniapps/movie_lister/app_db.py
    :language: python
-   :linenos:
 
 Csv and database application
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -121,7 +116,6 @@ Listing of ``app_db_csv.py``:
 
 .. literalinclude:: ../../examples/miniapps/movie_lister/app_db_csv.py
    :language: python
-   :linenos:
 
 
 .. disqus::

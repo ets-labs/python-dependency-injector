@@ -18,13 +18,11 @@ method:
 
 .. literalinclude:: ../../examples/containers/override_declarative.py
    :language: python
-   :linenos:
 
 Example of overriding container using :py:func:`override` decorator:
 
 .. literalinclude:: ../../examples/containers/override_declarative_decorator.py
    :language: python
-   :linenos:
 
 Also there are several useful :py:class:`DeclarativeContainer` methods and 
 properties that help to work with container overridings:

@@ -1,5 +1,5 @@
-Key features of Dependency Injector
------------------------------------
+Key features
+------------
 
 .. meta::
    :keywords: Python,DI,Dependency injection,IoC,Inversion of Control
@@ -7,13 +7,16 @@ Key features of Dependency Injector
                  framework. It also provides some cases and recommendations 
                  about usage of "Dependency Injector" framework.
 
-*Dependency Injector* is a dependency injection framework for Python projects. 
-It was designed to be unified, developer-friendly tool for managing any kind
-of Python objects and their dependencies in formal, pretty way.
 
-*Dependency Injector* framework key features are:
+``Dependency Injector`` is a dependency injection framework for Python.
+It was designed to be a unified and developer-friendly tool that helps
+implement a dependency injection design pattern in a formal, pretty, and
+Pythonic way.
 
-+ Easy, smart, and pythonic style.
+The key features of the ``Dependency Injector`` framework are:
+
++ Easy, smart, and Pythonic style.
++ Does NOT pollute client code.
 + Obvious and clear structure.
 + Extensibility and flexibility.
 + High performance.
@@ -21,29 +24,28 @@ of Python objects and their dependencies in formal, pretty way.
 + Thread safety.
 + Documented.
 + Semantically versioned.
++ Distributed as pre-compiled wheels.
 
-*Dependency Injector* framework could be used in different application types:
+``Dependency Injector`` containers and providers are implemented as C extension
+types using ``Cython``.
 
-+ Web applications based on Flask, Django or any other web framework.
-+ Asynchronous applications based on asyncio, Tornado and Twisted.
+``Dependency Injector`` framework can be used in the different application types:
+
++ Web applications based on the ``Flask``, ``Django`` or any other web framework.
++ Asynchronous applications ``asyncio``, ``aiohttp``, ``Tornado``, or ``Twisted``.
 + Standalone frameworks and libraries.
 + GUI applications.
 
-*Dependency Injector* framework could be integrated on different project 
+``Dependency Injector`` framework can be integrated on the different project
 stages:
 
-+ It could be used in the beginning of development of new applications.
-+ It could be integrated into applications that are in active development 
-  stage.
-+ It could be used for refactoring of legacy applications.
++ It can be used in the beginning of the development of a new application.
++ It can be integrated into application that is on its active development stage.
++ It can be used for refactoring of legacy application.
 
-Components of *Dependency Injector* framework could be used:
+Components of ``Dependency Injector`` framework could be used:
 
 + In composition with each other.
-+ Separately between each other.
-
-Main idea of *Dependency Injector* framework is to be useful tool for the 
-right thing.
-
++ Independently from each other.
 
 .. disqus::

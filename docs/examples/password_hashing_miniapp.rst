@@ -14,6 +14,5 @@ Listing of ``example.py``:
 
 .. literalinclude:: ../../examples/miniapps/password_hashing/example.py
    :language: python
-   :linenos:
 
 .. disqus::

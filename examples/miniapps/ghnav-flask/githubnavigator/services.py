@@ -29,7 +29,6 @@ class SearchService:
                 'url': repository.owner.html_url,
                 'avatar_url': repository.owner.avatar_url,
             },
-            'created_at': repository.created_at,
             'latest_commit': self._format_commit(commits[0]) if commits else {},
         }
 

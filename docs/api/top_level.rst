@@ -1,5 +1,5 @@
-``dependency_injector``
------------------------
+dependency_injector
+===================
 
 .. automodule:: dependency_injector
    :members: __version__

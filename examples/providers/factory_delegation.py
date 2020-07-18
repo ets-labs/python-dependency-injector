@@ -26,27 +26,36 @@ class User:
 
 # Defining User and Photo factories using DelegatedFactory provider:
 photos_factory = providers.DelegatedFactory(Photo)
-users_factory = providers.DelegatedFactory(User,
-                                           photos_factory=photos_factory)
+users_factory = providers.DelegatedFactory(
+    User,
+    photos_factory=photos_factory,
+)
 
 # or using Delegate(Factory(...))
 
 photos_factory = providers.Factory(Photo)
-users_factory = providers.Factory(User,
-                                  photos_factory=providers.Delegate(
-                                      photos_factory))
+users_factory = providers.Factory(
+    User,
+    photos_factory=providers.Delegate(photos_factory),
+)
 
 
 # or using Factory(...).delegate()
 
 photos_factory = providers.Factory(Photo)
-users_factory = providers.Factory(User,
-                                  photos_factory=photos_factory.delegate())
+users_factory = providers.Factory(
+    User,
+    photos_factory=photos_factory.delegate(),
+)
 
 
 # Creating several User objects:
-user1 = users_factory()  # Same as: user1 = User(photos_factory=photos_factory)
-user2 = users_factory()  # Same as: user2 = User(photos_factory=photos_factory)
+user1 = users_factory()
+user2 = users_factory()
+
+# Same as:
+# user1 = User(photos_factory=photos_factory)
+# user2 = User(photos_factory=photos_factory)
 
 # Making some asserts:
 assert isinstance(user1.main_photo, Photo)
@@ -55,13 +64,18 @@ assert isinstance(user2.main_photo, Photo)
 # or using Factory(...).provider
 
 photos_factory = providers.Factory(Photo)
-users_factory = providers.Factory(User,
-                                  photos_factory=photos_factory.provider)
-
+users_factory = providers.Factory(
+    User,
+    photos_factory=photos_factory.provider,
+)
 
 # Creating several User objects:
-user1 = users_factory()  # Same as: user1 = User(photos_factory=photos_factory)
-user2 = users_factory()  # Same as: user2 = User(photos_factory=photos_factory)
+user1 = users_factory()
+user2 = users_factory()
+
+# Same as:
+# user1 = User(photos_factory=photos_factory)
+# user2 = User(photos_factory=photos_factory)
 
 # Making some asserts:
 assert isinstance(user1.main_photo, Photo)

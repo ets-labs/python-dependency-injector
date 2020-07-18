@@ -29,7 +29,6 @@ Listing of ``use_cases/containers.py``:
 
 .. literalinclude:: ../../examples/miniapps/use_cases/containers.py
    :language: python
-   :linenos:
 
 Run application
 ~~~~~~~~~~~~~~~
@@ -38,7 +37,6 @@ Listing of ``run.py``:
 
 .. literalinclude:: ../../examples/miniapps/use_cases/run.py
    :language: python
-   :linenos:
 
 Instructions for running:
 

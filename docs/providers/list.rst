@@ -9,7 +9,6 @@ List providers
    :language: python
    :emphasize-lines: 6-9
    :lines: 6-8, 23-29
-   :linenos:
 
 :py:class:`List` provider is needed for injecting a list of dependencies. It handles
 positional argument injections the same way as :py:class:`Factory` provider:
@@ -27,7 +26,6 @@ Full example:
    :language: python
    :emphasize-lines: 23-26
    :lines: 3-
-   :linenos:
 
 .. note::
 
