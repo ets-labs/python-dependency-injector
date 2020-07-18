@@ -1,7 +1,7 @@
 Tutorials
 =========
 
-This section contains tutorials that show how to implement dependency injection in popular Python
+This section contains tutorials that show how to apply dependency injection for popular Python
 frameworks.
 
 ..  toctree::
