@@ -30,7 +30,6 @@ injections:
 
 .. literalinclude:: ../../examples/providers/callable_args.py
    :language: python
-   :linenos:
 
 Next one example shows usage of :py:class:`Callable` with keyword argument 
 injections:
@@ -41,7 +40,6 @@ injections:
 
 .. literalinclude:: ../../examples/providers/callable_kwargs.py
    :language: python
-   :linenos:
 
 .. _callable_providers_delegation:
 

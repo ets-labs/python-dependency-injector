@@ -10,14 +10,12 @@ Listing of ``data.py``, demonstrates sample classes structure:
 
 .. literalinclude:: ../../examples/miniapps/factory_patterns/data.py
    :language: python
-   :linenos:
 
 Listing of ``chained_factories.py``, demonstrates "Chained Factories"
 pattern and provide some explanation:
 
 .. literalinclude:: ../../examples/miniapps/factory_patterns/chained_factories.py
    :language: python
-   :linenos:
 
 
 .. disqus::

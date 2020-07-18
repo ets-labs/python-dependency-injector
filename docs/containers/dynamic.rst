@@ -17,14 +17,12 @@ Here is an simple example of defining dynamic container with several factories:
 
 .. literalinclude:: ../../examples/containers/dynamic.py
    :language: python
-   :linenos:
 
 Next example demonstrates creation of dynamic container based on some 
 configuration:
 
 .. literalinclude:: ../../examples/containers/dynamic_runtime_creation.py
    :language: python
-   :linenos:
 
 
 .. disqus::

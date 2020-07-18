@@ -55,10 +55,12 @@ What is ``Dependency Injector``?
 Why do I need it?
 =================
 
-``Dependency Injector`` helps you improve application structure.
+``Dependency Injector`` helps you understand and change the structure of the application.
 
 With the ``Dependency Injector`` you keep **application structure in one place**.
-This place is called **the container**. You use the container to manage all the components of the application. All the component dependencies are defined explicitly. This provides the control on the application structure. It is **easy to understand and change** it.
+This place is called **the container**. You use the container to manage all the components of the
+application. All the component dependencies are defined explicitly. This provides the control on
+the application structure. It is **easy to understand and change** it.
 
 .. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/di-map.svg
    :target: https://github.com/ets-labs/python-dependency-injector
@@ -72,6 +74,7 @@ This place is called **the container**. You use the container to manage all the 
     from dependency_injector import containers, providers
     from dependency_injector.ext import flask
     from flask import Flask
+    from flask_bootstrap import Bootstrap
     from github import Github
 
     from . import views, services
@@ -81,6 +84,8 @@ This place is called **the container**. You use the container to manage all the 
         """Application container."""
 
         app = flask.Application(Flask, __name__)
+
+        bootstrap = flask.Extension(Bootstrap)
 
         config = providers.Configuration()
 
@@ -117,6 +122,9 @@ Running such container looks like this:
 
         app = container.app()
         app.container = container
+
+        bootstrap = container.bootstrap()
+        bootstrap.init_app(app)
 
         app.add_url_rule('/', view_func=container.index_view.as_view())
 

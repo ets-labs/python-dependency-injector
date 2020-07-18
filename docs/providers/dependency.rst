@@ -39,6 +39,5 @@ Example:
 
 .. literalinclude:: ../../examples/providers/dependency.py
    :language: python
-   :linenos:
 
 .. disqus::

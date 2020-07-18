@@ -15,6 +15,7 @@
 import os
 import re
 import sys
+import alabaster
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -29,8 +30,11 @@ sys.path.insert(0, os.path.abspath('..'))
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinx.ext.autodoc',
-              'sphinxcontrib.disqus']
+extensions = [
+    'alabaster',
+    'sphinx.ext.autodoc',
+    'sphinxcontrib.disqus',
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -112,7 +116,8 @@ todo_include_todos = False
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'sphinx_rtd_theme'
+# html_theme = 'sphinx_rtd_theme'
+html_theme = 'alabaster'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -120,7 +125,7 @@ html_theme = 'sphinx_rtd_theme'
 # html_context = {}
 
 # Add any paths that contain custom themes here, relative to this directory.
-#html_theme_path = ['_themes']
+html_theme_path = [alabaster.get_path()]
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -291,6 +296,13 @@ autodoc_member_order = 'bysource'
 
 disqus_shortname = 'python-dependency-injector'
 
-
-def setup(app):
-    app.add_css_file('sphinx_rtd_theme-hotfix.css')
+html_theme_options = {
+    'github_user': 'ets-labs',
+    'github_repo': 'python-dependency-injector',
+    'github_type': 'star',
+    'github_button': True,
+    'github_banner': True,
+    'logo': 'logo.svg',
+    'description': 'Dependency injection framework for Python',
+    'code_font_size': '10pt',
+}

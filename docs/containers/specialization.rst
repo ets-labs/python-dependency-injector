@@ -14,14 +14,12 @@ for limitation of its provided type:
 
 .. literalinclude:: ../../examples/containers/declarative_provider_type.py
    :language: python
-   :linenos:
 
 Limitation for providers type could be used with :py:class:`DynamicContainer` 
 as well:
 
 .. literalinclude:: ../../examples/containers/dynamic_provider_type.py
    :language: python
-   :linenos:
 
 
 .. disqus::

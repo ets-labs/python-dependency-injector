@@ -32,7 +32,6 @@ factories:
 
 .. literalinclude:: ../../examples/containers/declarative.py
    :language: python
-   :linenos:
 
 Example of declarative containers inheritance:
 
@@ -42,7 +41,6 @@ Example of declarative containers inheritance:
 
 .. literalinclude:: ../../examples/containers/declarative_inheritance.py
    :language: python
-   :linenos:
 
 Example of declarative containers's provider injections:
 
@@ -52,7 +50,6 @@ Example of declarative containers's provider injections:
 
 .. literalinclude:: ../../examples/containers/declarative_injections.py
    :language: python
-   :linenos:
 
 
 .. disqus::

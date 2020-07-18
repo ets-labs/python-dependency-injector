@@ -18,7 +18,6 @@ coroutine:
 
 .. literalinclude:: ../../examples/providers/coroutine_async_await.py
    :language: python
-   :linenos:
 
 Coroutine providers and injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

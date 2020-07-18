@@ -7,8 +7,8 @@ import dependency_injector.providers as providers
 
 UsersService = collections.namedtuple('UsersService', [])
 
-# Singleton provider creates new instance of specified class on first call and
-# returns same instance on every next call.
+# Singleton provider creates new instance of specified class on first call
+# and returns same instance on every next call.
 users_service_provider = providers.Singleton(UsersService)
 
 # Retrieving several UserService objects:
