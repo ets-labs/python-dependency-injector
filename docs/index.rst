@@ -85,6 +85,7 @@ Contents
 
     introduction/index
     main/installation
+    tutorials/index
     providers/index
     containers/index
     examples/index
