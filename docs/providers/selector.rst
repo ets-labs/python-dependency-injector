@@ -9,7 +9,6 @@ Selector providers
    :language: python
    :emphasize-lines: 6-10
    :lines: 3-5,14-20
-   :linenos:
 
 :py:class:`Selector` provider has a callable called ``selector`` and a dictionary of providers.
 
@@ -26,6 +25,5 @@ Full example:
    :language: python
    :emphasize-lines: 14-18
    :lines: 3-
-   :linenos:
 
 .. disqus::

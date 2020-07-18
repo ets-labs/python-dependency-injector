@@ -18,19 +18,22 @@ thread_local_object = providers.ThreadLocalSingleton(object)
 queue_factory = providers.ThreadSafeSingleton(queue.Queue)
 
 # Create callable provider for example(), inject dependencies:
-example = providers.DelegatedCallable(example,
-                                      example_object=thread_local_object,
-                                      queue_object=queue_factory)
+example = providers.DelegatedCallable(
+    example,
+    example_object=thread_local_object,
+    queue_object=queue_factory,
+)
 
-# Create factory provider for threads that are targeted to execute example():
-thread_factory = providers.Factory(threading.Thread,
-                                   target=example)
+# Create factory for threads that are targeted to execute example():
+thread_factory = providers.Factory(threading.Thread, target=example)
 
 if __name__ == '__main__':
     # Create 10 threads for concurrent execution of example():
     threads = []
     for thread_number in range(10):
-        threads.append(thread_factory(name='Thread{0}'.format(thread_number)))
+        threads.append(
+            thread_factory(name='Thread{0}'.format(thread_number)),
+        )
 
     # Start execution of all created threads:
     for thread in threads:

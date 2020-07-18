@@ -14,7 +14,6 @@ Example:
 
 .. literalinclude:: ../../examples/providers/singleton.py
    :language: python
-   :linenos:
 
 Singleton providers resetting
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -28,7 +27,6 @@ Example:
 
 .. literalinclude:: ../../examples/providers/singleton_resetting.py
    :language: python
-   :linenos:
 
 Singleton providers and injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -108,7 +106,6 @@ Example:
 
 .. literalinclude:: ../../examples/providers/singleton_thread_locals.py
    :language: python
-   :linenos:
 
 
 .. disqus::

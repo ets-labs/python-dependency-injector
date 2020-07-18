@@ -14,7 +14,6 @@ Nothing could be better than brief example:
 
 .. literalinclude:: ../../examples/providers/factory.py
    :language: python
-   :linenos:
 
 Factory providers and __init__ injections
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -48,7 +47,6 @@ injectable values are also provided by another factories:
 
 .. literalinclude:: ../../examples/providers/factory_init_injections.py
    :language: python
-   :linenos:
 
 .. _factory_providers_delegation:
 
@@ -92,7 +90,6 @@ Example:
 
 .. literalinclude:: ../../examples/providers/factory_delegation.py
    :language: python
-   :linenos:
 
 .. _factory_providers_specialization:
 
@@ -107,7 +104,6 @@ provided type:
 
 .. literalinclude:: ../../examples/providers/factory_provided_type.py
    :language: python
-   :linenos:
 
 .. _abstract_factory_providers:
 
@@ -142,13 +138,11 @@ Listing of ``cache.py``:
 
 .. literalinclude:: ../../examples/providers/abstract_factory/cache.py
    :language: python
-   :linenos:
 
 Listing of ``example.py``:
 
 .. literalinclude:: ../../examples/providers/abstract_factory/example.py
    :language: python
-   :linenos:
 
 Factory aggregate providers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -167,7 +161,6 @@ Next prototype might be the best demonstration of
 
 .. literalinclude:: ../../examples/providers/factory_aggregate/prototype.py
    :language: python
-   :linenos:
 
 Example below shows one of the :py:class:`FactoryAggregate` use cases, when 
 concrete implementation (game) must be selected based on dynamic input (CLI). 
@@ -176,12 +169,10 @@ Listing of ``games.py``:
 
 .. literalinclude:: ../../examples/providers/factory_aggregate/games.py
    :language: python
-   :linenos:
 
 Listing of ``example.py``:
 
 .. literalinclude:: ../../examples/providers/factory_aggregate/example.py
    :language: python
-   :linenos:
 
 .. disqus::
