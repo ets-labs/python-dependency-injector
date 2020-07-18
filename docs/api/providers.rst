@@ -1,5 +1,5 @@
-``dependency_injector.providers``
----------------------------------
+dependency_injector.providers
+=============================
 
 .. automodule:: dependency_injector.providers
    :members:

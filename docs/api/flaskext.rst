@@ -1,5 +1,5 @@
-``dependency_injector.ext.flask``
----------------------------------
+dependency_injector.ext.flask
+=============================
 
 .. automodule:: dependency_injector.ext.flask
    :members:
