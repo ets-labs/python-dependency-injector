@@ -17,8 +17,6 @@ Dependency Injector --- Dependency injection framework for Python
 
 .. _index:
 
-.. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/logo.svg
-
 .. image:: https://img.shields.io/pypi/v/dependency_injector.svg
    :target: https://pypi.org/project/dependency-injector/
    :alt: Latest Version
@@ -63,27 +61,21 @@ Dependency Injector --- Dependency injection framework for Python
    :target: https://coveralls.io/github/ets-labs/python-dependency-injector?branch=master
    :alt: Coverage Status
 
-What is ``Dependency Injector``?
-================================
+``Dependency Injector`` is a dependency injection framework for Python.
 
-``Dependency Injector`` is a dependency injection microframework for Python.
-It was designed to be a unified and developer-friendly tool that helps
-implement a dependency injection design pattern in a formal, pretty, and
-Pythonic way.
+It helps you understand and change the structure of the application.
 
-The key features of the *Dependency Injector* framework are:
+With the ``Dependency Injector`` you keep **application structure in one place**.
+This place is called **the container**. You use the container to manage all the components of the
+application. All the component dependencies are defined explicitly. This provides the control on
+the application structure. It is **easy to understand and change** it.
 
-+ Easy, smart, and pythonic style.
-+ Obvious and clear structure.
-+ Extensibility and flexibility.
-+ High performance.
-+ Memory efficiency.
-+ Thread safety.
-+ Documented.
-+ Semantically versioned.
+.. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/di-map.svg
+   :target: https://github.com/ets-labs/python-dependency-injector
 
-*Dependency Injector* containers and providers are implemented as C extension
-types using Cython.
+*The container is like a map of your application. You always know what depends on what.*
+
+Explore the documentation to know more about the ``Dependency Injector``.
 
 Contents
 --------
