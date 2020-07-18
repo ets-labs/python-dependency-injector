@@ -55,10 +55,12 @@ What is ``Dependency Injector``?
 Why do I need it?
 =================
 
-``Dependency Injector`` helps you improve application structure.
+``Dependency Injector`` helps you understand and change the structure of the application.
 
 With the ``Dependency Injector`` you keep **application structure in one place**.
-This place is called **the container**. You use the container to manage all the components of the application. All the component dependencies are defined explicitly. This provides the control on the application structure. It is **easy to understand and change** it.
+This place is called **the container**. You use the container to manage all the components of the
+application. All the component dependencies are defined explicitly. This provides the control on
+the application structure. It is **easy to understand and change** it.
 
 .. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/di-map.svg
    :target: https://github.com/ets-labs/python-dependency-injector
