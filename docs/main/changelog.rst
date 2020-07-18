@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+3.22.0
+------
 - Migrate docs to ``alabaster`` theme.
 - Add ``Bootstrap`` extension to the ``ghnav-flask`` example.
 - Add stubs for the tutorials to the docs.
