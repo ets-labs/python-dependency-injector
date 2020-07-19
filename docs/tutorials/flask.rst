@@ -64,8 +64,8 @@ Now it's time to install ``Flask`` and ``Dependency Injector``.
 
 Put next lines to the ``requirements.txt`` file::
 
-   flask
    dependency-injector
+   flask
 
 Now let's install it::
 
@@ -73,16 +73,16 @@ Now let's install it::
 
 And check that installation is successful::
 
-   python -c "import flask; print(flask.__version__)"
    python -c "import dependency_injector; print(dependency_injector.__version__)"
+   python -c "import flask; print(flask.__version__)"
 
 
 You should see something like::
 
-   (venv) $ python -c "import flask; print(flask.__version__)"
-   1.1.2
    (venv) $ python -c "import dependency_injector; print(dependency_injector.__version__)"
    3.22.0
+   (venv) $ python -c "import flask; print(flask.__version__)"
+   1.1.2
 
 *Versions can be different. That's fine.*
 
@@ -183,3 +183,197 @@ Open your browser and go to the ``http://127.0.0.1:5000/``.
 You should see ``Hello, World!``.
 
 That's it. Our minimal application is up and running.
+
+Make it pretty
+--------------
+
+Now let's make it look pretty. We will use `Bootstrap 4 <https://getbootstrap.com/>`_.
+For adding it to our application we will get
+`Bootstrap-Flask <https://pypi.org/project/Bootstrap-Flask/>`_ extension.
+It will help us to add all needed static files in few clicks.
+
+Add ``bootstrap-flask`` to the ``requirements.txt``::
+
+   dependency-injector
+   flask
+   bootstrap-flask
+
+and run in the terminal::
+
+   pip install --upgrade -r requirements.txt
+
+Now we need to add ``bootstrap-flask`` extension to the container.
+
+Edit ``containers.py``:
+
+.. code-block:: python
+   :emphasize-lines: 6,16
+
+    """Application containers module."""
+
+    from dependency_injector import containers
+    from dependency_injector.ext import flask
+    from flask import Flask
+    from flask_bootstrap import Bootstrap
+
+    from . import views
+
+
+    class ApplicationContainer(containers.DeclarativeContainer):
+        """Application container."""
+
+        app = flask.Application(Flask, __name__)
+
+        bootstrap = flask.Extension(Bootstrap)
+
+        index_view = flask.View(views.index)
+
+Let's initialize ``bootstrap-flask`` extension. We will need to modify ``create_app()``.
+
+Edit ``application.py``:
+
+.. code-block:: python
+   :emphasize-lines: 13-14
+
+    """Application module."""
+
+    from .containers import ApplicationContainer
+
+
+    def create_app():
+        """Create and return Flask application."""
+        container = ApplicationContainer()
+
+        app = container.app()
+        app.container = container
+
+        bootstrap = container.bootstrap()
+        bootstrap.init_app(app)
+
+        app.add_url_rule('/', view_func=container.index_view.as_view())
+
+        return app
+
+Now we need to add the templates. For doing this we will need to add the folder ``templates/`` to
+the ``githubnavigator`` package. We also will need two files there:
+
+- ``base.html`` - the layout
+- ``index.html`` - the main page
+
+Create ``templates`` folder and put two empty files into it ``base.html`` and ``index.html``:
+
+.. code-block::
+   :emphasize-lines: 3-5
+
+   ./
+   ├── githubnavigator/
+   │   ├── templates/
+   │   │   ├── base.html
+   │   │   └── index.html
+   │   ├── __init__.py
+   │   ├── application.py
+   │   ├── containers.py
+   │   └── views.py
+   ├── venv/
+   └requirements.txt
+
+Now let's fill in the layout.
+
+Put next to the ``base.html``:
+
+.. code-block:: html
+
+   <!doctype html>
+   <html lang="en">
+       <head>
+           {% block head %}
+           <!-- Required meta tags -->
+           <meta charset="utf-8">
+           <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+           {% block styles %}
+               <!-- Bootstrap CSS -->
+               {{ bootstrap.load_css() }}
+           {% endblock %}
+
+           <title>{% block title %}{% endblock %}</title>
+           {% endblock %}
+       </head>
+       <body>
+           <!-- Your page content -->
+           {% block content %}{% endblock %}
+
+           {% block scripts %}
+               <!-- Optional JavaScript -->
+               {{ bootstrap.load_js() }}
+           {% endblock %}
+       </body>
+   </html>
+
+And put something to the index page.
+
+Put next to the ``index.html``:
+
+.. code-block:: html
+
+   {% extends "base.html" %}
+
+   {% block title %}Github Navigator{% endblock %}
+
+   {% block content %}
+   <div class="container">
+       <h1 class="mb-4">Github Navigator</h1>
+
+       <p class="mb-4">
+           <form>
+               <div class="form-group form-row">
+                   <label for="search_term" class="col-form-label">Search for:</label>
+                   <div class="col-10">
+                       <input class="form-control" type="text" id="search_term"
+                              placeholder="Type something to search on GitHub"
+                              name="search_term"
+                              value="{{ search_term if search_term }}">
+                   </div>
+               </div>
+           </form>
+       </p>
+
+
+       {% if repositories|length == 0 %}
+       <p><small>No search results</small></p>
+       {% endif %}
+
+   </div>
+   {% endblock %}
+
+Ok, almost there. The last step is to make ``index`` view to render the ``index.html`` template.
+
+Edit ``views.py``:
+
+.. code-block:: python
+
+   """Views module."""
+
+   from flask import render_template
+
+
+   def index():
+       return render_template('index.html')
+
+
+That's it.
+
+Make sure the app is running and open ``http://127.0.0.1:7000/``.
+
+You should see:
+
+.. image::  flask_images/screen_01.png
+
+Connect to the GitHub
+---------------------
+
+Tests
+-----
+
+Conclusion
+----------

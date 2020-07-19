@@ -1,4 +1,7 @@
-dependency-injector[flask,yaml]
+dependency-injector
+flask
+bootstrap-flask
+pyyaml
 pygithub
 pytest-flask
 pytest-cov
