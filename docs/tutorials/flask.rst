@@ -58,7 +58,7 @@ Initial project layout::
    │   ├── containers.py
    │   └── views.py
    ├── venv/
-   └requirements.txt
+   └── requirements.txt
 
 Now it's time to install ``Flask`` and ``Dependency Injector``.
 
@@ -275,7 +275,7 @@ Create ``templates`` folder and put two empty files into it ``base.html`` and ``
    │   ├── containers.py
    │   └── views.py
    ├── venv/
-   └requirements.txt
+   └── requirements.txt
 
 Now let's fill in the layout.
 
@@ -351,6 +351,7 @@ Ok, almost there. The last step is to make ``index`` view to render the ``index.
 Edit ``views.py``:
 
 .. code-block:: python
+   :emphasize-lines: 3,7
 
    """Views module."""
 
@@ -371,6 +372,174 @@ You should see:
 
 Connect to the GitHub
 ---------------------
+
+In this section we will integrate our application with Github API.
+
+We will use `PyGithub <https://github.com/PyGithub/PyGithub>`_ library for working with Github API.
+
+Let's add it to the ``requirements.txt``:
+
+.. code-block::
+   :emphasize-lines: 4
+
+   dependency-injector
+   flask
+   bootstrap-flask
+   pygithub
+
+and run in the terminal::
+
+   pip install --upgrade -r requirements.txt
+
+Now we need to add Github API client the container. We will need to add two more providers from
+the ``dependency_injector.providers`` module:
+
+- ``Factory`` provider that will create ``Github`` client.
+- ``Configuration`` provider that will be used for providing the API token and the request timeout
+  for the ``Github`` client.
+
+Let's do it.
+
+Edit ``containers.py``:
+
+.. code-block:: python
+   :emphasize-lines: 3,7,19,21-25
+
+   """Application containers module."""
+
+   from dependency_injector import containers, providers
+   from dependency_injector.ext import flask
+   from flask import Flask
+   from flask_bootstrap import Bootstrap
+   from github import Github
+
+   from . import views
+
+
+   class ApplicationContainer(containers.DeclarativeContainer):
+       """Application container."""
+
+       app = flask.Application(Flask, __name__)
+
+       bootstrap = flask.Extension(Bootstrap)
+
+       config = providers.Configuration()
+
+       github_client = providers.Factory(
+           Github,
+           login_or_token=config.github.auth_token,
+           timeout=config.github.request_timeout,
+       )
+
+       index_view = flask.View(views.index)
+
+.. note::
+
+   We have used the configuration value before it was defined. That's the principle how
+   ``Configuration`` provider works.
+
+   Use first, define later.
+
+Now let's add the configuration file.
+
+We will use YAML.
+
+Create an empty file ``config.yml`` in the root root of the project:
+
+.. code-block::
+   :emphasize-lines: 11
+
+   ./
+   ├── githubnavigator/
+   │   ├── templates/
+   │   │   ├── base.html
+   │   │   └── index.html
+   │   ├── __init__.py
+   │   ├── application.py
+   │   ├── containers.py
+   │   └── views.py
+   ├── venv/
+   ├── config.yml
+   └── requirements.txt
+
+and put next into it::
+
+   github:
+     request_timeout: 10
+
+We will use `PyYAML <https://pypi.org/project/PyYAML/>`_ library for parsing the configuration
+file. Let's add it to the requirements file.
+
+Edit ``requirements.txt``:
+
+.. code-block::
+   :emphasize-lines: 5
+
+   dependency-injector
+   flask
+   bootstrap-flask
+   pygithub
+   pyyaml
+
+and install it::
+
+   pip install --upgrade -r requirements.txt
+
+We will use environment variable ``GITHUB_TOKEN`` to provide the API token.
+
+Now we need to edit ``create_app()`` to make two things when application starts:
+
+- Load the configuration file the ``config.yml``.
+- Load the API token from the ``GITHUB_TOKEN`` environment variable.
+
+Edit ``application.py``:
+
+.. code-block:: python
+   :emphasize-lines: 9-10
+
+   """Application module."""
+
+   from .containers import ApplicationContainer
+
+
+   def create_app():
+       """Create and return Flask application."""
+       container = ApplicationContainer()
+       container.config.from_yaml('config.yml')
+       container.config.github.auth_token.from_env('GITHUB_TOKEN')
+
+       app = container.app()
+       app.container = container
+
+       bootstrap = container.bootstrap()
+       bootstrap.init_app(app)
+
+       app.add_url_rule('/', view_func=container.index_view.as_view())
+
+       return app
+
+Now we need create an API token.
+
+As for now, don't worry, just take this one:
+
+.. code-block:: bash
+
+   export GITHUB_TOKEN=cbde697a6e01424856fde2b7f94a88d1b501320e
+
+.. note::
+
+   To create your own token:
+
+   - Follow the `Github guide <https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_.
+   - Set the token to the environment variable:
+
+   .. code-block:: bash
+
+      export GITHUB_TOKEN=<your token>
+
+That's it.
+
+Github API client setup is done.
 
 Tests
 -----

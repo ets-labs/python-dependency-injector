@@ -1,7 +1,7 @@
 dependency-injector
 flask
 bootstrap-flask
-pyyaml
 pygithub
+pyyaml
 pytest-flask
 pytest-cov
