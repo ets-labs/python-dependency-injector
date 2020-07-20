@@ -126,6 +126,16 @@ using :doc:`Dependency Injector <../index>`:
 .. literalinclude:: ../../examples/miniapps/engines_cars/example_ioc_containers.py
    :language: python
 
+What's next?
+~~~~~~~~~~~~
+
+Choose one of the following as a next step:
+
++ Pass the dependency injection :ref:`flask-tutorial`.
++ Look at the other dependency injection :ref:`tutorials`.
++ Know more about the :ref:`providers`.
++ Go to the :ref:`contents`.
+
 Useful links
 ~~~~~~~~~~~~
 

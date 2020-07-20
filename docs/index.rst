@@ -77,6 +77,8 @@ the application structure. It is **easy to understand and change** it.
 
 Explore the documentation to know more about the ``Dependency Injector``.
 
+.. _contents:
+
 Contents
 --------
 

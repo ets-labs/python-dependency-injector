@@ -1,3 +1,5 @@
+.. _tutorials:
+
 Tutorials
 =========
 
@@ -10,3 +12,5 @@ frameworks.
     flask
     aiohttp
     asyncio
+
+.. disqus::
