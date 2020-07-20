@@ -103,8 +103,8 @@ the application structure. It is **easy to understand and change** it.
         index_view = flask.View(
             views.index,
             search_service=search_service,
-            default_search_term=config.search.default_term,
-            default_search_limit=config.search.default_limit,
+            default_query=config.search.default_query,
+            default_limit=config.search.default_limit,
         )
 
 Running such container looks like this:
