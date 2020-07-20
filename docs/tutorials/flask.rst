@@ -6,7 +6,7 @@ This tutorials shows how to build ``Flask`` application following dependency inj
 What are we going to build?
 ---------------------------
 
-We will build a web application that helps to search for repositories on Github. Let's call it
+We will build a web application that helps to search for repositories on the Github. Let's call it
 Github Navigator.
 
 How does Github Navigator work?
@@ -128,7 +128,7 @@ Put next to the ``containers.py``:
         index_view = flask.View(views.index)
 
 Finally we need to create the Flask application factory. It is traditionally called
-``create_app()``. It will create the container. After that it will use the container to create
+``create_app()``. It will create the container. Then it will use the container to create
 the Flask application. Last step is to configure the routing - we will assign ``index_view`` from the
 container to handle user requests to the root ``/`` if our web application.
 
@@ -156,7 +156,7 @@ Put next to the ``application.py``:
 
    Container is the first object in the application.
 
-   The container is used to create all other components.
+   The container is used to create all other objects.
 
 Ok. Now we're ready to say "Hello, World!".
 
@@ -330,7 +330,7 @@ Put next to the ``index.html``:
                    <label for="search_term" class="col-form-label">Search for:</label>
                    <div class="col-10">
                        <input class="form-control" type="text" id="search_term"
-                              placeholder="Type something to search on GitHub"
+                              placeholder="Type something to search on the GitHub"
                               name="search_term"
                               value="{{ search_term if search_term }}">
                    </div>
