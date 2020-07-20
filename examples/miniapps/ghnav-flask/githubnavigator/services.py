@@ -13,7 +13,10 @@ class SearchService:
 
     def search_repositories(self, term, limit):
         """Search for repositories and return formatted data."""
-        repositories = self._github_client.search_repositories(term, **{'in': 'name'})
+        repositories = self._github_client.search_repositories(
+            query=term,
+            **{'in': 'name'},
+        )
         return [
             self._format_repo(repository)
             for repository in repositories[:limit]

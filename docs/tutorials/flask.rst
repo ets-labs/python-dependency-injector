@@ -633,7 +633,10 @@ and put next into it:
 
        def search_repositories(self, term, limit):
            """Search for repositories and return formatted data."""
-           repositories = self._github_client.search_repositories(term, **{'in': 'name'})
+           repositories = self._github_client.search_repositories(
+               query=term,
+               **{'in': 'name'},
+           )
            return [
                self._format_repo(repository)
                for repository in repositories[:limit]
@@ -703,12 +706,12 @@ Edit ``containers.py``:
 Make the search
 ---------------
 
-Now we are ready to make the search work.
+Now we are ready to make the search work. Let's use the ``SearchService`` in the ``index`` view.
 
 Edit ``views.py``:
 
 .. code-block:: python
-   :emphasize-lines: 5,8,11,16
+   :emphasize-lines: 5,8,10
 
    """Views module."""
 
@@ -718,15 +721,16 @@ Edit ``views.py``:
 
 
    def index(search_service: SearchService):
-       search_term = request.args.get('search_term')
-
-       repositories = search_service.search_repositories(search_term)
+       search_term = request.args.get('search_term', 'Dependency Injector')
+       repositories = search_service.search_repositories(search_term, limit=10)
 
        return render_template(
            'index.html',
            search_term=search_term,
            repositories=repositories,
        )
+
+Now let's inject the ``SearchService`` dependency into the ``index`` view.
 
 Edit ``containers.py``:
 
@@ -769,16 +773,11 @@ Edit ``containers.py``:
            search_service=search_service,
        )
 
-Edit ``config.yml``:
+Make sure the app is running or use ``flask run`` and open ``http://127.0.0.1:5000/``.
 
-.. code-block::
-   :emphasize-lines: 3-5
+You should see:
 
-   github:
-     request_timeout: 10
-   search:
-     default_term: "Dependency Injector"
-     default_limit: 5
+.. image::  flask_images/screen_02.png
 
 Tests
 -----

@@ -4,6 +4,8 @@ Flask Dependency Injection Example
 Application ``githubnavigator`` is a `Flask <https://flask.palletsprojects.com/>`_ +
 `Dependency Injector <http://python-dependency-injector.ets-labs.org/>`_ application.
 
+.. image:: screenshot.png
+
 Run
 ---
 
