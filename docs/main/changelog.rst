@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.23.0
+------
+- Add ``Flask`` tutorial.
+- Add PyPI classifiers.
+
 3.22.0
 ------
 - Migrate docs to ``alabaster`` theme.
