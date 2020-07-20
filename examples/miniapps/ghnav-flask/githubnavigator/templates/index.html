@@ -9,14 +9,18 @@
     <form>
         <div class="form-group form-row">
             <div class="col-10">
-                <label for="search_query" class="col-form-label">Search for:</label>
+                <label for="search_query" class="col-form-label">
+                    Search for:
+                </label>
                 <input class="form-control" type="text" id="search_query"
                        placeholder="Type something to search on the GitHub"
                        name="query"
                        value="{{ query if query }}">
             </div>
             <div class="col">
-                <label for="search_limit" class="col-form-label">Limit:</label>
+                <label for="search_limit" class="col-form-label">
+                    Limit:
+                </label>
                 <select class="form-control" id="search_limit" name="limit">
                     {% for value in [5, 10, 20] %}
                     <option {% if value == limit %}selected{% endif %}>
