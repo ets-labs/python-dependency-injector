@@ -32,6 +32,8 @@ How does Github Navigator work?
 - User can click on the repository, the repository owner or the last commit to open its web page
   on the Github.
 
+.. image::  flask_images/screen_02.png
+
 Prepare the environment
 -----------------------
 
@@ -630,7 +632,6 @@ Create empty file ``services.py`` in the ``githubnavigator`` package:
    ├── config.yml
    └── requirements.txt
 
-
 and put next into it:
 
 .. code-block:: python
@@ -903,5 +904,212 @@ The refactoring is done. We've made it cleaner.
 Tests
 -----
 
+It would be nice to add some tests. Let's do this.
+
+We will use `pytest <https://docs.pytest.org/en/stable/>`_ and
+`coverage <https://coverage.readthedocs.io/>`_.
+
+Edit ``requirements.txt``:
+
+.. code-block::
+   :emphasize-lines: 6-7
+
+   dependency-injector
+   flask
+   bootstrap-flask
+   pygithub
+   pyyaml
+   pytest-flask
+   pytest-cov
+
+And let's install it::
+
+   pip install -r requirements.txt
+
+
+Create empty file ``tests.py`` in the ``githubnavigator`` package:
+
+.. code-block::
+   :emphasize-lines: 10
+
+   ./
+   ├── githubnavigator/
+   │   ├── templates/
+   │   │   ├── base.html
+   │   │   └── index.html
+   │   ├── __init__.py
+   │   ├── application.py
+   │   ├── containers.py
+   │   ├── services.py
+   │   ├── tests.py
+   │   └── views.py
+   ├── venv/
+   ├── config.yml
+   └── requirements.txt
+
+and put next into it:
+
+.. code-block:: python
+   :emphasize-lines: 42,65
+
+   """Tests module."""
+
+   from unittest import mock
+
+   import pytest
+   from github import Github
+   from flask import url_for
+
+   from .application import create_app
+
+
+   @pytest.fixture
+   def app():
+       return create_app()
+
+
+   def test_index(client, app):
+       github_client_mock = mock.Mock(spec=Github)
+       github_client_mock.search_repositories.return_value = [
+           mock.Mock(
+               html_url='repo1-url',
+               name='repo1-name',
+               owner=mock.Mock(
+                   login='owner1-login',
+                   html_url='owner1-url',
+                   avatar_url='owner1-avatar-url',
+               ),
+               get_commits=mock.Mock(return_value=[mock.Mock()]),
+           ),
+           mock.Mock(
+               html_url='repo2-url',
+               name='repo2-name',
+               owner=mock.Mock(
+                   login='owner2-login',
+                   html_url='owner2-url',
+                   avatar_url='owner2-avatar-url',
+               ),
+               get_commits=mock.Mock(return_value=[mock.Mock()]),
+           ),
+       ]
+
+       with app.container.github_client.override(github_client_mock):
+           response = client.get(url_for('index'))
+
+       assert response.status_code == 200
+       assert b'Results found: 2' in response.data
+
+       assert b'repo1-url' in response.data
+       assert b'repo1-name' in response.data
+       assert b'owner1-login' in response.data
+       assert b'owner1-url' in response.data
+       assert b'owner1-avatar-url' in response.data
+
+       assert b'repo2-url' in response.data
+       assert b'repo2-name' in response.data
+       assert b'owner2-login' in response.data
+       assert b'owner2-url' in response.data
+       assert b'owner2-avatar-url' in response.data
+
+
+   def test_index_no_results(client, app):
+       github_client_mock = mock.Mock(spec=Github)
+       github_client_mock.search_repositories.return_value = []
+
+       with app.container.github_client.override(github_client_mock):
+           response = client.get(url_for('index'))
+
+       assert response.status_code == 200
+       assert b'Results found: 0' in response.data
+
+Now let's run it and check the coverage::
+
+   py.test githubnavigator/tests.py --cov=githubnavigator
+
+You should see:
+
+.. code-block::
+
+   platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
+   plugins: flask-1.0.0, cov-2.10.0
+   collected 2 items
+
+   githubnavigator/tests.py ..                                     [100%]
+
+   ---------- coverage: platform darwin, python 3.8.3-final-0 -----------
+   Name                             Stmts   Miss  Cover
+   ----------------------------------------------------
+   githubnavigator/__init__.py          0      0   100%
+   githubnavigator/application.py      11      0   100%
+   githubnavigator/containers.py       13      0   100%
+   githubnavigator/services.py         14      0   100%
+   githubnavigator/tests.py            32      0   100%
+   githubnavigator/views.py             7      0   100%
+   ----------------------------------------------------
+   TOTAL                               77      0   100%
+
+.. note::
+
+   Take a look on the highlights in the ``tests.py``.
+
+   It emphasizes the overriding of the ``Github`` API client.
+
 Conclusion
 ----------
+
+We are done.
+
+It this tutorial we've build ``Flask`` application following dependency injection principle.
+We've used ``Dependency Injector`` as a dependency injection framework.
+
+The heart of this application is the container. It keeps all the application components and their
+dependencies in one place:
+
+.. code-block:: python
+
+   """Application containers module."""
+
+   from dependency_injector import containers, providers
+   from dependency_injector.ext import flask
+   from flask import Flask
+   from flask_bootstrap import Bootstrap
+   from github import Github
+
+   from . import services, views
+
+
+   class ApplicationContainer(containers.DeclarativeContainer):
+       """Application container."""
+
+       app = flask.Application(Flask, __name__)
+
+       bootstrap = flask.Extension(Bootstrap)
+
+       config = providers.Configuration()
+
+       github_client = providers.Factory(
+           Github,
+           login_or_token=config.github.auth_token,
+           timeout=config.github.request_timeout,
+       )
+
+       search_service = providers.Factory(
+           services.SearchService,
+           github_client=github_client,
+       )
+
+       index_view = flask.View(
+           views.index,
+           search_service=search_service,
+           default_query=config.search.default_query,
+           default_limit=config.search.default_limit,
+       )
+
+What's next?
+
+- Look at the other tutorials :ref:`tutorials`.
+- Know more about the :ref:`providers`.
+- Go to the :ref:`contents`.
+
+
+.. disqus::

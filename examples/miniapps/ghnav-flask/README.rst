@@ -81,7 +81,7 @@ The output should be something like:
 .. code-block::
 
    platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
-   plugins: flask-1.0.0, cov-2.10.0, asyncio-0.14.0
+   plugins: flask-1.0.0, cov-2.10.0
    collected 2 items
 
    githubnavigator/tests.py ..                                     [100%]
@@ -90,10 +90,10 @@ The output should be something like:
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
    githubnavigator/__init__.py          0      0   100%
-   githubnavigator/application.py       8      0   100%
-   githubnavigator/containers.py       11      0   100%
+   githubnavigator/application.py      11      0   100%
+   githubnavigator/containers.py       13      0   100%
    githubnavigator/services.py         14      0   100%
-   githubnavigator/tests.py            33      0   100%
+   githubnavigator/tests.py            32      0   100%
    githubnavigator/views.py             7      0   100%
    ----------------------------------------------------
-   TOTAL                               73      0   100%
+   TOTAL                               77      0   100%

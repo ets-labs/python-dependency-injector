@@ -43,6 +43,7 @@ def test_index(client, app):
         response = client.get(url_for('index'))
 
     assert response.status_code == 200
+    assert b'Results found: 2' in response.data
 
     assert b'repo1-url' in response.data
     assert b'repo1-name' in response.data
@@ -65,4 +66,4 @@ def test_index_no_results(client, app):
         response = client.get(url_for('index'))
 
     assert response.status_code == 200
-    assert b'No search results' in response.data
+    assert b'Results found: 0' in response.data
