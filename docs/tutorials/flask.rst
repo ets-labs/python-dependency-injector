@@ -20,11 +20,11 @@ Github Navigator.
 
 How does Github Navigator work?
 
-- User opens a web page that asks to provide a search term.
-- User types the search term and hits Enter.
+- User opens a web page that asks to provide a search query.
+- User types the query and hits Enter.
 - Github Navigator takes that and searches through the Github for matching repositories.
 - When search is done Github Navigator returns user a web page with the result.
-- The results page shows all matching repositories and the provided search term.
+- The results page shows all matching repositories and the provided search query.
 - For any matching repository user sees:
     - the repository name
     - the owner of the repository
@@ -335,15 +335,29 @@ Put next into the ``index.html``:
        <h1 class="mb-4">Github Navigator</h1>
 
        <form>
-         <div class="form-group form-row">
-             <label for="search_term" class="col-form-label">Search for:</label>
-             <div class="col-10">
-                 <input class="form-control" type="text" id="search_term"
-                        placeholder="Type something to search on the GitHub"
-                        name="search_term"
-                        value="{{ search_term if search_term }}">
-             </div>
-         </div>
+           <div class="form-group form-row">
+               <div class="col-10">
+                   <label for="search_query" class="col-form-label">
+                       Search for:
+                   </label>
+                   <input class="form-control" type="text" id="search_query"
+                          placeholder="Type something to search on the GitHub"
+                          name="query"
+                          value="{{ query if query }}">
+               </div>
+               <div class="col">
+                   <label for="search_limit" class="col-form-label">
+                       Limit:
+                   </label>
+                   <select class="form-control" id="search_limit" name="limit">
+                       {% for value in [5, 10, 20] %}
+                       <option {% if value == limit %}selected{% endif %}>
+                           {{ value }}
+                       </option>
+                       {% endfor %}
+                   </select>
+               </div>
+           </div>
        </form>
 
        <p><small>Results found: {{ repositories|length }}</small></p>
@@ -395,12 +409,15 @@ Edit ``views.py``:
 
 
    def index():
-       search_term = request.args.get('search_term', 'Dependency Injector')
+       query = request.args.get('query', 'Dependency Injector')
+       limit = request.args.get('limit', 10, int)
+
        repositories = []
 
        return render_template(
            'index.html',
-           search_term=search_term,
+           query=query,
+           limit=limit,
            repositories=repositories,
        )
 
@@ -631,10 +648,10 @@ and put next into it:
        def __init__(self, github_client: Github):
            self._github_client = github_client
 
-       def search_repositories(self, term, limit):
+       def search_repositories(self, query, limit):
            """Search for repositories and return formatted data."""
            repositories = self._github_client.search_repositories(
-               query=term,
+               query=query,
                **{'in': 'name'},
            )
            return [
@@ -703,15 +720,15 @@ Edit ``containers.py``:
 
        index_view = flask.View(views.index)
 
-Make the search
----------------
+Make the search work
+--------------------
 
 Now we are ready to make the search work. Let's use the ``SearchService`` in the ``index`` view.
 
 Edit ``views.py``:
 
 .. code-block:: python
-   :emphasize-lines: 5,8,10
+   :emphasize-lines: 5,8,12
 
    """Views module."""
 
@@ -721,12 +738,15 @@ Edit ``views.py``:
 
 
    def index(search_service: SearchService):
-       search_term = request.args.get('search_term', 'Dependency Injector')
-       repositories = search_service.search_repositories(search_term, limit=10)
+       query = request.args.get('query', 'Dependency Injector')
+       limit = request.args.get('limit', 10, int)
+
+       repositories = search_service.search_repositories(query, limit)
 
        return render_template(
            'index.html',
-           search_term=search_term,
+           query=query,
+           limit=limit,
            repositories=repositories,
        )
 
@@ -778,6 +798,107 @@ Make sure the app is running or use ``flask run`` and open ``http://127.0.0.1:50
 You should see:
 
 .. image::  flask_images/screen_02.png
+
+Make some refactoring
+---------------------
+
+Our ``index`` view has two hardcoded config values:
+
+- Default search term
+- Limit of the results
+
+Let's make some refactoring. We will move these values to the config.
+
+Edit ``views.py``:
+
+.. code-block:: python
+   :emphasize-lines: 8-14
+
+   """Views module."""
+
+   from flask import request, render_template
+
+   from .services import SearchService
+
+
+   def index(
+           search_service: SearchService,
+           default_query: str,
+           default_limit: int,
+   ):
+       query = request.args.get('query', default_query)
+       limit = request.args.get('limit', default_limit, int)
+
+       repositories = search_service.search_repositories(query, limit)
+
+       return render_template(
+           'index.html',
+           query=query,
+           limit=limit,
+           repositories=repositories,
+       )
+
+Now we need to inject these values. Let's update the container.
+
+Edit ``containers.py``:
+
+.. code-block:: python
+   :emphasize-lines: 35-36
+
+   """Application containers module."""
+
+   from dependency_injector import containers, providers
+   from dependency_injector.ext import flask
+   from flask import Flask
+   from flask_bootstrap import Bootstrap
+   from github import Github
+
+   from . import services, views
+
+
+   class ApplicationContainer(containers.DeclarativeContainer):
+       """Application container."""
+
+       app = flask.Application(Flask, __name__)
+
+       bootstrap = flask.Extension(Bootstrap)
+
+       config = providers.Configuration()
+
+       github_client = providers.Factory(
+           Github,
+           login_or_token=config.github.auth_token,
+           timeout=config.github.request_timeout,
+       )
+
+       search_service = providers.Factory(
+           services.SearchService,
+           github_client=github_client,
+       )
+
+       index_view = flask.View(
+           views.index,
+           search_service=search_service,
+           default_query=config.search.default_query,
+           default_limit=config.search.default_limit,
+       )
+
+Finally let's update the config.
+
+Edit ``config.yml``:
+
+.. code-block::
+   :emphasize-lines: 3-5
+
+   github:
+     request_timeout: 10
+   search:
+     default_query: "Dependency Injector"
+     default_limit: 10
+
+That's it.
+
+The refactoring is done. We've made it cleaner.
 
 Tests
 -----
