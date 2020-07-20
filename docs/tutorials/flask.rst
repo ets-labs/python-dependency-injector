@@ -333,26 +333,59 @@ Put next into the ``index.html``:
    <div class="container">
        <h1 class="mb-4">Github Navigator</h1>
 
-       <p class="mb-4">
-           <form>
-               <div class="form-group form-row">
-                   <label for="search_term" class="col-form-label">Search for:</label>
-                   <div class="col-10">
-                       <input class="form-control" type="text" id="search_term"
-                              placeholder="Type something to search on the GitHub"
-                              name="search_term"
-                              value="{{ search_term if search_term }}">
-                   </div>
-               </div>
-           </form>
-       </p>
-
+       <form>
+         <div class="form-group form-row">
+             <label for="search_term" class="col-form-label">Search for:</label>
+             <div class="col-10">
+                 <input class="form-control" type="text" id="search_term"
+                        placeholder="Type something to search on the GitHub"
+                        name="search_term"
+                        value="{{ search_term if search_term }}">
+             </div>
+         </div>
+       </form>
 
        {% if repositories|length == 0 %}
-       <p><small>No search results</small></p>
+       <small>No search results</small>
        {% endif %}
 
+       <p>
+           <small>Results found: {{ repositories|length }}</small>
+       </p>
+
+       <table class="table table-striped">
+           <thead>
+               <tr>
+                   <th>#</th>
+                   <th>Repository</th>
+                   <th class="text-nowrap">Repository owner</th>
+                   <th class="text-nowrap">Last commit</th>
+               </tr>
+           </thead>
+           <tbody>
+           {% for repository in repositories %} {{n}}
+               <tr>
+                 <th>{{ loop.index }}</th>
+                 <td><a href="{{ repository.url }}">
+                     {{ repository.name }}</a>
+                 </td>
+                 <td><a href="{{ repository.owner.url }}">
+                     <img src="{{ repository.owner.avatar_url }}"
+                          alt="avatar" height="24" width="24"/></a>
+                     <a href="{{ repository.owner.url }}">
+                         {{ repository.owner.login }}</a>
+                 </td>
+                 <td><a href="{{ repository.latest_commit.url }}">
+                     {{ repository.latest_commit.sha }}</a>
+                     {{ repository.latest_commit.message }}
+                     {{ repository.latest_commit.author_name }}
+                 </td>
+               </tr>
+           {% endfor %}
+           </tbody>
+       </table>
    </div>
+
    {% endblock %}
 
 Ok, almost there. The last step is to make ``index`` view to render the ``index.html`` template.
@@ -360,20 +393,25 @@ Ok, almost there. The last step is to make ``index`` view to render the ``index.
 Edit ``views.py``:
 
 .. code-block:: python
-   :emphasize-lines: 3,7
 
    """Views module."""
 
-   from flask import render_template
+   from flask import request, render_template
 
 
    def index():
-       return render_template('index.html')
+       search_term = request.args.get('search_term', 'Dependency Injector')
+       repositories = []
 
+       return render_template(
+           'index.html',
+           search_term=search_term,
+           repositories=repositories,
+       )
 
 That's it.
 
-Make sure the app is running and open ``http://127.0.0.1:7000/``.
+Make sure the app is running and open ``http://127.0.0.1:5000/``.
 
 You should see:
 
@@ -666,6 +704,86 @@ Edit ``containers.py``:
        )
 
        index_view = flask.View(views.index)
+
+Make the search
+---------------
+
+Now we are ready to make the search work.
+
+Edit ``views.py``:
+
+.. code-block:: python
+   :emphasize-lines: 5,8,11,16
+
+   """Views module."""
+
+   from flask import request, render_template
+
+   from .services import SearchService
+
+
+   def index(search_service: SearchService):
+       search_term = request.args.get('search_term')
+
+       repositories = search_service.search_repositories(search_term)
+
+       return render_template(
+           'index.html',
+           search_term=search_term,
+           repositories=repositories,
+       )
+
+Edit ``containers.py``:
+
+.. code-block:: python
+   :emphasize-lines: 32-38
+
+   """Application containers module."""
+
+   from dependency_injector import containers, providers
+   from dependency_injector.ext import flask
+   from flask import Flask
+   from flask_bootstrap import Bootstrap
+   from github import Github
+
+   from . import services, views
+
+
+   class ApplicationContainer(containers.DeclarativeContainer):
+       """Application container."""
+
+       app = flask.Application(Flask, __name__)
+
+       bootstrap = flask.Extension(Bootstrap)
+
+       config = providers.Configuration()
+
+       github_client = providers.Factory(
+           Github,
+           login_or_token=config.github.auth_token,
+           timeout=config.github.request_timeout,
+       )
+
+       search_service = providers.Factory(
+           services.SearchService,
+           github_client=github_client,
+       )
+
+       index_view = flask.View(
+           views.index,
+           search_service=search_service,
+       )
+
+Edit ``config.yml``:
+
+.. code-block::
+   :emphasize-lines: 3-5
+
+   github:
+     request_timeout: 10
+   search:
+     default_term: "Dependency Injector"
+     default_limit: 5
 
 Tests
 -----
