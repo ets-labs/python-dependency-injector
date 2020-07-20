@@ -3,6 +3,15 @@ Flask tutorial
 
 This tutorials shows how to build ``Flask`` application following dependency injection principle.
 
+Start from the scratch or jump to the section:
+
+.. contents::
+   :local:
+   :backlinks: none
+
+You can find complete project on the
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/ghnav-flask>`_.
+
 What are we going to build?
 ---------------------------
 
@@ -62,7 +71,7 @@ Initial project layout::
 
 Now it's time to install ``Flask`` and ``Dependency Injector``.
 
-Put next lines to the ``requirements.txt`` file::
+Put next lines into the ``requirements.txt`` file::
 
    dependency-injector
    flask
@@ -91,7 +100,7 @@ Hello world!
 
 Let's create minimal application.
 
-Put next to the ``views.py``:
+Put next into the ``views.py``:
 
 .. code-block:: python
 
@@ -107,7 +116,7 @@ Now let's create the heart of our application - the container. Container will ke
 application components and their dependencies. First two providers we need to add are
 the ``Flask`` application provider and the view provider.
 
-Put next to the ``containers.py``:
+Put next into the ``containers.py``:
 
 .. code-block:: python
 
@@ -132,7 +141,7 @@ Finally we need to create the Flask application factory. It is traditionally cal
 the Flask application. Last step is to configure the routing - we will assign ``index_view`` from the
 container to handle user requests to the root ``/`` if our web application.
 
-Put next to the ``application.py``:
+Put next into the ``application.py``:
 
 .. code-block:: python
 
@@ -279,7 +288,7 @@ Create ``templates`` folder and put two empty files into it ``base.html`` and ``
 
 Now let's fill in the layout.
 
-Put next to the ``base.html``:
+Put next into the ``base.html``:
 
 .. code-block:: html
 
@@ -312,7 +321,7 @@ Put next to the ``base.html``:
 
 And put something to the index page.
 
-Put next to the ``index.html``:
+Put next into the ``index.html``:
 
 .. code-block:: html
 
@@ -540,6 +549,123 @@ As for now, don't worry, just take this one:
 That's it.
 
 Github API client setup is done.
+
+Search service
+--------------
+
+Now it's time to add ``SearchService``. It will:
+
+- Perform the search.
+- Fetch commit extra data for each result.
+- Format result data
+
+``SearchService`` will use ``Github`` API client.
+
+Create empty file ``services.py`` in the ``githubnavigator`` package:
+
+.. code-block::
+   :emphasize-lines: 9
+
+   ./
+   ├── githubnavigator/
+   │   ├── templates/
+   │   │   ├── base.html
+   │   │   └── index.html
+   │   ├── __init__.py
+   │   ├── application.py
+   │   ├── containers.py
+   │   ├── services.py
+   │   └── views.py
+   ├── venv/
+   ├── config.yml
+   └── requirements.txt
+
+
+and put next into it:
+
+.. code-block:: python
+
+   """Services module."""
+
+   from github import Github
+   from github.Repository import Repository
+   from github.Commit import Commit
+
+
+   class SearchService:
+       """Search service performs search on Github."""
+
+       def __init__(self, github_client: Github):
+           self._github_client = github_client
+
+       def search_repositories(self, term, limit):
+           """Search for repositories and return formatted data."""
+           repositories = self._github_client.search_repositories(term, **{'in': 'name'})
+           return [
+               self._format_repo(repository)
+               for repository in repositories[:limit]
+           ]
+
+       def _format_repo(self, repository: Repository):
+           commits = repository.get_commits()
+           return {
+               'url': repository.html_url,
+               'name': repository.name,
+               'owner': {
+                   'login': repository.owner.login,
+                   'url': repository.owner.html_url,
+                   'avatar_url': repository.owner.avatar_url,
+               },
+               'latest_commit': self._format_commit(commits[0]) if commits else {},
+           }
+
+       def _format_commit(self, commit: Commit):
+           return {
+               'sha': commit.sha,
+               'url': commit.html_url,
+               'message': commit.commit.message,
+               'author_name': commit.commit.author.name,
+           }
+
+Now let's add ``SearchService`` to the container.
+
+Edit ``containers.py``:
+
+.. code-block:: python
+   :emphasize-lines: 9,27-30
+
+   """Application containers module."""
+
+   from dependency_injector import containers, providers
+   from dependency_injector.ext import flask
+   from flask import Flask
+   from flask_bootstrap import Bootstrap
+   from github import Github
+
+   from . import services, views
+
+
+   class ApplicationContainer(containers.DeclarativeContainer):
+       """Application container."""
+
+       app = flask.Application(Flask, __name__)
+
+       bootstrap = flask.Extension(Bootstrap)
+
+       config = providers.Configuration()
+
+       github_client = providers.Factory(
+           Github,
+           login_or_token=config.github.auth_token,
+           timeout=config.github.request_timeout,
+       )
+
+       search_service = providers.Factory(
+           services.SearchService,
+           github_client=github_client,
+       )
+
+       index_view = flask.View(views.index)
 
 Tests
 -----
