@@ -175,8 +175,6 @@ Do next in the terminal::
     export FLASK_ENV=development
     flask run
 
-
-
 The output should be something like::
 
     * Serving Flask app "githubnavigator.application" (lazy loading)
@@ -201,7 +199,10 @@ For adding it to our application we will get
 `Bootstrap-Flask <https://pypi.org/project/Bootstrap-Flask/>`_ extension.
 It will help us to add all needed static files in few clicks.
 
-Add ``bootstrap-flask`` to the ``requirements.txt``::
+Add ``bootstrap-flask`` to the ``requirements.txt``:
+
+.. code-block::
+   :emphasize-lines: 3
 
    dependency-injector
    flask
@@ -345,13 +346,7 @@ Put next into the ``index.html``:
          </div>
        </form>
 
-       {% if repositories|length == 0 %}
-       <small>No search results</small>
-       {% endif %}
-
-       <p>
-           <small>Results found: {{ repositories|length }}</small>
-       </p>
+       <p><small>Results found: {{ repositories|length }}</small></p>
 
        <table class="table table-striped">
            <thead>
@@ -411,7 +406,7 @@ Edit ``views.py``:
 
 That's it.
 
-Make sure the app is running and open ``http://127.0.0.1:5000/``.
+Make sure the app is running or use ``flask run`` and open ``http://127.0.0.1:5000/``.
 
 You should see:
 
