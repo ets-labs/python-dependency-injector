@@ -1,3 +1,5 @@
+.. _flask-tutorial:
+
 Flask tutorial
 ==============
 
@@ -1107,7 +1109,7 @@ dependencies in one place:
 
 What's next?
 
-- Look at the other tutorials :ref:`tutorials`.
+- Look at the other :ref:`tutorials`.
 - Know more about the :ref:`providers`.
 - Go to the :ref:`contents`.
 
