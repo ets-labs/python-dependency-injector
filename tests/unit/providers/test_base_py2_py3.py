@@ -249,6 +249,18 @@ class DependencyTests(unittest.TestCase):
     def test_init_with_not_class(self):
         self.assertRaises(TypeError, providers.Dependency, object())
 
+    def test_with_abc(self):
+        try:
+            import collections.abc as collections_abc
+        except ImportError:
+            import collections as collections_abc
+
+        provider = providers.Dependency(collections_abc.Mapping)
+        provider.provided_by(providers.Factory(dict))
+
+        self.assertIsInstance(provider(), collections_abc.Mapping)
+        self.assertIsInstance(provider(), dict)
+
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(self.provider))
 

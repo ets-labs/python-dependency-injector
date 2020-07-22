@@ -28,7 +28,7 @@ cdef class Delegate(Provider):
 
 
 cdef class Dependency(Provider):
-    cdef type __instance_of
+    cdef object __instance_of
 
 
 cdef class ExternalDependency(Dependency):
