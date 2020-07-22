@@ -1,5 +1,6 @@
 """Dependency injector base providers unit tests."""
 
+from abc import ABC
 import unittest2 as unittest
 
 from dependency_injector import (
@@ -248,6 +249,19 @@ class DependencyTests(unittest.TestCase):
 
     def test_init_with_not_class(self):
         self.assertRaises(TypeError, providers.Dependency, object())
+
+    def test_with_abc(self):
+        class Base(ABC):
+            pass
+
+        class Implementation(Base):
+            pass
+
+        provider = providers.Dependency(Base)
+        provider.provided_by(providers.Object(Implementation()))
+
+        self.assertIsInstance(provider(), Base)
+        self.assertIsInstance(provider(), Implementation)
 
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(self.provider))
