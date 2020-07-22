@@ -1,6 +1,5 @@
 """Dependency injector base providers unit tests."""
 
-from abc import ABC
 import unittest2 as unittest
 
 from dependency_injector import (
@@ -251,17 +250,16 @@ class DependencyTests(unittest.TestCase):
         self.assertRaises(TypeError, providers.Dependency, object())
 
     def test_with_abc(self):
-        class Base(ABC):
-            pass
+        try:
+            import collections.abc as collections_abc
+        except ImportError:
+            import collections as collections_abc
 
-        class Implementation(Base):
-            pass
+        provider = providers.Dependency(collections_abc.Hashable)
+        provider.provided_by(providers.Factory(dict))
 
-        provider = providers.Dependency(Base)
-        provider.provided_by(providers.Object(Implementation()))
-
-        self.assertIsInstance(provider(), Base)
-        self.assertIsInstance(provider(), Implementation)
+        self.assertIsInstance(provider(), collections_abc.Hashable)
+        self.assertIsInstance(provider(), dict)
 
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(self.provider))
