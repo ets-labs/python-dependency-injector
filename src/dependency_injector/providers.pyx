@@ -419,8 +419,16 @@ cdef class Dependency(Provider):
         :type: type
    """
 
-    def __init__(self, type instance_of=object):
+    def __init__(self, object instance_of=object):
         """Initializer."""
+        if not isinstance(instance_of, CLASS_TYPES):
+            raise TypeError(
+                'Argument \'instance_of\' has incorrect type (expected {0}, got {1}))'.format(
+                    CLASS_TYPES,
+                    instance_of,
+                )
+            )
+
         self.__instance_of = instance_of
         super(Dependency, self).__init__()
 
