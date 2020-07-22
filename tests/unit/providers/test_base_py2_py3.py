@@ -255,10 +255,10 @@ class DependencyTests(unittest.TestCase):
         except ImportError:
             import collections as collections_abc
 
-        provider = providers.Dependency(collections_abc.Hashable)
+        provider = providers.Dependency(collections_abc.Mapping)
         provider.provided_by(providers.Factory(dict))
 
-        self.assertIsInstance(provider(), collections_abc.Hashable)
+        self.assertIsInstance(provider(), collections_abc.Mapping)
         self.assertIsInstance(provider(), dict)
 
     def test_is_provider(self):
