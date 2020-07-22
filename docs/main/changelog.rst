@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Fix an issue with creating ``Dependency`` provider with ``abc.ABCMeta``
+  (thanks to `awaizman1 <https://github.com/awaizman1>`_,
+  `issue #266 <https://github.com/ets-labs/python-dependency-injector/issues/266>`_,
+  `PR #267 <https://github.com/ets-labs/python-dependency-injector/pull/267>`_).
+
 3.23.0
 ------
 - Add ``Flask`` tutorial.
