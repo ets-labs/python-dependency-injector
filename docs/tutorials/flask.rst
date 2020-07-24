@@ -124,7 +124,7 @@ Put next into the ``views.py``:
 
 Ok, we have the view.
 
-Now let's create the heart of our application - the container. Container will keep all of the
+Now let's create the main part of our application - the container. Container will keep all of the
 application components and their dependencies. First two providers we need to add are
 the ``Flask`` application provider and the view provider.
 
@@ -150,8 +150,8 @@ Put next into the ``containers.py``:
 
 Finally we need to create the Flask application factory. It is traditionally called
 ``create_app()``. It will create the container. Then it will use the container to create
-the Flask application. Last step is to configure the routing - we will assign ``index_view`` from the
-container to handle user requests to the root ``/`` if our web application.
+the Flask application. Last step is to configure the routing - we will assign ``index_view`` from
+the container to handle user requests to the root ``/`` of our web application.
 
 Put next into the ``application.py``:
 
@@ -1087,8 +1087,8 @@ We are done.
 It this tutorial we've build ``Flask`` application following dependency injection principle.
 We've used ``Dependency Injector`` as a dependency injection framework.
 
-The heart of this application is the container. It keeps all the application components and their
-dependencies in one place:
+The main part of this application is the container. It keeps all the application components and
+their dependencies in one place:
 
 .. code-block:: python
 
