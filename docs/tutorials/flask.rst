@@ -758,7 +758,7 @@ Now let's inject the ``SearchService`` dependency into the ``index`` view.
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 32-38
+   :emphasize-lines: 32-35
 
    """Application containers module."""
 
