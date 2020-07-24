@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.23.2
+------
+- Fix ``Flask`` tutorial code issues, typos and change some wording.
+
 3.23.1
 ------
 - Fix an issue with creating ``Dependency`` provider with ``abc.ABCMeta``.
