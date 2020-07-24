@@ -75,22 +75,30 @@ Initial project layout::
 
 Now it's time to install ``Flask`` and ``Dependency Injector``.
 
-Put next lines into the ``requirements.txt`` file::
+Put next lines into the ``requirements.txt`` file:
+
+.. code-block:: bash
 
    dependency-injector
    flask
 
-Now let's install it::
+Now let's install it:
+
+.. code-block:: bash
 
    pip install -r requirements.txt
 
-And check that installation is successful::
+And check that installation is successful:
+
+.. code-block:: bash
 
    python -c "import dependency_injector; print(dependency_injector.__version__)"
    python -c "import flask; print(flask.__version__)"
 
 
-You should see something like::
+You should see something like:
+
+.. code-block:: bash
 
    (venv) $ python -c "import dependency_injector; print(dependency_injector.__version__)"
    3.22.0
@@ -108,15 +116,15 @@ Put next into the ``views.py``:
 
 .. code-block:: python
 
-    """Views module."""
+   """Views module."""
 
 
-    def index():
-        return 'Hello, World!'
+   def index():
+       return 'Hello, World!'
 
 Ok, we have the view.
 
-Now let's create the heart of our application - the container. Container will keep all of the
+Now let's create the main part of our application - the container. Container will keep all of the
 application components and their dependencies. First two providers we need to add are
 the ``Flask`` application provider and the view provider.
 
@@ -124,46 +132,46 @@ Put next into the ``containers.py``:
 
 .. code-block:: python
 
-    """Application containers module."""
+   """Application containers module."""
 
-    from dependency_injector import containers
-    from dependency_injector.ext import flask
-    from flask import Flask
+   from dependency_injector import containers
+   from dependency_injector.ext import flask
+   from flask import Flask
 
-    from . import views
+   from . import views
 
 
-    class ApplicationContainer(containers.DeclarativeContainer):
-        """Application container."""
+   class ApplicationContainer(containers.DeclarativeContainer):
+       """Application container."""
 
-        app = flask.Application(Flask, __name__)
+       app = flask.Application(Flask, __name__)
 
-        index_view = flask.View(views.index)
+       index_view = flask.View(views.index)
 
 Finally we need to create the Flask application factory. It is traditionally called
 ``create_app()``. It will create the container. Then it will use the container to create
-the Flask application. Last step is to configure the routing - we will assign ``index_view`` from the
-container to handle user requests to the root ``/`` if our web application.
+the Flask application. Last step is to configure the routing - we will assign ``index_view`` from
+the container to handle user requests to the root ``/`` of our web application.
 
 Put next into the ``application.py``:
 
 .. code-block:: python
 
-    """Application module."""
+   """Application module."""
 
-    from .containers import ApplicationContainer
+   from .containers import ApplicationContainer
 
 
-    def create_app():
-        """Create and return Flask application."""
-        container = ApplicationContainer()
+   def create_app():
+       """Create and return Flask application."""
+       container = ApplicationContainer()
 
-        app = container.app()
-        app.container = container
+       app = container.app()
+       app.container = container
 
-        app.add_url_rule('/', view_func=container.index_view.as_view())
+       app.add_url_rule('/', view_func=container.index_view.as_view())
 
-        return app
+       return app
 
 .. note::
 
@@ -173,13 +181,17 @@ Put next into the ``application.py``:
 
 Ok. Now we're ready to say "Hello, World!".
 
-Do next in the terminal::
+Do next in the terminal:
 
-    export FLASK_APP=githubnavigator.application
-    export FLASK_ENV=development
-    flask run
+.. code-block:: bash
 
-The output should be something like::
+   export FLASK_APP=githubnavigator.application
+   export FLASK_ENV=development
+   flask run
+
+The output should be something like:
+
+.. code-block:: bash
 
     * Serving Flask app "githubnavigator.application" (lazy loading)
     * Environment: development
@@ -205,14 +217,16 @@ It will help us to add all needed static files in few clicks.
 
 Add ``bootstrap-flask`` to the ``requirements.txt``:
 
-.. code-block::
+.. code-block:: bash
    :emphasize-lines: 3
 
    dependency-injector
    flask
    bootstrap-flask
 
-and run in the terminal::
+and run in the terminal:
+
+.. code-block:: bash
 
    pip install --upgrade -r requirements.txt
 
@@ -223,24 +237,24 @@ Edit ``containers.py``:
 .. code-block:: python
    :emphasize-lines: 6,16
 
-    """Application containers module."""
+   """Application containers module."""
 
-    from dependency_injector import containers
-    from dependency_injector.ext import flask
-    from flask import Flask
-    from flask_bootstrap import Bootstrap
+   from dependency_injector import containers
+   from dependency_injector.ext import flask
+   from flask import Flask
+   from flask_bootstrap import Bootstrap
 
-    from . import views
+   from . import views
 
 
-    class ApplicationContainer(containers.DeclarativeContainer):
-        """Application container."""
+   class ApplicationContainer(containers.DeclarativeContainer):
+       """Application container."""
 
-        app = flask.Application(Flask, __name__)
+       app = flask.Application(Flask, __name__)
 
-        bootstrap = flask.Extension(Bootstrap)
+       bootstrap = flask.Extension(Bootstrap)
 
-        index_view = flask.View(views.index)
+       index_view = flask.View(views.index)
 
 Let's initialize ``bootstrap-flask`` extension. We will need to modify ``create_app()``.
 
@@ -249,24 +263,24 @@ Edit ``application.py``:
 .. code-block:: python
    :emphasize-lines: 13-14
 
-    """Application module."""
+   """Application module."""
 
-    from .containers import ApplicationContainer
+   from .containers import ApplicationContainer
 
 
-    def create_app():
-        """Create and return Flask application."""
-        container = ApplicationContainer()
+   def create_app():
+       """Create and return Flask application."""
+       container = ApplicationContainer()
 
-        app = container.app()
-        app.container = container
+       app = container.app()
+       app.container = container
 
-        bootstrap = container.bootstrap()
-        bootstrap.init_app(app)
+       bootstrap = container.bootstrap()
+       bootstrap.init_app(app)
 
-        app.add_url_rule('/', view_func=container.index_view.as_view())
+       app.add_url_rule('/', view_func=container.index_view.as_view())
 
-        return app
+       return app
 
 Now we need to add the templates. For doing this we will need to add the folder ``templates/`` to
 the ``githubnavigator`` package. We also will need two files there:
@@ -276,7 +290,7 @@ the ``githubnavigator`` package. We also will need two files there:
 
 Create ``templates`` folder and put two empty files into it ``base.html`` and ``index.html``:
 
-.. code-block::
+.. code-block:: bash
    :emphasize-lines: 3-5
 
    ./
@@ -442,7 +456,7 @@ We will use `PyGithub <https://github.com/PyGithub/PyGithub>`_ library for worki
 
 Let's add it to the ``requirements.txt``:
 
-.. code-block::
+.. code-block:: bash
    :emphasize-lines: 4
 
    dependency-injector
@@ -450,7 +464,9 @@ Let's add it to the ``requirements.txt``:
    bootstrap-flask
    pygithub
 
-and run in the terminal::
+and run in the terminal:
+
+.. code-block:: bash
 
    pip install --upgrade -r requirements.txt
 
@@ -509,7 +525,7 @@ We will use YAML.
 
 Create an empty file ``config.yml`` in the root root of the project:
 
-.. code-block::
+.. code-block:: bash
    :emphasize-lines: 11
 
    ./
@@ -525,7 +541,9 @@ Create an empty file ``config.yml`` in the root root of the project:
    ├── config.yml
    └── requirements.txt
 
-and put next into it::
+and put next into it:
+
+.. code-block:: yaml
 
    github:
      request_timeout: 10
@@ -535,7 +553,7 @@ file. Let's add it to the requirements file.
 
 Edit ``requirements.txt``:
 
-.. code-block::
+.. code-block:: bash
    :emphasize-lines: 5
 
    dependency-injector
@@ -544,7 +562,9 @@ Edit ``requirements.txt``:
    pygithub
    pyyaml
 
-and install it::
+and install it:
+
+.. code-block:: bash
 
    pip install --upgrade -r requirements.txt
 
@@ -617,7 +637,7 @@ Now it's time to add ``SearchService``. It will:
 
 Create empty file ``services.py`` in the ``githubnavigator`` package:
 
-.. code-block::
+.. code-block:: bash
    :emphasize-lines: 9
 
    ./
@@ -758,7 +778,7 @@ Now let's inject the ``SearchService`` dependency into the ``index`` view.
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 32-38
+   :emphasize-lines: 32-35
 
    """Application containers module."""
 
@@ -890,7 +910,7 @@ Finally let's update the config.
 
 Edit ``config.yml``:
 
-.. code-block::
+.. code-block:: yaml
    :emphasize-lines: 3-5
 
    github:
@@ -913,7 +933,7 @@ We will use `pytest <https://docs.pytest.org/en/stable/>`_ and
 
 Edit ``requirements.txt``:
 
-.. code-block::
+.. code-block:: bash
    :emphasize-lines: 6-7
 
    dependency-injector
@@ -924,14 +944,15 @@ Edit ``requirements.txt``:
    pytest-flask
    pytest-cov
 
-And let's install it::
+And let's install it:
+
+.. code-block:: bash
 
    pip install -r requirements.txt
 
-
 Create empty file ``tests.py`` in the ``githubnavigator`` package:
 
-.. code-block::
+.. code-block:: bash
    :emphasize-lines: 10
 
    ./
@@ -1024,13 +1045,15 @@ and put next into it:
        assert response.status_code == 200
        assert b'Results found: 0' in response.data
 
-Now let's run it and check the coverage::
+Now let's run it and check the coverage:
+
+.. code-block:: bash
 
    py.test githubnavigator/tests.py --cov=githubnavigator
 
 You should see:
 
-.. code-block::
+.. code-block:: bash
 
    platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
    plugins: flask-1.0.0, cov-2.10.0
@@ -1064,8 +1087,8 @@ We are done.
 It this tutorial we've build ``Flask`` application following dependency injection principle.
 We've used ``Dependency Injector`` as a dependency injection framework.
 
-The heart of this application is the container. It keeps all the application components and their
-dependencies in one place:
+The main part of this application is the container. It keeps all the application components and
+their dependencies in one place:
 
 .. code-block:: python
 
