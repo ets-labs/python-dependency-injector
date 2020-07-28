@@ -68,7 +68,7 @@ After that visit http://127.0.0.1:5000/ in your browser.
 Test
 ----
 
-This application comes with unit tests.
+This application comes with the unit tests.
 
 To run the tests do:
 

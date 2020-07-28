@@ -84,7 +84,7 @@ etc). You should see something like:
 Test
 ----
 
-This application comes with unit tests.
+This application comes with the unit tests.
 
 To run the tests do:
 
