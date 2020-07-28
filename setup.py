@@ -67,6 +67,9 @@ setup(name='dependency-injector',
           'flask': [
               'flask',
           ],
+          'aiohttp': [
+              'aiohttp',
+          ],
       },
       zip_safe=True,
       license='BSD New',
