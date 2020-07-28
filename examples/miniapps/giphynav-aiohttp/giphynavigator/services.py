@@ -14,6 +14,5 @@ class SearchService:
             return []
 
         result = await self._giphy_client.search(query, limit)
-        print(result.keys())
 
         return [{'url': gif['url']} for gif in result['data']]
