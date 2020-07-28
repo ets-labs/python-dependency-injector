@@ -58,7 +58,7 @@ class ApplicationTests(AioHTTPTestCase):
         Override the get_app method to return your application.
         """
         container = ApplicationContainer()
-        app: web.Application = container.app()
+        app = container.app()
         app.container = container
         app.add_routes([
             web.get('/', container.index_view.as_view()),
