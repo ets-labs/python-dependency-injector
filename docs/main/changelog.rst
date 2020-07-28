@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Add ``Aiohttp`` integration module ``dependency_injector.ext.aiohttp``.
+- Add ``Aiohttp`` + ``Dependency Injector`` example ``giphynav-aiohttp``.
+
 3.23.2
 ------
 - Fix ``Flask`` tutorial code issues, typos and change some wording.
@@ -48,7 +53,7 @@ follows `Semantic versioning`_
 
 3.20.0
 ------
-- Add ``Flask`` integration module ``dependency_injector.flask.ext``.
+- Add ``Flask`` integration module ``dependency_injector.ext.flask``.
 - Add ``Flask`` + ``Dependency Injector`` example ``ghnav-flask``.
 - Add ``Factory.provides`` attribute. It is an alias to the ``Factory.cls``.
 - New README.
