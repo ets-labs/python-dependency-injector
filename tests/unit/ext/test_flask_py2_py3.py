@@ -4,7 +4,7 @@ import unittest2 as unittest
 from flask import Flask, url_for
 from flask.views import MethodView
 
-from dependency_injector import containers, providers
+from dependency_injector import containers
 from dependency_injector.ext import flask
 
 

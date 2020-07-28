@@ -1,0 +1,5 @@
+giphy:
+  request_timeout: 10
+search:
+  default_query: "Dependency Injector"
+  default_limit: 10
