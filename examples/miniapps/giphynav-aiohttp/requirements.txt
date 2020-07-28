@@ -2,3 +2,5 @@ dependency-injector
 aiohttp
 aiohttp-devtools
 pyyaml
+pytest-aiohttp
+pytest-cov

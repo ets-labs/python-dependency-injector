@@ -12,7 +12,7 @@ async def index(
         default_limit: int,
 ) -> web.Response:
     query = request.query.get('query', default_query)
-    limit = request.query.get('limit', default_limit)
+    limit = int(request.query.get('limit', default_limit))
 
     gifs = await search_service.search(query, limit)
 
