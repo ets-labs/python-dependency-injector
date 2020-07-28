@@ -12,6 +12,7 @@ class GiphyClient:
         self._timeout = ClientTimeout(timeout)
 
     async def search(self, query, limit):
+        """Make search API call and return result."""
         if not query:
             return []
 

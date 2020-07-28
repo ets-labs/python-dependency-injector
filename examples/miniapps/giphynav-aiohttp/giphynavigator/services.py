@@ -9,6 +9,7 @@ class SearchService:
         self._giphy_client = giphy_client
 
     async def search(self, query, limit):
+        """Search for gifs and return formatted data."""
         if not query:
             return []
 
