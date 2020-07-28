@@ -20,7 +20,7 @@ def _example(arg1, arg2, arg3, arg4):
 
 
 def _run(coro, debug=False):
-    if events._get_running_loop() is not None:
+    if asyncio._get_running_loop() is not None:
         raise RuntimeError(
             "asyncio.run() cannot be called from a running event loop")
 
