@@ -19,25 +19,8 @@ def _example(arg1, arg2, arg3, arg4):
     return arg1, arg2, arg3, arg4
 
 
-def _run(coro, debug=False):
-    if asyncio._get_running_loop() is not None:
-        raise RuntimeError(
-            "asyncio.run() cannot be called from a running event loop")
-
-    if not coroutines.iscoroutine(coro):
-        raise ValueError("a coroutine was expected, got {!r}".format(coro))
-
-    loop = events.new_event_loop()
-    try:
-        events.set_event_loop(loop)
-        loop.set_debug(debug)
-        return loop.run_until_complete(coro)
-    finally:
-        try:
-            loop.run_until_complete(loop.shutdown_asyncgens())
-        finally:
-            events.set_event_loop(None)
-            loop.close()
+def run(*args, **kwargs):
+    return asyncio.run(*args, **kwargs)
 
 
 class CoroutineTests(unittest.TestCase):
@@ -50,34 +33,34 @@ class CoroutineTests(unittest.TestCase):
 
     def test_call_with_positional_args(self):
         provider = providers.Coroutine(_example, 1, 2, 3, 4)
-        self.assertTupleEqual(_run(provider()), (1, 2, 3, 4))
+        self.assertTupleEqual(run(provider()), (1, 2, 3, 4))
 
     def test_call_with_keyword_args(self):
         provider = providers.Coroutine(_example,
                                        arg1=1, arg2=2, arg3=3, arg4=4)
-        self.assertTupleEqual(_run(provider()), (1, 2, 3, 4))
+        self.assertTupleEqual(run(provider()), (1, 2, 3, 4))
 
     def test_call_with_positional_and_keyword_args(self):
         provider = providers.Coroutine(_example,
                                        1, 2,
                                        arg3=3, arg4=4)
-        self.assertTupleEqual(_run(provider()), (1, 2, 3, 4))
+        self.assertTupleEqual(run(provider()), (1, 2, 3, 4))
 
     def test_call_with_context_args(self):
         provider = providers.Coroutine(_example, 1, 2)
-        self.assertTupleEqual(_run(provider(3, 4)), (1, 2, 3, 4))
+        self.assertTupleEqual(run(provider(3, 4)), (1, 2, 3, 4))
 
     def test_call_with_context_kwargs(self):
         provider = providers.Coroutine(_example, arg1=1)
         self.assertTupleEqual(
-            _run(provider(arg2=2, arg3=3, arg4=4)),
+            run(provider(arg2=2, arg3=3, arg4=4)),
             (1, 2, 3, 4),
         )
 
     def test_call_with_context_args_and_kwargs(self):
         provider = providers.Coroutine(_example, 1)
         self.assertTupleEqual(
-            _run(provider(2, arg3=3, arg4=4)),
+            run(provider(2, arg3=3, arg4=4)),
             (1, 2, 3, 4),
         )
 
@@ -86,7 +69,7 @@ class CoroutineTests(unittest.TestCase):
             .add_args(1, 2) \
             .add_kwargs(arg3=3, arg4=4)
 
-        self.assertTupleEqual(_run(provider()), (1, 2, 3, 4))
+        self.assertTupleEqual(run(provider()), (1, 2, 3, 4))
 
     def test_set_args(self):
         provider = providers.Coroutine(_example) \
@@ -244,7 +227,7 @@ class AbstractCoroutineTests(unittest.TestCase):
         provider = providers.AbstractCoroutine(_abstract_example)
         provider.override(providers.Coroutine(_example))
 
-        self.assertTrue(_run(provider(1, 2, 3, 4)), (1, 2, 3, 4))
+        self.assertTrue(run(provider(1, 2, 3, 4)), (1, 2, 3, 4))
 
     def test_call_overridden_by_delegated_coroutine(self):
         @asyncio.coroutine
@@ -254,7 +237,7 @@ class AbstractCoroutineTests(unittest.TestCase):
         provider = providers.AbstractCoroutine(_abstract_example)
         provider.override(providers.DelegatedCoroutine(_example))
 
-        self.assertTrue(_run(provider(1, 2, 3, 4)), (1, 2, 3, 4))
+        self.assertTrue(run(provider(1, 2, 3, 4)), (1, 2, 3, 4))
 
     def test_call_not_overridden(self):
         provider = providers.AbstractCoroutine(_example)
