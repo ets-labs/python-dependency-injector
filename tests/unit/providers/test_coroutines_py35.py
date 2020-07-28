@@ -1,7 +1,6 @@
 """Dependency injector coroutine providers unit tests."""
 
 import asyncio
-from asyncio import coroutines, events
 
 import unittest2 as unittest
 
