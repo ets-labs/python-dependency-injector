@@ -8,4 +8,5 @@ API Documentation
     providers
     containers
     errors
+    aiohttpext
     flaskext
