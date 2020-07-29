@@ -627,11 +627,11 @@ Github API client setup is done.
 Search service
 --------------
 
-Now it's time to add ``SearchService``. It will:
+Now it's time to add  the ``SearchService``. It will:
 
 - Perform the search.
 - Fetch commit extra data for each result.
-- Format result data
+- Format result data.
 
 ``SearchService`` will use ``Github`` API client.
 
