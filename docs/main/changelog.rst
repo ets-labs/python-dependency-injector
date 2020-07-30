@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.25.1
+------
+- Fix ``aiohttp`` tutorial typos.
+
 3.25.0
 ------
 - Add ``aiohttp`` tutorial.
