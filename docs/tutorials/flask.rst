@@ -827,8 +827,8 @@ Make some refactoring
 
 Our ``index`` view has two hardcoded config values:
 
-- Default search term
-- Limit of the results
+- Default search query
+- Default results limit
 
 Let's make some refactoring. We will move these values to the config.
 
