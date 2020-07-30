@@ -22,8 +22,8 @@ async def test_index(client, app):
     giphy_client_mock = mock.AsyncMock(spec=GiphyClient)
     giphy_client_mock.search.return_value = {
         'data': [
-            {'url': 'https://giphy.com/gif1.gif'},
-            {'url': 'https://giphy.com/gif2.gif'},
+            {'url': 'https://giphy/gif1.gif'},
+            {'url': 'https://giphy/gif2.gif'},
         ],
     }
 
@@ -42,8 +42,8 @@ async def test_index(client, app):
         'query': 'test',
         'limit': 10,
         'gifs': [
-            {'url': 'https://giphy.com/gif1.gif'},
-            {'url': 'https://giphy.com/gif2.gif'},
+            {'url': 'https://giphy/gif1.gif'},
+            {'url': 'https://giphy/gif2.gif'},
         ],
     }
 
