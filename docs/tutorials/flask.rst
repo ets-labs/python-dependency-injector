@@ -3,8 +3,7 @@
 Flask tutorial
 ==============
 
-This tutorials shows how to build ``Flask`` application following the dependency injection
-principle.
+This tutorials shows how to build ``Flask`` application following dependency injection principle.
 
 Start from the scratch or jump to the section:
 
@@ -628,11 +627,11 @@ Github API client setup is done.
 Search service
 --------------
 
-Now it's time to add  the ``SearchService``. It will:
+Now it's time to add ``SearchService``. It will:
 
 - Perform the search.
 - Fetch commit extra data for each result.
-- Format result data.
+- Format result data
 
 ``SearchService`` will use ``Github`` API client.
 
@@ -828,8 +827,8 @@ Make some refactoring
 
 Our ``index`` view has two hardcoded config values:
 
-- Default search query
-- Default results limit
+- Default search term
+- Limit of the results
 
 Let's make some refactoring. We will move these values to the config.
 
@@ -1076,7 +1075,7 @@ You should see:
 
 .. note::
 
-   Take a look at the highlights in the ``tests.py``.
+   Take a look on the highlights in the ``tests.py``.
 
    It emphasizes the overriding of the ``Github`` API client.
 
@@ -1085,7 +1084,7 @@ Conclusion
 
 We are done.
 
-In this tutorial we've build ``Flask`` application following the dependency injection principle.
+It this tutorial we've build ``Flask`` application following dependency injection principle.
 We've used ``Dependency Injector`` as a dependency injection framework.
 
 The main part of this application is the container. It keeps all the application components and
