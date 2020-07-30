@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.25.0
+------
+- Add ``aiohttp`` tutorial.
+- Fix ``Flask`` tutorial typos and change some wording.
+
 3.24.1
 ------
 - Update Google Search Console verification meta tag.
