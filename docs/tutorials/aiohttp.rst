@@ -3,8 +3,8 @@ Aiohttp tutorial
 
 .. _aiohttp-tutorial:
 
-This tutorials shows how to build ``Aiohttp`` REST API application following dependency injection
-principle.
+This tutorials shows how to build an ``aiohttp`` REST API application following the dependency
+injection principle.
 
 Start from the scratch or jump to the section:
 
@@ -627,7 +627,7 @@ and make a request to the API in the terminal:
 
 .. code-block:: bash
 
-   http http://localhost:8000/ query=="wow,it works"
+   http http://localhost:8000/ query=="wow,it works" limit==5
 
 You should see:
 
@@ -656,21 +656,6 @@ You should see:
            {
                "url": "https://giphy.com/gifs/everwhatproductions-fun-christmas-3oxHQCI8tKXoeW4IBq"
            },
-           {
-               "url": "https://giphy.com/gifs/spacestationgaming-love-wow-team-YST1F1J5g2yyLLvMJc"
-           },
-           {
-               "url": "https://giphy.com/gifs/dollyparton-3xIVVMnZfG3KQ9v4Ye"
-           },
-           {
-               "url": "https://giphy.com/gifs/greatbigstory-wow-omg-BLGlU7OWvFAFMoNjsM"
-           },
-           {
-               "url": "https://giphy.com/gifs/soulpancake-wow-work-xUe4HVXTPi0wQ2OAJC"
-           },
-           {
-               "url": "https://giphy.com/gifs/nickelodeon-nick-pull-ups-casagrandes-eK136cynbxuOVk0qzJ"
-           }
        ],
        "limit": 10,
        "query": "wow,it works"
@@ -683,10 +668,297 @@ The search works!
 Make some refactoring
 ---------------------
 
+Our ``index`` view has two hardcoded config values:
+
+- Default search query
+- Default results limit
+
+Let's make some refactoring. We will move these values to the config.
+
+Edit ``views.py``:
+
+.. code-block:: python
+   :emphasize-lines: 11-12,14-15
+
+   """Views module."""
+
+   from aiohttp import web
+
+   from .services import SearchService
+
+
+   async def index(
+           request: web.Request,
+           search_service: SearchService,
+           default_query: str,
+           default_limit: int,
+   ) -> web.Response:
+       query = request.query.get('query', default_query)
+       limit = int(request.query.get('limit', default_limit))
+
+       gifs = await search_service.search(query, limit)
+
+       return web.json_response(
+           {
+               'query': query,
+               'limit': limit,
+               'gifs': gifs,
+           },
+       )
+
+Now we need to inject these values. Let's update the container.
+
+Edit ``containers.py``:
+
+.. code-block:: python
+   :emphasize-lines: 31-32
+
+   """Application containers module."""
+
+   from dependency_injector import containers, providers
+   from dependency_injector.ext import aiohttp
+   from aiohttp import web
+
+   from . import giphy, services, views
+
+
+   class ApplicationContainer(containers.DeclarativeContainer):
+       """Application container."""
+
+       app = aiohttp.Application(web.Application)
+
+       config = providers.Configuration()
+
+       giphy_client = providers.Factory(
+           giphy.GiphyClient,
+           api_key=config.giphy.api_key,
+           timeout=config.giphy.request_timeout,
+       )
+
+       search_service = providers.Factory(
+           services.SearchService,
+           giphy_client=giphy_client,
+       )
+
+       index_view = aiohttp.View(
+           views.index,
+           search_service=search_service,
+           default_query=config.search.default_query,
+           default_limit=config.search.default_limit,
+       )
+
+Finally let's update the config.
+
+Edit ``config.yml``:
+
+.. code-block:: yaml
+   :emphasize-lines: 3-5
+
+   giphy:
+     request_timeout: 10
+   search:
+     default_query: "Dependency Injector"
+     default_limit: 10
+
+The refactoring is done. We've made it cleaner - hardcoded values are now moved to the config.
+
+In the next section we will add some tests.
+
 Tests
 -----
 
+It would be nice to add some tests. Let's do it.
+
+We will use `pytest <https://docs.pytest.org/en/stable/>`_ and
+`coverage <https://coverage.readthedocs.io/>`_.
+
+Create ``tests.py`` module in the ``giphynavigator`` package:
+
+.. code-block:: bash
+   :emphasize-lines: 8
+
+   ./
+   ├── giphynavigator/
+   │   ├── __init__.py
+   │   ├── application.py
+   │   ├── containers.py
+   │   ├── giphy.py
+   │   ├── services.py
+   │   ├── tests.py
+   │   └── views.py
+   ├── venv/
+   └── requirements.txt
+
+and put next into it:
+
+.. code-block:: python
+   :emphasize-lines: 30,57,71
+
+   """Tests module."""
+
+   from unittest import mock
+
+   import pytest
+
+   from giphynavigator.application import create_app
+   from giphynavigator.giphy import GiphyClient
+
+
+   @pytest.fixture
+   def app():
+       return create_app()
+
+
+   @pytest.fixture
+   def client(app, aiohttp_client, loop):
+       return loop.run_until_complete(aiohttp_client(app))
+
+
+   async def test_index(client, app):
+       giphy_client_mock = mock.AsyncMock(spec=GiphyClient)
+       giphy_client_mock.search.return_value = {
+           'data': [
+               {'url': 'https://giphy.com/gif1.gif'},
+               {'url': 'https://giphy.com/gif2.gif'},
+           ],
+       }
+
+       with app.container.giphy_client.override(giphy_client_mock):
+           response = await client.get(
+               '/',
+               params={
+                   'query': 'test',
+                   'limit': 10,
+               },
+           )
+
+       assert response.status == 200
+       data = await response.json()
+       assert data == {
+           'query': 'test',
+           'limit': 10,
+           'gifs': [
+               {'url': 'https://giphy.com/gif1.gif'},
+               {'url': 'https://giphy.com/gif2.gif'},
+           ],
+       }
+
+
+   async def test_index_no_data(client, app):
+       giphy_client_mock = mock.AsyncMock(spec=GiphyClient)
+       giphy_client_mock.search.return_value = {
+           'data': [],
+       }
+
+       with app.container.giphy_client.override(giphy_client_mock):
+           response = await client.get('/')
+
+       assert response.status == 200
+       data = await response.json()
+       assert data['gifs'] == []
+
+
+   async def test_index_default_params(client, app):
+       giphy_client_mock = mock.AsyncMock(spec=GiphyClient)
+       giphy_client_mock.search.return_value = {
+           'data': [],
+       }
+
+       with app.container.giphy_client.override(giphy_client_mock):
+           response = await client.get('/')
+
+       assert response.status == 200
+       data = await response.json()
+       assert data['query'] == app.container.config.search.default_query()
+       assert data['limit'] == app.container.config.search.default_limit()
+
+Now let's run it and check the coverage:
+
+.. code-block:: bash
+
+   py.test giphynavigator/tests.py --cov=giphynavigator
+
+You should see:
+
+.. code-block:: bash
+
+   platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
+   plugins: cov-2.10.0, aiohttp-0.3.0, asyncio-0.14.0
+   collected 3 items
+
+   giphynavigator/tests.py ...                                     [100%]
+
+   ---------- coverage: platform darwin, python 3.8.3-final-0 -----------
+   Name                            Stmts   Miss  Cover
+   ---------------------------------------------------
+   giphynavigator/__init__.py          0      0   100%
+   giphynavigator/__main__.py          5      5     0%
+   giphynavigator/application.py      10      0   100%
+   giphynavigator/containers.py       10      0   100%
+   giphynavigator/giphy.py            16     11    31%
+   giphynavigator/services.py          9      1    89%
+   giphynavigator/tests.py            35      0   100%
+   giphynavigator/views.py             7      0   100%
+   ---------------------------------------------------
+   TOTAL                              92     17    82%
+
+.. note::
+
+   Take a look at the highlights in the ``tests.py``.
+
+   It emphasizes the overriding of the ``GiphyClient``. The real API call are mocked.
+
 Conclusion
 ----------
+
+In this tutorial we've build an ``aiohttp`` REST API application following the dependency
+injection principle.
+We've used ``Dependency Injector`` as a dependency injection framework.
+
+The benefit you get with the ``Dependency Injector`` is the container. It starts to payoff
+when you need to understand or change your application structure. It's easy with the container,
+cause you have everything in one place:
+
+.. code-block:: python
+
+   """Application containers module."""
+
+   from dependency_injector import containers, providers
+   from dependency_injector.ext import aiohttp
+   from aiohttp import web
+
+   from . import giphy, services, views
+
+
+   class ApplicationContainer(containers.DeclarativeContainer):
+       """Application container."""
+
+       app = aiohttp.Application(web.Application)
+
+       config = providers.Configuration()
+
+       giphy_client = providers.Factory(
+           giphy.GiphyClient,
+           api_key=config.giphy.api_key,
+           timeout=config.giphy.request_timeout,
+       )
+
+       search_service = providers.Factory(
+           services.SearchService,
+           giphy_client=giphy_client,
+       )
+
+       index_view = aiohttp.View(
+           views.index,
+           search_service=search_service,
+           default_query=config.search.default_query,
+           default_limit=config.search.default_limit,
+       )
+
+What's next?
+
+- Look at the other :ref:`tutorials`.
+- Know more about the :ref:`providers`.
+- Go to the :ref:`contents`.
 
 .. disqus::
