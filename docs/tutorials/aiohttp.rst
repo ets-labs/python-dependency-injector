@@ -122,7 +122,7 @@ Now it's time to install the project requirements. We will use next packages:
 - ``aiohttp-devtools`` - the helper library that will provide a development server with live
   reloading
 - ``pyyaml`` - the YAML files parsing library, used for the reading of the configuration files
-- ``pytest-aiohttp``- the helper library for the testing of the ``aiohttp`` application
+- ``pytest-aiohttp`` - the helper library for the testing of the ``aiohttp`` application
 - ``pytest-cov`` - the helper library for measuring the test coverage
 
 Put next lines into the ``requirements.txt`` file:
@@ -223,7 +223,7 @@ Put next into the ``application.py``:
 
 
    def create_app():
-       """Create and return Flask application."""
+       """Create and return aiohttp application."""
        container = ApplicationContainer()
 
        app: web.Application = container.app()
@@ -426,7 +426,7 @@ Edit ``application.py``:
 
 
    def create_app():
-       """Create and return Flask application."""
+       """Create and return aiohttp application."""
        container = ApplicationContainer()
        container.config.from_yaml('config.yml')
        container.config.giphy.api_key.from_env('GIPHY_API_KEY')
