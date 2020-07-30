@@ -6,7 +6,7 @@ from .containers import ApplicationContainer
 
 
 def create_app():
-    """Create and return Flask application."""
+    """Create and return aiohttp application."""
     container = ApplicationContainer()
     container.config.from_yaml('config.yml')
     container.config.giphy.api_key.from_env('GIPHY_API_KEY')
