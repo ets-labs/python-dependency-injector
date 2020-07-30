@@ -3,7 +3,8 @@
 Flask tutorial
 ==============
 
-This tutorials shows how to build ``Flask`` application following dependency injection principle.
+This tutorials shows how to build ``Flask`` application following the dependency injection
+principle.
 
 Start from the scratch or jump to the section:
 
@@ -1075,7 +1076,7 @@ You should see:
 
 .. note::
 
-   Take a look on the highlights in the ``tests.py``.
+   Take a look at the highlights in the ``tests.py``.
 
    It emphasizes the overriding of the ``Github`` API client.
 
@@ -1084,7 +1085,7 @@ Conclusion
 
 We are done.
 
-It this tutorial we've build ``Flask`` application following dependency injection principle.
+In this tutorial we've build ``Flask`` application following the dependency injection principle.
 We've used ``Dependency Injector`` as a dependency injection framework.
 
 The main part of this application is the container. It keeps all the application components and
