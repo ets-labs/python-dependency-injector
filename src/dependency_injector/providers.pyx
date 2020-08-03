@@ -9,6 +9,7 @@ import re
 import sys
 import types
 import threading
+import weakref
 
 try:
     import asyncio
@@ -1045,158 +1046,101 @@ cdef class CoroutineDelegate(Delegate):
         super(CoroutineDelegate, self).__init__(coroutine)
 
 
-cdef class Configuration(Object):
-    """Configuration provider provides configuration options to the other providers.
+cdef class ConfigurationOption(Provider):
+    """Child configuration option provider.
 
-    .. code-block:: python
-
-        config = Configuration('config')
-
-        print(config.section1.option1())  # None
-        print(config.section1.option2())  # None
-
-        config.from_dict(
-            {
-                'section1': {
-                    'option1': 1,
-                    'option2': 2,
-                },
-            },
-        )
-
-        print(config.section1.option1())  # 1
-        print(config.section1.option2())  # 2
+    This provider should not be used directly. It is a part of the
+    :py:class:`Configuration` provider.
     """
 
-    DEFAULT_NAME = 'config'
+    UNDEFINED = object()
 
-    def __init__(self, name=None, default=None):
-        """Initializer.
-
-        :param name: Name of configuration unit.
-        :type name: str
-
-        :param default: Default values of configuration unit.
-        :type default: dict
-        """
-        super(Configuration, self).__init__(default)
-
-        if name is None:
-            name = self.DEFAULT_NAME
-
+    def __init__(self, name, root):
         self.__name = name
-        self.__children = self._create_children(default)
-        self.__linked = list()
+        self.__root_ref = weakref.ref(root)
+        self.__children = {}
+        self.__cache = self.UNDEFINED
+        super().__init__()
 
     def __deepcopy__(self, memo):
-        """Create and return full copy of provider."""
-        cdef Configuration copied
+        cdef ConfigurationOption copied
 
         copied = memo.get(id(self))
         if copied is not None:
             return copied
 
-        copied = self.__class__(self.__name)
-        copied.__provides = deepcopy(self.__provides, memo)
-        copied.__children = deepcopy(self.__children, memo)
-        copied.__linked = deepcopy(self.__linked, memo)
+        copied_name = deepcopy(self.__name, memo)
 
-        self._copy_overridings(copied, memo)
+        root = self.__root_ref()
+        copied_root = memo.get(id(root))
+        if copied_root is None:
+            copied_root = deepcopy(root, memo)
+
+        copied = self.__class__(copied_name, copied_root)
+        copied.__children = deepcopy(self.__children, memo)
 
         return copied
 
     def __str__(self):
-        """Return string representation of provider.
+        return represent_provider(provider=self, provides=self.get_name())
 
-        :rtype: str
-        """
-        return represent_provider(provider=self, provides=self.__name)
-
-    def __getattr__(self, str name):
-        """Return child configuration provider."""
-        if name.startswith('__') and name.endswith('__'):
+    def __getattr__(self, item):
+        if item.startswith('__') and item.endswith('__'):
             raise AttributeError(
                 '\'{cls}\' object has no attribute '
                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
-                                              attribute_name=name))
+                                              attribute_name=item))
 
-        child_provider = self.__children.get(name)
+        child = self.__children.get(item)
+        if child is None:
+            child_name = self.__name + (item,)
+            child = ConfigurationOption(child_name, self.__root_ref())
+            self.__children[item] = child
+        return child
 
-        if child_provider is None:
-            child_name = self._get_child_full_name(name)
-            child_provider = self.__class__(child_name)
+    def __getitem__(self, item):
+        child = self.__children.get(item)
+        if child is None:
+            child_name = self.__name + (item,)
+            child = ConfigurationOption(child_name, self.__root_ref())
+            self.__children[item] = child
+        return child
 
-            value = self.__call__()
-            if isinstance(value, dict):
-                child_value = value.get(name)
-                child_provider.override(child_value)
+    cpdef object _provide(self, tuple args, dict kwargs):
+        """Return new instance."""
+        if self.__cache is not self.UNDEFINED:
+            return self.__cache
 
-            self.__children[name] = child_provider
+        root = self.__root_ref()
+        value = root.get(self._get_self_name())
+        self.__cache = value
+        return value
 
-        return child_provider
+    def _get_self_name(self):
+        return '.'.join(
+            segment() if is_provider(segment) else segment for segment in self.__name
+        )
 
     def get_name(self):
-        """Name of configuration unit."""
-        return self.__name
+        root = self.__root_ref()
+        return '.'.join((root.get_name(), self._get_self_name()))
 
-    def override(self, provider):
-        """Override provider with another provider.
-
-        :param provider: Overriding provider.
-        :type provider: :py:class:`Provider`
-
-        :raise: :py:exc:`dependency_injector.errors.Error`
-
-        :return: Overriding context.
-        :rtype: :py:class:`OverridingContext`
-        """
-        overriding_context = super(Configuration, self).override(provider)
-
-        for linked in self.__linked:
-            linked.override(provider)
-
-        if isinstance(provider, Configuration):
-            provider.link_provider(self)
-
-        value = self.__call__()
-        if not isinstance(value, dict):
-            return overriding_context
-
-        for name in value.keys():
-            child_provider = self.__children.get(name)
-            if child_provider is None:
-                continue
-            child_provider.override(value.get(name))
-
-        return overriding_context
+    def override(self, value):
+        if isinstance(value, Provider):
+            raise Error('Configuration option can only be overridden by a value')
+        root = self.__root_ref()
+        return root.set(self._get_self_name(), value)
 
     def reset_last_overriding(self):
-        """Reset last overriding provider.
-
-        :raise: :py:exc:`dependency_injector.errors.Error` if provider is not
-                overridden.
-
-        :rtype: None
-        """
-        for child in self.__children.values():
-            try:
-                child.reset_last_overriding()
-            except Error:
-                pass
-        super(Configuration, self).reset_last_overriding()
+        raise Error('Configuration option does not support this method')
 
     def reset_override(self):
-        """Reset all overriding providers.
+        raise Error('Configuration option does not support this method')
 
-        :rtype: None
-        """
+    def reset_cache(self):
+        self.__cache = self.UNDEFINED
         for child in self.__children.values():
-            child.reset_override()
-        super(Configuration, self).reset_override()
-
-    def link_provider(self, provider):
-        """Configuration link two configuration providers."""
-        self.__linked.append(<Configuration?>provider)
+            child.reset_cache()
 
     def update(self, value):
         """Set configuration options.
@@ -1290,27 +1234,260 @@ cdef class Configuration(Object):
         value = os.getenv(name, default)
         self.override(value)
 
-    def _create_children(self, value):
-        children = dict()
 
-        if not isinstance(value, dict):
-            return children
+cdef class Configuration(Object):
+    """Configuration provider provides configuration options to the other providers.
 
-        for child_name, child_value in value.items():
-            child_full_name = self._get_child_full_name(child_name)
-            child_provider = self.__class__(child_full_name, child_value)
-            children[child_name] = child_provider
+    .. code-block:: python
+        config = Configuration('config')
+        print(config.section1.option1())  # None
+        print(config.section1.option2())  # None
+        config.from_dict(
+            {
+                'section1': {
+                    'option1': 1,
+                    'option2': 2,
+                },
+            },
+        )
+        print(config.section1.option1())  # 1
+        print(config.section1.option2())  # 2
+    """
 
-        return children
+    DEFAULT_NAME = 'config'
 
-    def _get_child_full_name(self, child_name):
-        child_full_name = ''
+    def __init__(self, name=DEFAULT_NAME, default=None):
+        self.__name = name
 
-        if self.__name:
-            child_full_name += self.__name + '.'
-        child_full_name += child_name
+        value = {}
+        if default is not None:
+            assert isinstance(default, dict), default
+            value = default.copy()
 
-        return child_full_name
+        self.__children = {}
+
+        super().__init__(value)
+
+    def __deepcopy__(self, memo):
+        cdef Configuration copied
+
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__(self.__name, self.__provides)
+        memo[id(self)] = copied
+
+        copied.__children = deepcopy(self.__children, memo)
+        self._copy_overridings(copied, memo)
+
+        return copied
+
+    def __str__(self):
+        return represent_provider(provider=self, provides=self.__name)
+
+    def __getattr__(self, item):
+        if item.startswith('__') and item.endswith('__'):
+            raise AttributeError(
+                '\'{cls}\' object has no attribute '
+                '\'{attribute_name}\''.format(cls=self.__class__.__name__,
+                                              attribute_name=item))
+
+        child = self.__children.get(item)
+        if child is None:
+            child = ConfigurationOption((item,), self)
+            self.__children[item] = child
+        return child
+
+    def __getitem__(self, item):
+        child = self.__children.get(item)
+        if child is None:
+            child = ConfigurationOption(item, self)
+            self.__children[item] = child
+        return child
+
+    def get_name(self):
+        return self.__name
+
+    def get(self, selector):
+        """Return configuration option.
+
+        :param selector: Selector string, e.g. "option1.option2"
+        :type selector: str
+
+        :return: Option value.
+        :rtype: Any
+        """
+        keys = selector.split('.')
+        value = self.__call__()
+
+        while len(keys) > 0:
+            key = keys.pop(0)
+            value = value.get(key)
+            if value is None:
+                break
+
+        return value
+
+    def set(self, selector, value):
+        """Override configuration option.
+
+        :param selector: Selector string, e.g. "option1.option2"
+        :type selector: str
+
+        :param value: Overriding value
+        :type value: Any
+
+        :return: Overriding context.
+        :rtype: :py:class:`OverridingContext`
+        """
+        keys = selector.split('.')
+        original_value = current_value = self.__call__()
+
+        while len(keys) > 0:
+            key = keys.pop(0)
+            if len(keys) == 0:
+                current_value[key] = value
+                break
+            temp_value = current_value.get(key, {})
+            current_value[key] = temp_value
+            current_value = temp_value
+
+        return self.override(original_value)
+
+    def override(self, provider):
+        """Override provider with another provider.
+
+        :param provider: Overriding provider.
+        :type provider: :py:class:`Provider`
+
+        :raise: :py:exc:`dependency_injector.errors.Error`
+
+        :return: Overriding context.
+        :rtype: :py:class:`OverridingContext`
+        """
+        context = super().override(provider)
+        self.reset_cache()
+        return context
+
+    def reset_last_overriding(self):
+        """Reset last overriding provider.
+
+        :raise: :py:exc:`dependency_injector.errors.Error` if provider is not
+                overridden.
+
+        :rtype: None
+        """
+        super().reset_last_overriding()
+        self.reset_cache()
+
+    def reset_override(self):
+        """Reset all overriding providers.
+
+        :rtype: None
+        """
+        super().reset_override()
+        self.reset_cache()
+
+    def reset_cache(self):
+        """Reset children providers cache.
+
+        :rtype: None
+        """
+        for child in self.__children.values():
+            child.reset_cache()
+
+    def update(self, value):
+        """Set configuration options.
+
+        .. deprecated:: 3.11
+
+            Use :py:meth:`Configuration.override` instead.
+
+        :param value: Value of configuration option.
+        :type value: object | dict
+
+        :rtype: None
+        """
+        self.override(value)
+
+    def from_ini(self, filepath):
+        """Load configuration from the ini file.
+
+        Loaded configuration is merged recursively over existing configuration.
+
+        :param filepath: Path to the configuration file.
+        :type filepath: str
+
+        :rtype: None
+        """
+        parser = _parse_ini_file(filepath)
+
+        config = {}
+        for section in parser.sections():
+            config[section] = dict(parser.items(section))
+
+        current_config = self.__call__()
+        if not current_config:
+            current_config = {}
+        self.override(merge_dicts(current_config, config))
+
+    def from_yaml(self, filepath):
+        """Load configuration from the yaml file.
+
+        Loaded configuration is merged recursively over existing configuration.
+
+        :param filepath: Path to the configuration file.
+        :type filepath: str
+
+        :rtype: None
+        """
+        if yaml is None:
+            raise Error(
+                'Unable to load yaml configuration - PyYAML is not installed. '
+                'Install PyYAML or install Dependency Injector with yaml extras: '
+                '"pip install dependency-injector[yaml]"'
+            )
+
+        try:
+            with open(filepath) as opened_file:
+                config = yaml.load(opened_file, yaml.Loader)
+        except IOError:
+            return
+
+        current_config = self.__call__()
+        if not current_config:
+            current_config = {}
+        self.override(merge_dicts(current_config, config))
+
+    def from_dict(self, options):
+        """Load configuration from the dictionary.
+
+        Loaded configuration is merged recursively over existing configuration.
+
+        :param options: Configuration options.
+        :type options: dict
+
+        :rtype: None
+        """
+        current_config = self.__call__()
+        if not current_config:
+            current_config = {}
+        self.override(merge_dicts(current_config, options))
+
+    def from_env(self, name, default=None):
+        """Load configuration value from the environment variable.
+
+        :param name: Name of the environment variable.
+        :type name: str
+
+        :param default: Default value that is used if environment variable does not exist.
+        :type default: str
+
+        :rtype: None
+        """
+        value = os.getenv(name, default)
+        self.override(value)
 
 
 cdef class Factory(Provider):
