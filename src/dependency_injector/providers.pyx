@@ -1047,6 +1047,11 @@ cdef class CoroutineDelegate(Delegate):
 
 
 cdef class ConfigurationOption(Provider):
+    """Child configuration option provider.
+
+    This provider should not be used directly. It is a part of the
+    :py:class:`Configuration` provider.
+    """
 
     UNDEFINED = object()
 
@@ -1231,6 +1236,23 @@ cdef class ConfigurationOption(Provider):
 
 
 cdef class Configuration(Object):
+    """Configuration provider provides configuration options to the other providers.
+
+    .. code-block:: python
+        config = Configuration('config')
+        print(config.section1.option1())  # None
+        print(config.section1.option2())  # None
+        config.from_dict(
+            {
+                'section1': {
+                    'option1': 1,
+                    'option2': 2,
+                },
+            },
+        )
+        print(config.section1.option1())  # 1
+        print(config.section1.option2())  # 2
+    """
 
     DEFAULT_NAME = 'config'
 
@@ -1288,6 +1310,14 @@ cdef class Configuration(Object):
         return self.__name
 
     def get(self, selector):
+        """Return configuration option.
+
+        :param selector: Selector string, e.g. "option1.option2"
+        :type selector: str
+
+        :return: Option value.
+        :rtype: Any
+        """
         keys = selector.split('.')
         value = self.__call__()
 
@@ -1300,6 +1330,17 @@ cdef class Configuration(Object):
         return value
 
     def set(self, selector, value):
+        """Override configuration option.
+
+        :param selector: Selector string, e.g. "option1.option2"
+        :type selector: str
+
+        :param value: Overriding value
+        :type value: Any
+
+        :return: Overriding context.
+        :rtype: :py:class:`OverridingContext`
+        """
         keys = selector.split('.')
         original_value = current_value = self.__call__()
 
@@ -1315,19 +1356,44 @@ cdef class Configuration(Object):
         return self.override(original_value)
 
     def override(self, provider):
+        """Override provider with another provider.
+
+        :param provider: Overriding provider.
+        :type provider: :py:class:`Provider`
+
+        :raise: :py:exc:`dependency_injector.errors.Error`
+
+        :return: Overriding context.
+        :rtype: :py:class:`OverridingContext`
+        """
         context = super().override(provider)
         self.reset_cache()
         return context
 
     def reset_last_overriding(self):
+        """Reset last overriding provider.
+
+        :raise: :py:exc:`dependency_injector.errors.Error` if provider is not
+                overridden.
+
+        :rtype: None
+        """
         super().reset_last_overriding()
         self.reset_cache()
 
     def reset_override(self):
+        """Reset all overriding providers.
+
+        :rtype: None
+        """
         super().reset_override()
         self.reset_cache()
 
     def reset_cache(self):
+        """Reset children providers cache.
+
+        :rtype: None
+        """
         for child in self.__children.values():
             child.reset_cache()
 
