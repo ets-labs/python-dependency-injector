@@ -321,9 +321,6 @@ and put next into it:
 
        async def search(self, query, limit):
            """Make search API call and return result."""
-           if not query:
-               return []
-
            url = f'{self.API_URL}/gifs/search'
            params = {
                'q': query,
@@ -895,12 +892,12 @@ You should see:
    giphynavigator/__main__.py          5      5     0%
    giphynavigator/application.py      10      0   100%
    giphynavigator/containers.py       10      0   100%
-   giphynavigator/giphy.py            16     11    31%
+   giphynavigator/giphy.py            14      9    36%
    giphynavigator/services.py          9      1    89%
    giphynavigator/tests.py            35      0   100%
    giphynavigator/views.py             7      0   100%
    ---------------------------------------------------
-   TOTAL                              92     17    82%
+   TOTAL                              90     15    83%
 
 .. note::
 
