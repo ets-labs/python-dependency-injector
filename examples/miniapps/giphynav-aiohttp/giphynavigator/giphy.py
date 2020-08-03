@@ -13,9 +13,6 @@ class GiphyClient:
 
     async def search(self, query, limit):
         """Make search API call and return result."""
-        if not query:
-            return []
-
         url = f'{self.API_URL}/gifs/search'
         params = {
             'q': query,

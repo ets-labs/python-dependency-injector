@@ -7,6 +7,14 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.26.0
+------
+- Add configuration itemselector feature (see
+  `Issue 274 <https://github.com/ets-labs/python-dependency-injector/issues/274>`_).
+- Re-design ``Configuration`` provider implementation.
+- Update ``giphynav-aiohttp`` to remove doubled "if not query" (many thanks to
+  `Oleg Baranov <https://github.com/mrbish>`_ for the feedback).
+
 3.25.1
 ------
 - Fix ``aiohttp`` tutorial typos.

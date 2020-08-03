@@ -183,7 +183,7 @@ class ConfigTests(unittest.TestCase):
     def test_repr_child(self):
         self.assertEqual(repr(self.config.a.b.c),
                          '<dependency_injector.providers.'
-                         'Configuration({0}) at {1}>'.format(
+                         'ConfigurationOption({0}) at {1}>'.format(
                              repr('config.a.b.c'),
                              hex(id(self.config.a.b.c))))
 
@@ -565,6 +565,6 @@ class ConfigFromEnvTests(unittest.TestCase):
     def test_with_children(self):
         self.config.section1.value1.from_env('CONFIG_TEST_ENV')
 
-        self.assertIsNone(self.config())
-        self.assertIsNone(self.config.section1())
+        self.assertEqual(self.config(), {'section1': {'value1': 'test-value'}})
+        self.assertEqual(self.config.section1(), {'value1': 'test-value'})
         self.assertEqual(self.config.section1.value1(), 'test-value')
