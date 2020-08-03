@@ -1069,7 +1069,7 @@ struct __pyx_obj_19dependency_injector_9providers_CoroutineDelegate {
  * 
  * # Configuration providers
  * cdef class ConfigurationOption(Provider):             # <<<<<<<<<<<<<<
- *     cdef str __name
+ *     cdef tuple __name
  *     cdef object __root_ref
  */
 struct __pyx_obj_19dependency_injector_9providers_ConfigurationOption {
@@ -1657,7 +1657,7 @@ static struct __pyx_vtabstruct_19dependency_injector_9providers_CoroutineDelegat
  * 
  * # Configuration providers
  * cdef class ConfigurationOption(Provider):             # <<<<<<<<<<<<<<
- *     cdef str __name
+ *     cdef tuple __name
  *     cdef object __root_ref
  */
 

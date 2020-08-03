@@ -90,7 +90,7 @@ cdef class CoroutineDelegate(Delegate):
 
 # Configuration providers
 cdef class ConfigurationOption(Provider):
-    cdef str __name
+    cdef tuple __name
     cdef object __root_ref
     cdef dict __children
     cdef object __cache

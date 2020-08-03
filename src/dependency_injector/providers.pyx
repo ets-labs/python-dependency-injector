@@ -1064,9 +1064,14 @@ cdef class ConfigurationOption(Provider):
         if copied is not None:
             return copied
 
-        copied_root = memo[id(self.__root_ref())]
+        copied_name = deepcopy(self.__name, memo)
 
-        copied = self.__class__(self.__name, copied_root)
+        root = self.__root_ref()
+        copied_root = memo.get(id(root))
+        if copied_root is None:
+            copied_root = deepcopy(root, memo)
+
+        copied = self.__class__(copied_name, copied_root)
         copied.__children = deepcopy(self.__children, memo)
 
         return copied
@@ -1083,7 +1088,15 @@ cdef class ConfigurationOption(Provider):
 
         child = self.__children.get(item)
         if child is None:
-            child_name = '.'.join((self.__name, item))
+            child_name = self.__name + (item,)
+            child = ConfigurationOption(child_name, self.__root_ref())
+            self.__children[item] = child
+        return child
+
+    def __getitem__(self, item):
+        child = self.__children.get(item)
+        if child is None:
+            child_name = self.__name + (item,)
             child = ConfigurationOption(child_name, self.__root_ref())
             self.__children[item] = child
         return child
@@ -1094,20 +1107,24 @@ cdef class ConfigurationOption(Provider):
             return self.__cache
 
         root = self.__root_ref()
-        value = root.get(self.__name)
+        value = root.get(self._get_self_name())
         self.__cache = value
         return value
 
+    def _get_self_name(self):
+        return '.'.join(
+            segment() if is_provider(segment) else segment for segment in self.__name
+        )
+
     def get_name(self):
         root = self.__root_ref()
-        name = '.'.join((root.get_name(), self.__name))
-        return name
+        return '.'.join((root.get_name(), self._get_self_name()))
 
     def override(self, value):
         if isinstance(value, Provider):
             raise Error('Configuration option can only be overridden by a value')
         root = self.__root_ref()
-        return root.set(self.__name, value)
+        return root.set(self._get_self_name(), value)
 
     def reset_last_overriding(self):
         raise Error('Configuration option does not support this method')
@@ -1254,6 +1271,13 @@ cdef class Configuration(Object):
                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
                                               attribute_name=item))
 
+        child = self.__children.get(item)
+        if child is None:
+            child = ConfigurationOption((item,), self)
+            self.__children[item] = child
+        return child
+
+    def __getitem__(self, item):
         child = self.__children.get(item)
         if child is None:
             child = ConfigurationOption(item, self)
