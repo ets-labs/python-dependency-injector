@@ -1,0 +1,17 @@
+log:
+  level: "INFO"
+  format: "[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s"
+
+monitors:
+
+  example:
+    method: "GET"
+    url: "http://example.com"
+    check_every: 5
+    expected_codes: [200]
+
+  httpbin:
+    method: "GET"
+    url: "http://httpbin.org/get"
+    check_every: 5
+    expected_codes: [200]
