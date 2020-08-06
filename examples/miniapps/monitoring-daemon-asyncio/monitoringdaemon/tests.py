@@ -9,28 +9,6 @@ import pytest
 from .containers import ApplicationContainer
 
 
-CONFIG = {
-    'log': {
-        'level': 'INFO',
-        'formant': '[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s',
-    },
-    'monitors': {
-        'example': {
-            'method': 'GET',
-            'url': 'http://fake-example.com',
-            'timeout': 1,
-            'check_every': 1,
-        },
-        'httpbin': {
-            'method': 'GET',
-            'url': 'http://fake-httpbin.org/get',
-            'timeout': 1,
-            'check_every': 1,
-        },
-    },
-}
-
-
 @dataclasses.dataclass
 class RequestStub:
     status: int
@@ -40,7 +18,26 @@ class RequestStub:
 @pytest.fixture
 def container():
     container = ApplicationContainer()
-    container.config.from_dict(CONFIG)
+    container.config.from_dict({
+        'log': {
+            'level': 'INFO',
+            'formant': '[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s',
+        },
+        'monitors': {
+            'example': {
+                'method': 'GET',
+                'url': 'http://fake-example.com',
+                'timeout': 1,
+                'check_every': 1,
+            },
+            'httpbin': {
+                'method': 'GET',
+                'url': 'http://fake-httpbin.org/get',
+                'timeout': 1,
+                'check_every': 1,
+            },
+        },
+    })
     return container
 
 
@@ -61,25 +58,6 @@ async def test_example_monitor(container, caplog):
     assert 'http://fake-example.com' in caplog.text
     assert 'Response code: 200' in caplog.text
     assert 'content length: 635' in caplog.text
-
-
-@pytest.mark.asyncio
-async def test_httpbin_monitor(container, caplog):
-    caplog.set_level('INFO')
-
-    http_client_mock = mock.AsyncMock()
-    http_client_mock.request.return_value = RequestStub(
-        status=200,
-        content_length=482,
-    )
-
-    with container.http_client.override(http_client_mock):
-        httpbin_monitor = container.httpbin_monitor()
-        await httpbin_monitor.check()
-
-    assert 'http://fake-httpbin.org/get' in caplog.text
-    assert 'Response code: 200' in caplog.text
-    assert 'content length: 482' in caplog.text
 
 
 @pytest.mark.asyncio
