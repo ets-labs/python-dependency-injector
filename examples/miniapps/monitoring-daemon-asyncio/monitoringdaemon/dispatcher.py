@@ -16,27 +16,32 @@ class Dispatcher:
 
     def __init__(self, monitors: List[Monitor]) -> None:
         self._monitors = monitors
-        self._monitor_tasks: List[asyncio.Task] = []  # type: ignore
+        self._monitor_tasks: List[asyncio.Task] = []
         self._stopping = False
 
     def run(self) -> None:
-        asyncio.run(self._do_work())
+        asyncio.run(self.start())
 
-    async def _do_work(self) -> None:
+    async def start(self) -> None:
         logger.info('Dispatcher is starting up')
 
         for monitor in self._monitors:
-            self._monitor_tasks.append(asyncio.create_task(self._run_monitor(monitor)))
-            logger.info('Monitoring task has been started %s', monitor.full_name)
+            self._monitor_tasks.append(
+                asyncio.create_task(self._run_monitor(monitor)),
+            )
+            logger.info(
+                'Monitoring task has been started %s',
+                monitor.full_name,
+            )
 
-        asyncio.get_event_loop().add_signal_handler(signal.SIGTERM, self._stop)
-        asyncio.get_event_loop().add_signal_handler(signal.SIGINT, self._stop)
+        asyncio.get_event_loop().add_signal_handler(signal.SIGTERM, self.stop)
+        asyncio.get_event_loop().add_signal_handler(signal.SIGINT, self.stop)
 
         await asyncio.gather(*self._monitor_tasks, return_exceptions=True)
 
-        self._stop()
+        self.stop()
 
-    def _stop(self) -> None:
+    def stop(self) -> None:
         if self._stopping:
             return
 

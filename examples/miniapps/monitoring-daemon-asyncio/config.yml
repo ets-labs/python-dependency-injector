@@ -7,11 +7,11 @@ monitors:
   example:
     method: "GET"
     url: "http://example.com"
+    timeout: 5
     check_every: 5
-    expected_codes: [200]
 
   httpbin:
     method: "GET"
     url: "http://httpbin.org/get"
+    timeout: 5
     check_every: 5
-    expected_codes: [200]
