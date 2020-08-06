@@ -1,4 +1,4 @@
-"""`Factory` providers deep init injections example."""
+"""`Factory` providers - building a complex object graph with deep init injections example."""
 
 from dependency_injector import providers
 
