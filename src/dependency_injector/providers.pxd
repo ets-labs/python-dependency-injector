@@ -250,11 +250,38 @@ cdef inline object __get_value(Injection self):
     return self.__value()
 
 
+cdef inline object __get_value_kwargs(Injection self, dict kwargs):
+    if self.__call == 0:
+        return self.__value
+    return self.__value(**kwargs)
+
+
+cdef inline tuple __separate_prefixed_kwargs(dict kwargs):
+    cdef dict plain_kwargs = {}
+    cdef dict prefixed_kwargs = {}
+
+    for key, value in kwargs.items():
+        if '__' not in key:
+            plain_kwargs[key] = value
+            continue
+
+        index = key.index('__')
+        prefix, name = key[:index], key[index+2:]
+
+        if prefix not in prefixed_kwargs:
+            prefixed_kwargs[prefix] = {}
+        prefixed_kwargs[prefix][name] = value
+
+    return plain_kwargs, prefixed_kwargs
+
+
 @cython.boundscheck(False)
 @cython.wraparound(False)
-cdef inline tuple __provide_positional_args(tuple args,
-                                            tuple inj_args,
-                                            int inj_args_len):
+cdef inline tuple __provide_positional_args(
+        tuple args,
+        tuple inj_args,
+        int inj_args_len,
+):
     cdef int index
     cdef list positional_args
     cdef PositionalInjection injection
@@ -273,11 +300,15 @@ cdef inline tuple __provide_positional_args(tuple args,
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-cdef inline dict __provide_keyword_args(dict kwargs,
-                                        tuple inj_kwargs,
-                                        int inj_kwargs_len):
+cdef inline dict __provide_keyword_args(
+        dict kwargs,
+        tuple inj_kwargs,
+        int inj_kwargs_len,
+):
     cdef int index
     cdef object name
+    cdef object value
+    cdef dict prefixed
     cdef NamedInjection kw_injection
 
     if len(kwargs) == 0:
@@ -286,20 +317,33 @@ cdef inline dict __provide_keyword_args(dict kwargs,
             name = __get_name(kw_injection)
             kwargs[name] = __get_value(kw_injection)
     else:
+        kwargs, prefixed = __separate_prefixed_kwargs(kwargs)
+
+
         for index in range(inj_kwargs_len):
             kw_injection = <NamedInjection>inj_kwargs[index]
             name = __get_name(kw_injection)
-            if name not in kwargs:
-                kwargs[name] = __get_value(kw_injection)
+
+            if name in kwargs:
+                continue
+
+            if name in prefixed:
+                value = __get_value_kwargs(kw_injection, prefixed[name])
+            else:
+                value = __get_value(kw_injection)
+
+            kwargs[name] = value
 
     return kwargs
 
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-cdef inline object __inject_attributes(object instance,
-                                       tuple attributes,
-                                       int attributes_len):
+cdef inline object __inject_attributes(
+        object instance,
+        tuple attributes,
+        int attributes_len,
+):
     cdef NamedInjection attr_injection
     for index in range(attributes_len):
         attr_injection = <NamedInjection>attributes[index]

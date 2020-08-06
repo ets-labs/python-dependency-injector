@@ -48,6 +48,21 @@ injectable values are also provided by another factories:
 .. literalinclude:: ../../examples/providers/factory_init_injections.py
    :language: python
 
+Factory providers and building complex object graphs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can use :py:class:`Factory` provider to build complex object graphs.
+
+Consider next example:
+
+.. literalinclude:: ../../examples/providers/factory_deep_init_injections.py
+   :language: python
+
+.. note::
+
+   You can use ``__`` separator in the name of the keyword argument to pass the value to the child
+   factory, e.g. ``algorithm_factory(task__loss__regularizer__alpha=0.5)``.
+
 .. _factory_providers_delegation:
 
 Factory providers delegation

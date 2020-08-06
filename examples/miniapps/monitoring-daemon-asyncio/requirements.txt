@@ -1,0 +1,6 @@
+dependency-injector
+aiohttp
+pyyaml
+pytest
+pytest-asyncio
+pytest-cov

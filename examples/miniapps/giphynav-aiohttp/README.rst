@@ -1,7 +1,7 @@
 Aiohttp Dependency Injection Example
 ====================================
 
-Application ``giphynavigator`` is a `Aiohttp <https://docs.aiohttp.org/>`_ +
+Application ``giphynavigator`` is an `Aiohttp <https://docs.aiohttp.org/>`_ +
 `Dependency Injector <http://python-dependency-injector.ets-labs.org/>`_ application.
 
 Run

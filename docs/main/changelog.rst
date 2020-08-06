@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.27.0
+------
+- Add deep init injections overriding for ``Factory`` provider.
+
 3.26.0
 ------
 - Add configuration itemselector feature (see
