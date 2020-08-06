@@ -68,7 +68,7 @@ async def test_dispatcher(container, caplog, event_loop):
     httpbin_monitor_mock = mock.AsyncMock()
 
     with container.example_monitor.override(example_monitor_mock), \
-             container.httpbin_monitor.override(httpbin_monitor_mock):
+            container.httpbin_monitor.override(httpbin_monitor_mock):
 
         dispatcher = container.dispatcher()
         event_loop.create_task(dispatcher.start())
