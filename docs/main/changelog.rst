@@ -11,6 +11,7 @@ Development version
 -------------------
 - Add ``asyncio`` + ``Dependency Injector`` example ``monitoring-daemon-asyncio``.
 - Fix a typo in the docblock of the ``Configuration`` provider.
+- Fix ``Makefile`` to run ``aiohttp`` integration tests on Python 3.5+.
 
 3.27.0
 ------
