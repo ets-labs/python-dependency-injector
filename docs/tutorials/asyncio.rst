@@ -18,6 +18,18 @@ You can find complete project on the
 What are we going to build?
 ---------------------------
 
+We will build a monitoring daemon that monitors web services availability.
+
+The daemon will send the requests to the `example.com <http://example.com>`_ and
+`httpbin.org <https://httpbin.org>`_ every couple of seconds. For each successfully completed
+response it will log:
+
+- The response code
+- The amount of bytes in the response
+- The time took to complete the response
+
+.. image::  asyncio_images/diagram.png
+
 Prepare the environment
 -----------------------
 
