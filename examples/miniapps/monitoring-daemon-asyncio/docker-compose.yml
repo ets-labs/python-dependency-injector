@@ -1,0 +1,9 @@
+version: "3.7"
+
+services:
+
+  monitor:
+    build: ./
+    image: monitoring-daemon
+    volumes:
+      - "./:/code"
