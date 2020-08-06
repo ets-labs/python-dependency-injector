@@ -12,6 +12,6 @@ monitors:
 
   httpbin:
     method: "GET"
-    url: "http://httpbin.org/get"
+    url: "https://httpbin.org/get"
     timeout: 5
     check_every: 5

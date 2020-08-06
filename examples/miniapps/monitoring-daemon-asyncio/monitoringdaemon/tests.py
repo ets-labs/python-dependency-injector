@@ -32,7 +32,7 @@ def container():
             },
             'httpbin': {
                 'method': 'GET',
-                'url': 'http://fake-httpbin.org/get',
+                'url': 'https://fake-httpbin.org/get',
                 'timeout': 1,
                 'check_every': 1,
             },
