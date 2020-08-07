@@ -88,7 +88,9 @@ Initial project layout:
    │   ├── __init__.py
    │   ├── __main__.py
    │   ├── containers.py
-   │   └── dispatcher.py
+   │   ├── dispatcher.py
+   │   └── monitors.py
+   ├── config.yml
    ├── docker-compose.yml
    ├── Dockerfile
    └── requirements.txt
@@ -187,12 +189,280 @@ The output should look like:
    Attaching to monitoring-daemon-tutorial_monitor_1
    monitoring-daemon-tutorial_monitor_1 exited with code 0
 
-The environment is ready. The application does not do any work and just exits with a code 0.
+The environment is ready. The application does not do any work and just exits with a code ``0``.
 
-In the next section we will create the minimal application.
+Logging and configuration
+-------------------------
 
-Minimal application
--------------------
+In this section we will configure the logging and configuration file parsing.
+
+Let's start with the the main part of our application - the container. Container will keep all of
+the application components and their dependencies.
+
+First two components that we're going to add are the config object and the provider for
+configuring the logging.
+
+Put next lines into the ``containers.py`` file:
+
+.. code-block:: python
+
+   """Application containers module."""
+
+   import logging
+   import sys
+
+   from dependency_injector import containers, providers
+
+
+   class ApplicationContainer(containers.DeclarativeContainer):
+       """Application container."""
+
+       config = providers.Configuration()
+
+       configure_logging = providers.Callable(
+           logging.basicConfig,
+           stream=sys.stdout,
+           level=config.log.level,
+           format=config.log.format,
+       )
+
+.. note::
+
+   We have used the configuration value before it was defined. That's the principle how the
+   ``Configuration`` provider works.
+
+   Use first, define later.
+
+The configuration file will keep the logging settings.
+
+Put next lines into the ``config.yml`` file:
+
+.. code-block:: yaml
+
+   log:
+     level: "INFO"
+     format: "[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s"
+
+At this point we can create the ``main()`` function. It will start our application.
+
+Put next lines into the ``__main__.py`` file:
+
+.. code-block:: python
+
+    """Main module."""
+
+    from .containers import ApplicationContainer
+
+
+    def main() -> None:
+        """Run the application."""
+        container = ApplicationContainer()
+
+        container.config.from_yaml('config.yml')
+        container.configure_logging()
+
+
+    if __name__ == '__main__':
+        main()
+
+Dispatcher
+----------
+
+Now let's add the dispatcher.
+
+The dispatcher will control a list of the monitoring tasks. It will execute each task according
+to the configured schedule. The ``Monitor`` class is the base class for all the monitors. You can
+create different monitors subclassing it and implementing the ``check()`` method.
+
+.. image:: asyncio_images/class_1.png
+
+Let's create dispatcher and the monitor base classes.
+
+Edit ``monitors.py``:
+
+.. code-block:: python
+
+   """Monitors module."""
+
+   import logging
+
+
+   class Monitor:
+
+       def __init__(self, check_every: int) -> None:
+           self.check_every = check_every
+           self.logger = logging.getLogger(self.full_name)
+
+       @property
+       def full_name(self) -> str:
+           raise NotImplementedError()
+
+       async def check(self) -> None:
+           raise NotImplementedError()
+
+Edit ``dispatcher.py``:
+
+.. code-block:: python
+
+   """Dispatcher module."""
+
+   import asyncio
+   import logging
+   import signal
+   import time
+   from typing import List
+
+   from .monitors import Monitor
+
+
+   logger = logging.getLogger(__name__)
+
+
+   class Dispatcher:
+
+       def __init__(self, monitors: List[Monitor]) -> None:
+           self._monitors = monitors
+           self._monitor_tasks: List[asyncio.Task] = []
+           self._stopping = False
+
+       def run(self) -> None:
+           asyncio.run(self.start())
+
+       async def start(self) -> None:
+           logger.info('Dispatcher is starting up')
+
+           for monitor in self._monitors:
+               self._monitor_tasks.append(
+                   asyncio.create_task(self._run_monitor(monitor)),
+               )
+               logger.info(
+                   'Monitoring task has been started %s',
+                   monitor.full_name,
+               )
+
+           asyncio.get_event_loop().add_signal_handler(signal.SIGTERM, self.stop)
+           asyncio.get_event_loop().add_signal_handler(signal.SIGINT, self.stop)
+
+           await asyncio.gather(*self._monitor_tasks, return_exceptions=True)
+
+           self.stop()
+
+       def stop(self) -> None:
+           if self._stopping:
+               return
+
+           self._stopping = True
+
+           logger.info('Dispatcher is shutting down')
+           for task, monitor in zip(self._monitor_tasks, self._monitors):
+               task.cancel()
+               logger.info('Monitoring task has been stopped %s', monitor.full_name)
+           logger.info('Dispatcher shutting down finished successfully')
+
+       @staticmethod
+       async def _run_monitor(monitor: Monitor) -> None:
+           def _until_next(last: float) -> float:
+               time_took = time.time() - last
+               return monitor.check_every - time_took
+
+           while True:
+               time_start = time.time()
+
+               try:
+                   await monitor.check()
+               except asyncio.CancelledError:
+                   break
+               except Exception:
+                   monitor.logger.exception('Error running monitoring check')
+
+               await asyncio.sleep(_until_next(last=time_start))
+
+.. warning:: REWORK
+   Every component that we add must be added to the container.
+
+Edit ``containers.py``:
+
+.. code-block:: python
+   :emphasize-lines: 8,22-27
+
+   """Application containers module."""
+
+   import logging
+   import sys
+
+   from dependency_injector import containers, providers
+
+   from . import dispatcher
+
+
+   class ApplicationContainer(containers.DeclarativeContainer):
+
+       config = providers.Configuration()
+
+       configure_logging = providers.Callable(
+           logging.basicConfig,
+           stream=sys.stdout,
+           level=config.log.level,
+           format=config.log.format,
+       )
+
+       dispatcher = providers.Factory(
+           dispatcher.Dispatcher,
+           monitors=providers.List(
+               # TODO: add monitors
+           ),
+       )
+
+.. warning:: REWORK
+   At the last let's use the dispatcher in the ``main()`` function.
+
+Edit ``__main__.py``:
+
+.. code-block:: python
+   :emphasize-lines: 13-14
+
+   """Main module."""
+
+   from .containers import ApplicationContainer
+
+
+   def main() -> None:
+       """Run the application."""
+       container = ApplicationContainer()
+
+       container.config.from_yaml('config.yml')
+       container.configure_logging()
+
+       dispatcher = container.dispatcher()
+       dispatcher.run()
+
+
+   if __name__ == '__main__':
+       main()
+
+Finally let's start the container to check that all works.
+
+Run in the terminal:
+
+.. code-block:: bash
+
+   docker-compose up
+
+The output should look like:
+
+.. code-block:: bash
+
+   Starting monitoring-daemon-tutorial_monitor_1 ... done
+   Attaching to monitoring-daemon-tutorial_monitor_1
+   monitor_1  | [2020-08-07 21:02:01,361] [INFO] [monitoringdaemon.dispatcher]: Dispatcher is starting up
+   monitor_1  | [2020-08-07 21:02:01,364] [INFO] [monitoringdaemon.dispatcher]: Dispatcher is shutting down
+   monitor_1  | [2020-08-07 21:02:01,364] [INFO] [monitoringdaemon.dispatcher]: Dispatcher shutting down finished successfully
+   monitoring-daemon-tutorial_monitor_1 exited with code 0
+
+Everything works properly. Dispatcher starts up and exits because there are no monitoring tasks.
+
+By the end of this section we have the application skeleton ready. In the next section will will
+add first monitoring task.
 
 HTTP monitor
 ------------
