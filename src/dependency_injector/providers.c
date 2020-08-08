@@ -1385,7 +1385,7 @@ struct __pyx_obj_19dependency_injector_9providers___pyx_scope_struct_1_genexpr {
 };
 
 
-/* "dependency_injector/providers.pyx":2523
+/* "dependency_injector/providers.pyx":2524
  *         return self.__providers[name]
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -1398,7 +1398,7 @@ struct __pyx_obj_19dependency_injector_9providers___pyx_scope_struct_2___str__ {
 };
 
 
-/* "dependency_injector/providers.pyx":2533
+/* "dependency_injector/providers.pyx":2534
  *             selector=self.__selector,
  *             providers=', '.join((
  *                 '{0}={1}'.format(name, provider)             # <<<<<<<<<<<<<<
@@ -1643,7 +1643,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_Configuration {
 static struct __pyx_vtabstruct_19dependency_injector_9providers_Configuration *__pyx_vtabptr_19dependency_injector_9providers_Configuration;
 
 
-/* "dependency_injector/providers.pyx":1493
+/* "dependency_injector/providers.pyx":1494
  * 
  * 
  * cdef class Factory(Provider):             # <<<<<<<<<<<<<<
@@ -1657,7 +1657,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_Factory {
 static struct __pyx_vtabstruct_19dependency_injector_9providers_Factory *__pyx_vtabptr_19dependency_injector_9providers_Factory;
 
 
-/* "dependency_injector/providers.pyx":1710
+/* "dependency_injector/providers.pyx":1711
  * 
  * 
  * cdef class DelegatedFactory(Factory):             # <<<<<<<<<<<<<<
@@ -1671,7 +1671,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_DelegatedFactory {
 static struct __pyx_vtabstruct_19dependency_injector_9providers_DelegatedFactory *__pyx_vtabptr_19dependency_injector_9providers_DelegatedFactory;
 
 
-/* "dependency_injector/providers.pyx":1732
+/* "dependency_injector/providers.pyx":1733
  * 
  * 
  * cdef class AbstractFactory(Factory):             # <<<<<<<<<<<<<<
@@ -1685,7 +1685,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_AbstractFactory {
 static struct __pyx_vtabstruct_19dependency_injector_9providers_AbstractFactory *__pyx_vtabptr_19dependency_injector_9providers_AbstractFactory;
 
 
-/* "dependency_injector/providers.pyx":1773
+/* "dependency_injector/providers.pyx":1774
  * 
  * 
  * cdef class FactoryDelegate(Delegate):             # <<<<<<<<<<<<<<
@@ -1699,7 +1699,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_FactoryDelegate {
 static struct __pyx_vtabstruct_19dependency_injector_9providers_FactoryDelegate *__pyx_vtabptr_19dependency_injector_9providers_FactoryDelegate;
 
 
-/* "dependency_injector/providers.pyx":1795
+/* "dependency_injector/providers.pyx":1796
  * 
  * 
  * cdef class FactoryAggregate(Provider):             # <<<<<<<<<<<<<<
@@ -1714,7 +1714,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_FactoryAggregate {
 static struct __pyx_vtabstruct_19dependency_injector_9providers_FactoryAggregate *__pyx_vtabptr_19dependency_injector_9providers_FactoryAggregate;
 
 
-/* "dependency_injector/providers.pyx":1882
+/* "dependency_injector/providers.pyx":1883
  * 
  * 
  * cdef class BaseSingleton(Provider):             # <<<<<<<<<<<<<<
@@ -1728,7 +1728,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_BaseSingleton {
 static struct __pyx_vtabstruct_19dependency_injector_9providers_BaseSingleton *__pyx_vtabptr_19dependency_injector_9providers_BaseSingleton;
 
 
-/* "dependency_injector/providers.pyx":2035
+/* "dependency_injector/providers.pyx":2036
  * 
  * 
  * cdef class Singleton(BaseSingleton):             # <<<<<<<<<<<<<<
@@ -1742,7 +1742,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_Singleton {
 static struct __pyx_vtabstruct_19dependency_injector_9providers_Singleton *__pyx_vtabptr_19dependency_injector_9providers_Singleton;
 
 
-/* "dependency_injector/providers.pyx":2091
+/* "dependency_injector/providers.pyx":2092
  * 
  * 
  * cdef class DelegatedSingleton(Singleton):             # <<<<<<<<<<<<<<
@@ -1756,7 +1756,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_DelegatedSingleton {
 static struct __pyx_vtabstruct_19dependency_injector_9providers_DelegatedSingleton *__pyx_vtabptr_19dependency_injector_9providers_DelegatedSingleton;
 
 
-/* "dependency_injector/providers.pyx":2113
+/* "dependency_injector/providers.pyx":2114
  * 
  * 
  * cdef class ThreadSafeSingleton(BaseSingleton):             # <<<<<<<<<<<<<<
@@ -1770,7 +1770,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_ThreadSafeSingleton {
 static struct __pyx_vtabstruct_19dependency_injector_9providers_ThreadSafeSingleton *__pyx_vtabptr_19dependency_injector_9providers_ThreadSafeSingleton;
 
 
-/* "dependency_injector/providers.pyx":2148
+/* "dependency_injector/providers.pyx":2149
  * 
  * 
  * cdef class DelegatedThreadSafeSingleton(ThreadSafeSingleton):             # <<<<<<<<<<<<<<
@@ -1784,7 +1784,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_DelegatedThreadSafeSing
 static struct __pyx_vtabstruct_19dependency_injector_9providers_DelegatedThreadSafeSingleton *__pyx_vtabptr_19dependency_injector_9providers_DelegatedThreadSafeSingleton;
 
 
-/* "dependency_injector/providers.pyx":2170
+/* "dependency_injector/providers.pyx":2171
  * 
  * 
  * cdef class ThreadLocalSingleton(BaseSingleton):             # <<<<<<<<<<<<<<
@@ -1798,7 +1798,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_ThreadLocalSingleton {
 static struct __pyx_vtabstruct_19dependency_injector_9providers_ThreadLocalSingleton *__pyx_vtabptr_19dependency_injector_9providers_ThreadLocalSingleton;
 
 
-/* "dependency_injector/providers.pyx":2218
+/* "dependency_injector/providers.pyx":2219
  * 
  * 
  * cdef class DelegatedThreadLocalSingleton(ThreadLocalSingleton):             # <<<<<<<<<<<<<<
@@ -1812,7 +1812,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_DelegatedThreadLocalSin
 static struct __pyx_vtabstruct_19dependency_injector_9providers_DelegatedThreadLocalSingleton *__pyx_vtabptr_19dependency_injector_9providers_DelegatedThreadLocalSingleton;
 
 
-/* "dependency_injector/providers.pyx":2240
+/* "dependency_injector/providers.pyx":2241
  * 
  * 
  * cdef class AbstractSingleton(BaseSingleton):             # <<<<<<<<<<<<<<
@@ -1826,7 +1826,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_AbstractSingleton {
 static struct __pyx_vtabstruct_19dependency_injector_9providers_AbstractSingleton *__pyx_vtabptr_19dependency_injector_9providers_AbstractSingleton;
 
 
-/* "dependency_injector/providers.pyx":2285
+/* "dependency_injector/providers.pyx":2286
  * 
  * 
  * cdef class SingletonDelegate(Delegate):             # <<<<<<<<<<<<<<
@@ -1840,7 +1840,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_SingletonDelegate {
 static struct __pyx_vtabstruct_19dependency_injector_9providers_SingletonDelegate *__pyx_vtabptr_19dependency_injector_9providers_SingletonDelegate;
 
 
-/* "dependency_injector/providers.pyx":2307
+/* "dependency_injector/providers.pyx":2308
  * 
  * 
  * cdef class List(Provider):             # <<<<<<<<<<<<<<
@@ -1854,7 +1854,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_List {
 static struct __pyx_vtabstruct_19dependency_injector_9providers_List *__pyx_vtabptr_19dependency_injector_9providers_List;
 
 
-/* "dependency_injector/providers.pyx":2409
+/* "dependency_injector/providers.pyx":2410
  * 
  * 
  * cdef class Container(Provider):             # <<<<<<<<<<<<<<
@@ -1868,7 +1868,7 @@ struct __pyx_vtabstruct_19dependency_injector_9providers_Container {
 static struct __pyx_vtabstruct_19dependency_injector_9providers_Container *__pyx_vtabptr_19dependency_injector_9providers_Container;
 
 
-/* "dependency_injector/providers.pyx":2460
+/* "dependency_injector/providers.pyx":2461
  * 
  * 
  * cdef class Selector(Provider):             # <<<<<<<<<<<<<<
@@ -25081,7 +25081,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19ConfigurationOption
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1259
+/* "dependency_injector/providers.pyx":1260
  *     DEFAULT_NAME = 'config'
  * 
  *     def __init__(self, name=DEFAULT_NAME, default=None):             # <<<<<<<<<<<<<<
@@ -25131,7 +25131,7 @@ static int __pyx_pw_19dependency_injector_9providers_13Configuration_1__init__(P
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 1259, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 1260, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -25148,7 +25148,7 @@ static int __pyx_pw_19dependency_injector_9providers_13Configuration_1__init__(P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1259, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 0, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1260, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.Configuration.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -25175,14 +25175,14 @@ static int __pyx_pf_19dependency_injector_9providers_13Configuration___init__(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dependency_injector/providers.pyx":1260
+  /* "dependency_injector/providers.pyx":1261
  * 
  *     def __init__(self, name=DEFAULT_NAME, default=None):
  *         self.__name = name             # <<<<<<<<<<<<<<
  * 
  *         value = {}
  */
-  if (!(likely(PyString_CheckExact(__pyx_v_name))||((__pyx_v_name) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_name)->tp_name), 0))) __PYX_ERR(1, 1260, __pyx_L1_error)
+  if (!(likely(PyString_CheckExact(__pyx_v_name))||((__pyx_v_name) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_name)->tp_name), 0))) __PYX_ERR(1, 1261, __pyx_L1_error)
   __pyx_t_1 = __pyx_v_name;
   __Pyx_INCREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
@@ -25191,19 +25191,19 @@ static int __pyx_pf_19dependency_injector_9providers_13Configuration___init__(st
   __pyx_v_self->__pyx___name = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1262
+  /* "dependency_injector/providers.pyx":1263
  *         self.__name = name
  * 
  *         value = {}             # <<<<<<<<<<<<<<
  *         if default is not None:
  *             assert isinstance(default, dict), default
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1262, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1263, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_value = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1263
+  /* "dependency_injector/providers.pyx":1264
  * 
  *         value = {}
  *         if default is not None:             # <<<<<<<<<<<<<<
@@ -25214,7 +25214,7 @@ static int __pyx_pf_19dependency_injector_9providers_13Configuration___init__(st
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "dependency_injector/providers.pyx":1264
+    /* "dependency_injector/providers.pyx":1265
  *         value = {}
  *         if default is not None:
  *             assert isinstance(default, dict), default             # <<<<<<<<<<<<<<
@@ -25225,23 +25225,23 @@ static int __pyx_pf_19dependency_injector_9providers_13Configuration___init__(st
     if (unlikely(!Py_OptimizeFlag)) {
       __pyx_t_3 = PyDict_Check(__pyx_v_default); 
       if (unlikely(!(__pyx_t_3 != 0))) {
-        __pyx_t_1 = PyTuple_Pack(1, __pyx_v_default); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1264, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_Pack(1, __pyx_v_default); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1265, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         PyErr_SetObject(PyExc_AssertionError, __pyx_t_1);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __PYX_ERR(1, 1264, __pyx_L1_error)
+        __PYX_ERR(1, 1265, __pyx_L1_error)
       }
     }
     #endif
 
-    /* "dependency_injector/providers.pyx":1265
+    /* "dependency_injector/providers.pyx":1266
  *         if default is not None:
  *             assert isinstance(default, dict), default
  *             value = default.copy()             # <<<<<<<<<<<<<<
  * 
  *         self.__children = {}
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_default, __pyx_n_s_copy); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1265, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_default, __pyx_n_s_copy); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1266, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -25255,13 +25255,13 @@ static int __pyx_pf_19dependency_injector_9providers_13Configuration___init__(st
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1265, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1266, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":1263
+    /* "dependency_injector/providers.pyx":1264
  * 
  *         value = {}
  *         if default is not None:             # <<<<<<<<<<<<<<
@@ -25270,14 +25270,14 @@ static int __pyx_pf_19dependency_injector_9providers_13Configuration___init__(st
  */
   }
 
-  /* "dependency_injector/providers.pyx":1267
+  /* "dependency_injector/providers.pyx":1268
  *             value = default.copy()
  * 
  *         self.__children = {}             # <<<<<<<<<<<<<<
  * 
  *         super().__init__(value)
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1267, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1268, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->__pyx___children);
@@ -25285,14 +25285,14 @@ static int __pyx_pf_19dependency_injector_9providers_13Configuration___init__(st
   __pyx_v_self->__pyx___children = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1269
+  /* "dependency_injector/providers.pyx":1270
  *         self.__children = {}
  * 
  *         super().__init__(value)             # <<<<<<<<<<<<<<
  * 
  *     def __deepcopy__(self, memo):
  */
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1269, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1270, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Configuration));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Configuration));
@@ -25300,10 +25300,10 @@ static int __pyx_pf_19dependency_injector_9providers_13Configuration___init__(st
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_4, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1269, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1270, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_init); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1269, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_init); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1270, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -25318,12 +25318,12 @@ static int __pyx_pf_19dependency_injector_9providers_13Configuration___init__(st
   }
   __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_v_value) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_value);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1269, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1270, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1259
+  /* "dependency_injector/providers.pyx":1260
  *     DEFAULT_NAME = 'config'
  * 
  *     def __init__(self, name=DEFAULT_NAME, default=None):             # <<<<<<<<<<<<<<
@@ -25346,7 +25346,7 @@ static int __pyx_pf_19dependency_injector_9providers_13Configuration___init__(st
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1271
+/* "dependency_injector/providers.pyx":1272
  *         super().__init__(value)
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -25384,16 +25384,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_2__de
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__deepcopy__", 0);
 
-  /* "dependency_injector/providers.pyx":1274
+  /* "dependency_injector/providers.pyx":1275
  *         cdef Configuration copied
  * 
  *         copied = memo.get(id(self))             # <<<<<<<<<<<<<<
  *         if copied is not None:
  *             return copied
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1274, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1275, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1274, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1275, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -25408,14 +25408,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_2__de
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1274, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1275, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_19dependency_injector_9providers_Configuration))))) __PYX_ERR(1, 1274, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_19dependency_injector_9providers_Configuration))))) __PYX_ERR(1, 1275, __pyx_L1_error)
   __pyx_v_copied = ((struct __pyx_obj_19dependency_injector_9providers_Configuration *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1275
+  /* "dependency_injector/providers.pyx":1276
  * 
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -25426,7 +25426,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_2__de
   __pyx_t_6 = (__pyx_t_5 != 0);
   if (__pyx_t_6) {
 
-    /* "dependency_injector/providers.pyx":1276
+    /* "dependency_injector/providers.pyx":1277
  *         copied = memo.get(id(self))
  *         if copied is not None:
  *             return copied             # <<<<<<<<<<<<<<
@@ -25438,7 +25438,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_2__de
     __pyx_r = ((PyObject *)__pyx_v_copied);
     goto __pyx_L0;
 
-    /* "dependency_injector/providers.pyx":1275
+    /* "dependency_injector/providers.pyx":1276
  * 
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -25447,14 +25447,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_2__de
  */
   }
 
-  /* "dependency_injector/providers.pyx":1278
+  /* "dependency_injector/providers.pyx":1279
  *             return copied
  * 
  *         copied = self.__class__(self.__name, self.__provides)             # <<<<<<<<<<<<<<
  *         memo[id(self)] = copied
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1278, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1279, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   __pyx_t_7 = 0;
@@ -25471,7 +25471,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_2__de
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_v_self->__pyx___name, __pyx_v_self->__pyx_base.__pyx___provides};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1278, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1279, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
@@ -25479,13 +25479,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_2__de
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_v_self->__pyx___name, __pyx_v_self->__pyx_base.__pyx___provides};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1278, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1279, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
   #endif
   {
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1278, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1279, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     if (__pyx_t_3) {
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -25496,28 +25496,28 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_2__de
     __Pyx_INCREF(__pyx_v_self->__pyx_base.__pyx___provides);
     __Pyx_GIVEREF(__pyx_v_self->__pyx_base.__pyx___provides);
     PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_7, __pyx_v_self->__pyx_base.__pyx___provides);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1278, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1279, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_19dependency_injector_9providers_Configuration))))) __PYX_ERR(1, 1278, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_19dependency_injector_9providers_Configuration))))) __PYX_ERR(1, 1279, __pyx_L1_error)
   __Pyx_DECREF_SET(__pyx_v_copied, ((struct __pyx_obj_19dependency_injector_9providers_Configuration *)__pyx_t_1));
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1279
+  /* "dependency_injector/providers.pyx":1280
  * 
  *         copied = self.__class__(self.__name, self.__provides)
  *         memo[id(self)] = copied             # <<<<<<<<<<<<<<
  * 
  *         copied.__children = deepcopy(self.__children, memo)
  */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1279, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1280, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(PyObject_SetItem(__pyx_v_memo, __pyx_t_1, ((PyObject *)__pyx_v_copied)) < 0)) __PYX_ERR(1, 1279, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(__pyx_v_memo, __pyx_t_1, ((PyObject *)__pyx_v_copied)) < 0)) __PYX_ERR(1, 1280, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1281
+  /* "dependency_injector/providers.pyx":1282
  *         memo[id(self)] = copied
  * 
  *         copied.__children = deepcopy(self.__children, memo)             # <<<<<<<<<<<<<<
@@ -25526,30 +25526,30 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_2__de
  */
   __pyx_t_1 = __pyx_v_self->__pyx___children;
   __Pyx_INCREF(__pyx_t_1);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1281, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1282, __pyx_L1_error)
   __pyx_t_8.__pyx_n = 1;
   __pyx_t_8.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_1, 0, &__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1281, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_1, 0, &__pyx_t_8); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1282, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (!(likely(PyDict_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(1, 1281, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(1, 1282, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_copied->__pyx___children);
   __Pyx_DECREF(__pyx_v_copied->__pyx___children);
   __pyx_v_copied->__pyx___children = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1282
+  /* "dependency_injector/providers.pyx":1283
  * 
  *         copied.__children = deepcopy(self.__children, memo)
  *         self._copy_overridings(copied, memo)             # <<<<<<<<<<<<<<
  * 
  *         return copied
  */
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1282, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1283, __pyx_L1_error)
   ((struct __pyx_vtabstruct_19dependency_injector_9providers_Configuration *)__pyx_v_self->__pyx_base.__pyx_base.__pyx_vtab)->__pyx_base.__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), ((PyObject*)__pyx_v_memo), 0);
 
-  /* "dependency_injector/providers.pyx":1284
+  /* "dependency_injector/providers.pyx":1285
  *         self._copy_overridings(copied, memo)
  * 
  *         return copied             # <<<<<<<<<<<<<<
@@ -25561,7 +25561,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_2__de
   __pyx_r = ((PyObject *)__pyx_v_copied);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1271
+  /* "dependency_injector/providers.pyx":1272
  *         super().__init__(value)
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -25584,7 +25584,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_2__de
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1286
+/* "dependency_injector/providers.pyx":1287
  *         return copied
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -25615,7 +25615,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_4__st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__str__", 0);
 
-  /* "dependency_injector/providers.pyx":1287
+  /* "dependency_injector/providers.pyx":1288
  * 
  *     def __str__(self):
  *         return represent_provider(provider=self, provides=self.__name)             # <<<<<<<<<<<<<<
@@ -25625,14 +25625,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_4__st
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __pyx_v_self->__pyx___name;
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_represent_provider(((PyObject *)__pyx_v_self), __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1287, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_represent_provider(((PyObject *)__pyx_v_self), __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1288, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1286
+  /* "dependency_injector/providers.pyx":1287
  *         return copied
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -25652,7 +25652,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_4__st
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1289
+/* "dependency_injector/providers.pyx":1290
  *         return represent_provider(provider=self, provides=self.__name)
  * 
  *     def __getattr__(self, item):             # <<<<<<<<<<<<<<
@@ -25688,14 +25688,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_6__ge
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getattr__", 0);
 
-  /* "dependency_injector/providers.pyx":1290
+  /* "dependency_injector/providers.pyx":1291
  * 
  *     def __getattr__(self, item):
  *         if item.startswith('__') and item.endswith('__'):             # <<<<<<<<<<<<<<
  *             raise AttributeError(
  *                 '\'{cls}\' object has no attribute '
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_startswith); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1290, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_startswith); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -25709,17 +25709,17 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_6__ge
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_n_s__3) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_n_s__3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1290, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 1290, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 1291, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_5) {
   } else {
     __pyx_t_1 = __pyx_t_5;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_endswith); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1290, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_endswith); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -25733,70 +25733,70 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_6__ge
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_n_s__3) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_n_s__3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1290, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1291, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 1290, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 1291, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_1 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "dependency_injector/providers.pyx":1293
+    /* "dependency_injector/providers.pyx":1294
  *             raise AttributeError(
  *                 '\'{cls}\' object has no attribute '
  *                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,             # <<<<<<<<<<<<<<
  *                                               attribute_name=item))
  * 
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_cls_object_has_no_attribute_att, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1293, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_cls_object_has_no_attribute_att, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1294, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1293, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1294, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1293, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1294, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1293, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1294, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_cls, __pyx_t_6) < 0) __PYX_ERR(1, 1293, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_cls, __pyx_t_6) < 0) __PYX_ERR(1, 1294, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "dependency_injector/providers.pyx":1294
+    /* "dependency_injector/providers.pyx":1295
  *                 '\'{cls}\' object has no attribute '
  *                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
  *                                               attribute_name=item))             # <<<<<<<<<<<<<<
  * 
  *         child = self.__children.get(item)
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_attribute_name, __pyx_v_item) < 0) __PYX_ERR(1, 1293, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_attribute_name, __pyx_v_item) < 0) __PYX_ERR(1, 1294, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":1293
+    /* "dependency_injector/providers.pyx":1294
  *             raise AttributeError(
  *                 '\'{cls}\' object has no attribute '
  *                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,             # <<<<<<<<<<<<<<
  *                                               attribute_name=item))
  * 
  */
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1293, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1294, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "dependency_injector/providers.pyx":1291
+    /* "dependency_injector/providers.pyx":1292
  *     def __getattr__(self, item):
  *         if item.startswith('__') and item.endswith('__'):
  *             raise AttributeError(             # <<<<<<<<<<<<<<
  *                 '\'{cls}\' object has no attribute '
  *                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
  */
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_AttributeError, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1291, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_AttributeError, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1292, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 1291, __pyx_L1_error)
+    __PYX_ERR(1, 1292, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":1290
+    /* "dependency_injector/providers.pyx":1291
  * 
  *     def __getattr__(self, item):
  *         if item.startswith('__') and item.endswith('__'):             # <<<<<<<<<<<<<<
@@ -25805,7 +25805,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_6__ge
  */
   }
 
-  /* "dependency_injector/providers.pyx":1296
+  /* "dependency_injector/providers.pyx":1297
  *                                               attribute_name=item))
  * 
  *         child = self.__children.get(item)             # <<<<<<<<<<<<<<
@@ -25814,14 +25814,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_6__ge
  */
   if (unlikely(__pyx_v_self->__pyx___children == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "get");
-    __PYX_ERR(1, 1296, __pyx_L1_error)
+    __PYX_ERR(1, 1297, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_PyDict_GetItemDefault(__pyx_v_self->__pyx___children, __pyx_v_item, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1296, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_GetItemDefault(__pyx_v_self->__pyx___children, __pyx_v_item, Py_None); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1297, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_v_child = __pyx_t_3;
   __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":1297
+  /* "dependency_injector/providers.pyx":1298
  * 
  *         child = self.__children.get(item)
  *         if child is None:             # <<<<<<<<<<<<<<
@@ -25832,19 +25832,19 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_6__ge
   __pyx_t_5 = (__pyx_t_1 != 0);
   if (__pyx_t_5) {
 
-    /* "dependency_injector/providers.pyx":1298
+    /* "dependency_injector/providers.pyx":1299
  *         child = self.__children.get(item)
  *         if child is None:
  *             child = ConfigurationOption((item,), self)             # <<<<<<<<<<<<<<
  *             self.__children[item] = child
  *         return child
  */
-    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1298, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1299, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_v_item);
     __Pyx_GIVEREF(__pyx_v_item);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_item);
-    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1298, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1299, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3);
@@ -25852,13 +25852,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_6__ge
     __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
     PyTuple_SET_ITEM(__pyx_t_6, 1, ((PyObject *)__pyx_v_self));
     __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_19dependency_injector_9providers_ConfigurationOption), __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1298, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_19dependency_injector_9providers_ConfigurationOption), __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1299, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF_SET(__pyx_v_child, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "dependency_injector/providers.pyx":1299
+    /* "dependency_injector/providers.pyx":1300
  *         if child is None:
  *             child = ConfigurationOption((item,), self)
  *             self.__children[item] = child             # <<<<<<<<<<<<<<
@@ -25867,11 +25867,11 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_6__ge
  */
     if (unlikely(__pyx_v_self->__pyx___children == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(1, 1299, __pyx_L1_error)
+      __PYX_ERR(1, 1300, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__pyx_v_self->__pyx___children, __pyx_v_item, __pyx_v_child) < 0)) __PYX_ERR(1, 1299, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_self->__pyx___children, __pyx_v_item, __pyx_v_child) < 0)) __PYX_ERR(1, 1300, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":1297
+    /* "dependency_injector/providers.pyx":1298
  * 
  *         child = self.__children.get(item)
  *         if child is None:             # <<<<<<<<<<<<<<
@@ -25880,7 +25880,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_6__ge
  */
   }
 
-  /* "dependency_injector/providers.pyx":1300
+  /* "dependency_injector/providers.pyx":1301
  *             child = ConfigurationOption((item,), self)
  *             self.__children[item] = child
  *         return child             # <<<<<<<<<<<<<<
@@ -25892,7 +25892,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_6__ge
   __pyx_r = __pyx_v_child;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1289
+  /* "dependency_injector/providers.pyx":1290
  *         return represent_provider(provider=self, provides=self.__name)
  * 
  *     def __getattr__(self, item):             # <<<<<<<<<<<<<<
@@ -25915,7 +25915,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_6__ge
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1302
+/* "dependency_injector/providers.pyx":1303
  *         return child
  * 
  *     def __getitem__(self, item):             # <<<<<<<<<<<<<<
@@ -25949,7 +25949,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_8__ge
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getitem__", 0);
 
-  /* "dependency_injector/providers.pyx":1303
+  /* "dependency_injector/providers.pyx":1304
  * 
  *     def __getitem__(self, item):
  *         child = self.__children.get(item)             # <<<<<<<<<<<<<<
@@ -25958,14 +25958,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_8__ge
  */
   if (unlikely(__pyx_v_self->__pyx___children == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "get");
-    __PYX_ERR(1, 1303, __pyx_L1_error)
+    __PYX_ERR(1, 1304, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_self->__pyx___children, __pyx_v_item, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1303, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItemDefault(__pyx_v_self->__pyx___children, __pyx_v_item, Py_None); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1304, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_child = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1304
+  /* "dependency_injector/providers.pyx":1305
  *     def __getitem__(self, item):
  *         child = self.__children.get(item)
  *         if child is None:             # <<<<<<<<<<<<<<
@@ -25976,14 +25976,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_8__ge
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
 
-    /* "dependency_injector/providers.pyx":1305
+    /* "dependency_injector/providers.pyx":1306
  *         child = self.__children.get(item)
  *         if child is None:
  *             child = ConfigurationOption(item, self)             # <<<<<<<<<<<<<<
  *             self.__children[item] = child
  *         return child
  */
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1305, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1306, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_v_item);
     __Pyx_GIVEREF(__pyx_v_item);
@@ -25991,13 +25991,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_8__ge
     __Pyx_INCREF(((PyObject *)__pyx_v_self));
     __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
     PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self));
-    __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_19dependency_injector_9providers_ConfigurationOption), __pyx_t_1, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1305, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_19dependency_injector_9providers_ConfigurationOption), __pyx_t_1, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1306, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF_SET(__pyx_v_child, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "dependency_injector/providers.pyx":1306
+    /* "dependency_injector/providers.pyx":1307
  *         if child is None:
  *             child = ConfigurationOption(item, self)
  *             self.__children[item] = child             # <<<<<<<<<<<<<<
@@ -26006,11 +26006,11 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_8__ge
  */
     if (unlikely(__pyx_v_self->__pyx___children == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(1, 1306, __pyx_L1_error)
+      __PYX_ERR(1, 1307, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__pyx_v_self->__pyx___children, __pyx_v_item, __pyx_v_child) < 0)) __PYX_ERR(1, 1306, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_self->__pyx___children, __pyx_v_item, __pyx_v_child) < 0)) __PYX_ERR(1, 1307, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":1304
+    /* "dependency_injector/providers.pyx":1305
  *     def __getitem__(self, item):
  *         child = self.__children.get(item)
  *         if child is None:             # <<<<<<<<<<<<<<
@@ -26019,7 +26019,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_8__ge
  */
   }
 
-  /* "dependency_injector/providers.pyx":1307
+  /* "dependency_injector/providers.pyx":1308
  *             child = ConfigurationOption(item, self)
  *             self.__children[item] = child
  *         return child             # <<<<<<<<<<<<<<
@@ -26031,7 +26031,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_8__ge
   __pyx_r = __pyx_v_child;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1302
+  /* "dependency_injector/providers.pyx":1303
  *         return child
  * 
  *     def __getitem__(self, item):             # <<<<<<<<<<<<<<
@@ -26052,7 +26052,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_8__ge
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1309
+/* "dependency_injector/providers.pyx":1310
  *         return child
  * 
  *     def get_name(self):             # <<<<<<<<<<<<<<
@@ -26078,7 +26078,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_10get
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_name", 0);
 
-  /* "dependency_injector/providers.pyx":1310
+  /* "dependency_injector/providers.pyx":1311
  * 
  *     def get_name(self):
  *         return self.__name             # <<<<<<<<<<<<<<
@@ -26090,7 +26090,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_10get
   __pyx_r = __pyx_v_self->__pyx___name;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1309
+  /* "dependency_injector/providers.pyx":1310
  *         return child
  * 
  *     def get_name(self):             # <<<<<<<<<<<<<<
@@ -26105,7 +26105,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_10get
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1312
+/* "dependency_injector/providers.pyx":1313
  *         return self.__name
  * 
  *     def get(self, selector):             # <<<<<<<<<<<<<<
@@ -26144,14 +26144,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_12get
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get", 0);
 
-  /* "dependency_injector/providers.pyx":1321
+  /* "dependency_injector/providers.pyx":1322
  *         :rtype: Any
  *         """
  *         keys = selector.split('.')             # <<<<<<<<<<<<<<
  *         value = self.__call__()
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_selector, __pyx_n_s_split); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1321, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_selector, __pyx_n_s_split); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -26165,20 +26165,20 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_12get
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_kp_s__4) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_kp_s__4);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1321, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1322, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_keys = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1322
+  /* "dependency_injector/providers.pyx":1323
  *         """
  *         keys = selector.split('.')
  *         value = self.__call__()             # <<<<<<<<<<<<<<
  * 
  *         while len(keys) > 0:
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_call); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1322, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_call); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1323, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -26192,13 +26192,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_12get
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1322, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1323, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_value = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1324
+  /* "dependency_injector/providers.pyx":1325
  *         value = self.__call__()
  * 
  *         while len(keys) > 0:             # <<<<<<<<<<<<<<
@@ -26206,30 +26206,30 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_12get
  *             value = value.get(key)
  */
   while (1) {
-    __pyx_t_4 = PyObject_Length(__pyx_v_keys); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(1, 1324, __pyx_L1_error)
+    __pyx_t_4 = PyObject_Length(__pyx_v_keys); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(1, 1325, __pyx_L1_error)
     __pyx_t_5 = ((__pyx_t_4 > 0) != 0);
     if (!__pyx_t_5) break;
 
-    /* "dependency_injector/providers.pyx":1325
+    /* "dependency_injector/providers.pyx":1326
  * 
  *         while len(keys) > 0:
  *             key = keys.pop(0)             # <<<<<<<<<<<<<<
  *             value = value.get(key)
  *             if value is None:
  */
-    __pyx_t_1 = __Pyx_PyObject_PopIndex(__pyx_v_keys, __pyx_int_0, 0, 1, Py_ssize_t, PyInt_FromSsize_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1325, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_PopIndex(__pyx_v_keys, __pyx_int_0, 0, 1, Py_ssize_t, PyInt_FromSsize_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1326, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":1326
+    /* "dependency_injector/providers.pyx":1327
  *         while len(keys) > 0:
  *             key = keys.pop(0)
  *             value = value.get(key)             # <<<<<<<<<<<<<<
  *             if value is None:
  *                 break
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_value, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1326, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_value, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1327, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_3 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -26243,13 +26243,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_12get
     }
     __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_key) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_key);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1326, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1327, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF_SET(__pyx_v_value, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":1327
+    /* "dependency_injector/providers.pyx":1328
  *             key = keys.pop(0)
  *             value = value.get(key)
  *             if value is None:             # <<<<<<<<<<<<<<
@@ -26260,7 +26260,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_12get
     __pyx_t_6 = (__pyx_t_5 != 0);
     if (__pyx_t_6) {
 
-      /* "dependency_injector/providers.pyx":1328
+      /* "dependency_injector/providers.pyx":1329
  *             value = value.get(key)
  *             if value is None:
  *                 break             # <<<<<<<<<<<<<<
@@ -26269,7 +26269,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_12get
  */
       goto __pyx_L4_break;
 
-      /* "dependency_injector/providers.pyx":1327
+      /* "dependency_injector/providers.pyx":1328
  *             key = keys.pop(0)
  *             value = value.get(key)
  *             if value is None:             # <<<<<<<<<<<<<<
@@ -26280,7 +26280,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_12get
   }
   __pyx_L4_break:;
 
-  /* "dependency_injector/providers.pyx":1330
+  /* "dependency_injector/providers.pyx":1331
  *                 break
  * 
  *         return value             # <<<<<<<<<<<<<<
@@ -26292,7 +26292,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_12get
   __pyx_r = __pyx_v_value;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1312
+  /* "dependency_injector/providers.pyx":1313
  *         return self.__name
  * 
  *     def get(self, selector):             # <<<<<<<<<<<<<<
@@ -26316,7 +26316,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_12get
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1332
+/* "dependency_injector/providers.pyx":1333
  *         return value
  * 
  *     def set(self, selector, value):             # <<<<<<<<<<<<<<
@@ -26359,11 +26359,11 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_13Configuration_15set
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_value)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("set", 1, 2, 2, 1); __PYX_ERR(1, 1332, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("set", 1, 2, 2, 1); __PYX_ERR(1, 1333, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set") < 0)) __PYX_ERR(1, 1332, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set") < 0)) __PYX_ERR(1, 1333, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -26376,7 +26376,7 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_13Configuration_15set
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("set", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1332, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("set", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1333, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.Configuration.set", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -26410,14 +26410,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_14set
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set", 0);
 
-  /* "dependency_injector/providers.pyx":1344
+  /* "dependency_injector/providers.pyx":1345
  *         :rtype: :py:class:`OverridingContext`
  *         """
  *         keys = selector.split('.')             # <<<<<<<<<<<<<<
  *         original_value = current_value = self.__call__()
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_selector, __pyx_n_s_split); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1344, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_selector, __pyx_n_s_split); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1345, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -26431,20 +26431,20 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_14set
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_kp_s__4) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_kp_s__4);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1344, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1345, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_keys = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1345
+  /* "dependency_injector/providers.pyx":1346
  *         """
  *         keys = selector.split('.')
  *         original_value = current_value = self.__call__()             # <<<<<<<<<<<<<<
  * 
  *         while len(keys) > 0:
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_call); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1345, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_call); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1346, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -26458,7 +26458,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_14set
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1345, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1346, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_INCREF(__pyx_t_1);
@@ -26467,7 +26467,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_14set
   __pyx_v_current_value = __pyx_t_1;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1347
+  /* "dependency_injector/providers.pyx":1348
  *         original_value = current_value = self.__call__()
  * 
  *         while len(keys) > 0:             # <<<<<<<<<<<<<<
@@ -26475,43 +26475,43 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_14set
  *             if len(keys) == 0:
  */
   while (1) {
-    __pyx_t_4 = PyObject_Length(__pyx_v_keys); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(1, 1347, __pyx_L1_error)
+    __pyx_t_4 = PyObject_Length(__pyx_v_keys); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(1, 1348, __pyx_L1_error)
     __pyx_t_5 = ((__pyx_t_4 > 0) != 0);
     if (!__pyx_t_5) break;
 
-    /* "dependency_injector/providers.pyx":1348
+    /* "dependency_injector/providers.pyx":1349
  * 
  *         while len(keys) > 0:
  *             key = keys.pop(0)             # <<<<<<<<<<<<<<
  *             if len(keys) == 0:
  *                 current_value[key] = value
  */
-    __pyx_t_1 = __Pyx_PyObject_PopIndex(__pyx_v_keys, __pyx_int_0, 0, 1, Py_ssize_t, PyInt_FromSsize_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1348, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_PopIndex(__pyx_v_keys, __pyx_int_0, 0, 1, Py_ssize_t, PyInt_FromSsize_t); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1349, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":1349
+    /* "dependency_injector/providers.pyx":1350
  *         while len(keys) > 0:
  *             key = keys.pop(0)
  *             if len(keys) == 0:             # <<<<<<<<<<<<<<
  *                 current_value[key] = value
  *                 break
  */
-    __pyx_t_4 = PyObject_Length(__pyx_v_keys); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(1, 1349, __pyx_L1_error)
+    __pyx_t_4 = PyObject_Length(__pyx_v_keys); if (unlikely(__pyx_t_4 == ((Py_ssize_t)-1))) __PYX_ERR(1, 1350, __pyx_L1_error)
     __pyx_t_5 = ((__pyx_t_4 == 0) != 0);
     if (__pyx_t_5) {
 
-      /* "dependency_injector/providers.pyx":1350
+      /* "dependency_injector/providers.pyx":1351
  *             key = keys.pop(0)
  *             if len(keys) == 0:
  *                 current_value[key] = value             # <<<<<<<<<<<<<<
  *                 break
  *             temp_value = current_value.get(key, {})
  */
-      if (unlikely(PyObject_SetItem(__pyx_v_current_value, __pyx_v_key, __pyx_v_value) < 0)) __PYX_ERR(1, 1350, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_v_current_value, __pyx_v_key, __pyx_v_value) < 0)) __PYX_ERR(1, 1351, __pyx_L1_error)
 
-      /* "dependency_injector/providers.pyx":1351
+      /* "dependency_injector/providers.pyx":1352
  *             if len(keys) == 0:
  *                 current_value[key] = value
  *                 break             # <<<<<<<<<<<<<<
@@ -26520,7 +26520,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_14set
  */
       goto __pyx_L4_break;
 
-      /* "dependency_injector/providers.pyx":1349
+      /* "dependency_injector/providers.pyx":1350
  *         while len(keys) > 0:
  *             key = keys.pop(0)
  *             if len(keys) == 0:             # <<<<<<<<<<<<<<
@@ -26529,16 +26529,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_14set
  */
     }
 
-    /* "dependency_injector/providers.pyx":1352
+    /* "dependency_injector/providers.pyx":1353
  *                 current_value[key] = value
  *                 break
  *             temp_value = current_value.get(key, {})             # <<<<<<<<<<<<<<
  *             current_value[key] = temp_value
  *             current_value = temp_value
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_current_value, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1352, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_current_value, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1353, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1352, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1353, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_6 = NULL;
     __pyx_t_7 = 0;
@@ -26555,7 +26555,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_14set
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_key, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1352, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1353, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -26564,14 +26564,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_14set
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_key, __pyx_t_3};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1352, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1353, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     } else
     #endif
     {
-      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1352, __pyx_L1_error)
+      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1353, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
       if (__pyx_t_6) {
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -26582,7 +26582,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_14set
       __Pyx_GIVEREF(__pyx_t_3);
       PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_3);
       __pyx_t_3 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1352, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1353, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     }
@@ -26590,16 +26590,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_14set
     __Pyx_XDECREF_SET(__pyx_v_temp_value, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":1353
+    /* "dependency_injector/providers.pyx":1354
  *                 break
  *             temp_value = current_value.get(key, {})
  *             current_value[key] = temp_value             # <<<<<<<<<<<<<<
  *             current_value = temp_value
  * 
  */
-    if (unlikely(PyObject_SetItem(__pyx_v_current_value, __pyx_v_key, __pyx_v_temp_value) < 0)) __PYX_ERR(1, 1353, __pyx_L1_error)
+    if (unlikely(PyObject_SetItem(__pyx_v_current_value, __pyx_v_key, __pyx_v_temp_value) < 0)) __PYX_ERR(1, 1354, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":1354
+    /* "dependency_injector/providers.pyx":1355
  *             temp_value = current_value.get(key, {})
  *             current_value[key] = temp_value
  *             current_value = temp_value             # <<<<<<<<<<<<<<
@@ -26611,7 +26611,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_14set
   }
   __pyx_L4_break:;
 
-  /* "dependency_injector/providers.pyx":1356
+  /* "dependency_injector/providers.pyx":1357
  *             current_value = temp_value
  * 
  *         return self.override(original_value)             # <<<<<<<<<<<<<<
@@ -26619,7 +26619,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_14set
  *     def override(self, provider):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_override); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1356, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_override); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1357, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_8 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -26633,14 +26633,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_14set
   }
   __pyx_t_1 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_8, __pyx_v_original_value) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_original_value);
   __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1356, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1357, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1332
+  /* "dependency_injector/providers.pyx":1333
  *         return value
  * 
  *     def set(self, selector, value):             # <<<<<<<<<<<<<<
@@ -26668,7 +26668,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_14set
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1358
+/* "dependency_injector/providers.pyx":1359
  *         return self.override(original_value)
  * 
  *     def override(self, provider):             # <<<<<<<<<<<<<<
@@ -26702,14 +26702,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_16ove
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("override", 0);
 
-  /* "dependency_injector/providers.pyx":1369
+  /* "dependency_injector/providers.pyx":1370
  *         :rtype: :py:class:`OverridingContext`
  *         """
  *         context = super().override(provider)             # <<<<<<<<<<<<<<
  *         self.reset_cache()
  *         return context
  */
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1369, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1370, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Configuration));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Configuration));
@@ -26717,10 +26717,10 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_16ove
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_2, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1369, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1370, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_override); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1369, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_override); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1370, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -26735,20 +26735,20 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_16ove
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_provider) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_provider);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1369, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1370, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_context = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1370
+  /* "dependency_injector/providers.pyx":1371
  *         """
  *         context = super().override(provider)
  *         self.reset_cache()             # <<<<<<<<<<<<<<
  *         return context
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_reset_cache); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1370, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_reset_cache); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1371, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -26762,12 +26762,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_16ove
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1370, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1371, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1371
+  /* "dependency_injector/providers.pyx":1372
  *         context = super().override(provider)
  *         self.reset_cache()
  *         return context             # <<<<<<<<<<<<<<
@@ -26779,7 +26779,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_16ove
   __pyx_r = __pyx_v_context;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1358
+  /* "dependency_injector/providers.pyx":1359
  *         return self.override(original_value)
  * 
  *     def override(self, provider):             # <<<<<<<<<<<<<<
@@ -26801,7 +26801,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_16ove
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1373
+/* "dependency_injector/providers.pyx":1374
  *         return context
  * 
  *     def reset_last_overriding(self):             # <<<<<<<<<<<<<<
@@ -26834,14 +26834,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_18res
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset_last_overriding", 0);
 
-  /* "dependency_injector/providers.pyx":1381
+  /* "dependency_injector/providers.pyx":1382
  *         :rtype: None
  *         """
  *         super().reset_last_overriding()             # <<<<<<<<<<<<<<
  *         self.reset_cache()
  * 
  */
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1381, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Configuration));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Configuration));
@@ -26849,38 +26849,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_18res
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_2, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1381, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_reset_last_overriding); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1381, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_reset_last_overriding); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1382, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1381, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "dependency_injector/providers.pyx":1382
- *         """
- *         super().reset_last_overriding()
- *         self.reset_cache()             # <<<<<<<<<<<<<<
- * 
- *     def reset_override(self):
- */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_reset_cache); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1382, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
     __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
@@ -26898,7 +26872,33 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_18res
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1373
+  /* "dependency_injector/providers.pyx":1383
+ *         """
+ *         super().reset_last_overriding()
+ *         self.reset_cache()             # <<<<<<<<<<<<<<
+ * 
+ *     def reset_override(self):
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_reset_cache); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1383, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1383, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "dependency_injector/providers.pyx":1374
  *         return context
  * 
  *     def reset_last_overriding(self):             # <<<<<<<<<<<<<<
@@ -26921,7 +26921,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_18res
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1384
+/* "dependency_injector/providers.pyx":1385
  *         self.reset_cache()
  * 
  *     def reset_override(self):             # <<<<<<<<<<<<<<
@@ -26954,14 +26954,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_20res
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset_override", 0);
 
-  /* "dependency_injector/providers.pyx":1389
+  /* "dependency_injector/providers.pyx":1390
  *         :rtype: None
  *         """
  *         super().reset_override()             # <<<<<<<<<<<<<<
  *         self.reset_cache()
  * 
  */
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1389, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1390, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Configuration));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Configuration));
@@ -26969,38 +26969,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_20res
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_2, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1389, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1390, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_reset_override); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1389, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_reset_override); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1390, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1389, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "dependency_injector/providers.pyx":1390
- *         """
- *         super().reset_override()
- *         self.reset_cache()             # <<<<<<<<<<<<<<
- * 
- *     def reset_cache(self):
- */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_reset_cache); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1390, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
     __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
@@ -27018,7 +26992,33 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_20res
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1384
+  /* "dependency_injector/providers.pyx":1391
+ *         """
+ *         super().reset_override()
+ *         self.reset_cache()             # <<<<<<<<<<<<<<
+ * 
+ *     def reset_cache(self):
+ */
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_reset_cache); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1391, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1391, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "dependency_injector/providers.pyx":1385
  *         self.reset_cache()
  * 
  *     def reset_override(self):             # <<<<<<<<<<<<<<
@@ -27041,7 +27041,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_20res
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1392
+/* "dependency_injector/providers.pyx":1393
  *         self.reset_cache()
  * 
  *     def reset_cache(self):             # <<<<<<<<<<<<<<
@@ -27078,7 +27078,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_22res
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset_cache", 0);
 
-  /* "dependency_injector/providers.pyx":1397
+  /* "dependency_injector/providers.pyx":1398
  *         :rtype: None
  *         """
  *         for child in self.__children.values():             # <<<<<<<<<<<<<<
@@ -27087,17 +27087,17 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_22res
  */
   if (unlikely(__pyx_v_self->__pyx___children == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "values");
-    __PYX_ERR(1, 1397, __pyx_L1_error)
+    __PYX_ERR(1, 1398, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_Values(__pyx_v_self->__pyx___children); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1397, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_Values(__pyx_v_self->__pyx___children); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1398, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1397, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1398, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1397, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1398, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -27105,17 +27105,17 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_22res
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 1397, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 1398, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1397, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1398, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 1397, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 1398, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1397, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1398, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -27125,7 +27125,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_22res
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(1, 1397, __pyx_L1_error)
+          else __PYX_ERR(1, 1398, __pyx_L1_error)
         }
         break;
       }
@@ -27134,14 +27134,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_22res
     __Pyx_XDECREF_SET(__pyx_v_child, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":1398
+    /* "dependency_injector/providers.pyx":1399
  *         """
  *         for child in self.__children.values():
  *             child.reset_cache()             # <<<<<<<<<<<<<<
  * 
  *     def update(self, value):
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_child, __pyx_n_s_reset_cache); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1398, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_child, __pyx_n_s_reset_cache); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1399, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -27155,12 +27155,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_22res
     }
     __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1398, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1399, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":1397
+    /* "dependency_injector/providers.pyx":1398
  *         :rtype: None
  *         """
  *         for child in self.__children.values():             # <<<<<<<<<<<<<<
@@ -27170,7 +27170,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_22res
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1392
+  /* "dependency_injector/providers.pyx":1393
  *         self.reset_cache()
  * 
  *     def reset_cache(self):             # <<<<<<<<<<<<<<
@@ -27195,7 +27195,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_22res
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1400
+/* "dependency_injector/providers.pyx":1401
  *             child.reset_cache()
  * 
  *     def update(self, value):             # <<<<<<<<<<<<<<
@@ -27228,14 +27228,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_24upd
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("update", 0);
 
-  /* "dependency_injector/providers.pyx":1412
+  /* "dependency_injector/providers.pyx":1413
  *         :rtype: None
  *         """
  *         self.override(value)             # <<<<<<<<<<<<<<
  * 
  *     def from_ini(self, filepath):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_override); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1412, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_override); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1413, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -27249,12 +27249,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_24upd
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_value) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_value);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1412, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1413, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1400
+  /* "dependency_injector/providers.pyx":1401
  *             child.reset_cache()
  * 
  *     def update(self, value):             # <<<<<<<<<<<<<<
@@ -27277,7 +27277,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_24upd
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1414
+/* "dependency_injector/providers.pyx":1415
  *         self.override(value)
  * 
  *     def from_ini(self, filepath):             # <<<<<<<<<<<<<<
@@ -27322,14 +27322,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_26fro
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("from_ini", 0);
 
-  /* "dependency_injector/providers.pyx":1424
+  /* "dependency_injector/providers.pyx":1425
  *         :rtype: None
  *         """
  *         parser = _parse_ini_file(filepath)             # <<<<<<<<<<<<<<
  * 
  *         config = {}
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_parse_ini_file); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1424, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_parse_ini_file); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1425, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -27343,32 +27343,32 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_26fro
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_v_filepath) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_filepath);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1424, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1425, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_parser = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1426
+  /* "dependency_injector/providers.pyx":1427
  *         parser = _parse_ini_file(filepath)
  * 
  *         config = {}             # <<<<<<<<<<<<<<
  *         for section in parser.sections():
  *             config[section] = dict(parser.items(section))
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1426, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1427, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_config = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1427
+  /* "dependency_injector/providers.pyx":1428
  * 
  *         config = {}
  *         for section in parser.sections():             # <<<<<<<<<<<<<<
  *             config[section] = dict(parser.items(section))
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_sections); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1427, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_sections); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1428, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -27382,16 +27382,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_26fro
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1427, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1428, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1427, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1428, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1427, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1428, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -27399,17 +27399,17 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_26fro
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 1427, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 1428, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1427, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1428, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 1427, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 1428, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1427, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1428, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -27419,7 +27419,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_26fro
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(1, 1427, __pyx_L1_error)
+          else __PYX_ERR(1, 1428, __pyx_L1_error)
         }
         break;
       }
@@ -27428,14 +27428,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_26fro
     __Pyx_XDECREF_SET(__pyx_v_section, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":1428
+    /* "dependency_injector/providers.pyx":1429
  *         config = {}
  *         for section in parser.sections():
  *             config[section] = dict(parser.items(section))             # <<<<<<<<<<<<<<
  * 
  *         current_config = self.__call__()
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_items); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1428, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_parser, __pyx_n_s_items); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1429, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -27449,16 +27449,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_26fro
     }
     __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_6, __pyx_v_section) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_section);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1428, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1429, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyDict_Type)), __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1428, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyDict_Type)), __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1429, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    if (unlikely(PyDict_SetItem(__pyx_v_config, __pyx_v_section, __pyx_t_3) < 0)) __PYX_ERR(1, 1428, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_config, __pyx_v_section, __pyx_t_3) < 0)) __PYX_ERR(1, 1429, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "dependency_injector/providers.pyx":1427
+    /* "dependency_injector/providers.pyx":1428
  * 
  *         config = {}
  *         for section in parser.sections():             # <<<<<<<<<<<<<<
@@ -27468,14 +27468,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_26fro
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1430
+  /* "dependency_injector/providers.pyx":1431
  *             config[section] = dict(parser.items(section))
  * 
  *         current_config = self.__call__()             # <<<<<<<<<<<<<<
  *         if not current_config:
  *             current_config = {}
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_call); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1430, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_call); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1431, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_1 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -27489,36 +27489,36 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_26fro
   }
   __pyx_t_2 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1430, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1431, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_current_config = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1431
+  /* "dependency_injector/providers.pyx":1432
  * 
  *         current_config = self.__call__()
  *         if not current_config:             # <<<<<<<<<<<<<<
  *             current_config = {}
  *         self.override(merge_dicts(current_config, config))
  */
-  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_current_config); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(1, 1431, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_current_config); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(1, 1432, __pyx_L1_error)
   __pyx_t_8 = ((!__pyx_t_7) != 0);
   if (__pyx_t_8) {
 
-    /* "dependency_injector/providers.pyx":1432
+    /* "dependency_injector/providers.pyx":1433
  *         current_config = self.__call__()
  *         if not current_config:
  *             current_config = {}             # <<<<<<<<<<<<<<
  *         self.override(merge_dicts(current_config, config))
  * 
  */
-    __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1432, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1433, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF_SET(__pyx_v_current_config, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "dependency_injector/providers.pyx":1431
+    /* "dependency_injector/providers.pyx":1432
  * 
  *         current_config = self.__call__()
  *         if not current_config:             # <<<<<<<<<<<<<<
@@ -27527,16 +27527,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_26fro
  */
   }
 
-  /* "dependency_injector/providers.pyx":1433
+  /* "dependency_injector/providers.pyx":1434
  *         if not current_config:
  *             current_config = {}
  *         self.override(merge_dicts(current_config, config))             # <<<<<<<<<<<<<<
  * 
  *     def from_yaml(self, filepath):
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_override); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1433, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_override); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1434, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_merge_dicts); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1433, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_merge_dicts); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1434, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_9 = NULL;
   __pyx_t_10 = 0;
@@ -27553,7 +27553,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_26fro
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_v_current_config, __pyx_v_config};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1433, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1434, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
@@ -27561,13 +27561,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_26fro
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_v_current_config, __pyx_v_config};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1433, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_10, 2+__pyx_t_10); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1434, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
   #endif
   {
-    __pyx_t_11 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 1433, __pyx_L1_error)
+    __pyx_t_11 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(1, 1434, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     if (__pyx_t_9) {
       __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -27578,7 +27578,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_26fro
     __Pyx_INCREF(__pyx_v_config);
     __Pyx_GIVEREF(__pyx_v_config);
     PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_10, __pyx_v_config);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1433, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1434, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   }
@@ -27596,12 +27596,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_26fro
   __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_6, __pyx_t_1) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_1);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1433, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1434, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1414
+  /* "dependency_injector/providers.pyx":1415
  *         self.override(value)
  * 
  *     def from_ini(self, filepath):             # <<<<<<<<<<<<<<
@@ -27631,7 +27631,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_26fro
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1435
+/* "dependency_injector/providers.pyx":1436
  *         self.override(merge_dicts(current_config, config))
  * 
  *     def from_yaml(self, filepath):             # <<<<<<<<<<<<<<
@@ -27681,28 +27681,28 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("from_yaml", 0);
 
-  /* "dependency_injector/providers.pyx":1445
+  /* "dependency_injector/providers.pyx":1446
  *         :rtype: None
  *         """
  *         if yaml is None:             # <<<<<<<<<<<<<<
  *             raise Error(
  *                 'Unable to load yaml configuration - PyYAML is not installed. '
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_yaml); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1445, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_yaml); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1446, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = (__pyx_t_1 == Py_None);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = (__pyx_t_2 != 0);
   if (unlikely(__pyx_t_3)) {
 
-    /* "dependency_injector/providers.pyx":1446
+    /* "dependency_injector/providers.pyx":1447
  *         """
  *         if yaml is None:
  *             raise Error(             # <<<<<<<<<<<<<<
  *                 'Unable to load yaml configuration - PyYAML is not installed. '
  *                 'Install PyYAML or install Dependency Injector with yaml extras: '
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1446, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1447, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -27716,14 +27716,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
     }
     __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_kp_s_Unable_to_load_yaml_configuratio) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_kp_s_Unable_to_load_yaml_configuratio);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1446, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1447, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(1, 1446, __pyx_L1_error)
+    __PYX_ERR(1, 1447, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":1445
+    /* "dependency_injector/providers.pyx":1446
  *         :rtype: None
  *         """
  *         if yaml is None:             # <<<<<<<<<<<<<<
@@ -27732,7 +27732,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
  */
   }
 
-  /* "dependency_injector/providers.pyx":1452
+  /* "dependency_injector/providers.pyx":1453
  *             )
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -27748,7 +27748,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
     __Pyx_XGOTREF(__pyx_t_8);
     /*try:*/ {
 
-      /* "dependency_injector/providers.pyx":1453
+      /* "dependency_injector/providers.pyx":1454
  * 
  *         try:
  *             with open(filepath) as opened_file:             # <<<<<<<<<<<<<<
@@ -27756,11 +27756,11 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
  *         except IOError:
  */
       /*with:*/ {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_open, __pyx_v_filepath); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1453, __pyx_L4_error)
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_open, __pyx_v_filepath); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1454, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_9 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_exit); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1453, __pyx_L4_error)
+        __pyx_t_9 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_exit); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1454, __pyx_L4_error)
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_5 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_enter); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1453, __pyx_L10_error)
+        __pyx_t_5 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_enter); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1454, __pyx_L10_error)
         __Pyx_GOTREF(__pyx_t_5);
         __pyx_t_10 = NULL;
         if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -27774,7 +27774,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
         }
         __pyx_t_4 = (__pyx_t_10) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_10) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
         __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-        if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1453, __pyx_L10_error)
+        if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1454, __pyx_L10_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __pyx_t_5 = __pyx_t_4;
@@ -27792,21 +27792,21 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
               __pyx_v_opened_file = __pyx_t_5;
               __pyx_t_5 = 0;
 
-              /* "dependency_injector/providers.pyx":1454
+              /* "dependency_injector/providers.pyx":1455
  *         try:
  *             with open(filepath) as opened_file:
  *                 config = yaml.load(opened_file, yaml.Loader)             # <<<<<<<<<<<<<<
  *         except IOError:
  *             return
  */
-              __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_yaml); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1454, __pyx_L14_error)
+              __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_yaml); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1455, __pyx_L14_error)
               __Pyx_GOTREF(__pyx_t_1);
-              __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_load); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1454, __pyx_L14_error)
+              __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_load); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1455, __pyx_L14_error)
               __Pyx_GOTREF(__pyx_t_4);
               __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-              __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_yaml); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1454, __pyx_L14_error)
+              __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_yaml); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1455, __pyx_L14_error)
               __Pyx_GOTREF(__pyx_t_1);
-              __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_Loader); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 1454, __pyx_L14_error)
+              __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_Loader); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 1455, __pyx_L14_error)
               __Pyx_GOTREF(__pyx_t_10);
               __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
               __pyx_t_1 = NULL;
@@ -27824,7 +27824,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
               #if CYTHON_FAST_PYCALL
               if (PyFunction_Check(__pyx_t_4)) {
                 PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_opened_file, __pyx_t_10};
-                __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_14, 2+__pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1454, __pyx_L14_error)
+                __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_14, 2+__pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1455, __pyx_L14_error)
                 __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
                 __Pyx_GOTREF(__pyx_t_5);
                 __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -27833,14 +27833,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
               #if CYTHON_FAST_PYCCALL
               if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
                 PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_opened_file, __pyx_t_10};
-                __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_14, 2+__pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1454, __pyx_L14_error)
+                __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_14, 2+__pyx_t_14); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1455, __pyx_L14_error)
                 __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
                 __Pyx_GOTREF(__pyx_t_5);
                 __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
               } else
               #endif
               {
-                __pyx_t_15 = PyTuple_New(2+__pyx_t_14); if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 1454, __pyx_L14_error)
+                __pyx_t_15 = PyTuple_New(2+__pyx_t_14); if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 1455, __pyx_L14_error)
                 __Pyx_GOTREF(__pyx_t_15);
                 if (__pyx_t_1) {
                   __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_1); __pyx_t_1 = NULL;
@@ -27851,7 +27851,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
                 __Pyx_GIVEREF(__pyx_t_10);
                 PyTuple_SET_ITEM(__pyx_t_15, 1+__pyx_t_14, __pyx_t_10);
                 __pyx_t_10 = 0;
-                __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_15, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1454, __pyx_L14_error)
+                __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_15, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1455, __pyx_L14_error)
                 __Pyx_GOTREF(__pyx_t_5);
                 __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
               }
@@ -27859,7 +27859,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
               __pyx_v_config = __pyx_t_5;
               __pyx_t_5 = 0;
 
-              /* "dependency_injector/providers.pyx":1453
+              /* "dependency_injector/providers.pyx":1454
  * 
  *         try:
  *             with open(filepath) as opened_file:             # <<<<<<<<<<<<<<
@@ -27879,20 +27879,20 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
             __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
             /*except:*/ {
               __Pyx_AddTraceback("dependency_injector.providers.Configuration.from_yaml", __pyx_clineno, __pyx_lineno, __pyx_filename);
-              if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_4, &__pyx_t_15) < 0) __PYX_ERR(1, 1453, __pyx_L16_except_error)
+              if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_4, &__pyx_t_15) < 0) __PYX_ERR(1, 1454, __pyx_L16_except_error)
               __Pyx_GOTREF(__pyx_t_5);
               __Pyx_GOTREF(__pyx_t_4);
               __Pyx_GOTREF(__pyx_t_15);
-              __pyx_t_10 = PyTuple_Pack(3, __pyx_t_5, __pyx_t_4, __pyx_t_15); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 1453, __pyx_L16_except_error)
+              __pyx_t_10 = PyTuple_Pack(3, __pyx_t_5, __pyx_t_4, __pyx_t_15); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 1454, __pyx_L16_except_error)
               __Pyx_GOTREF(__pyx_t_10);
               __pyx_t_16 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_10, NULL);
               __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
               __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-              if (unlikely(!__pyx_t_16)) __PYX_ERR(1, 1453, __pyx_L16_except_error)
+              if (unlikely(!__pyx_t_16)) __PYX_ERR(1, 1454, __pyx_L16_except_error)
               __Pyx_GOTREF(__pyx_t_16);
               __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_16);
               __Pyx_DECREF(__pyx_t_16); __pyx_t_16 = 0;
-              if (__pyx_t_3 < 0) __PYX_ERR(1, 1453, __pyx_L16_except_error)
+              if (__pyx_t_3 < 0) __PYX_ERR(1, 1454, __pyx_L16_except_error)
               __pyx_t_2 = ((!(__pyx_t_3 != 0)) != 0);
               if (__pyx_t_2) {
                 __Pyx_GIVEREF(__pyx_t_5);
@@ -27900,7 +27900,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
                 __Pyx_XGIVEREF(__pyx_t_15);
                 __Pyx_ErrRestoreWithState(__pyx_t_5, __pyx_t_4, __pyx_t_15);
                 __pyx_t_5 = 0; __pyx_t_4 = 0; __pyx_t_15 = 0; 
-                __PYX_ERR(1, 1453, __pyx_L16_except_error)
+                __PYX_ERR(1, 1454, __pyx_L16_except_error)
               }
               __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
               __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -27926,7 +27926,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
             if (__pyx_t_9) {
               __pyx_t_13 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_tuple__2, NULL);
               __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-              if (unlikely(!__pyx_t_13)) __PYX_ERR(1, 1453, __pyx_L4_error)
+              if (unlikely(!__pyx_t_13)) __PYX_ERR(1, 1454, __pyx_L4_error)
               __Pyx_GOTREF(__pyx_t_13);
               __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
             }
@@ -27941,7 +27941,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
         __pyx_L23:;
       }
 
-      /* "dependency_injector/providers.pyx":1452
+      /* "dependency_injector/providers.pyx":1453
  *             )
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -27960,7 +27960,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "dependency_injector/providers.pyx":1455
+    /* "dependency_injector/providers.pyx":1456
  *             with open(filepath) as opened_file:
  *                 config = yaml.load(opened_file, yaml.Loader)
  *         except IOError:             # <<<<<<<<<<<<<<
@@ -27970,12 +27970,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
     __pyx_t_14 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_IOError);
     if (__pyx_t_14) {
       __Pyx_AddTraceback("dependency_injector.providers.Configuration.from_yaml", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_15, &__pyx_t_4, &__pyx_t_5) < 0) __PYX_ERR(1, 1455, __pyx_L6_except_error)
+      if (__Pyx_GetException(&__pyx_t_15, &__pyx_t_4, &__pyx_t_5) < 0) __PYX_ERR(1, 1456, __pyx_L6_except_error)
       __Pyx_GOTREF(__pyx_t_15);
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_GOTREF(__pyx_t_5);
 
-      /* "dependency_injector/providers.pyx":1456
+      /* "dependency_injector/providers.pyx":1457
  *                 config = yaml.load(opened_file, yaml.Loader)
  *         except IOError:
  *             return             # <<<<<<<<<<<<<<
@@ -27992,7 +27992,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
     goto __pyx_L6_except_error;
     __pyx_L6_except_error:;
 
-    /* "dependency_injector/providers.pyx":1452
+    /* "dependency_injector/providers.pyx":1453
  *             )
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -28013,14 +28013,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
     __pyx_L9_try_end:;
   }
 
-  /* "dependency_injector/providers.pyx":1458
+  /* "dependency_injector/providers.pyx":1459
  *             return
  * 
  *         current_config = self.__call__()             # <<<<<<<<<<<<<<
  *         if not current_config:
  *             current_config = {}
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_call); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1458, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_call); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1459, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_15 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -28034,36 +28034,36 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
   }
   __pyx_t_5 = (__pyx_t_15) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_15) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1458, __pyx_L1_error)
+  if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1459, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_current_config = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "dependency_injector/providers.pyx":1459
+  /* "dependency_injector/providers.pyx":1460
  * 
  *         current_config = self.__call__()
  *         if not current_config:             # <<<<<<<<<<<<<<
  *             current_config = {}
  *         self.override(merge_dicts(current_config, config))
  */
-  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_current_config); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(1, 1459, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_v_current_config); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(1, 1460, __pyx_L1_error)
   __pyx_t_3 = ((!__pyx_t_2) != 0);
   if (__pyx_t_3) {
 
-    /* "dependency_injector/providers.pyx":1460
+    /* "dependency_injector/providers.pyx":1461
  *         current_config = self.__call__()
  *         if not current_config:
  *             current_config = {}             # <<<<<<<<<<<<<<
  *         self.override(merge_dicts(current_config, config))
  * 
  */
-    __pyx_t_5 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1460, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1461, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF_SET(__pyx_v_current_config, __pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "dependency_injector/providers.pyx":1459
+    /* "dependency_injector/providers.pyx":1460
  * 
  *         current_config = self.__call__()
  *         if not current_config:             # <<<<<<<<<<<<<<
@@ -28072,18 +28072,18 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
  */
   }
 
-  /* "dependency_injector/providers.pyx":1461
+  /* "dependency_injector/providers.pyx":1462
  *         if not current_config:
  *             current_config = {}
  *         self.override(merge_dicts(current_config, config))             # <<<<<<<<<<<<<<
  * 
  *     def from_dict(self, options):
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_override); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1461, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_override); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1462, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_merge_dicts); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 1461, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_10, __pyx_n_s_merge_dicts); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 1462, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
-  if (unlikely(!__pyx_v_config)) { __Pyx_RaiseUnboundLocalError("config"); __PYX_ERR(1, 1461, __pyx_L1_error) }
+  if (unlikely(!__pyx_v_config)) { __Pyx_RaiseUnboundLocalError("config"); __PYX_ERR(1, 1462, __pyx_L1_error) }
   __pyx_t_1 = NULL;
   __pyx_t_14 = 0;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_10))) {
@@ -28099,7 +28099,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_10)) {
     PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_current_config, __pyx_v_config};
-    __pyx_t_15 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_14, 2+__pyx_t_14); if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 1461, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_14, 2+__pyx_t_14); if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 1462, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_GOTREF(__pyx_t_15);
   } else
@@ -28107,13 +28107,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_10)) {
     PyObject *__pyx_temp[3] = {__pyx_t_1, __pyx_v_current_config, __pyx_v_config};
-    __pyx_t_15 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_14, 2+__pyx_t_14); if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 1461, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyCFunction_FastCall(__pyx_t_10, __pyx_temp+1-__pyx_t_14, 2+__pyx_t_14); if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 1462, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_GOTREF(__pyx_t_15);
   } else
   #endif
   {
-    __pyx_t_17 = PyTuple_New(2+__pyx_t_14); if (unlikely(!__pyx_t_17)) __PYX_ERR(1, 1461, __pyx_L1_error)
+    __pyx_t_17 = PyTuple_New(2+__pyx_t_14); if (unlikely(!__pyx_t_17)) __PYX_ERR(1, 1462, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_17);
     if (__pyx_t_1) {
       __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_17, 0, __pyx_t_1); __pyx_t_1 = NULL;
@@ -28124,7 +28124,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
     __Pyx_INCREF(__pyx_v_config);
     __Pyx_GIVEREF(__pyx_v_config);
     PyTuple_SET_ITEM(__pyx_t_17, 1+__pyx_t_14, __pyx_v_config);
-    __pyx_t_15 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_17, NULL); if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 1461, __pyx_L1_error)
+    __pyx_t_15 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_17, NULL); if (unlikely(!__pyx_t_15)) __PYX_ERR(1, 1462, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
     __Pyx_DECREF(__pyx_t_17); __pyx_t_17 = 0;
   }
@@ -28142,12 +28142,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
   __pyx_t_5 = (__pyx_t_10) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_10, __pyx_t_15) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_15);
   __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
   __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1461, __pyx_L1_error)
+  if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1462, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "dependency_injector/providers.pyx":1435
+  /* "dependency_injector/providers.pyx":1436
  *         self.override(merge_dicts(current_config, config))
  * 
  *     def from_yaml(self, filepath):             # <<<<<<<<<<<<<<
@@ -28176,7 +28176,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_28fro
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1463
+/* "dependency_injector/providers.pyx":1464
  *         self.override(merge_dicts(current_config, config))
  * 
  *     def from_dict(self, options):             # <<<<<<<<<<<<<<
@@ -28216,14 +28216,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_30fro
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("from_dict", 0);
 
-  /* "dependency_injector/providers.pyx":1473
+  /* "dependency_injector/providers.pyx":1474
  *         :rtype: None
  *         """
  *         current_config = self.__call__()             # <<<<<<<<<<<<<<
  *         if not current_config:
  *             current_config = {}
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_call); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1473, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_call); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1474, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -28237,36 +28237,36 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_30fro
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1473, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1474, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_current_config = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1474
+  /* "dependency_injector/providers.pyx":1475
  *         """
  *         current_config = self.__call__()
  *         if not current_config:             # <<<<<<<<<<<<<<
  *             current_config = {}
  *         self.override(merge_dicts(current_config, options))
  */
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_current_config); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(1, 1474, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_v_current_config); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(1, 1475, __pyx_L1_error)
   __pyx_t_5 = ((!__pyx_t_4) != 0);
   if (__pyx_t_5) {
 
-    /* "dependency_injector/providers.pyx":1475
+    /* "dependency_injector/providers.pyx":1476
  *         current_config = self.__call__()
  *         if not current_config:
  *             current_config = {}             # <<<<<<<<<<<<<<
  *         self.override(merge_dicts(current_config, options))
  * 
  */
-    __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1475, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1476, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_current_config, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":1474
+    /* "dependency_injector/providers.pyx":1475
  *         """
  *         current_config = self.__call__()
  *         if not current_config:             # <<<<<<<<<<<<<<
@@ -28275,16 +28275,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_30fro
  */
   }
 
-  /* "dependency_injector/providers.pyx":1476
+  /* "dependency_injector/providers.pyx":1477
  *         if not current_config:
  *             current_config = {}
  *         self.override(merge_dicts(current_config, options))             # <<<<<<<<<<<<<<
  * 
  *     def from_env(self, name, default=None):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_override); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1476, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_override); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1477, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_merge_dicts); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1476, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_merge_dicts); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1477, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = NULL;
   __pyx_t_8 = 0;
@@ -28301,7 +28301,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_30fro
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_v_current_config, __pyx_v_options};
-    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1476, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1477, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_3);
   } else
@@ -28309,13 +28309,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_30fro
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_v_current_config, __pyx_v_options};
-    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1476, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1477, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_3);
   } else
   #endif
   {
-    __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1476, __pyx_L1_error)
+    __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1477, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
     if (__pyx_t_7) {
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -28326,7 +28326,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_30fro
     __Pyx_INCREF(__pyx_v_options);
     __Pyx_GIVEREF(__pyx_v_options);
     PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, __pyx_v_options);
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1476, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1477, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   }
@@ -28344,12 +28344,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_30fro
   __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_6, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1476, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1477, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1463
+  /* "dependency_injector/providers.pyx":1464
  *         self.override(merge_dicts(current_config, config))
  * 
  *     def from_dict(self, options):             # <<<<<<<<<<<<<<
@@ -28376,7 +28376,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_30fro
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1478
+/* "dependency_injector/providers.pyx":1479
  *         self.override(merge_dicts(current_config, options))
  * 
  *     def from_env(self, name, default=None):             # <<<<<<<<<<<<<<
@@ -28424,7 +28424,7 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_13Configuration_33fro
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "from_env") < 0)) __PYX_ERR(1, 1478, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "from_env") < 0)) __PYX_ERR(1, 1479, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -28440,7 +28440,7 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_13Configuration_33fro
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("from_env", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1478, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("from_env", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1479, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.Configuration.from_env", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -28467,16 +28467,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_32fro
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("from_env", 0);
 
-  /* "dependency_injector/providers.pyx":1489
+  /* "dependency_injector/providers.pyx":1490
  *         :rtype: None
  *         """
  *         value = os.getenv(name, default)             # <<<<<<<<<<<<<<
  *         self.override(value)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_os); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1489, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_os); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1490, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_getenv); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1489, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_getenv); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1490, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -28494,7 +28494,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_32fro
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_name, __pyx_v_default};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1489, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1490, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
@@ -28502,13 +28502,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_32fro
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
     PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_v_name, __pyx_v_default};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1489, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_4, 2+__pyx_t_4); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1490, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else
   #endif
   {
-    __pyx_t_5 = PyTuple_New(2+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1489, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(2+__pyx_t_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1490, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     if (__pyx_t_2) {
       __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2); __pyx_t_2 = NULL;
@@ -28519,7 +28519,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_32fro
     __Pyx_INCREF(__pyx_v_default);
     __Pyx_GIVEREF(__pyx_v_default);
     PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_4, __pyx_v_default);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1489, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1490, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
@@ -28527,14 +28527,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_32fro
   __pyx_v_value = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1490
+  /* "dependency_injector/providers.pyx":1491
  *         """
  *         value = os.getenv(name, default)
  *         self.override(value)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_override); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1490, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_override); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1491, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -28548,12 +28548,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_32fro
   }
   __pyx_t_1 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_v_value) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_value);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1490, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1491, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1478
+  /* "dependency_injector/providers.pyx":1479
  *         self.override(merge_dicts(current_config, options))
  * 
  *     def from_env(self, name, default=None):             # <<<<<<<<<<<<<<
@@ -28915,7 +28915,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13Configuration_36__s
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1546
+/* "dependency_injector/providers.pyx":1547
  *     provided_type = None
  * 
  *     def __init__(self, provides, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -28972,7 +28972,7 @@ static int __pyx_pw_19dependency_injector_9providers_7Factory_1__init__(PyObject
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t used_pos_args = (pos_args < 1) ? pos_args : 1;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__init__") < 0)) __PYX_ERR(1, 1546, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__init__") < 0)) __PYX_ERR(1, 1547, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) < 1) {
       goto __pyx_L5_argtuple_error;
@@ -28983,7 +28983,7 @@ static int __pyx_pw_19dependency_injector_9providers_7Factory_1__init__(PyObject
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1546, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1547, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
@@ -29020,19 +29020,19 @@ static int __pyx_pf_19dependency_injector_9providers_7Factory___init__(struct __
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dependency_injector/providers.pyx":1552
+  /* "dependency_injector/providers.pyx":1553
  *         :type provides: type
  *         """
  *         if (self.__class__.provided_type and             # <<<<<<<<<<<<<<
  *                 not issubclass(provides, self.__class__.provided_type)):
  *             raise Error('{0} can provide only {1} instances'.format(
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1552, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1553, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_provided_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1552, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_provided_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1553, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(1, 1552, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(1, 1553, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_4) {
   } else {
@@ -29040,25 +29040,25 @@ static int __pyx_pf_19dependency_injector_9providers_7Factory___init__(struct __
     goto __pyx_L4_bool_binop_done;
   }
 
-  /* "dependency_injector/providers.pyx":1553
+  /* "dependency_injector/providers.pyx":1554
  *         """
  *         if (self.__class__.provided_type and
  *                 not issubclass(provides, self.__class__.provided_type)):             # <<<<<<<<<<<<<<
  *             raise Error('{0} can provide only {1} instances'.format(
  *                 self.__class__, self.__class__.provided_type))
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1553, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1554, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_provided_type); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1553, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_provided_type); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1554, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_4 = PyObject_IsSubclass(__pyx_v_provides, __pyx_t_2); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(1, 1553, __pyx_L1_error)
+  __pyx_t_4 = PyObject_IsSubclass(__pyx_v_provides, __pyx_t_2); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(1, 1554, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_5 = ((!(__pyx_t_4 != 0)) != 0);
   __pyx_t_1 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
 
-  /* "dependency_injector/providers.pyx":1552
+  /* "dependency_injector/providers.pyx":1553
  *         :type provides: type
  *         """
  *         if (self.__class__.provided_type and             # <<<<<<<<<<<<<<
@@ -29067,30 +29067,30 @@ static int __pyx_pf_19dependency_injector_9providers_7Factory___init__(struct __
  */
   if (unlikely(__pyx_t_1)) {
 
-    /* "dependency_injector/providers.pyx":1554
+    /* "dependency_injector/providers.pyx":1555
  *         if (self.__class__.provided_type and
  *                 not issubclass(provides, self.__class__.provided_type)):
  *             raise Error('{0} can provide only {1} instances'.format(             # <<<<<<<<<<<<<<
  *                 self.__class__, self.__class__.provided_type))
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Error); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1554, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Error); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1555, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_can_provide_only_1_instances, __pyx_n_s_format); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1554, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_can_provide_only_1_instances, __pyx_n_s_format); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1555, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
 
-    /* "dependency_injector/providers.pyx":1555
+    /* "dependency_injector/providers.pyx":1556
  *                 not issubclass(provides, self.__class__.provided_type)):
  *             raise Error('{0} can provide only {1} instances'.format(
  *                 self.__class__, self.__class__.provided_type))             # <<<<<<<<<<<<<<
  * 
  *         self.__instantiator = Callable(provides, *args, **kwargs)
  */
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1555, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1556, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1555, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1556, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_provided_type); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 1555, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_provided_type); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 1556, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_t_9 = NULL;
@@ -29108,7 +29108,7 @@ static int __pyx_pf_19dependency_injector_9providers_7Factory___init__(struct __
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_8, __pyx_t_10};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1554, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1555, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -29118,7 +29118,7 @@ static int __pyx_pf_19dependency_injector_9providers_7Factory___init__(struct __
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_8, __pyx_t_10};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1554, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1555, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -29126,7 +29126,7 @@ static int __pyx_pf_19dependency_injector_9providers_7Factory___init__(struct __
     } else
     #endif
     {
-      __pyx_t_12 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 1554, __pyx_L1_error)
+      __pyx_t_12 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 1555, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       if (__pyx_t_9) {
         __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -29137,7 +29137,7 @@ static int __pyx_pf_19dependency_injector_9providers_7Factory___init__(struct __
       PyTuple_SET_ITEM(__pyx_t_12, 1+__pyx_t_11, __pyx_t_10);
       __pyx_t_8 = 0;
       __pyx_t_10 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_12, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1554, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_12, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1555, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
     }
@@ -29155,14 +29155,14 @@ static int __pyx_pf_19dependency_injector_9providers_7Factory___init__(struct __
     __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_7, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1554, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1555, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(1, 1554, __pyx_L1_error)
+    __PYX_ERR(1, 1555, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":1552
+    /* "dependency_injector/providers.pyx":1553
  *         :type provides: type
  *         """
  *         if (self.__class__.provided_type and             # <<<<<<<<<<<<<<
@@ -29171,22 +29171,22 @@ static int __pyx_pf_19dependency_injector_9providers_7Factory___init__(struct __
  */
   }
 
-  /* "dependency_injector/providers.pyx":1557
+  /* "dependency_injector/providers.pyx":1558
  *                 self.__class__, self.__class__.provided_type))
  * 
  *         self.__instantiator = Callable(provides, *args, **kwargs)             # <<<<<<<<<<<<<<
  * 
  *         self.__attributes = tuple()
  */
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1557, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1558, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_provides);
   __Pyx_GIVEREF(__pyx_v_provides);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_provides);
-  __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_v_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1557, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_v_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1558, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Callable), __pyx_t_3, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1557, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Callable), __pyx_t_3, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1558, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_GIVEREF(__pyx_t_2);
@@ -29195,14 +29195,14 @@ static int __pyx_pf_19dependency_injector_9providers_7Factory___init__(struct __
   __pyx_v_self->__pyx___instantiator = ((struct __pyx_obj_19dependency_injector_9providers_Callable *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1559
+  /* "dependency_injector/providers.pyx":1560
  *         self.__instantiator = Callable(provides, *args, **kwargs)
  * 
  *         self.__attributes = tuple()             # <<<<<<<<<<<<<<
  *         self.__attributes_len = 0
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_CallNoArg(((PyObject *)(&PyTuple_Type))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1559, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallNoArg(((PyObject *)(&PyTuple_Type))); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1560, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_self->__pyx___attributes);
@@ -29210,7 +29210,7 @@ static int __pyx_pf_19dependency_injector_9providers_7Factory___init__(struct __
   __pyx_v_self->__pyx___attributes = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1560
+  /* "dependency_injector/providers.pyx":1561
  * 
  *         self.__attributes = tuple()
  *         self.__attributes_len = 0             # <<<<<<<<<<<<<<
@@ -29219,14 +29219,14 @@ static int __pyx_pf_19dependency_injector_9providers_7Factory___init__(struct __
  */
   __pyx_v_self->__pyx___attributes_len = 0;
 
-  /* "dependency_injector/providers.pyx":1562
+  /* "dependency_injector/providers.pyx":1563
  *         self.__attributes_len = 0
  * 
  *         super(Factory, self).__init__()             # <<<<<<<<<<<<<<
  * 
  *     def __deepcopy__(self, memo):
  */
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1562, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1563, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory));
@@ -29234,10 +29234,10 @@ static int __pyx_pf_19dependency_injector_9providers_7Factory___init__(struct __
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_3, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_3, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1562, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_3, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1563, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1562, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1563, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
@@ -29252,12 +29252,12 @@ static int __pyx_pf_19dependency_injector_9providers_7Factory___init__(struct __
   }
   __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1562, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1563, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1546
+  /* "dependency_injector/providers.pyx":1547
  *     provided_type = None
  * 
  *     def __init__(self, provides, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -29284,7 +29284,7 @@ static int __pyx_pf_19dependency_injector_9providers_7Factory___init__(struct __
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1564
+/* "dependency_injector/providers.pyx":1565
  *         super(Factory, self).__init__()
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -29324,16 +29324,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_2__deepcopy_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__deepcopy__", 0);
 
-  /* "dependency_injector/providers.pyx":1566
+  /* "dependency_injector/providers.pyx":1567
  *     def __deepcopy__(self, memo):
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))             # <<<<<<<<<<<<<<
  *         if copied is not None:
  *             return copied
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1566, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1567, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1566, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1567, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -29348,13 +29348,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_2__deepcopy_
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1566, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1567, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_copied = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1567
+  /* "dependency_injector/providers.pyx":1568
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -29365,7 +29365,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_2__deepcopy_
   __pyx_t_6 = (__pyx_t_5 != 0);
   if (__pyx_t_6) {
 
-    /* "dependency_injector/providers.pyx":1568
+    /* "dependency_injector/providers.pyx":1569
  *         copied = memo.get(id(self))
  *         if copied is not None:
  *             return copied             # <<<<<<<<<<<<<<
@@ -29377,7 +29377,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_2__deepcopy_
     __pyx_r = __pyx_v_copied;
     goto __pyx_L0;
 
-    /* "dependency_injector/providers.pyx":1567
+    /* "dependency_injector/providers.pyx":1568
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -29386,19 +29386,19 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_2__deepcopy_
  */
   }
 
-  /* "dependency_injector/providers.pyx":1570
+  /* "dependency_injector/providers.pyx":1571
  *             return copied
  * 
  *         cls = self.cls             # <<<<<<<<<<<<<<
  *         if isinstance(cls, Provider):
  *             cls = deepcopy(cls, memo)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_cls); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1570, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_cls); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1571, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_cls = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1571
+  /* "dependency_injector/providers.pyx":1572
  * 
  *         cls = self.cls
  *         if isinstance(cls, Provider):             # <<<<<<<<<<<<<<
@@ -29409,22 +29409,22 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_2__deepcopy_
   __pyx_t_5 = (__pyx_t_6 != 0);
   if (__pyx_t_5) {
 
-    /* "dependency_injector/providers.pyx":1572
+    /* "dependency_injector/providers.pyx":1573
  *         cls = self.cls
  *         if isinstance(cls, Provider):
  *             cls = deepcopy(cls, memo)             # <<<<<<<<<<<<<<
  * 
  *         copied = self.__class__(cls,
  */
-    if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1572, __pyx_L1_error)
+    if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1573, __pyx_L1_error)
     __pyx_t_7.__pyx_n = 1;
     __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-    __pyx_t_1 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_v_cls, 0, &__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1572, __pyx_L1_error)
+    __pyx_t_1 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_v_cls, 0, &__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1573, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_cls, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":1571
+    /* "dependency_injector/providers.pyx":1572
  * 
  *         cls = self.cls
  *         if isinstance(cls, Provider):             # <<<<<<<<<<<<<<
@@ -29433,89 +29433,89 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_2__deepcopy_
  */
   }
 
-  /* "dependency_injector/providers.pyx":1574
+  /* "dependency_injector/providers.pyx":1575
  *             cls = deepcopy(cls, memo)
  * 
  *         copied = self.__class__(cls,             # <<<<<<<<<<<<<<
  *                                 *deepcopy(self.args, memo),
  *                                 **deepcopy(self.kwargs, memo))
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1574, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1575, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1574, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1575, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_cls);
   __Pyx_GIVEREF(__pyx_v_cls);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_cls);
 
-  /* "dependency_injector/providers.pyx":1575
+  /* "dependency_injector/providers.pyx":1576
  * 
  *         copied = self.__class__(cls,
  *                                 *deepcopy(self.args, memo),             # <<<<<<<<<<<<<<
  *                                 **deepcopy(self.kwargs, memo))
  *         copied.set_attributes(**deepcopy(self.attributes, memo))
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1575, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1576, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1575, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1576, __pyx_L1_error)
   __pyx_t_7.__pyx_n = 1;
   __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_4 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_3, 0, &__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1575, __pyx_L1_error)
+  __pyx_t_4 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_3, 0, &__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1576, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":1574
+  /* "dependency_injector/providers.pyx":1575
  *             cls = deepcopy(cls, memo)
  * 
  *         copied = self.__class__(cls,             # <<<<<<<<<<<<<<
  *                                 *deepcopy(self.args, memo),
  *                                 **deepcopy(self.kwargs, memo))
  */
-  __pyx_t_3 = __Pyx_PySequence_Tuple(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1574, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PySequence_Tuple(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1575, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyNumber_Add(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1574, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Add(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1575, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":1576
+  /* "dependency_injector/providers.pyx":1577
  *         copied = self.__class__(cls,
  *                                 *deepcopy(self.args, memo),
  *                                 **deepcopy(self.kwargs, memo))             # <<<<<<<<<<<<<<
  *         copied.set_attributes(**deepcopy(self.attributes, memo))
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1576, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1577, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1576, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1577, __pyx_L1_error)
   __pyx_t_7.__pyx_n = 1;
   __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_8 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_2, 0, &__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1576, __pyx_L1_error)
+  __pyx_t_8 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_2, 0, &__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1577, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (unlikely(__pyx_t_8 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "argument after ** must be a mapping, not NoneType");
-    __PYX_ERR(1, 1576, __pyx_L1_error)
+    __PYX_ERR(1, 1577, __pyx_L1_error)
   }
   if (likely(PyDict_CheckExact(__pyx_t_8))) {
-    __pyx_t_3 = PyDict_Copy(__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1576, __pyx_L1_error)
+    __pyx_t_3 = PyDict_Copy(__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1577, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   } else {
-    __pyx_t_3 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1574, __pyx_L1_error)
+    __pyx_t_3 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1575, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "dependency_injector/providers.pyx":1574
+  /* "dependency_injector/providers.pyx":1575
  *             cls = deepcopy(cls, memo)
  * 
  *         copied = self.__class__(cls,             # <<<<<<<<<<<<<<
  *                                 *deepcopy(self.args, memo),
  *                                 **deepcopy(self.kwargs, memo))
  */
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1574, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1575, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -29523,54 +29523,54 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_2__deepcopy_
   __Pyx_DECREF_SET(__pyx_v_copied, __pyx_t_8);
   __pyx_t_8 = 0;
 
-  /* "dependency_injector/providers.pyx":1577
+  /* "dependency_injector/providers.pyx":1578
  *                                 *deepcopy(self.args, memo),
  *                                 **deepcopy(self.kwargs, memo))
  *         copied.set_attributes(**deepcopy(self.attributes, memo))             # <<<<<<<<<<<<<<
  * 
  *         self._copy_overridings(copied, memo)
  */
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_copied, __pyx_n_s_set_attributes); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1577, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_copied, __pyx_n_s_set_attributes); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1578, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_attributes); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1577, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_attributes); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1578, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1577, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1578, __pyx_L1_error)
   __pyx_t_7.__pyx_n = 1;
   __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_4, 0, &__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1577, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_4, 0, &__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1578, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "argument after ** must be a mapping, not NoneType");
-    __PYX_ERR(1, 1577, __pyx_L1_error)
+    __PYX_ERR(1, 1578, __pyx_L1_error)
   }
   if (likely(PyDict_CheckExact(__pyx_t_1))) {
-    __pyx_t_3 = PyDict_Copy(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1577, __pyx_L1_error)
+    __pyx_t_3 = PyDict_Copy(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1578, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
-    __pyx_t_3 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1577, __pyx_L1_error)
+    __pyx_t_3 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1578, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1577, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1578, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1579
+  /* "dependency_injector/providers.pyx":1580
  *         copied.set_attributes(**deepcopy(self.attributes, memo))
  * 
  *         self._copy_overridings(copied, memo)             # <<<<<<<<<<<<<<
  * 
  *         return copied
  */
-  if (!(likely(((__pyx_v_copied) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_copied, __pyx_ptype_19dependency_injector_9providers_Provider))))) __PYX_ERR(1, 1579, __pyx_L1_error)
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1579, __pyx_L1_error)
+  if (!(likely(((__pyx_v_copied) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_copied, __pyx_ptype_19dependency_injector_9providers_Provider))))) __PYX_ERR(1, 1580, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1580, __pyx_L1_error)
   ((struct __pyx_vtabstruct_19dependency_injector_9providers_Factory *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), ((PyObject*)__pyx_v_memo), 0);
 
-  /* "dependency_injector/providers.pyx":1581
+  /* "dependency_injector/providers.pyx":1582
  *         self._copy_overridings(copied, memo)
  * 
  *         return copied             # <<<<<<<<<<<<<<
@@ -29582,7 +29582,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_2__deepcopy_
   __pyx_r = __pyx_v_copied;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1564
+  /* "dependency_injector/providers.pyx":1565
  *         super(Factory, self).__init__()
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -29607,7 +29607,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_2__deepcopy_
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1583
+/* "dependency_injector/providers.pyx":1584
  *         return copied
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -29642,7 +29642,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_4__str__(str
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__str__", 0);
 
-  /* "dependency_injector/providers.pyx":1588
+  /* "dependency_injector/providers.pyx":1589
  *         :rtype: str
  *         """
  *         return represent_provider(provider=self,             # <<<<<<<<<<<<<<
@@ -29651,31 +29651,31 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_4__str__(str
  */
   __Pyx_XDECREF(__pyx_r);
 
-  /* "dependency_injector/providers.pyx":1589
+  /* "dependency_injector/providers.pyx":1590
  *         """
  *         return represent_provider(provider=self,
  *                                   provides=self.__instantiator.provides)             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_provides); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1589, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_provides); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1590, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "dependency_injector/providers.pyx":1588
+  /* "dependency_injector/providers.pyx":1589
  *         :rtype: str
  *         """
  *         return represent_provider(provider=self,             # <<<<<<<<<<<<<<
  *                                   provides=self.__instantiator.provides)
  * 
  */
-  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_represent_provider(((PyObject *)__pyx_v_self), __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1588, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_represent_provider(((PyObject *)__pyx_v_self), __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1589, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1583
+  /* "dependency_injector/providers.pyx":1584
  *         return copied
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -29695,7 +29695,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_4__str__(str
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1592
+/* "dependency_injector/providers.pyx":1593
  * 
  *     @property
  *     def cls(self):             # <<<<<<<<<<<<<<
@@ -29725,7 +29725,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_3cls___get__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dependency_injector/providers.pyx":1594
+  /* "dependency_injector/providers.pyx":1595
  *     def cls(self):
  *         """Return provided type."""
  *         return self.provides             # <<<<<<<<<<<<<<
@@ -29733,13 +29733,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_3cls___get__
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provides); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1594, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provides); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1595, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1592
+  /* "dependency_injector/providers.pyx":1593
  * 
  *     @property
  *     def cls(self):             # <<<<<<<<<<<<<<
@@ -29758,7 +29758,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_3cls___get__
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1597
+/* "dependency_injector/providers.pyx":1598
  * 
  *     @property
  *     def provides(self):             # <<<<<<<<<<<<<<
@@ -29788,7 +29788,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_8provides___
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dependency_injector/providers.pyx":1599
+  /* "dependency_injector/providers.pyx":1600
  *     def provides(self):
  *         """Return provided type."""
  *         return self.__instantiator.provides             # <<<<<<<<<<<<<<
@@ -29796,13 +29796,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_8provides___
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_provides); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1599, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_provides); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1600, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1597
+  /* "dependency_injector/providers.pyx":1598
  * 
  *     @property
  *     def provides(self):             # <<<<<<<<<<<<<<
@@ -29821,7 +29821,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_8provides___
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1602
+/* "dependency_injector/providers.pyx":1603
  * 
  *     @property
  *     def args(self):             # <<<<<<<<<<<<<<
@@ -29851,7 +29851,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_4args___get_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dependency_injector/providers.pyx":1604
+  /* "dependency_injector/providers.pyx":1605
  *     def args(self):
  *         """Return positional argument injections."""
  *         return self.__instantiator.args             # <<<<<<<<<<<<<<
@@ -29859,13 +29859,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_4args___get_
  *     def add_args(self, *args):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1604, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1605, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1602
+  /* "dependency_injector/providers.pyx":1603
  * 
  *     @property
  *     def args(self):             # <<<<<<<<<<<<<<
@@ -29884,7 +29884,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_4args___get_
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1606
+/* "dependency_injector/providers.pyx":1607
  *         return self.__instantiator.args
  * 
  *     def add_args(self, *args):             # <<<<<<<<<<<<<<
@@ -29921,21 +29921,21 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_6add_args(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add_args", 0);
 
-  /* "dependency_injector/providers.pyx":1611
+  /* "dependency_injector/providers.pyx":1612
  *         :return: Reference ``self``
  *         """
  *         self.__instantiator.add_args(*args)             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_add_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1611, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_add_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1612, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_args, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1611, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_args, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1612, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1612
+  /* "dependency_injector/providers.pyx":1613
  *         """
  *         self.__instantiator.add_args(*args)
  *         return self             # <<<<<<<<<<<<<<
@@ -29947,7 +29947,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_6add_args(st
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1606
+  /* "dependency_injector/providers.pyx":1607
  *         return self.__instantiator.args
  * 
  *     def add_args(self, *args):             # <<<<<<<<<<<<<<
@@ -29967,7 +29967,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_6add_args(st
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1614
+/* "dependency_injector/providers.pyx":1615
  *         return self
  * 
  *     def set_args(self, *args):             # <<<<<<<<<<<<<<
@@ -30004,21 +30004,21 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_8set_args(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_args", 0);
 
-  /* "dependency_injector/providers.pyx":1621
+  /* "dependency_injector/providers.pyx":1622
  *         :return: Reference ``self``
  *         """
  *         self.__instantiator.set_args(*args)             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_set_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1621, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_set_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1622, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_args, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1621, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_args, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1622, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1622
+  /* "dependency_injector/providers.pyx":1623
  *         """
  *         self.__instantiator.set_args(*args)
  *         return self             # <<<<<<<<<<<<<<
@@ -30030,7 +30030,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_8set_args(st
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1614
+  /* "dependency_injector/providers.pyx":1615
  *         return self
  * 
  *     def set_args(self, *args):             # <<<<<<<<<<<<<<
@@ -30050,7 +30050,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_8set_args(st
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1624
+/* "dependency_injector/providers.pyx":1625
  *         return self
  * 
  *     def clear_args(self):             # <<<<<<<<<<<<<<
@@ -30083,14 +30083,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_10clear_args
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("clear_args", 0);
 
-  /* "dependency_injector/providers.pyx":1629
+  /* "dependency_injector/providers.pyx":1630
  *         :return: Reference ``self``
  *         """
  *         self.__instantiator.clear_args()             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_clear_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1629, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_clear_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1630, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -30104,12 +30104,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_10clear_args
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1629, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1630, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1630
+  /* "dependency_injector/providers.pyx":1631
  *         """
  *         self.__instantiator.clear_args()
  *         return self             # <<<<<<<<<<<<<<
@@ -30121,7 +30121,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_10clear_args
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1624
+  /* "dependency_injector/providers.pyx":1625
  *         return self
  * 
  *     def clear_args(self):             # <<<<<<<<<<<<<<
@@ -30142,7 +30142,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_10clear_args
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1633
+/* "dependency_injector/providers.pyx":1634
  * 
  *     @property
  *     def kwargs(self):             # <<<<<<<<<<<<<<
@@ -30172,7 +30172,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_6kwargs___ge
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dependency_injector/providers.pyx":1635
+  /* "dependency_injector/providers.pyx":1636
  *     def kwargs(self):
  *         """Return keyword argument injections."""
  *         return self.__instantiator.kwargs             # <<<<<<<<<<<<<<
@@ -30180,13 +30180,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_6kwargs___ge
  *     def add_kwargs(self, **kwargs):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1635, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1636, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1633
+  /* "dependency_injector/providers.pyx":1634
  * 
  *     @property
  *     def kwargs(self):             # <<<<<<<<<<<<<<
@@ -30205,7 +30205,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_6kwargs___ge
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1637
+/* "dependency_injector/providers.pyx":1638
  *         return self.__instantiator.kwargs
  * 
  *     def add_kwargs(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -30248,21 +30248,21 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_12add_kwargs
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add_kwargs", 0);
 
-  /* "dependency_injector/providers.pyx":1642
+  /* "dependency_injector/providers.pyx":1643
  *         :return: Reference ``self``
  *         """
  *         self.__instantiator.add_kwargs(**kwargs)             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_add_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1642, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_add_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1643, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1642, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1643, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1643
+  /* "dependency_injector/providers.pyx":1644
  *         """
  *         self.__instantiator.add_kwargs(**kwargs)
  *         return self             # <<<<<<<<<<<<<<
@@ -30274,7 +30274,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_12add_kwargs
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1637
+  /* "dependency_injector/providers.pyx":1638
  *         return self.__instantiator.kwargs
  * 
  *     def add_kwargs(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -30294,7 +30294,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_12add_kwargs
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1645
+/* "dependency_injector/providers.pyx":1646
  *         return self
  * 
  *     def set_kwargs(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -30337,21 +30337,21 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_14set_kwargs
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_kwargs", 0);
 
-  /* "dependency_injector/providers.pyx":1652
+  /* "dependency_injector/providers.pyx":1653
  *         :return: Reference ``self``
  *         """
  *         self.__instantiator.set_kwargs(**kwargs)             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_set_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1652, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_set_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1653, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1652, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1653, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1653
+  /* "dependency_injector/providers.pyx":1654
  *         """
  *         self.__instantiator.set_kwargs(**kwargs)
  *         return self             # <<<<<<<<<<<<<<
@@ -30363,7 +30363,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_14set_kwargs
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1645
+  /* "dependency_injector/providers.pyx":1646
  *         return self
  * 
  *     def set_kwargs(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -30383,7 +30383,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_14set_kwargs
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1655
+/* "dependency_injector/providers.pyx":1656
  *         return self
  * 
  *     def clear_kwargs(self):             # <<<<<<<<<<<<<<
@@ -30416,14 +30416,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_16clear_kwar
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("clear_kwargs", 0);
 
-  /* "dependency_injector/providers.pyx":1660
+  /* "dependency_injector/providers.pyx":1661
  *         :return: Reference ``self``
  *         """
  *         self.__instantiator.clear_kwargs()             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_clear_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1660, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_clear_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1661, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -30437,12 +30437,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_16clear_kwar
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1660, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1661, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1661
+  /* "dependency_injector/providers.pyx":1662
  *         """
  *         self.__instantiator.clear_kwargs()
  *         return self             # <<<<<<<<<<<<<<
@@ -30454,7 +30454,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_16clear_kwar
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1655
+  /* "dependency_injector/providers.pyx":1656
  *         return self
  * 
  *     def clear_kwargs(self):             # <<<<<<<<<<<<<<
@@ -30475,7 +30475,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_16clear_kwar
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1664
+/* "dependency_injector/providers.pyx":1665
  * 
  *     @property
  *     def attributes(self):             # <<<<<<<<<<<<<<
@@ -30511,19 +30511,19 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_10attributes
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dependency_injector/providers.pyx":1670
+  /* "dependency_injector/providers.pyx":1671
  *         cdef dict attributes
  * 
  *         attributes = dict()             # <<<<<<<<<<<<<<
  *         for index in range(self.__attributes_len):
  *             attribute = self.__attributes[index]
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1670, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1671, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_attributes = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1671
+  /* "dependency_injector/providers.pyx":1672
  * 
  *         attributes = dict()
  *         for index in range(self.__attributes_len):             # <<<<<<<<<<<<<<
@@ -30535,7 +30535,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_10attributes
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_index = __pyx_t_4;
 
-    /* "dependency_injector/providers.pyx":1672
+    /* "dependency_injector/providers.pyx":1673
  *         attributes = dict()
  *         for index in range(self.__attributes_len):
  *             attribute = self.__attributes[index]             # <<<<<<<<<<<<<<
@@ -30544,15 +30544,15 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_10attributes
  */
     if (unlikely(__pyx_v_self->__pyx___attributes == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(1, 1672, __pyx_L1_error)
+      __PYX_ERR(1, 1673, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_self->__pyx___attributes, __pyx_v_index, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1672, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_self->__pyx___attributes, __pyx_v_index, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1673, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_19dependency_injector_9providers_NamedInjection))))) __PYX_ERR(1, 1672, __pyx_L1_error)
+    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_19dependency_injector_9providers_NamedInjection))))) __PYX_ERR(1, 1673, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_attribute, ((struct __pyx_obj_19dependency_injector_9providers_NamedInjection *)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":1673
+    /* "dependency_injector/providers.pyx":1674
  *         for index in range(self.__attributes_len):
  *             attribute = self.__attributes[index]
  *             attributes[attribute.__name] = attribute.__value             # <<<<<<<<<<<<<<
@@ -30561,11 +30561,11 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_10attributes
  */
     __pyx_t_1 = __pyx_v_attribute->__pyx_base.__pyx___value;
     __Pyx_INCREF(__pyx_t_1);
-    if (unlikely(PyDict_SetItem(__pyx_v_attributes, __pyx_v_attribute->__pyx___name, __pyx_t_1) < 0)) __PYX_ERR(1, 1673, __pyx_L1_error)
+    if (unlikely(PyDict_SetItem(__pyx_v_attributes, __pyx_v_attribute->__pyx___name, __pyx_t_1) < 0)) __PYX_ERR(1, 1674, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "dependency_injector/providers.pyx":1674
+  /* "dependency_injector/providers.pyx":1675
  *             attribute = self.__attributes[index]
  *             attributes[attribute.__name] = attribute.__value
  *         return attributes             # <<<<<<<<<<<<<<
@@ -30577,7 +30577,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_10attributes
   __pyx_r = __pyx_v_attributes;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1664
+  /* "dependency_injector/providers.pyx":1665
  * 
  *     @property
  *     def attributes(self):             # <<<<<<<<<<<<<<
@@ -30598,7 +30598,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_10attributes
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1676
+/* "dependency_injector/providers.pyx":1677
  *         return attributes
  * 
  *     def add_attributes(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -30638,16 +30638,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_18add_attrib
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add_attributes", 0);
 
-  /* "dependency_injector/providers.pyx":1681
+  /* "dependency_injector/providers.pyx":1682
  *         :return: Reference ``self``
  *         """
  *         self.__attributes += parse_named_injections(kwargs)             # <<<<<<<<<<<<<<
  *         self.__attributes_len = len(self.__attributes)
  *         return self
  */
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_parse_named_injections(__pyx_v_kwargs, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1681, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_parse_named_injections(__pyx_v_kwargs, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1682, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_v_self->__pyx___attributes, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1681, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_v_self->__pyx___attributes, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1682, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_GIVEREF(__pyx_t_2);
@@ -30656,7 +30656,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_18add_attrib
   __pyx_v_self->__pyx___attributes = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1682
+  /* "dependency_injector/providers.pyx":1683
  *         """
  *         self.__attributes += parse_named_injections(kwargs)
  *         self.__attributes_len = len(self.__attributes)             # <<<<<<<<<<<<<<
@@ -30667,13 +30667,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_18add_attrib
   __Pyx_INCREF(__pyx_t_2);
   if (unlikely(__pyx_t_2 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(1, 1682, __pyx_L1_error)
+    __PYX_ERR(1, 1683, __pyx_L1_error)
   }
-  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_t_2); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(1, 1682, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_t_2); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(1, 1683, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_self->__pyx___attributes_len = __pyx_t_3;
 
-  /* "dependency_injector/providers.pyx":1683
+  /* "dependency_injector/providers.pyx":1684
  *         self.__attributes += parse_named_injections(kwargs)
  *         self.__attributes_len = len(self.__attributes)
  *         return self             # <<<<<<<<<<<<<<
@@ -30685,7 +30685,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_18add_attrib
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1676
+  /* "dependency_injector/providers.pyx":1677
  *         return attributes
  * 
  *     def add_attributes(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -30705,7 +30705,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_18add_attrib
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1685
+/* "dependency_injector/providers.pyx":1686
  *         return self
  * 
  *     def set_attributes(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -30744,14 +30744,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_20set_attrib
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_attributes", 0);
 
-  /* "dependency_injector/providers.pyx":1692
+  /* "dependency_injector/providers.pyx":1693
  *         :return: Reference ``self``
  *         """
  *         self.__attributes = parse_named_injections(kwargs)             # <<<<<<<<<<<<<<
  *         self.__attributes_len = len(self.__attributes)
  *         return self
  */
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_parse_named_injections(__pyx_v_kwargs, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1692, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_parse_named_injections(__pyx_v_kwargs, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1693, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->__pyx___attributes);
@@ -30759,7 +30759,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_20set_attrib
   __pyx_v_self->__pyx___attributes = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1693
+  /* "dependency_injector/providers.pyx":1694
  *         """
  *         self.__attributes = parse_named_injections(kwargs)
  *         self.__attributes_len = len(self.__attributes)             # <<<<<<<<<<<<<<
@@ -30770,13 +30770,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_20set_attrib
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(1, 1693, __pyx_L1_error)
+    __PYX_ERR(1, 1694, __pyx_L1_error)
   }
-  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(1, 1693, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(1, 1694, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->__pyx___attributes_len = __pyx_t_2;
 
-  /* "dependency_injector/providers.pyx":1694
+  /* "dependency_injector/providers.pyx":1695
  *         self.__attributes = parse_named_injections(kwargs)
  *         self.__attributes_len = len(self.__attributes)
  *         return self             # <<<<<<<<<<<<<<
@@ -30788,7 +30788,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_20set_attrib
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1685
+  /* "dependency_injector/providers.pyx":1686
  *         return self
  * 
  *     def set_attributes(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -30807,7 +30807,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_20set_attrib
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1696
+/* "dependency_injector/providers.pyx":1697
  *         return self
  * 
  *     def clear_attributes(self):             # <<<<<<<<<<<<<<
@@ -30839,14 +30839,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_22clear_attr
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("clear_attributes", 0);
 
-  /* "dependency_injector/providers.pyx":1701
+  /* "dependency_injector/providers.pyx":1702
  *         :return: Reference ``self``
  *         """
  *         self.__attributes = tuple()             # <<<<<<<<<<<<<<
  *         self.__attributes_len = len(self.__attributes)
  *         return self
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)(&PyTuple_Type))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1701, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)(&PyTuple_Type))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1702, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->__pyx___attributes);
@@ -30854,7 +30854,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_22clear_attr
   __pyx_v_self->__pyx___attributes = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1702
+  /* "dependency_injector/providers.pyx":1703
  *         """
  *         self.__attributes = tuple()
  *         self.__attributes_len = len(self.__attributes)             # <<<<<<<<<<<<<<
@@ -30865,13 +30865,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_22clear_attr
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(1, 1702, __pyx_L1_error)
+    __PYX_ERR(1, 1703, __pyx_L1_error)
   }
-  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(1, 1702, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(1, 1703, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->__pyx___attributes_len = __pyx_t_2;
 
-  /* "dependency_injector/providers.pyx":1703
+  /* "dependency_injector/providers.pyx":1704
  *         self.__attributes = tuple()
  *         self.__attributes_len = len(self.__attributes)
  *         return self             # <<<<<<<<<<<<<<
@@ -30883,7 +30883,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_22clear_attr
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1696
+  /* "dependency_injector/providers.pyx":1697
  *         return self
  * 
  *     def clear_attributes(self):             # <<<<<<<<<<<<<<
@@ -30902,7 +30902,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_22clear_attr
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1705
+/* "dependency_injector/providers.pyx":1706
  *         return self
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -30933,7 +30933,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_7Factory__provide(stru
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1705, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1706, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_19dependency_injector_9providers_7Factory_25_provide)) {
         __Pyx_XDECREF(__pyx_r);
@@ -30953,7 +30953,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_7Factory__provide(stru
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1705, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1706, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -30961,13 +30961,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_7Factory__provide(stru
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1705, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1706, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1705, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1706, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           if (__pyx_t_4) {
             __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -30978,7 +30978,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_7Factory__provide(stru
           __Pyx_INCREF(__pyx_v_kwargs);
           __Pyx_GIVEREF(__pyx_v_kwargs);
           PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_kwargs);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1705, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1706, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
@@ -31001,7 +31001,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_7Factory__provide(stru
     #endif
   }
 
-  /* "dependency_injector/providers.pyx":1707
+  /* "dependency_injector/providers.pyx":1708
  *     cpdef object _provide(self, tuple args, dict kwargs):
  *         """Return new instance."""
  *         return __factory_call(self, args, kwargs)             # <<<<<<<<<<<<<<
@@ -31009,13 +31009,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_7Factory__provide(stru
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers___factory_call(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1707, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers___factory_call(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1708, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1705
+  /* "dependency_injector/providers.pyx":1706
  *         return self
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -31073,11 +31073,11 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_7Factory_25_provide(P
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_kwargs)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 1705, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 1706, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 1705, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 1706, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -31090,14 +31090,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_7Factory_25_provide(P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1705, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1706, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.Factory._provide", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 1705, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 1705, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 1706, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 1706, __pyx_L1_error)
   __pyx_r = __pyx_pf_19dependency_injector_9providers_7Factory_24_provide(((struct __pyx_obj_19dependency_injector_9providers_Factory *)__pyx_v_self), __pyx_v_args, __pyx_v_kwargs);
 
   /* function exit code */
@@ -31118,7 +31118,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_7Factory_24_provide(s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_provide", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_7Factory__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1705, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_7Factory__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1706, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -31799,7 +31799,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16DelegatedFactory_2_
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1742
+/* "dependency_injector/providers.pyx":1743
  *     """
  * 
  *     def __call__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -31852,7 +31852,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory___c
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__call__", 0);
 
-  /* "dependency_injector/providers.pyx":1747
+  /* "dependency_injector/providers.pyx":1748
  *         Callable interface implementation.
  *         """
  *         if self.__last_overriding is None:             # <<<<<<<<<<<<<<
@@ -31863,16 +31863,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory___c
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dependency_injector/providers.pyx":1748
+    /* "dependency_injector/providers.pyx":1749
  *         """
  *         if self.__last_overriding is None:
  *             raise Error('{0} must be overridden before calling'.format(self))             # <<<<<<<<<<<<<<
  *         return self.__last_overriding(*args, **kwargs)
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1748, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1749, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_must_be_overridden_before_cal, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1748, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_must_be_overridden_before_cal, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1749, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -31886,7 +31886,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory___c
     }
     __pyx_t_5 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, ((PyObject *)__pyx_v_self)) : __Pyx_PyObject_CallOneArg(__pyx_t_6, ((PyObject *)__pyx_v_self));
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1748, __pyx_L1_error)
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1749, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_6 = NULL;
@@ -31902,14 +31902,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory___c
     __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1748, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1749, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 1748, __pyx_L1_error)
+    __PYX_ERR(1, 1749, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":1747
+    /* "dependency_injector/providers.pyx":1748
  *         Callable interface implementation.
  *         """
  *         if self.__last_overriding is None:             # <<<<<<<<<<<<<<
@@ -31918,7 +31918,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory___c
  */
   }
 
-  /* "dependency_injector/providers.pyx":1749
+  /* "dependency_injector/providers.pyx":1750
  *         if self.__last_overriding is None:
  *             raise Error('{0} must be overridden before calling'.format(self))
  *         return self.__last_overriding(*args, **kwargs)             # <<<<<<<<<<<<<<
@@ -31926,13 +31926,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory___c
  *     def override(self, provider):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1749, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1750, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1742
+  /* "dependency_injector/providers.pyx":1743
  *     """
  * 
  *     def __call__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -31955,7 +31955,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory___c
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1751
+/* "dependency_injector/providers.pyx":1752
  *         return self.__last_overriding(*args, **kwargs)
  * 
  *     def override(self, provider):             # <<<<<<<<<<<<<<
@@ -31994,7 +31994,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory_2ov
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("override", 0);
 
-  /* "dependency_injector/providers.pyx":1762
+  /* "dependency_injector/providers.pyx":1763
  *         :rtype: :py:class:`OverridingContext`
  *         """
  *         if not isinstance(provider, Factory):             # <<<<<<<<<<<<<<
@@ -32005,24 +32005,24 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory_2ov
   __pyx_t_2 = ((!(__pyx_t_1 != 0)) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dependency_injector/providers.pyx":1763
+    /* "dependency_injector/providers.pyx":1764
  *         """
  *         if not isinstance(provider, Factory):
  *             raise Error('{0} must be overridden only by '             # <<<<<<<<<<<<<<
  *                         '{1} providers'.format(self, Factory))
  *         return super(AbstractFactory, self).override(provider)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1763, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1764, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
 
-    /* "dependency_injector/providers.pyx":1764
+    /* "dependency_injector/providers.pyx":1765
  *         if not isinstance(provider, Factory):
  *             raise Error('{0} must be overridden only by '
  *                         '{1} providers'.format(self, Factory))             # <<<<<<<<<<<<<<
  *         return super(AbstractFactory, self).override(provider)
  * 
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_must_be_overridden_only_by_1, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1764, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_must_be_overridden_only_by_1, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1765, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     __pyx_t_8 = 0;
@@ -32039,7 +32039,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory_2ov
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_7, ((PyObject *)__pyx_v_self), ((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory)};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1764, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1765, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
     } else
@@ -32047,13 +32047,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory_2ov
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_7, ((PyObject *)__pyx_v_self), ((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory)};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1764, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1765, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
     } else
     #endif
     {
-      __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1764, __pyx_L1_error)
+      __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1765, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       if (__pyx_t_7) {
         __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -32064,7 +32064,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory_2ov
       __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory));
       __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory));
       PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, ((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory));
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1764, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1765, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     }
@@ -32082,14 +32082,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory_2ov
     __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1763, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1764, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 1763, __pyx_L1_error)
+    __PYX_ERR(1, 1764, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":1762
+    /* "dependency_injector/providers.pyx":1763
  *         :rtype: :py:class:`OverridingContext`
  *         """
  *         if not isinstance(provider, Factory):             # <<<<<<<<<<<<<<
@@ -32098,7 +32098,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory_2ov
  */
   }
 
-  /* "dependency_injector/providers.pyx":1765
+  /* "dependency_injector/providers.pyx":1766
  *             raise Error('{0} must be overridden only by '
  *                         '{1} providers'.format(self, Factory))
  *         return super(AbstractFactory, self).override(provider)             # <<<<<<<<<<<<<<
@@ -32106,7 +32106,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory_2ov
  *     cpdef object _provide(self, tuple args, dict kwargs):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1765, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1766, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_AbstractFactory));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_AbstractFactory));
@@ -32114,10 +32114,10 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory_2ov
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_4, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1765, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1766, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_override); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1765, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_override); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1766, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -32132,14 +32132,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory_2ov
   }
   __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_v_provider) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_provider);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1765, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1766, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1751
+  /* "dependency_injector/providers.pyx":1752
  *         return self.__last_overriding(*args, **kwargs)
  * 
  *     def override(self, provider):             # <<<<<<<<<<<<<<
@@ -32163,7 +32163,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory_2ov
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1767
+/* "dependency_injector/providers.pyx":1768
  *         return super(AbstractFactory, self).override(provider)
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -32194,7 +32194,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_15AbstractFactory__pro
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1767, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1768, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_19dependency_injector_9providers_15AbstractFactory_5_provide)) {
         __Pyx_XDECREF(__pyx_r);
@@ -32214,7 +32214,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_15AbstractFactory__pro
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1767, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1768, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -32222,13 +32222,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_15AbstractFactory__pro
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1767, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1768, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1767, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1768, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           if (__pyx_t_4) {
             __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -32239,7 +32239,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_15AbstractFactory__pro
           __Pyx_INCREF(__pyx_v_kwargs);
           __Pyx_GIVEREF(__pyx_v_kwargs);
           PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_kwargs);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1767, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1768, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
@@ -32262,20 +32262,20 @@ static PyObject *__pyx_f_19dependency_injector_9providers_15AbstractFactory__pro
     #endif
   }
 
-  /* "dependency_injector/providers.pyx":1769
+  /* "dependency_injector/providers.pyx":1770
  *     cpdef object _provide(self, tuple args, dict kwargs):
  *         """Return result of provided callable's call."""
  *         raise NotImplementedError('Abstract provider forward providing logic '             # <<<<<<<<<<<<<<
  *                                   'to overriding provider')
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_NotImplementedError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1769, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_NotImplementedError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1770, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(1, 1769, __pyx_L1_error)
+  __PYX_ERR(1, 1770, __pyx_L1_error)
 
-  /* "dependency_injector/providers.pyx":1767
+  /* "dependency_injector/providers.pyx":1768
  *         return super(AbstractFactory, self).override(provider)
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -32333,11 +32333,11 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_15AbstractFactory_5_p
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_kwargs)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 1767, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 1768, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 1767, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 1768, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -32350,14 +32350,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_15AbstractFactory_5_p
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1767, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1768, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.AbstractFactory._provide", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 1767, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 1767, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 1768, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 1768, __pyx_L1_error)
   __pyx_r = __pyx_pf_19dependency_injector_9providers_15AbstractFactory_4_provide(((struct __pyx_obj_19dependency_injector_9providers_AbstractFactory *)__pyx_v_self), __pyx_v_args, __pyx_v_kwargs);
 
   /* function exit code */
@@ -32378,7 +32378,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory_4_p
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_provide", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_15AbstractFactory__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1767, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_15AbstractFactory__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1768, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -32727,7 +32727,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15AbstractFactory_8__
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1783
+/* "dependency_injector/providers.pyx":1784
  *     """
  * 
  *     def __init__(self, factory):             # <<<<<<<<<<<<<<
@@ -32768,7 +32768,7 @@ static int __pyx_pw_19dependency_injector_9providers_15FactoryDelegate_1__init__
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 1783, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 1784, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -32779,7 +32779,7 @@ static int __pyx_pw_19dependency_injector_9providers_15FactoryDelegate_1__init__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1783, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1784, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.FactoryDelegate.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -32810,7 +32810,7 @@ static int __pyx_pf_19dependency_injector_9providers_15FactoryDelegate___init__(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dependency_injector/providers.pyx":1789
+  /* "dependency_injector/providers.pyx":1790
  *         :type factory: object
  *         """
  *         if isinstance(factory, Factory) is False:             # <<<<<<<<<<<<<<
@@ -32821,26 +32821,26 @@ static int __pyx_pf_19dependency_injector_9providers_15FactoryDelegate___init__(
   __pyx_t_2 = ((__pyx_t_1 == 0) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dependency_injector/providers.pyx":1790
+    /* "dependency_injector/providers.pyx":1791
  *         """
  *         if isinstance(factory, Factory) is False:
  *             raise Error('{0} can wrap only {1} providers'.format(             # <<<<<<<<<<<<<<
  *                 self.__class__, Factory))
  *         super(FactoryDelegate, self).__init__(factory)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1790, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1791, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_can_wrap_only_1_providers, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1790, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_can_wrap_only_1_providers, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1791, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
 
-    /* "dependency_injector/providers.pyx":1791
+    /* "dependency_injector/providers.pyx":1792
  *         if isinstance(factory, Factory) is False:
  *             raise Error('{0} can wrap only {1} providers'.format(
  *                 self.__class__, Factory))             # <<<<<<<<<<<<<<
  *         super(FactoryDelegate, self).__init__(factory)
  * 
  */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1791, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1792, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_8 = NULL;
     __pyx_t_9 = 0;
@@ -32857,7 +32857,7 @@ static int __pyx_pf_19dependency_injector_9providers_15FactoryDelegate___init__(
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_7, ((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory)};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1790, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1791, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -32866,14 +32866,14 @@ static int __pyx_pf_19dependency_injector_9providers_15FactoryDelegate___init__(
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_7, ((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory)};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1790, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1791, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 1790, __pyx_L1_error)
+      __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 1791, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       if (__pyx_t_8) {
         __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -32884,7 +32884,7 @@ static int __pyx_pf_19dependency_injector_9providers_15FactoryDelegate___init__(
       __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory));
       PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, ((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory));
       __pyx_t_7 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1790, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1791, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     }
@@ -32902,14 +32902,14 @@ static int __pyx_pf_19dependency_injector_9providers_15FactoryDelegate___init__(
     __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1790, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1791, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 1790, __pyx_L1_error)
+    __PYX_ERR(1, 1791, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":1789
+    /* "dependency_injector/providers.pyx":1790
  *         :type factory: object
  *         """
  *         if isinstance(factory, Factory) is False:             # <<<<<<<<<<<<<<
@@ -32918,14 +32918,14 @@ static int __pyx_pf_19dependency_injector_9providers_15FactoryDelegate___init__(
  */
   }
 
-  /* "dependency_injector/providers.pyx":1792
+  /* "dependency_injector/providers.pyx":1793
  *             raise Error('{0} can wrap only {1} providers'.format(
  *                 self.__class__, Factory))
  *         super(FactoryDelegate, self).__init__(factory)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1792, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1793, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_FactoryDelegate));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_FactoryDelegate));
@@ -32933,10 +32933,10 @@ static int __pyx_pf_19dependency_injector_9providers_15FactoryDelegate___init__(
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_4, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1792, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1793, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_init); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1792, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_init); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1793, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -32951,12 +32951,12 @@ static int __pyx_pf_19dependency_injector_9providers_15FactoryDelegate___init__(
   }
   __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_v_factory) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_factory);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1792, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1793, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":1783
+  /* "dependency_injector/providers.pyx":1784
  *     """
  * 
  *     def __init__(self, factory):             # <<<<<<<<<<<<<<
@@ -33299,7 +33299,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_15FactoryDelegate_4__
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1811
+/* "dependency_injector/providers.pyx":1812
  *     __IS_DELEGATED__ = True
  * 
  *     def __init__(self, **factories):             # <<<<<<<<<<<<<<
@@ -33353,22 +33353,22 @@ static int __pyx_pf_19dependency_injector_9providers_16FactoryAggregate___init__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dependency_injector/providers.pyx":1817
+  /* "dependency_injector/providers.pyx":1818
  *         :type factories: dict[str, :py:class:`Factory`]
  *         """
  *         for factory in factories.values():             # <<<<<<<<<<<<<<
  *             if isinstance(factory, Factory) is False:
  *                 raise Error(
  */
-  __pyx_t_1 = __Pyx_PyDict_Values(__pyx_v_factories); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1817, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_Values(__pyx_v_factories); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1818, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1817, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1818, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1817, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1818, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -33376,17 +33376,17 @@ static int __pyx_pf_19dependency_injector_9providers_16FactoryAggregate___init__
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 1817, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 1818, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1817, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1818, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 1817, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 1818, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1817, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1818, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -33396,7 +33396,7 @@ static int __pyx_pf_19dependency_injector_9providers_16FactoryAggregate___init__
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(1, 1817, __pyx_L1_error)
+          else __PYX_ERR(1, 1818, __pyx_L1_error)
         }
         break;
       }
@@ -33405,7 +33405,7 @@ static int __pyx_pf_19dependency_injector_9providers_16FactoryAggregate___init__
     __Pyx_XDECREF_SET(__pyx_v_factory, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":1818
+    /* "dependency_injector/providers.pyx":1819
  *         """
  *         for factory in factories.values():
  *             if isinstance(factory, Factory) is False:             # <<<<<<<<<<<<<<
@@ -33416,26 +33416,26 @@ static int __pyx_pf_19dependency_injector_9providers_16FactoryAggregate___init__
     __pyx_t_6 = ((__pyx_t_5 == 0) != 0);
     if (unlikely(__pyx_t_6)) {
 
-      /* "dependency_injector/providers.pyx":1819
+      /* "dependency_injector/providers.pyx":1820
  *         for factory in factories.values():
  *             if isinstance(factory, Factory) is False:
  *                 raise Error(             # <<<<<<<<<<<<<<
  *                     '{0} can aggregate only instances of {1}, given - {2}'
  *                     .format(self.__class__, Factory, factory))
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_Error); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1819, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_Error); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1820, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
 
-      /* "dependency_injector/providers.pyx":1821
+      /* "dependency_injector/providers.pyx":1822
  *                 raise Error(
  *                     '{0} can aggregate only instances of {1}, given - {2}'
  *                     .format(self.__class__, Factory, factory))             # <<<<<<<<<<<<<<
  *         self.__factories = factories
  *         super(FactoryAggregate, self).__init__()
  */
-      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_can_aggregate_only_instances, __pyx_n_s_format); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1821, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_can_aggregate_only_instances, __pyx_n_s_format); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1822, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
-      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 1821, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 1822, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       __pyx_t_11 = NULL;
       __pyx_t_12 = 0;
@@ -33452,7 +33452,7 @@ static int __pyx_pf_19dependency_injector_9providers_16FactoryAggregate___init__
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_9)) {
         PyObject *__pyx_temp[4] = {__pyx_t_11, __pyx_t_10, ((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory), __pyx_v_factory};
-        __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_12, 3+__pyx_t_12); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1821, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_12, 3+__pyx_t_12); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1822, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
@@ -33461,14 +33461,14 @@ static int __pyx_pf_19dependency_injector_9providers_16FactoryAggregate___init__
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_9)) {
         PyObject *__pyx_temp[4] = {__pyx_t_11, __pyx_t_10, ((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory), __pyx_v_factory};
-        __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_12, 3+__pyx_t_12); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1821, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyCFunction_FastCall(__pyx_t_9, __pyx_temp+1-__pyx_t_12, 3+__pyx_t_12); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1822, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       } else
       #endif
       {
-        __pyx_t_13 = PyTuple_New(3+__pyx_t_12); if (unlikely(!__pyx_t_13)) __PYX_ERR(1, 1821, __pyx_L1_error)
+        __pyx_t_13 = PyTuple_New(3+__pyx_t_12); if (unlikely(!__pyx_t_13)) __PYX_ERR(1, 1822, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_13);
         if (__pyx_t_11) {
           __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_11); __pyx_t_11 = NULL;
@@ -33482,7 +33482,7 @@ static int __pyx_pf_19dependency_injector_9providers_16FactoryAggregate___init__
         __Pyx_GIVEREF(__pyx_v_factory);
         PyTuple_SET_ITEM(__pyx_t_13, 2+__pyx_t_12, __pyx_v_factory);
         __pyx_t_10 = 0;
-        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_13, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1821, __pyx_L1_error)
+        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_13, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1822, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       }
@@ -33500,14 +33500,14 @@ static int __pyx_pf_19dependency_injector_9providers_16FactoryAggregate___init__
       __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_7, __pyx_t_9, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_8);
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1819, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1820, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_Raise(__pyx_t_1, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __PYX_ERR(1, 1819, __pyx_L1_error)
+      __PYX_ERR(1, 1820, __pyx_L1_error)
 
-      /* "dependency_injector/providers.pyx":1818
+      /* "dependency_injector/providers.pyx":1819
  *         """
  *         for factory in factories.values():
  *             if isinstance(factory, Factory) is False:             # <<<<<<<<<<<<<<
@@ -33516,7 +33516,7 @@ static int __pyx_pf_19dependency_injector_9providers_16FactoryAggregate___init__
  */
     }
 
-    /* "dependency_injector/providers.pyx":1817
+    /* "dependency_injector/providers.pyx":1818
  *         :type factories: dict[str, :py:class:`Factory`]
  *         """
  *         for factory in factories.values():             # <<<<<<<<<<<<<<
@@ -33526,7 +33526,7 @@ static int __pyx_pf_19dependency_injector_9providers_16FactoryAggregate___init__
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1822
+  /* "dependency_injector/providers.pyx":1823
  *                     '{0} can aggregate only instances of {1}, given - {2}'
  *                     .format(self.__class__, Factory, factory))
  *         self.__factories = factories             # <<<<<<<<<<<<<<
@@ -33539,14 +33539,14 @@ static int __pyx_pf_19dependency_injector_9providers_16FactoryAggregate___init__
   __Pyx_DECREF(__pyx_v_self->__pyx___factories);
   __pyx_v_self->__pyx___factories = __pyx_v_factories;
 
-  /* "dependency_injector/providers.pyx":1823
+  /* "dependency_injector/providers.pyx":1824
  *                     .format(self.__class__, Factory, factory))
  *         self.__factories = factories
  *         super(FactoryAggregate, self).__init__()             # <<<<<<<<<<<<<<
  * 
  *     def __deepcopy__(self, memo):
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1823, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1824, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_FactoryAggregate));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_FactoryAggregate));
@@ -33554,10 +33554,10 @@ static int __pyx_pf_19dependency_injector_9providers_16FactoryAggregate___init__
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1823, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1824, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1823, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1824, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_t_7 = NULL;
@@ -33572,12 +33572,12 @@ static int __pyx_pf_19dependency_injector_9providers_16FactoryAggregate___init__
   }
   __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1823, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1824, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1811
+  /* "dependency_injector/providers.pyx":1812
  *     __IS_DELEGATED__ = True
  * 
  *     def __init__(self, **factories):             # <<<<<<<<<<<<<<
@@ -33605,7 +33605,7 @@ static int __pyx_pf_19dependency_injector_9providers_16FactoryAggregate___init__
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1825
+/* "dependency_injector/providers.pyx":1826
  *         super(FactoryAggregate, self).__init__()
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -33643,16 +33643,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_2_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__deepcopy__", 0);
 
-  /* "dependency_injector/providers.pyx":1829
+  /* "dependency_injector/providers.pyx":1830
  *         cdef FactoryAggregate copied
  * 
  *         copied = memo.get(id(self))             # <<<<<<<<<<<<<<
  *         if copied is not None:
  *             return copied
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1829, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1830, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1829, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1830, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -33667,14 +33667,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_2_
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1829, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1830, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_19dependency_injector_9providers_FactoryAggregate))))) __PYX_ERR(1, 1829, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_19dependency_injector_9providers_FactoryAggregate))))) __PYX_ERR(1, 1830, __pyx_L1_error)
   __pyx_v_copied = ((struct __pyx_obj_19dependency_injector_9providers_FactoryAggregate *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1830
+  /* "dependency_injector/providers.pyx":1831
  * 
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -33685,7 +33685,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_2_
   __pyx_t_6 = (__pyx_t_5 != 0);
   if (__pyx_t_6) {
 
-    /* "dependency_injector/providers.pyx":1831
+    /* "dependency_injector/providers.pyx":1832
  *         copied = memo.get(id(self))
  *         if copied is not None:
  *             return copied             # <<<<<<<<<<<<<<
@@ -33697,7 +33697,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_2_
     __pyx_r = ((PyObject *)__pyx_v_copied);
     goto __pyx_L0;
 
-    /* "dependency_injector/providers.pyx":1830
+    /* "dependency_injector/providers.pyx":1831
  * 
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -33706,14 +33706,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_2_
  */
   }
 
-  /* "dependency_injector/providers.pyx":1833
+  /* "dependency_injector/providers.pyx":1834
  *             return copied
  * 
  *         copied = self.__class__()             # <<<<<<<<<<<<<<
  *         copied.__factories = deepcopy(self.__factories, memo)
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1833, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1834, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -33727,14 +33727,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_2_
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1833, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1834, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_19dependency_injector_9providers_FactoryAggregate))))) __PYX_ERR(1, 1833, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_19dependency_injector_9providers_FactoryAggregate))))) __PYX_ERR(1, 1834, __pyx_L1_error)
   __Pyx_DECREF_SET(__pyx_v_copied, ((struct __pyx_obj_19dependency_injector_9providers_FactoryAggregate *)__pyx_t_1));
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1834
+  /* "dependency_injector/providers.pyx":1835
  * 
  *         copied = self.__class__()
  *         copied.__factories = deepcopy(self.__factories, memo)             # <<<<<<<<<<<<<<
@@ -33743,30 +33743,30 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_2_
  */
   __pyx_t_1 = __pyx_v_self->__pyx___factories;
   __Pyx_INCREF(__pyx_t_1);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1834, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1835, __pyx_L1_error)
   __pyx_t_7.__pyx_n = 1;
   __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_1, 0, &__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1834, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_1, 0, &__pyx_t_7); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1835, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (!(likely(PyDict_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(1, 1834, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(1, 1835, __pyx_L1_error)
   __Pyx_GIVEREF(__pyx_t_2);
   __Pyx_GOTREF(__pyx_v_copied->__pyx___factories);
   __Pyx_DECREF(__pyx_v_copied->__pyx___factories);
   __pyx_v_copied->__pyx___factories = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1836
+  /* "dependency_injector/providers.pyx":1837
  *         copied.__factories = deepcopy(self.__factories, memo)
  * 
  *         self._copy_overridings(copied, memo)             # <<<<<<<<<<<<<<
  * 
  *         return copied
  */
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1836, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1837, __pyx_L1_error)
   ((struct __pyx_vtabstruct_19dependency_injector_9providers_FactoryAggregate *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), ((PyObject*)__pyx_v_memo), 0);
 
-  /* "dependency_injector/providers.pyx":1838
+  /* "dependency_injector/providers.pyx":1839
  *         self._copy_overridings(copied, memo)
  * 
  *         return copied             # <<<<<<<<<<<<<<
@@ -33778,7 +33778,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_2_
   __pyx_r = ((PyObject *)__pyx_v_copied);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1825
+  /* "dependency_injector/providers.pyx":1826
  *         super(FactoryAggregate, self).__init__()
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -33801,7 +33801,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_2_
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1840
+/* "dependency_injector/providers.pyx":1841
  *         return copied
  * 
  *     def __call__(self, factory_name, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -33858,7 +33858,7 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_16FactoryAggregate_5_
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t used_pos_args = (pos_args < 1) ? pos_args : 1;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__call__") < 0)) __PYX_ERR(1, 1840, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__call__") < 0)) __PYX_ERR(1, 1841, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) < 1) {
       goto __pyx_L5_argtuple_error;
@@ -33869,7 +33869,7 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_16FactoryAggregate_5_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__call__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1840, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__call__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1841, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
@@ -33896,7 +33896,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_4_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__call__", 0);
 
-  /* "dependency_injector/providers.pyx":1845
+  /* "dependency_injector/providers.pyx":1846
  *         Callable interface implementation.
  *         """
  *         return self.__get_factory(factory_name)(*args, **kwargs)             # <<<<<<<<<<<<<<
@@ -33904,17 +33904,17 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_4_
  *     def __getattr__(self, factory_name):
  */
   __Pyx_XDECREF(__pyx_r);
-  if (!(likely(PyString_CheckExact(__pyx_v_factory_name))||((__pyx_v_factory_name) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_factory_name)->tp_name), 0))) __PYX_ERR(1, 1845, __pyx_L1_error)
-  __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_19dependency_injector_9providers_FactoryAggregate *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx___get_factory(__pyx_v_self, ((PyObject*)__pyx_v_factory_name))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1845, __pyx_L1_error)
+  if (!(likely(PyString_CheckExact(__pyx_v_factory_name))||((__pyx_v_factory_name) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_factory_name)->tp_name), 0))) __PYX_ERR(1, 1846, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_19dependency_injector_9providers_FactoryAggregate *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx___get_factory(__pyx_v_self, ((PyObject*)__pyx_v_factory_name))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1846, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1845, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1846, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1840
+  /* "dependency_injector/providers.pyx":1841
  *         return copied
  * 
  *     def __call__(self, factory_name, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -33934,7 +33934,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_4_
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1847
+/* "dependency_injector/providers.pyx":1848
  *         return self.__get_factory(factory_name)(*args, **kwargs)
  * 
  *     def __getattr__(self, factory_name):             # <<<<<<<<<<<<<<
@@ -33968,7 +33968,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_6_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getattr__", 0);
 
-  /* "dependency_injector/providers.pyx":1849
+  /* "dependency_injector/providers.pyx":1850
  *     def __getattr__(self, factory_name):
  *         """Return aggregated factory."""
  *         return self.__get_factory(factory_name)             # <<<<<<<<<<<<<<
@@ -33976,14 +33976,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_6_
  *     def __str__(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  if (!(likely(PyString_CheckExact(__pyx_v_factory_name))||((__pyx_v_factory_name) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_factory_name)->tp_name), 0))) __PYX_ERR(1, 1849, __pyx_L1_error)
-  __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_19dependency_injector_9providers_FactoryAggregate *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx___get_factory(__pyx_v_self, ((PyObject*)__pyx_v_factory_name))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1849, __pyx_L1_error)
+  if (!(likely(PyString_CheckExact(__pyx_v_factory_name))||((__pyx_v_factory_name) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_factory_name)->tp_name), 0))) __PYX_ERR(1, 1850, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)((struct __pyx_vtabstruct_19dependency_injector_9providers_FactoryAggregate *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx___get_factory(__pyx_v_self, ((PyObject*)__pyx_v_factory_name))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1850, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1847
+  /* "dependency_injector/providers.pyx":1848
  *         return self.__get_factory(factory_name)(*args, **kwargs)
  * 
  *     def __getattr__(self, factory_name):             # <<<<<<<<<<<<<<
@@ -34002,7 +34002,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_6_
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1851
+/* "dependency_injector/providers.pyx":1852
  *         return self.__get_factory(factory_name)
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -34037,7 +34037,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_8_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__str__", 0);
 
-  /* "dependency_injector/providers.pyx":1856
+  /* "dependency_injector/providers.pyx":1857
  *         :rtype: str
  *         """
  *         return represent_provider(provider=self, provides=self.factories)             # <<<<<<<<<<<<<<
@@ -34045,16 +34045,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_8_
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_factories); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1856, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_factories); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1857, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_represent_provider(((PyObject *)__pyx_v_self), __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1856, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_represent_provider(((PyObject *)__pyx_v_self), __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1857, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1851
+  /* "dependency_injector/providers.pyx":1852
  *         return self.__get_factory(factory_name)
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -34074,7 +34074,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_8_
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1859
+/* "dependency_injector/providers.pyx":1860
  * 
  *     @property
  *     def factories(self):             # <<<<<<<<<<<<<<
@@ -34100,7 +34100,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_9f
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dependency_injector/providers.pyx":1861
+  /* "dependency_injector/providers.pyx":1862
  *     def factories(self):
  *         """Return dictionary of factories, read-only."""
  *         return self.__factories             # <<<<<<<<<<<<<<
@@ -34112,7 +34112,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_9f
   __pyx_r = __pyx_v_self->__pyx___factories;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1859
+  /* "dependency_injector/providers.pyx":1860
  * 
  *     @property
  *     def factories(self):             # <<<<<<<<<<<<<<
@@ -34127,7 +34127,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_9f
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1863
+/* "dependency_injector/providers.pyx":1864
  *         return self.__factories
  * 
  *     def override(self, _):             # <<<<<<<<<<<<<<
@@ -34163,26 +34163,26 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_10
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("override", 0);
 
-  /* "dependency_injector/providers.pyx":1871
+  /* "dependency_injector/providers.pyx":1872
  *         :rtype: :py:class:`OverridingContext`
  *         """
  *         raise Error(             # <<<<<<<<<<<<<<
  *             '{0} providers could not be overridden'.format(self.__class__))
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Error); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1871, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Error); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1872, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "dependency_injector/providers.pyx":1872
+  /* "dependency_injector/providers.pyx":1873
  *         """
  *         raise Error(
  *             '{0} providers could not be overridden'.format(self.__class__))             # <<<<<<<<<<<<<<
  * 
  *     cdef Factory __get_factory(self, str factory_name):
  */
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_providers_could_not_be_overri, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1872, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_providers_could_not_be_overri, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1873, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1872, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1873, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -34197,7 +34197,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_10
   __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1872, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1873, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -34213,14 +34213,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_10
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1871, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1872, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(1, 1871, __pyx_L1_error)
+  __PYX_ERR(1, 1872, __pyx_L1_error)
 
-  /* "dependency_injector/providers.pyx":1863
+  /* "dependency_injector/providers.pyx":1864
  *         return self.__factories
  * 
  *     def override(self, _):             # <<<<<<<<<<<<<<
@@ -34243,7 +34243,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_10
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1874
+/* "dependency_injector/providers.pyx":1875
  *             '{0} providers could not be overridden'.format(self.__class__))
  * 
  *     cdef Factory __get_factory(self, str factory_name):             # <<<<<<<<<<<<<<
@@ -34268,7 +34268,7 @@ static struct __pyx_obj_19dependency_injector_9providers_Factory *__pyx_f_19depe
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get_factory", 0);
 
-  /* "dependency_injector/providers.pyx":1875
+  /* "dependency_injector/providers.pyx":1876
  * 
  *     cdef Factory __get_factory(self, str factory_name):
  *         if factory_name not in self.__factories:             # <<<<<<<<<<<<<<
@@ -34277,33 +34277,33 @@ static struct __pyx_obj_19dependency_injector_9providers_Factory *__pyx_f_19depe
  */
   if (unlikely(__pyx_v_self->__pyx___factories == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(1, 1875, __pyx_L1_error)
+    __PYX_ERR(1, 1876, __pyx_L1_error)
   }
-  __pyx_t_1 = (__Pyx_PyDict_ContainsTF(__pyx_v_factory_name, __pyx_v_self->__pyx___factories, Py_NE)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 1875, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyDict_ContainsTF(__pyx_v_factory_name, __pyx_v_self->__pyx___factories, Py_NE)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 1876, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dependency_injector/providers.pyx":1876
+    /* "dependency_injector/providers.pyx":1877
  *     cdef Factory __get_factory(self, str factory_name):
  *         if factory_name not in self.__factories:
  *             raise NoSuchProviderError(             # <<<<<<<<<<<<<<
  *                 '{0} does not contain factory with name {1}'.format(
  *                     self, factory_name))
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_NoSuchProviderError); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1876, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_NoSuchProviderError); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1877, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
 
-    /* "dependency_injector/providers.pyx":1877
+    /* "dependency_injector/providers.pyx":1878
  *         if factory_name not in self.__factories:
  *             raise NoSuchProviderError(
  *                 '{0} does not contain factory with name {1}'.format(             # <<<<<<<<<<<<<<
  *                     self, factory_name))
  *         return <Factory> self.__factories[factory_name]
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_does_not_contain_factory_with, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1877, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_does_not_contain_factory_with, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1878, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
 
-    /* "dependency_injector/providers.pyx":1878
+    /* "dependency_injector/providers.pyx":1879
  *             raise NoSuchProviderError(
  *                 '{0} does not contain factory with name {1}'.format(
  *                     self, factory_name))             # <<<<<<<<<<<<<<
@@ -34325,7 +34325,7 @@ static struct __pyx_obj_19dependency_injector_9providers_Factory *__pyx_f_19depe
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_7, ((PyObject *)__pyx_v_self), __pyx_v_factory_name};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1877, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1878, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
     } else
@@ -34333,13 +34333,13 @@ static struct __pyx_obj_19dependency_injector_9providers_Factory *__pyx_f_19depe
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_7, ((PyObject *)__pyx_v_self), __pyx_v_factory_name};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1877, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1878, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
     } else
     #endif
     {
-      __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1877, __pyx_L1_error)
+      __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1878, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       if (__pyx_t_7) {
         __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -34350,7 +34350,7 @@ static struct __pyx_obj_19dependency_injector_9providers_Factory *__pyx_f_19depe
       __Pyx_INCREF(__pyx_v_factory_name);
       __Pyx_GIVEREF(__pyx_v_factory_name);
       PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, __pyx_v_factory_name);
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1877, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1878, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     }
@@ -34368,14 +34368,14 @@ static struct __pyx_obj_19dependency_injector_9providers_Factory *__pyx_f_19depe
     __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1876, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1877, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 1876, __pyx_L1_error)
+    __PYX_ERR(1, 1877, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":1875
+    /* "dependency_injector/providers.pyx":1876
  * 
  *     cdef Factory __get_factory(self, str factory_name):
  *         if factory_name not in self.__factories:             # <<<<<<<<<<<<<<
@@ -34384,7 +34384,7 @@ static struct __pyx_obj_19dependency_injector_9providers_Factory *__pyx_f_19depe
  */
   }
 
-  /* "dependency_injector/providers.pyx":1879
+  /* "dependency_injector/providers.pyx":1880
  *                 '{0} does not contain factory with name {1}'.format(
  *                     self, factory_name))
  *         return <Factory> self.__factories[factory_name]             # <<<<<<<<<<<<<<
@@ -34394,16 +34394,16 @@ static struct __pyx_obj_19dependency_injector_9providers_Factory *__pyx_f_19depe
   __Pyx_XDECREF(((PyObject *)__pyx_r));
   if (unlikely(__pyx_v_self->__pyx___factories == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(1, 1879, __pyx_L1_error)
+    __PYX_ERR(1, 1880, __pyx_L1_error)
   }
-  __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->__pyx___factories, __pyx_v_factory_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1879, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_self->__pyx___factories, __pyx_v_factory_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1880, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(((PyObject *)((struct __pyx_obj_19dependency_injector_9providers_Factory *)__pyx_t_3)));
   __pyx_r = ((struct __pyx_obj_19dependency_injector_9providers_Factory *)__pyx_t_3);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1874
+  /* "dependency_injector/providers.pyx":1875
  *             '{0} providers could not be overridden'.format(self.__class__))
  * 
  *     cdef Factory __get_factory(self, str factory_name):             # <<<<<<<<<<<<<<
@@ -34744,7 +34744,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16FactoryAggregate_14
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1887
+/* "dependency_injector/providers.pyx":1888
  *     provided_type = None
  * 
  *     def __init__(self, provides, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -34801,7 +34801,7 @@ static int __pyx_pw_19dependency_injector_9providers_13BaseSingleton_1__init__(P
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t used_pos_args = (pos_args < 1) ? pos_args : 1;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__init__") < 0)) __PYX_ERR(1, 1887, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__init__") < 0)) __PYX_ERR(1, 1888, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) < 1) {
       goto __pyx_L5_argtuple_error;
@@ -34812,7 +34812,7 @@ static int __pyx_pw_19dependency_injector_9providers_13BaseSingleton_1__init__(P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1887, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 1888, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
@@ -34849,19 +34849,19 @@ static int __pyx_pf_19dependency_injector_9providers_13BaseSingleton___init__(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dependency_injector/providers.pyx":1893
+  /* "dependency_injector/providers.pyx":1894
  *         :type provides: type
  *         """
  *         if (self.__class__.provided_type and             # <<<<<<<<<<<<<<
  *                 not issubclass(provides, self.__class__.provided_type)):
  *             raise Error('{0} can provide only {1} instances'.format(
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1893, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1894, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_provided_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1893, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_provided_type); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1894, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(1, 1893, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(1, 1894, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_4) {
   } else {
@@ -34869,25 +34869,25 @@ static int __pyx_pf_19dependency_injector_9providers_13BaseSingleton___init__(st
     goto __pyx_L4_bool_binop_done;
   }
 
-  /* "dependency_injector/providers.pyx":1894
+  /* "dependency_injector/providers.pyx":1895
  *         """
  *         if (self.__class__.provided_type and
  *                 not issubclass(provides, self.__class__.provided_type)):             # <<<<<<<<<<<<<<
  *             raise Error('{0} can provide only {1} instances'.format(
  *                 self.__class__, self.__class__.provided_type))
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1894, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1895, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_provided_type); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1894, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_provided_type); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1895, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_4 = PyObject_IsSubclass(__pyx_v_provides, __pyx_t_2); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(1, 1894, __pyx_L1_error)
+  __pyx_t_4 = PyObject_IsSubclass(__pyx_v_provides, __pyx_t_2); if (unlikely(__pyx_t_4 == ((int)-1))) __PYX_ERR(1, 1895, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_5 = ((!(__pyx_t_4 != 0)) != 0);
   __pyx_t_1 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
 
-  /* "dependency_injector/providers.pyx":1893
+  /* "dependency_injector/providers.pyx":1894
  *         :type provides: type
  *         """
  *         if (self.__class__.provided_type and             # <<<<<<<<<<<<<<
@@ -34896,30 +34896,30 @@ static int __pyx_pf_19dependency_injector_9providers_13BaseSingleton___init__(st
  */
   if (unlikely(__pyx_t_1)) {
 
-    /* "dependency_injector/providers.pyx":1895
+    /* "dependency_injector/providers.pyx":1896
  *         if (self.__class__.provided_type and
  *                 not issubclass(provides, self.__class__.provided_type)):
  *             raise Error('{0} can provide only {1} instances'.format(             # <<<<<<<<<<<<<<
  *                 self.__class__, self.__class__.provided_type))
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Error); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1895, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Error); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1896, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_can_provide_only_1_instances, __pyx_n_s_format); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1895, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_can_provide_only_1_instances, __pyx_n_s_format); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 1896, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
 
-    /* "dependency_injector/providers.pyx":1896
+    /* "dependency_injector/providers.pyx":1897
  *                 not issubclass(provides, self.__class__.provided_type)):
  *             raise Error('{0} can provide only {1} instances'.format(
  *                 self.__class__, self.__class__.provided_type))             # <<<<<<<<<<<<<<
  * 
  *         self.__instantiator = Factory(provides, *args, **kwargs)
  */
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1896, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1897, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1896, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1897, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_9);
-    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_provided_type); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 1896, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_provided_type); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 1897, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __pyx_t_9 = NULL;
@@ -34937,7 +34937,7 @@ static int __pyx_pf_19dependency_injector_9providers_13BaseSingleton___init__(st
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_8, __pyx_t_10};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1895, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1896, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -34947,7 +34947,7 @@ static int __pyx_pf_19dependency_injector_9providers_13BaseSingleton___init__(st
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
       PyObject *__pyx_temp[3] = {__pyx_t_9, __pyx_t_8, __pyx_t_10};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1895, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_11, 2+__pyx_t_11); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1896, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -34955,7 +34955,7 @@ static int __pyx_pf_19dependency_injector_9providers_13BaseSingleton___init__(st
     } else
     #endif
     {
-      __pyx_t_12 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 1895, __pyx_L1_error)
+      __pyx_t_12 = PyTuple_New(2+__pyx_t_11); if (unlikely(!__pyx_t_12)) __PYX_ERR(1, 1896, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       if (__pyx_t_9) {
         __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -34966,7 +34966,7 @@ static int __pyx_pf_19dependency_injector_9providers_13BaseSingleton___init__(st
       PyTuple_SET_ITEM(__pyx_t_12, 1+__pyx_t_11, __pyx_t_10);
       __pyx_t_8 = 0;
       __pyx_t_10 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_12, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1895, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_12, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1896, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
     }
@@ -34984,14 +34984,14 @@ static int __pyx_pf_19dependency_injector_9providers_13BaseSingleton___init__(st
     __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_7, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1895, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1896, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(1, 1895, __pyx_L1_error)
+    __PYX_ERR(1, 1896, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":1893
+    /* "dependency_injector/providers.pyx":1894
  *         :type provides: type
  *         """
  *         if (self.__class__.provided_type and             # <<<<<<<<<<<<<<
@@ -35000,22 +35000,22 @@ static int __pyx_pf_19dependency_injector_9providers_13BaseSingleton___init__(st
  */
   }
 
-  /* "dependency_injector/providers.pyx":1898
+  /* "dependency_injector/providers.pyx":1899
  *                 self.__class__, self.__class__.provided_type))
  * 
  *         self.__instantiator = Factory(provides, *args, **kwargs)             # <<<<<<<<<<<<<<
  * 
  *         super(BaseSingleton, self).__init__()
  */
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1898, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1899, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_provides);
   __Pyx_GIVEREF(__pyx_v_provides);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_provides);
-  __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_v_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1898, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_v_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1899, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory), __pyx_t_3, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1898, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory), __pyx_t_3, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1899, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_GIVEREF(__pyx_t_2);
@@ -35024,14 +35024,14 @@ static int __pyx_pf_19dependency_injector_9providers_13BaseSingleton___init__(st
   __pyx_v_self->__pyx___instantiator = ((struct __pyx_obj_19dependency_injector_9providers_Factory *)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1900
+  /* "dependency_injector/providers.pyx":1901
  *         self.__instantiator = Factory(provides, *args, **kwargs)
  * 
  *         super(BaseSingleton, self).__init__()             # <<<<<<<<<<<<<<
  * 
  *     def __str__(self):
  */
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1900, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1901, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_BaseSingleton));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_BaseSingleton));
@@ -35039,10 +35039,10 @@ static int __pyx_pf_19dependency_injector_9providers_13BaseSingleton___init__(st
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_3, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_3, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1900, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_3, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1901, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1900, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1901, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
@@ -35057,12 +35057,12 @@ static int __pyx_pf_19dependency_injector_9providers_13BaseSingleton___init__(st
   }
   __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1900, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1901, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1887
+  /* "dependency_injector/providers.pyx":1888
  *     provided_type = None
  * 
  *     def __init__(self, provides, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -35089,7 +35089,7 @@ static int __pyx_pf_19dependency_injector_9providers_13BaseSingleton___init__(st
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1902
+/* "dependency_injector/providers.pyx":1903
  *         super(BaseSingleton, self).__init__()
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -35124,7 +35124,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_2__st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__str__", 0);
 
-  /* "dependency_injector/providers.pyx":1907
+  /* "dependency_injector/providers.pyx":1908
  *         :rtype: str
  *         """
  *         return represent_provider(provider=self,             # <<<<<<<<<<<<<<
@@ -35133,31 +35133,31 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_2__st
  */
   __Pyx_XDECREF(__pyx_r);
 
-  /* "dependency_injector/providers.pyx":1908
+  /* "dependency_injector/providers.pyx":1909
  *         """
  *         return represent_provider(provider=self,
  *                                   provides=self.__instantiator.cls)             # <<<<<<<<<<<<<<
  * 
  *     def __deepcopy__(self, memo):
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_cls); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1908, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_cls); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1909, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "dependency_injector/providers.pyx":1907
+  /* "dependency_injector/providers.pyx":1908
  *         :rtype: str
  *         """
  *         return represent_provider(provider=self,             # <<<<<<<<<<<<<<
  *                                   provides=self.__instantiator.cls)
  * 
  */
-  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_represent_provider(((PyObject *)__pyx_v_self), __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1907, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_19dependency_injector_9providers_represent_provider(((PyObject *)__pyx_v_self), __pyx_t_1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1908, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1902
+  /* "dependency_injector/providers.pyx":1903
  *         super(BaseSingleton, self).__init__()
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -35177,7 +35177,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_2__st
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1910
+/* "dependency_injector/providers.pyx":1911
  *                                   provides=self.__instantiator.cls)
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -35217,16 +35217,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_4__de
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__deepcopy__", 0);
 
-  /* "dependency_injector/providers.pyx":1912
+  /* "dependency_injector/providers.pyx":1913
  *     def __deepcopy__(self, memo):
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))             # <<<<<<<<<<<<<<
  *         if copied is not None:
  *             return copied
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1912, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1913, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1912, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1913, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -35241,13 +35241,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_4__de
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1912, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1913, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_copied = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1913
+  /* "dependency_injector/providers.pyx":1914
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -35258,7 +35258,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_4__de
   __pyx_t_6 = (__pyx_t_5 != 0);
   if (__pyx_t_6) {
 
-    /* "dependency_injector/providers.pyx":1914
+    /* "dependency_injector/providers.pyx":1915
  *         copied = memo.get(id(self))
  *         if copied is not None:
  *             return copied             # <<<<<<<<<<<<<<
@@ -35270,7 +35270,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_4__de
     __pyx_r = __pyx_v_copied;
     goto __pyx_L0;
 
-    /* "dependency_injector/providers.pyx":1913
+    /* "dependency_injector/providers.pyx":1914
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -35279,19 +35279,19 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_4__de
  */
   }
 
-  /* "dependency_injector/providers.pyx":1916
+  /* "dependency_injector/providers.pyx":1917
  *             return copied
  * 
  *         cls = self.cls             # <<<<<<<<<<<<<<
  *         if isinstance(cls, Provider):
  *             cls = deepcopy(cls, memo)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_cls); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1916, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_cls); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1917, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_cls = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1917
+  /* "dependency_injector/providers.pyx":1918
  * 
  *         cls = self.cls
  *         if isinstance(cls, Provider):             # <<<<<<<<<<<<<<
@@ -35302,22 +35302,22 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_4__de
   __pyx_t_5 = (__pyx_t_6 != 0);
   if (__pyx_t_5) {
 
-    /* "dependency_injector/providers.pyx":1918
+    /* "dependency_injector/providers.pyx":1919
  *         cls = self.cls
  *         if isinstance(cls, Provider):
  *             cls = deepcopy(cls, memo)             # <<<<<<<<<<<<<<
  * 
  *         copied = self.__class__(cls,
  */
-    if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1918, __pyx_L1_error)
+    if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1919, __pyx_L1_error)
     __pyx_t_7.__pyx_n = 1;
     __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-    __pyx_t_1 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_v_cls, 0, &__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1918, __pyx_L1_error)
+    __pyx_t_1 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_v_cls, 0, &__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1919, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_cls, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":1917
+    /* "dependency_injector/providers.pyx":1918
  * 
  *         cls = self.cls
  *         if isinstance(cls, Provider):             # <<<<<<<<<<<<<<
@@ -35326,89 +35326,89 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_4__de
  */
   }
 
-  /* "dependency_injector/providers.pyx":1920
+  /* "dependency_injector/providers.pyx":1921
  *             cls = deepcopy(cls, memo)
  * 
  *         copied = self.__class__(cls,             # <<<<<<<<<<<<<<
  *                                 *deepcopy(self.args, memo),
  *                                 **deepcopy(self.kwargs, memo))
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1920, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1921, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1920, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1921, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_cls);
   __Pyx_GIVEREF(__pyx_v_cls);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_cls);
 
-  /* "dependency_injector/providers.pyx":1921
+  /* "dependency_injector/providers.pyx":1922
  * 
  *         copied = self.__class__(cls,
  *                                 *deepcopy(self.args, memo),             # <<<<<<<<<<<<<<
  *                                 **deepcopy(self.kwargs, memo))
  *         copied.set_attributes(**deepcopy(self.attributes, memo))
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1921, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1922, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1921, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1922, __pyx_L1_error)
   __pyx_t_7.__pyx_n = 1;
   __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_4 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_3, 0, &__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1921, __pyx_L1_error)
+  __pyx_t_4 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_3, 0, &__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1922, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":1920
+  /* "dependency_injector/providers.pyx":1921
  *             cls = deepcopy(cls, memo)
  * 
  *         copied = self.__class__(cls,             # <<<<<<<<<<<<<<
  *                                 *deepcopy(self.args, memo),
  *                                 **deepcopy(self.kwargs, memo))
  */
-  __pyx_t_3 = __Pyx_PySequence_Tuple(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1920, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PySequence_Tuple(__pyx_t_4); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1921, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyNumber_Add(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1920, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Add(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1921, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":1922
+  /* "dependency_injector/providers.pyx":1923
  *         copied = self.__class__(cls,
  *                                 *deepcopy(self.args, memo),
  *                                 **deepcopy(self.kwargs, memo))             # <<<<<<<<<<<<<<
  *         copied.set_attributes(**deepcopy(self.attributes, memo))
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1922, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1923, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1922, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1923, __pyx_L1_error)
   __pyx_t_7.__pyx_n = 1;
   __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_8 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_2, 0, &__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1922, __pyx_L1_error)
+  __pyx_t_8 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_2, 0, &__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1923, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (unlikely(__pyx_t_8 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "argument after ** must be a mapping, not NoneType");
-    __PYX_ERR(1, 1922, __pyx_L1_error)
+    __PYX_ERR(1, 1923, __pyx_L1_error)
   }
   if (likely(PyDict_CheckExact(__pyx_t_8))) {
-    __pyx_t_3 = PyDict_Copy(__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1922, __pyx_L1_error)
+    __pyx_t_3 = PyDict_Copy(__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1923, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   } else {
-    __pyx_t_3 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1920, __pyx_L1_error)
+    __pyx_t_3 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1921, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "dependency_injector/providers.pyx":1920
+  /* "dependency_injector/providers.pyx":1921
  *             cls = deepcopy(cls, memo)
  * 
  *         copied = self.__class__(cls,             # <<<<<<<<<<<<<<
  *                                 *deepcopy(self.args, memo),
  *                                 **deepcopy(self.kwargs, memo))
  */
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1920, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1921, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -35416,54 +35416,54 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_4__de
   __Pyx_DECREF_SET(__pyx_v_copied, __pyx_t_8);
   __pyx_t_8 = 0;
 
-  /* "dependency_injector/providers.pyx":1923
+  /* "dependency_injector/providers.pyx":1924
  *                                 *deepcopy(self.args, memo),
  *                                 **deepcopy(self.kwargs, memo))
  *         copied.set_attributes(**deepcopy(self.attributes, memo))             # <<<<<<<<<<<<<<
  * 
  *         self._copy_overridings(copied, memo)
  */
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_copied, __pyx_n_s_set_attributes); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1923, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_copied, __pyx_n_s_set_attributes); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1924, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_attributes); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1923, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_attributes); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 1924, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1923, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1924, __pyx_L1_error)
   __pyx_t_7.__pyx_n = 1;
   __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_4, 0, &__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1923, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_4, 0, &__pyx_t_7); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1924, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "argument after ** must be a mapping, not NoneType");
-    __PYX_ERR(1, 1923, __pyx_L1_error)
+    __PYX_ERR(1, 1924, __pyx_L1_error)
   }
   if (likely(PyDict_CheckExact(__pyx_t_1))) {
-    __pyx_t_3 = PyDict_Copy(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1923, __pyx_L1_error)
+    __pyx_t_3 = PyDict_Copy(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1924, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
-    __pyx_t_3 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1923, __pyx_L1_error)
+    __pyx_t_3 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1924, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1923, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1924, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1925
+  /* "dependency_injector/providers.pyx":1926
  *         copied.set_attributes(**deepcopy(self.attributes, memo))
  * 
  *         self._copy_overridings(copied, memo)             # <<<<<<<<<<<<<<
  * 
  *         return copied
  */
-  if (!(likely(((__pyx_v_copied) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_copied, __pyx_ptype_19dependency_injector_9providers_Provider))))) __PYX_ERR(1, 1925, __pyx_L1_error)
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1925, __pyx_L1_error)
+  if (!(likely(((__pyx_v_copied) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_copied, __pyx_ptype_19dependency_injector_9providers_Provider))))) __PYX_ERR(1, 1926, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 1926, __pyx_L1_error)
   ((struct __pyx_vtabstruct_19dependency_injector_9providers_BaseSingleton *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), ((PyObject*)__pyx_v_memo), 0);
 
-  /* "dependency_injector/providers.pyx":1927
+  /* "dependency_injector/providers.pyx":1928
  *         self._copy_overridings(copied, memo)
  * 
  *         return copied             # <<<<<<<<<<<<<<
@@ -35475,7 +35475,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_4__de
   __pyx_r = __pyx_v_copied;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1910
+  /* "dependency_injector/providers.pyx":1911
  *                                   provides=self.__instantiator.cls)
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -35500,7 +35500,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_4__de
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1930
+/* "dependency_injector/providers.pyx":1931
  * 
  *     @property
  *     def cls(self):             # <<<<<<<<<<<<<<
@@ -35530,7 +35530,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_3cls_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dependency_injector/providers.pyx":1932
+  /* "dependency_injector/providers.pyx":1933
  *     def cls(self):
  *         """Return provided type."""
  *         return self.__instantiator.cls             # <<<<<<<<<<<<<<
@@ -35538,13 +35538,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_3cls_
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_cls); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1932, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_cls); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1933, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1930
+  /* "dependency_injector/providers.pyx":1931
  * 
  *     @property
  *     def cls(self):             # <<<<<<<<<<<<<<
@@ -35563,7 +35563,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_3cls_
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1935
+/* "dependency_injector/providers.pyx":1936
  * 
  *     @property
  *     def args(self):             # <<<<<<<<<<<<<<
@@ -35593,7 +35593,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_4args
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dependency_injector/providers.pyx":1937
+  /* "dependency_injector/providers.pyx":1938
  *     def args(self):
  *         """Return positional argument injections."""
  *         return self.__instantiator.args             # <<<<<<<<<<<<<<
@@ -35601,13 +35601,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_4args
  *     def add_args(self, *args):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1937, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1938, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1935
+  /* "dependency_injector/providers.pyx":1936
  * 
  *     @property
  *     def args(self):             # <<<<<<<<<<<<<<
@@ -35626,7 +35626,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_4args
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1939
+/* "dependency_injector/providers.pyx":1940
  *         return self.__instantiator.args
  * 
  *     def add_args(self, *args):             # <<<<<<<<<<<<<<
@@ -35663,21 +35663,21 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_6add_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add_args", 0);
 
-  /* "dependency_injector/providers.pyx":1944
+  /* "dependency_injector/providers.pyx":1945
  *         :return: Reference ``self``
  *         """
  *         self.__instantiator.add_args(*args)             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_add_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1944, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_add_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1945, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_args, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1944, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_args, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1945, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1945
+  /* "dependency_injector/providers.pyx":1946
  *         """
  *         self.__instantiator.add_args(*args)
  *         return self             # <<<<<<<<<<<<<<
@@ -35689,7 +35689,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_6add_
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1939
+  /* "dependency_injector/providers.pyx":1940
  *         return self.__instantiator.args
  * 
  *     def add_args(self, *args):             # <<<<<<<<<<<<<<
@@ -35709,7 +35709,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_6add_
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1947
+/* "dependency_injector/providers.pyx":1948
  *         return self
  * 
  *     def set_args(self, *args):             # <<<<<<<<<<<<<<
@@ -35746,21 +35746,21 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_8set_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_args", 0);
 
-  /* "dependency_injector/providers.pyx":1954
+  /* "dependency_injector/providers.pyx":1955
  *         :return: Reference ``self``
  *         """
  *         self.__instantiator.set_args(*args)             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_set_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1954, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_set_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1955, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_args, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1954, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_args, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1955, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1955
+  /* "dependency_injector/providers.pyx":1956
  *         """
  *         self.__instantiator.set_args(*args)
  *         return self             # <<<<<<<<<<<<<<
@@ -35772,7 +35772,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_8set_
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1947
+  /* "dependency_injector/providers.pyx":1948
  *         return self
  * 
  *     def set_args(self, *args):             # <<<<<<<<<<<<<<
@@ -35792,7 +35792,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_8set_
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1957
+/* "dependency_injector/providers.pyx":1958
  *         return self
  * 
  *     def clear_args(self):             # <<<<<<<<<<<<<<
@@ -35825,14 +35825,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_10cle
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("clear_args", 0);
 
-  /* "dependency_injector/providers.pyx":1962
+  /* "dependency_injector/providers.pyx":1963
  *         :return: Reference ``self``
  *         """
  *         self.__instantiator.clear_args()             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_clear_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1962, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_clear_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1963, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -35846,12 +35846,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_10cle
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1962, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1963, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1963
+  /* "dependency_injector/providers.pyx":1964
  *         """
  *         self.__instantiator.clear_args()
  *         return self             # <<<<<<<<<<<<<<
@@ -35863,7 +35863,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_10cle
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1957
+  /* "dependency_injector/providers.pyx":1958
  *         return self
  * 
  *     def clear_args(self):             # <<<<<<<<<<<<<<
@@ -35884,7 +35884,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_10cle
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1966
+/* "dependency_injector/providers.pyx":1967
  * 
  *     @property
  *     def kwargs(self):             # <<<<<<<<<<<<<<
@@ -35914,7 +35914,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_6kwar
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dependency_injector/providers.pyx":1968
+  /* "dependency_injector/providers.pyx":1969
  *     def kwargs(self):
  *         """Return keyword argument injections."""
  *         return self.__instantiator.kwargs             # <<<<<<<<<<<<<<
@@ -35922,13 +35922,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_6kwar
  *     def add_kwargs(self, **kwargs):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1968, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1969, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1966
+  /* "dependency_injector/providers.pyx":1967
  * 
  *     @property
  *     def kwargs(self):             # <<<<<<<<<<<<<<
@@ -35947,7 +35947,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_6kwar
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1970
+/* "dependency_injector/providers.pyx":1971
  *         return self.__instantiator.kwargs
  * 
  *     def add_kwargs(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -35990,21 +35990,21 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_12add
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add_kwargs", 0);
 
-  /* "dependency_injector/providers.pyx":1975
+  /* "dependency_injector/providers.pyx":1976
  *         :return: Reference ``self``
  *         """
  *         self.__instantiator.add_kwargs(**kwargs)             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_add_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1975, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_add_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1976, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1975, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1976, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1976
+  /* "dependency_injector/providers.pyx":1977
  *         """
  *         self.__instantiator.add_kwargs(**kwargs)
  *         return self             # <<<<<<<<<<<<<<
@@ -36016,7 +36016,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_12add
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1970
+  /* "dependency_injector/providers.pyx":1971
  *         return self.__instantiator.kwargs
  * 
  *     def add_kwargs(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -36036,7 +36036,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_12add
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1978
+/* "dependency_injector/providers.pyx":1979
  *         return self
  * 
  *     def set_kwargs(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -36079,21 +36079,21 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_14set
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_kwargs", 0);
 
-  /* "dependency_injector/providers.pyx":1985
+  /* "dependency_injector/providers.pyx":1986
  *         :return: Reference ``self``
  *         """
  *         self.__instantiator.set_kwargs(**kwargs)             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_set_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1985, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_set_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1986, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1985, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1986, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":1986
+  /* "dependency_injector/providers.pyx":1987
  *         """
  *         self.__instantiator.set_kwargs(**kwargs)
  *         return self             # <<<<<<<<<<<<<<
@@ -36105,7 +36105,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_14set
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1978
+  /* "dependency_injector/providers.pyx":1979
  *         return self
  * 
  *     def set_kwargs(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -36125,7 +36125,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_14set
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1988
+/* "dependency_injector/providers.pyx":1989
  *         return self
  * 
  *     def clear_kwargs(self):             # <<<<<<<<<<<<<<
@@ -36158,14 +36158,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_16cle
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("clear_kwargs", 0);
 
-  /* "dependency_injector/providers.pyx":1993
+  /* "dependency_injector/providers.pyx":1994
  *         :return: Reference ``self``
  *         """
  *         self.__instantiator.clear_kwargs()             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_clear_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1993, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_clear_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 1994, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -36179,12 +36179,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_16cle
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1993, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1994, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":1994
+  /* "dependency_injector/providers.pyx":1995
  *         """
  *         self.__instantiator.clear_kwargs()
  *         return self             # <<<<<<<<<<<<<<
@@ -36196,7 +36196,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_16cle
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1988
+  /* "dependency_injector/providers.pyx":1989
  *         return self
  * 
  *     def clear_kwargs(self):             # <<<<<<<<<<<<<<
@@ -36217,7 +36217,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_16cle
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":1997
+/* "dependency_injector/providers.pyx":1998
  * 
  *     @property
  *     def attributes(self):             # <<<<<<<<<<<<<<
@@ -36247,7 +36247,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_10att
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dependency_injector/providers.pyx":1999
+  /* "dependency_injector/providers.pyx":2000
  *     def attributes(self):
  *         """Return attribute injections."""
  *         return self.__instantiator.attributes             # <<<<<<<<<<<<<<
@@ -36255,13 +36255,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_10att
  *     def add_attributes(self, **kwargs):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_attributes); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 1999, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_attributes); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2000, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":1997
+  /* "dependency_injector/providers.pyx":1998
  * 
  *     @property
  *     def attributes(self):             # <<<<<<<<<<<<<<
@@ -36280,7 +36280,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_10att
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2001
+/* "dependency_injector/providers.pyx":2002
  *         return self.__instantiator.attributes
  * 
  *     def add_attributes(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -36323,21 +36323,21 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_18add
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add_attributes", 0);
 
-  /* "dependency_injector/providers.pyx":2006
+  /* "dependency_injector/providers.pyx":2007
  *         :return: Reference ``self``
  *         """
  *         self.__instantiator.add_attributes(**kwargs)             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_add_attributes); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2006, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_add_attributes); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2007, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2006, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2007, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":2007
+  /* "dependency_injector/providers.pyx":2008
  *         """
  *         self.__instantiator.add_attributes(**kwargs)
  *         return self             # <<<<<<<<<<<<<<
@@ -36349,7 +36349,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_18add
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2001
+  /* "dependency_injector/providers.pyx":2002
  *         return self.__instantiator.attributes
  * 
  *     def add_attributes(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -36369,7 +36369,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_18add
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2009
+/* "dependency_injector/providers.pyx":2010
  *         return self
  * 
  *     def set_attributes(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -36412,21 +36412,21 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_20set
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_attributes", 0);
 
-  /* "dependency_injector/providers.pyx":2016
+  /* "dependency_injector/providers.pyx":2017
  *         :return: Reference ``self``
  *         """
  *         self.__instantiator.set_attributes(**kwargs)             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_set_attributes); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2016, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_set_attributes); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2017, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2016, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2017, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":2017
+  /* "dependency_injector/providers.pyx":2018
  *         """
  *         self.__instantiator.set_attributes(**kwargs)
  *         return self             # <<<<<<<<<<<<<<
@@ -36438,7 +36438,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_20set
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2009
+  /* "dependency_injector/providers.pyx":2010
  *         return self
  * 
  *     def set_attributes(self, **kwargs):             # <<<<<<<<<<<<<<
@@ -36458,7 +36458,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_20set
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2019
+/* "dependency_injector/providers.pyx":2020
  *         return self
  * 
  *     def clear_attributes(self):             # <<<<<<<<<<<<<<
@@ -36491,14 +36491,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_22cle
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("clear_attributes", 0);
 
-  /* "dependency_injector/providers.pyx":2024
+  /* "dependency_injector/providers.pyx":2025
  *         :return: Reference ``self``
  *         """
  *         self.__instantiator.clear_attributes()             # <<<<<<<<<<<<<<
  *         return self
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_clear_attributes); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2024, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx___instantiator), __pyx_n_s_clear_attributes); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2025, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -36512,12 +36512,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_22cle
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2024, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2025, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2025
+  /* "dependency_injector/providers.pyx":2026
  *         """
  *         self.__instantiator.clear_attributes()
  *         return self             # <<<<<<<<<<<<<<
@@ -36529,7 +36529,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_22cle
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2019
+  /* "dependency_injector/providers.pyx":2020
  *         return self
  * 
  *     def clear_attributes(self):             # <<<<<<<<<<<<<<
@@ -36550,7 +36550,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_22cle
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2027
+/* "dependency_injector/providers.pyx":2028
  *         return self
  * 
  *     def reset(self):             # <<<<<<<<<<<<<<
@@ -36581,20 +36581,20 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_24res
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset", 0);
 
-  /* "dependency_injector/providers.pyx":2032
+  /* "dependency_injector/providers.pyx":2033
  *         :rtype: None
  *         """
  *         raise NotImplementedError()             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_NotImplementedError); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2032, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_NotImplementedError); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2033, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(1, 2032, __pyx_L1_error)
+  __PYX_ERR(1, 2033, __pyx_L1_error)
 
-  /* "dependency_injector/providers.pyx":2027
+  /* "dependency_injector/providers.pyx":2028
  *         return self
  * 
  *     def reset(self):             # <<<<<<<<<<<<<<
@@ -36929,7 +36929,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_13BaseSingleton_28__s
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2067
+/* "dependency_injector/providers.pyx":2068
  *     """
  * 
  *     def __init__(self, provides, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -36986,7 +36986,7 @@ static int __pyx_pw_19dependency_injector_9providers_9Singleton_1__init__(PyObje
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t used_pos_args = (pos_args < 1) ? pos_args : 1;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__init__") < 0)) __PYX_ERR(1, 2067, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__init__") < 0)) __PYX_ERR(1, 2068, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) < 1) {
       goto __pyx_L5_argtuple_error;
@@ -36997,7 +36997,7 @@ static int __pyx_pw_19dependency_injector_9providers_9Singleton_1__init__(PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2067, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2068, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
@@ -37025,7 +37025,7 @@ static int __pyx_pf_19dependency_injector_9providers_9Singleton___init__(struct 
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dependency_injector/providers.pyx":2073
+  /* "dependency_injector/providers.pyx":2074
  *         :type provides: type
  *         """
  *         self.__storage = None             # <<<<<<<<<<<<<<
@@ -37038,14 +37038,14 @@ static int __pyx_pf_19dependency_injector_9providers_9Singleton___init__(struct 
   __Pyx_DECREF(__pyx_v_self->__pyx___storage);
   __pyx_v_self->__pyx___storage = Py_None;
 
-  /* "dependency_injector/providers.pyx":2074
+  /* "dependency_injector/providers.pyx":2075
  *         """
  *         self.__storage = None
  *         super(Singleton, self).__init__(provides, *args, **kwargs)             # <<<<<<<<<<<<<<
  * 
  *     def reset(self):
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2074, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2075, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Singleton));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Singleton));
@@ -37053,27 +37053,27 @@ static int __pyx_pf_19dependency_injector_9providers_9Singleton___init__(struct 
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2074, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2075, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2074, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2075, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2074, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2075, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_provides);
   __Pyx_GIVEREF(__pyx_v_provides);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_provides);
-  __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_v_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2074, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Add(__pyx_t_2, __pyx_v_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2075, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2074, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2075, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":2067
+  /* "dependency_injector/providers.pyx":2068
  *     """
  * 
  *     def __init__(self, provides, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -37095,7 +37095,7 @@ static int __pyx_pf_19dependency_injector_9providers_9Singleton___init__(struct 
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2076
+/* "dependency_injector/providers.pyx":2077
  *         super(Singleton, self).__init__(provides, *args, **kwargs)
  * 
  *     def reset(self):             # <<<<<<<<<<<<<<
@@ -37122,7 +37122,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Singleton_2reset(str
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("reset", 0);
 
-  /* "dependency_injector/providers.pyx":2081
+  /* "dependency_injector/providers.pyx":2082
  *         :rtype: None
  *         """
  *         self.__storage = None             # <<<<<<<<<<<<<<
@@ -37135,7 +37135,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Singleton_2reset(str
   __Pyx_DECREF(__pyx_v_self->__pyx___storage);
   __pyx_v_self->__pyx___storage = Py_None;
 
-  /* "dependency_injector/providers.pyx":2076
+  /* "dependency_injector/providers.pyx":2077
  *         super(Singleton, self).__init__(provides, *args, **kwargs)
  * 
  *     def reset(self):             # <<<<<<<<<<<<<<
@@ -37150,7 +37150,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Singleton_2reset(str
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2083
+/* "dependency_injector/providers.pyx":2084
  *         self.__storage = None
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -37183,7 +37183,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Singleton__provide(st
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2083, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2084, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_19dependency_injector_9providers_9Singleton_5_provide)) {
         __Pyx_XDECREF(__pyx_r);
@@ -37203,7 +37203,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Singleton__provide(st
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2083, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2084, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -37211,13 +37211,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Singleton__provide(st
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2083, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2084, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2083, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2084, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           if (__pyx_t_4) {
             __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -37228,7 +37228,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Singleton__provide(st
           __Pyx_INCREF(__pyx_v_kwargs);
           __Pyx_GIVEREF(__pyx_v_kwargs);
           PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_kwargs);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2083, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2084, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
@@ -37251,7 +37251,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Singleton__provide(st
     #endif
   }
 
-  /* "dependency_injector/providers.pyx":2085
+  /* "dependency_injector/providers.pyx":2086
  *     cpdef object _provide(self, tuple args, dict kwargs):
  *         """Return single instance."""
  *         if self.__storage is None:             # <<<<<<<<<<<<<<
@@ -37262,7 +37262,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Singleton__provide(st
   __pyx_t_8 = (__pyx_t_7 != 0);
   if (__pyx_t_8) {
 
-    /* "dependency_injector/providers.pyx":2086
+    /* "dependency_injector/providers.pyx":2087
  *         """Return single instance."""
  *         if self.__storage is None:
  *             self.__storage = __factory_call(self.__instantiator,             # <<<<<<<<<<<<<<
@@ -37272,18 +37272,18 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Singleton__provide(st
     __pyx_t_1 = ((PyObject *)__pyx_v_self->__pyx_base.__pyx___instantiator);
     __Pyx_INCREF(__pyx_t_1);
 
-    /* "dependency_injector/providers.pyx":2087
+    /* "dependency_injector/providers.pyx":2088
  *         if self.__storage is None:
  *             self.__storage = __factory_call(self.__instantiator,
  *                                             args, kwargs)             # <<<<<<<<<<<<<<
  *         return self.__storage
  * 
  */
-    __pyx_t_2 = __pyx_f_19dependency_injector_9providers___factory_call(((struct __pyx_obj_19dependency_injector_9providers_Factory *)__pyx_t_1), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2086, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_19dependency_injector_9providers___factory_call(((struct __pyx_obj_19dependency_injector_9providers_Factory *)__pyx_t_1), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2087, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":2086
+    /* "dependency_injector/providers.pyx":2087
  *         """Return single instance."""
  *         if self.__storage is None:
  *             self.__storage = __factory_call(self.__instantiator,             # <<<<<<<<<<<<<<
@@ -37296,7 +37296,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Singleton__provide(st
     __pyx_v_self->__pyx___storage = __pyx_t_2;
     __pyx_t_2 = 0;
 
-    /* "dependency_injector/providers.pyx":2085
+    /* "dependency_injector/providers.pyx":2086
  *     cpdef object _provide(self, tuple args, dict kwargs):
  *         """Return single instance."""
  *         if self.__storage is None:             # <<<<<<<<<<<<<<
@@ -37305,7 +37305,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Singleton__provide(st
  */
   }
 
-  /* "dependency_injector/providers.pyx":2088
+  /* "dependency_injector/providers.pyx":2089
  *             self.__storage = __factory_call(self.__instantiator,
  *                                             args, kwargs)
  *         return self.__storage             # <<<<<<<<<<<<<<
@@ -37317,7 +37317,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Singleton__provide(st
   __pyx_r = __pyx_v_self->__pyx___storage;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2083
+  /* "dependency_injector/providers.pyx":2084
  *         self.__storage = None
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -37375,11 +37375,11 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_9Singleton_5_provide(
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_kwargs)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 2083, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 2084, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 2083, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 2084, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -37392,14 +37392,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_9Singleton_5_provide(
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2083, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2084, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.Singleton._provide", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 2083, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 2083, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 2084, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 2084, __pyx_L1_error)
   __pyx_r = __pyx_pf_19dependency_injector_9providers_9Singleton_4_provide(((struct __pyx_obj_19dependency_injector_9providers_Singleton *)__pyx_v_self), __pyx_v_args, __pyx_v_kwargs);
 
   /* function exit code */
@@ -37420,7 +37420,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Singleton_4_provide(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_provide", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_9Singleton__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2083, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_9Singleton__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2084, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -38091,7 +38091,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_18DelegatedSingleton_
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2122
+/* "dependency_injector/providers.pyx":2123
  *     """
  * 
  *     def __init__(self, provides, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -38148,7 +38148,7 @@ static int __pyx_pw_19dependency_injector_9providers_19ThreadSafeSingleton_1__in
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t used_pos_args = (pos_args < 1) ? pos_args : 1;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__init__") < 0)) __PYX_ERR(1, 2122, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__init__") < 0)) __PYX_ERR(1, 2123, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) < 1) {
       goto __pyx_L5_argtuple_error;
@@ -38159,7 +38159,7 @@ static int __pyx_pw_19dependency_injector_9providers_19ThreadSafeSingleton_1__in
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2122, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2123, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
@@ -38187,7 +38187,7 @@ static int __pyx_pf_19dependency_injector_9providers_19ThreadSafeSingleton___ini
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dependency_injector/providers.pyx":2128
+  /* "dependency_injector/providers.pyx":2129
  *         :type provides: type
  *         """
  *         self.__storage = None             # <<<<<<<<<<<<<<
@@ -38200,16 +38200,16 @@ static int __pyx_pf_19dependency_injector_9providers_19ThreadSafeSingleton___ini
   __Pyx_DECREF(__pyx_v_self->__pyx___storage);
   __pyx_v_self->__pyx___storage = Py_None;
 
-  /* "dependency_injector/providers.pyx":2129
+  /* "dependency_injector/providers.pyx":2130
  *         """
  *         self.__storage = None
  *         self.__storage_lock = self.__class__.storage_lock             # <<<<<<<<<<<<<<
  *         super(ThreadSafeSingleton, self).__init__(provides, *args, **kwargs)
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2129, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_storage_lock); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2129, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_storage_lock); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_GIVEREF(__pyx_t_2);
@@ -38218,14 +38218,14 @@ static int __pyx_pf_19dependency_injector_9providers_19ThreadSafeSingleton___ini
   __pyx_v_self->__pyx___storage_lock = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":2130
+  /* "dependency_injector/providers.pyx":2131
  *         self.__storage = None
  *         self.__storage_lock = self.__class__.storage_lock
  *         super(ThreadSafeSingleton, self).__init__(provides, *args, **kwargs)             # <<<<<<<<<<<<<<
  * 
  *     def reset(self):
  */
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2130, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_ThreadSafeSingleton));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_ThreadSafeSingleton));
@@ -38233,27 +38233,27 @@ static int __pyx_pf_19dependency_injector_9providers_19ThreadSafeSingleton___ini
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_2, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2130, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2130, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2130, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_provides);
   __Pyx_GIVEREF(__pyx_v_provides);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_provides);
-  __pyx_t_3 = PyNumber_Add(__pyx_t_1, __pyx_v_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2130, __pyx_L1_error)
+  __pyx_t_3 = PyNumber_Add(__pyx_t_1, __pyx_v_args); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2130, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2131, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2122
+  /* "dependency_injector/providers.pyx":2123
  *     """
  * 
  *     def __init__(self, provides, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -38275,7 +38275,7 @@ static int __pyx_pf_19dependency_injector_9providers_19ThreadSafeSingleton___ini
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2132
+/* "dependency_injector/providers.pyx":2133
  *         super(ThreadSafeSingleton, self).__init__(provides, *args, **kwargs)
  * 
  *     def reset(self):             # <<<<<<<<<<<<<<
@@ -38302,7 +38302,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19ThreadSafeSingleton
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("reset", 0);
 
-  /* "dependency_injector/providers.pyx":2137
+  /* "dependency_injector/providers.pyx":2138
  *         :rtype: None
  *         """
  *         self.__storage = None             # <<<<<<<<<<<<<<
@@ -38315,7 +38315,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19ThreadSafeSingleton
   __Pyx_DECREF(__pyx_v_self->__pyx___storage);
   __pyx_v_self->__pyx___storage = Py_None;
 
-  /* "dependency_injector/providers.pyx":2132
+  /* "dependency_injector/providers.pyx":2133
  *         super(ThreadSafeSingleton, self).__init__(provides, *args, **kwargs)
  * 
  *     def reset(self):             # <<<<<<<<<<<<<<
@@ -38330,7 +38330,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19ThreadSafeSingleton
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2139
+/* "dependency_injector/providers.pyx":2140
  *         self.__storage = None
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -38368,7 +38368,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2139, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2140, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_19dependency_injector_9providers_19ThreadSafeSingleton_5_provide)) {
         __Pyx_XDECREF(__pyx_r);
@@ -38388,7 +38388,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2139, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2140, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -38396,13 +38396,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2139, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2140, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2139, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2140, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           if (__pyx_t_4) {
             __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -38413,7 +38413,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
           __Pyx_INCREF(__pyx_v_kwargs);
           __Pyx_GIVEREF(__pyx_v_kwargs);
           PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_kwargs);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2139, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2140, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
@@ -38436,7 +38436,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
     #endif
   }
 
-  /* "dependency_injector/providers.pyx":2141
+  /* "dependency_injector/providers.pyx":2142
  *     cpdef object _provide(self, tuple args, dict kwargs):
  *         """Return single instance."""
  *         with self.__storage_lock:             # <<<<<<<<<<<<<<
@@ -38444,9 +38444,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
  *                 self.__storage = __factory_call(self.__instantiator,
  */
   /*with:*/ {
-    __pyx_t_7 = __Pyx_PyObject_LookupSpecial(__pyx_v_self->__pyx___storage_lock, __pyx_n_s_exit); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 2141, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_LookupSpecial(__pyx_v_self->__pyx___storage_lock, __pyx_n_s_exit); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 2142, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_2 = __Pyx_PyObject_LookupSpecial(__pyx_v_self->__pyx___storage_lock, __pyx_n_s_enter); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2141, __pyx_L3_error)
+    __pyx_t_2 = __Pyx_PyObject_LookupSpecial(__pyx_v_self->__pyx___storage_lock, __pyx_n_s_enter); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2142, __pyx_L3_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_3 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -38460,7 +38460,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
     }
     __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2141, __pyx_L3_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2142, __pyx_L3_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -38474,7 +38474,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
         __Pyx_XGOTREF(__pyx_t_10);
         /*try:*/ {
 
-          /* "dependency_injector/providers.pyx":2142
+          /* "dependency_injector/providers.pyx":2143
  *         """Return single instance."""
  *         with self.__storage_lock:
  *             if self.__storage is None:             # <<<<<<<<<<<<<<
@@ -38485,7 +38485,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
           __pyx_t_12 = (__pyx_t_11 != 0);
           if (__pyx_t_12) {
 
-            /* "dependency_injector/providers.pyx":2143
+            /* "dependency_injector/providers.pyx":2144
  *         with self.__storage_lock:
  *             if self.__storage is None:
  *                 self.__storage = __factory_call(self.__instantiator,             # <<<<<<<<<<<<<<
@@ -38495,18 +38495,18 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
             __pyx_t_1 = ((PyObject *)__pyx_v_self->__pyx_base.__pyx___instantiator);
             __Pyx_INCREF(__pyx_t_1);
 
-            /* "dependency_injector/providers.pyx":2144
+            /* "dependency_injector/providers.pyx":2145
  *             if self.__storage is None:
  *                 self.__storage = __factory_call(self.__instantiator,
  *                                                 args, kwargs)             # <<<<<<<<<<<<<<
  *         return self.__storage
  * 
  */
-            __pyx_t_2 = __pyx_f_19dependency_injector_9providers___factory_call(((struct __pyx_obj_19dependency_injector_9providers_Factory *)__pyx_t_1), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2143, __pyx_L7_error)
+            __pyx_t_2 = __pyx_f_19dependency_injector_9providers___factory_call(((struct __pyx_obj_19dependency_injector_9providers_Factory *)__pyx_t_1), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2144, __pyx_L7_error)
             __Pyx_GOTREF(__pyx_t_2);
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-            /* "dependency_injector/providers.pyx":2143
+            /* "dependency_injector/providers.pyx":2144
  *         with self.__storage_lock:
  *             if self.__storage is None:
  *                 self.__storage = __factory_call(self.__instantiator,             # <<<<<<<<<<<<<<
@@ -38519,7 +38519,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
             __pyx_v_self->__pyx___storage = __pyx_t_2;
             __pyx_t_2 = 0;
 
-            /* "dependency_injector/providers.pyx":2142
+            /* "dependency_injector/providers.pyx":2143
  *         """Return single instance."""
  *         with self.__storage_lock:
  *             if self.__storage is None:             # <<<<<<<<<<<<<<
@@ -38528,7 +38528,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
  */
           }
 
-          /* "dependency_injector/providers.pyx":2141
+          /* "dependency_injector/providers.pyx":2142
  *     cpdef object _provide(self, tuple args, dict kwargs):
  *         """Return single instance."""
  *         with self.__storage_lock:             # <<<<<<<<<<<<<<
@@ -38548,20 +38548,20 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         /*except:*/ {
           __Pyx_AddTraceback("dependency_injector.providers.ThreadSafeSingleton._provide", __pyx_clineno, __pyx_lineno, __pyx_filename);
-          if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_1, &__pyx_t_3) < 0) __PYX_ERR(1, 2141, __pyx_L9_except_error)
+          if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_1, &__pyx_t_3) < 0) __PYX_ERR(1, 2142, __pyx_L9_except_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_6 = PyTuple_Pack(3, __pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2141, __pyx_L9_except_error)
+          __pyx_t_6 = PyTuple_Pack(3, __pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2142, __pyx_L9_except_error)
           __Pyx_GOTREF(__pyx_t_6);
           __pyx_t_13 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_6, NULL);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          if (unlikely(!__pyx_t_13)) __PYX_ERR(1, 2141, __pyx_L9_except_error)
+          if (unlikely(!__pyx_t_13)) __PYX_ERR(1, 2142, __pyx_L9_except_error)
           __Pyx_GOTREF(__pyx_t_13);
           __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_13);
           __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-          if (__pyx_t_12 < 0) __PYX_ERR(1, 2141, __pyx_L9_except_error)
+          if (__pyx_t_12 < 0) __PYX_ERR(1, 2142, __pyx_L9_except_error)
           __pyx_t_11 = ((!(__pyx_t_12 != 0)) != 0);
           if (__pyx_t_11) {
             __Pyx_GIVEREF(__pyx_t_2);
@@ -38569,7 +38569,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
             __Pyx_XGIVEREF(__pyx_t_3);
             __Pyx_ErrRestoreWithState(__pyx_t_2, __pyx_t_1, __pyx_t_3);
             __pyx_t_2 = 0; __pyx_t_1 = 0; __pyx_t_3 = 0; 
-            __PYX_ERR(1, 2141, __pyx_L9_except_error)
+            __PYX_ERR(1, 2142, __pyx_L9_except_error)
           }
           __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
           __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -38595,7 +38595,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
         if (__pyx_t_7) {
           __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__2, NULL);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-          if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 2141, __pyx_L1_error)
+          if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 2142, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         }
@@ -38610,7 +38610,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
     __pyx_L17:;
   }
 
-  /* "dependency_injector/providers.pyx":2145
+  /* "dependency_injector/providers.pyx":2146
  *                 self.__storage = __factory_call(self.__instantiator,
  *                                                 args, kwargs)
  *         return self.__storage             # <<<<<<<<<<<<<<
@@ -38622,7 +38622,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton_
   __pyx_r = __pyx_v_self->__pyx___storage;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2139
+  /* "dependency_injector/providers.pyx":2140
  *         self.__storage = None
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -38680,11 +38680,11 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_19ThreadSafeSingleton
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_kwargs)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 2139, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 2140, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 2139, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 2140, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -38697,14 +38697,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_19ThreadSafeSingleton
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2139, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2140, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.ThreadSafeSingleton._provide", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 2139, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 2139, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 2140, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 2140, __pyx_L1_error)
   __pyx_r = __pyx_pf_19dependency_injector_9providers_19ThreadSafeSingleton_4_provide(((struct __pyx_obj_19dependency_injector_9providers_ThreadSafeSingleton *)__pyx_v_self), __pyx_v_args, __pyx_v_kwargs);
 
   /* function exit code */
@@ -38725,7 +38725,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19ThreadSafeSingleton
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_provide", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2139, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2140, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -39416,7 +39416,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_28DelegatedThreadSafe
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2189
+/* "dependency_injector/providers.pyx":2190
  *     """
  * 
  *     def __init__(self, provides, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -39473,7 +39473,7 @@ static int __pyx_pw_19dependency_injector_9providers_20ThreadLocalSingleton_1__i
       }
       if (unlikely(kw_args > 0)) {
         const Py_ssize_t used_pos_args = (pos_args < 1) ? pos_args : 1;
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__init__") < 0)) __PYX_ERR(1, 2189, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_kwargs, values, used_pos_args, "__init__") < 0)) __PYX_ERR(1, 2190, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) < 1) {
       goto __pyx_L5_argtuple_error;
@@ -39484,7 +39484,7 @@ static int __pyx_pw_19dependency_injector_9providers_20ThreadLocalSingleton_1__i
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2189, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2190, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_args); __pyx_v_args = 0;
   __Pyx_DECREF(__pyx_v_kwargs); __pyx_v_kwargs = 0;
@@ -39512,16 +39512,16 @@ static int __pyx_pf_19dependency_injector_9providers_20ThreadLocalSingleton___in
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dependency_injector/providers.pyx":2195
+  /* "dependency_injector/providers.pyx":2196
  *         :type provides: type
  *         """
  *         self.__storage = threading.local()             # <<<<<<<<<<<<<<
  *         super(ThreadLocalSingleton, self).__init__(provides, *args, **kwargs)
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_threading); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2195, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_threading); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2196, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_local); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2195, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_local); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2196, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -39536,7 +39536,7 @@ static int __pyx_pf_19dependency_injector_9providers_20ThreadLocalSingleton___in
   }
   __pyx_t_1 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2195, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2196, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_GIVEREF(__pyx_t_1);
@@ -39545,14 +39545,14 @@ static int __pyx_pf_19dependency_injector_9providers_20ThreadLocalSingleton___in
   __pyx_v_self->__pyx___storage = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2196
+  /* "dependency_injector/providers.pyx":2197
  *         """
  *         self.__storage = threading.local()
  *         super(ThreadLocalSingleton, self).__init__(provides, *args, **kwargs)             # <<<<<<<<<<<<<<
  * 
  *     def reset(self):
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2196, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_ThreadLocalSingleton));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_ThreadLocalSingleton));
@@ -39560,27 +39560,27 @@ static int __pyx_pf_19dependency_injector_9providers_20ThreadLocalSingleton___in
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2196, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2196, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2196, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(__pyx_v_provides);
   __Pyx_GIVEREF(__pyx_v_provides);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_provides);
-  __pyx_t_2 = PyNumber_Add(__pyx_t_3, __pyx_v_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2196, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_Add(__pyx_t_3, __pyx_v_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_v_kwargs); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2196, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_v_kwargs); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2197, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":2189
+  /* "dependency_injector/providers.pyx":2190
  *     """
  * 
  *     def __init__(self, provides, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -39602,7 +39602,7 @@ static int __pyx_pf_19dependency_injector_9providers_20ThreadLocalSingleton___in
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2198
+/* "dependency_injector/providers.pyx":2199
  *         super(ThreadLocalSingleton, self).__init__(provides, *args, **kwargs)
  * 
  *     def reset(self):             # <<<<<<<<<<<<<<
@@ -39632,16 +39632,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_20ThreadLocalSingleto
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset", 0);
 
-  /* "dependency_injector/providers.pyx":2203
+  /* "dependency_injector/providers.pyx":2204
  *         :rtype: None
  *         """
  *         del self.__storage.instance             # <<<<<<<<<<<<<<
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):
  */
-  if (__Pyx_PyObject_DelAttrStr(__pyx_v_self->__pyx___storage, __pyx_n_s_instance) < 0) __PYX_ERR(1, 2203, __pyx_L1_error)
+  if (__Pyx_PyObject_DelAttrStr(__pyx_v_self->__pyx___storage, __pyx_n_s_instance) < 0) __PYX_ERR(1, 2204, __pyx_L1_error)
 
-  /* "dependency_injector/providers.pyx":2198
+  /* "dependency_injector/providers.pyx":2199
  *         super(ThreadLocalSingleton, self).__init__(provides, *args, **kwargs)
  * 
  *     def reset(self):             # <<<<<<<<<<<<<<
@@ -39661,7 +39661,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_20ThreadLocalSingleto
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2205
+/* "dependency_injector/providers.pyx":2206
  *         del self.__storage.instance
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -39699,7 +39699,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2205, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2206, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_19dependency_injector_9providers_20ThreadLocalSingleton_5_provide)) {
         __Pyx_XDECREF(__pyx_r);
@@ -39719,7 +39719,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2205, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2206, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -39727,13 +39727,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2205, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2206, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2205, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2206, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           if (__pyx_t_4) {
             __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -39744,7 +39744,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton
           __Pyx_INCREF(__pyx_v_kwargs);
           __Pyx_GIVEREF(__pyx_v_kwargs);
           PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_kwargs);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2205, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2206, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
@@ -39767,7 +39767,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton
     #endif
   }
 
-  /* "dependency_injector/providers.pyx":2209
+  /* "dependency_injector/providers.pyx":2210
  *         cdef object instance
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -39784,19 +39784,19 @@ static PyObject *__pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton
       __Pyx_XGOTREF(__pyx_t_9);
       /*try:*/ {
 
-        /* "dependency_injector/providers.pyx":2210
+        /* "dependency_injector/providers.pyx":2211
  * 
  *         try:
  *             instance = self.__storage.instance             # <<<<<<<<<<<<<<
  *         except AttributeError:
  *             instance = __factory_call(self.__instantiator, args, kwargs)
  */
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->__pyx___storage, __pyx_n_s_instance); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2210, __pyx_L6_error)
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->__pyx___storage, __pyx_n_s_instance); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2211, __pyx_L6_error)
         __Pyx_GOTREF(__pyx_t_1);
         __pyx_v_instance = __pyx_t_1;
         __pyx_t_1 = 0;
 
-        /* "dependency_injector/providers.pyx":2209
+        /* "dependency_injector/providers.pyx":2210
  *         cdef object instance
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -39815,7 +39815,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "dependency_injector/providers.pyx":2211
+      /* "dependency_injector/providers.pyx":2212
  *         try:
  *             instance = self.__storage.instance
  *         except AttributeError:             # <<<<<<<<<<<<<<
@@ -39825,12 +39825,12 @@ static PyObject *__pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton
       __pyx_t_5 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_AttributeError);
       if (__pyx_t_5) {
         __Pyx_AddTraceback("dependency_injector.providers.ThreadLocalSingleton._provide", __pyx_clineno, __pyx_lineno, __pyx_filename);
-        if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_2, &__pyx_t_3) < 0) __PYX_ERR(1, 2211, __pyx_L8_except_error)
+        if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_2, &__pyx_t_3) < 0) __PYX_ERR(1, 2212, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_GOTREF(__pyx_t_3);
 
-        /* "dependency_injector/providers.pyx":2212
+        /* "dependency_injector/providers.pyx":2213
  *             instance = self.__storage.instance
  *         except AttributeError:
  *             instance = __factory_call(self.__instantiator, args, kwargs)             # <<<<<<<<<<<<<<
@@ -39839,20 +39839,20 @@ static PyObject *__pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton
  */
         __pyx_t_6 = ((PyObject *)__pyx_v_self->__pyx_base.__pyx___instantiator);
         __Pyx_INCREF(__pyx_t_6);
-        __pyx_t_4 = __pyx_f_19dependency_injector_9providers___factory_call(((struct __pyx_obj_19dependency_injector_9providers_Factory *)__pyx_t_6), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2212, __pyx_L8_except_error)
+        __pyx_t_4 = __pyx_f_19dependency_injector_9providers___factory_call(((struct __pyx_obj_19dependency_injector_9providers_Factory *)__pyx_t_6), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2213, __pyx_L8_except_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_XDECREF_SET(__pyx_v_instance, __pyx_t_4);
         __pyx_t_4 = 0;
 
-        /* "dependency_injector/providers.pyx":2213
+        /* "dependency_injector/providers.pyx":2214
  *         except AttributeError:
  *             instance = __factory_call(self.__instantiator, args, kwargs)
  *             self.__storage.instance = instance             # <<<<<<<<<<<<<<
  *         finally:
  *             return instance
  */
-        if (__Pyx_PyObject_SetAttrStr(__pyx_v_self->__pyx___storage, __pyx_n_s_instance, __pyx_v_instance) < 0) __PYX_ERR(1, 2213, __pyx_L8_except_error)
+        if (__Pyx_PyObject_SetAttrStr(__pyx_v_self->__pyx___storage, __pyx_n_s_instance, __pyx_v_instance) < 0) __PYX_ERR(1, 2214, __pyx_L8_except_error)
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -39861,7 +39861,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton
       goto __pyx_L8_except_error;
       __pyx_L8_except_error:;
 
-      /* "dependency_injector/providers.pyx":2209
+      /* "dependency_injector/providers.pyx":2210
  *         cdef object instance
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -39882,7 +39882,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton
     }
   }
 
-  /* "dependency_injector/providers.pyx":2215
+  /* "dependency_injector/providers.pyx":2216
  *             self.__storage.instance = instance
  *         finally:
  *             return instance             # <<<<<<<<<<<<<<
@@ -39916,7 +39916,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton
       __Pyx_XGOTREF(__pyx_t_12);
       {
         __Pyx_XDECREF(__pyx_r);
-        if (unlikely(!__pyx_v_instance)) { __Pyx_RaiseUnboundLocalError("instance"); __PYX_ERR(1, 2215, __pyx_L15_error) }
+        if (unlikely(!__pyx_v_instance)) { __Pyx_RaiseUnboundLocalError("instance"); __PYX_ERR(1, 2216, __pyx_L15_error) }
         __Pyx_INCREF(__pyx_v_instance);
         __pyx_r = __pyx_v_instance;
         goto __pyx_L14_return;
@@ -39948,7 +39948,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton
     }
   }
 
-  /* "dependency_injector/providers.pyx":2205
+  /* "dependency_injector/providers.pyx":2206
  *         del self.__storage.instance
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -40007,11 +40007,11 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_20ThreadLocalSingleto
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_kwargs)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 2205, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 2206, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 2205, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 2206, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -40024,14 +40024,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_20ThreadLocalSingleto
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2205, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2206, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.ThreadLocalSingleton._provide", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 2205, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 2205, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 2206, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 2206, __pyx_L1_error)
   __pyx_r = __pyx_pf_19dependency_injector_9providers_20ThreadLocalSingleton_4_provide(((struct __pyx_obj_19dependency_injector_9providers_ThreadLocalSingleton *)__pyx_v_self), __pyx_v_args, __pyx_v_kwargs);
 
   /* function exit code */
@@ -40052,7 +40052,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_20ThreadLocalSingleto
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_provide", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2205, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2206, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -40723,7 +40723,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_29DelegatedThreadLoca
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2250
+/* "dependency_injector/providers.pyx":2251
  *     """
  * 
  *     def __call__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -40776,7 +40776,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton__
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__call__", 0);
 
-  /* "dependency_injector/providers.pyx":2255
+  /* "dependency_injector/providers.pyx":2256
  *         Callable interface implementation.
  *         """
  *         if self.__last_overriding is None:             # <<<<<<<<<<<<<<
@@ -40787,16 +40787,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton__
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dependency_injector/providers.pyx":2256
+    /* "dependency_injector/providers.pyx":2257
  *         """
  *         if self.__last_overriding is None:
  *             raise Error('{0} must be overridden before calling'.format(self))             # <<<<<<<<<<<<<<
  *         return self.__last_overriding(*args, **kwargs)
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2256, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2257, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_must_be_overridden_before_cal, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2256, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_must_be_overridden_before_cal, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2257, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -40810,7 +40810,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton__
     }
     __pyx_t_5 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, ((PyObject *)__pyx_v_self)) : __Pyx_PyObject_CallOneArg(__pyx_t_6, ((PyObject *)__pyx_v_self));
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2256, __pyx_L1_error)
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2257, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_6 = NULL;
@@ -40826,14 +40826,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton__
     __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2256, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2257, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 2256, __pyx_L1_error)
+    __PYX_ERR(1, 2257, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":2255
+    /* "dependency_injector/providers.pyx":2256
  *         Callable interface implementation.
  *         """
  *         if self.__last_overriding is None:             # <<<<<<<<<<<<<<
@@ -40842,7 +40842,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton__
  */
   }
 
-  /* "dependency_injector/providers.pyx":2257
+  /* "dependency_injector/providers.pyx":2258
  *         if self.__last_overriding is None:
  *             raise Error('{0} must be overridden before calling'.format(self))
  *         return self.__last_overriding(*args, **kwargs)             # <<<<<<<<<<<<<<
@@ -40850,13 +40850,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton__
  *     def override(self, provider):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2257, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding), __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2258, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2250
+  /* "dependency_injector/providers.pyx":2251
  *     """
  * 
  *     def __call__(self, *args, **kwargs):             # <<<<<<<<<<<<<<
@@ -40879,7 +40879,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton__
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2259
+/* "dependency_injector/providers.pyx":2260
  *         return self.__last_overriding(*args, **kwargs)
  * 
  *     def override(self, provider):             # <<<<<<<<<<<<<<
@@ -40918,7 +40918,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_2
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("override", 0);
 
-  /* "dependency_injector/providers.pyx":2270
+  /* "dependency_injector/providers.pyx":2271
  *         :rtype: :py:class:`OverridingContext`
  *         """
  *         if not isinstance(provider, BaseSingleton):             # <<<<<<<<<<<<<<
@@ -40929,24 +40929,24 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_2
   __pyx_t_2 = ((!(__pyx_t_1 != 0)) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dependency_injector/providers.pyx":2271
+    /* "dependency_injector/providers.pyx":2272
  *         """
  *         if not isinstance(provider, BaseSingleton):
  *             raise Error('{0} must be overridden only by '             # <<<<<<<<<<<<<<
  *                         '{1} providers'.format(self, BaseSingleton))
  *         return super(AbstractSingleton, self).override(provider)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2271, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2272, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
 
-    /* "dependency_injector/providers.pyx":2272
+    /* "dependency_injector/providers.pyx":2273
  *         if not isinstance(provider, BaseSingleton):
  *             raise Error('{0} must be overridden only by '
  *                         '{1} providers'.format(self, BaseSingleton))             # <<<<<<<<<<<<<<
  *         return super(AbstractSingleton, self).override(provider)
  * 
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_must_be_overridden_only_by_1, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2272, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_must_be_overridden_only_by_1, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2273, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     __pyx_t_8 = 0;
@@ -40963,7 +40963,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_2
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_7, ((PyObject *)__pyx_v_self), ((PyObject *)__pyx_ptype_19dependency_injector_9providers_BaseSingleton)};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2272, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2273, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
     } else
@@ -40971,13 +40971,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_2
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_7, ((PyObject *)__pyx_v_self), ((PyObject *)__pyx_ptype_19dependency_injector_9providers_BaseSingleton)};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2272, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2273, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_GOTREF(__pyx_t_5);
     } else
     #endif
     {
-      __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 2272, __pyx_L1_error)
+      __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 2273, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       if (__pyx_t_7) {
         __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -40988,7 +40988,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_2
       __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_BaseSingleton));
       __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_BaseSingleton));
       PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, ((PyObject *)__pyx_ptype_19dependency_injector_9providers_BaseSingleton));
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2272, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2273, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     }
@@ -41006,14 +41006,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_2
     __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2271, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2272, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 2271, __pyx_L1_error)
+    __PYX_ERR(1, 2272, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":2270
+    /* "dependency_injector/providers.pyx":2271
  *         :rtype: :py:class:`OverridingContext`
  *         """
  *         if not isinstance(provider, BaseSingleton):             # <<<<<<<<<<<<<<
@@ -41022,7 +41022,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_2
  */
   }
 
-  /* "dependency_injector/providers.pyx":2273
+  /* "dependency_injector/providers.pyx":2274
  *             raise Error('{0} must be overridden only by '
  *                         '{1} providers'.format(self, BaseSingleton))
  *         return super(AbstractSingleton, self).override(provider)             # <<<<<<<<<<<<<<
@@ -41030,7 +41030,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_2
  *     def reset(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2273, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2274, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_AbstractSingleton));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_AbstractSingleton));
@@ -41038,10 +41038,10 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_2
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_4, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2273, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2274, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_override); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2273, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_override); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2274, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -41056,14 +41056,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_2
   }
   __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_v_provider) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_provider);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2273, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2274, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2259
+  /* "dependency_injector/providers.pyx":2260
  *         return self.__last_overriding(*args, **kwargs)
  * 
  *     def override(self, provider):             # <<<<<<<<<<<<<<
@@ -41087,7 +41087,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_2
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2275
+/* "dependency_injector/providers.pyx":2276
  *         return super(AbstractSingleton, self).override(provider)
  * 
  *     def reset(self):             # <<<<<<<<<<<<<<
@@ -41124,7 +41124,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_4
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("reset", 0);
 
-  /* "dependency_injector/providers.pyx":2280
+  /* "dependency_injector/providers.pyx":2281
  *         :rtype: None
  *         """
  *         if self.__last_overriding is None:             # <<<<<<<<<<<<<<
@@ -41135,16 +41135,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_4
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dependency_injector/providers.pyx":2281
+    /* "dependency_injector/providers.pyx":2282
  *         """
  *         if self.__last_overriding is None:
  *             raise Error('{0} must be overridden before calling'.format(self))             # <<<<<<<<<<<<<<
  *         return self.__last_overriding.reset()
  * 
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2281, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2282, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_must_be_overridden_before_cal, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2281, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_must_be_overridden_before_cal, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2282, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -41158,7 +41158,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_4
     }
     __pyx_t_5 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, ((PyObject *)__pyx_v_self)) : __Pyx_PyObject_CallOneArg(__pyx_t_6, ((PyObject *)__pyx_v_self));
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2281, __pyx_L1_error)
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2282, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_6 = NULL;
@@ -41174,14 +41174,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_4
     __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2281, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2282, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 2281, __pyx_L1_error)
+    __PYX_ERR(1, 2282, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":2280
+    /* "dependency_injector/providers.pyx":2281
  *         :rtype: None
  *         """
  *         if self.__last_overriding is None:             # <<<<<<<<<<<<<<
@@ -41190,7 +41190,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_4
  */
   }
 
-  /* "dependency_injector/providers.pyx":2282
+  /* "dependency_injector/providers.pyx":2283
  *         if self.__last_overriding is None:
  *             raise Error('{0} must be overridden before calling'.format(self))
  *         return self.__last_overriding.reset()             # <<<<<<<<<<<<<<
@@ -41198,7 +41198,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_4
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding), __pyx_n_s_reset); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2282, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self->__pyx_base.__pyx_base.__pyx___last_overriding), __pyx_n_s_reset); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2283, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -41212,14 +41212,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_4
   }
   __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2282, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2283, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2275
+  /* "dependency_injector/providers.pyx":2276
  *         return super(AbstractSingleton, self).override(provider)
  * 
  *     def reset(self):             # <<<<<<<<<<<<<<
@@ -41559,7 +41559,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17AbstractSingleton_8
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2295
+/* "dependency_injector/providers.pyx":2296
  *     """
  * 
  *     def __init__(self, singleton):             # <<<<<<<<<<<<<<
@@ -41600,7 +41600,7 @@ static int __pyx_pw_19dependency_injector_9providers_17SingletonDelegate_1__init
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 2295, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 2296, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -41611,7 +41611,7 @@ static int __pyx_pw_19dependency_injector_9providers_17SingletonDelegate_1__init
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2295, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2296, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.SingletonDelegate.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -41642,7 +41642,7 @@ static int __pyx_pf_19dependency_injector_9providers_17SingletonDelegate___init_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dependency_injector/providers.pyx":2301
+  /* "dependency_injector/providers.pyx":2302
  *         :type singleton: py:class:`BaseSingleton`
  *         """
  *         if isinstance(singleton, BaseSingleton) is False:             # <<<<<<<<<<<<<<
@@ -41653,26 +41653,26 @@ static int __pyx_pf_19dependency_injector_9providers_17SingletonDelegate___init_
   __pyx_t_2 = ((__pyx_t_1 == 0) != 0);
   if (unlikely(__pyx_t_2)) {
 
-    /* "dependency_injector/providers.pyx":2302
+    /* "dependency_injector/providers.pyx":2303
  *         """
  *         if isinstance(singleton, BaseSingleton) is False:
  *             raise Error('{0} can wrap only {1} providers'.format(             # <<<<<<<<<<<<<<
  *                 self.__class__, BaseSingleton))
  *         super(SingletonDelegate, self).__init__(singleton)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2302, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Error); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2303, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_can_wrap_only_1_providers, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2302, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_can_wrap_only_1_providers, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2303, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
 
-    /* "dependency_injector/providers.pyx":2303
+    /* "dependency_injector/providers.pyx":2304
  *         if isinstance(singleton, BaseSingleton) is False:
  *             raise Error('{0} can wrap only {1} providers'.format(
  *                 self.__class__, BaseSingleton))             # <<<<<<<<<<<<<<
  *         super(SingletonDelegate, self).__init__(singleton)
  * 
  */
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 2303, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 2304, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_8 = NULL;
     __pyx_t_9 = 0;
@@ -41689,7 +41689,7 @@ static int __pyx_pf_19dependency_injector_9providers_17SingletonDelegate___init_
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_7, ((PyObject *)__pyx_ptype_19dependency_injector_9providers_BaseSingleton)};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2302, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2303, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -41698,14 +41698,14 @@ static int __pyx_pf_19dependency_injector_9providers_17SingletonDelegate___init_
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_7, ((PyObject *)__pyx_ptype_19dependency_injector_9providers_BaseSingleton)};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2302, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2303, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     } else
     #endif
     {
-      __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 2302, __pyx_L1_error)
+      __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 2303, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
       if (__pyx_t_8) {
         __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -41716,7 +41716,7 @@ static int __pyx_pf_19dependency_injector_9providers_17SingletonDelegate___init_
       __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_BaseSingleton));
       PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, ((PyObject *)__pyx_ptype_19dependency_injector_9providers_BaseSingleton));
       __pyx_t_7 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2302, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2303, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     }
@@ -41734,14 +41734,14 @@ static int __pyx_pf_19dependency_injector_9providers_17SingletonDelegate___init_
     __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2302, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2303, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 2302, __pyx_L1_error)
+    __PYX_ERR(1, 2303, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":2301
+    /* "dependency_injector/providers.pyx":2302
  *         :type singleton: py:class:`BaseSingleton`
  *         """
  *         if isinstance(singleton, BaseSingleton) is False:             # <<<<<<<<<<<<<<
@@ -41750,14 +41750,14 @@ static int __pyx_pf_19dependency_injector_9providers_17SingletonDelegate___init_
  */
   }
 
-  /* "dependency_injector/providers.pyx":2304
+  /* "dependency_injector/providers.pyx":2305
  *             raise Error('{0} can wrap only {1} providers'.format(
  *                 self.__class__, BaseSingleton))
  *         super(SingletonDelegate, self).__init__(singleton)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2304, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2305, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_SingletonDelegate));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_SingletonDelegate));
@@ -41765,10 +41765,10 @@ static int __pyx_pf_19dependency_injector_9providers_17SingletonDelegate___init_
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_4, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2304, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2305, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_init); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2304, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_init); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2305, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -41783,12 +41783,12 @@ static int __pyx_pf_19dependency_injector_9providers_17SingletonDelegate___init_
   }
   __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_v_singleton) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_singleton);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2304, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2305, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":2295
+  /* "dependency_injector/providers.pyx":2296
  *     """
  * 
  *     def __init__(self, singleton):             # <<<<<<<<<<<<<<
@@ -42131,7 +42131,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_17SingletonDelegate_4
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2337
+/* "dependency_injector/providers.pyx":2338
  *     """
  * 
  *     def __init__(self, *args):             # <<<<<<<<<<<<<<
@@ -42172,14 +42172,14 @@ static int __pyx_pf_19dependency_injector_9providers_4List___init__(struct __pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dependency_injector/providers.pyx":2339
+  /* "dependency_injector/providers.pyx":2340
  *     def __init__(self, *args):
  *         """Initializer."""
  *         self.__args = tuple()             # <<<<<<<<<<<<<<
  *         self.__args_len = 0
  *         self.set_args(*args)
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)(&PyTuple_Type))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2339, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)(&PyTuple_Type))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2340, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->__pyx___args);
@@ -42187,7 +42187,7 @@ static int __pyx_pf_19dependency_injector_9providers_4List___init__(struct __pyx
   __pyx_v_self->__pyx___args = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2340
+  /* "dependency_injector/providers.pyx":2341
  *         """Initializer."""
  *         self.__args = tuple()
  *         self.__args_len = 0             # <<<<<<<<<<<<<<
@@ -42196,28 +42196,28 @@ static int __pyx_pf_19dependency_injector_9providers_4List___init__(struct __pyx
  */
   __pyx_v_self->__pyx___args_len = 0;
 
-  /* "dependency_injector/providers.pyx":2341
+  /* "dependency_injector/providers.pyx":2342
  *         self.__args = tuple()
  *         self.__args_len = 0
  *         self.set_args(*args)             # <<<<<<<<<<<<<<
  *         super(List, self).__init__()
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_set_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2341, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_set_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2342, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_args, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2341, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_args, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2342, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":2342
+  /* "dependency_injector/providers.pyx":2343
  *         self.__args_len = 0
  *         self.set_args(*args)
  *         super(List, self).__init__()             # <<<<<<<<<<<<<<
  * 
  *     def __deepcopy__(self, memo):
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2342, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2343, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_List));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_List));
@@ -42225,10 +42225,10 @@ static int __pyx_pf_19dependency_injector_9providers_4List___init__(struct __pyx
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2342, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2343, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2342, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2343, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -42243,12 +42243,12 @@ static int __pyx_pf_19dependency_injector_9providers_4List___init__(struct __pyx
   }
   __pyx_t_2 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2342, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2343, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":2337
+  /* "dependency_injector/providers.pyx":2338
  *     """
  * 
  *     def __init__(self, *args):             # <<<<<<<<<<<<<<
@@ -42270,7 +42270,7 @@ static int __pyx_pf_19dependency_injector_9providers_4List___init__(struct __pyx
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2344
+/* "dependency_injector/providers.pyx":2345
  *         super(List, self).__init__()
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -42308,16 +42308,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_2__deepcopy__(s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__deepcopy__", 0);
 
-  /* "dependency_injector/providers.pyx":2346
+  /* "dependency_injector/providers.pyx":2347
  *     def __deepcopy__(self, memo):
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))             # <<<<<<<<<<<<<<
  *         if copied is not None:
  *             return copied
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2346, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2347, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2346, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2347, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -42332,13 +42332,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_2__deepcopy__(s
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2346, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2347, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_copied = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2347
+  /* "dependency_injector/providers.pyx":2348
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -42349,7 +42349,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_2__deepcopy__(s
   __pyx_t_6 = (__pyx_t_5 != 0);
   if (__pyx_t_6) {
 
-    /* "dependency_injector/providers.pyx":2348
+    /* "dependency_injector/providers.pyx":2349
  *         copied = memo.get(id(self))
  *         if copied is not None:
  *             return copied             # <<<<<<<<<<<<<<
@@ -42361,7 +42361,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_2__deepcopy__(s
     __pyx_r = __pyx_v_copied;
     goto __pyx_L0;
 
-    /* "dependency_injector/providers.pyx":2347
+    /* "dependency_injector/providers.pyx":2348
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -42370,45 +42370,45 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_2__deepcopy__(s
  */
   }
 
-  /* "dependency_injector/providers.pyx":2350
+  /* "dependency_injector/providers.pyx":2351
  *             return copied
  * 
  *         copied = self.__class__(*deepcopy(self.args, memo))             # <<<<<<<<<<<<<<
  *         self._copy_overridings(copied, memo)
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2350, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2351, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2350, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_args); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2351, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2350, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2351, __pyx_L1_error)
   __pyx_t_7.__pyx_n = 1;
   __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_3 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_2, 0, &__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2350, __pyx_L1_error)
+  __pyx_t_3 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_2, 0, &__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2351, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2350, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PySequence_Tuple(__pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2351, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2350, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2351, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF_SET(__pyx_v_copied, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":2351
+  /* "dependency_injector/providers.pyx":2352
  * 
  *         copied = self.__class__(*deepcopy(self.args, memo))
  *         self._copy_overridings(copied, memo)             # <<<<<<<<<<<<<<
  * 
  *         return copied
  */
-  if (!(likely(((__pyx_v_copied) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_copied, __pyx_ptype_19dependency_injector_9providers_Provider))))) __PYX_ERR(1, 2351, __pyx_L1_error)
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2351, __pyx_L1_error)
+  if (!(likely(((__pyx_v_copied) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_copied, __pyx_ptype_19dependency_injector_9providers_Provider))))) __PYX_ERR(1, 2352, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2352, __pyx_L1_error)
   ((struct __pyx_vtabstruct_19dependency_injector_9providers_List *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), ((PyObject*)__pyx_v_memo), 0);
 
-  /* "dependency_injector/providers.pyx":2353
+  /* "dependency_injector/providers.pyx":2354
  *         self._copy_overridings(copied, memo)
  * 
  *         return copied             # <<<<<<<<<<<<<<
@@ -42420,7 +42420,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_2__deepcopy__(s
   __pyx_r = __pyx_v_copied;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2344
+  /* "dependency_injector/providers.pyx":2345
  *         super(List, self).__init__()
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -42443,7 +42443,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_2__deepcopy__(s
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2355
+/* "dependency_injector/providers.pyx":2356
  *         return copied
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -42478,7 +42478,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_4__str__(struct
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__str__", 0);
 
-  /* "dependency_injector/providers.pyx":2360
+  /* "dependency_injector/providers.pyx":2361
  *         :rtype: str
  *         """
  *         return represent_provider(provider=self, provides=list(self.args))             # <<<<<<<<<<<<<<
@@ -42486,19 +42486,19 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_4__str__(struct
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2360, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2361, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PySequence_List(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2360, __pyx_L1_error)
+  __pyx_t_2 = PySequence_List(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2361, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_represent_provider(((PyObject *)__pyx_v_self), __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2360, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_represent_provider(((PyObject *)__pyx_v_self), __pyx_t_2, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2361, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2355
+  /* "dependency_injector/providers.pyx":2356
  *         return copied
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -42518,7 +42518,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_4__str__(struct
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2363
+/* "dependency_injector/providers.pyx":2364
  * 
  *     @property
  *     def args(self):             # <<<<<<<<<<<<<<
@@ -42555,19 +42555,19 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_4args___get__(s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dependency_injector/providers.pyx":2369
+  /* "dependency_injector/providers.pyx":2370
  *         cdef list args
  * 
  *         args = list()             # <<<<<<<<<<<<<<
  *         for index in range(self.__args_len):
  *             arg = self.__args[index]
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2369, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2370, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_args = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2370
+  /* "dependency_injector/providers.pyx":2371
  * 
  *         args = list()
  *         for index in range(self.__args_len):             # <<<<<<<<<<<<<<
@@ -42579,7 +42579,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_4args___get__(s
   for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
     __pyx_v_index = __pyx_t_4;
 
-    /* "dependency_injector/providers.pyx":2371
+    /* "dependency_injector/providers.pyx":2372
  *         args = list()
  *         for index in range(self.__args_len):
  *             arg = self.__args[index]             # <<<<<<<<<<<<<<
@@ -42588,15 +42588,15 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_4args___get__(s
  */
     if (unlikely(__pyx_v_self->__pyx___args == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(1, 2371, __pyx_L1_error)
+      __PYX_ERR(1, 2372, __pyx_L1_error)
     }
-    __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_self->__pyx___args, __pyx_v_index, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2371, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetItemInt_Tuple(__pyx_v_self->__pyx___args, __pyx_v_index, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2372, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_19dependency_injector_9providers_PositionalInjection))))) __PYX_ERR(1, 2371, __pyx_L1_error)
+    if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_19dependency_injector_9providers_PositionalInjection))))) __PYX_ERR(1, 2372, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_arg, ((struct __pyx_obj_19dependency_injector_9providers_PositionalInjection *)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":2372
+    /* "dependency_injector/providers.pyx":2373
  *         for index in range(self.__args_len):
  *             arg = self.__args[index]
  *             args.append(arg.__value)             # <<<<<<<<<<<<<<
@@ -42605,11 +42605,11 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_4args___get__(s
  */
     __pyx_t_1 = __pyx_v_arg->__pyx_base.__pyx___value;
     __Pyx_INCREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_args, __pyx_t_1); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(1, 2372, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_args, __pyx_t_1); if (unlikely(__pyx_t_5 == ((int)-1))) __PYX_ERR(1, 2373, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "dependency_injector/providers.pyx":2373
+  /* "dependency_injector/providers.pyx":2374
  *             arg = self.__args[index]
  *             args.append(arg.__value)
  *         return tuple(args)             # <<<<<<<<<<<<<<
@@ -42617,13 +42617,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_4args___get__(s
  *     def add_args(self, *args):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyList_AsTuple(__pyx_v_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2373, __pyx_L1_error)
+  __pyx_t_1 = PyList_AsTuple(__pyx_v_args); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2374, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2363
+  /* "dependency_injector/providers.pyx":2364
  * 
  *     @property
  *     def args(self):             # <<<<<<<<<<<<<<
@@ -42644,7 +42644,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_4args___get__(s
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2375
+/* "dependency_injector/providers.pyx":2376
  *         return tuple(args)
  * 
  *     def add_args(self, *args):             # <<<<<<<<<<<<<<
@@ -42682,16 +42682,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_6add_args(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("add_args", 0);
 
-  /* "dependency_injector/providers.pyx":2380
+  /* "dependency_injector/providers.pyx":2381
  *         :return: Reference ``self``
  *         """
  *         self.__args += parse_positional_injections(args)             # <<<<<<<<<<<<<<
  *         self.__args_len = len(self.__args)
  *         return self
  */
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_parse_positional_injections(__pyx_v_args, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2380, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_parse_positional_injections(__pyx_v_args, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2381, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_v_self->__pyx___args, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2380, __pyx_L1_error)
+  __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_v_self->__pyx___args, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2381, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_GIVEREF(__pyx_t_2);
@@ -42700,7 +42700,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_6add_args(struc
   __pyx_v_self->__pyx___args = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":2381
+  /* "dependency_injector/providers.pyx":2382
  *         """
  *         self.__args += parse_positional_injections(args)
  *         self.__args_len = len(self.__args)             # <<<<<<<<<<<<<<
@@ -42711,13 +42711,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_6add_args(struc
   __Pyx_INCREF(__pyx_t_2);
   if (unlikely(__pyx_t_2 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(1, 2381, __pyx_L1_error)
+    __PYX_ERR(1, 2382, __pyx_L1_error)
   }
-  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_t_2); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(1, 2381, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_GET_SIZE(__pyx_t_2); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(1, 2382, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_self->__pyx___args_len = __pyx_t_3;
 
-  /* "dependency_injector/providers.pyx":2382
+  /* "dependency_injector/providers.pyx":2383
  *         self.__args += parse_positional_injections(args)
  *         self.__args_len = len(self.__args)
  *         return self             # <<<<<<<<<<<<<<
@@ -42729,7 +42729,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_6add_args(struc
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2375
+  /* "dependency_injector/providers.pyx":2376
  *         return tuple(args)
  * 
  *     def add_args(self, *args):             # <<<<<<<<<<<<<<
@@ -42749,7 +42749,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_6add_args(struc
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2384
+/* "dependency_injector/providers.pyx":2385
  *         return self
  * 
  *     def set_args(self, *args):             # <<<<<<<<<<<<<<
@@ -42786,14 +42786,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_8set_args(struc
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_args", 0);
 
-  /* "dependency_injector/providers.pyx":2391
+  /* "dependency_injector/providers.pyx":2392
  *         :return: Reference ``self``
  *         """
  *         self.__args = parse_positional_injections(args)             # <<<<<<<<<<<<<<
  *         self.__args_len = len(self.__args)
  *         return self
  */
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_parse_positional_injections(__pyx_v_args, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2391, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_parse_positional_injections(__pyx_v_args, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2392, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->__pyx___args);
@@ -42801,7 +42801,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_8set_args(struc
   __pyx_v_self->__pyx___args = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2392
+  /* "dependency_injector/providers.pyx":2393
  *         """
  *         self.__args = parse_positional_injections(args)
  *         self.__args_len = len(self.__args)             # <<<<<<<<<<<<<<
@@ -42812,13 +42812,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_8set_args(struc
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(1, 2392, __pyx_L1_error)
+    __PYX_ERR(1, 2393, __pyx_L1_error)
   }
-  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(1, 2392, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(1, 2393, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->__pyx___args_len = __pyx_t_2;
 
-  /* "dependency_injector/providers.pyx":2393
+  /* "dependency_injector/providers.pyx":2394
  *         self.__args = parse_positional_injections(args)
  *         self.__args_len = len(self.__args)
  *         return self             # <<<<<<<<<<<<<<
@@ -42830,7 +42830,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_8set_args(struc
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2384
+  /* "dependency_injector/providers.pyx":2385
  *         return self
  * 
  *     def set_args(self, *args):             # <<<<<<<<<<<<<<
@@ -42849,7 +42849,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_8set_args(struc
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2395
+/* "dependency_injector/providers.pyx":2396
  *         return self
  * 
  *     def clear_args(self):             # <<<<<<<<<<<<<<
@@ -42881,14 +42881,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_10clear_args(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("clear_args", 0);
 
-  /* "dependency_injector/providers.pyx":2400
+  /* "dependency_injector/providers.pyx":2401
  *         :return: Reference ``self``
  *         """
  *         self.__args = tuple()             # <<<<<<<<<<<<<<
  *         self.__args_len = len(self.__args)
  *         return self
  */
-  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)(&PyTuple_Type))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2400, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallNoArg(((PyObject *)(&PyTuple_Type))); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2401, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __Pyx_GOTREF(__pyx_v_self->__pyx___args);
@@ -42896,7 +42896,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_10clear_args(st
   __pyx_v_self->__pyx___args = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2401
+  /* "dependency_injector/providers.pyx":2402
  *         """
  *         self.__args = tuple()
  *         self.__args_len = len(self.__args)             # <<<<<<<<<<<<<<
@@ -42907,13 +42907,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_10clear_args(st
   __Pyx_INCREF(__pyx_t_1);
   if (unlikely(__pyx_t_1 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(1, 2401, __pyx_L1_error)
+    __PYX_ERR(1, 2402, __pyx_L1_error)
   }
-  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(1, 2401, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(1, 2402, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_self->__pyx___args_len = __pyx_t_2;
 
-  /* "dependency_injector/providers.pyx":2402
+  /* "dependency_injector/providers.pyx":2403
  *         self.__args = tuple()
  *         self.__args_len = len(self.__args)
  *         return self             # <<<<<<<<<<<<<<
@@ -42925,7 +42925,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_10clear_args(st
   __pyx_r = ((PyObject *)__pyx_v_self);
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2395
+  /* "dependency_injector/providers.pyx":2396
  *         return self
  * 
  *     def clear_args(self):             # <<<<<<<<<<<<<<
@@ -42944,7 +42944,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_10clear_args(st
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2404
+/* "dependency_injector/providers.pyx":2405
  *         return self
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -42975,7 +42975,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_4List__provide(struct 
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2404, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2405, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_19dependency_injector_9providers_4List_13_provide)) {
         __Pyx_XDECREF(__pyx_r);
@@ -42995,7 +42995,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_4List__provide(struct 
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2404, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2405, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -43003,13 +43003,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_4List__provide(struct 
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2404, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2405, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2404, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2405, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           if (__pyx_t_4) {
             __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -43020,7 +43020,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_4List__provide(struct 
           __Pyx_INCREF(__pyx_v_kwargs);
           __Pyx_GIVEREF(__pyx_v_kwargs);
           PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_kwargs);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2404, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2405, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
@@ -43043,7 +43043,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_4List__provide(struct 
     #endif
   }
 
-  /* "dependency_injector/providers.pyx":2406
+  /* "dependency_injector/providers.pyx":2407
  *     cpdef object _provide(self, tuple args, dict kwargs):
  *         """Return result of provided callable's call."""
  *         return list(__provide_positional_args(args, self.__args, self.__args_len))             # <<<<<<<<<<<<<<
@@ -43053,17 +43053,17 @@ static PyObject *__pyx_f_19dependency_injector_9providers_4List__provide(struct 
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_1 = __pyx_v_self->__pyx___args;
   __Pyx_INCREF(__pyx_t_1);
-  __pyx_t_2 = __pyx_f_19dependency_injector_9providers___provide_positional_args(__pyx_v_args, ((PyObject*)__pyx_t_1), __pyx_v_self->__pyx___args_len); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2406, __pyx_L1_error)
+  __pyx_t_2 = __pyx_f_19dependency_injector_9providers___provide_positional_args(__pyx_v_args, ((PyObject*)__pyx_t_1), __pyx_v_self->__pyx___args_len); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2407, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PySequence_List(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2406, __pyx_L1_error)
+  __pyx_t_1 = PySequence_List(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2407, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2404
+  /* "dependency_injector/providers.pyx":2405
  *         return self
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -43121,11 +43121,11 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_4List_13_provide(PyOb
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_kwargs)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 2404, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 2405, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 2404, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 2405, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -43138,14 +43138,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_4List_13_provide(PyOb
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2404, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2405, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.List._provide", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 2404, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 2404, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 2405, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 2405, __pyx_L1_error)
   __pyx_r = __pyx_pf_19dependency_injector_9providers_4List_12_provide(((struct __pyx_obj_19dependency_injector_9providers_List *)__pyx_v_self), __pyx_v_args, __pyx_v_kwargs);
 
   /* function exit code */
@@ -43166,7 +43166,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_12_provide(stru
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_provide", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_4List__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2404, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_4List__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2405, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -43505,7 +43505,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_4List_16__setstate_cy
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2416
+/* "dependency_injector/providers.pyx":2417
  *     """
  * 
  *     def __init__(self, container_cls, container=None, **overriding_providers):             # <<<<<<<<<<<<<<
@@ -43559,7 +43559,7 @@ static int __pyx_pw_19dependency_injector_9providers_9Container_1__init__(PyObje
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_overriding_providers, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 2416, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_overriding_providers, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 2417, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -43575,7 +43575,7 @@ static int __pyx_pw_19dependency_injector_9providers_9Container_1__init__(PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2416, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2417, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_overriding_providers); __pyx_v_overriding_providers = 0;
   __Pyx_AddTraceback("dependency_injector.providers.Container.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -43604,7 +43604,7 @@ static int __pyx_pf_19dependency_injector_9providers_9Container___init__(struct 
   __Pyx_RefNannySetupContext("__init__", 0);
   __Pyx_INCREF(__pyx_v_container);
 
-  /* "dependency_injector/providers.pyx":2418
+  /* "dependency_injector/providers.pyx":2419
  *     def __init__(self, container_cls, container=None, **overriding_providers):
  *         """Initialize provider."""
  *         self.container_cls = container_cls             # <<<<<<<<<<<<<<
@@ -43617,7 +43617,7 @@ static int __pyx_pf_19dependency_injector_9providers_9Container___init__(struct 
   __Pyx_DECREF(__pyx_v_self->container_cls);
   __pyx_v_self->container_cls = __pyx_v_container_cls;
 
-  /* "dependency_injector/providers.pyx":2419
+  /* "dependency_injector/providers.pyx":2420
  *         """Initialize provider."""
  *         self.container_cls = container_cls
  *         self.overriding_providers = overriding_providers             # <<<<<<<<<<<<<<
@@ -43630,7 +43630,7 @@ static int __pyx_pf_19dependency_injector_9providers_9Container___init__(struct 
   __Pyx_DECREF(__pyx_v_self->overriding_providers);
   __pyx_v_self->overriding_providers = __pyx_v_overriding_providers;
 
-  /* "dependency_injector/providers.pyx":2421
+  /* "dependency_injector/providers.pyx":2422
  *         self.overriding_providers = overriding_providers
  * 
  *         if container is None:             # <<<<<<<<<<<<<<
@@ -43641,7 +43641,7 @@ static int __pyx_pf_19dependency_injector_9providers_9Container___init__(struct 
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "dependency_injector/providers.pyx":2422
+    /* "dependency_injector/providers.pyx":2423
  * 
  *         if container is None:
  *             container = container_cls()             # <<<<<<<<<<<<<<
@@ -43661,27 +43661,27 @@ static int __pyx_pf_19dependency_injector_9providers_9Container___init__(struct 
     }
     __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2422, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2423, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF_SET(__pyx_v_container, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "dependency_injector/providers.pyx":2423
+    /* "dependency_injector/providers.pyx":2424
  *         if container is None:
  *             container = container_cls()
  *             container.override_providers(**overriding_providers)             # <<<<<<<<<<<<<<
  *         self.container = container
  * 
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_container, __pyx_n_s_override_providers_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2423, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_container, __pyx_n_s_override_providers_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2424, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_empty_tuple, __pyx_v_overriding_providers); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2423, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_empty_tuple, __pyx_v_overriding_providers); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2424, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "dependency_injector/providers.pyx":2421
+    /* "dependency_injector/providers.pyx":2422
  *         self.overriding_providers = overriding_providers
  * 
  *         if container is None:             # <<<<<<<<<<<<<<
@@ -43690,7 +43690,7 @@ static int __pyx_pf_19dependency_injector_9providers_9Container___init__(struct 
  */
   }
 
-  /* "dependency_injector/providers.pyx":2424
+  /* "dependency_injector/providers.pyx":2425
  *             container = container_cls()
  *             container.override_providers(**overriding_providers)
  *         self.container = container             # <<<<<<<<<<<<<<
@@ -43703,14 +43703,14 @@ static int __pyx_pf_19dependency_injector_9providers_9Container___init__(struct 
   __Pyx_DECREF(__pyx_v_self->container);
   __pyx_v_self->container = __pyx_v_container;
 
-  /* "dependency_injector/providers.pyx":2426
+  /* "dependency_injector/providers.pyx":2427
  *         self.container = container
  * 
  *         super(Container, self).__init__()             # <<<<<<<<<<<<<<
  * 
  *     def __deepcopy__(self, memo):
  */
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2426, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2427, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Container));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Container));
@@ -43718,10 +43718,10 @@ static int __pyx_pf_19dependency_injector_9providers_9Container___init__(struct 
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_3, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2426, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2427, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2426, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_init); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2427, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -43736,12 +43736,12 @@ static int __pyx_pf_19dependency_injector_9providers_9Container___init__(struct 
   }
   __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2426, __pyx_L1_error)
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2427, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "dependency_injector/providers.pyx":2416
+  /* "dependency_injector/providers.pyx":2417
  *     """
  * 
  *     def __init__(self, container_cls, container=None, **overriding_providers):             # <<<<<<<<<<<<<<
@@ -43764,7 +43764,7 @@ static int __pyx_pf_19dependency_injector_9providers_9Container___init__(struct 
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2428
+/* "dependency_injector/providers.pyx":2429
  *         super(Container, self).__init__()
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -43803,16 +43803,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_2__deepcop
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__deepcopy__", 0);
 
-  /* "dependency_injector/providers.pyx":2430
+  /* "dependency_injector/providers.pyx":2431
  *     def __deepcopy__(self, memo):
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))             # <<<<<<<<<<<<<<
  *         if copied is not None:
  *             return copied
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2430, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2431, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2430, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2431, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -43827,13 +43827,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_2__deepcop
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2430, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2431, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_copied = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2431
+  /* "dependency_injector/providers.pyx":2432
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -43844,7 +43844,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_2__deepcop
   __pyx_t_6 = (__pyx_t_5 != 0);
   if (__pyx_t_6) {
 
-    /* "dependency_injector/providers.pyx":2432
+    /* "dependency_injector/providers.pyx":2433
  *         copied = memo.get(id(self))
  *         if copied is not None:
  *             return copied             # <<<<<<<<<<<<<<
@@ -43856,7 +43856,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_2__deepcop
     __pyx_r = __pyx_v_copied;
     goto __pyx_L0;
 
-    /* "dependency_injector/providers.pyx":2431
+    /* "dependency_injector/providers.pyx":2432
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -43865,17 +43865,17 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_2__deepcop
  */
   }
 
-  /* "dependency_injector/providers.pyx":2434
+  /* "dependency_injector/providers.pyx":2435
  *             return copied
  * 
  *         copied = self.__class__(             # <<<<<<<<<<<<<<
  *             self.container_cls,
  *             deepcopy(self.container, memo),
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2434, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2435, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "dependency_injector/providers.pyx":2436
+  /* "dependency_injector/providers.pyx":2437
  *         copied = self.__class__(
  *             self.container_cls,
  *             deepcopy(self.container, memo),             # <<<<<<<<<<<<<<
@@ -43884,21 +43884,21 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_2__deepcop
  */
   __pyx_t_2 = __pyx_v_self->container;
   __Pyx_INCREF(__pyx_t_2);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2436, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2437, __pyx_L1_error)
   __pyx_t_7.__pyx_n = 1;
   __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_3 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_2, 0, &__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2436, __pyx_L1_error)
+  __pyx_t_3 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_2, 0, &__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2437, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":2434
+  /* "dependency_injector/providers.pyx":2435
  *             return copied
  * 
  *         copied = self.__class__(             # <<<<<<<<<<<<<<
  *             self.container_cls,
  *             deepcopy(self.container, memo),
  */
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2434, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2435, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_self->container_cls);
   __Pyx_GIVEREF(__pyx_v_self->container_cls);
@@ -43907,7 +43907,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_2__deepcop
   PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":2437
+  /* "dependency_injector/providers.pyx":2438
  *             self.container_cls,
  *             deepcopy(self.container, memo),
  *             **deepcopy(self.overriding_providers, memo),             # <<<<<<<<<<<<<<
@@ -43916,34 +43916,34 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_2__deepcop
  */
   __pyx_t_4 = __pyx_v_self->overriding_providers;
   __Pyx_INCREF(__pyx_t_4);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2437, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2438, __pyx_L1_error)
   __pyx_t_7.__pyx_n = 1;
   __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_8 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_4, 0, &__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 2437, __pyx_L1_error)
+  __pyx_t_8 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_4, 0, &__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 2438, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (unlikely(__pyx_t_8 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "argument after ** must be a mapping, not NoneType");
-    __PYX_ERR(1, 2437, __pyx_L1_error)
+    __PYX_ERR(1, 2438, __pyx_L1_error)
   }
   if (likely(PyDict_CheckExact(__pyx_t_8))) {
-    __pyx_t_3 = PyDict_Copy(__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2437, __pyx_L1_error)
+    __pyx_t_3 = PyDict_Copy(__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2438, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   } else {
-    __pyx_t_3 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2434, __pyx_L1_error)
+    __pyx_t_3 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2435, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "dependency_injector/providers.pyx":2434
+  /* "dependency_injector/providers.pyx":2435
  *             return copied
  * 
  *         copied = self.__class__(             # <<<<<<<<<<<<<<
  *             self.container_cls,
  *             deepcopy(self.container, memo),
  */
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 2434, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 2435, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -43951,7 +43951,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_2__deepcop
   __Pyx_DECREF_SET(__pyx_v_copied, __pyx_t_8);
   __pyx_t_8 = 0;
 
-  /* "dependency_injector/providers.pyx":2440
+  /* "dependency_injector/providers.pyx":2441
  *         )
  * 
  *         return copied             # <<<<<<<<<<<<<<
@@ -43963,7 +43963,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_2__deepcop
   __pyx_r = __pyx_v_copied;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2428
+  /* "dependency_injector/providers.pyx":2429
  *         super(Container, self).__init__()
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -43987,7 +43987,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_2__deepcop
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2442
+/* "dependency_injector/providers.pyx":2443
  *         return copied
  * 
  *     def __getattr__(self, name):             # <<<<<<<<<<<<<<
@@ -44026,14 +44026,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_4__getattr
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getattr__", 0);
 
-  /* "dependency_injector/providers.pyx":2444
+  /* "dependency_injector/providers.pyx":2445
  *     def __getattr__(self, name):
  *         """Return dependency provider."""
  *         if name.startswith('__') and name.endswith('__'):             # <<<<<<<<<<<<<<
  *             raise AttributeError(
  *                 '\'{cls}\' object has no attribute '
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_name, __pyx_n_s_startswith); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2444, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_name, __pyx_n_s_startswith); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2445, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -44047,17 +44047,17 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_4__getattr
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_n_s__3) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_n_s__3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2444, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2445, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 2444, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 2445, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_5) {
   } else {
     __pyx_t_1 = __pyx_t_5;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_name, __pyx_n_s_endswith); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2444, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_name, __pyx_n_s_endswith); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2445, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -44071,70 +44071,70 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_4__getattr
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_n_s__3) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_n_s__3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2444, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2445, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 2444, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 2445, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_1 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "dependency_injector/providers.pyx":2447
+    /* "dependency_injector/providers.pyx":2448
  *             raise AttributeError(
  *                 '\'{cls}\' object has no attribute '
  *                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,             # <<<<<<<<<<<<<<
  *                                               attribute_name=name))
  *         return getattr(self.container, name)
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_cls_object_has_no_attribute_att, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2447, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_cls_object_has_no_attribute_att, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2448, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2447, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2448, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2447, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2448, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2447, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2448, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_cls, __pyx_t_6) < 0) __PYX_ERR(1, 2447, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_cls, __pyx_t_6) < 0) __PYX_ERR(1, 2448, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "dependency_injector/providers.pyx":2448
+    /* "dependency_injector/providers.pyx":2449
  *                 '\'{cls}\' object has no attribute '
  *                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
  *                                               attribute_name=name))             # <<<<<<<<<<<<<<
  *         return getattr(self.container, name)
  * 
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_attribute_name, __pyx_v_name) < 0) __PYX_ERR(1, 2447, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_attribute_name, __pyx_v_name) < 0) __PYX_ERR(1, 2448, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":2447
+    /* "dependency_injector/providers.pyx":2448
  *             raise AttributeError(
  *                 '\'{cls}\' object has no attribute '
  *                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,             # <<<<<<<<<<<<<<
  *                                               attribute_name=name))
  *         return getattr(self.container, name)
  */
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2447, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2448, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "dependency_injector/providers.pyx":2445
+    /* "dependency_injector/providers.pyx":2446
  *         """Return dependency provider."""
  *         if name.startswith('__') and name.endswith('__'):
  *             raise AttributeError(             # <<<<<<<<<<<<<<
  *                 '\'{cls}\' object has no attribute '
  *                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
  */
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_AttributeError, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2445, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_AttributeError, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2446, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 2445, __pyx_L1_error)
+    __PYX_ERR(1, 2446, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":2444
+    /* "dependency_injector/providers.pyx":2445
  *     def __getattr__(self, name):
  *         """Return dependency provider."""
  *         if name.startswith('__') and name.endswith('__'):             # <<<<<<<<<<<<<<
@@ -44143,7 +44143,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_4__getattr
  */
   }
 
-  /* "dependency_injector/providers.pyx":2449
+  /* "dependency_injector/providers.pyx":2450
  *                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
  *                                               attribute_name=name))
  *         return getattr(self.container, name)             # <<<<<<<<<<<<<<
@@ -44153,14 +44153,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_4__getattr
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_3 = __pyx_v_self->container;
   __Pyx_INCREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_GetAttr(__pyx_t_3, __pyx_v_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2449, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetAttr(__pyx_t_3, __pyx_v_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2450, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_r = __pyx_t_6;
   __pyx_t_6 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2442
+  /* "dependency_injector/providers.pyx":2443
  *         return copied
  * 
  *     def __getattr__(self, name):             # <<<<<<<<<<<<<<
@@ -44182,7 +44182,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_4__getattr
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2451
+/* "dependency_injector/providers.pyx":2452
  *         return getattr(self.container, name)
  * 
  *     def override(self, provider):             # <<<<<<<<<<<<<<
@@ -44217,16 +44217,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_6override(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("override", 0);
 
-  /* "dependency_injector/providers.pyx":2453
+  /* "dependency_injector/providers.pyx":2454
  *     def override(self, provider):
  *         """Override provider with another provider."""
  *         raise Error('Provider {0} can not be overridden'.format(self))             # <<<<<<<<<<<<<<
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Error); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2453, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Error); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2454, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Provider_0_can_not_be_overridden, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2453, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Provider_0_can_not_be_overridden, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2454, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
@@ -44240,7 +44240,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_6override(
   }
   __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, ((PyObject *)__pyx_v_self)) : __Pyx_PyObject_CallOneArg(__pyx_t_4, ((PyObject *)__pyx_v_self));
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2453, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2454, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -44256,14 +44256,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_6override(
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2453, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2454, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(1, 2453, __pyx_L1_error)
+  __PYX_ERR(1, 2454, __pyx_L1_error)
 
-  /* "dependency_injector/providers.pyx":2451
+  /* "dependency_injector/providers.pyx":2452
  *         return getattr(self.container, name)
  * 
  *     def override(self, provider):             # <<<<<<<<<<<<<<
@@ -44285,7 +44285,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_6override(
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2455
+/* "dependency_injector/providers.pyx":2456
  *         raise Error('Provider {0} can not be overridden'.format(self))
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -44316,7 +44316,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Container__provide(st
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2455, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2456, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_19dependency_injector_9providers_9Container_9_provide)) {
         __Pyx_XDECREF(__pyx_r);
@@ -44336,7 +44336,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Container__provide(st
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2455, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2456, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -44344,13 +44344,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Container__provide(st
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2455, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2456, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2455, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2456, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           if (__pyx_t_4) {
             __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -44361,7 +44361,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Container__provide(st
           __Pyx_INCREF(__pyx_v_kwargs);
           __Pyx_GIVEREF(__pyx_v_kwargs);
           PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_kwargs);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2455, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2456, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
@@ -44384,7 +44384,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Container__provide(st
     #endif
   }
 
-  /* "dependency_injector/providers.pyx":2457
+  /* "dependency_injector/providers.pyx":2458
  *     cpdef object _provide(self, tuple args, dict kwargs):
  *         """Return single instance."""
  *         return self.container             # <<<<<<<<<<<<<<
@@ -44396,7 +44396,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_9Container__provide(st
   __pyx_r = __pyx_v_self->container;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2455
+  /* "dependency_injector/providers.pyx":2456
  *         raise Error('Provider {0} can not be overridden'.format(self))
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -44454,11 +44454,11 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_9Container_9_provide(
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_kwargs)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 2455, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 2456, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 2455, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 2456, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -44471,14 +44471,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_9Container_9_provide(
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2455, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2456, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.Container._provide", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 2455, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 2455, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 2456, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 2456, __pyx_L1_error)
   __pyx_r = __pyx_pf_19dependency_injector_9providers_9Container_8_provide(((struct __pyx_obj_19dependency_injector_9providers_Container *)__pyx_v_self), __pyx_v_args, __pyx_v_kwargs);
 
   /* function exit code */
@@ -44499,7 +44499,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_8_provide(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_provide", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_9Container__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2455, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_9Container__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2456, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -44853,7 +44853,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Container_12__setsta
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2491
+/* "dependency_injector/providers.pyx":2492
  *     """
  * 
  *     def __init__(self, selector, **providers):             # <<<<<<<<<<<<<<
@@ -44897,7 +44897,7 @@ static int __pyx_pw_19dependency_injector_9providers_8Selector_1__init__(PyObjec
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_providers, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 2491, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, __pyx_v_providers, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 2492, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -44908,7 +44908,7 @@ static int __pyx_pw_19dependency_injector_9providers_8Selector_1__init__(PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2491, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2492, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_DECREF(__pyx_v_providers); __pyx_v_providers = 0;
   __Pyx_AddTraceback("dependency_injector.providers.Selector.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -44934,7 +44934,7 @@ static int __pyx_pf_19dependency_injector_9providers_8Selector___init__(struct _
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dependency_injector/providers.pyx":2493
+  /* "dependency_injector/providers.pyx":2494
  *     def __init__(self, selector, **providers):
  *         """Initialize provider."""
  *         self.__selector = selector             # <<<<<<<<<<<<<<
@@ -44947,7 +44947,7 @@ static int __pyx_pf_19dependency_injector_9providers_8Selector___init__(struct _
   __Pyx_DECREF(__pyx_v_self->__pyx___selector);
   __pyx_v_self->__pyx___selector = __pyx_v_selector;
 
-  /* "dependency_injector/providers.pyx":2494
+  /* "dependency_injector/providers.pyx":2495
  *         """Initialize provider."""
  *         self.__selector = selector
  *         self.__providers = providers             # <<<<<<<<<<<<<<
@@ -44960,14 +44960,14 @@ static int __pyx_pf_19dependency_injector_9providers_8Selector___init__(struct _
   __Pyx_DECREF(__pyx_v_self->__pyx___providers);
   __pyx_v_self->__pyx___providers = __pyx_v_providers;
 
-  /* "dependency_injector/providers.pyx":2495
+  /* "dependency_injector/providers.pyx":2496
  *         self.__selector = selector
  *         self.__providers = providers
  *         super(Selector, self).__init__()             # <<<<<<<<<<<<<<
  * 
  *     def __deepcopy__(self, memo):
  */
-  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2495, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2496, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Selector));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_Selector));
@@ -44975,10 +44975,10 @@ static int __pyx_pf_19dependency_injector_9providers_8Selector___init__(struct _
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_2, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2495, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2496, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2495, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_init); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2496, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -44993,12 +44993,12 @@ static int __pyx_pf_19dependency_injector_9providers_8Selector___init__(struct _
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2495, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2496, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2491
+  /* "dependency_injector/providers.pyx":2492
  *     """
  * 
  *     def __init__(self, selector, **providers):             # <<<<<<<<<<<<<<
@@ -45020,7 +45020,7 @@ static int __pyx_pf_19dependency_injector_9providers_8Selector___init__(struct _
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2497
+/* "dependency_injector/providers.pyx":2498
  *         super(Selector, self).__init__()
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -45059,16 +45059,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_2__deepcopy
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__deepcopy__", 0);
 
-  /* "dependency_injector/providers.pyx":2499
+  /* "dependency_injector/providers.pyx":2500
  *     def __deepcopy__(self, memo):
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))             # <<<<<<<<<<<<<<
  *         if copied is not None:
  *             return copied
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2499, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2500, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2499, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2500, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -45083,13 +45083,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_2__deepcopy
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2499, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2500, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_copied = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2500
+  /* "dependency_injector/providers.pyx":2501
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -45100,7 +45100,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_2__deepcopy
   __pyx_t_6 = (__pyx_t_5 != 0);
   if (__pyx_t_6) {
 
-    /* "dependency_injector/providers.pyx":2501
+    /* "dependency_injector/providers.pyx":2502
  *         copied = memo.get(id(self))
  *         if copied is not None:
  *             return copied             # <<<<<<<<<<<<<<
@@ -45112,7 +45112,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_2__deepcopy
     __pyx_r = __pyx_v_copied;
     goto __pyx_L0;
 
-    /* "dependency_injector/providers.pyx":2500
+    /* "dependency_injector/providers.pyx":2501
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -45121,17 +45121,17 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_2__deepcopy
  */
   }
 
-  /* "dependency_injector/providers.pyx":2503
+  /* "dependency_injector/providers.pyx":2504
  *             return copied
  * 
  *         copied = self.__class__(             # <<<<<<<<<<<<<<
  *             deepcopy(self.__selector, memo),
  *             **deepcopy(self.__providers, memo),
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2503, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2504, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "dependency_injector/providers.pyx":2504
+  /* "dependency_injector/providers.pyx":2505
  * 
  *         copied = self.__class__(
  *             deepcopy(self.__selector, memo),             # <<<<<<<<<<<<<<
@@ -45140,27 +45140,27 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_2__deepcopy
  */
   __pyx_t_2 = __pyx_v_self->__pyx___selector;
   __Pyx_INCREF(__pyx_t_2);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2504, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2505, __pyx_L1_error)
   __pyx_t_7.__pyx_n = 1;
   __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_3 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_2, 0, &__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2504, __pyx_L1_error)
+  __pyx_t_3 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_2, 0, &__pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2505, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":2503
+  /* "dependency_injector/providers.pyx":2504
  *             return copied
  * 
  *         copied = self.__class__(             # <<<<<<<<<<<<<<
  *             deepcopy(self.__selector, memo),
  *             **deepcopy(self.__providers, memo),
  */
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2503, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2504, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_3);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":2505
+  /* "dependency_injector/providers.pyx":2506
  *         copied = self.__class__(
  *             deepcopy(self.__selector, memo),
  *             **deepcopy(self.__providers, memo),             # <<<<<<<<<<<<<<
@@ -45169,34 +45169,34 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_2__deepcopy
  */
   __pyx_t_4 = __pyx_v_self->__pyx___providers;
   __Pyx_INCREF(__pyx_t_4);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2505, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2506, __pyx_L1_error)
   __pyx_t_7.__pyx_n = 1;
   __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_8 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_4, 0, &__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 2505, __pyx_L1_error)
+  __pyx_t_8 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_4, 0, &__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 2506, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (unlikely(__pyx_t_8 == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "argument after ** must be a mapping, not NoneType");
-    __PYX_ERR(1, 2505, __pyx_L1_error)
+    __PYX_ERR(1, 2506, __pyx_L1_error)
   }
   if (likely(PyDict_CheckExact(__pyx_t_8))) {
-    __pyx_t_3 = PyDict_Copy(__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2505, __pyx_L1_error)
+    __pyx_t_3 = PyDict_Copy(__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2506, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   } else {
-    __pyx_t_3 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2503, __pyx_L1_error)
+    __pyx_t_3 = PyObject_CallFunctionObjArgs((PyObject*)&PyDict_Type, __pyx_t_8, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2504, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
 
-  /* "dependency_injector/providers.pyx":2503
+  /* "dependency_injector/providers.pyx":2504
  *             return copied
  * 
  *         copied = self.__class__(             # <<<<<<<<<<<<<<
  *             deepcopy(self.__selector, memo),
  *             **deepcopy(self.__providers, memo),
  */
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 2503, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 2504, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -45204,18 +45204,18 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_2__deepcopy
   __Pyx_DECREF_SET(__pyx_v_copied, __pyx_t_8);
   __pyx_t_8 = 0;
 
-  /* "dependency_injector/providers.pyx":2507
+  /* "dependency_injector/providers.pyx":2508
  *             **deepcopy(self.__providers, memo),
  *         )
  *         self._copy_overridings(copied, memo)             # <<<<<<<<<<<<<<
  * 
  *         return copied
  */
-  if (!(likely(((__pyx_v_copied) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_copied, __pyx_ptype_19dependency_injector_9providers_Provider))))) __PYX_ERR(1, 2507, __pyx_L1_error)
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2507, __pyx_L1_error)
+  if (!(likely(((__pyx_v_copied) == Py_None) || likely(__Pyx_TypeTest(__pyx_v_copied, __pyx_ptype_19dependency_injector_9providers_Provider))))) __PYX_ERR(1, 2508, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2508, __pyx_L1_error)
   ((struct __pyx_vtabstruct_19dependency_injector_9providers_Selector *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base._copy_overridings(((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_self), ((struct __pyx_obj_19dependency_injector_9providers_Provider *)__pyx_v_copied), ((PyObject*)__pyx_v_memo), 0);
 
-  /* "dependency_injector/providers.pyx":2509
+  /* "dependency_injector/providers.pyx":2510
  *         self._copy_overridings(copied, memo)
  * 
  *         return copied             # <<<<<<<<<<<<<<
@@ -45227,7 +45227,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_2__deepcopy
   __pyx_r = __pyx_v_copied;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2497
+  /* "dependency_injector/providers.pyx":2498
  *         super(Selector, self).__init__()
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -45251,7 +45251,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_2__deepcopy
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2511
+/* "dependency_injector/providers.pyx":2512
  *         return copied
  * 
  *     def __getattr__(self, name):             # <<<<<<<<<<<<<<
@@ -45290,14 +45290,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_4__getattr_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__getattr__", 0);
 
-  /* "dependency_injector/providers.pyx":2513
+  /* "dependency_injector/providers.pyx":2514
  *     def __getattr__(self, name):
  *         """Return provider."""
  *         if name.startswith('__') and name.endswith('__'):             # <<<<<<<<<<<<<<
  *             raise AttributeError(
  *                 '\'{cls}\' object has no attribute '
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_name, __pyx_n_s_startswith); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2513, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_name, __pyx_n_s_startswith); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2514, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -45311,17 +45311,17 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_4__getattr_
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_n_s__3) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_n_s__3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2513, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2514, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 2513, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 2514, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_5) {
   } else {
     __pyx_t_1 = __pyx_t_5;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_name, __pyx_n_s_endswith); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2513, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_name, __pyx_n_s_endswith); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2514, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_3))) {
@@ -45335,70 +45335,70 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_4__getattr_
   }
   __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_n_s__3) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_n_s__3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2513, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2514, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 2513, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(1, 2514, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_1 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
-    /* "dependency_injector/providers.pyx":2516
+    /* "dependency_injector/providers.pyx":2517
  *             raise AttributeError(
  *                 '\'{cls}\' object has no attribute '
  *                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,             # <<<<<<<<<<<<<<
  *                                               attribute_name=name))
  *         if name not in self.__providers:
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_cls_object_has_no_attribute_att, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2516, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_cls_object_has_no_attribute_att, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2517, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2516, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2517, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2516, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2517, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2516, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2517, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_cls, __pyx_t_6) < 0) __PYX_ERR(1, 2516, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_cls, __pyx_t_6) < 0) __PYX_ERR(1, 2517, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "dependency_injector/providers.pyx":2517
+    /* "dependency_injector/providers.pyx":2518
  *                 '\'{cls}\' object has no attribute '
  *                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
  *                                               attribute_name=name))             # <<<<<<<<<<<<<<
  *         if name not in self.__providers:
  *             raise AttributeError('Selector has no "{0}" provider'.format(name))
  */
-    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_attribute_name, __pyx_v_name) < 0) __PYX_ERR(1, 2516, __pyx_L1_error)
+    if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_attribute_name, __pyx_v_name) < 0) __PYX_ERR(1, 2517, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":2516
+    /* "dependency_injector/providers.pyx":2517
  *             raise AttributeError(
  *                 '\'{cls}\' object has no attribute '
  *                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,             # <<<<<<<<<<<<<<
  *                                               attribute_name=name))
  *         if name not in self.__providers:
  */
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2516, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_empty_tuple, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2517, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "dependency_injector/providers.pyx":2514
+    /* "dependency_injector/providers.pyx":2515
  *         """Return provider."""
  *         if name.startswith('__') and name.endswith('__'):
  *             raise AttributeError(             # <<<<<<<<<<<<<<
  *                 '\'{cls}\' object has no attribute '
  *                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
  */
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_AttributeError, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2514, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_AttributeError, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2515, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(1, 2514, __pyx_L1_error)
+    __PYX_ERR(1, 2515, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":2513
+    /* "dependency_injector/providers.pyx":2514
  *     def __getattr__(self, name):
  *         """Return provider."""
  *         if name.startswith('__') and name.endswith('__'):             # <<<<<<<<<<<<<<
@@ -45407,7 +45407,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_4__getattr_
  */
   }
 
-  /* "dependency_injector/providers.pyx":2518
+  /* "dependency_injector/providers.pyx":2519
  *                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
  *                                               attribute_name=name))
  *         if name not in self.__providers:             # <<<<<<<<<<<<<<
@@ -45416,20 +45416,20 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_4__getattr_
  */
   if (unlikely(__pyx_v_self->__pyx___providers == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(1, 2518, __pyx_L1_error)
+    __PYX_ERR(1, 2519, __pyx_L1_error)
   }
-  __pyx_t_1 = (__Pyx_PyDict_ContainsTF(__pyx_v_name, __pyx_v_self->__pyx___providers, Py_NE)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 2518, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyDict_ContainsTF(__pyx_v_name, __pyx_v_self->__pyx___providers, Py_NE)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(1, 2519, __pyx_L1_error)
   __pyx_t_5 = (__pyx_t_1 != 0);
   if (unlikely(__pyx_t_5)) {
 
-    /* "dependency_injector/providers.pyx":2519
+    /* "dependency_injector/providers.pyx":2520
  *                                               attribute_name=name))
  *         if name not in self.__providers:
  *             raise AttributeError('Selector has no "{0}" provider'.format(name))             # <<<<<<<<<<<<<<
  * 
  *         return self.__providers[name]
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Selector_has_no_0_provider, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2519, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Selector_has_no_0_provider, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2520, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_2 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -45443,17 +45443,17 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_4__getattr_
     }
     __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_2, __pyx_v_name) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_name);
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2519, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2520, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_AttributeError, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2519, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_builtin_AttributeError, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2520, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_6, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __PYX_ERR(1, 2519, __pyx_L1_error)
+    __PYX_ERR(1, 2520, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":2518
+    /* "dependency_injector/providers.pyx":2519
  *                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
  *                                               attribute_name=name))
  *         if name not in self.__providers:             # <<<<<<<<<<<<<<
@@ -45462,7 +45462,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_4__getattr_
  */
   }
 
-  /* "dependency_injector/providers.pyx":2521
+  /* "dependency_injector/providers.pyx":2522
  *             raise AttributeError('Selector has no "{0}" provider'.format(name))
  * 
  *         return self.__providers[name]             # <<<<<<<<<<<<<<
@@ -45472,15 +45472,15 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_4__getattr_
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(__pyx_v_self->__pyx___providers == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(1, 2521, __pyx_L1_error)
+    __PYX_ERR(1, 2522, __pyx_L1_error)
   }
-  __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->__pyx___providers, __pyx_v_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2521, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_self->__pyx___providers, __pyx_v_name); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2522, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_r = __pyx_t_6;
   __pyx_t_6 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2511
+  /* "dependency_injector/providers.pyx":2512
  *         return copied
  * 
  *     def __getattr__(self, name):             # <<<<<<<<<<<<<<
@@ -45502,7 +45502,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_4__getattr_
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2523
+/* "dependency_injector/providers.pyx":2524
  *         return self.__providers[name]
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -45528,7 +45528,7 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_8Selector_7__str__(Py
 }
 static PyObject *__pyx_gb_19dependency_injector_9providers_8Selector_7__str___2generator1(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value); /* proto */
 
-/* "dependency_injector/providers.pyx":2533
+/* "dependency_injector/providers.pyx":2534
  *             selector=self.__selector,
  *             providers=', '.join((
  *                 '{0}={1}'.format(name, provider)             # <<<<<<<<<<<<<<
@@ -45548,7 +45548,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_7__str___ge
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_19dependency_injector_9providers___pyx_scope_struct_3_genexpr *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(1, 2533, __pyx_L1_error)
+    __PYX_ERR(1, 2534, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -45556,7 +45556,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_7__str___ge
   __Pyx_INCREF(((PyObject *)__pyx_cur_scope->__pyx_outer_scope));
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_19dependency_injector_9providers_8Selector_7__str___2generator1, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_str___locals_genexpr, __pyx_n_s_dependency_injector_providers); if (unlikely(!gen)) __PYX_ERR(1, 2533, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_19dependency_injector_9providers_8Selector_7__str___2generator1, NULL, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_str___locals_genexpr, __pyx_n_s_dependency_injector_providers); if (unlikely(!gen)) __PYX_ERR(1, 2534, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -45598,29 +45598,29 @@ static PyObject *__pyx_gb_19dependency_injector_9providers_8Selector_7__str___2g
     return NULL;
   }
   __pyx_L3_first_run:;
-  if (unlikely(!__pyx_sent_value)) __PYX_ERR(1, 2533, __pyx_L1_error)
+  if (unlikely(!__pyx_sent_value)) __PYX_ERR(1, 2534, __pyx_L1_error)
 
-  /* "dependency_injector/providers.pyx":2534
+  /* "dependency_injector/providers.pyx":2535
  *             providers=', '.join((
  *                 '{0}={1}'.format(name, provider)
  *                 for name, provider in self.__providers.items()             # <<<<<<<<<<<<<<
  *             )),
  *             address=hex(id(self)),
  */
-  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_self)) { __Pyx_RaiseClosureNameError("self"); __PYX_ERR(1, 2534, __pyx_L1_error) }
+  if (unlikely(!__pyx_cur_scope->__pyx_outer_scope->__pyx_v_self)) { __Pyx_RaiseClosureNameError("self"); __PYX_ERR(1, 2535, __pyx_L1_error) }
   if (unlikely(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_self->__pyx___providers == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "items");
-    __PYX_ERR(1, 2534, __pyx_L1_error)
+    __PYX_ERR(1, 2535, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_Items(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_self->__pyx___providers); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2534, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_Items(__pyx_cur_scope->__pyx_outer_scope->__pyx_v_self->__pyx___providers); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2535, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2534, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2535, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2534, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2535, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -45628,17 +45628,17 @@ static PyObject *__pyx_gb_19dependency_injector_9providers_8Selector_7__str___2g
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 2534, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 2535, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2534, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2535, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 2534, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 2535, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2534, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2535, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -45648,7 +45648,7 @@ static PyObject *__pyx_gb_19dependency_injector_9providers_8Selector_7__str___2g
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(1, 2534, __pyx_L1_error)
+          else __PYX_ERR(1, 2535, __pyx_L1_error)
         }
         break;
       }
@@ -45660,7 +45660,7 @@ static PyObject *__pyx_gb_19dependency_injector_9providers_8Selector_7__str___2g
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(1, 2534, __pyx_L1_error)
+        __PYX_ERR(1, 2535, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -45673,15 +45673,15 @@ static PyObject *__pyx_gb_19dependency_injector_9providers_8Selector_7__str___2g
       __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_6);
       #else
-      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2534, __pyx_L1_error)
+      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2535, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2534, __pyx_L1_error)
+      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2535, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_7 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 2534, __pyx_L1_error)
+      __pyx_t_7 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 2535, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_8 = Py_TYPE(__pyx_t_7)->tp_iternext;
@@ -45689,7 +45689,7 @@ static PyObject *__pyx_gb_19dependency_injector_9providers_8Selector_7__str___2g
       __Pyx_GOTREF(__pyx_t_5);
       index = 1; __pyx_t_6 = __pyx_t_8(__pyx_t_7); if (unlikely(!__pyx_t_6)) goto __pyx_L6_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_6);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_7), 2) < 0) __PYX_ERR(1, 2534, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_7), 2) < 0) __PYX_ERR(1, 2535, __pyx_L1_error)
       __pyx_t_8 = NULL;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       goto __pyx_L7_unpacking_done;
@@ -45697,7 +45697,7 @@ static PyObject *__pyx_gb_19dependency_injector_9providers_8Selector_7__str___2g
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_8 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(1, 2534, __pyx_L1_error)
+      __PYX_ERR(1, 2535, __pyx_L1_error)
       __pyx_L7_unpacking_done:;
     }
     __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_name);
@@ -45709,14 +45709,14 @@ static PyObject *__pyx_gb_19dependency_injector_9providers_8Selector_7__str___2g
     __Pyx_GIVEREF(__pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "dependency_injector/providers.pyx":2533
+    /* "dependency_injector/providers.pyx":2534
  *             selector=self.__selector,
  *             providers=', '.join((
  *                 '{0}={1}'.format(name, provider)             # <<<<<<<<<<<<<<
  *                 for name, provider in self.__providers.items()
  *             )),
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_1, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2533, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_1, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2534, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_5 = NULL;
     __pyx_t_9 = 0;
@@ -45733,7 +45733,7 @@ static PyObject *__pyx_gb_19dependency_injector_9providers_8Selector_7__str___2g
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_cur_scope->__pyx_v_name, __pyx_cur_scope->__pyx_v_provider};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2533, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2534, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -45741,13 +45741,13 @@ static PyObject *__pyx_gb_19dependency_injector_9providers_8Selector_7__str___2g
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[3] = {__pyx_t_5, __pyx_cur_scope->__pyx_v_name, __pyx_cur_scope->__pyx_v_provider};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2533, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2534, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 2533, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 2534, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       if (__pyx_t_5) {
         __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_5); __pyx_t_5 = NULL;
@@ -45758,7 +45758,7 @@ static PyObject *__pyx_gb_19dependency_injector_9providers_8Selector_7__str___2g
       __Pyx_INCREF(__pyx_cur_scope->__pyx_v_provider);
       __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_provider);
       PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_9, __pyx_cur_scope->__pyx_v_provider);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2533, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2534, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
@@ -45781,9 +45781,9 @@ static PyObject *__pyx_gb_19dependency_injector_9providers_8Selector_7__str___2g
     __Pyx_XGOTREF(__pyx_t_2);
     __pyx_t_3 = __pyx_cur_scope->__pyx_t_1;
     __pyx_t_4 = __pyx_cur_scope->__pyx_t_2;
-    if (unlikely(!__pyx_sent_value)) __PYX_ERR(1, 2533, __pyx_L1_error)
+    if (unlikely(!__pyx_sent_value)) __PYX_ERR(1, 2534, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":2534
+    /* "dependency_injector/providers.pyx":2535
  *             providers=', '.join((
  *                 '{0}={1}'.format(name, provider)
  *                 for name, provider in self.__providers.items()             # <<<<<<<<<<<<<<
@@ -45794,7 +45794,7 @@ static PyObject *__pyx_gb_19dependency_injector_9providers_8Selector_7__str___2g
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   CYTHON_MAYBE_UNUSED_VAR(__pyx_cur_scope);
 
-  /* "dependency_injector/providers.pyx":2533
+  /* "dependency_injector/providers.pyx":2534
  *             selector=self.__selector,
  *             providers=', '.join((
  *                 '{0}={1}'.format(name, provider)             # <<<<<<<<<<<<<<
@@ -45823,7 +45823,7 @@ static PyObject *__pyx_gb_19dependency_injector_9providers_8Selector_7__str___2g
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2523
+/* "dependency_injector/providers.pyx":2524
  *         return self.__providers[name]
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -45848,7 +45848,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_6__str__(st
   if (unlikely(!__pyx_cur_scope)) {
     __pyx_cur_scope = ((struct __pyx_obj_19dependency_injector_9providers___pyx_scope_struct_2___str__ *)Py_None);
     __Pyx_INCREF(Py_None);
-    __PYX_ERR(1, 2523, __pyx_L1_error)
+    __PYX_ERR(1, 2524, __pyx_L1_error)
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
@@ -45856,7 +45856,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_6__str__(st
   __Pyx_INCREF((PyObject *)__pyx_cur_scope->__pyx_v_self);
   __Pyx_GIVEREF((PyObject *)__pyx_cur_scope->__pyx_v_self);
 
-  /* "dependency_injector/providers.pyx":2529
+  /* "dependency_injector/providers.pyx":2530
  *         """
  * 
  *         return '<{provider}({selector}, {providers}) at {address}>'.format(             # <<<<<<<<<<<<<<
@@ -45864,29 +45864,29 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_6__str__(st
  *             selector=self.__selector,
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_provider_selector_providers_at, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2529, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_provider_selector_providers_at, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2530, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "dependency_injector/providers.pyx":2530
+  /* "dependency_injector/providers.pyx":2531
  * 
  *         return '<{provider}({selector}, {providers}) at {address}>'.format(
  *             provider='.'.join(( self.__class__.__module__, self.__class__.__name__)),             # <<<<<<<<<<<<<<
  *             selector=self.__selector,
  *             providers=', '.join((
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2530, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(4); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2531, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_cur_scope->__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2530, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_cur_scope->__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2531, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_module); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2530, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_module); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2531, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_cur_scope->__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2530, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_cur_scope->__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2531, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_name); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2530, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_name); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2531, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2530, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2531, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
@@ -45894,67 +45894,67 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_6__str__(st
   PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_5);
   __pyx_t_4 = 0;
   __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyString_Join(__pyx_kp_s__4, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2530, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyString_Join(__pyx_kp_s__4, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2531, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_provider, __pyx_t_5) < 0) __PYX_ERR(1, 2530, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_provider, __pyx_t_5) < 0) __PYX_ERR(1, 2531, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "dependency_injector/providers.pyx":2531
+  /* "dependency_injector/providers.pyx":2532
  *         return '<{provider}({selector}, {providers}) at {address}>'.format(
  *             provider='.'.join(( self.__class__.__module__, self.__class__.__name__)),
  *             selector=self.__selector,             # <<<<<<<<<<<<<<
  *             providers=', '.join((
  *                 '{0}={1}'.format(name, provider)
  */
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_selector, __pyx_cur_scope->__pyx_v_self->__pyx___selector) < 0) __PYX_ERR(1, 2530, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_selector, __pyx_cur_scope->__pyx_v_self->__pyx___selector) < 0) __PYX_ERR(1, 2531, __pyx_L1_error)
 
-  /* "dependency_injector/providers.pyx":2533
+  /* "dependency_injector/providers.pyx":2534
  *             selector=self.__selector,
  *             providers=', '.join((
  *                 '{0}={1}'.format(name, provider)             # <<<<<<<<<<<<<<
  *                 for name, provider in self.__providers.items()
  *             )),
  */
-  __pyx_t_5 = __pyx_pf_19dependency_injector_9providers_8Selector_7__str___genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2533, __pyx_L1_error)
+  __pyx_t_5 = __pyx_pf_19dependency_injector_9providers_8Selector_7__str___genexpr(((PyObject*)__pyx_cur_scope)); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2534, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "dependency_injector/providers.pyx":2532
+  /* "dependency_injector/providers.pyx":2533
  *             provider='.'.join(( self.__class__.__module__, self.__class__.__name__)),
  *             selector=self.__selector,
  *             providers=', '.join((             # <<<<<<<<<<<<<<
  *                 '{0}={1}'.format(name, provider)
  *                 for name, provider in self.__providers.items()
  */
-  __pyx_t_3 = __Pyx_PyString_Join(__pyx_kp_s__7, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2532, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyString_Join(__pyx_kp_s__7, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2533, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_providers, __pyx_t_3) < 0) __PYX_ERR(1, 2530, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_providers, __pyx_t_3) < 0) __PYX_ERR(1, 2531, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":2536
+  /* "dependency_injector/providers.pyx":2537
  *                 for name, provider in self.__providers.items()
  *             )),
  *             address=hex(id(self)),             # <<<<<<<<<<<<<<
  *         )
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_cur_scope->__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2536, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_cur_scope->__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2537, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_hex, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2536, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_hex, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2537, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_address, __pyx_t_5) < 0) __PYX_ERR(1, 2530, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_address, __pyx_t_5) < 0) __PYX_ERR(1, 2531, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "dependency_injector/providers.pyx":2529
+  /* "dependency_injector/providers.pyx":2530
  *         """
  * 
  *         return '<{provider}({selector}, {providers}) at {address}>'.format(             # <<<<<<<<<<<<<<
  *             provider='.'.join(( self.__class__.__module__, self.__class__.__name__)),
  *             selector=self.__selector,
  */
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2529, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2530, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -45962,7 +45962,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_6__str__(st
   __pyx_t_5 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2523
+  /* "dependency_injector/providers.pyx":2524
  *         return self.__providers[name]
  * 
  *     def __str__(self):             # <<<<<<<<<<<<<<
@@ -45986,7 +45986,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_6__str__(st
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2540
+/* "dependency_injector/providers.pyx":2541
  * 
  *     @property
  *     def providers(self):             # <<<<<<<<<<<<<<
@@ -46016,7 +46016,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_9providers_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dependency_injector/providers.pyx":2542
+  /* "dependency_injector/providers.pyx":2543
  *     def providers(self):
  *         """Return providers."""
  *         return dict(self.__providers)             # <<<<<<<<<<<<<<
@@ -46026,15 +46026,15 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_9providers_
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(__pyx_v_self->__pyx___providers == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' is not iterable");
-    __PYX_ERR(1, 2542, __pyx_L1_error)
+    __PYX_ERR(1, 2543, __pyx_L1_error)
   }
-  __pyx_t_1 = PyDict_Copy(__pyx_v_self->__pyx___providers); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2542, __pyx_L1_error)
+  __pyx_t_1 = PyDict_Copy(__pyx_v_self->__pyx___providers); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2543, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2540
+  /* "dependency_injector/providers.pyx":2541
  * 
  *     @property
  *     def providers(self):             # <<<<<<<<<<<<<<
@@ -46053,7 +46053,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_9providers_
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2544
+/* "dependency_injector/providers.pyx":2545
  *         return dict(self.__providers)
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -46087,7 +46087,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_8Selector__provide(str
     if (unlikely(!__Pyx_object_dict_version_matches(((PyObject *)__pyx_v_self), __pyx_tp_dict_version, __pyx_obj_dict_version))) {
       PY_UINT64_T __pyx_type_dict_guard = __Pyx_get_tp_dict_version(((PyObject *)__pyx_v_self));
       #endif
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2544, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_provide); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2545, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)(void*)__pyx_pw_19dependency_injector_9providers_8Selector_9_provide)) {
         __Pyx_XDECREF(__pyx_r);
@@ -46107,7 +46107,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_8Selector__provide(str
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2544, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2545, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
@@ -46115,13 +46115,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_8Selector__provide(str
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
           PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_args, __pyx_v_kwargs};
-          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2544, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2545, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
           __Pyx_GOTREF(__pyx_t_2);
         } else
         #endif
         {
-          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2544, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2545, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           if (__pyx_t_4) {
             __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -46132,7 +46132,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_8Selector__provide(str
           __Pyx_INCREF(__pyx_v_kwargs);
           __Pyx_GIVEREF(__pyx_v_kwargs);
           PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_kwargs);
-          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2544, __pyx_L1_error)
+          __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2545, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         }
@@ -46155,7 +46155,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_8Selector__provide(str
     #endif
   }
 
-  /* "dependency_injector/providers.pyx":2546
+  /* "dependency_injector/providers.pyx":2547
  *     cpdef object _provide(self, tuple args, dict kwargs):
  *         """Return single instance."""
  *         selector_value = self.__selector()             # <<<<<<<<<<<<<<
@@ -46175,13 +46175,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_8Selector__provide(str
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2546, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2547, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_selector_value = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2548
+  /* "dependency_injector/providers.pyx":2549
  *         selector_value = self.__selector()
  * 
  *         if selector_value is None:             # <<<<<<<<<<<<<<
@@ -46192,14 +46192,14 @@ static PyObject *__pyx_f_19dependency_injector_9providers_8Selector__provide(str
   __pyx_t_8 = (__pyx_t_7 != 0);
   if (unlikely(__pyx_t_8)) {
 
-    /* "dependency_injector/providers.pyx":2549
+    /* "dependency_injector/providers.pyx":2550
  * 
  *         if selector_value is None:
  *             raise Error('Selector value is undefined')             # <<<<<<<<<<<<<<
  * 
  *         if selector_value not in self.__providers:
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Error); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2549, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Error); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2550, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_3 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -46213,14 +46213,14 @@ static PyObject *__pyx_f_19dependency_injector_9providers_8Selector__provide(str
     }
     __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_kp_s_Selector_value_is_undefined) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_kp_s_Selector_value_is_undefined);
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2549, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2550, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(1, 2549, __pyx_L1_error)
+    __PYX_ERR(1, 2550, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":2548
+    /* "dependency_injector/providers.pyx":2549
  *         selector_value = self.__selector()
  * 
  *         if selector_value is None:             # <<<<<<<<<<<<<<
@@ -46229,7 +46229,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_8Selector__provide(str
  */
   }
 
-  /* "dependency_injector/providers.pyx":2551
+  /* "dependency_injector/providers.pyx":2552
  *             raise Error('Selector value is undefined')
  * 
  *         if selector_value not in self.__providers:             # <<<<<<<<<<<<<<
@@ -46238,22 +46238,22 @@ static PyObject *__pyx_f_19dependency_injector_9providers_8Selector__provide(str
  */
   if (unlikely(__pyx_v_self->__pyx___providers == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(1, 2551, __pyx_L1_error)
+    __PYX_ERR(1, 2552, __pyx_L1_error)
   }
-  __pyx_t_8 = (__Pyx_PyDict_ContainsTF(__pyx_v_selector_value, __pyx_v_self->__pyx___providers, Py_NE)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(1, 2551, __pyx_L1_error)
+  __pyx_t_8 = (__Pyx_PyDict_ContainsTF(__pyx_v_selector_value, __pyx_v_self->__pyx___providers, Py_NE)); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(1, 2552, __pyx_L1_error)
   __pyx_t_7 = (__pyx_t_8 != 0);
   if (unlikely(__pyx_t_7)) {
 
-    /* "dependency_injector/providers.pyx":2552
+    /* "dependency_injector/providers.pyx":2553
  * 
  *         if selector_value not in self.__providers:
  *             raise Error('Selector has no "{0}" provider'.format(selector_value))             # <<<<<<<<<<<<<<
  * 
  *         return self.__providers[selector_value](*args, **kwargs)
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Error); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2552, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_Error); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2553, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Selector_has_no_0_provider, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2552, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Selector_has_no_0_provider, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2553, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_4 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -46267,7 +46267,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_8Selector__provide(str
     }
     __pyx_t_3 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_4, __pyx_v_selector_value) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_selector_value);
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2552, __pyx_L1_error)
+    if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2553, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_6 = NULL;
@@ -46283,14 +46283,14 @@ static PyObject *__pyx_f_19dependency_injector_9providers_8Selector__provide(str
     __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_6, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2552, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2553, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(1, 2552, __pyx_L1_error)
+    __PYX_ERR(1, 2553, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":2551
+    /* "dependency_injector/providers.pyx":2552
  *             raise Error('Selector value is undefined')
  * 
  *         if selector_value not in self.__providers:             # <<<<<<<<<<<<<<
@@ -46299,7 +46299,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_8Selector__provide(str
  */
   }
 
-  /* "dependency_injector/providers.pyx":2554
+  /* "dependency_injector/providers.pyx":2555
  *             raise Error('Selector has no "{0}" provider'.format(selector_value))
  * 
  *         return self.__providers[selector_value](*args, **kwargs)             # <<<<<<<<<<<<<<
@@ -46309,26 +46309,26 @@ static PyObject *__pyx_f_19dependency_injector_9providers_8Selector__provide(str
   __Pyx_XDECREF(__pyx_r);
   if (unlikely(__pyx_v_self->__pyx___providers == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    __PYX_ERR(1, 2554, __pyx_L1_error)
+    __PYX_ERR(1, 2555, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->__pyx___providers, __pyx_v_selector_value); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2554, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_self->__pyx___providers, __pyx_v_selector_value); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2555, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_v_args == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(1, 2554, __pyx_L1_error)
+    __PYX_ERR(1, 2555, __pyx_L1_error)
   }
   if (unlikely(__pyx_v_kwargs == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "argument after ** must be a mapping, not NoneType");
-    __PYX_ERR(1, 2554, __pyx_L1_error)
+    __PYX_ERR(1, 2555, __pyx_L1_error)
   }
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2554, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_v_args, __pyx_v_kwargs); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2555, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2544
+  /* "dependency_injector/providers.pyx":2545
  *         return dict(self.__providers)
  * 
  *     cpdef object _provide(self, tuple args, dict kwargs):             # <<<<<<<<<<<<<<
@@ -46387,11 +46387,11 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_8Selector_9_provide(P
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_kwargs)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 2544, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, 1); __PYX_ERR(1, 2545, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 2544, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_provide") < 0)) __PYX_ERR(1, 2545, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -46404,14 +46404,14 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_8Selector_9_provide(P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2544, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("_provide", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2545, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.Selector._provide", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 2544, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 2544, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 2545, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 2545, __pyx_L1_error)
   __pyx_r = __pyx_pf_19dependency_injector_9providers_8Selector_8_provide(((struct __pyx_obj_19dependency_injector_9providers_Selector *)__pyx_v_self), __pyx_v_args, __pyx_v_kwargs);
 
   /* function exit code */
@@ -46432,7 +46432,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8Selector_8_provide(s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_provide", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_8Selector__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2544, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_8Selector__provide(__pyx_v_self, __pyx_v_args, __pyx_v_kwargs, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2545, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -47086,7 +47086,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_9Injection_2__setstat
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2564
+/* "dependency_injector/providers.pyx":2565
  *     """Positional injection class."""
  * 
  *     def __init__(self, value):             # <<<<<<<<<<<<<<
@@ -47127,7 +47127,7 @@ static int __pyx_pw_19dependency_injector_9providers_19PositionalInjection_1__in
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 2564, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 2565, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -47138,7 +47138,7 @@ static int __pyx_pw_19dependency_injector_9providers_19PositionalInjection_1__in
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2564, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2565, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.PositionalInjection.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -47164,7 +47164,7 @@ static int __pyx_pf_19dependency_injector_9providers_19PositionalInjection___ini
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dependency_injector/providers.pyx":2566
+  /* "dependency_injector/providers.pyx":2567
  *     def __init__(self, value):
  *         """Initializer."""
  *         self.__value = value             # <<<<<<<<<<<<<<
@@ -47177,7 +47177,7 @@ static int __pyx_pf_19dependency_injector_9providers_19PositionalInjection___ini
   __Pyx_DECREF(__pyx_v_self->__pyx_base.__pyx___value);
   __pyx_v_self->__pyx_base.__pyx___value = __pyx_v_value;
 
-  /* "dependency_injector/providers.pyx":2567
+  /* "dependency_injector/providers.pyx":2568
  *         """Initializer."""
  *         self.__value = value
  *         self.__is_provider = <int>is_provider(value)             # <<<<<<<<<<<<<<
@@ -47186,7 +47186,7 @@ static int __pyx_pf_19dependency_injector_9providers_19PositionalInjection___ini
  */
   __pyx_v_self->__pyx_base.__pyx___is_provider = ((int)__pyx_f_19dependency_injector_9providers_is_provider(__pyx_v_value, 0));
 
-  /* "dependency_injector/providers.pyx":2568
+  /* "dependency_injector/providers.pyx":2569
  *         self.__value = value
  *         self.__is_provider = <int>is_provider(value)
  *         self.__is_delegated = <int>is_delegated(value)             # <<<<<<<<<<<<<<
@@ -47195,7 +47195,7 @@ static int __pyx_pf_19dependency_injector_9providers_19PositionalInjection___ini
  */
   __pyx_v_self->__pyx_base.__pyx___is_delegated = ((int)__pyx_f_19dependency_injector_9providers_is_delegated(__pyx_v_value, 0));
 
-  /* "dependency_injector/providers.pyx":2569
+  /* "dependency_injector/providers.pyx":2570
  *         self.__is_provider = <int>is_provider(value)
  *         self.__is_delegated = <int>is_delegated(value)
  *         self.__call = <int>(self.__is_provider == 1 and             # <<<<<<<<<<<<<<
@@ -47209,7 +47209,7 @@ static int __pyx_pf_19dependency_injector_9providers_19PositionalInjection___ini
     goto __pyx_L3_bool_binop_done;
   }
 
-  /* "dependency_injector/providers.pyx":2570
+  /* "dependency_injector/providers.pyx":2571
  *         self.__is_delegated = <int>is_delegated(value)
  *         self.__call = <int>(self.__is_provider == 1 and
  *                             self.__is_delegated == 0)             # <<<<<<<<<<<<<<
@@ -47220,7 +47220,7 @@ static int __pyx_pf_19dependency_injector_9providers_19PositionalInjection___ini
   __pyx_t_1 = __pyx_t_2;
   __pyx_L3_bool_binop_done:;
 
-  /* "dependency_injector/providers.pyx":2569
+  /* "dependency_injector/providers.pyx":2570
  *         self.__is_provider = <int>is_provider(value)
  *         self.__is_delegated = <int>is_delegated(value)
  *         self.__call = <int>(self.__is_provider == 1 and             # <<<<<<<<<<<<<<
@@ -47229,14 +47229,14 @@ static int __pyx_pf_19dependency_injector_9providers_19PositionalInjection___ini
  */
   __pyx_v_self->__pyx_base.__pyx___call = ((int)__pyx_t_1);
 
-  /* "dependency_injector/providers.pyx":2571
+  /* "dependency_injector/providers.pyx":2572
  *         self.__call = <int>(self.__is_provider == 1 and
  *                             self.__is_delegated == 0)
  *         super(PositionalInjection, self).__init__()             # <<<<<<<<<<<<<<
  * 
  *     def __deepcopy__(self, memo):
  */
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2571, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2572, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_PositionalInjection));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_PositionalInjection));
@@ -47244,10 +47244,10 @@ static int __pyx_pf_19dependency_injector_9providers_19PositionalInjection___ini
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_4, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2571, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2572, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_init); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2571, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_init); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2572, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -47262,12 +47262,12 @@ static int __pyx_pf_19dependency_injector_9providers_19PositionalInjection___ini
   }
   __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2571, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2572, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":2564
+  /* "dependency_injector/providers.pyx":2565
  *     """Positional injection class."""
  * 
  *     def __init__(self, value):             # <<<<<<<<<<<<<<
@@ -47289,7 +47289,7 @@ static int __pyx_pf_19dependency_injector_9providers_19PositionalInjection___ini
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2573
+/* "dependency_injector/providers.pyx":2574
  *         super(PositionalInjection, self).__init__()
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -47327,16 +47327,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19PositionalInjection
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__deepcopy__", 0);
 
-  /* "dependency_injector/providers.pyx":2575
+  /* "dependency_injector/providers.pyx":2576
  *     def __deepcopy__(self, memo):
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))             # <<<<<<<<<<<<<<
  *         if copied is not None:
  *             return copied
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2575, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2576, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2575, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2576, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -47351,13 +47351,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19PositionalInjection
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2575, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2576, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_copied = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2576
+  /* "dependency_injector/providers.pyx":2577
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -47368,7 +47368,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19PositionalInjection
   __pyx_t_6 = (__pyx_t_5 != 0);
   if (__pyx_t_6) {
 
-    /* "dependency_injector/providers.pyx":2577
+    /* "dependency_injector/providers.pyx":2578
  *         copied = memo.get(id(self))
  *         if copied is not None:
  *             return copied             # <<<<<<<<<<<<<<
@@ -47380,7 +47380,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19PositionalInjection
     __pyx_r = __pyx_v_copied;
     goto __pyx_L0;
 
-    /* "dependency_injector/providers.pyx":2576
+    /* "dependency_injector/providers.pyx":2577
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -47389,7 +47389,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19PositionalInjection
  */
   }
 
-  /* "dependency_injector/providers.pyx":2578
+  /* "dependency_injector/providers.pyx":2579
  *         if copied is not None:
  *             return copied
  *         return self.__class__(deepcopy(self.__value, memo))             # <<<<<<<<<<<<<<
@@ -47397,14 +47397,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19PositionalInjection
  *     def get_value(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2578, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2579, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __pyx_v_self->__pyx_base.__pyx___value;
   __Pyx_INCREF(__pyx_t_3);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2578, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2579, __pyx_L1_error)
   __pyx_t_7.__pyx_n = 1;
   __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_4 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_3, 0, &__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2578, __pyx_L1_error)
+  __pyx_t_4 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_3, 0, &__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2579, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -47420,14 +47420,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19PositionalInjection
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_3, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_4);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2578, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2579, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2573
+  /* "dependency_injector/providers.pyx":2574
  *         super(PositionalInjection, self).__init__()
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -47450,7 +47450,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19PositionalInjection
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2580
+/* "dependency_injector/providers.pyx":2581
  *         return self.__class__(deepcopy(self.__value, memo))
  * 
  *     def get_value(self):             # <<<<<<<<<<<<<<
@@ -47481,7 +47481,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19PositionalInjection
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_value", 0);
 
-  /* "dependency_injector/providers.pyx":2582
+  /* "dependency_injector/providers.pyx":2583
  *     def get_value(self):
  *         """Return injection value."""
  *         return __get_value(self)             # <<<<<<<<<<<<<<
@@ -47489,13 +47489,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19PositionalInjection
  *     def get_original_value(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers___get_value(((struct __pyx_obj_19dependency_injector_9providers_Injection *)__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2582, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers___get_value(((struct __pyx_obj_19dependency_injector_9providers_Injection *)__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2583, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2580
+  /* "dependency_injector/providers.pyx":2581
  *         return self.__class__(deepcopy(self.__value, memo))
  * 
  *     def get_value(self):             # <<<<<<<<<<<<<<
@@ -47514,7 +47514,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19PositionalInjection
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2584
+/* "dependency_injector/providers.pyx":2585
  *         return __get_value(self)
  * 
  *     def get_original_value(self):             # <<<<<<<<<<<<<<
@@ -47541,7 +47541,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19PositionalInjection
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_original_value", 0);
 
-  /* "dependency_injector/providers.pyx":2586
+  /* "dependency_injector/providers.pyx":2587
  *     def get_original_value(self):
  *         """Return original value."""
  *         return self.__value             # <<<<<<<<<<<<<<
@@ -47553,7 +47553,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19PositionalInjection
   __pyx_r = __pyx_v_self->__pyx_base.__pyx___value;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2584
+  /* "dependency_injector/providers.pyx":2585
  *         return __get_value(self)
  * 
  *     def get_original_value(self):             # <<<<<<<<<<<<<<
@@ -47878,7 +47878,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_19PositionalInjection
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2592
+/* "dependency_injector/providers.pyx":2593
  *     """Keyword injection class."""
  * 
  *     def __init__(self, name, value):             # <<<<<<<<<<<<<<
@@ -47924,11 +47924,11 @@ static int __pyx_pw_19dependency_injector_9providers_14NamedInjection_1__init__(
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_value)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(1, 2592, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(1, 2593, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 2592, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(1, 2593, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -47941,7 +47941,7 @@ static int __pyx_pw_19dependency_injector_9providers_14NamedInjection_1__init__(
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2592, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2593, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.NamedInjection.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -47967,7 +47967,7 @@ static int __pyx_pf_19dependency_injector_9providers_14NamedInjection___init__(s
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dependency_injector/providers.pyx":2594
+  /* "dependency_injector/providers.pyx":2595
  *     def __init__(self, name, value):
  *         """Initializer."""
  *         self.__name = name             # <<<<<<<<<<<<<<
@@ -47980,7 +47980,7 @@ static int __pyx_pf_19dependency_injector_9providers_14NamedInjection___init__(s
   __Pyx_DECREF(__pyx_v_self->__pyx___name);
   __pyx_v_self->__pyx___name = __pyx_v_name;
 
-  /* "dependency_injector/providers.pyx":2595
+  /* "dependency_injector/providers.pyx":2596
  *         """Initializer."""
  *         self.__name = name
  *         self.__value = value             # <<<<<<<<<<<<<<
@@ -47993,7 +47993,7 @@ static int __pyx_pf_19dependency_injector_9providers_14NamedInjection___init__(s
   __Pyx_DECREF(__pyx_v_self->__pyx_base.__pyx___value);
   __pyx_v_self->__pyx_base.__pyx___value = __pyx_v_value;
 
-  /* "dependency_injector/providers.pyx":2596
+  /* "dependency_injector/providers.pyx":2597
  *         self.__name = name
  *         self.__value = value
  *         self.__is_provider = <int>is_provider(value)             # <<<<<<<<<<<<<<
@@ -48002,7 +48002,7 @@ static int __pyx_pf_19dependency_injector_9providers_14NamedInjection___init__(s
  */
   __pyx_v_self->__pyx_base.__pyx___is_provider = ((int)__pyx_f_19dependency_injector_9providers_is_provider(__pyx_v_value, 0));
 
-  /* "dependency_injector/providers.pyx":2597
+  /* "dependency_injector/providers.pyx":2598
  *         self.__value = value
  *         self.__is_provider = <int>is_provider(value)
  *         self.__is_delegated = <int>is_delegated(value)             # <<<<<<<<<<<<<<
@@ -48011,7 +48011,7 @@ static int __pyx_pf_19dependency_injector_9providers_14NamedInjection___init__(s
  */
   __pyx_v_self->__pyx_base.__pyx___is_delegated = ((int)__pyx_f_19dependency_injector_9providers_is_delegated(__pyx_v_value, 0));
 
-  /* "dependency_injector/providers.pyx":2598
+  /* "dependency_injector/providers.pyx":2599
  *         self.__is_provider = <int>is_provider(value)
  *         self.__is_delegated = <int>is_delegated(value)
  *         self.__call = <int>(self.__is_provider == 1 and             # <<<<<<<<<<<<<<
@@ -48025,7 +48025,7 @@ static int __pyx_pf_19dependency_injector_9providers_14NamedInjection___init__(s
     goto __pyx_L3_bool_binop_done;
   }
 
-  /* "dependency_injector/providers.pyx":2599
+  /* "dependency_injector/providers.pyx":2600
  *         self.__is_delegated = <int>is_delegated(value)
  *         self.__call = <int>(self.__is_provider == 1 and
  *                             self.__is_delegated == 0)             # <<<<<<<<<<<<<<
@@ -48036,7 +48036,7 @@ static int __pyx_pf_19dependency_injector_9providers_14NamedInjection___init__(s
   __pyx_t_1 = __pyx_t_2;
   __pyx_L3_bool_binop_done:;
 
-  /* "dependency_injector/providers.pyx":2598
+  /* "dependency_injector/providers.pyx":2599
  *         self.__is_provider = <int>is_provider(value)
  *         self.__is_delegated = <int>is_delegated(value)
  *         self.__call = <int>(self.__is_provider == 1 and             # <<<<<<<<<<<<<<
@@ -48045,14 +48045,14 @@ static int __pyx_pf_19dependency_injector_9providers_14NamedInjection___init__(s
  */
   __pyx_v_self->__pyx_base.__pyx___call = ((int)__pyx_t_1);
 
-  /* "dependency_injector/providers.pyx":2600
+  /* "dependency_injector/providers.pyx":2601
  *         self.__call = <int>(self.__is_provider == 1 and
  *                             self.__is_delegated == 0)
  *         super(NamedInjection, self).__init__()             # <<<<<<<<<<<<<<
  * 
  *     def __deepcopy__(self, memo):
  */
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2600, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2601, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_NamedInjection));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_19dependency_injector_9providers_NamedInjection));
@@ -48060,10 +48060,10 @@ static int __pyx_pf_19dependency_injector_9providers_14NamedInjection___init__(s
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_4, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2600, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2601, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_init); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2600, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_init); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2601, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_5 = NULL;
@@ -48078,12 +48078,12 @@ static int __pyx_pf_19dependency_injector_9providers_14NamedInjection___init__(s
   }
   __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2600, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2601, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":2592
+  /* "dependency_injector/providers.pyx":2593
  *     """Keyword injection class."""
  * 
  *     def __init__(self, name, value):             # <<<<<<<<<<<<<<
@@ -48105,7 +48105,7 @@ static int __pyx_pf_19dependency_injector_9providers_14NamedInjection___init__(s
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2602
+/* "dependency_injector/providers.pyx":2603
  *         super(NamedInjection, self).__init__()
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -48146,16 +48146,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_2__d
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__deepcopy__", 0);
 
-  /* "dependency_injector/providers.pyx":2604
+  /* "dependency_injector/providers.pyx":2605
  *     def __deepcopy__(self, memo):
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))             # <<<<<<<<<<<<<<
  *         if copied is not None:
  *             return copied
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2604, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_memo, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2605, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2604, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, ((PyObject *)__pyx_v_self)); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2605, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -48170,13 +48170,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_2__d
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_2, __pyx_t_4, __pyx_t_3) : __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2604, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2605, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_copied = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2605
+  /* "dependency_injector/providers.pyx":2606
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -48187,7 +48187,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_2__d
   __pyx_t_6 = (__pyx_t_5 != 0);
   if (__pyx_t_6) {
 
-    /* "dependency_injector/providers.pyx":2606
+    /* "dependency_injector/providers.pyx":2607
  *         copied = memo.get(id(self))
  *         if copied is not None:
  *             return copied             # <<<<<<<<<<<<<<
@@ -48199,7 +48199,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_2__d
     __pyx_r = __pyx_v_copied;
     goto __pyx_L0;
 
-    /* "dependency_injector/providers.pyx":2605
+    /* "dependency_injector/providers.pyx":2606
  *         """Create and return full copy of provider."""
  *         copied = memo.get(id(self))
  *         if copied is not None:             # <<<<<<<<<<<<<<
@@ -48208,7 +48208,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_2__d
  */
   }
 
-  /* "dependency_injector/providers.pyx":2607
+  /* "dependency_injector/providers.pyx":2608
  *         if copied is not None:
  *             return copied
  *         return self.__class__(deepcopy(self.__name, memo),             # <<<<<<<<<<<<<<
@@ -48216,18 +48216,18 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_2__d
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2607, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_class); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2608, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __pyx_v_self->__pyx___name;
   __Pyx_INCREF(__pyx_t_3);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2607, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2608, __pyx_L1_error)
   __pyx_t_7.__pyx_n = 1;
   __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_4 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_3, 0, &__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2607, __pyx_L1_error)
+  __pyx_t_4 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_3, 0, &__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2608, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":2608
+  /* "dependency_injector/providers.pyx":2609
  *             return copied
  *         return self.__class__(deepcopy(self.__name, memo),
  *                               deepcopy(self.__value, memo))             # <<<<<<<<<<<<<<
@@ -48236,10 +48236,10 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_2__d
  */
   __pyx_t_3 = __pyx_v_self->__pyx_base.__pyx___value;
   __Pyx_INCREF(__pyx_t_3);
-  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2608, __pyx_L1_error)
+  if (!(likely(PyDict_CheckExact(__pyx_v_memo))||((__pyx_v_memo) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_v_memo)->tp_name), 0))) __PYX_ERR(1, 2609, __pyx_L1_error)
   __pyx_t_7.__pyx_n = 1;
   __pyx_t_7.memo = ((PyObject*)__pyx_v_memo);
-  __pyx_t_8 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_3, 0, &__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 2608, __pyx_L1_error)
+  __pyx_t_8 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_t_3, 0, &__pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 2609, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -48257,7 +48257,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_2__d
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_4, __pyx_t_8};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2607, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2608, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -48267,7 +48267,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_2__d
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_4, __pyx_t_8};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2607, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2608, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -48275,7 +48275,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_2__d
   } else
   #endif
   {
-    __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 2607, __pyx_L1_error)
+    __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) __PYX_ERR(1, 2608, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     if (__pyx_t_3) {
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -48286,7 +48286,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_2__d
     PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, __pyx_t_8);
     __pyx_t_4 = 0;
     __pyx_t_8 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2607, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_10, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2608, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
   }
@@ -48295,7 +48295,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_2__d
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2602
+  /* "dependency_injector/providers.pyx":2603
  *         super(NamedInjection, self).__init__()
  * 
  *     def __deepcopy__(self, memo):             # <<<<<<<<<<<<<<
@@ -48320,7 +48320,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_2__d
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2610
+/* "dependency_injector/providers.pyx":2611
  *                               deepcopy(self.__value, memo))
  * 
  *     def get_name(self):             # <<<<<<<<<<<<<<
@@ -48351,7 +48351,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_4get
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_name", 0);
 
-  /* "dependency_injector/providers.pyx":2612
+  /* "dependency_injector/providers.pyx":2613
  *     def get_name(self):
  *         """Return injection value."""
  *         return __get_name(self)             # <<<<<<<<<<<<<<
@@ -48359,13 +48359,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_4get
  *     def get_value(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers___get_name(__pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2612, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers___get_name(__pyx_v_self); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2613, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2610
+  /* "dependency_injector/providers.pyx":2611
  *                               deepcopy(self.__value, memo))
  * 
  *     def get_name(self):             # <<<<<<<<<<<<<<
@@ -48384,7 +48384,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_4get
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2614
+/* "dependency_injector/providers.pyx":2615
  *         return __get_name(self)
  * 
  *     def get_value(self):             # <<<<<<<<<<<<<<
@@ -48415,7 +48415,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_6get
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_value", 0);
 
-  /* "dependency_injector/providers.pyx":2616
+  /* "dependency_injector/providers.pyx":2617
  *     def get_value(self):
  *         """Return injection value."""
  *         return __get_value(self)             # <<<<<<<<<<<<<<
@@ -48423,13 +48423,13 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_6get
  *     def get_original_value(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers___get_value(((struct __pyx_obj_19dependency_injector_9providers_Injection *)__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2616, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers___get_value(((struct __pyx_obj_19dependency_injector_9providers_Injection *)__pyx_v_self)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2617, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2614
+  /* "dependency_injector/providers.pyx":2615
  *         return __get_name(self)
  * 
  *     def get_value(self):             # <<<<<<<<<<<<<<
@@ -48448,7 +48448,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_6get
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2618
+/* "dependency_injector/providers.pyx":2619
  *         return __get_value(self)
  * 
  *     def get_original_value(self):             # <<<<<<<<<<<<<<
@@ -48475,7 +48475,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_8get
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_original_value", 0);
 
-  /* "dependency_injector/providers.pyx":2620
+  /* "dependency_injector/providers.pyx":2621
  *     def get_original_value(self):
  *         """Return original value."""
  *         return self.__value             # <<<<<<<<<<<<<<
@@ -48487,7 +48487,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_8get
   __pyx_r = __pyx_v_self->__pyx_base.__pyx___value;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2618
+  /* "dependency_injector/providers.pyx":2619
  *         return __get_value(self)
  * 
  *     def get_original_value(self):             # <<<<<<<<<<<<<<
@@ -48826,7 +48826,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14NamedInjection_12__
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2625
+/* "dependency_injector/providers.pyx":2626
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * cpdef tuple parse_positional_injections(tuple args):             # <<<<<<<<<<<<<<
@@ -48854,19 +48854,19 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_positional_injec
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("parse_positional_injections", 0);
 
-  /* "dependency_injector/providers.pyx":2627
+  /* "dependency_injector/providers.pyx":2628
  * cpdef tuple parse_positional_injections(tuple args):
  *     """Parse positional injections."""
  *     cdef list injections = list()             # <<<<<<<<<<<<<<
  *     cdef int args_len = len(args)
  * 
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2627, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2628, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_injections = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2628
+  /* "dependency_injector/providers.pyx":2629
  *     """Parse positional injections."""
  *     cdef list injections = list()
  *     cdef int args_len = len(args)             # <<<<<<<<<<<<<<
@@ -48875,12 +48875,12 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_positional_injec
  */
   if (unlikely(__pyx_v_args == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(1, 2628, __pyx_L1_error)
+    __PYX_ERR(1, 2629, __pyx_L1_error)
   }
-  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_v_args); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(1, 2628, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_GET_SIZE(__pyx_v_args); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(1, 2629, __pyx_L1_error)
   __pyx_v_args_len = __pyx_t_2;
 
-  /* "dependency_injector/providers.pyx":2634
+  /* "dependency_injector/providers.pyx":2635
  *     cdef PositionalInjection injection
  * 
  *     for index in range(args_len):             # <<<<<<<<<<<<<<
@@ -48892,7 +48892,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_positional_injec
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
     __pyx_v_index = __pyx_t_5;
 
-    /* "dependency_injector/providers.pyx":2635
+    /* "dependency_injector/providers.pyx":2636
  * 
  *     for index in range(args_len):
  *         arg = args[index]             # <<<<<<<<<<<<<<
@@ -48901,36 +48901,36 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_positional_injec
  */
     if (unlikely(__pyx_v_args == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(1, 2635, __pyx_L1_error)
+      __PYX_ERR(1, 2636, __pyx_L1_error)
     }
     __pyx_t_1 = PyTuple_GET_ITEM(__pyx_v_args, __pyx_v_index);
     __Pyx_INCREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_arg, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":2636
+    /* "dependency_injector/providers.pyx":2637
  *     for index in range(args_len):
  *         arg = args[index]
  *         injection = PositionalInjection(arg)             # <<<<<<<<<<<<<<
  *         injections.append(injection)
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19dependency_injector_9providers_PositionalInjection), __pyx_v_arg); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2636, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(((PyObject *)__pyx_ptype_19dependency_injector_9providers_PositionalInjection), __pyx_v_arg); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2637, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_XDECREF_SET(__pyx_v_injection, ((struct __pyx_obj_19dependency_injector_9providers_PositionalInjection *)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "dependency_injector/providers.pyx":2637
+    /* "dependency_injector/providers.pyx":2638
  *         arg = args[index]
  *         injection = PositionalInjection(arg)
  *         injections.append(injection)             # <<<<<<<<<<<<<<
  * 
  *     return tuple(injections)
  */
-    __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_injections, ((PyObject *)__pyx_v_injection)); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(1, 2637, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyList_Append(__pyx_v_injections, ((PyObject *)__pyx_v_injection)); if (unlikely(__pyx_t_6 == ((int)-1))) __PYX_ERR(1, 2638, __pyx_L1_error)
   }
 
-  /* "dependency_injector/providers.pyx":2639
+  /* "dependency_injector/providers.pyx":2640
  *         injections.append(injection)
  * 
  *     return tuple(injections)             # <<<<<<<<<<<<<<
@@ -48938,13 +48938,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_positional_injec
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyList_AsTuple(__pyx_v_injections); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2639, __pyx_L1_error)
+  __pyx_t_1 = PyList_AsTuple(__pyx_v_injections); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2640, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2625
+  /* "dependency_injector/providers.pyx":2626
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * cpdef tuple parse_positional_injections(tuple args):             # <<<<<<<<<<<<<<
@@ -48976,7 +48976,7 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_7parse_positional_inj
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("parse_positional_injections (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 2625, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_args), (&PyTuple_Type), 1, "args", 1))) __PYX_ERR(1, 2626, __pyx_L1_error)
   __pyx_r = __pyx_pf_19dependency_injector_9providers_6parse_positional_injections(__pyx_self, ((PyObject*)__pyx_v_args));
 
   /* function exit code */
@@ -48997,7 +48997,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_6parse_positional_inj
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("parse_positional_injections", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_parse_positional_injections(__pyx_v_args, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2625, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_parse_positional_injections(__pyx_v_args, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2626, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -49014,7 +49014,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_6parse_positional_inj
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2644
+/* "dependency_injector/providers.pyx":2645
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * cpdef tuple parse_named_injections(dict kwargs):             # <<<<<<<<<<<<<<
@@ -49044,19 +49044,19 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_named_injections
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("parse_named_injections", 0);
 
-  /* "dependency_injector/providers.pyx":2646
+  /* "dependency_injector/providers.pyx":2647
  * cpdef tuple parse_named_injections(dict kwargs):
  *     """Parse named injections."""
  *     cdef list injections = list()             # <<<<<<<<<<<<<<
  * 
  *     cdef object name
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2646, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2647, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_injections = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2652
+  /* "dependency_injector/providers.pyx":2653
  *     cdef NamedInjection injection
  * 
  *     for name, arg in kwargs.items():             # <<<<<<<<<<<<<<
@@ -49065,17 +49065,17 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_named_injections
  */
   if (unlikely(__pyx_v_kwargs == Py_None)) {
     PyErr_Format(PyExc_AttributeError, "'NoneType' object has no attribute '%.30s'", "items");
-    __PYX_ERR(1, 2652, __pyx_L1_error)
+    __PYX_ERR(1, 2653, __pyx_L1_error)
   }
-  __pyx_t_1 = __Pyx_PyDict_Items(__pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2652, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_Items(__pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2653, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2652, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2653, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2652, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2653, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -49083,17 +49083,17 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_named_injections
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 2652, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 2653, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2652, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2653, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 2652, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(1, 2653, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2652, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2653, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -49103,7 +49103,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_named_injections
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(1, 2652, __pyx_L1_error)
+          else __PYX_ERR(1, 2653, __pyx_L1_error)
         }
         break;
       }
@@ -49115,7 +49115,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_named_injections
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(1, 2652, __pyx_L1_error)
+        __PYX_ERR(1, 2653, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -49128,15 +49128,15 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_named_injections
       __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_6);
       #else
-      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2652, __pyx_L1_error)
+      __pyx_t_5 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2653, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2652, __pyx_L1_error)
+      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2653, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_7 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 2652, __pyx_L1_error)
+      __pyx_t_7 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 2653, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_8 = Py_TYPE(__pyx_t_7)->tp_iternext;
@@ -49144,7 +49144,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_named_injections
       __Pyx_GOTREF(__pyx_t_5);
       index = 1; __pyx_t_6 = __pyx_t_8(__pyx_t_7); if (unlikely(!__pyx_t_6)) goto __pyx_L5_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_6);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_7), 2) < 0) __PYX_ERR(1, 2652, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_7), 2) < 0) __PYX_ERR(1, 2653, __pyx_L1_error)
       __pyx_t_8 = NULL;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       goto __pyx_L6_unpacking_done;
@@ -49152,7 +49152,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_named_injections
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_8 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(1, 2652, __pyx_L1_error)
+      __PYX_ERR(1, 2653, __pyx_L1_error)
       __pyx_L6_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_name, __pyx_t_5);
@@ -49160,14 +49160,14 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_named_injections
     __Pyx_XDECREF_SET(__pyx_v_arg, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "dependency_injector/providers.pyx":2653
+    /* "dependency_injector/providers.pyx":2654
  * 
  *     for name, arg in kwargs.items():
  *         injection = NamedInjection(name, arg)             # <<<<<<<<<<<<<<
  *         injections.append(injection)
  * 
  */
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2653, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2654, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_v_name);
     __Pyx_GIVEREF(__pyx_v_name);
@@ -49175,22 +49175,22 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_named_injections
     __Pyx_INCREF(__pyx_v_arg);
     __Pyx_GIVEREF(__pyx_v_arg);
     PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_v_arg);
-    __pyx_t_6 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_19dependency_injector_9providers_NamedInjection), __pyx_t_1, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2653, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_19dependency_injector_9providers_NamedInjection), __pyx_t_1, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2654, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_XDECREF_SET(__pyx_v_injection, ((struct __pyx_obj_19dependency_injector_9providers_NamedInjection *)__pyx_t_6));
     __pyx_t_6 = 0;
 
-    /* "dependency_injector/providers.pyx":2654
+    /* "dependency_injector/providers.pyx":2655
  *     for name, arg in kwargs.items():
  *         injection = NamedInjection(name, arg)
  *         injections.append(injection)             # <<<<<<<<<<<<<<
  * 
  *     return tuple(injections)
  */
-    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_injections, ((PyObject *)__pyx_v_injection)); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 2654, __pyx_L1_error)
+    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_injections, ((PyObject *)__pyx_v_injection)); if (unlikely(__pyx_t_9 == ((int)-1))) __PYX_ERR(1, 2655, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":2652
+    /* "dependency_injector/providers.pyx":2653
  *     cdef NamedInjection injection
  * 
  *     for name, arg in kwargs.items():             # <<<<<<<<<<<<<<
@@ -49200,7 +49200,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_named_injections
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":2656
+  /* "dependency_injector/providers.pyx":2657
  *         injections.append(injection)
  * 
  *     return tuple(injections)             # <<<<<<<<<<<<<<
@@ -49208,13 +49208,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_parse_named_injections
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = PyList_AsTuple(__pyx_v_injections); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2656, __pyx_L1_error)
+  __pyx_t_2 = PyList_AsTuple(__pyx_v_injections); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2657, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2644
+  /* "dependency_injector/providers.pyx":2645
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
  * cpdef tuple parse_named_injections(dict kwargs):             # <<<<<<<<<<<<<<
@@ -49251,7 +49251,7 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_9parse_named_injectio
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("parse_named_injections (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 2644, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kwargs), (&PyDict_Type), 1, "kwargs", 1))) __PYX_ERR(1, 2645, __pyx_L1_error)
   __pyx_r = __pyx_pf_19dependency_injector_9providers_8parse_named_injections(__pyx_self, ((PyObject*)__pyx_v_kwargs));
 
   /* function exit code */
@@ -49272,7 +49272,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8parse_named_injectio
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("parse_named_injections", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_parse_named_injections(__pyx_v_kwargs, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2644, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_parse_named_injections(__pyx_v_kwargs, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2645, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -49289,7 +49289,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_8parse_named_injectio
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2659
+/* "dependency_injector/providers.pyx":2660
  * 
  * 
  * cpdef bint is_provider(object instance):             # <<<<<<<<<<<<<<
@@ -49310,7 +49310,7 @@ static int __pyx_f_19dependency_injector_9providers_is_provider(PyObject *__pyx_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_provider", 0);
 
-  /* "dependency_injector/providers.pyx":2667
+  /* "dependency_injector/providers.pyx":2668
  *     :rtype: bool
  *     """
  *     return (not isinstance(instance, CLASS_TYPES) and             # <<<<<<<<<<<<<<
@@ -49319,7 +49319,7 @@ static int __pyx_f_19dependency_injector_9providers_is_provider(PyObject *__pyx_
  */
   __pyx_t_2 = __pyx_v_19dependency_injector_9providers_CLASS_TYPES;
   __Pyx_INCREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_IsInstance(__pyx_v_instance, __pyx_t_2); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(1, 2667, __pyx_L1_error)
+  __pyx_t_3 = PyObject_IsInstance(__pyx_v_instance, __pyx_t_2); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(1, 2668, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_4 = ((!(__pyx_t_3 != 0)) != 0);
   if (__pyx_t_4) {
@@ -49328,14 +49328,14 @@ static int __pyx_f_19dependency_injector_9providers_is_provider(PyObject *__pyx_
     goto __pyx_L3_bool_binop_done;
   }
 
-  /* "dependency_injector/providers.pyx":2668
+  /* "dependency_injector/providers.pyx":2669
  *     """
  *     return (not isinstance(instance, CLASS_TYPES) and
  *             getattr(instance, '__IS_PROVIDER__', False) is True)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_GetAttr3(__pyx_v_instance, __pyx_n_s_IS_PROVIDER, Py_False); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2668, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetAttr3(__pyx_v_instance, __pyx_n_s_IS_PROVIDER, Py_False); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2669, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = (__pyx_t_2 == Py_True);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -49345,7 +49345,7 @@ static int __pyx_f_19dependency_injector_9providers_is_provider(PyObject *__pyx_
   __pyx_r = __pyx_t_1;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2659
+  /* "dependency_injector/providers.pyx":2660
  * 
  * 
  * cpdef bint is_provider(object instance):             # <<<<<<<<<<<<<<
@@ -49386,7 +49386,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_10is_provider(CYTHON_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_provider", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_19dependency_injector_9providers_is_provider(__pyx_v_instance, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2659, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_19dependency_injector_9providers_is_provider(__pyx_v_instance, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2660, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -49403,7 +49403,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_10is_provider(CYTHON_
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2671
+/* "dependency_injector/providers.pyx":2672
  * 
  * 
  * cpdef object ensure_is_provider(object instance):             # <<<<<<<<<<<<<<
@@ -49427,7 +49427,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_ensure_is_provider(PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ensure_is_provider", 0);
 
-  /* "dependency_injector/providers.pyx":2682
+  /* "dependency_injector/providers.pyx":2683
  *     :rtype: :py:class:`dependency_injector.providers.Provider`
  *     """
  *     if not is_provider(instance):             # <<<<<<<<<<<<<<
@@ -49437,26 +49437,26 @@ static PyObject *__pyx_f_19dependency_injector_9providers_ensure_is_provider(PyO
   __pyx_t_1 = ((!(__pyx_f_19dependency_injector_9providers_is_provider(__pyx_v_instance, 0) != 0)) != 0);
   if (unlikely(__pyx_t_1)) {
 
-    /* "dependency_injector/providers.pyx":2683
+    /* "dependency_injector/providers.pyx":2684
  *     """
  *     if not is_provider(instance):
  *         raise Error('Expected provider instance, '             # <<<<<<<<<<<<<<
  *                     'got {0}'.format(str(instance)))
  *     return instance
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Error); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2683, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_Error); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2684, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
 
-    /* "dependency_injector/providers.pyx":2684
+    /* "dependency_injector/providers.pyx":2685
  *     if not is_provider(instance):
  *         raise Error('Expected provider instance, '
  *                     'got {0}'.format(str(instance)))             # <<<<<<<<<<<<<<
  *     return instance
  * 
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Expected_provider_instance_got_0, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2684, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Expected_provider_instance_got_0, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2685, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_instance); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2684, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(((PyObject *)(&PyString_Type)), __pyx_v_instance); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2685, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -49471,7 +49471,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_ensure_is_provider(PyO
     __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_7, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2684, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2685, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = NULL;
@@ -49487,14 +49487,14 @@ static PyObject *__pyx_f_19dependency_injector_9providers_ensure_is_provider(PyO
     __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2683, __pyx_L1_error)
+    if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2684, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(1, 2683, __pyx_L1_error)
+    __PYX_ERR(1, 2684, __pyx_L1_error)
 
-    /* "dependency_injector/providers.pyx":2682
+    /* "dependency_injector/providers.pyx":2683
  *     :rtype: :py:class:`dependency_injector.providers.Provider`
  *     """
  *     if not is_provider(instance):             # <<<<<<<<<<<<<<
@@ -49503,7 +49503,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_ensure_is_provider(PyO
  */
   }
 
-  /* "dependency_injector/providers.pyx":2685
+  /* "dependency_injector/providers.pyx":2686
  *         raise Error('Expected provider instance, '
  *                     'got {0}'.format(str(instance)))
  *     return instance             # <<<<<<<<<<<<<<
@@ -49515,7 +49515,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_ensure_is_provider(PyO
   __pyx_r = __pyx_v_instance;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2671
+  /* "dependency_injector/providers.pyx":2672
  * 
  * 
  * cpdef object ensure_is_provider(object instance):             # <<<<<<<<<<<<<<
@@ -49562,7 +49562,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_12ensure_is_provider(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ensure_is_provider", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_ensure_is_provider(__pyx_v_instance, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2671, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_ensure_is_provider(__pyx_v_instance, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2672, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -49579,7 +49579,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_12ensure_is_provider(
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2688
+/* "dependency_injector/providers.pyx":2689
  * 
  * 
  * cpdef bint is_delegated(object instance):             # <<<<<<<<<<<<<<
@@ -49600,7 +49600,7 @@ static int __pyx_f_19dependency_injector_9providers_is_delegated(PyObject *__pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_delegated", 0);
 
-  /* "dependency_injector/providers.pyx":2696
+  /* "dependency_injector/providers.pyx":2697
  *     :rtype: bool
  *     """
  *     return (not isinstance(instance, CLASS_TYPES) and             # <<<<<<<<<<<<<<
@@ -49609,7 +49609,7 @@ static int __pyx_f_19dependency_injector_9providers_is_delegated(PyObject *__pyx
  */
   __pyx_t_2 = __pyx_v_19dependency_injector_9providers_CLASS_TYPES;
   __Pyx_INCREF(__pyx_t_2);
-  __pyx_t_3 = PyObject_IsInstance(__pyx_v_instance, __pyx_t_2); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(1, 2696, __pyx_L1_error)
+  __pyx_t_3 = PyObject_IsInstance(__pyx_v_instance, __pyx_t_2); if (unlikely(__pyx_t_3 == ((int)-1))) __PYX_ERR(1, 2697, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_4 = ((!(__pyx_t_3 != 0)) != 0);
   if (__pyx_t_4) {
@@ -49618,14 +49618,14 @@ static int __pyx_f_19dependency_injector_9providers_is_delegated(PyObject *__pyx
     goto __pyx_L3_bool_binop_done;
   }
 
-  /* "dependency_injector/providers.pyx":2697
+  /* "dependency_injector/providers.pyx":2698
  *     """
  *     return (not isinstance(instance, CLASS_TYPES) and
  *             getattr(instance, '__IS_DELEGATED__', False) is True)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_GetAttr3(__pyx_v_instance, __pyx_n_s_IS_DELEGATED, Py_False); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2697, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetAttr3(__pyx_v_instance, __pyx_n_s_IS_DELEGATED, Py_False); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2698, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = (__pyx_t_2 == Py_True);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -49635,7 +49635,7 @@ static int __pyx_f_19dependency_injector_9providers_is_delegated(PyObject *__pyx
   __pyx_r = __pyx_t_1;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2688
+  /* "dependency_injector/providers.pyx":2689
  * 
  * 
  * cpdef bint is_delegated(object instance):             # <<<<<<<<<<<<<<
@@ -49676,7 +49676,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14is_delegated(CYTHON
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("is_delegated", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_19dependency_injector_9providers_is_delegated(__pyx_v_instance, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2688, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_f_19dependency_injector_9providers_is_delegated(__pyx_v_instance, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2689, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -49693,7 +49693,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_14is_delegated(CYTHON
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2700
+/* "dependency_injector/providers.pyx":2701
  * 
  * 
  * cpdef str represent_provider(object provider, object provides):             # <<<<<<<<<<<<<<
@@ -49716,7 +49716,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_represent_provider(PyO
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("represent_provider", 0);
 
-  /* "dependency_injector/providers.pyx":2712
+  /* "dependency_injector/providers.pyx":2713
  *     :rtype: str
  *     """
  *     return '<{provider}({provides}) at {address}>'.format(             # <<<<<<<<<<<<<<
@@ -49724,45 +49724,45 @@ static PyObject *__pyx_f_19dependency_injector_9providers_represent_provider(PyO
  *                            provider.__class__.__name__)),
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_provider_provides_at_address, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2712, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_provider_provides_at_address, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2713, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "dependency_injector/providers.pyx":2713
+  /* "dependency_injector/providers.pyx":2714
  *     """
  *     return '<{provider}({provides}) at {address}>'.format(
  *         provider='.'.join((provider.__class__.__module__,             # <<<<<<<<<<<<<<
  *                            provider.__class__.__name__)),
  *         provides=repr(provides) if provides is not None else '',
  */
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2713, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2714, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_provider, __pyx_n_s_class); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2713, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_provider, __pyx_n_s_class); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2714, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_module); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2713, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_module); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2714, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":2714
+  /* "dependency_injector/providers.pyx":2715
  *     return '<{provider}({provides}) at {address}>'.format(
  *         provider='.'.join((provider.__class__.__module__,
  *                            provider.__class__.__name__)),             # <<<<<<<<<<<<<<
  *         provides=repr(provides) if provides is not None else '',
  *         address=hex(id(provider)))
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_provider, __pyx_n_s_class); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2714, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_provider, __pyx_n_s_class); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2715, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_name); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2714, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_name); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2715, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":2713
+  /* "dependency_injector/providers.pyx":2714
  *     """
  *     return '<{provider}({provides}) at {address}>'.format(
  *         provider='.'.join((provider.__class__.__module__,             # <<<<<<<<<<<<<<
  *                            provider.__class__.__name__)),
  *         provides=repr(provides) if provides is not None else '',
  */
-  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2713, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2714, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_4);
@@ -49770,13 +49770,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_represent_provider(PyO
   PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_5);
   __pyx_t_4 = 0;
   __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyString_Join(__pyx_kp_s__4, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2713, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyString_Join(__pyx_kp_s__4, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2714, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_provider, __pyx_t_5) < 0) __PYX_ERR(1, 2713, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_provider, __pyx_t_5) < 0) __PYX_ERR(1, 2714, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "dependency_injector/providers.pyx":2715
+  /* "dependency_injector/providers.pyx":2716
  *         provider='.'.join((provider.__class__.__module__,
  *                            provider.__class__.__name__)),
  *         provides=repr(provides) if provides is not None else '',             # <<<<<<<<<<<<<<
@@ -49785,7 +49785,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_represent_provider(PyO
  */
   __pyx_t_6 = (__pyx_v_provides != Py_None);
   if ((__pyx_t_6 != 0)) {
-    __pyx_t_3 = PyObject_Repr(__pyx_v_provides); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2715, __pyx_L1_error)
+    __pyx_t_3 = PyObject_Repr(__pyx_v_provides); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2716, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_5 = __pyx_t_3;
     __pyx_t_3 = 0;
@@ -49793,41 +49793,41 @@ static PyObject *__pyx_f_19dependency_injector_9providers_represent_provider(PyO
     __Pyx_INCREF(__pyx_kp_s__8);
     __pyx_t_5 = __pyx_kp_s__8;
   }
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_provides, __pyx_t_5) < 0) __PYX_ERR(1, 2713, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_provides, __pyx_t_5) < 0) __PYX_ERR(1, 2714, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "dependency_injector/providers.pyx":2716
+  /* "dependency_injector/providers.pyx":2717
  *                            provider.__class__.__name__)),
  *         provides=repr(provides) if provides is not None else '',
  *         address=hex(id(provider)))             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, __pyx_v_provider); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2716, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, __pyx_v_provider); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2717, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_hex, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2716, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_hex, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2717, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_address, __pyx_t_3) < 0) __PYX_ERR(1, 2713, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_address, __pyx_t_3) < 0) __PYX_ERR(1, 2714, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":2712
+  /* "dependency_injector/providers.pyx":2713
  *     :rtype: str
  *     """
  *     return '<{provider}({provides}) at {address}>'.format(             # <<<<<<<<<<<<<<
  *         provider='.'.join((provider.__class__.__module__,
  *                            provider.__class__.__name__)),
  */
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2712, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2713, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(1, 2712, __pyx_L1_error)
+  if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(1, 2713, __pyx_L1_error)
   __pyx_r = ((PyObject*)__pyx_t_3);
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2700
+  /* "dependency_injector/providers.pyx":2701
  * 
  * 
  * cpdef str represent_provider(object provider, object provides):             # <<<<<<<<<<<<<<
@@ -49885,11 +49885,11 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_17represent_provider(
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_provides)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("represent_provider", 1, 2, 2, 1); __PYX_ERR(1, 2700, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("represent_provider", 1, 2, 2, 1); __PYX_ERR(1, 2701, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "represent_provider") < 0)) __PYX_ERR(1, 2700, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "represent_provider") < 0)) __PYX_ERR(1, 2701, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -49902,7 +49902,7 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_17represent_provider(
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("represent_provider", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2700, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("represent_provider", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2701, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.represent_provider", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -49924,7 +49924,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16represent_provider(
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("represent_provider", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_represent_provider(__pyx_v_provider, __pyx_v_provides, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2700, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_represent_provider(__pyx_v_provider, __pyx_v_provides, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2701, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -49941,7 +49941,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_16represent_provider(
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2719
+/* "dependency_injector/providers.pyx":2720
  * 
  * 
  * cpdef object deepcopy(object instance, dict memo=None):             # <<<<<<<<<<<<<<
@@ -49972,7 +49972,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_deepcopy(PyObject *__p
   }
   __Pyx_INCREF(__pyx_v_memo);
 
-  /* "dependency_injector/providers.pyx":2721
+  /* "dependency_injector/providers.pyx":2722
  * cpdef object deepcopy(object instance, dict memo=None):
  *     """Return full copy of provider or container with providers."""
  *     if memo is None:             # <<<<<<<<<<<<<<
@@ -49983,19 +49983,19 @@ static PyObject *__pyx_f_19dependency_injector_9providers_deepcopy(PyObject *__p
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "dependency_injector/providers.pyx":2722
+    /* "dependency_injector/providers.pyx":2723
  *     """Return full copy of provider or container with providers."""
  *     if memo is None:
  *         memo = dict()             # <<<<<<<<<<<<<<
  * 
  *     __add_sys_streams(memo)
  */
-    __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2722, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2723, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF_SET(__pyx_v_memo, ((PyObject*)__pyx_t_3));
     __pyx_t_3 = 0;
 
-    /* "dependency_injector/providers.pyx":2721
+    /* "dependency_injector/providers.pyx":2722
  * cpdef object deepcopy(object instance, dict memo=None):
  *     """Return full copy of provider or container with providers."""
  *     if memo is None:             # <<<<<<<<<<<<<<
@@ -50004,14 +50004,14 @@ static PyObject *__pyx_f_19dependency_injector_9providers_deepcopy(PyObject *__p
  */
   }
 
-  /* "dependency_injector/providers.pyx":2724
+  /* "dependency_injector/providers.pyx":2725
  *         memo = dict()
  * 
  *     __add_sys_streams(memo)             # <<<<<<<<<<<<<<
  * 
  *     return copy.deepcopy(instance, memo)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_add_sys_streams); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2724, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_add_sys_streams); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2725, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __pyx_t_5 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -50025,12 +50025,12 @@ static PyObject *__pyx_f_19dependency_injector_9providers_deepcopy(PyObject *__p
   }
   __pyx_t_3 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_5, __pyx_v_memo) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_memo);
   __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2724, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2725, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dependency_injector/providers.pyx":2726
+  /* "dependency_injector/providers.pyx":2727
  *     __add_sys_streams(memo)
  * 
  *     return copy.deepcopy(instance, memo)             # <<<<<<<<<<<<<<
@@ -50038,9 +50038,9 @@ static PyObject *__pyx_f_19dependency_injector_9providers_deepcopy(PyObject *__p
  * def __add_sys_streams(memo):
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_copy); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2726, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_copy); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 2727, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_deepcopy); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2726, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_deepcopy); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2727, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -50058,7 +50058,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_deepcopy(PyObject *__p
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_5)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_instance, __pyx_v_memo};
-    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2726, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2727, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_3);
   } else
@@ -50066,13 +50066,13 @@ static PyObject *__pyx_f_19dependency_injector_9providers_deepcopy(PyObject *__p
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
     PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_instance, __pyx_v_memo};
-    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2726, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_6, 2+__pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2727, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_GOTREF(__pyx_t_3);
   } else
   #endif
   {
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 2726, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 2727, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_4) {
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -50083,7 +50083,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_deepcopy(PyObject *__p
     __Pyx_INCREF(__pyx_v_memo);
     __Pyx_GIVEREF(__pyx_v_memo);
     PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_6, __pyx_v_memo);
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2726, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2727, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
@@ -50092,7 +50092,7 @@ static PyObject *__pyx_f_19dependency_injector_9providers_deepcopy(PyObject *__p
   __pyx_t_3 = 0;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2719
+  /* "dependency_injector/providers.pyx":2720
  * 
  * 
  * cpdef object deepcopy(object instance, dict memo=None):             # <<<<<<<<<<<<<<
@@ -50155,7 +50155,7 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_19deepcopy(PyObject *
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "deepcopy") < 0)) __PYX_ERR(1, 2719, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "deepcopy") < 0)) __PYX_ERR(1, 2720, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -50171,13 +50171,13 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_19deepcopy(PyObject *
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("deepcopy", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2719, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("deepcopy", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2720, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.deepcopy", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_memo), (&PyDict_Type), 1, "memo", 1))) __PYX_ERR(1, 2719, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_memo), (&PyDict_Type), 1, "memo", 1))) __PYX_ERR(1, 2720, __pyx_L1_error)
   __pyx_r = __pyx_pf_19dependency_injector_9providers_18deepcopy(__pyx_self, __pyx_v_instance, __pyx_v_memo);
 
   /* function exit code */
@@ -50201,7 +50201,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_18deepcopy(CYTHON_UNU
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.memo = __pyx_v_memo;
-  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_v_instance, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2719, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_19dependency_injector_9providers_deepcopy(__pyx_v_instance, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2720, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -50218,7 +50218,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_18deepcopy(CYTHON_UNU
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2728
+/* "dependency_injector/providers.pyx":2729
  *     return copy.deepcopy(instance, memo)
  * 
  * def __add_sys_streams(memo):             # <<<<<<<<<<<<<<
@@ -50252,79 +50252,79 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_20__add_sys_streams(C
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__add_sys_streams", 0);
 
-  /* "dependency_injector/providers.pyx":2734
+  /* "dependency_injector/providers.pyx":2735
  *     objects graph.
  *     """
  *     memo[id(sys.stdin)] = sys.stdin             # <<<<<<<<<<<<<<
  *     memo[id(sys.stdout)] = sys.stdout
  *     memo[id(sys.stderr)] = sys.stderr
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_sys); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2734, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_sys); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2735, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_stdin); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2734, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_stdin); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2735, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_sys); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2734, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_sys); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2735, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_stdin); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2734, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_stdin); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2735, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2734, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2735, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(PyObject_SetItem(__pyx_v_memo, __pyx_t_1, __pyx_t_2) < 0)) __PYX_ERR(1, 2734, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(__pyx_v_memo, __pyx_t_1, __pyx_t_2) < 0)) __PYX_ERR(1, 2735, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":2735
+  /* "dependency_injector/providers.pyx":2736
  *     """
  *     memo[id(sys.stdin)] = sys.stdin
  *     memo[id(sys.stdout)] = sys.stdout             # <<<<<<<<<<<<<<
  *     memo[id(sys.stderr)] = sys.stderr
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2735, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2736, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_stdout); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2735, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_stdout); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2736, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2735, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_sys); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2736, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_stdout); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2735, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_stdout); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2736, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2735, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2736, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(PyObject_SetItem(__pyx_v_memo, __pyx_t_2, __pyx_t_1) < 0)) __PYX_ERR(1, 2735, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(__pyx_v_memo, __pyx_t_2, __pyx_t_1) < 0)) __PYX_ERR(1, 2736, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dependency_injector/providers.pyx":2736
+  /* "dependency_injector/providers.pyx":2737
  *     memo[id(sys.stdin)] = sys.stdin
  *     memo[id(sys.stdout)] = sys.stdout
  *     memo[id(sys.stderr)] = sys.stderr             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_sys); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2736, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_sys); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2737, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_stderr); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2736, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_stderr); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2737, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_sys); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2736, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_sys); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2737, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_stderr); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2736, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_stderr); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2737, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2736, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2737, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(PyObject_SetItem(__pyx_v_memo, __pyx_t_1, __pyx_t_2) < 0)) __PYX_ERR(1, 2736, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(__pyx_v_memo, __pyx_t_1, __pyx_t_2) < 0)) __PYX_ERR(1, 2737, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":2728
+  /* "dependency_injector/providers.pyx":2729
  *     return copy.deepcopy(instance, memo)
  * 
  * def __add_sys_streams(memo):             # <<<<<<<<<<<<<<
@@ -50347,7 +50347,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_20__add_sys_streams(C
   return __pyx_r;
 }
 
-/* "dependency_injector/providers.pyx":2739
+/* "dependency_injector/providers.pyx":2740
  * 
  * 
  * def merge_dicts(dict1, dict2):             # <<<<<<<<<<<<<<
@@ -50391,11 +50391,11 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_23merge_dicts(PyObjec
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dict2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("merge_dicts", 1, 2, 2, 1); __PYX_ERR(1, 2739, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("merge_dicts", 1, 2, 2, 1); __PYX_ERR(1, 2740, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "merge_dicts") < 0)) __PYX_ERR(1, 2739, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "merge_dicts") < 0)) __PYX_ERR(1, 2740, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -50408,7 +50408,7 @@ static PyObject *__pyx_pw_19dependency_injector_9providers_23merge_dicts(PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("merge_dicts", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2739, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("merge_dicts", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(1, 2740, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dependency_injector.providers.merge_dicts", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -50445,14 +50445,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("merge_dicts", 0);
 
-  /* "dependency_injector/providers.pyx":2751
+  /* "dependency_injector/providers.pyx":2752
  *     :rtype: dict
  *     """
  *     for key, value in dict1.items():             # <<<<<<<<<<<<<<
  *         if key in dict2:
  *             if isinstance(value, dict) and isinstance(dict2[key], dict):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_dict1, __pyx_n_s_items); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2751, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_dict1, __pyx_n_s_items); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2752, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
@@ -50466,16 +50466,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
   }
   __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2751, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2752, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2751, __pyx_L1_error)
+    __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2752, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2751, __pyx_L1_error)
+    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 2752, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -50483,17 +50483,17 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 2751, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 2752, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2751, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2752, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 2751, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(1, 2752, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2751, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2752, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -50503,7 +50503,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(1, 2751, __pyx_L1_error)
+          else __PYX_ERR(1, 2752, __pyx_L1_error)
         }
         break;
       }
@@ -50515,7 +50515,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
       if (unlikely(size != 2)) {
         if (size > 2) __Pyx_RaiseTooManyValuesError(2);
         else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-        __PYX_ERR(1, 2751, __pyx_L1_error)
+        __PYX_ERR(1, 2752, __pyx_L1_error)
       }
       #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
       if (likely(PyTuple_CheckExact(sequence))) {
@@ -50528,15 +50528,15 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
       __Pyx_INCREF(__pyx_t_3);
       __Pyx_INCREF(__pyx_t_6);
       #else
-      __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2751, __pyx_L1_error)
+      __pyx_t_3 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2752, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2751, __pyx_L1_error)
+      __pyx_t_6 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2752, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       #endif
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     } else {
       Py_ssize_t index = -1;
-      __pyx_t_7 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 2751, __pyx_L1_error)
+      __pyx_t_7 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_7)) __PYX_ERR(1, 2752, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_8 = Py_TYPE(__pyx_t_7)->tp_iternext;
@@ -50544,7 +50544,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
       __Pyx_GOTREF(__pyx_t_3);
       index = 1; __pyx_t_6 = __pyx_t_8(__pyx_t_7); if (unlikely(!__pyx_t_6)) goto __pyx_L5_unpacking_failed;
       __Pyx_GOTREF(__pyx_t_6);
-      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_7), 2) < 0) __PYX_ERR(1, 2751, __pyx_L1_error)
+      if (__Pyx_IternextUnpackEndCheck(__pyx_t_8(__pyx_t_7), 2) < 0) __PYX_ERR(1, 2752, __pyx_L1_error)
       __pyx_t_8 = NULL;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       goto __pyx_L6_unpacking_done;
@@ -50552,7 +50552,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_8 = NULL;
       if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-      __PYX_ERR(1, 2751, __pyx_L1_error)
+      __PYX_ERR(1, 2752, __pyx_L1_error)
       __pyx_L6_unpacking_done:;
     }
     __Pyx_XDECREF_SET(__pyx_v_key, __pyx_t_3);
@@ -50560,18 +50560,18 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
     __Pyx_XDECREF_SET(__pyx_v_value, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "dependency_injector/providers.pyx":2752
+    /* "dependency_injector/providers.pyx":2753
  *     """
  *     for key, value in dict1.items():
  *         if key in dict2:             # <<<<<<<<<<<<<<
  *             if isinstance(value, dict) and isinstance(dict2[key], dict):
  *                 dict2[key] = merge_dicts(value, dict2[key])
  */
-    __pyx_t_9 = (__Pyx_PySequence_ContainsTF(__pyx_v_key, __pyx_v_dict2, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 2752, __pyx_L1_error)
+    __pyx_t_9 = (__Pyx_PySequence_ContainsTF(__pyx_v_key, __pyx_v_dict2, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(1, 2753, __pyx_L1_error)
     __pyx_t_10 = (__pyx_t_9 != 0);
     if (__pyx_t_10) {
 
-      /* "dependency_injector/providers.pyx":2753
+      /* "dependency_injector/providers.pyx":2754
  *     for key, value in dict1.items():
  *         if key in dict2:
  *             if isinstance(value, dict) and isinstance(dict2[key], dict):             # <<<<<<<<<<<<<<
@@ -50585,7 +50585,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
         __pyx_t_10 = __pyx_t_11;
         goto __pyx_L9_bool_binop_done;
       }
-      __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_dict2, __pyx_v_key); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2753, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_dict2, __pyx_v_key); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2754, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __pyx_t_11 = PyDict_Check(__pyx_t_1); 
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -50594,16 +50594,16 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
       __pyx_L9_bool_binop_done:;
       if (__pyx_t_10) {
 
-        /* "dependency_injector/providers.pyx":2754
+        /* "dependency_injector/providers.pyx":2755
  *         if key in dict2:
  *             if isinstance(value, dict) and isinstance(dict2[key], dict):
  *                 dict2[key] = merge_dicts(value, dict2[key])             # <<<<<<<<<<<<<<
  *     result = dict1.copy()
  *     result.update(dict2)
  */
-        __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_merge_dicts); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2754, __pyx_L1_error)
+        __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_merge_dicts); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 2755, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_dict2, __pyx_v_key); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2754, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_dict2, __pyx_v_key); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 2755, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __pyx_t_7 = NULL;
         __pyx_t_12 = 0;
@@ -50620,7 +50620,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_6)) {
           PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_v_value, __pyx_t_3};
-          __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2754, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2755, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -50629,14 +50629,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
           PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_v_value, __pyx_t_3};
-          __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2754, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2755, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         } else
         #endif
         {
-          __pyx_t_13 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_13)) __PYX_ERR(1, 2754, __pyx_L1_error)
+          __pyx_t_13 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_13)) __PYX_ERR(1, 2755, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_13);
           if (__pyx_t_7) {
             __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -50647,15 +50647,15 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
           __Pyx_GIVEREF(__pyx_t_3);
           PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_12, __pyx_t_3);
           __pyx_t_3 = 0;
-          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2754, __pyx_L1_error)
+          __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_13, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2755, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
         }
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        if (unlikely(PyObject_SetItem(__pyx_v_dict2, __pyx_v_key, __pyx_t_1) < 0)) __PYX_ERR(1, 2754, __pyx_L1_error)
+        if (unlikely(PyObject_SetItem(__pyx_v_dict2, __pyx_v_key, __pyx_t_1) < 0)) __PYX_ERR(1, 2755, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "dependency_injector/providers.pyx":2753
+        /* "dependency_injector/providers.pyx":2754
  *     for key, value in dict1.items():
  *         if key in dict2:
  *             if isinstance(value, dict) and isinstance(dict2[key], dict):             # <<<<<<<<<<<<<<
@@ -50664,7 +50664,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
  */
       }
 
-      /* "dependency_injector/providers.pyx":2752
+      /* "dependency_injector/providers.pyx":2753
  *     """
  *     for key, value in dict1.items():
  *         if key in dict2:             # <<<<<<<<<<<<<<
@@ -50673,7 +50673,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
  */
     }
 
-    /* "dependency_injector/providers.pyx":2751
+    /* "dependency_injector/providers.pyx":2752
  *     :rtype: dict
  *     """
  *     for key, value in dict1.items():             # <<<<<<<<<<<<<<
@@ -50683,14 +50683,14 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":2755
+  /* "dependency_injector/providers.pyx":2756
  *             if isinstance(value, dict) and isinstance(dict2[key], dict):
  *                 dict2[key] = merge_dicts(value, dict2[key])
  *     result = dict1.copy()             # <<<<<<<<<<<<<<
  *     result.update(dict2)
  *     return result
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_dict1, __pyx_n_s_copy); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2755, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_dict1, __pyx_n_s_copy); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2756, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -50704,19 +50704,19 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
   }
   __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2755, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2756, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_result = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":2756
+  /* "dependency_injector/providers.pyx":2757
  *                 dict2[key] = merge_dicts(value, dict2[key])
  *     result = dict1.copy()
  *     result.update(dict2)             # <<<<<<<<<<<<<<
  *     return result
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_result, __pyx_n_s_update); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2756, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_result, __pyx_n_s_update); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2757, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_6 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
@@ -50730,12 +50730,12 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
   }
   __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_6, __pyx_v_dict2) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_dict2);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2756, __pyx_L1_error)
+  if (unlikely(!__pyx_t_2)) __PYX_ERR(1, 2757, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dependency_injector/providers.pyx":2757
+  /* "dependency_injector/providers.pyx":2758
  *     result = dict1.copy()
  *     result.update(dict2)
  *     return result             # <<<<<<<<<<<<<<
@@ -50745,7 +50745,7 @@ static PyObject *__pyx_pf_19dependency_injector_9providers_22merge_dicts(CYTHON_
   __pyx_r = __pyx_v_result;
   goto __pyx_L0;
 
-  /* "dependency_injector/providers.pyx":2739
+  /* "dependency_injector/providers.pyx":2740
  * 
  * 
  * def merge_dicts(dict1, dict2):             # <<<<<<<<<<<<<<
@@ -70407,7 +70407,7 @@ static PyTypeObject __pyx_type_19dependency_injector_9providers_Configuration = 
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
-  "Configuration provider provides configuration options to the other providers.\n\n    .. code-block:: python\n        config = Configuration('config')\n        print(config.section1.option1())  # None\n        print(config.section1.option2())  # None\n        config.from_dict(\n            {\n                'section1': {\n                    'option1': 1,\n                    'option2': 2,\n                },\n            },\n        )\n        print(config.section1.option1())  # 1\n        print(config.section1.option2())  # 2\n    ", /*tp_doc*/
+  "Configuration provider provides configuration options to the other providers.\n\n    .. code-block:: python\n\n        config = Configuration('config')\n        print(config.section1.option1())  # None\n        print(config.section1.option2())  # None\n        config.from_dict(\n            {\n                'section1': {\n                    'option1': 1,\n                    'option2': 2,\n                },\n            },\n        )\n        print(config.section1.option1())  # 1\n        print(config.section1.option2())  # 2\n    ", /*tp_doc*/
   __pyx_tp_traverse_19dependency_injector_9providers_Configuration, /*tp_traverse*/
   __pyx_tp_clear_19dependency_injector_9providers_Configuration, /*tp_clear*/
   0, /*tp_richcompare*/
@@ -73765,7 +73765,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_NotImplementedError = __Pyx_GetBuiltinName(__pyx_n_s_NotImplementedError); if (!__pyx_builtin_NotImplementedError) __PYX_ERR(1, 274, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 426, __pyx_L1_error)
   __pyx_builtin_AttributeError = __Pyx_GetBuiltinName(__pyx_n_s_AttributeError); if (!__pyx_builtin_AttributeError) __PYX_ERR(1, 584, __pyx_L1_error)
-  __pyx_builtin_hex = __Pyx_GetBuiltinName(__pyx_n_s_hex); if (!__pyx_builtin_hex) __PYX_ERR(1, 2536, __pyx_L1_error)
+  __pyx_builtin_hex = __Pyx_GetBuiltinName(__pyx_n_s_hex); if (!__pyx_builtin_hex) __PYX_ERR(1, 2537, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -73867,29 +73867,29 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__18);
   __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(1, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector_provider, __pyx_n_s_parse_ini_file, 78, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) __PYX_ERR(1, 78, __pyx_L1_error)
 
-  /* "dependency_injector/providers.pyx":2728
+  /* "dependency_injector/providers.pyx":2729
  *     return copy.deepcopy(instance, memo)
  * 
  * def __add_sys_streams(memo):             # <<<<<<<<<<<<<<
  *     """Add system streams to memo dictionary.
  * 
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_n_s_memo); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(1, 2728, __pyx_L1_error)
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_n_s_memo); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(1, 2729, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
-  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector_provider, __pyx_n_s_add_sys_streams, 2728, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(1, 2728, __pyx_L1_error)
+  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector_provider, __pyx_n_s_add_sys_streams, 2729, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) __PYX_ERR(1, 2729, __pyx_L1_error)
 
-  /* "dependency_injector/providers.pyx":2739
+  /* "dependency_injector/providers.pyx":2740
  * 
  * 
  * def merge_dicts(dict1, dict2):             # <<<<<<<<<<<<<<
  *     """Merge dictionaries recursively.
  * 
  */
-  __pyx_tuple__22 = PyTuple_Pack(5, __pyx_n_s_dict1, __pyx_n_s_dict2, __pyx_n_s_key, __pyx_n_s_value, __pyx_n_s_result); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(1, 2739, __pyx_L1_error)
+  __pyx_tuple__22 = PyTuple_Pack(5, __pyx_n_s_dict1, __pyx_n_s_dict2, __pyx_n_s_key, __pyx_n_s_value, __pyx_n_s_result); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(1, 2740, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__22);
   __Pyx_GIVEREF(__pyx_tuple__22);
-  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__22, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector_provider, __pyx_n_s_merge_dicts, 2739, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(1, 2739, __pyx_L1_error)
+  __pyx_codeobj__23 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__22, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector_provider, __pyx_n_s_merge_dicts, 2740, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__23)) __PYX_ERR(1, 2740, __pyx_L1_error)
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_Provider(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
@@ -74620,7 +74620,7 @@ static int __Pyx_modinit_type_init_code(void) {
   __pyx_vtable_19dependency_injector_9providers_Factory.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_Provider;
   __pyx_vtable_19dependency_injector_9providers_Factory.__pyx_base._provide = (PyObject *(*)(struct __pyx_obj_19dependency_injector_9providers_Provider *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_19dependency_injector_9providers_7Factory__provide;
   __pyx_type_19dependency_injector_9providers_Factory.tp_base = __pyx_ptype_19dependency_injector_9providers_Provider;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_Factory) < 0) __PYX_ERR(1, 1493, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_Factory) < 0) __PYX_ERR(1, 1494, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_Factory.tp_print = 0;
   #endif
@@ -74629,7 +74629,7 @@ static int __Pyx_modinit_type_init_code(void) {
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Factory, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1493, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Factory, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1494, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_7Factory___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_7Factory___init__.doc = __pyx_doc_19dependency_injector_9providers_7Factory___init__;
@@ -74639,7 +74639,7 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Factory, "__str__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1493, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Factory, "__str__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1494, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_7Factory_4__str__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_7Factory_4__str__.doc = __pyx_doc_19dependency_injector_9providers_7Factory_4__str__;
@@ -74647,29 +74647,29 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_Factory.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_Factory) < 0) __PYX_ERR(1, 1493, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Factory, (PyObject *)&__pyx_type_19dependency_injector_9providers_Factory) < 0) __PYX_ERR(1, 1493, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_Factory) < 0) __PYX_ERR(1, 1493, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_Factory.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_Factory) < 0) __PYX_ERR(1, 1494, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Factory, (PyObject *)&__pyx_type_19dependency_injector_9providers_Factory) < 0) __PYX_ERR(1, 1494, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_Factory) < 0) __PYX_ERR(1, 1494, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_Factory = &__pyx_type_19dependency_injector_9providers_Factory;
   __pyx_vtabptr_19dependency_injector_9providers_DelegatedFactory = &__pyx_vtable_19dependency_injector_9providers_DelegatedFactory;
   __pyx_vtable_19dependency_injector_9providers_DelegatedFactory.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_Factory;
   __pyx_type_19dependency_injector_9providers_DelegatedFactory.tp_base = __pyx_ptype_19dependency_injector_9providers_Factory;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_DelegatedFactory) < 0) __PYX_ERR(1, 1710, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_DelegatedFactory) < 0) __PYX_ERR(1, 1711, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_DelegatedFactory.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19dependency_injector_9providers_DelegatedFactory.tp_dictoffset && __pyx_type_19dependency_injector_9providers_DelegatedFactory.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_19dependency_injector_9providers_DelegatedFactory.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_DelegatedFactory.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_DelegatedFactory) < 0) __PYX_ERR(1, 1710, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DelegatedFactory, (PyObject *)&__pyx_type_19dependency_injector_9providers_DelegatedFactory) < 0) __PYX_ERR(1, 1710, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_DelegatedFactory) < 0) __PYX_ERR(1, 1710, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_DelegatedFactory.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_DelegatedFactory) < 0) __PYX_ERR(1, 1711, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DelegatedFactory, (PyObject *)&__pyx_type_19dependency_injector_9providers_DelegatedFactory) < 0) __PYX_ERR(1, 1711, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_DelegatedFactory) < 0) __PYX_ERR(1, 1711, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_DelegatedFactory = &__pyx_type_19dependency_injector_9providers_DelegatedFactory;
   __pyx_vtabptr_19dependency_injector_9providers_AbstractFactory = &__pyx_vtable_19dependency_injector_9providers_AbstractFactory;
   __pyx_vtable_19dependency_injector_9providers_AbstractFactory.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_Factory;
   __pyx_vtable_19dependency_injector_9providers_AbstractFactory.__pyx_base.__pyx_base._provide = (PyObject *(*)(struct __pyx_obj_19dependency_injector_9providers_Provider *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_19dependency_injector_9providers_15AbstractFactory__provide;
   __pyx_type_19dependency_injector_9providers_AbstractFactory.tp_base = __pyx_ptype_19dependency_injector_9providers_Factory;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_AbstractFactory) < 0) __PYX_ERR(1, 1732, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_AbstractFactory) < 0) __PYX_ERR(1, 1733, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_AbstractFactory.tp_print = 0;
   #endif
@@ -74678,7 +74678,7 @@ static int __Pyx_modinit_type_init_code(void) {
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_AbstractFactory, "__call__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1732, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_AbstractFactory, "__call__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1733, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_15AbstractFactory___call__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_15AbstractFactory___call__.doc = __pyx_doc_19dependency_injector_9providers_15AbstractFactory___call__;
@@ -74686,14 +74686,14 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_AbstractFactory.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_AbstractFactory) < 0) __PYX_ERR(1, 1732, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_AbstractFactory, (PyObject *)&__pyx_type_19dependency_injector_9providers_AbstractFactory) < 0) __PYX_ERR(1, 1732, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_AbstractFactory) < 0) __PYX_ERR(1, 1732, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_AbstractFactory.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_AbstractFactory) < 0) __PYX_ERR(1, 1733, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_AbstractFactory, (PyObject *)&__pyx_type_19dependency_injector_9providers_AbstractFactory) < 0) __PYX_ERR(1, 1733, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_AbstractFactory) < 0) __PYX_ERR(1, 1733, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_AbstractFactory = &__pyx_type_19dependency_injector_9providers_AbstractFactory;
   __pyx_vtabptr_19dependency_injector_9providers_FactoryDelegate = &__pyx_vtable_19dependency_injector_9providers_FactoryDelegate;
   __pyx_vtable_19dependency_injector_9providers_FactoryDelegate.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_Delegate;
   __pyx_type_19dependency_injector_9providers_FactoryDelegate.tp_base = __pyx_ptype_19dependency_injector_9providers_Delegate;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_FactoryDelegate) < 0) __PYX_ERR(1, 1773, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_FactoryDelegate) < 0) __PYX_ERR(1, 1774, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_FactoryDelegate.tp_print = 0;
   #endif
@@ -74702,7 +74702,7 @@ static int __Pyx_modinit_type_init_code(void) {
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_FactoryDelegate, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1773, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_FactoryDelegate, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1774, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_15FactoryDelegate___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_15FactoryDelegate___init__.doc = __pyx_doc_19dependency_injector_9providers_15FactoryDelegate___init__;
@@ -74710,21 +74710,21 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_FactoryDelegate.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_FactoryDelegate) < 0) __PYX_ERR(1, 1773, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_FactoryDelegate, (PyObject *)&__pyx_type_19dependency_injector_9providers_FactoryDelegate) < 0) __PYX_ERR(1, 1773, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_FactoryDelegate) < 0) __PYX_ERR(1, 1773, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_FactoryDelegate.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_FactoryDelegate) < 0) __PYX_ERR(1, 1774, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_FactoryDelegate, (PyObject *)&__pyx_type_19dependency_injector_9providers_FactoryDelegate) < 0) __PYX_ERR(1, 1774, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_FactoryDelegate) < 0) __PYX_ERR(1, 1774, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_FactoryDelegate = &__pyx_type_19dependency_injector_9providers_FactoryDelegate;
   __pyx_vtabptr_19dependency_injector_9providers_FactoryAggregate = &__pyx_vtable_19dependency_injector_9providers_FactoryAggregate;
   __pyx_vtable_19dependency_injector_9providers_FactoryAggregate.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_Provider;
   __pyx_vtable_19dependency_injector_9providers_FactoryAggregate.__pyx___get_factory = (struct __pyx_obj_19dependency_injector_9providers_Factory *(*)(struct __pyx_obj_19dependency_injector_9providers_FactoryAggregate *, PyObject *))__pyx_f_19dependency_injector_9providers_16FactoryAggregate___get_factory;
   __pyx_type_19dependency_injector_9providers_FactoryAggregate.tp_base = __pyx_ptype_19dependency_injector_9providers_Provider;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_FactoryAggregate) < 0) __PYX_ERR(1, 1795, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_FactoryAggregate) < 0) __PYX_ERR(1, 1796, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_FactoryAggregate.tp_print = 0;
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_FactoryAggregate, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1795, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_FactoryAggregate, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1796, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_16FactoryAggregate___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_16FactoryAggregate___init__.doc = __pyx_doc_19dependency_injector_9providers_16FactoryAggregate___init__;
@@ -74734,7 +74734,7 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_FactoryAggregate, "__call__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1795, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_FactoryAggregate, "__call__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1796, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_16FactoryAggregate_4__call__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_16FactoryAggregate_4__call__.doc = __pyx_doc_19dependency_injector_9providers_16FactoryAggregate_4__call__;
@@ -74744,7 +74744,7 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_FactoryAggregate, "__getattr__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1795, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_FactoryAggregate, "__getattr__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1796, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_16FactoryAggregate_6__getattr__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_16FactoryAggregate_6__getattr__.doc = __pyx_doc_19dependency_injector_9providers_16FactoryAggregate_6__getattr__;
@@ -74754,7 +74754,7 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_FactoryAggregate, "__str__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1795, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_FactoryAggregate, "__str__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1796, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_16FactoryAggregate_8__str__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_16FactoryAggregate_8__str__.doc = __pyx_doc_19dependency_injector_9providers_16FactoryAggregate_8__str__;
@@ -74762,14 +74762,14 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_FactoryAggregate.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_FactoryAggregate) < 0) __PYX_ERR(1, 1795, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_FactoryAggregate, (PyObject *)&__pyx_type_19dependency_injector_9providers_FactoryAggregate) < 0) __PYX_ERR(1, 1795, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_FactoryAggregate) < 0) __PYX_ERR(1, 1795, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_FactoryAggregate.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_FactoryAggregate) < 0) __PYX_ERR(1, 1796, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_FactoryAggregate, (PyObject *)&__pyx_type_19dependency_injector_9providers_FactoryAggregate) < 0) __PYX_ERR(1, 1796, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_FactoryAggregate) < 0) __PYX_ERR(1, 1796, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_FactoryAggregate = &__pyx_type_19dependency_injector_9providers_FactoryAggregate;
   __pyx_vtabptr_19dependency_injector_9providers_BaseSingleton = &__pyx_vtable_19dependency_injector_9providers_BaseSingleton;
   __pyx_vtable_19dependency_injector_9providers_BaseSingleton.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_Provider;
   __pyx_type_19dependency_injector_9providers_BaseSingleton.tp_base = __pyx_ptype_19dependency_injector_9providers_Provider;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_BaseSingleton) < 0) __PYX_ERR(1, 1882, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_BaseSingleton) < 0) __PYX_ERR(1, 1883, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_BaseSingleton.tp_print = 0;
   #endif
@@ -74778,7 +74778,7 @@ static int __Pyx_modinit_type_init_code(void) {
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_BaseSingleton, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1882, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_BaseSingleton, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1883, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_13BaseSingleton___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_13BaseSingleton___init__.doc = __pyx_doc_19dependency_injector_9providers_13BaseSingleton___init__;
@@ -74788,7 +74788,7 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_BaseSingleton, "__str__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1882, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_BaseSingleton, "__str__"); if (unlikely(!wrapper)) __PYX_ERR(1, 1883, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_13BaseSingleton_2__str__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_13BaseSingleton_2__str__.doc = __pyx_doc_19dependency_injector_9providers_13BaseSingleton_2__str__;
@@ -74796,15 +74796,15 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_BaseSingleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_BaseSingleton) < 0) __PYX_ERR(1, 1882, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_BaseSingleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_BaseSingleton) < 0) __PYX_ERR(1, 1882, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_BaseSingleton) < 0) __PYX_ERR(1, 1882, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_BaseSingleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_BaseSingleton) < 0) __PYX_ERR(1, 1883, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_BaseSingleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_BaseSingleton) < 0) __PYX_ERR(1, 1883, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_BaseSingleton) < 0) __PYX_ERR(1, 1883, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_BaseSingleton = &__pyx_type_19dependency_injector_9providers_BaseSingleton;
   __pyx_vtabptr_19dependency_injector_9providers_Singleton = &__pyx_vtable_19dependency_injector_9providers_Singleton;
   __pyx_vtable_19dependency_injector_9providers_Singleton.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_BaseSingleton;
   __pyx_vtable_19dependency_injector_9providers_Singleton.__pyx_base.__pyx_base._provide = (PyObject *(*)(struct __pyx_obj_19dependency_injector_9providers_Provider *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_19dependency_injector_9providers_9Singleton__provide;
   __pyx_type_19dependency_injector_9providers_Singleton.tp_base = __pyx_ptype_19dependency_injector_9providers_BaseSingleton;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_Singleton) < 0) __PYX_ERR(1, 2035, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_Singleton) < 0) __PYX_ERR(1, 2036, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_Singleton.tp_print = 0;
   #endif
@@ -74813,7 +74813,7 @@ static int __Pyx_modinit_type_init_code(void) {
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Singleton, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2035, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Singleton, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2036, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_9Singleton___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_9Singleton___init__.doc = __pyx_doc_19dependency_injector_9providers_9Singleton___init__;
@@ -74821,29 +74821,29 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_Singleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_Singleton) < 0) __PYX_ERR(1, 2035, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Singleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_Singleton) < 0) __PYX_ERR(1, 2035, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_Singleton) < 0) __PYX_ERR(1, 2035, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_Singleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_Singleton) < 0) __PYX_ERR(1, 2036, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Singleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_Singleton) < 0) __PYX_ERR(1, 2036, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_Singleton) < 0) __PYX_ERR(1, 2036, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_Singleton = &__pyx_type_19dependency_injector_9providers_Singleton;
   __pyx_vtabptr_19dependency_injector_9providers_DelegatedSingleton = &__pyx_vtable_19dependency_injector_9providers_DelegatedSingleton;
   __pyx_vtable_19dependency_injector_9providers_DelegatedSingleton.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_Singleton;
   __pyx_type_19dependency_injector_9providers_DelegatedSingleton.tp_base = __pyx_ptype_19dependency_injector_9providers_Singleton;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_DelegatedSingleton) < 0) __PYX_ERR(1, 2091, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_DelegatedSingleton) < 0) __PYX_ERR(1, 2092, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_DelegatedSingleton.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19dependency_injector_9providers_DelegatedSingleton.tp_dictoffset && __pyx_type_19dependency_injector_9providers_DelegatedSingleton.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_19dependency_injector_9providers_DelegatedSingleton.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_DelegatedSingleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_DelegatedSingleton) < 0) __PYX_ERR(1, 2091, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DelegatedSingleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_DelegatedSingleton) < 0) __PYX_ERR(1, 2091, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_DelegatedSingleton) < 0) __PYX_ERR(1, 2091, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_DelegatedSingleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_DelegatedSingleton) < 0) __PYX_ERR(1, 2092, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DelegatedSingleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_DelegatedSingleton) < 0) __PYX_ERR(1, 2092, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_DelegatedSingleton) < 0) __PYX_ERR(1, 2092, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_DelegatedSingleton = &__pyx_type_19dependency_injector_9providers_DelegatedSingleton;
   __pyx_vtabptr_19dependency_injector_9providers_ThreadSafeSingleton = &__pyx_vtable_19dependency_injector_9providers_ThreadSafeSingleton;
   __pyx_vtable_19dependency_injector_9providers_ThreadSafeSingleton.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_BaseSingleton;
   __pyx_vtable_19dependency_injector_9providers_ThreadSafeSingleton.__pyx_base.__pyx_base._provide = (PyObject *(*)(struct __pyx_obj_19dependency_injector_9providers_Provider *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_19dependency_injector_9providers_19ThreadSafeSingleton__provide;
   __pyx_type_19dependency_injector_9providers_ThreadSafeSingleton.tp_base = __pyx_ptype_19dependency_injector_9providers_BaseSingleton;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_ThreadSafeSingleton) < 0) __PYX_ERR(1, 2113, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_ThreadSafeSingleton) < 0) __PYX_ERR(1, 2114, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_ThreadSafeSingleton.tp_print = 0;
   #endif
@@ -74852,7 +74852,7 @@ static int __Pyx_modinit_type_init_code(void) {
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_ThreadSafeSingleton, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2113, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_ThreadSafeSingleton, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2114, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_19ThreadSafeSingleton___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_19ThreadSafeSingleton___init__.doc = __pyx_doc_19dependency_injector_9providers_19ThreadSafeSingleton___init__;
@@ -74860,29 +74860,29 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_ThreadSafeSingleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_ThreadSafeSingleton) < 0) __PYX_ERR(1, 2113, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ThreadSafeSingleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_ThreadSafeSingleton) < 0) __PYX_ERR(1, 2113, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_ThreadSafeSingleton) < 0) __PYX_ERR(1, 2113, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_ThreadSafeSingleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_ThreadSafeSingleton) < 0) __PYX_ERR(1, 2114, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ThreadSafeSingleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_ThreadSafeSingleton) < 0) __PYX_ERR(1, 2114, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_ThreadSafeSingleton) < 0) __PYX_ERR(1, 2114, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_ThreadSafeSingleton = &__pyx_type_19dependency_injector_9providers_ThreadSafeSingleton;
   __pyx_vtabptr_19dependency_injector_9providers_DelegatedThreadSafeSingleton = &__pyx_vtable_19dependency_injector_9providers_DelegatedThreadSafeSingleton;
   __pyx_vtable_19dependency_injector_9providers_DelegatedThreadSafeSingleton.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_ThreadSafeSingleton;
   __pyx_type_19dependency_injector_9providers_DelegatedThreadSafeSingleton.tp_base = __pyx_ptype_19dependency_injector_9providers_ThreadSafeSingleton;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_DelegatedThreadSafeSingleton) < 0) __PYX_ERR(1, 2148, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_DelegatedThreadSafeSingleton) < 0) __PYX_ERR(1, 2149, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_DelegatedThreadSafeSingleton.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19dependency_injector_9providers_DelegatedThreadSafeSingleton.tp_dictoffset && __pyx_type_19dependency_injector_9providers_DelegatedThreadSafeSingleton.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_19dependency_injector_9providers_DelegatedThreadSafeSingleton.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_DelegatedThreadSafeSingleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_DelegatedThreadSafeSingleton) < 0) __PYX_ERR(1, 2148, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DelegatedThreadSafeSingleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_DelegatedThreadSafeSingleton) < 0) __PYX_ERR(1, 2148, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_DelegatedThreadSafeSingleton) < 0) __PYX_ERR(1, 2148, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_DelegatedThreadSafeSingleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_DelegatedThreadSafeSingleton) < 0) __PYX_ERR(1, 2149, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DelegatedThreadSafeSingleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_DelegatedThreadSafeSingleton) < 0) __PYX_ERR(1, 2149, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_DelegatedThreadSafeSingleton) < 0) __PYX_ERR(1, 2149, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_DelegatedThreadSafeSingleton = &__pyx_type_19dependency_injector_9providers_DelegatedThreadSafeSingleton;
   __pyx_vtabptr_19dependency_injector_9providers_ThreadLocalSingleton = &__pyx_vtable_19dependency_injector_9providers_ThreadLocalSingleton;
   __pyx_vtable_19dependency_injector_9providers_ThreadLocalSingleton.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_BaseSingleton;
   __pyx_vtable_19dependency_injector_9providers_ThreadLocalSingleton.__pyx_base.__pyx_base._provide = (PyObject *(*)(struct __pyx_obj_19dependency_injector_9providers_Provider *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_19dependency_injector_9providers_20ThreadLocalSingleton__provide;
   __pyx_type_19dependency_injector_9providers_ThreadLocalSingleton.tp_base = __pyx_ptype_19dependency_injector_9providers_BaseSingleton;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_ThreadLocalSingleton) < 0) __PYX_ERR(1, 2170, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_ThreadLocalSingleton) < 0) __PYX_ERR(1, 2171, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_ThreadLocalSingleton.tp_print = 0;
   #endif
@@ -74891,7 +74891,7 @@ static int __Pyx_modinit_type_init_code(void) {
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_ThreadLocalSingleton, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2170, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_ThreadLocalSingleton, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2171, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_20ThreadLocalSingleton___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_20ThreadLocalSingleton___init__.doc = __pyx_doc_19dependency_injector_9providers_20ThreadLocalSingleton___init__;
@@ -74899,28 +74899,28 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_ThreadLocalSingleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_ThreadLocalSingleton) < 0) __PYX_ERR(1, 2170, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ThreadLocalSingleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_ThreadLocalSingleton) < 0) __PYX_ERR(1, 2170, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_ThreadLocalSingleton) < 0) __PYX_ERR(1, 2170, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_ThreadLocalSingleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_ThreadLocalSingleton) < 0) __PYX_ERR(1, 2171, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_ThreadLocalSingleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_ThreadLocalSingleton) < 0) __PYX_ERR(1, 2171, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_ThreadLocalSingleton) < 0) __PYX_ERR(1, 2171, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_ThreadLocalSingleton = &__pyx_type_19dependency_injector_9providers_ThreadLocalSingleton;
   __pyx_vtabptr_19dependency_injector_9providers_DelegatedThreadLocalSingleton = &__pyx_vtable_19dependency_injector_9providers_DelegatedThreadLocalSingleton;
   __pyx_vtable_19dependency_injector_9providers_DelegatedThreadLocalSingleton.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_ThreadLocalSingleton;
   __pyx_type_19dependency_injector_9providers_DelegatedThreadLocalSingleton.tp_base = __pyx_ptype_19dependency_injector_9providers_ThreadLocalSingleton;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_DelegatedThreadLocalSingleton) < 0) __PYX_ERR(1, 2218, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_DelegatedThreadLocalSingleton) < 0) __PYX_ERR(1, 2219, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_DelegatedThreadLocalSingleton.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19dependency_injector_9providers_DelegatedThreadLocalSingleton.tp_dictoffset && __pyx_type_19dependency_injector_9providers_DelegatedThreadLocalSingleton.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_19dependency_injector_9providers_DelegatedThreadLocalSingleton.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_DelegatedThreadLocalSingleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_DelegatedThreadLocalSingleton) < 0) __PYX_ERR(1, 2218, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DelegatedThreadLocalSingleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_DelegatedThreadLocalSingleton) < 0) __PYX_ERR(1, 2218, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_DelegatedThreadLocalSingleton) < 0) __PYX_ERR(1, 2218, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_DelegatedThreadLocalSingleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_DelegatedThreadLocalSingleton) < 0) __PYX_ERR(1, 2219, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_DelegatedThreadLocalSingleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_DelegatedThreadLocalSingleton) < 0) __PYX_ERR(1, 2219, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_DelegatedThreadLocalSingleton) < 0) __PYX_ERR(1, 2219, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_DelegatedThreadLocalSingleton = &__pyx_type_19dependency_injector_9providers_DelegatedThreadLocalSingleton;
   __pyx_vtabptr_19dependency_injector_9providers_AbstractSingleton = &__pyx_vtable_19dependency_injector_9providers_AbstractSingleton;
   __pyx_vtable_19dependency_injector_9providers_AbstractSingleton.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_BaseSingleton;
   __pyx_type_19dependency_injector_9providers_AbstractSingleton.tp_base = __pyx_ptype_19dependency_injector_9providers_BaseSingleton;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_AbstractSingleton) < 0) __PYX_ERR(1, 2240, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_AbstractSingleton) < 0) __PYX_ERR(1, 2241, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_AbstractSingleton.tp_print = 0;
   #endif
@@ -74929,7 +74929,7 @@ static int __Pyx_modinit_type_init_code(void) {
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_AbstractSingleton, "__call__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2240, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_AbstractSingleton, "__call__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2241, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_17AbstractSingleton___call__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_17AbstractSingleton___call__.doc = __pyx_doc_19dependency_injector_9providers_17AbstractSingleton___call__;
@@ -74937,14 +74937,14 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_AbstractSingleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_AbstractSingleton) < 0) __PYX_ERR(1, 2240, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_AbstractSingleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_AbstractSingleton) < 0) __PYX_ERR(1, 2240, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_AbstractSingleton) < 0) __PYX_ERR(1, 2240, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_AbstractSingleton.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_AbstractSingleton) < 0) __PYX_ERR(1, 2241, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_AbstractSingleton, (PyObject *)&__pyx_type_19dependency_injector_9providers_AbstractSingleton) < 0) __PYX_ERR(1, 2241, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_AbstractSingleton) < 0) __PYX_ERR(1, 2241, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_AbstractSingleton = &__pyx_type_19dependency_injector_9providers_AbstractSingleton;
   __pyx_vtabptr_19dependency_injector_9providers_SingletonDelegate = &__pyx_vtable_19dependency_injector_9providers_SingletonDelegate;
   __pyx_vtable_19dependency_injector_9providers_SingletonDelegate.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_Delegate;
   __pyx_type_19dependency_injector_9providers_SingletonDelegate.tp_base = __pyx_ptype_19dependency_injector_9providers_Delegate;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_SingletonDelegate) < 0) __PYX_ERR(1, 2285, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_SingletonDelegate) < 0) __PYX_ERR(1, 2286, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_SingletonDelegate.tp_print = 0;
   #endif
@@ -74953,7 +74953,7 @@ static int __Pyx_modinit_type_init_code(void) {
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_SingletonDelegate, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2285, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_SingletonDelegate, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2286, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_17SingletonDelegate___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_17SingletonDelegate___init__.doc = __pyx_doc_19dependency_injector_9providers_17SingletonDelegate___init__;
@@ -74961,15 +74961,15 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_SingletonDelegate.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_SingletonDelegate) < 0) __PYX_ERR(1, 2285, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SingletonDelegate, (PyObject *)&__pyx_type_19dependency_injector_9providers_SingletonDelegate) < 0) __PYX_ERR(1, 2285, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_SingletonDelegate) < 0) __PYX_ERR(1, 2285, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_SingletonDelegate.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_SingletonDelegate) < 0) __PYX_ERR(1, 2286, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_SingletonDelegate, (PyObject *)&__pyx_type_19dependency_injector_9providers_SingletonDelegate) < 0) __PYX_ERR(1, 2286, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_SingletonDelegate) < 0) __PYX_ERR(1, 2286, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_SingletonDelegate = &__pyx_type_19dependency_injector_9providers_SingletonDelegate;
   __pyx_vtabptr_19dependency_injector_9providers_List = &__pyx_vtable_19dependency_injector_9providers_List;
   __pyx_vtable_19dependency_injector_9providers_List.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_Provider;
   __pyx_vtable_19dependency_injector_9providers_List.__pyx_base._provide = (PyObject *(*)(struct __pyx_obj_19dependency_injector_9providers_Provider *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_19dependency_injector_9providers_4List__provide;
   __pyx_type_19dependency_injector_9providers_List.tp_base = __pyx_ptype_19dependency_injector_9providers_Provider;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_List) < 0) __PYX_ERR(1, 2307, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_List) < 0) __PYX_ERR(1, 2308, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_List.tp_print = 0;
   #endif
@@ -74978,7 +74978,7 @@ static int __Pyx_modinit_type_init_code(void) {
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_List, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2307, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_List, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2308, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_4List___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_4List___init__.doc = __pyx_doc_19dependency_injector_9providers_4List___init__;
@@ -74988,7 +74988,7 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_List, "__str__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2307, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_List, "__str__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2308, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_4List_4__str__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_4List_4__str__.doc = __pyx_doc_19dependency_injector_9providers_4List_4__str__;
@@ -74996,21 +74996,21 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_List.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_List) < 0) __PYX_ERR(1, 2307, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_List, (PyObject *)&__pyx_type_19dependency_injector_9providers_List) < 0) __PYX_ERR(1, 2307, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_List) < 0) __PYX_ERR(1, 2307, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_List.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_List) < 0) __PYX_ERR(1, 2308, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_List, (PyObject *)&__pyx_type_19dependency_injector_9providers_List) < 0) __PYX_ERR(1, 2308, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_List) < 0) __PYX_ERR(1, 2308, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_List = &__pyx_type_19dependency_injector_9providers_List;
   __pyx_vtabptr_19dependency_injector_9providers_Container = &__pyx_vtable_19dependency_injector_9providers_Container;
   __pyx_vtable_19dependency_injector_9providers_Container.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_Provider;
   __pyx_vtable_19dependency_injector_9providers_Container.__pyx_base._provide = (PyObject *(*)(struct __pyx_obj_19dependency_injector_9providers_Provider *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_19dependency_injector_9providers_9Container__provide;
   __pyx_type_19dependency_injector_9providers_Container.tp_base = __pyx_ptype_19dependency_injector_9providers_Provider;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_Container) < 0) __PYX_ERR(1, 2409, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_Container) < 0) __PYX_ERR(1, 2410, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_Container.tp_print = 0;
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Container, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2409, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Container, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2410, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_9Container___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_9Container___init__.doc = __pyx_doc_19dependency_injector_9providers_9Container___init__;
@@ -75020,7 +75020,7 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Container, "__getattr__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2409, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Container, "__getattr__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2410, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_9Container_4__getattr__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_9Container_4__getattr__.doc = __pyx_doc_19dependency_injector_9providers_9Container_4__getattr__;
@@ -75028,21 +75028,21 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_Container.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_Container) < 0) __PYX_ERR(1, 2409, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Container, (PyObject *)&__pyx_type_19dependency_injector_9providers_Container) < 0) __PYX_ERR(1, 2409, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_Container) < 0) __PYX_ERR(1, 2409, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_Container.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_Container) < 0) __PYX_ERR(1, 2410, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Container, (PyObject *)&__pyx_type_19dependency_injector_9providers_Container) < 0) __PYX_ERR(1, 2410, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_Container) < 0) __PYX_ERR(1, 2410, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_Container = &__pyx_type_19dependency_injector_9providers_Container;
   __pyx_vtabptr_19dependency_injector_9providers_Selector = &__pyx_vtable_19dependency_injector_9providers_Selector;
   __pyx_vtable_19dependency_injector_9providers_Selector.__pyx_base = *__pyx_vtabptr_19dependency_injector_9providers_Provider;
   __pyx_vtable_19dependency_injector_9providers_Selector.__pyx_base._provide = (PyObject *(*)(struct __pyx_obj_19dependency_injector_9providers_Provider *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_19dependency_injector_9providers_8Selector__provide;
   __pyx_type_19dependency_injector_9providers_Selector.tp_base = __pyx_ptype_19dependency_injector_9providers_Provider;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_Selector) < 0) __PYX_ERR(1, 2460, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_Selector) < 0) __PYX_ERR(1, 2461, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_Selector.tp_print = 0;
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Selector, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2460, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Selector, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2461, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_8Selector___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_8Selector___init__.doc = __pyx_doc_19dependency_injector_9providers_8Selector___init__;
@@ -75052,7 +75052,7 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Selector, "__getattr__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2460, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Selector, "__getattr__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2461, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_8Selector_4__getattr__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_8Selector_4__getattr__.doc = __pyx_doc_19dependency_injector_9providers_8Selector_4__getattr__;
@@ -75062,7 +75062,7 @@ static int __Pyx_modinit_type_init_code(void) {
   #endif
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Selector, "__str__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2460, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_Selector, "__str__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2461, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_8Selector_6__str__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_8Selector_6__str__.doc = __pyx_doc_19dependency_injector_9providers_8Selector_6__str__;
@@ -75070,22 +75070,22 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_Selector.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_Selector) < 0) __PYX_ERR(1, 2460, __pyx_L1_error)
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Selector, (PyObject *)&__pyx_type_19dependency_injector_9providers_Selector) < 0) __PYX_ERR(1, 2460, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_Selector) < 0) __PYX_ERR(1, 2460, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_19dependency_injector_9providers_Selector.tp_dict, __pyx_vtabptr_19dependency_injector_9providers_Selector) < 0) __PYX_ERR(1, 2461, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Selector, (PyObject *)&__pyx_type_19dependency_injector_9providers_Selector) < 0) __PYX_ERR(1, 2461, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_Selector) < 0) __PYX_ERR(1, 2461, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_Selector = &__pyx_type_19dependency_injector_9providers_Selector;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_Injection) < 0) __PYX_ERR(1, 2557, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_Injection) < 0) __PYX_ERR(1, 2558, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_Injection.tp_print = 0;
   #endif
   if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19dependency_injector_9providers_Injection.tp_dictoffset && __pyx_type_19dependency_injector_9providers_Injection.tp_getattro == PyObject_GenericGetAttr)) {
     __pyx_type_19dependency_injector_9providers_Injection.tp_getattro = __Pyx_PyObject_GenericGetAttr;
   }
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Injection, (PyObject *)&__pyx_type_19dependency_injector_9providers_Injection) < 0) __PYX_ERR(1, 2557, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_Injection) < 0) __PYX_ERR(1, 2557, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_Injection, (PyObject *)&__pyx_type_19dependency_injector_9providers_Injection) < 0) __PYX_ERR(1, 2558, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_Injection) < 0) __PYX_ERR(1, 2558, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_Injection = &__pyx_type_19dependency_injector_9providers_Injection;
   __pyx_type_19dependency_injector_9providers_PositionalInjection.tp_base = __pyx_ptype_19dependency_injector_9providers_Injection;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_PositionalInjection) < 0) __PYX_ERR(1, 2561, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_PositionalInjection) < 0) __PYX_ERR(1, 2562, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_PositionalInjection.tp_print = 0;
   #endif
@@ -75094,7 +75094,7 @@ static int __Pyx_modinit_type_init_code(void) {
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_PositionalInjection, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2561, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_PositionalInjection, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2562, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_19PositionalInjection___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_19PositionalInjection___init__.doc = __pyx_doc_19dependency_injector_9providers_19PositionalInjection___init__;
@@ -75102,11 +75102,11 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_PositionalInjection, (PyObject *)&__pyx_type_19dependency_injector_9providers_PositionalInjection) < 0) __PYX_ERR(1, 2561, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_PositionalInjection) < 0) __PYX_ERR(1, 2561, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_PositionalInjection, (PyObject *)&__pyx_type_19dependency_injector_9providers_PositionalInjection) < 0) __PYX_ERR(1, 2562, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_PositionalInjection) < 0) __PYX_ERR(1, 2562, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_PositionalInjection = &__pyx_type_19dependency_injector_9providers_PositionalInjection;
   __pyx_type_19dependency_injector_9providers_NamedInjection.tp_base = __pyx_ptype_19dependency_injector_9providers_Injection;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_NamedInjection) < 0) __PYX_ERR(1, 2589, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers_NamedInjection) < 0) __PYX_ERR(1, 2590, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers_NamedInjection.tp_print = 0;
   #endif
@@ -75115,7 +75115,7 @@ static int __Pyx_modinit_type_init_code(void) {
   }
   #if CYTHON_COMPILING_IN_CPYTHON
   {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_NamedInjection, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2589, __pyx_L1_error)
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_19dependency_injector_9providers_NamedInjection, "__init__"); if (unlikely(!wrapper)) __PYX_ERR(1, 2590, __pyx_L1_error)
     if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
       __pyx_wrapperbase_19dependency_injector_9providers_14NamedInjection___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
       __pyx_wrapperbase_19dependency_injector_9providers_14NamedInjection___init__.doc = __pyx_doc_19dependency_injector_9providers_14NamedInjection___init__;
@@ -75123,8 +75123,8 @@ static int __Pyx_modinit_type_init_code(void) {
     }
   }
   #endif
-  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_NamedInjection, (PyObject *)&__pyx_type_19dependency_injector_9providers_NamedInjection) < 0) __PYX_ERR(1, 2589, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_NamedInjection) < 0) __PYX_ERR(1, 2589, __pyx_L1_error)
+  if (PyObject_SetAttr(__pyx_m, __pyx_n_s_NamedInjection, (PyObject *)&__pyx_type_19dependency_injector_9providers_NamedInjection) < 0) __PYX_ERR(1, 2590, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_19dependency_injector_9providers_NamedInjection) < 0) __PYX_ERR(1, 2590, __pyx_L1_error)
   __pyx_ptype_19dependency_injector_9providers_NamedInjection = &__pyx_type_19dependency_injector_9providers_NamedInjection;
   if (PyType_Ready(&__pyx_type_19dependency_injector_9providers___pyx_scope_struct___get_self_name) < 0) __PYX_ERR(1, 1119, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
@@ -75142,7 +75142,7 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_type_19dependency_injector_9providers___pyx_scope_struct_1_genexpr.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   __pyx_ptype_19dependency_injector_9providers___pyx_scope_struct_1_genexpr = &__pyx_type_19dependency_injector_9providers___pyx_scope_struct_1_genexpr;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers___pyx_scope_struct_2___str__) < 0) __PYX_ERR(1, 2523, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers___pyx_scope_struct_2___str__) < 0) __PYX_ERR(1, 2524, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers___pyx_scope_struct_2___str__.tp_print = 0;
   #endif
@@ -75150,7 +75150,7 @@ static int __Pyx_modinit_type_init_code(void) {
     __pyx_type_19dependency_injector_9providers___pyx_scope_struct_2___str__.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
   __pyx_ptype_19dependency_injector_9providers___pyx_scope_struct_2___str__ = &__pyx_type_19dependency_injector_9providers___pyx_scope_struct_2___str__;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers___pyx_scope_struct_3_genexpr) < 0) __PYX_ERR(1, 2533, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_9providers___pyx_scope_struct_3_genexpr) < 0) __PYX_ERR(1, 2534, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_9providers___pyx_scope_struct_3_genexpr.tp_print = 0;
   #endif
@@ -76322,89 +76322,89 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   PyType_Modified(__pyx_ptype_19dependency_injector_9providers_ConfigurationOption);
 
-  /* "dependency_injector/providers.pyx":1257
+  /* "dependency_injector/providers.pyx":1258
  *     """
  * 
  *     DEFAULT_NAME = 'config'             # <<<<<<<<<<<<<<
  * 
  *     def __init__(self, name=DEFAULT_NAME, default=None):
  */
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_Configuration->tp_dict, __pyx_n_s_DEFAULT_NAME, __pyx_n_s_config) < 0) __PYX_ERR(1, 1257, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_Configuration->tp_dict, __pyx_n_s_DEFAULT_NAME, __pyx_n_s_config) < 0) __PYX_ERR(1, 1258, __pyx_L1_error)
   PyType_Modified(__pyx_ptype_19dependency_injector_9providers_Configuration);
 
-  /* "dependency_injector/providers.pyx":1259
+  /* "dependency_injector/providers.pyx":1260
  *     DEFAULT_NAME = 'config'
  * 
  *     def __init__(self, name=DEFAULT_NAME, default=None):             # <<<<<<<<<<<<<<
  *         self.__name = name
  * 
  */
-  __Pyx_GetNameInClass(__pyx_t_9, (PyObject *)__pyx_ptype_19dependency_injector_9providers_Configuration, __pyx_n_s_DEFAULT_NAME); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1259, __pyx_L1_error)
+  __Pyx_GetNameInClass(__pyx_t_9, (PyObject *)__pyx_ptype_19dependency_injector_9providers_Configuration, __pyx_n_s_DEFAULT_NAME); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 1260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __pyx_k__6 = __pyx_t_9;
   __Pyx_GIVEREF(__pyx_t_9);
   __pyx_t_9 = 0;
 
-  /* "dependency_injector/providers.pyx":1544
+  /* "dependency_injector/providers.pyx":1545
  *     """
  * 
  *     provided_type = None             # <<<<<<<<<<<<<<
  * 
  *     def __init__(self, provides, *args, **kwargs):
  */
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory->tp_dict, __pyx_n_s_provided_type, Py_None) < 0) __PYX_ERR(1, 1544, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_Factory->tp_dict, __pyx_n_s_provided_type, Py_None) < 0) __PYX_ERR(1, 1545, __pyx_L1_error)
   PyType_Modified(__pyx_ptype_19dependency_injector_9providers_Factory);
 
-  /* "dependency_injector/providers.pyx":1729
+  /* "dependency_injector/providers.pyx":1730
  *     """
  * 
  *     __IS_DELEGATED__ = True             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_DelegatedFactory->tp_dict, __pyx_n_s_IS_DELEGATED, Py_True) < 0) __PYX_ERR(1, 1729, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_DelegatedFactory->tp_dict, __pyx_n_s_IS_DELEGATED, Py_True) < 0) __PYX_ERR(1, 1730, __pyx_L1_error)
   PyType_Modified(__pyx_ptype_19dependency_injector_9providers_DelegatedFactory);
 
-  /* "dependency_injector/providers.pyx":1809
+  /* "dependency_injector/providers.pyx":1810
  *     """
  * 
  *     __IS_DELEGATED__ = True             # <<<<<<<<<<<<<<
  * 
  *     def __init__(self, **factories):
  */
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_FactoryAggregate->tp_dict, __pyx_n_s_IS_DELEGATED, Py_True) < 0) __PYX_ERR(1, 1809, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_FactoryAggregate->tp_dict, __pyx_n_s_IS_DELEGATED, Py_True) < 0) __PYX_ERR(1, 1810, __pyx_L1_error)
   PyType_Modified(__pyx_ptype_19dependency_injector_9providers_FactoryAggregate);
 
-  /* "dependency_injector/providers.pyx":1885
+  /* "dependency_injector/providers.pyx":1886
  *     """Base class of singleton providers."""
  * 
  *     provided_type = None             # <<<<<<<<<<<<<<
  * 
  *     def __init__(self, provides, *args, **kwargs):
  */
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_BaseSingleton->tp_dict, __pyx_n_s_provided_type, Py_None) < 0) __PYX_ERR(1, 1885, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_BaseSingleton->tp_dict, __pyx_n_s_provided_type, Py_None) < 0) __PYX_ERR(1, 1886, __pyx_L1_error)
   PyType_Modified(__pyx_ptype_19dependency_injector_9providers_BaseSingleton);
 
-  /* "dependency_injector/providers.pyx":2110
+  /* "dependency_injector/providers.pyx":2111
  *     """
  * 
  *     __IS_DELEGATED__ = True             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_DelegatedSingleton->tp_dict, __pyx_n_s_IS_DELEGATED, Py_True) < 0) __PYX_ERR(1, 2110, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_DelegatedSingleton->tp_dict, __pyx_n_s_IS_DELEGATED, Py_True) < 0) __PYX_ERR(1, 2111, __pyx_L1_error)
   PyType_Modified(__pyx_ptype_19dependency_injector_9providers_DelegatedSingleton);
 
-  /* "dependency_injector/providers.pyx":2116
+  /* "dependency_injector/providers.pyx":2117
  *     """Thread-safe singleton provider."""
  * 
  *     storage_lock = threading.RLock()             # <<<<<<<<<<<<<<
  *     """Storage reentrant lock.
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_threading); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2116, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_threading); if (unlikely(!__pyx_t_1)) __PYX_ERR(1, 2117, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_RLock); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 2116, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_RLock); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 2117, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_1 = NULL;
@@ -76419,55 +76419,55 @@ if (!__Pyx_RefNanny) {
   }
   __pyx_t_9 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 2116, __pyx_L1_error)
+  if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 2117, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_ThreadSafeSingleton->tp_dict, __pyx_n_s_storage_lock, __pyx_t_9) < 0) __PYX_ERR(1, 2116, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_ThreadSafeSingleton->tp_dict, __pyx_n_s_storage_lock, __pyx_t_9) < 0) __PYX_ERR(1, 2117, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   PyType_Modified(__pyx_ptype_19dependency_injector_9providers_ThreadSafeSingleton);
 
-  /* "dependency_injector/providers.pyx":2167
+  /* "dependency_injector/providers.pyx":2168
  *     """
  * 
  *     __IS_DELEGATED__ = True             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_DelegatedThreadSafeSingleton->tp_dict, __pyx_n_s_IS_DELEGATED, Py_True) < 0) __PYX_ERR(1, 2167, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_DelegatedThreadSafeSingleton->tp_dict, __pyx_n_s_IS_DELEGATED, Py_True) < 0) __PYX_ERR(1, 2168, __pyx_L1_error)
   PyType_Modified(__pyx_ptype_19dependency_injector_9providers_DelegatedThreadSafeSingleton);
 
-  /* "dependency_injector/providers.pyx":2237
+  /* "dependency_injector/providers.pyx":2238
  *     """
  * 
  *     __IS_DELEGATED__ = True             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_DelegatedThreadLocalSingleton->tp_dict, __pyx_n_s_IS_DELEGATED, Py_True) < 0) __PYX_ERR(1, 2237, __pyx_L1_error)
+  if (PyDict_SetItem((PyObject *)__pyx_ptype_19dependency_injector_9providers_DelegatedThreadLocalSingleton->tp_dict, __pyx_n_s_IS_DELEGATED, Py_True) < 0) __PYX_ERR(1, 2238, __pyx_L1_error)
   PyType_Modified(__pyx_ptype_19dependency_injector_9providers_DelegatedThreadLocalSingleton);
 
-  /* "dependency_injector/providers.pyx":2728
+  /* "dependency_injector/providers.pyx":2729
  *     return copy.deepcopy(instance, memo)
  * 
  * def __add_sys_streams(memo):             # <<<<<<<<<<<<<<
  *     """Add system streams to memo dictionary.
  * 
  */
-  __pyx_t_9 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_21__add_sys_streams, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 2728, __pyx_L1_error)
+  __pyx_t_9 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_21__add_sys_streams, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 2729, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_add_sys_streams, __pyx_t_9) < 0) __PYX_ERR(1, 2728, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_add_sys_streams, __pyx_t_9) < 0) __PYX_ERR(1, 2729, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "dependency_injector/providers.pyx":2739
+  /* "dependency_injector/providers.pyx":2740
  * 
  * 
  * def merge_dicts(dict1, dict2):             # <<<<<<<<<<<<<<
  *     """Merge dictionaries recursively.
  * 
  */
-  __pyx_t_9 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_23merge_dicts, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 2739, __pyx_L1_error)
+  __pyx_t_9 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_9providers_23merge_dicts, NULL, __pyx_n_s_dependency_injector_providers); if (unlikely(!__pyx_t_9)) __PYX_ERR(1, 2740, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_merge_dicts, __pyx_t_9) < 0) __PYX_ERR(1, 2739, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_merge_dicts, __pyx_t_9) < 0) __PYX_ERR(1, 2740, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
   /* "(tree fragment)":1

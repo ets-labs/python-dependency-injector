@@ -1,9 +1,17 @@
+.. _aiohttp-tutorial:
+
 Aiohttp tutorial
 ================
 
-.. _aiohttp-tutorial:
+.. meta::
+   :keywords: Python,Aiohttp,Tutorial,Education,Web,API,REST API,Example,DI,Dependency injection,
+              IoC,Inversion of control,Refactoring,Tests,Unit tests,Pytest,py.test,Bootstrap,
+              HTML,CSS
+   :description: This tutorial shows how to build an aiohttp application following the dependency
+                 injection principle. You will create the REST API application, connect to the
+                 Giphy API, cover it with the unit test and make some refactoring.
 
-This tutorials shows how to build an ``aiohttp`` REST API application following the dependency
+This tutorial shows how to build an ``aiohttp`` REST API application following the dependency
 injection principle.
 
 Start from the scratch or jump to the section:
@@ -908,9 +916,9 @@ You should see:
 Conclusion
 ----------
 
-In this tutorial we've build an ``aiohttp`` REST API application following the dependency
+In this tutorial we've built an ``aiohttp`` REST API application following the dependency
 injection principle.
-We've used ``Dependency Injector`` as a dependency injection framework.
+We've used the ``Dependency Injector`` as a dependency injection framework.
 
 The benefit you get with the ``Dependency Injector`` is the container. It starts to payoff
 when you need to understand or change your application structure. It's easy with the container,

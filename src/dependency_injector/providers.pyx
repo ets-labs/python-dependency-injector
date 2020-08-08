@@ -1239,6 +1239,7 @@ cdef class Configuration(Object):
     """Configuration provider provides configuration options to the other providers.
 
     .. code-block:: python
+
         config = Configuration('config')
         print(config.section1.option1())  # None
         print(config.section1.option2())  # None

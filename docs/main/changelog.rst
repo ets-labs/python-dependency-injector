@@ -7,9 +7,18 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.28.0
+------
+- Add ``asyncio`` + ``Dependency Injector`` example ``monitoring-daemon-asyncio``.
+- Add ``asyncio`` + ``Dependency Injector`` monitoring daemon tutorial.
+- Fix a typo in the docblock of the ``Configuration`` provider.
+- Fix multiple typos in the ``flask`` and ``aiohttp`` tutorials.
+- Fix ``Makefile`` to run ``aiohttp`` integration tests on Python 3.5+.
+
 3.27.0
 ------
 - Add deep init injections overriding for ``Factory`` provider.
+- Add ``asyncio`` monitoring daemon example.
 
 3.26.0
 ------
