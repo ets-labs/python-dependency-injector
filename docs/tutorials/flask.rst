@@ -3,7 +3,7 @@
 Flask tutorial
 ==============
 
-This tutorials shows how to build ``Flask`` application following the dependency injection
+This tutorial shows how to build ``Flask`` application following the dependency injection
 principle.
 
 Start from the scratch or jump to the section:

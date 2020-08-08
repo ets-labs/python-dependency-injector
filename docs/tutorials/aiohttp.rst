@@ -3,7 +3,7 @@ Aiohttp tutorial
 
 .. _aiohttp-tutorial:
 
-This tutorials shows how to build an ``aiohttp`` REST API application following the dependency
+This tutorial shows how to build an ``aiohttp`` REST API application following the dependency
 injection principle.
 
 Start from the scratch or jump to the section:
