@@ -1,4 +1,4 @@
-""""Dispatcher module."""
+"""Dispatcher module."""
 
 import asyncio
 import logging
