@@ -279,7 +279,7 @@ checks dispatcher.
 Dispatcher
 ----------
 
-Now let's add the dispatcher.
+Now let's add the monitoring checks dispatcher.
 
 The dispatcher will control a list of the monitoring tasks. It will execute each task according
 to the configured schedule. The ``Monitor`` class is the base class for all the monitors. You can
@@ -289,7 +289,24 @@ create different monitors by subclassing it and implementing the ``check()`` met
 
 Let's create dispatcher and the monitor base classes.
 
-Edit ``monitors.py``:
+Create ``dispatcher.py`` and ``monitors.py`` in the ``monitoringdaemon`` package:
+
+.. code-block:: bash
+   :emphasize-lines: 6-7
+
+   ./
+   ├── monitoringdaemon/
+   │   ├── __init__.py
+   │   ├── __main__.py
+   │   ├── containers.py
+   │   ├── dispatcher.py
+   │   └── monitors.py
+   ├── config.yml
+   ├── docker-compose.yml
+   ├── Dockerfile
+   └── requirements.txt
+
+Put next into the ``monitors.py``:
 
 .. code-block:: python
 
@@ -307,7 +324,7 @@ Edit ``monitors.py``:
        async def check(self) -> None:
            raise NotImplementedError()
 
-Edit ``dispatcher.py``:
+and next into the ``dispatcher.py``:
 
 .. code-block:: python
 
@@ -377,8 +394,7 @@ Edit ``dispatcher.py``:
 
                await asyncio.sleep(_until_next(last=time_start))
 
-.. warning:: REWORK
-   Every component that we add must be added to the container.
+Now we need to add the dispatcher to the container.
 
 Edit ``containers.py``:
 
@@ -414,8 +430,12 @@ Edit ``containers.py``:
            ),
        )
 
-.. warning:: REWORK
-   At the last let's use the dispatcher in the ``main()`` function.
+.. note::
+
+   Every component should be added to the container.
+
+At the last we will add the dispatcher in the ``main()`` function. We will retrieve the
+dispatcher instance from the container and call the ``run()`` method.
 
 Edit ``__main__.py``:
 
@@ -441,7 +461,7 @@ Edit ``__main__.py``:
    if __name__ == '__main__':
        main()
 
-Finally let's start the container to check that all works.
+Finally let's start the daemon to check that all works.
 
 Run in the terminal:
 
@@ -455,9 +475,9 @@ The output should look like:
 
    Starting monitoring-daemon-tutorial_monitor_1 ... done
    Attaching to monitoring-daemon-tutorial_monitor_1
-   monitor_1  | [2020-08-07 21:02:01,361] [INFO] [monitoringdaemon.dispatcher]: Dispatcher is starting up
-   monitor_1  | [2020-08-07 21:02:01,364] [INFO] [monitoringdaemon.dispatcher]: Dispatcher is shutting down
-   monitor_1  | [2020-08-07 21:02:01,364] [INFO] [monitoringdaemon.dispatcher]: Dispatcher shutting down finished successfully
+   monitor_1  | [2020-08-08 16:12:35,772] [INFO] [Dispatcher]: Starting up
+   monitor_1  | [2020-08-08 16:12:35,774] [INFO] [Dispatcher]: Shutting down
+   monitor_1  | [2020-08-08 16:12:35,774] [INFO] [Dispatcher]: Shutdown finished successfully
    monitoring-daemon-tutorial_monitor_1 exited with code 0
 
 Everything works properly. Dispatcher starts up and exits because there are no monitoring tasks.
