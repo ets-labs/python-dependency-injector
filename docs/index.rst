@@ -7,7 +7,8 @@ Dependency Injector --- Dependency injection framework for Python
    :keywords: Python,Dependency injection,DI,Inversion of Control,IoC,
               IoC Container,Factory, Singleton, Design Patterns
    :description: Dependency Injector is a dependency injection framework
-                 for Python. It was designed to be unified, developer-friendly 
+                 for Python. It helps to maintain you application structure.
+                 It was designed to be unified, developer-friendly
                  tool that helps to implement dependency injection design 
                  pattern in formal, pretty, Pythonic way. Dependency Injector 
                  provides implementations of such popular design patterns 

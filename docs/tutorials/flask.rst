@@ -3,7 +3,15 @@
 Flask tutorial
 ==============
 
-This tutorial shows how to build ``Flask`` application following the dependency injection
+.. meta::
+   :keywords: Python,Flask,Tutorial,Education,Web,Example,DI,Dependency injection,IoC,
+              Inversion of control,Refactoring,Tests,Unit tests,Pytest,py.test,Bootstrap,
+              HTML,CSS
+   :description: This tutorial shows how to build a Flask application following the dependency
+                 injection principle. You will create the web application, connect to the Github
+                 API, cover it with unit the test and make some refactoring.
+
+This tutorial shows how to build a ``Flask`` application following the dependency injection
 principle.
 
 Start from the scratch or jump to the section:
@@ -1085,7 +1093,7 @@ Conclusion
 
 We are done.
 
-In this tutorial we've built ``Flask`` application following the dependency injection principle.
+In this tutorial we've built a ``Flask`` application following the dependency injection principle.
 We've used the ``Dependency Injector`` as a dependency injection framework.
 
 The main part of this application is the container. It keeps all the application components and

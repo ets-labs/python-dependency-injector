@@ -1,7 +1,15 @@
+.. _aiohttp-tutorial:
+
 Aiohttp tutorial
 ================
 
-.. _aiohttp-tutorial:
+.. meta::
+   :keywords: Python,Aiohttp,Tutorial,Education,Web,API,REST API,Example,DI,Dependency injection,
+              IoC,Inversion of control,Refactoring,Tests,Unit tests,Pytest,py.test,Bootstrap,
+              HTML,CSS
+   :description: This tutorial shows how to build an aiohttp application following the dependency
+                 injection principle. You will create the REST API application, connect to the
+                 Giphy API, cover it with the unit test and make some refactoring.
 
 This tutorial shows how to build an ``aiohttp`` REST API application following the dependency
 injection principle.

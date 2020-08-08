@@ -1,7 +1,15 @@
+.. _asyncio-daemon-tutorial:
+
 Asyncio daemon tutorial
 =======================
 
-.. _asyncio-daemon-tutorial:
+.. meta::
+   :keywords: Python,asyncio,Daemon,Monitoring,Tutorial,Education,Web,API,REST API,Example,DI,
+              Dependency injection,IoC,Inversion of control,Refactoring,Tests,Unit tests,Pytest,
+              py.test,docker,docker-compose,backend
+   :description: This tutorial shows how to build an asyncio application following the dependency
+                 injection principle. You will create the monitoring daemon, use docker &
+                 docker-compose, cover the daemon with the unit test and make some refactoring.
 
 This tutorial shows how to build an ``asyncio`` daemon following the dependency injection
 principle.
