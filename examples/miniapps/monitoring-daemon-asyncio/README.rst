@@ -25,11 +25,31 @@ The output should be something like:
 
    Starting monitoring-daemon-asyncio_monitor_1 ... done
    Attaching to monitoring-daemon-asyncio_monitor_1
-   monitor_1  | [2020-08-06 01:57:08,249] [INFO] [monitoringdaemon.dispatcher]: Dispatcher is starting up
-   monitor_1  | [2020-08-06 01:57:08,249] [INFO] [monitoringdaemon.dispatcher]: Monitoring task has been started monitoringdaemon.monitors.HttpMonitor(url="http://example.com")
-   monitor_1  | [2020-08-06 01:57:08,249] [INFO] [monitoringdaemon.dispatcher]: Monitoring task has been started monitoringdaemon.monitors.HttpMonitor(url="http://httpbin.org/get")
-   monitor_1  | [2020-08-06 01:57:08,318] [INFO] [monitoringdaemon.monitors.HttpMonitor(url="http://example.com")]: Response code: 200, content length: 648, request took: 0.067 seconds
-   monitor_1  | [2020-08-06 01:57:08,363] [INFO] [monitoringdaemon.monitors.HttpMonitor(url="http://httpbin.org/get")]: Response code: 200, content length: 309, request took: 0.112 seconds
+   monitor_1  | [2020-08-08 17:04:36,655] [INFO] [Dispatcher]: Starting up
+   monitor_1  | [2020-08-08 17:04:36,732] [INFO] [HttpMonitor]: Check
+   monitor_1  |     GET http://example.com
+   monitor_1  |     response code: 200
+   monitor_1  |     content length: 648
+   monitor_1  |     request took: 0.074 seconds
+   monitor_1  |
+   monitor_1  | [2020-08-08 17:04:36,811] [INFO] [HttpMonitor]: Check
+   monitor_1  |     GET https://httpbin.org/get
+   monitor_1  |     response code: 200
+   monitor_1  |     content length: 310
+   monitor_1  |     request took: 0.153 seconds
+   monitor_1  |
+   monitor_1  | [2020-08-08 17:04:41,731] [INFO] [HttpMonitor]: Check
+   monitor_1  |     GET http://example.com
+   monitor_1  |     response code: 200
+   monitor_1  |     content length: 648
+   monitor_1  |     request took: 0.067 seconds
+   monitor_1  |
+   monitor_1  | [2020-08-08 17:04:41,787] [INFO] [HttpMonitor]: Check
+   monitor_1  |     GET https://httpbin.org/get
+   monitor_1  |     response code: 200
+   monitor_1  |     content length: 310
+   monitor_1  |     request took: 0.122 seconds
+   monitor_1  |
 
 Test
 ----
@@ -59,9 +79,9 @@ The output should be something like:
    monitoringdaemon/__init__.py         0      0   100%
    monitoringdaemon/__main__.py         9      9     0%
    monitoringdaemon/containers.py      11      0   100%
-   monitoringdaemon/dispatcher.py      45      5    89%
+   monitoringdaemon/dispatcher.py      43      5    88%
    monitoringdaemon/http.py             6      3    50%
-   monitoringdaemon/monitors.py        29      2    93%
+   monitoringdaemon/monitors.py        23      1    96%
    monitoringdaemon/tests.py           37      0   100%
    ----------------------------------------------------
-   TOTAL                              137     19    86%
+   TOTAL                              129     18    86%

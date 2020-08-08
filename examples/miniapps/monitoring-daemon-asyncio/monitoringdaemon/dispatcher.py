@@ -9,29 +9,23 @@ from typing import List
 from .monitors import Monitor
 
 
-logger = logging.getLogger(__name__)
-
-
 class Dispatcher:
 
     def __init__(self, monitors: List[Monitor]) -> None:
         self._monitors = monitors
         self._monitor_tasks: List[asyncio.Task] = []
+        self._logger = logging.getLogger(self.__class__.__name__)
         self._stopping = False
 
     def run(self) -> None:
         asyncio.run(self.start())
 
     async def start(self) -> None:
-        logger.info('Dispatcher is starting up')
+        self._logger.info('Starting up')
 
         for monitor in self._monitors:
             self._monitor_tasks.append(
                 asyncio.create_task(self._run_monitor(monitor)),
-            )
-            logger.info(
-                'Monitoring task has been started %s',
-                monitor.full_name,
             )
 
         asyncio.get_event_loop().add_signal_handler(signal.SIGTERM, self.stop)
@@ -47,11 +41,10 @@ class Dispatcher:
 
         self._stopping = True
 
-        logger.info('Dispatcher is shutting down')
+        self._logger.info('Shutting down')
         for task, monitor in zip(self._monitor_tasks, self._monitors):
             task.cancel()
-            logger.info('Monitoring task has been stopped %s', monitor.full_name)
-        logger.info('Dispatcher shutting down finished successfully')
+        self._logger.info('Shutdown finished successfully')
 
     @staticmethod
     async def _run_monitor(monitor: Monitor) -> None:
@@ -67,6 +60,6 @@ class Dispatcher:
             except asyncio.CancelledError:
                 break
             except Exception:
-                monitor.logger.exception('Error running monitoring check')
+                monitor.logger.exception('Error executing monitor check')
 
             await asyncio.sleep(_until_next(last=time_start))

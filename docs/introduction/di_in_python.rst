@@ -131,8 +131,10 @@ What's next?
 
 Choose one of the following as a next step:
 
-+ Pass the dependency injection :ref:`flask-tutorial`.
-+ Look at the other dependency injection :ref:`tutorials`.
++ Pass one of the dependency injection tutorials:
+    + :ref:`flask-tutorial`
+    + :ref:`aiohttp-tutorial`
+    + :ref:`asyncio-daemon-tutorial`
 + Know more about the :ref:`providers`.
 + Go to the :ref:`contents`.
 

@@ -32,7 +32,7 @@ def container():
             },
             'httpbin': {
                 'method': 'GET',
-                'url': 'http://fake-httpbin.org/get',
+                'url': 'https://fake-httpbin.org/get',
                 'timeout': 1,
                 'check_every': 1,
             },
@@ -56,7 +56,7 @@ async def test_example_monitor(container, caplog):
         await example_monitor.check()
 
     assert 'http://fake-example.com' in caplog.text
-    assert 'Response code: 200' in caplog.text
+    assert 'response code: 200' in caplog.text
     assert 'content length: 635' in caplog.text
 
 
