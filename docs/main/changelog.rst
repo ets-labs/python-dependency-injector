@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+3.28.0
+------
 - Add ``asyncio`` + ``Dependency Injector`` example ``monitoring-daemon-asyncio``.
 - Add ``asyncio`` + ``Dependency Injector`` monitoring daemon tutorial.
 - Fix a typo in the docblock of the ``Configuration`` provider.
