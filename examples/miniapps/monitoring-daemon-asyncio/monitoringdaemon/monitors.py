@@ -43,7 +43,11 @@ class HttpMonitor(Monitor):
         time_took = time_end - time_start
 
         self.logger.info(
-            '%s %s, response code: %s, content length: %s, request took: %s seconds',
+            'Check\n'
+            '    %s %s\n'
+            '    response code: %s\n'
+            '    content length: %s\n'
+            '    request took: %s seconds\n',
             self._method,
             self._url,
             response.status,
