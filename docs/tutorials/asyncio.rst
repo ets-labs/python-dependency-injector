@@ -3,12 +3,12 @@ Asyncio daemon tutorial
 
 .. _asyncio-daemon-tutorial:
 
-This tutorials shows how to build an ``asyncio`` daemon following the dependency injection
+This tutorial shows how to build an ``asyncio`` daemon following the dependency injection
 principle.
 
-We will use next tools:
+In this tutorial we will use:
 
-- Python 3.8
+- Python 3
 - Docker
 - Docker-compose
 
@@ -27,7 +27,7 @@ What are we going to build?
 We will build a monitoring daemon that monitors web services availability.
 
 The daemon will send the requests to the `example.com <http://example.com>`_ and
-`httpbin.org <https://httpbin.org>`_ every minute. For each successfully completed
+`httpbin.org <https://httpbin.org>`_ every couple of seconds. For each successfully completed
 response it will log:
 
 - The response code
@@ -67,8 +67,6 @@ The prerequisites are satisfied. Let's get started with the project layout.
 Project layout
 --------------
 
-Project layout starts with the project folder. It is also called the project root.
-
 Create the project root folder and set it as a working directory:
 
 .. code-block:: bash
@@ -76,8 +74,8 @@ Create the project root folder and set it as a working directory:
    mkdir monitoring-daemon-tutorial
    cd monitoring-daemon-tutorial
 
-Now we need to create the project structure. Create the files and folders following next layout.
-All files should be empty for now. We will fill them in later.
+Now we need to create the initial project structure. Create the files and folders following next
+layout. All files should be empty for now. We will fill them later.
 
 Initial project layout:
 
@@ -87,27 +85,27 @@ Initial project layout:
    ├── monitoringdaemon/
    │   ├── __init__.py
    │   ├── __main__.py
-   │   ├── containers.py
-   │   ├── dispatcher.py
-   │   └── monitors.py
+   │   └── containers.py
    ├── config.yml
    ├── docker-compose.yml
    ├── Dockerfile
    └── requirements.txt
 
-The project layout is ready. Let's prepare the environment.
+Initial project layout is ready. We will extend it in the next sections.
+
+Let's proceed to the environment preparation.
 
 Prepare the environment
 -----------------------
 
-In this section we are going to prepare the environment.
+In this section we are going to prepare the environment for running our daemon.
 
 First, we need to specify the project requirements. We will use next packages:
 
 - ``dependency-injector`` - the dependency injection framework
 - ``aiohttp`` - the web framework (we need only http client)
 - ``pyyaml`` - the YAML files parsing library, used for the reading of the configuration files
-- ``pytest`` - the testing framework
+- ``pytest`` - the test framework
 - ``pytest-asyncio`` - the helper library for the testing of the ``asyncio`` application
 - ``pytest-cov`` - the helper library for measuring the test coverage
 
@@ -191,6 +189,8 @@ The output should look like:
 
 The environment is ready. The application does not do any work and just exits with a code ``0``.
 
+Next step is to configure the logging and configuration file parsing.
+
 Logging and configuration
 -------------------------
 
@@ -243,7 +243,9 @@ Put next lines into the ``config.yml`` file:
      level: "INFO"
      format: "[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s"
 
-At this point we can create the ``main()`` function. It will start our application.
+Now let's create the function that will run our daemon. It's traditionally called
+``main()``. The ``main()`` function will create the container. Then it will use the container
+to parse the ``config.yml`` file and call the logging configuration provider.
 
 Put next lines into the ``__main__.py`` file:
 
@@ -265,6 +267,15 @@ Put next lines into the ``__main__.py`` file:
     if __name__ == '__main__':
         main()
 
+.. note::
+
+   Container is the first object in the application.
+
+   The container is used to create all other objects.
+
+Logging and configuration parsing part is done. In the next section we will create the monitoring
+checks dispatcher.
+
 Dispatcher
 ----------
 
@@ -272,7 +283,7 @@ Now let's add the dispatcher.
 
 The dispatcher will control a list of the monitoring tasks. It will execute each task according
 to the configured schedule. The ``Monitor`` class is the base class for all the monitors. You can
-create different monitors subclassing it and implementing the ``check()`` method.
+create different monitors by subclassing it and implementing the ``check()`` method.
 
 .. image:: asyncio_images/class_1.png
 
@@ -662,8 +673,8 @@ You will see:
    [INFO] [HttpMonitor]: GET http://example.com, response code: 200, content length: 648, request took: 0.083 seconds
    [INFO] [HttpMonitor]: GET http://example.com, response code: 200, content length: 648, request took: 0.062 seconds
 
-Add another monitor
--------------------
+More monitors
+-------------
 
 Edit ``containers.py``:
 
