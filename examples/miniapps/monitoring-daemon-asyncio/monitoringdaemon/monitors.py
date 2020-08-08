@@ -11,11 +11,7 @@ class Monitor:
 
     def __init__(self, check_every: int) -> None:
         self.check_every = check_every
-        self.logger = logging.getLogger(self.full_name)
-
-    @property
-    def full_name(self) -> str:
-        raise NotImplementedError()
+        self.logger = logging.getLogger(self.__class__.__name__)
 
     async def check(self) -> None:
         raise NotImplementedError()
@@ -34,10 +30,6 @@ class HttpMonitor(Monitor):
         self._timeout = options.pop('timeout')
         super().__init__(check_every=options.pop('check_every'))
 
-    @property
-    def full_name(self) -> str:
-        return '{0}.{1}(url="{2}")'.format(__name__, self.__class__.__name__, self._url)
-
     async def check(self) -> None:
         time_start = time.time()
 
@@ -51,7 +43,9 @@ class HttpMonitor(Monitor):
         time_took = time_end - time_start
 
         self.logger.info(
-            'Response code: %s, content length: %s, request took: %s seconds',
+            '%s %s, response code: %s, content length: %s, request took: %s seconds',
+            self._method,
+            self._url,
             response.status,
             response.content_length,
             round(time_took, 3)

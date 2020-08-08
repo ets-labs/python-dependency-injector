@@ -25,11 +25,11 @@ The output should be something like:
 
    Starting monitoring-daemon-asyncio_monitor_1 ... done
    Attaching to monitoring-daemon-asyncio_monitor_1
-   monitor_1  | [2020-08-06 01:57:08,249] [INFO] [monitoringdaemon.dispatcher]: Dispatcher is starting up
-   monitor_1  | [2020-08-06 01:57:08,249] [INFO] [monitoringdaemon.dispatcher]: Monitoring task has been started monitoringdaemon.monitors.HttpMonitor(url="http://example.com")
-   monitor_1  | [2020-08-06 01:57:08,249] [INFO] [monitoringdaemon.dispatcher]: Monitoring task has been started monitoringdaemon.monitors.HttpMonitor(url="http://httpbin.org/get")
-   monitor_1  | [2020-08-06 01:57:08,318] [INFO] [monitoringdaemon.monitors.HttpMonitor(url="http://example.com")]: Response code: 200, content length: 648, request took: 0.067 seconds
-   monitor_1  | [2020-08-06 01:57:08,363] [INFO] [monitoringdaemon.monitors.HttpMonitor(url="http://httpbin.org/get")]: Response code: 200, content length: 309, request took: 0.112 seconds
+   monitor_1  | [2020-08-08 02:48:24,906] [INFO] [Dispatcher]: Starting up
+   monitor_1  | [2020-08-08 02:48:24,980] [INFO] [HttpMonitor]: GET http://example.com, response code: 200, content length: 648, request took: 0.072 seconds
+   monitor_1  | [2020-08-08 02:48:25,042] [INFO] [HttpMonitor]: GET https://httpbin.org/get, response code: 200, content length: 310, request took: 0.134 seconds
+   monitor_1  | [2020-08-08 02:48:29,991] [INFO] [HttpMonitor]: GET http://example.com, response code: 200, content length: 648, request took: 0.074 seconds
+   monitor_1  | [2020-08-08 02:48:30,037] [INFO] [HttpMonitor]: GET https://httpbin.org/get, response code: 200, content length: 310, request took: 0.119 seconds
 
 Test
 ----
