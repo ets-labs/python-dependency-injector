@@ -100,7 +100,7 @@ Prepare the environment
 
 In this section we are going to prepare the environment for running our daemon.
 
-First, we need to specify the project requirements. We will use next packages:
+First we need to specify the project requirements. We will use next packages:
 
 - ``dependency-injector`` - the dependency injection framework
 - ``aiohttp`` - the web framework (we need only http client)
@@ -485,10 +485,24 @@ Everything works properly. Dispatcher starts up and exits because there are no m
 By the end of this section we have the application skeleton ready. In the next section will will
 add first monitoring task.
 
-HTTP monitor
-------------
+Example.com monitor
+-------------------
 
-Create ``http.py`` module in the ``monitoringdaemon`` package:
+In this section we will add the monitoring task that will check the availability of the
+`http://example.com <http://example.com>`_.
+
+We will start from the extending of our class model with a new type of the monitoring check, the
+``HttpMonitor``.
+
+The ``HttpMonitor`` is a subclass of the ``Monitor``. We will implement the ``check()`` method that
+will send the HTTP request to the specified URL. The http request sending will be delegated to
+the ``HttpClient``.
+
+.. image:: asyncio_images/class_2.png
+
+First, we need to create the ``HttpClient``.
+
+Create ``http.py`` in the ``monitoringdaemon`` package:
 
 .. code-block:: bash
    :emphasize-lines: 7
@@ -521,6 +535,8 @@ and put next into it:
            async with ClientSession(timeout=ClientTimeout(timeout)) as session:
                async with session.request(method, url) as response:
                    return response
+
+Now we need to add the ``HttpClient`` to the container.
 
 Edit ``containers.py``:
 
@@ -558,12 +574,12 @@ Edit ``containers.py``:
            ),
        )
 
-Add the http monitor.
+Now we're ready to add the ``HttpMonitor``. We will add it to the ``monitors`` module.
 
 Edit ``monitors.py``:
 
 .. code-block:: python
-   :emphasize-lines: 4-5,7,24-58
+   :emphasize-lines: 4-5,7,20-54
 
    """Monitors module."""
 
@@ -620,6 +636,12 @@ Edit ``monitors.py``:
                round(time_took, 3)
            )
 
+We have everything ready to add the `http://example.com <http://example.com>`_ monitoring check.
+We make two changes in the container:
+
+- Add the factory provider ``example_monitor``.
+- Inject the ``example_monitor`` into the dispatcher.
+
 Edit ``containers.py``:
 
 .. code-block:: python
@@ -662,6 +684,9 @@ Edit ``containers.py``:
            ),
        )
 
+Provider ``example_monitor`` has a dependency on the configuration options. Let's define these
+options.
+
 Edit ``config.yml``:
 
 .. code-block:: yaml
@@ -679,22 +704,44 @@ Edit ``config.yml``:
        timeout: 5
        check_every: 5
 
+
+All set. Start the daemon to check that all works.
+
 Run in the terminal:
 
 .. code-block:: bash
 
    docker-compose up
 
-You will see:
+You should see:
 
 .. code-block:: bash
 
-   [INFO] [Dispatcher]: Starting up
-   [INFO] [HttpMonitor]: GET http://example.com, response code: 200, content length: 648, request took: 0.083 seconds
-   [INFO] [HttpMonitor]: GET http://example.com, response code: 200, content length: 648, request took: 0.062 seconds
+   Starting monitoring-daemon-tutorial_monitor_1 ... done
+   Attaching to monitoring-daemon-tutorial_monitor_1
+   monitor_1  | [2020-08-08 17:06:41,965] [INFO] [Dispatcher]: Starting up
+   monitor_1  | [2020-08-08 17:06:42,033] [INFO] [HttpMonitor]: Check
+   monitor_1  |     GET http://example.com
+   monitor_1  |     response code: 200
+   monitor_1  |     content length: 648
+   monitor_1  |     request took: 0.067 seconds
+   monitor_1  |
+   monitor_1  | [2020-08-08 17:06:47,040] [INFO] [HttpMonitor]: Check
+   monitor_1  |     GET http://example.com
+   monitor_1  |     response code: 200
+   monitor_1  |     content length: 648
+   monitor_1  |     request took: 0.073 seconds
 
-More monitors
--------------
+Our daemon can monitor `http://example.com <http://example.com>`_ availability.
+
+Let's add the monitor for the `http://httpbin.org <http://httpbin.org>`_.
+
+Httpbin.org monitor
+-------------------
+
+Adding of the monitor for the `httpbin.org`_ will be much easier because we have all the
+components ready. We just need to create a new provider in the container and update the
+configuration.
 
 Edit ``containers.py``:
 
@@ -768,10 +815,59 @@ Edit ``config.yml``:
        timeout: 5
        check_every: 5
 
+Let's start the daemon and check the logs.
+
+Run in the terminal:
+
+.. code-block:: bash
+
+   docker-compose up
+
+You should see:
+
+.. code-block:: bash
+
+   Starting monitoring-daemon-tutorial_monitor_1 ... done
+   Attaching to monitoring-daemon-tutorial_monitor_1
+   monitor_1  | [2020-08-08 18:09:08,540] [INFO] [Dispatcher]: Starting up
+   monitor_1  | [2020-08-08 18:09:08,618] [INFO] [HttpMonitor]: Check
+   monitor_1  |     GET http://example.com
+   monitor_1  |     response code: 200
+   monitor_1  |     content length: 648
+   monitor_1  |     request took: 0.077 seconds
+   monitor_1  |
+   monitor_1  | [2020-08-08 18:09:08,722] [INFO] [HttpMonitor]: Check
+   monitor_1  |     GET https://httpbin.org/get
+   monitor_1  |     response code: 200
+   monitor_1  |     content length: 310
+   monitor_1  |     request took: 0.18 seconds
+   monitor_1  |
+   monitor_1  | [2020-08-08 18:09:13,619] [INFO] [HttpMonitor]: Check
+   monitor_1  |     GET http://example.com
+   monitor_1  |     response code: 200
+   monitor_1  |     content length: 648
+   monitor_1  |     request took: 0.066 seconds
+   monitor_1  |
+   monitor_1  | [2020-08-08 18:09:13,681] [INFO] [HttpMonitor]: Check
+   monitor_1  |     GET https://httpbin.org/get
+   monitor_1  |     response code: 200
+   monitor_1  |     content length: 310
+   monitor_1  |     request took: 0.126 seconds
+
+The functional part is done. Daemon monitors `http://example.com <http://example.com>`_  and
+`https://httpbin.org <https://httpbin.org>`_.
+
+In the next section we will add some tests.
+
 Tests
 -----
 
-Create ``tests.py`` module in the ``monitoringdaemon`` package:
+It would be nice to add some tests. Let's do it.
+
+We will use `pytest <https://docs.pytest.org/en/stable/>`_ and
+`coverage <https://coverage.readthedocs.io/>`_.
+
+Create ``tests.py`` in the ``monitoringdaemon`` package:
 
 .. code-block:: bash
    :emphasize-lines: 9
@@ -793,6 +889,7 @@ Create ``tests.py`` module in the ``monitoringdaemon`` package:
 and put next into it:
 
 .. code-block:: python
+   :emphasize-lines: 54,70-71
 
    """Tests module."""
 
@@ -903,6 +1000,16 @@ You should see:
    monitoringdaemon/tests.py           37      0   100%
    ----------------------------------------------------
    TOTAL                              129     18    86%
+
+.. note::
+
+   Take a look at the highlights in the ``tests.py``.
+
+   In the ``test_example_monitor`` it emphasizes the overriding of the ``HttpClient``. The real
+   HTTP calls are mocked.
+
+   In the ``test_dispatcher`` we override both monitors with the mocks.
+
 
 Conclusion
 ----------
