@@ -291,11 +291,7 @@ Edit ``monitors.py``:
 
        def __init__(self, check_every: int) -> None:
            self.check_every = check_every
-           self.logger = logging.getLogger(self.full_name)
-
-       @property
-       def full_name(self) -> str:
-           raise NotImplementedError()
+           self.logger = logging.getLogger(self.__class__.__name__)
 
        async def check(self) -> None:
            raise NotImplementedError()
@@ -304,7 +300,7 @@ Edit ``dispatcher.py``:
 
 .. code-block:: python
 
-   """Dispatcher module."""
+   """"Dispatcher module."""
 
    import asyncio
    import logging
@@ -315,29 +311,23 @@ Edit ``dispatcher.py``:
    from .monitors import Monitor
 
 
-   logger = logging.getLogger(__name__)
-
-
    class Dispatcher:
 
        def __init__(self, monitors: List[Monitor]) -> None:
            self._monitors = monitors
            self._monitor_tasks: List[asyncio.Task] = []
+           self._logger = logging.getLogger(self.__class__.__name__)
            self._stopping = False
 
        def run(self) -> None:
            asyncio.run(self.start())
 
        async def start(self) -> None:
-           logger.info('Dispatcher is starting up')
+           self._logger.info('Starting up')
 
            for monitor in self._monitors:
                self._monitor_tasks.append(
                    asyncio.create_task(self._run_monitor(monitor)),
-               )
-               logger.info(
-                   'Monitoring task has been started %s',
-                   monitor.full_name,
                )
 
            asyncio.get_event_loop().add_signal_handler(signal.SIGTERM, self.stop)
@@ -353,11 +343,10 @@ Edit ``dispatcher.py``:
 
            self._stopping = True
 
-           logger.info('Dispatcher is shutting down')
+           self._logger.info('Shutting down')
            for task, monitor in zip(self._monitor_tasks, self._monitors):
                task.cancel()
-               logger.info('Monitoring task has been stopped %s', monitor.full_name)
-           logger.info('Dispatcher shutting down finished successfully')
+           self._logger.info('Shutdown finished successfully')
 
        @staticmethod
        async def _run_monitor(monitor: Monitor) -> None:
@@ -373,7 +362,7 @@ Edit ``dispatcher.py``:
                except asyncio.CancelledError:
                    break
                except Exception:
-                   monitor.logger.exception('Error running monitoring check')
+                   monitor.logger.exception('Error executing monitor check')
 
                await asyncio.sleep(_until_next(last=time_start))
 
@@ -383,7 +372,7 @@ Edit ``dispatcher.py``:
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 8,22-27
+   :emphasize-lines: 8,23-28
 
    """Application containers module."""
 
@@ -396,6 +385,7 @@ Edit ``containers.py``:
 
 
    class ApplicationContainer(containers.DeclarativeContainer):
+       """Application container."""
 
        config = providers.Configuration()
 
@@ -467,13 +457,483 @@ add first monitoring task.
 HTTP monitor
 ------------
 
+Create ``http.py`` module in the ``monitoringdaemon`` package:
+
+.. code-block:: bash
+   :emphasize-lines: 7
+
+   ./
+   ├── monitoringdaemon/
+   │   ├── __init__.py
+   │   ├── __main__.py
+   │   ├── containers.py
+   │   ├── dispatcher.py
+   │   ├── http.py
+   │   └── monitors.py
+   ├── config.yml
+   ├── docker-compose.yml
+   ├── Dockerfile
+   └── requirements.txt
+
+and put next into it:
+
+.. code-block:: python
+
+   """Http client module."""
+
+   from aiohttp import ClientSession, ClientTimeout, ClientResponse
+
+
+   class HttpClient:
+
+       async def request(self, method: str, url: str, timeout: int) -> ClientResponse:
+           async with ClientSession(timeout=ClientTimeout(timeout)) as session:
+               async with session.request(method, url) as response:
+                   return response
+
+Edit ``containers.py``:
+
+.. code-block:: python
+   :emphasize-lines: 8, 23
+
+   """Application containers module."""
+
+   import logging
+   import sys
+
+   from dependency_injector import containers, providers
+
+   from . import http, dispatcher
+
+
+   class ApplicationContainer(containers.DeclarativeContainer):
+       """Application container."""
+
+       config = providers.Configuration()
+
+       configure_logging = providers.Callable(
+           logging.basicConfig,
+           stream=sys.stdout,
+           level=config.log.level,
+           format=config.log.format,
+       )
+
+       http_client = providers.Factory(http.HttpClient)
+
+       dispatcher = providers.Factory(
+           dispatcher.Dispatcher,
+           monitors=providers.List(
+               # TODO: add monitors
+           ),
+       )
+
+Add the http monitor.
+
+Edit ``monitors.py``:
+
+.. code-block:: python
+   :emphasize-lines: 4-5,7,24-58
+
+   """Monitors module."""
+
+   import logging
+   import time
+   from typing import Dict, Any
+
+   from .http import HttpClient
+
+
+   class Monitor:
+
+       def __init__(self, check_every: int) -> None:
+           self.check_every = check_every
+           self.logger = logging.getLogger(self.__class__.__name__)
+
+       async def check(self) -> None:
+           raise NotImplementedError()
+
+
+   class HttpMonitor(Monitor):
+
+       def __init__(
+               self,
+               http_client: HttpClient,
+               options: Dict[str, Any],
+       ) -> None:
+           self._client = http_client
+           self._method = options.pop('method')
+           self._url = options.pop('url')
+           self._timeout = options.pop('timeout')
+           super().__init__(check_every=options.pop('check_every'))
+
+       @property
+       def full_name(self) -> str:
+           return '{0}.{1}(url="{2}")'.format(__name__, self.__class__.__name__, self._url)
+
+       async def check(self) -> None:
+           time_start = time.time()
+
+           response = await self._client.request(
+               method=self._method,
+               url=self._url,
+               timeout=self._timeout,
+           )
+
+           time_end = time.time()
+           time_took = time_end - time_start
+
+           self.logger.info(
+               'Response code: %s, content length: %s, request took: %s seconds',
+               response.status,
+               response.content_length,
+               round(time_took, 3)
+           )
+
+Edit ``containers.py``:
+
+.. code-block:: python
+   :emphasize-lines: 8,25-29,34
+
+   """Application containers module."""
+
+   import logging
+   import sys
+
+   from dependency_injector import containers, providers
+
+   from . import http, monitors, dispatcher
+
+
+   class ApplicationContainer(containers.DeclarativeContainer):
+       """Application container."""
+
+       config = providers.Configuration()
+
+       configure_logging = providers.Callable(
+           logging.basicConfig,
+           stream=sys.stdout,
+           level=config.log.level,
+           format=config.log.format,
+       )
+
+       http_client = providers.Factory(http.HttpClient)
+
+       example_monitor = providers.Factory(
+           monitors.HttpMonitor,
+           http_client=http_client,
+           options=config.monitors.example,
+       )
+
+       dispatcher = providers.Factory(
+           dispatcher.Dispatcher,
+           monitors=providers.List(
+               example_monitor,
+           ),
+       )
+
+Edit ``config.yml``:
+
+.. code-block:: yaml
+   :emphasize-lines: 5-11
+
+   log:
+     level: "INFO"
+     format: "[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s"
+
+   monitors:
+
+     example:
+       method: "GET"
+       url: "http://example.com"
+       timeout: 5
+       check_every: 5
+
+Run in the terminal:
+
+.. code-block:: bash
+
+   docker-compose up
+
+You will see:
+
+.. code-block:: bash
+
+   [INFO] [Dispatcher]: Starting up
+   [INFO] [HttpMonitor]: GET http://example.com, response code: 200, content length: 648, request took: 0.083 seconds
+   [INFO] [HttpMonitor]: GET http://example.com, response code: 200, content length: 648, request took: 0.062 seconds
+
 Add another monitor
 -------------------
+
+Edit ``containers.py``:
+
+.. code-block:: python
+   :emphasize-lines: 31-35,41
+
+   """Application containers module."""
+
+   import logging
+   import sys
+
+   from dependency_injector import containers, providers
+
+   from . import http, monitors, dispatcher
+
+
+   class ApplicationContainer(containers.DeclarativeContainer):
+       """Application container."""
+
+       config = providers.Configuration()
+
+       configure_logging = providers.Callable(
+           logging.basicConfig,
+           stream=sys.stdout,
+           level=config.log.level,
+           format=config.log.format,
+       )
+
+       http_client = providers.Factory(http.HttpClient)
+
+       example_monitor = providers.Factory(
+           monitors.HttpMonitor,
+           http_client=http_client,
+           options=config.monitors.example,
+       )
+
+       httpbin_monitor = providers.Factory(
+           monitors.HttpMonitor,
+           http_client=http_client,
+           options=config.monitors.httpbin,
+       )
+
+       dispatcher = providers.Factory(
+           dispatcher.Dispatcher,
+           monitors=providers.List(
+               example_monitor,
+               httpbin_monitor,
+           ),
+       )
+
+Edit ``config.yml``:
+
+.. code-block:: yaml
+   :emphasize-lines: 13-17
+
+   log:
+     level: "INFO"
+     format: "[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s"
+
+   monitors:
+
+     example:
+       method: "GET"
+       url: "http://example.com"
+       timeout: 5
+       check_every: 5
+
+     httpbin:
+       method: "GET"
+       url: "https://httpbin.org/get"
+       timeout: 5
+       check_every: 5
 
 Tests
 -----
 
+Create ``tests.py`` module in the ``monitoringdaemon`` package:
+
+.. code-block:: bash
+   :emphasize-lines: 9
+
+   ./
+   ├── monitoringdaemon/
+   │   ├── __init__.py
+   │   ├── __main__.py
+   │   ├── containers.py
+   │   ├── dispatcher.py
+   │   ├── http.py
+   │   ├── monitors.py
+   │   └── tests.py
+   ├── config.yml
+   ├── docker-compose.yml
+   ├── Dockerfile
+   └── requirements.txt
+
+and put next into it:
+
+.. code-block:: python
+
+   """Tests module."""
+
+   import asyncio
+   import dataclasses
+   from unittest import mock
+
+   import pytest
+
+   from .containers import ApplicationContainer
+
+
+   @dataclasses.dataclass
+   class RequestStub:
+       status: int
+       content_length: int
+
+
+   @pytest.fixture
+   def container():
+       container = ApplicationContainer()
+       container.config.from_dict({
+           'log': {
+               'level': 'INFO',
+               'formant': '[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s',
+           },
+           'monitors': {
+               'example': {
+                   'method': 'GET',
+                   'url': 'http://fake-example.com',
+                   'timeout': 1,
+                   'check_every': 1,
+               },
+               'httpbin': {
+                   'method': 'GET',
+                   'url': 'https://fake-httpbin.org/get',
+                   'timeout': 1,
+                   'check_every': 1,
+               },
+           },
+       })
+       return container
+
+
+   @pytest.mark.asyncio
+   async def test_example_monitor(container, caplog):
+       caplog.set_level('INFO')
+
+       http_client_mock = mock.AsyncMock()
+       http_client_mock.request.return_value = RequestStub(
+           status=200,
+           content_length=635,
+       )
+
+       with container.http_client.override(http_client_mock):
+           example_monitor = container.example_monitor()
+           await example_monitor.check()
+
+       assert 'http://fake-example.com' in caplog.text
+       assert 'response code: 200' in caplog.text
+       assert 'content length: 635' in caplog.text
+
+
+   @pytest.mark.asyncio
+   async def test_dispatcher(container, caplog, event_loop):
+       caplog.set_level('INFO')
+
+       example_monitor_mock = mock.AsyncMock()
+       httpbin_monitor_mock = mock.AsyncMock()
+
+       with container.example_monitor.override(example_monitor_mock), \
+               container.httpbin_monitor.override(httpbin_monitor_mock):
+
+           dispatcher = container.dispatcher()
+           event_loop.create_task(dispatcher.start())
+           await asyncio.sleep(0.1)
+           dispatcher.stop()
+
+       assert example_monitor_mock.check.called
+       assert httpbin_monitor_mock.check.called
+
+Run in the terminal:
+
+.. code-block:: bash
+
+   docker-compose run --rm monitor py.test monitoringdaemon/tests.py --cov=monitoringdaemon
+
+You should see:
+
+.. code-block:: bash
+
+   platform linux -- Python 3.8.3, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
+   rootdir: /code
+   plugins: asyncio-0.14.0, cov-2.10.0
+   collected 2 items
+
+   monitoringdaemon/tests.py ..                                    [100%]
+
+   ----------- coverage: platform linux, python 3.8.3-final-0 -----------
+   Name                             Stmts   Miss  Cover
+   ----------------------------------------------------
+   monitoringdaemon/__init__.py         0      0   100%
+   monitoringdaemon/__main__.py         9      9     0%
+   monitoringdaemon/containers.py      11      0   100%
+   monitoringdaemon/dispatcher.py      43      5    88%
+   monitoringdaemon/http.py             6      3    50%
+   monitoringdaemon/monitors.py        23      1    96%
+   monitoringdaemon/tests.py           37      0   100%
+   ----------------------------------------------------
+   TOTAL                              129     18    86%
+
 Conclusion
 ----------
+
+In this tutorial we've built an ``asyncio`` monitoring daemon  following the dependency
+injection principle.
+We've used the ``Dependency Injector`` as a dependency injection framework.
+
+The benefit you get with the ``Dependency Injector`` is the container. It starts to payoff
+when you need to understand or change your application structure. It's easy with the container,
+cause you have everything in one place:
+
+.. code-block:: python
+
+   """Application containers module."""
+
+   import logging
+   import sys
+
+   from dependency_injector import containers, providers
+
+   from . import http, monitors, dispatcher
+
+
+   class ApplicationContainer(containers.DeclarativeContainer):
+       """Application container."""
+
+       config = providers.Configuration()
+
+       configure_logging = providers.Callable(
+           logging.basicConfig,
+           stream=sys.stdout,
+           level=config.log.level,
+           format=config.log.format,
+       )
+
+       http_client = providers.Factory(http.HttpClient)
+
+       example_monitor = providers.Factory(
+           monitors.HttpMonitor,
+           http_client=http_client,
+           options=config.monitors.example,
+       )
+
+       httpbin_monitor = providers.Factory(
+           monitors.HttpMonitor,
+           http_client=http_client,
+           options=config.monitors.httpbin,
+       )
+
+       dispatcher = providers.Factory(
+           dispatcher.Dispatcher,
+           monitors=providers.List(
+               example_monitor,
+               httpbin_monitor,
+           ),
+       )
+
+What's next?
+
+- Look at the other :ref:`tutorials`.
+- Know more about the :ref:`providers`.
+- Go to the :ref:`contents`.
 
 .. disqus::
