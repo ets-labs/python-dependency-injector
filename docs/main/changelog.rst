@@ -17,6 +17,7 @@ Development version
 3.27.0
 ------
 - Add deep init injections overriding for ``Factory`` provider.
+- Add ``asyncio`` monitoring daemon example.
 
 3.26.0
 ------
