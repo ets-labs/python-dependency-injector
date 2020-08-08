@@ -11,6 +11,7 @@ Development version
 -------------------
 - Add ``asyncio`` + ``Dependency Injector`` example ``monitoring-daemon-asyncio``.
 - Fix a typo in the docblock of the ``Configuration`` provider.
+- Fix multiple typos in the ``flask`` and ``aiohttp`` tutorials.
 - Fix ``Makefile`` to run ``aiohttp`` integration tests on Python 3.5+.
 
 3.27.0

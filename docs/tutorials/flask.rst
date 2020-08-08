@@ -1085,8 +1085,8 @@ Conclusion
 
 We are done.
 
-In this tutorial we've build ``Flask`` application following the dependency injection principle.
-We've used ``Dependency Injector`` as a dependency injection framework.
+In this tutorial we've built ``Flask`` application following the dependency injection principle.
+We've used the ``Dependency Injector`` as a dependency injection framework.
 
 The main part of this application is the container. It keeps all the application components and
 their dependencies in one place:
