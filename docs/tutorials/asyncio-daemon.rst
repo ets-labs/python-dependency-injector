@@ -587,7 +587,7 @@ Now we're ready to add the ``HttpMonitor``. We will add it to the ``monitors`` m
 Edit ``monitors.py``:
 
 .. code-block:: python
-   :emphasize-lines: 4-5,7,20-54
+   :emphasize-lines: 4-5,7,20-56
 
    """Monitors module."""
 
@@ -621,10 +621,6 @@ Edit ``monitors.py``:
            self._timeout = options.pop('timeout')
            super().__init__(check_every=options.pop('check_every'))
 
-       @property
-       def full_name(self) -> str:
-           return '{0}.{1}(url="{2}")'.format(__name__, self.__class__.__name__, self._url)
-
        async def check(self) -> None:
            time_start = time.time()
 
@@ -638,7 +634,13 @@ Edit ``monitors.py``:
            time_took = time_end - time_start
 
            self.logger.info(
-               'Response code: %s, content length: %s, request took: %s seconds',
+               'Check\n'
+               '    %s %s\n'
+               '    response code: %s\n'
+               '    content length: %s\n'
+               '    request took: %s seconds\n',
+               self._method,
+               self._url,
                response.status,
                response.content_length,
                round(time_took, 3)
