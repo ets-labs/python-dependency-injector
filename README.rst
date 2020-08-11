@@ -150,7 +150,9 @@ Example of running of such application:
 Tutorials
 =========
 
-Tutorial is a good point to start:
+Tutorial is a good point to start.
+
+Choose one of the following:
 
 - `Flask web application tutorial <http://python-dependency-injector.ets-labs.org/tutorials/flask.html>`_
 - `Aiohttp REST API tutorial <http://python-dependency-injector.ets-labs.org/tutorials/aiohttp.html>`_
