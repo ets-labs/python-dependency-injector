@@ -127,7 +127,7 @@ Example application container:
            ),
        )
 
-Running of such container looks like this:
+Example of running of such application:
 
 .. code-block:: python
 
