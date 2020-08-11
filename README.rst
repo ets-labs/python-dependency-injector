@@ -204,7 +204,7 @@ What features does the framework have?
  - overriding of the objects in any part of the graph
 
 What features the framework does NOT have?
- - auto wiring / auto resolving of the dependencies
+ - autowiring / autoresolving of the dependencies
  - the annotations and ``@inject``-like decorators
 
 Have a question?
