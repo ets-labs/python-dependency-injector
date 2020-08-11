@@ -151,9 +151,8 @@ Running of such container looks like this:
 
 Tutorials
 =========
-Tutorial will be a good point to start.
 
-You can pass one of the dependency injection tutorials:
+Tutorial is a good point to start:
 
 - `Flask web application tutorial <http://python-dependency-injector.ets-labs.org/tutorials/flask.html>`_
 - `Aiohttp REST API tutorial <http://python-dependency-injector.ets-labs.org/tutorials/aiohttp.html>`_
