@@ -71,10 +71,10 @@ How does it different from the other frameworks?
 
 ``Dependency Injector`` is a simple tool for the powerful concept.
 
-What should I know about the dependency injection?
---------------------------------------------------
+People often ask
+----------------
 
-Here is a short summary of what you should now about the dependency injection and the ``Dependency Injector`` before starting:
+Here is a short summary of what is often asked about the dependency injection and the Dependency Injector.
 
 What is the dependency injection?
  ⁃ dependency injection is a principle that decreases coupling and increases cohesion
