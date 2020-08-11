@@ -56,13 +56,18 @@ The power of the framework is in its simplicity and straightforwardness.
 
 It stands on two principles:
 
- - Explicit is better than implicit (PEP20).
- - Do NOT pollute your application code.
+- Explicit is better than implicit (PEP20).
+- Do NOT pollute your application code.
 
 How does it different from the other frameworks?
 
-- The framework does NOT do any autowiring / autoresolving of the dependencies. You need to specify everything explicitly. Because *"Explicit is better than implicit" (PEP20)*.
-- Your application code does NOT know about the framework and does NOT depend on it. No ``@inject`` decorators, annotations, patching or any other magic tricks.
+- **No autowiring.** The framework does NOT do any autowiring / autoresolving of the dependencies. You need to specify everything explicitly. Because *"Explicit is better than implicit" (PEP20)*.
+- **Your code does not know about the Dependency Injector** .Your application does NOT depend on the framework. No ``@inject`` decorators, annotations, patching or any other magic tricks.
+
+``Dependency Injector`` follows a simple contract with you:
+
+- You tell the framework how to build you code
+- The framework does it for you
 
 ``Dependency Injector`` is a simple tool for the powerful concept.
 
