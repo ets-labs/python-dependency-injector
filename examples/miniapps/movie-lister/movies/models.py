@@ -13,4 +13,5 @@ class Movie:
             self.__class__.__name__,
             repr(self.name),
             repr(self.year),
-            repr(self.director))
+            repr(self.director),
+        )
