@@ -159,20 +159,20 @@ You can pass one of the dependency injection tutorials:
 - `Aiohttp REST API tutorial <http://python-dependency-injector.ets-labs.org/tutorials/aiohttp.html>`_
 - `Asyncio monitoring daemon tutorial <http://python-dependency-injector.ets-labs.org/tutorials/asyncio-daemon.html>`_
 
-How to install?
----------------
+Installation
+============
 
 - The package is available on the `PyPi`_::
 
     pip install dependency-injector
 
-Where is the docs?
-------------------
+Documentation
+=============
 
 - The documentation is available on the `Read The Docs <http://python-dependency-injector.ets-labs.org/>`_
 
 Frequently asked questions
---------------------------
+==========================
 
 What is the dependency injection?
  - dependency injection is a principle that decreases coupling and increases cohesion
@@ -209,27 +209,19 @@ What features the framework does NOT have?
  - the annotations and ``@inject``-like decorators
 
 Have a question?
-----------------
-
-- Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
+ - Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
 
 Found a bug?
-------------
-
-- Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
+ - Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
 
 Want to help?
--------------
-
-- |star| Star the ``Dependency Injector`` on the `Github <https://github.com/ets-labs/python-dependency-injector/>`_
-- |new| Start a new project with the ``Dependency Injector``
-- |tell| Tell your friend about the ``Dependency Injector``
+ - |star| Star the ``Dependency Injector`` on the `Github <https://github.com/ets-labs/python-dependency-injector/>`_
+ - |new| Start a new project with the ``Dependency Injector``
+ - |tell| Tell your friend about the ``Dependency Injector``
 
 Want to contribute?
--------------------
-
-- |fork| Fork the project
-- |pull| Open a pull request to the ``develop`` branch
+ - |fork| Fork the project
+ - |pull| Open a pull request to the ``develop`` branch
 
 .. _PyPi: https://pypi.org/project/dependency-injector/
 
