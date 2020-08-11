@@ -11,17 +11,15 @@ class ApplicationContainer(containers.DeclarativeContainer):
 
     fixtures = providers.Object(fixtures.MOVIES_SAMPLE_DATA)
 
-    storage = providers.Singleton(
-        providers.Selector(
-            config.storage.type,
-            csv=providers.Factory(
-                storages.CsvMovieStorage,
-                options=config.storage[config.storage.type],
-            ),
-            sqlite=providers.Factory(
-                storages.SqliteMovieStorage,
-                options=config.storage[config.storage.type],
-            ),
+    storage = providers.Selector(
+        config.storage.type,
+        csv=providers.Singleton(
+            storages.CsvMovieStorage,
+            options=config.storage[config.storage.type],
+        ),
+        sqlite=providers.Singleton(
+            storages.SqliteMovieStorage,
+            options=config.storage[config.storage.type],
         ),
     )
 
