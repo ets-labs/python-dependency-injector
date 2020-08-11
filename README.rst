@@ -52,6 +52,59 @@ What is ``Dependency Injector``?
 
 ``Dependency Injector`` is a dependency injection framework for Python.
 
+The power of the framework is in its simplicity and straightforwardness.
+
+It stands on two principles:
+
+ - Explicit is better than implicit (PEP20).
+ - Do NOT pollute your application code.
+
+How does it different from the other frameworks?
+
+- The framework does NOT do any autowiring / autoresolving of the dependencies. You need to specify everything explicitly. Because *"Explicit is better than implicit" (PEP20)*.
+- Your application code does NOT know about the framework and does NOT depend on it. No ``@inject`` decorators, annotations, patching or any other magic tricks.
+
+``Dependency Injector`` is a simple tool for the powerful concept.
+
+What should I know about the dependency injection?
+--------------------------------------------------
+
+Here is a short summary of what you should now about the dependency injection and the ``Dependency Injector`` before starting:
+
+What is the dependency injection?
+ ⁃ dependency injection is a principle that decreases coupling and increases cohesion
+
+Why should I do the dependency injection?
+ ⁃ your code becomes more flexible, testable and clear
+ ⁃ you have no problems when you need to understand how it works or change it 😎 
+
+How do I start doing the dependency injection?
+ ⁃ you start writing the code following the dependency injection principle
+ ⁃ you register all of your application components and their dependencies in the container
+ ⁃ when you need a component, you get it from the container
+
+Why do I need a framework for this?
+ ⁃ you need the framework for this to not create it by your own
+ ⁃ this framework gives you the container and the providers
+ ⁃ the container is like a dictionary with the batteries 🔋 
+ ⁃ the providers manage the lifetime of your components, you will need factories, singletons, smart config object etc
+
+What price do I pay and what do I get?
+ ⁃ you need to explicitly specify the dependencies in the container
+ ⁃ it will be extra work in the beginning
+ ⁃ it will payoff when project grows or in two weeks 😊 (when you forget what project was about)
+
+What features does the framework have?
+ ⁃ building objects graph
+ ⁃ smart configuration object
+ ⁃ providers: factory, singleton, thread locals registers, etc
+ ⁃ positional and keyword context injections
+ ⁃ overriding of the objects in any part of the graph
+
+What features the framework does NOT have?
+ ⁃ auto wiring / auto resolving of the dependencies
+ ⁃ the annotations and ``@inject``-like decorators
+
 Why do I need it?
 =================
 
