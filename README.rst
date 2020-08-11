@@ -52,10 +52,25 @@ What is ``Dependency Injector``?
 
 ``Dependency Injector`` is a dependency injection framework for Python.
 
-Why do I need it?
-=================
+It stands on two principles:
 
-``Dependency Injector`` helps you understand and change the structure of the application.
+- Explicit is better than implicit (PEP20).
+- Do no magic to your code.
+
+How does it different from the other frameworks?
+
+- **No autowiring.** The framework does NOT do any autowiring / autoresolving of the dependencies. You need to specify everything explicitly. Because *"Explicit is better than implicit" (PEP20)*.
+- **Does not pollute your code.** Your application does NOT know and does NOT depend on the framework. No ``@inject`` decorators, annotations, patching or any other magic tricks.
+
+``Dependency Injector`` makes a simple contract with you:
+
+- You tell the framework how to build you code
+- The framework does it for you
+
+The power of the ``Dependency Injector`` is in its simplicity and straightforwardness. It is a simple tool for the powerful concept.
+
+Example
+=======
 
 With the ``Dependency Injector`` you keep **application structure in one place**.
 This place is called **the container**. You use the container to manage all the components of the
@@ -67,133 +82,145 @@ the application structure. It is **easy to understand and change** it.
 
 *The container is like a map of your application. You always know what depends on what.*
 
-``Flask`` + ``Dependency Injector`` example application container:
+Example application container:
 
 .. code-block:: python
 
-    from dependency_injector import containers, providers
-    from dependency_injector.ext import flask
-    from flask import Flask
-    from flask_bootstrap import Bootstrap
-    from github import Github
+   import logging
+   import sys
 
-    from . import views, services
+   from dependency_injector import containers, providers
 
-
-    class ApplicationContainer(containers.DeclarativeContainer):
-        """Application container."""
-
-        app = flask.Application(Flask, __name__)
-
-        bootstrap = flask.Extension(Bootstrap)
-
-        config = providers.Configuration()
-
-        github_client = providers.Factory(
-            Github,
-            login_or_token=config.github.auth_token,
-            timeout=config.github.request_timeout,
-        )
-
-        search_service = providers.Factory(
-            services.SearchService,
-            github_client=github_client,
-        )
-
-        index_view = flask.View(
-            views.index,
-            search_service=search_service,
-            default_query=config.search.default_query,
-            default_limit=config.search.default_limit,
-        )
-
-Running such container looks like this:
-
-.. code-block:: python
-
-    from .containers import ApplicationContainer
+   from . import http, monitors, dispatcher
 
 
-    def create_app():
-        """Create and return Flask application."""
-        container = ApplicationContainer()
-        container.config.from_yaml('config.yml')
-        container.config.github.auth_token.from_env('GITHUB_TOKEN')
+   class ApplicationContainer(containers.DeclarativeContainer):
 
-        app = container.app()
-        app.container = container
+       config = providers.Configuration()
 
-        bootstrap = container.bootstrap()
-        bootstrap.init_app(app)
+       configure_logging = providers.Callable(
+           logging.basicConfig,
+           stream=sys.stdout,
+           level=config.log.level,
+           format=config.log.format,
+       )
 
-        app.add_url_rule('/', view_func=container.index_view.as_view())
+       http_client = providers.Factory(http.HttpClient)
 
-        return app
+       example_monitor = providers.Factory(
+           monitors.HttpMonitor,
+           http_client=http_client,
+           options=config.monitors.example,
+       )
 
-And testing looks like:
+       httpbin_monitor = providers.Factory(
+           monitors.HttpMonitor,
+           http_client=http_client,
+           options=config.monitors.httpbin,
+       )
+
+       dispatcher = providers.Factory(
+           dispatcher.Dispatcher,
+           monitors=providers.List(
+               example_monitor,
+               httpbin_monitor,
+           ),
+       )
+
+Example of running of such application:
 
 .. code-block:: python
 
-    from unittest import mock
-
-    import pytest
-    from github import Github
-    from flask import url_for
-
-    from .application import create_app
+   from .containers import ApplicationContainer
 
 
-    @pytest.fixture
-    def app():
-        return create_app()
+   def main() -> None:
+       container = ApplicationContainer()
+
+       container.config.from_yaml('config.yml')
+       container.configure_logging()
+
+       dispatcher = container.dispatcher()
+       dispatcher.run()
 
 
-    def test_index(client, app):
-        github_client_mock = mock.Mock(spec=Github)
-        # Configure mock
+   if __name__ == '__main__':
+       main()
 
-        with app.container.github_client.override(github_client_mock):
-            response = client.get(url_for('index'))
+Tutorials
+=========
 
-        assert response.status_code == 200
-        # Do more asserts
+Tutorial is a good point to start.
 
-See complete example here - `Flask + Dependency Injector Example <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/ghnav-flask>`_
+Choose one of the following:
 
-How to install?
----------------
+- `Flask web application tutorial <http://python-dependency-injector.ets-labs.org/tutorials/flask.html>`_
+- `Aiohttp REST API tutorial <http://python-dependency-injector.ets-labs.org/tutorials/aiohttp.html>`_
+- `Asyncio monitoring daemon tutorial <http://python-dependency-injector.ets-labs.org/tutorials/asyncio-daemon.html>`_
+
+Installation
+============
 
 - The package is available on the `PyPi`_::
 
     pip install dependency-injector
 
-Where is the docs?
-------------------
+Documentation
+=============
 
 - The documentation is available on the `Read The Docs <http://python-dependency-injector.ets-labs.org/>`_
 
-Have a question?
-----------------
+Frequently asked questions
+==========================
 
-- Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
+What is the dependency injection?
+ - dependency injection is a principle that decreases coupling and increases cohesion
+
+Why should I do the dependency injection?
+ - your code becomes more flexible, testable and clear
+ - you have no problems when you need to understand how it works or change it 😎 
+
+How do I start doing the dependency injection?
+ - you start writing the code following the dependency injection principle
+ - you register all of your application components and their dependencies in the container
+ - when you need a component, you get it from the container
+
+Why do I need a framework for this?
+ - you need the framework for this to not create it by your own
+ - this framework gives you the container and the providers
+ - the container is like a dictionary with the batteries 🔋 
+ - the providers manage the lifetime of your components, you will need factories, singletons, smart config object etc
+
+What price do I pay and what do I get?
+ - you need to explicitly specify the dependencies in the container
+ - it will be extra work in the beginning
+ - it will payoff when project grows or in two weeks 😊 (when you forget what project was about)
+
+What features does the framework have?
+ - building objects graph
+ - smart configuration object
+ - providers: factory, singleton, thread locals registers, etc
+ - positional and keyword context injections
+ - overriding of the objects in any part of the graph
+
+What features the framework does NOT have?
+ - autowiring / autoresolving of the dependencies
+ - the annotations and ``@inject``-like decorators
+
+Have a question?
+ - Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
 
 Found a bug?
-------------
-
-- Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
+ - Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
 
 Want to help?
--------------
-
-- |star| Star the ``Dependency Injector`` on the `Github <https://github.com/ets-labs/python-dependency-injector/>`_
-- |new| Start a new project with the ``Dependency Injector``
-- |tell| Tell your friend about the ``Dependency Injector``
+ - |star| Star the ``Dependency Injector`` on the `Github <https://github.com/ets-labs/python-dependency-injector/>`_
+ - |new| Start a new project with the ``Dependency Injector``
+ - |tell| Tell your friend about the ``Dependency Injector``
 
 Want to contribute?
--------------------
-
-- |fork| Fork the project
-- |pull| Open a pull request to the ``develop`` branch
+ - |fork| Fork the project
+ - |pull| Open a pull request to the ``develop`` branch
 
 .. _PyPi: https://pypi.org/project/dependency-injector/
 

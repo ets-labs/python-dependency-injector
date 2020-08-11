@@ -7,6 +7,14 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.29.0
+------
+- Update README with the more direct message on what is ``Dependency Injector`` and how is it
+  different from the other frameworks.
+- Change the example code in the README.
+- Add FAQ to the README.
+- Update documentation key features and index pages.
+
 3.28.1
 ------
 - Fix typos in the ``asyncio`` + ``Dependency Injector`` monitoring daemon tutorial.
