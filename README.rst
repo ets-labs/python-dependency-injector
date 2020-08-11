@@ -64,7 +64,7 @@ How does it different from the other frameworks?
 - **No autowiring.** The framework does NOT do any autowiring / autoresolving of the dependencies. You need to specify everything explicitly. Because *"Explicit is better than implicit" (PEP20)*.
 - **Does not pollute your code** .Your application does NOT know and does NOT depend on the framework. No ``@inject`` decorators, annotations, patching or any other magic tricks.
 
-``Dependency Injector`` makes a simple contract with you:
+``Dependency Injector`` makes with you a simple contract:
 
 - You tell the framework how to build you code
 - The framework does it for you
