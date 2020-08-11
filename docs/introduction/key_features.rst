@@ -13,6 +13,23 @@ It was designed to be a unified and developer-friendly tool that helps
 implement a dependency injection design pattern in a formal, pretty, and
 Pythonic way.
 
+It stands on two principles:
+
+- Explicit is better than implicit (PEP20).
+- Do no magic to your code.
+
+How does it different from the other frameworks?
+
+- **No autowiring.** The framework does NOT do any autowiring / autoresolving of the dependencies. You need to specify everything explicitly. Because *"Explicit is better than implicit" (PEP20)*.
+- **Does not pollute your code.** Your application does NOT know and does NOT depend on the framework. No ``@inject`` decorators, annotations, patching or any other magic tricks.
+
+``Dependency Injector`` makes a simple contract with you:
+
+- You tell the framework how to build you code
+- The framework does it for you
+
+The power of the ``Dependency Injector`` is in its simplicity and straightforwardness. It is a simple tool for the powerful concept.
+
 The key features of the ``Dependency Injector`` framework are:
 
 + Easy, smart, and Pythonic style.
