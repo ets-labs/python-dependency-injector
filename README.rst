@@ -52,9 +52,7 @@ What is ``Dependency Injector``?
 
 ``Dependency Injector`` is a dependency injection framework for Python.
 
-The power of the framework is in its simplicity and straightforwardness.
-
-``Dependency Injector`` stands on two principles:
+It stands on two principles:
 
 - Explicit is better than implicit (PEP20).
 - Do no magic to your code.
@@ -69,7 +67,7 @@ How does it different from the other frameworks?
 - You tell the framework how to build you code
 - The framework does it for you
 
-``Dependency Injector`` is a simple tool for the powerful concept.
+The power of the ``Dependency Injector`` is in its simplicity and straightforwardness. It is a simple tool for the powerful concept.
 
 Example
 =======
