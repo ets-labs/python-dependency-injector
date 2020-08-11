@@ -54,7 +54,7 @@ What is ``Dependency Injector``?
 
 The power of the framework is in its simplicity and straightforwardness.
 
-It stands on two principles:
+``Dependency Injector`` stands on two principles:
 
 - Explicit is better than implicit (PEP20).
 - Do no magic to your code.
@@ -62,7 +62,7 @@ It stands on two principles:
 How does it different from the other frameworks?
 
 - **No autowiring.** The framework does NOT do any autowiring / autoresolving of the dependencies. You need to specify everything explicitly. Because *"Explicit is better than implicit" (PEP20)*.
-- **Does not pollute your code** .Your application does NOT know and does NOT depend on the framework. No ``@inject`` decorators, annotations, patching or any other magic tricks.
+- **Does not pollute your code.** Your application does NOT know and does NOT depend on the framework. No ``@inject`` decorators, annotations, patching or any other magic tricks.
 
 ``Dependency Injector`` makes a simple contract with you:
 
