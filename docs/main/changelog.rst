@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.30.0
+------
+- Rework ``Movie Lister`` example.
+- Add tutorial for building ``Movie Lister``.
+- Make some rewording for the other tutorials.
+- Fix a couple of typos.
+
 3.29.0
 ------
 - Update README with the more direct message on what is ``Dependency Injector`` and how is it
