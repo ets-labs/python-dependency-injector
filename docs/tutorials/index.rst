@@ -12,5 +12,6 @@ frameworks.
     flask
     aiohttp
     asyncio-daemon
+    cli
 
 .. disqus::
