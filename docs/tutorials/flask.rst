@@ -1097,7 +1097,7 @@ In this tutorial we've built a ``Flask`` application following the dependency in
 We've used the ``Dependency Injector`` as a dependency injection framework.
 
 The main part of this application is the container. It keeps all the application components and
-their dependencies in one place:
+their dependencies defined explicitly in one place:
 
 .. code-block:: python
 

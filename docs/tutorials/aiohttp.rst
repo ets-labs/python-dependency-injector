@@ -922,7 +922,7 @@ We've used the ``Dependency Injector`` as a dependency injection framework.
 
 The benefit you get with the ``Dependency Injector`` is the container. It starts to payoff
 when you need to understand or change your application structure. It's easy with the container,
-cause you have everything in one place:
+cause you have everything defined explicitly in one place:
 
 .. code-block:: python
 
