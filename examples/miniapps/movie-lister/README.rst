@@ -35,7 +35,7 @@ To run the application do:
    MOVIE_FINDER_TYPE=csv python -m movies
    MOVIE_FINDER_TYPE=sqlite python -m movies
 
-The output should be something like:
+The output should be something like this for each command:
 
 .. code-block:: bash
 
