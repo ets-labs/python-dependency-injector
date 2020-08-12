@@ -1,3 +1,5 @@
+.. _selector-provider:
+
 Selector providers
 ------------------
 
