@@ -1,0 +1,6 @@
+# Everything
+*
+
+# Except this file:
+!.gitignore
+!fixtures.py

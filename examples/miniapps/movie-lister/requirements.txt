@@ -1,0 +1,4 @@
+dependency-injector
+pyyaml
+pytest
+pytest-cov
