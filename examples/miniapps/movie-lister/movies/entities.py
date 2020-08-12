@@ -1,4 +1,4 @@
-"""Movie module."""
+"""Movie entities module."""
 
 
 class Movie:
