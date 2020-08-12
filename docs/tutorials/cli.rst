@@ -29,17 +29,18 @@ We will build a CLI application that helps to search for the movies. Let's call 
 
 How does Movie Lister work?
 
-- Application uses a movies database to search for the movies
-- Application can search the movies by:
-    - Director's name
-    - Year of the release
+- There is a movies database
 - Each movie has next fields:
     - Title
     - Year of the release
     - Director's name
-- The database can be in the next formats:
-    - Csv
-    - Sqlite
+- The database is distributed in two formats:
+   - Csv
+   - Sqlite
+- Application uses the movies database to search for the movies
+- Application can search for the movies by:
+    - Director's name
+    - Year of the release
 - Other database formats can be added later
 
 Movie Lister is a naive example from Martin Fowler's article about the dependency injection and
@@ -51,7 +52,7 @@ Here is a class diagram of the Movie Lister application:
 
 .. image:: cli-images/classes_01.png
 
-The responsibilities are split that way:
+The responsibilities are split next way:
 
 - ``MovieLister`` - is responsible for the search
 - ``MovieFinder`` - is responsible for the fetching from the database
@@ -677,10 +678,10 @@ Edit ``finders.py``:
            self._database = sqlite3.connect(path)
            super().__init__(movie_factory)
 
-    def find_all(self) -> List[Movie]:
-        with self._database as db:
-            rows = db.execute('SELECT title, year, director FROM movies')
-            return [self._movie_factory(*row) for row in rows]
+       def find_all(self) -> List[Movie]:
+           with self._database as db:
+               rows = db.execute('SELECT title, year, director FROM movies')
+               return [self._movie_factory(*row) for row in rows]
 
 Now we need to add the sqlite finder to the container and update lister's dependency to use it.
 
