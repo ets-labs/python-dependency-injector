@@ -37,7 +37,7 @@ def test_movies_directed_by(container):
         movies = lister.movies_directed_by('Jon Favreau')
 
     assert len(movies) == 1
-    assert movies[0].name == 'The Jungle Book'
+    assert movies[0].title == 'The Jungle Book'
 
 
 def test_movies_released_in(container):
@@ -52,4 +52,4 @@ def test_movies_released_in(container):
         movies = lister.movies_released_in(2015)
 
     assert len(movies) == 1
-    assert movies[0].name == 'The 33'
+    assert movies[0].title == 'The 33'

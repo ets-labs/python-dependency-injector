@@ -28,7 +28,7 @@ def create_sqlite(movies_data, path):
     with sqlite3.connect(path) as db:
         db.execute(
             'CREATE TABLE IF NOT EXISTS movies '
-            '(name text, year int, director text)'
+            '(title text, year int, director text)'
         )
         db.execute('DELETE FROM movies')
         db.executemany('INSERT INTO movies VALUES (?,?,?)', movies_data)

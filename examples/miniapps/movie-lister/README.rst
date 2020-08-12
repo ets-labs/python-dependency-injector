@@ -39,8 +39,8 @@ The output should be something like:
 
 .. code-block:: bash
 
-   Francis Lawrence movies: [Movie(name='The Hunger Games: Mockingjay - Part 2', year=2015, director='Francis Lawrence')]
-   2016 movies: [Movie(name='Rogue One: A Star Wars Story', year=2016, director='Gareth Edwards'), Movie(name='The Jungle Book', year=2016, director='Jon Favreau')]
+   Francis Lawrence movies: [Movie(title='The Hunger Games: Mockingjay - Part 2', year=2015, director='Francis Lawrence')]
+   2016 movies: [Movie(title='Rogue One: A Star Wars Story', year=2016, director='Gareth Edwards'), Movie(title='The Jungle Book', year=2016, director='Jon Favreau')]
 
 Test
 ----
