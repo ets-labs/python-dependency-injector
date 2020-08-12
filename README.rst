@@ -157,6 +157,7 @@ Choose one of the following:
 - `Flask web application tutorial <http://python-dependency-injector.ets-labs.org/tutorials/flask.html>`_
 - `Aiohttp REST API tutorial <http://python-dependency-injector.ets-labs.org/tutorials/aiohttp.html>`_
 - `Asyncio monitoring daemon tutorial <http://python-dependency-injector.ets-labs.org/tutorials/asyncio-daemon.html>`_
+- `CLI application tutorial <http://python-dependency-injector.ets-labs.org/tutorials/cli.html>`_
 
 Installation
 ============

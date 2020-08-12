@@ -135,8 +135,9 @@ Choose one of the following as a next step:
     + :ref:`flask-tutorial`
     + :ref:`aiohttp-tutorial`
     + :ref:`asyncio-daemon-tutorial`
-+ Know more about the :ref:`providers`.
-+ Go to the :ref:`contents`.
+    + :ref:`cli-tutorial`
++ Know more about the :ref:`providers`
++ Go to the :ref:`contents`
 
 Useful links
 ~~~~~~~~~~~~

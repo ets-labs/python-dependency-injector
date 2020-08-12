@@ -1141,9 +1141,9 @@ their dependencies defined explicitly in one place:
 
 What's next?
 
-- Look at the other :ref:`tutorials`.
-- Know more about the :ref:`providers`.
-- Go to the :ref:`contents`.
+- Look at the other :ref:`tutorials`
+- Know more about the :ref:`providers`
+- Go to the :ref:`contents`
 
 
 .. disqus::
