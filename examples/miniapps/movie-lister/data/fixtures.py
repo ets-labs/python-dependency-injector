@@ -37,6 +37,7 @@ def create_sqlite(movies_data, path):
 def main():
     create_csv(SAMPLE_DATA, CSV_FILE)
     create_sqlite(SAMPLE_DATA, SQLITE_FILE)
+    print('OK')
 
 
 if __name__ == '__main__':
