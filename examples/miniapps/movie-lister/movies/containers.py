@@ -2,33 +2,32 @@
 
 from dependency_injector import containers, providers
 
-from . import finders, listers, storages, models, fixtures
+from . import finders, listers, entities
 
 
 class ApplicationContainer(containers.DeclarativeContainer):
 
     config = providers.Configuration()
 
-    fixtures = providers.Object(fixtures.MOVIES_SAMPLE_DATA)
+    movie = providers.Factory(entities.Movie)
 
-    storage = providers.Selector(
-        config.storage.type,
-        csv=providers.Singleton(
-            storages.CsvMovieStorage,
-            options=config.storage[config.storage.type],
-        ),
-        sqlite=providers.Singleton(
-            storages.SqliteMovieStorage,
-            options=config.storage[config.storage.type],
-        ),
+    csv_finder = providers.Singleton(
+        finders.CsvMovieFinder,
+        movie_factory=movie.provider,
+        path=config.finder.csv.path,
+        delimiter=config.finder.csv.delimiter,
     )
 
-    movie = providers.Factory(models.Movie)
-
-    finder = providers.Factory(
-        finders.MovieFinder,
+    sqlite_finder = providers.Singleton(
+        finders.SqliteMovieFinder,
         movie_factory=movie.provider,
-        movie_storage=storage,
+        path=config.finder.sqlite.path,
+    )
+
+    finder = providers.Selector(
+        config.finder.type,
+        csv=csv_finder,
+        sqlite=sqlite_finder,
     )
 
     lister = providers.Factory(

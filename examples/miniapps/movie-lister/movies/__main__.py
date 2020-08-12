@@ -5,18 +5,20 @@ from .containers import ApplicationContainer
 
 def main():
     container = ApplicationContainer()
-    container.config.from_yaml('config.yml')
-    container.config.storage.type.from_env('MOVIE_STORAGE_TYPE')
 
-    storage = container.storage()
-    fixtures = container.fixtures()
-    storage.load_all(fixtures)
+    container.config.from_yaml('config.yml')
+    container.config.finder.type.from_env('MOVIE_FINDER_TYPE')
 
     lister = container.lister()
-    print(lister.movies_directed_by('Francis Lawrence'))
-    print(lister.movies_directed_by('Patricia Riggen'))
-    print(lister.movies_directed_by('JJ Abrams'))
-    print(lister.movies_released_in(2015))
+
+    print(
+        'Francis Lawrence movies:',
+        lister.movies_directed_by('Francis Lawrence'),
+    )
+    print(
+        '2016 movies:',
+        lister.movies_released_in(2016),
+    )
 
 
 if __name__ == '__main__':

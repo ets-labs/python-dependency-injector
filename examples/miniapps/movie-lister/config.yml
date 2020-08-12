@@ -1,4 +1,4 @@
-storage:
+finder:
 
   csv:
     path: "data/movies.csv"
