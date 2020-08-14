@@ -52,7 +52,78 @@ What is ``Dependency Injector``?
 
 ``Dependency Injector`` is a dependency injection framework for Python.
 
-It stands on two principles:
+It provides you with the container and the providers that help you build your application objects:
+
+.. code-block:: python
+
+    from dependency_injector import containers, providers
+
+
+    class ApiClient:
+
+        def __init__(self, api_key: str, timeout: int):
+            self.api_key = api_key
+            self.timeout = timeout
+
+
+    class Service:
+
+        def __init__(self, api_client: ApiClient):
+            self.api_client = api_client
+
+
+    class Container(containers.DeclarativeContainer):
+
+        config = providers.Configuration()
+
+        api_client = providers.Singleton(
+            ApiClient,
+            api_key=config.api_key,
+            timeout=config.timeout,
+        )
+
+        service = providers.Factory(
+            Service,
+            api_client=api_client,
+        )
+
+
+    if __name__ == '__main__':
+        container = Container()
+        container.config.from_yaml('config.yml')
+
+        service = container.service()
+
+        assert isinstance(service.api_client, ApiClient)
+
+`More examples <https://github.com/ets-labs/python-dependency-injector/tree/master/examples>`_
+
+Installation
+------------
+
+The package is available on the `PyPi`_::
+
+    pip install dependency-injector
+
+Documentation
+-------------
+
+The documentation is available on the `Read The Docs <http://python-dependency-injector.ets-labs.org/>`_
+
+Tutorials
+---------
+
+Choose one of the following:
+
+- `Flask web application tutorial <http://python-dependency-injector.ets-labs.org/tutorials/flask.html>`_
+- `Aiohttp REST API tutorial <http://python-dependency-injector.ets-labs.org/tutorials/aiohttp.html>`_
+- `Asyncio monitoring daemon tutorial <http://python-dependency-injector.ets-labs.org/tutorials/asyncio-daemon.html>`_
+- `CLI application tutorial <http://python-dependency-injector.ets-labs.org/tutorials/cli.html>`_
+
+Concept
+-------
+
+``Dependency Injector`` stands on two principles:
 
 - Explicit is better than implicit (PEP20).
 - Do no magic to your code.
@@ -69,110 +140,8 @@ How does it different from the other frameworks?
 
 The power of the ``Dependency Injector`` is in its simplicity and straightforwardness. It is a simple tool for the powerful concept.
 
-Example
-=======
-
-With the ``Dependency Injector`` you keep **application structure in one place**.
-This place is called **the container**. You use the container to manage all the components of the
-application. All the component dependencies are defined explicitly. This provides the control on
-the application structure. It is **easy to understand and change** it.
-
-.. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/di-map.svg
-   :target: https://github.com/ets-labs/python-dependency-injector
-
-*The container is like a map of your application. You always know what depends on what.*
-
-Example application container:
-
-.. code-block:: python
-
-   import logging
-   import sys
-
-   from dependency_injector import containers, providers
-
-   from . import http, monitors, dispatcher
-
-
-   class ApplicationContainer(containers.DeclarativeContainer):
-
-       config = providers.Configuration()
-
-       configure_logging = providers.Callable(
-           logging.basicConfig,
-           stream=sys.stdout,
-           level=config.log.level,
-           format=config.log.format,
-       )
-
-       http_client = providers.Factory(http.HttpClient)
-
-       example_monitor = providers.Factory(
-           monitors.HttpMonitor,
-           http_client=http_client,
-           options=config.monitors.example,
-       )
-
-       httpbin_monitor = providers.Factory(
-           monitors.HttpMonitor,
-           http_client=http_client,
-           options=config.monitors.httpbin,
-       )
-
-       dispatcher = providers.Factory(
-           dispatcher.Dispatcher,
-           monitors=providers.List(
-               example_monitor,
-               httpbin_monitor,
-           ),
-       )
-
-Example of running of such application:
-
-.. code-block:: python
-
-   from .containers import ApplicationContainer
-
-
-   def main() -> None:
-       container = ApplicationContainer()
-
-       container.config.from_yaml('config.yml')
-       container.configure_logging()
-
-       dispatcher = container.dispatcher()
-       dispatcher.run()
-
-
-   if __name__ == '__main__':
-       main()
-
-Tutorials
-=========
-
-Tutorial is a good point to start.
-
-Choose one of the following:
-
-- `Flask web application tutorial <http://python-dependency-injector.ets-labs.org/tutorials/flask.html>`_
-- `Aiohttp REST API tutorial <http://python-dependency-injector.ets-labs.org/tutorials/aiohttp.html>`_
-- `Asyncio monitoring daemon tutorial <http://python-dependency-injector.ets-labs.org/tutorials/asyncio-daemon.html>`_
-- `CLI application tutorial <http://python-dependency-injector.ets-labs.org/tutorials/cli.html>`_
-
-Installation
-============
-
-- The package is available on the `PyPi`_::
-
-    pip install dependency-injector
-
-Documentation
-=============
-
-- The documentation is available on the `Read The Docs <http://python-dependency-injector.ets-labs.org/>`_
-
 Frequently asked questions
-==========================
+--------------------------
 
 What is the dependency injection?
  - dependency injection is a principle that decreases coupling and increases cohesion
