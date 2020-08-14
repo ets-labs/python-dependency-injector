@@ -1,21 +1,16 @@
-IoC Containers
-==============
+Containers
+==========
 
-Containers are collections of providers. Main purpose of containers is to group
-providers. 
+Containers are collections of the providers.
 
-There are, actually, several popular cases of containers usage:
+There are several use cases how you can use containers:
 
-+ Keeping all providers in a single container.
-+ Grouping of providers from the same architectural layer (for example, 
++ Keeping all the providers in a single container (most common).
++ Grouping of the providers from the same architectural layer (for example,
   ``Services``, ``Models`` and ``Forms`` containers).
 + Grouping of providers from the same functional groups (for example,
-  container ``Users``, that contains all functional parts of ``Users``
-  component).
-
-Also, for both of these and some other cases, it might be useful to attach 
-some init / shutdown functionality or something else, that deals with group 
-of providers.
+  container ``Users``, that contains all functional parts of the ``users``
+  package).
 
 Containers package API docs - :py:mod:`dependency_injector.containers`.
 

@@ -1,35 +1,41 @@
-"""Declarative IoC container's provider injections example."""
+"""Declarative container injections example."""
 
 import sqlite3
-import collections
 
-import dependency_injector.containers as containers
-import dependency_injector.providers as providers
+from dependency_injector import containers, providers
 
 
-UsersService = collections.namedtuple('UsersService', ['db'])
-AuthService = collections.namedtuple('AuthService', ['db', 'users_service'])
+class UserService:
+    def __init__(self, db: sqlite3.Connection):
+        self.db = db
 
 
-class Services(containers.DeclarativeContainer):
-    """IoC container of service providers."""
+class AuthService:
+    def __init__(self, db: sqlite3.Connection, user_service: UserService):
+        self.db = db
+        self.user_service = user_service
+
+
+class Container(containers.DeclarativeContainer):
 
     database = providers.Singleton(sqlite3.connect, ':memory:')
 
-    users = providers.Factory(UsersService,
-                              db=database)
+    user_service = providers.Factory(
+        UserService,
+        db=database,
+    )
 
-    auth = providers.Factory(AuthService,
-                             db=database,
-                             users_service=users)
+    auth_service = providers.Factory(
+        AuthService,
+        db=database,
+        user_service=user_service,
+    )
 
 
-# Retrieving service providers from container:
-users_service = Services.users()
-auth_service = Services.auth()
+container = Container()
 
-# Making some asserts:
-assert users_service.db is auth_service.db is Services.database()
-assert isinstance(auth_service.users_service, UsersService)
-assert users_service is not Services.users()
-assert auth_service is not Services.auth()
+user_service = container.user_service()
+auth_service = container.auth_service()
+
+assert user_service.db is auth_service.db is container.database()
+assert isinstance(auth_service.user_service, UserService)
