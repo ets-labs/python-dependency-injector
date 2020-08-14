@@ -1,4 +1,5 @@
 from dependency_injector import containers, providers
+from unittest import mock
 
 
 class ApiClient:
@@ -35,5 +36,9 @@ if __name__ == '__main__':
     container.config.from_yaml('config.yml')
 
     service = container.service()
-
     assert isinstance(service.api_client, ApiClient)
+
+    with container.api_client.override(mock.Mock()):
+        service = container.service()
+        assert isinstance(service.api_client, mock.Mock)
+
