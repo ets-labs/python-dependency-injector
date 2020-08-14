@@ -52,7 +52,59 @@ What is ``Dependency Injector``?
 
 ``Dependency Injector`` is a dependency injection framework for Python.
 
-It provides you with the container and the providers that help you build your application objects:
+It helps you implement the dependency injection principle.
+
+What is dependency injection?
+-----------------------------
+
+Dependency injection is a principle that helps to decrease coupling and increase cohesion. Your
+code becomes more flexible, clear and it is easier to test it.
+
+How to implement dependency injection?
+--------------------------------------
+
+Objects do not create each other anymore. They provide a way to inject the needed dependency
+instead.
+
+Before:
+
+.. code-block:: python
+
+   class ApiClient:
+
+       def __init__(self):
+           self.api_key = os.getenv('API_KEY')
+           self.timeout = os.getenv('TIMEOUT')
+
+
+   class Service:
+
+       def __init__(self):
+           self.api_client = ApiClient()
+
+After:
+
+.. code-block:: python
+
+   class ApiClient:
+
+       def __init__(self, api_key: str, timeout: int):
+           self.api_key = api_key
+           self.timeout = timeout
+
+
+   class Service:
+
+       def __init__(self, api_client: ApiClient):
+           self.api_client = api_client
+
+Who creates the objects now? Look at the next section.
+
+What does Dependency Injector do?
+---------------------------------
+
+``Dependency Injector`` provides you with the container and the providers that help you build
+your application objects when you apply dependency injection principle:
 
 .. code-block:: python
 
