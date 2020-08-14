@@ -109,19 +109,9 @@ your application objects when you apply dependency injection principle:
 .. code-block:: python
 
     from dependency_injector import containers, providers
+    from unittest import mock
 
-
-    class ApiClient:
-
-        def __init__(self, api_key: str, timeout: int):
-            self.api_key = api_key
-            self.timeout = timeout
-
-
-    class Service:
-
-        def __init__(self, api_client: ApiClient):
-            self.api_client = api_client
+    from .example_di import ApiClient, Service
 
 
     class Container(containers.DeclarativeContainer):
@@ -145,8 +135,11 @@ your application objects when you apply dependency injection principle:
         container.config.from_yaml('config.yml')
 
         service = container.service()
-
         assert isinstance(service.api_client, ApiClient)
+
+        with container.api_client.override(mock.Mock()):
+            service = container.service()
+            assert isinstance(service.api_client, mock.Mock)
 
 `More examples <https://github.com/ets-labs/python-dependency-injector/tree/master/examples>`_
 

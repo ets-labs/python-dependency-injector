@@ -1,18 +1,7 @@
 from dependency_injector import containers, providers
 from unittest import mock
 
-
-class ApiClient:
-
-    def __init__(self, api_key: str, timeout: int):
-        self.api_key = api_key
-        self.timeout = timeout
-
-
-class Service:
-
-    def __init__(self, api_client: ApiClient):
-        self.api_client = api_client
+from .example_di import ApiClient, Service
 
 
 class Container(containers.DeclarativeContainer):
@@ -41,4 +30,3 @@ if __name__ == '__main__':
     with container.api_client.override(mock.Mock()):
         service = container.service()
         assert isinstance(service.api_client, mock.Mock)
-
