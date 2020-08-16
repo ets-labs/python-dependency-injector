@@ -32,8 +32,8 @@ class Container(containers.DeclarativeContainer):
 
 if __name__ == '__main__':
     container = Container()
-    container.config.from_yaml('config.yml')
+    container.config.api_key.from_env('API_KEY')
+    container.config.timeout.from_env('TIMEOUT')
 
     service = container.service()
-
     assert isinstance(service.api_client, ApiClient)

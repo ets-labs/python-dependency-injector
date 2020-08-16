@@ -1,41 +1,25 @@
-"""Specializing dynamic container and factory provider example."""
+"""Dynamic container provider type restriction example."""
 
-import collections
+import abc
 
-import dependency_injector.containers as containers
-import dependency_injector.providers as providers
-import dependency_injector.errors as errors
+from dependency_injector import containers, providers
 
 
-class SequenceProvider(providers.Factory):
-    """Sequence factory.
-
-    Can provide only sequence objects.
-    """
-
-    provided_type = collections.Sequence
+class Service(metaclass=abc.ABCMeta):
+    ...
 
 
-sequences_container = containers.DynamicContainer()
-sequences_container.provider_type = SequenceProvider
+class UserService(Service):
+    ...
 
 
-if __name__ == '__main__':
-    try:
-        sequences_container.object_provider = providers.Factory(object)
-    except errors.Error as exception:
-        print(exception)
-        # <dependency_injector.containers.DynamicContainer object at
-        # 0x107820ed0> can contain only <class '__main__.SequenceProvider'>
-        # instances
+class ServiceProvider(providers.Factory):
 
-    try:
-        sequences_container.object_provider = SequenceProvider(object)
-    except errors.Error as exception:
-        print(exception)
-        # <class '__main__.SequenceProvider'> can provide only
-        # <class '_abcoll.Sequence'> instances
+    provided_type = Service
 
-    sequences_container.list_provider = SequenceProvider(list)
 
-    assert sequences_container.list_provider() == list()
+services = containers.DynamicContainer()
+services.provider_type = ServiceProvider
+
+services.user_service = ServiceProvider(UserService)
+services.other_provider = providers.Factory(object)

@@ -1,30 +1,34 @@
-"""Declarative IoC containers inheritance example."""
+"""Declarative containers inheritance example."""
 
-import dependency_injector.containers as containers
-import dependency_injector.providers as providers
+from dependency_injector import containers, providers
 
 
 class ContainerA(containers.DeclarativeContainer):
-    """Example IoC container A."""
 
     provider1 = providers.Factory(object)
 
 
 class ContainerB(ContainerA):
-    """Example IoC container B."""
 
     provider2 = providers.Singleton(object)
 
 
-# Making some asserts for `providers` attribute:
-assert ContainerA.providers == dict(provider1=ContainerA.provider1)
-assert ContainerB.providers == dict(provider1=ContainerA.provider1,
-                                    provider2=ContainerB.provider2)
+assert ContainerA.providers == {
+    'provider1': ContainerA.provider1,
+}
+assert ContainerB.providers == {
+    'provider1': ContainerA.provider1,
+    'provider2': ContainerB.provider2,
+}
 
-# Making some asserts for `cls_providers` attribute:
-assert ContainerA.cls_providers == dict(provider1=ContainerA.provider1)
-assert ContainerB.cls_providers == dict(provider2=ContainerB.provider2)
+assert ContainerA.cls_providers == {
+    'provider1': ContainerA.provider1,
+}
+assert ContainerB.cls_providers == {
+    'provider2': ContainerB.provider2,
+}
 
-# Making some asserts for `inherited_providers` attribute:
-assert ContainerA.inherited_providers == dict()
-assert ContainerB.inherited_providers == dict(provider1=ContainerB.provider1)
+assert ContainerA.inherited_providers == {}
+assert ContainerB.inherited_providers == {
+    'provider1': ContainerA.provider1,
+}

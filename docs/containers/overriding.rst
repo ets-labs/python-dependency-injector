@@ -1,41 +1,24 @@
-Overriding of containers
-------------------------
+Overriding of the container
+---------------------------
 
 .. currentmodule:: dependency_injector.containers
 
-Containers can be overridden by other containers. This, actually, means that 
-all of the providers from overriding container will override providers with 
-the same names in overridden container.
+The container can be overridden by the other container. All of the providers from the overriding
+container will override the providers with the same names in the overridden container.
 
-There are two ways to override :py:class:`DeclarativeContainer` with another 
-container:
-
-- Use :py:meth:`DeclarativeContainer.override` method.
-- Use :py:func:`override` class decorator.
-
-Example of overriding container using :py:meth:`DeclarativeContainer.override` 
-method:
-
-.. literalinclude:: ../../examples/containers/override_declarative.py
+.. literalinclude:: ../../examples/containers/override.py
    :language: python
+   :lines: 3-
 
-Example of overriding container using :py:func:`override` decorator:
+It helps in a testing. Also you can use it for configuring project for the different
+environments: replace an API client with a stub on the dev or stage.
 
-.. literalinclude:: ../../examples/containers/override_declarative_decorator.py
-   :language: python
+The container also has:
 
-Also there are several useful :py:class:`DeclarativeContainer` methods and 
-properties that help to work with container overridings:
+- ``container.overridden`` - tuple of all overriding containers.
+- ``container.reset_last_overriding()`` - reset last overriding for each provider in the container.
+- ``container.reset_override()`` - reset all overriding in the container.
 
-- :py:attr:`DeclarativeContainer.overridden` - tuple of all overriding 
-  containers.
-- :py:meth:`DeclarativeContainer.reset_last_overriding()` - reset last 
-  overriding provider for each container providers.
-- :py:meth:`DeclarativeContainer.reset_override()` - reset all overridings 
-  for each container providers. 
-
-:py:class:`DynamicContainer` has exactly the same functionality, except of 
-:py:func:`override` decorator.
-
+:py:class:`DynamicContainer` has the same functionality.
 
 .. disqus::

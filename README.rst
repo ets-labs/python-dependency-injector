@@ -52,7 +52,7 @@ What is ``Dependency Injector``?
 
 ``Dependency Injector`` is a dependency injection framework for Python.
 
-It helps you implement the dependency injection principle.
+It helps you in implementing the dependency injection principle.
 
 What is dependency injection?
 -----------------------------
@@ -70,6 +70,9 @@ Before:
 
 .. code-block:: python
 
+   import os
+
+
    class ApiClient:
 
        def __init__(self):
@@ -82,9 +85,17 @@ Before:
        def __init__(self):
            self.api_client = ApiClient()
 
+
+   if __name__ == '__main__':
+       service = Service()
+
+
 After:
 
 .. code-block:: python
+
+   import os
+
 
    class ApiClient:
 
@@ -98,55 +109,82 @@ After:
        def __init__(self, api_client: ApiClient):
            self.api_client = api_client
 
-Who creates the objects now? Look at the next section.
+
+   if __name__ == '__main__':
+       service = Service(ApiClient(os.getenv('API_KEY'), os.getenv('TIMEOUT')))
+
+
+Flexibility comes with a price: now you need to assemble your objects like this
+``Service(ApiClient(os.getenv('API_KEY'), os.getenv('TIMEOUT')))``. The assembly code might get
+duplicated and it'll become harder to change the application structure.
 
 What does Dependency Injector do?
 ---------------------------------
 
-``Dependency Injector`` provides you with the container and the providers that help you build
-your application objects when you apply dependency injection principle:
+``Dependency Injector`` helps you assemble the objects.
+
+It provides you the container and the providers that help you describe objects assembly. When you
+need an object you get it from the container. The rest of the assembly work is done by the
+framework:
 
 .. code-block:: python
 
-    from dependency_injector import containers, providers
+   from dependency_injector import containers, providers
 
 
-    class ApiClient:
+   class ApiClient:
 
-        def __init__(self, api_key: str, timeout: int):
-            self.api_key = api_key
-            self.timeout = timeout
-
-
-    class Service:
-
-        def __init__(self, api_client: ApiClient):
-            self.api_client = api_client
+       def __init__(self, api_key: str, timeout: int):
+           self.api_key = api_key
+           self.timeout = timeout
 
 
-    class Container(containers.DeclarativeContainer):
+   class Service:
 
-        config = providers.Configuration()
-
-        api_client = providers.Singleton(
-            ApiClient,
-            api_key=config.api_key,
-            timeout=config.timeout,
-        )
-
-        service = providers.Factory(
-            Service,
-            api_client=api_client,
-        )
+       def __init__(self, api_client: ApiClient):
+           self.api_client = api_client
 
 
-    if __name__ == '__main__':
-        container = Container()
-        container.config.from_yaml('config.yml')
+   class Container(containers.DeclarativeContainer):
 
-        service = container.service()
+       config = providers.Configuration()
 
-        assert isinstance(service.api_client, ApiClient)
+       api_client = providers.Singleton(
+           ApiClient,
+           api_key=config.api_key,
+           timeout=config.timeout,
+       )
+
+       service = providers.Factory(
+           Service,
+           api_client=api_client,
+       )
+
+
+   if __name__ == '__main__':
+       container = Container()
+       container.config.api_key.from_env('API_KEY')
+       container.config.timeout.from_env('TIMEOUT')
+
+       service = container.service()
+       assert isinstance(service.api_client, ApiClient)
+
+Retrieving of the ``Service`` instance now is done like this ``container.service()``.
+
+Also ``Dependency Injector`` provides a bonus in overriding any of the providers with the
+``.override()`` method:
+
+.. code-block:: python
+
+   from unittest import mock
+
+
+   with container.api_client.override(mock.Mock()):
+       service = container.service()
+       assert isinstance(service.api_client, mock.Mock)
+
+It helps in a testing. Also you can use it for configuring project for the different environments:
+replace an API client with a stub on the dev or stage.
 
 `More examples <https://github.com/ets-labs/python-dependency-injector/tree/master/examples>`_
 
