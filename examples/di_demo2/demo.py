@@ -36,4 +36,3 @@ if __name__ == '__main__':
     container.config.timeout.from_env('TIMEOUT')
 
     service = container.service()
-    assert isinstance(service.api_client, ApiClient)

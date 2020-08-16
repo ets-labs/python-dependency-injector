@@ -167,7 +167,6 @@ framework:
        container.config.timeout.from_env('TIMEOUT')
 
        service = container.service()
-       assert isinstance(service.api_client, ApiClient)
 
 Retrieving of the ``Service`` instance now is done like this ``container.service()``.
 
