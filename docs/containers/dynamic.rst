@@ -1,28 +1,25 @@
-Dynamic containers
-------------------
+Dynamic container
+-----------------
 
 .. currentmodule:: dependency_injector.containers
 
-:py:class:`DynamicContainer` is an inversion of control container with dynamic 
-structure. It should cover most of the cases when list of providers that 
-would be included in container is non-deterministic and depends on 
-application's flow or its configuration (container's structure could be 
-determined just after application will be started and will do some initial 
-work, like parsing list of container's providers from the configuration).
+:py:class:`DynamicContainer` is a collection of the providers defined in the runtime.
 
-While :py:class:`DeclarativeContainer` acts on class-level, 
-:py:class:`DynamicContainer` does the same on instance-level.
-
-Here is an simple example of defining dynamic container with several factories:
+You create the dynamic container instance and put the providers as attributes.
 
 .. literalinclude:: ../../examples/containers/dynamic.py
    :language: python
+   :lines: 3-
 
-Next example demonstrates creation of dynamic container based on some 
-configuration:
+The dynamic container is good for the case when your application structure depends on the
+configuration file or some other source that you can reach only after application is already
+running (database, api, etc).
+
+In this example we use the configuration to fill in the dynamic container with the providers:
 
 .. literalinclude:: ../../examples/containers/dynamic_runtime_creation.py
    :language: python
-
+   :lines: 3-
 
 .. disqus::
+

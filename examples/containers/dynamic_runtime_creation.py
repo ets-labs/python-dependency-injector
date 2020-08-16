@@ -1,59 +1,40 @@
-"""Creation of dynamic container based on some configuration example."""
+"""Creation of dynamic container based on the configuration example."""
 
-import collections
-
-import dependency_injector.containers as containers
+from dependency_injector import containers, providers
 
 
-# Defining several example services:
-UsersService = collections.namedtuple('UsersService', [])
-AuthService = collections.namedtuple('AuthService', [])
+class UserService:
+    ...
 
 
-def import_cls(cls_name):
-    """Import class by its fully qualified name.
-
-    In terms of current example it is just a small helper function. Please,
-    don't use it in production approaches.
-    """
-    path_components = cls_name.split('.')
-    module = __import__('.'.join(path_components[:-1]),
-                        locals(),
-                        globals(),
-                        fromlist=path_components[-1:])
-    return getattr(module, path_components[-1])
+class AuthService:
+    ...
 
 
-# "Parsing" some configuration:
-config = {
-    'services': {
-        'users': {
-            'class': '__main__.UsersService',
-            'provider_class': 'dependency_injector.providers.Factory',
+def populate_container(container, providers_config):
+    for provider_name, provider_info in providers_config.items():
+        provided_cls = globals().get(provider_info['class'])
+        provider_cls = getattr(providers, provider_info['provider_class'])
+        setattr(container, provider_name, provider_cls(provided_cls))
+
+
+if __name__ == '__main__':
+    services_config = {
+        'user': {
+            'class': 'UserService',
+            'provider_class': 'Factory',
         },
         'auth': {
-            'class': '__main__.AuthService',
-            'provider_class': 'dependency_injector.providers.Factory',
-        }
+            'class': 'AuthService',
+            'provider_class': 'Factory',
+        },
     }
-}
+    services = containers.DynamicContainer()
 
-# Creating empty container of service providers:
-services = containers.DynamicContainer()
+    populate_container(services, services_config)
 
-# Filling dynamic container with service providers using configuration:
-for service_name, service_info in config['services'].iteritems():
-    # Runtime importing of service and service provider classes:
-    service_cls = import_cls(service_info['class'])
-    service_provider_cls = import_cls(service_info['provider_class'])
+    user_service = services.user()
+    auth_service = services.auth()
 
-    # Binding service provider to the dynamic service providers catalog:
-    setattr(services, service_name, service_provider_cls(service_cls))
-
-# Creating some objects:
-users_service = services.users()
-auth_service = services.auth()
-
-# Making some asserts:
-assert isinstance(users_service, UsersService)
-assert isinstance(auth_service, AuthService)
+    assert isinstance(user_service, UserService)
+    assert isinstance(auth_service, AuthService)

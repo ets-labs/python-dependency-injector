@@ -11,7 +11,8 @@ class Container(containers.DeclarativeContainer):
     database = providers.Singleton(sqlite3.connect, ':memory:')
 
 
-container = Container(database=mock.Mock(sqlite3.Connection))
+if __name__ == '__main__':
+    container = Container(database=mock.Mock(sqlite3.Connection))
 
-database = container.database()
-assert isinstance(database, mock.Mock)
+    database = container.database()
+    assert isinstance(database, mock.Mock)

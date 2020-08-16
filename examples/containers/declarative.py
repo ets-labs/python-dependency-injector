@@ -10,13 +10,14 @@ class Container(containers.DeclarativeContainer):
     factory2 = providers.Factory(object)
 
 
-container = Container()
+if __name__ == '__main__':
+    container = Container()
 
-object1 = container.factory1()
-object2 = container.factory2()
+    object1 = container.factory1()
+    object2 = container.factory2()
 
-print(container.providers)
-# {
-#     'factory1': <dependency_injector.providers.Factory(...),
-#     'factory2': <dependency_injector.providers.Factory(...),
-# }
+    print(container.providers)
+    # {
+    #     'factory1': <dependency_injector.providers.Factory(...),
+    #     'factory2': <dependency_injector.providers.Factory(...),
+    # }

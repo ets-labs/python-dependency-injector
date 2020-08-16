@@ -1,23 +1,22 @@
-Declarative containers
-----------------------
+Declarative container
+---------------------
 
 .. currentmodule:: dependency_injector.containers
 
-:py:class:`DeclarativeContainer` is a collection of the providers defined in the declarative
-manner. It covers the use cases when your application structure does not change in the runtime.
+:py:class:`DeclarativeContainer` is a class-based style of the providers definition.
 
-Container has the ``.providers`` attribute. It is a dictionary of the container providers.
+You create the declarative container subclass, put the providers as attributes and create the
+container instance.
 
 .. literalinclude:: ../../examples/containers/declarative.py
    :language: python
    :lines: 3-
 
-Your declarative container has to extend base declarative container class -
-:py:class:`dependency_injector.containers.DeclarativeContainer`.
+The declarative container providers should only be used when you have the container instance.
+Working with the providers of the container on the class level will influence all further
+instances.
 
-Declarative container classes can not have any methods or any other attributes then providers.
-
-The declarative container providers should only be used after the container is initialized.
+The declarative container can not have any methods or any other attributes then providers.
 
 The container class provides next attributes:
 

@@ -32,10 +32,11 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-container = Container()
+if __name__ == '__main__':
+    container = Container()
 
-user_service = container.user_service()
-auth_service = container.auth_service()
+    user_service = container.user_service()
+    auth_service = container.auth_service()
 
-assert user_service.db is auth_service.db is container.database()
-assert isinstance(auth_service.user_service, UserService)
+    assert user_service.db is auth_service.db is container.database()
+    assert isinstance(auth_service.user_service, UserService)
