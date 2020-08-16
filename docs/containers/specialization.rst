@@ -1,25 +1,25 @@
-Specialization of containers
-----------------------------
+Specialization of the container provider type
+---------------------------------------------
 
 .. currentmodule:: dependency_injector.containers
 
-:py:class:`DeclarativeContainer` could be specialized for any kind of needs 
-via declaring its subclasses. 
-
-One of such `builtin` features is a limitation for providers type.
-
-Next example shows usage of this feature with :py:class:`DeclarativeContainer` 
-in couple with feature of :py:class:`dependency_injector.providers.Factory` 
-for limitation of its provided type:
+You can make a restriction of the :py:class:`DeclarativeContainer` provider type:
 
 .. literalinclude:: ../../examples/containers/declarative_provider_type.py
    :language: python
+   :lines: 3-
+   :emphasize-lines: 29-31
 
-Limitation for providers type could be used with :py:class:`DynamicContainer` 
-as well:
+The emphasized lines will cause an error because ``other_provider`` is not a subtype of the
+``ServiceProvider``. This helps to control the content of the container.
+
+The same works for the :py:class:`DynamicContainer`:
 
 .. literalinclude:: ../../examples/containers/dynamic_provider_type.py
    :language: python
+   :lines: 3-
+   :emphasize-lines: 23
 
+The emphasized line will also cause an error.
 
 .. disqus::
