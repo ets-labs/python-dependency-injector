@@ -485,6 +485,11 @@ cdef class Dependency(Provider):
         return self.__str__()
 
     @property
+    def provided(self):
+        """Return :py:class:`ProvidedInstance` provider."""
+        return ProvidedInstance(self)
+
+    @property
     def instance_of(self):
         """Return class of required dependency."""
         return self.__instance_of
