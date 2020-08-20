@@ -324,6 +324,10 @@ cdef class Object(Provider):
         """
         return self.__str__()
 
+    @property
+    def provided(self):
+        return ProvidedAttributes(self)
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return provided instance.
 
@@ -768,6 +772,10 @@ cdef class Callable(Provider):
     def provides(self):
         """Return wrapped callable."""
         return self.__provides
+
+    @property
+    def provided(self):
+        return ProvidedAttributes(self)
 
     @property
     def args(self):
@@ -1600,6 +1608,10 @@ cdef class Factory(Provider):
         return self.__instantiator.provides
 
     @property
+    def provided(self):
+        return ProvidedAttributes(self)
+
+    @property
     def args(self):
         """Return positional argument injections."""
         return self.__instantiator.args
@@ -1931,6 +1943,10 @@ cdef class BaseSingleton(Provider):
     def cls(self):
         """Return provided type."""
         return self.__instantiator.cls
+
+    @property
+    def provided(self):
+        return ProvidedAttributes(self)
 
     @property
     def args(self):
@@ -2361,6 +2377,10 @@ cdef class List(Provider):
         return represent_provider(provider=self, provides=list(self.args))
 
     @property
+    def provided(self):
+        return ProvidedAttributes(self)
+
+    @property
     def args(self):
         """Return positional argument injections."""
         cdef int index
@@ -2538,6 +2558,10 @@ cdef class Selector(Provider):
         )
 
     @property
+    def provided(self):
+        return ProvidedAttributes(self)
+
+    @property
     def providers(self):
         """Return providers."""
         return dict(self.__providers)
@@ -2553,6 +2577,118 @@ cdef class Selector(Provider):
             raise Error('Selector has no "{0}" provider'.format(selector_value))
 
         return self.__providers[selector_value](*args, **kwargs)
+
+
+class ProvidedAttributes(Provider):
+
+    def __init__(self, provider):
+        self._provider = provider
+        super().__init__()
+
+    def __repr__(self):
+        return f'ProvidedAttributes({self._provider})'
+
+    def __deepcopy__(self, memo=None):
+        return self.__class__(deepcopy(self._provider, memo))
+
+    def __getattr__(self, item):
+        return AttributeGetter(self, item)
+
+    def __getitem__(self, item):
+        return ItemGetter(self, item)
+
+    def call(self, *args, **kwargs):
+        return MethodCaller(self, *args, **kwargs)
+
+    def _provide(self, args, kwargs):
+        return self._provider(*args, **kwargs)
+
+
+class AttributeGetter(Provider):
+
+    def __init__(self, provider, attribute):
+        self._provider = provider
+        self._attribute = attribute
+        super().__init__()
+
+    def __repr__(self):
+        return f'AttributeGetter({self._attribute})'
+
+    def __deepcopy__(self, memo=None):
+        return self.__class__(deepcopy(self._provider, memo), self._attribute)
+
+    def __getattr__(self, item):
+        return AttributeGetter(self, item)
+
+    def __getitem__(self, item):
+        return ItemGetter(self, item)
+
+    def call(self, *args, **kwargs):
+        return MethodCaller(self, *args, **kwargs)
+
+    def _provide(self, args, kwargs):
+        provided = self._provider(*args, **kwargs)
+        return getattr(provided, self._attribute)
+
+
+class ItemGetter(Provider):
+
+    def __init__(self, provider, item):
+        self._provider = provider
+        self._item = item
+        super().__init__()
+
+    def __repr__(self):
+        return f'ItemGetter({self._item})'
+
+    def __deepcopy__(self, memo=None):
+        return self.__class__(deepcopy(self._provider, memo), self._item)
+
+    def __getattr__(self, item):
+        return AttributeGetter(self, item)
+
+    def __getitem__(self, item):
+        return ItemGetter(self, item)
+
+    def call(self, *args, **kwargs):
+        return MethodCaller(self, *args, **kwargs)
+
+    def _provide(self, args, kwargs):
+        provided = self._provider(*args, **kwargs)
+        return provided[self._item]
+
+
+class MethodCaller(Provider):
+
+    def __init__(self, provider, *args, **kwargs):
+        self._provider = provider
+        self._args = args
+        self._kwargs = kwargs
+        super().__init__()
+
+    def __repr__(self):
+        return f'MethodCaller({self._provider})'
+
+    def __deepcopy__(self, memo=None):
+        return self.__class__(
+            deepcopy(self._provider, memo),
+            *deepcopy(self._args, memo),
+            **deepcopy(self._kwargs, memo),
+        )
+
+    def __getattr__(self, item):
+        return AttributeGetter(self, item)
+
+    def __getitem__(self, item):
+        return ItemGetter(self, item)
+
+    def call(self, *args, **kwargs):
+        return MethodCaller(self, *args, **kwargs)
+
+    def _provide(self, args, kwargs):
+        provided = self._provider(*args, **kwargs)
+        # TODO: add proper handling of injections
+        return provided(*self._args, **self._kwargs)
 
 
 cdef class Injection(object):
