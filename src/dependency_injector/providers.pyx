@@ -2591,6 +2591,35 @@ cdef class Selector(Provider):
 
 
 cdef class ProvidedInstance(Provider):
+    """Provider that helps to inject attributes and items of the injected instance.
+
+    You can use it like that:
+
+    .. code-block:: python
+
+       service = providers.Singleton(Service)
+
+       client_factory = providers.Factory(
+           Client,
+           value1=service.provided.value,
+           value2=service.provided.values[0],
+           value3=service.provided.get_value.call(),
+       )
+
+
+    You should not create this provider directly. Get it from the ``.provided`` attribute of the
+    injected provider. This attribute returns the :py:class:`ProvidedInstance` for that provider.
+
+    Providers that have ``.provided`` attribute:
+
+    - :py:class:`Callable` and its subclasses
+    - :py:class:`Factory` and its subclasses
+    - :py:class:`Singleton` and its subclasses
+    - :py:class:`Object`
+    - :py:class:`List`
+    - :py:class:`Selector`
+    - :py:class:`Dependency`
+    """
 
     def __init__(self, provider):
         self.__provider = provider
