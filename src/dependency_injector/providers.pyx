@@ -326,7 +326,7 @@ cdef class Object(Provider):
 
     @property
     def provided(self):
-        return ProvidedAttributes(self)
+        return ProvidedInstance(self)
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return provided instance.
@@ -775,7 +775,7 @@ cdef class Callable(Provider):
 
     @property
     def provided(self):
-        return ProvidedAttributes(self)
+        return ProvidedInstance(self)
 
     @property
     def args(self):
@@ -1609,7 +1609,7 @@ cdef class Factory(Provider):
 
     @property
     def provided(self):
-        return ProvidedAttributes(self)
+        return ProvidedInstance(self)
 
     @property
     def args(self):
@@ -1946,7 +1946,7 @@ cdef class BaseSingleton(Provider):
 
     @property
     def provided(self):
-        return ProvidedAttributes(self)
+        return ProvidedInstance(self)
 
     @property
     def args(self):
@@ -2378,7 +2378,7 @@ cdef class List(Provider):
 
     @property
     def provided(self):
-        return ProvidedAttributes(self)
+        return ProvidedInstance(self)
 
     @property
     def args(self):
@@ -2559,7 +2559,7 @@ cdef class Selector(Provider):
 
     @property
     def provided(self):
-        return ProvidedAttributes(self)
+        return ProvidedInstance(self)
 
     @property
     def providers(self):
@@ -2579,20 +2579,25 @@ cdef class Selector(Provider):
         return self.__providers[selector_value](*args, **kwargs)
 
 
-class ProvidedAttributes(Provider):
+cdef class ProvidedInstance(Provider):
 
     def __init__(self, provider):
-        self._provider = provider
+        self.__provider = provider
         super().__init__()
 
     def __repr__(self):
-        return f'ProvidedAttributes({self._provider})'
+        return f'ProvidedInstance({self.__provider})'
 
     def __deepcopy__(self, memo=None):
+        cdef ProvidedInstance copied
+
         copied = memo.get(id(self))
         if copied is not None:
             return copied
-        return self.__class__(deepcopy(self._provider, memo))
+
+        return self.__class__(
+            deepcopy(self.__provider, memo),
+        )
 
     def __getattr__(self, item):
         return AttributeGetter(self, item)
@@ -2603,25 +2608,31 @@ class ProvidedAttributes(Provider):
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
 
-    def _provide(self, args, kwargs):
-        return self._provider(*args, **kwargs)
+    cpdef object _provide(self, tuple args, dict kwargs):
+        return self.__provider(*args, **kwargs)
 
 
-class AttributeGetter(Provider):
+cdef class AttributeGetter(Provider):
 
     def __init__(self, provider, attribute):
-        self._provider = provider
-        self._attribute = attribute
+        self.__provider = provider
+        self.__attribute = attribute
         super().__init__()
 
     def __repr__(self):
         return f'AttributeGetter({self._attribute})'
 
     def __deepcopy__(self, memo=None):
+        cdef AttributeGetter copied
+
         copied = memo.get(id(self))
         if copied is not None:
             return copied
-        return self.__class__(deepcopy(self._provider, memo), self._attribute)
+
+        return self.__class__(
+            deepcopy(self.__provider, memo),
+            self.__attribute,
+        )
 
     def __getattr__(self, item):
         return AttributeGetter(self, item)
@@ -2632,26 +2643,32 @@ class AttributeGetter(Provider):
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
 
-    def _provide(self, args, kwargs):
-        provided = self._provider(*args, **kwargs)
-        return getattr(provided, self._attribute)
+    cpdef object _provide(self, tuple args, dict kwargs):
+        provided = self.__provider(*args, **kwargs)
+        return getattr(provided, self.__attribute)
 
 
-class ItemGetter(Provider):
+cdef class ItemGetter(Provider):
 
-    def __init__(self, provider, item):
-        self._provider = provider
-        self._item = item
+    def __init__(self, Provider provider, object item):
+        self.__provider = provider
+        self.__item = item
         super().__init__()
 
     def __repr__(self):
-        return f'ItemGetter({self._item})'
+        return f'ItemGetter({self.__item})'
 
     def __deepcopy__(self, memo=None):
+        cdef ItemGetter copied
+
         copied = memo.get(id(self))
         if copied is not None:
             return copied
-        return self.__class__(deepcopy(self._provider, memo), self._item)
+
+        return self.__class__(
+            deepcopy(self.__provider, memo),
+            self.__item,
+        )
 
     def __getattr__(self, item):
         return AttributeGetter(self, item)
@@ -2662,9 +2679,9 @@ class ItemGetter(Provider):
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
 
-    def _provide(self, args, kwargs):
-        provided = self._provider(*args, **kwargs)
-        return provided[self._item]
+    cpdef object _provide(self, tuple args, dict kwargs):
+        provided = self.__provider(*args, **kwargs)
+        return provided[self.__item]
 
 
 cdef class MethodCaller(Provider):

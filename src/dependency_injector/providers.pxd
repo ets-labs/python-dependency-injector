@@ -197,7 +197,27 @@ cdef class Selector(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
-# Provided attributes
+# Provided instance
+
+cdef class ProvidedInstance(Provider):
+    cdef Provider __provider
+
+    cpdef object _provide(self, tuple args, dict kwargs)
+
+
+cdef class AttributeGetter(Provider):
+    cdef Provider __provider
+    cdef object __attribute
+
+    cpdef object _provide(self, tuple args, dict kwargs)
+
+
+cdef class ItemGetter(Provider):
+    cdef Provider __provider
+    cdef object __item
+
+    cpdef object _provide(self, tuple args, dict kwargs)
+
 
 cdef class MethodCaller(Provider):
     cdef Provider __provider
