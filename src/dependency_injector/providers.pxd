@@ -197,6 +197,17 @@ cdef class Selector(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
+# Provided attributes
+
+cdef class MethodCaller(Provider):
+    cdef Provider __provider
+    cdef tuple __args
+    cdef int __args_len
+    cdef tuple __kwargs
+    cdef int __kwargs_len
+
+    cpdef object _provide(self, tuple args, dict kwargs)
+
 
 # Injections
 cdef class Injection(object):
@@ -352,18 +363,42 @@ cdef inline object __inject_attributes(
                 __get_value(attr_injection))
 
 
-cdef inline object __callable_call(Callable self, tuple args, dict kwargs):
+cdef inline object __call(
+        object call,
+        tuple context_args,
+        tuple injection_args,
+        int injection_args_len,
+        dict kwargs,
+        tuple injection_kwargs,
+        int injection_kwargs_len,
+):
     cdef tuple positional_args
     cdef dict keyword_args
 
-    positional_args = __provide_positional_args(args,
-                                                self.__args,
-                                                self.__args_len)
-    keyword_args = __provide_keyword_args(kwargs,
-                                          self.__kwargs,
-                                          self.__kwargs_len)
+    positional_args = __provide_positional_args(
+        context_args,
+        injection_args,
+        injection_args_len,
+    )
+    keyword_args = __provide_keyword_args(
+        kwargs,
+        injection_kwargs,
+        injection_kwargs_len,
+    )
 
-    return self.__provides(*positional_args, **keyword_args)
+    return call(*positional_args, **keyword_args)
+
+
+cdef inline object __callable_call(Callable self, tuple args, dict kwargs):
+    return __call(
+        self.__provides,
+        args,
+        self.__args,
+        self.__args_len,
+        kwargs,
+        self.__kwargs,
+        self.__kwargs_len,
+    )
 
 
 cdef inline object __factory_call(Factory self, tuple args, dict kwargs):

@@ -2589,6 +2589,9 @@ class ProvidedAttributes(Provider):
         return f'ProvidedAttributes({self._provider})'
 
     def __deepcopy__(self, memo=None):
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
         return self.__class__(deepcopy(self._provider, memo))
 
     def __getattr__(self, item):
@@ -2615,6 +2618,9 @@ class AttributeGetter(Provider):
         return f'AttributeGetter({self._attribute})'
 
     def __deepcopy__(self, memo=None):
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
         return self.__class__(deepcopy(self._provider, memo), self._attribute)
 
     def __getattr__(self, item):
@@ -2642,6 +2648,9 @@ class ItemGetter(Provider):
         return f'ItemGetter({self._item})'
 
     def __deepcopy__(self, memo=None):
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
         return self.__class__(deepcopy(self._provider, memo), self._item)
 
     def __getattr__(self, item):
@@ -2658,23 +2667,38 @@ class ItemGetter(Provider):
         return provided[self._item]
 
 
-class MethodCaller(Provider):
+cdef class MethodCaller(Provider):
 
     def __init__(self, provider, *args, **kwargs):
-        self._provider = provider
-        self._args = args
-        self._kwargs = kwargs
+        self.__provider = provider
+
+        self.__args = parse_positional_injections(args)
+        self.__args_len = len(self.__args)
+
+        self.__kwargs = parse_named_injections(kwargs)
+        self.__kwargs_len = len(self.__kwargs)
+
         super().__init__()
 
     def __repr__(self):
-        return f'MethodCaller({self._provider})'
+        return f'MethodCaller({self.__provider})'
 
     def __deepcopy__(self, memo=None):
-        return self.__class__(
-            deepcopy(self._provider, memo),
-            *deepcopy(self._args, memo),
-            **deepcopy(self._kwargs, memo),
-        )
+        cdef MethodCaller copied
+
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__(deepcopy(self.__provider, memo))
+        copied.__args = deepcopy(self.__args, memo)
+        copied.__args_len = self.__args_len
+        copied.__kwargs = deepcopy(self.__kwargs, memo)
+        copied.__kwargs_len = self.__kwargs_len
+
+        self._copy_overridings(copied, memo)
+
+        return copied
 
     def __getattr__(self, item):
         return AttributeGetter(self, item)
@@ -2685,10 +2709,17 @@ class MethodCaller(Provider):
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
 
-    def _provide(self, args, kwargs):
-        provided = self._provider(*args, **kwargs)
-        # TODO: add proper handling of injections
-        return provided(*self._args, **self._kwargs)
+    cpdef object _provide(self, tuple args, dict kwargs):
+        call = self.__provider()
+        return __call(
+            call,
+            args,
+            self.__args,
+            self.__args_len,
+            kwargs,
+            self.__kwargs,
+            self.__kwargs_len,
+        )
 
 
 cdef class Injection(object):
