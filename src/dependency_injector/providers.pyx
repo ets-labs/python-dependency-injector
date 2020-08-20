@@ -326,6 +326,7 @@ cdef class Object(Provider):
 
     @property
     def provided(self):
+        """Return :py:class:`ProvidedInstance` provider."""
         return ProvidedInstance(self)
 
     cpdef object _provide(self, tuple args, dict kwargs):
@@ -775,6 +776,7 @@ cdef class Callable(Provider):
 
     @property
     def provided(self):
+        """Return :py:class:`ProvidedInstance` provider."""
         return ProvidedInstance(self)
 
     @property
@@ -1609,6 +1611,7 @@ cdef class Factory(Provider):
 
     @property
     def provided(self):
+        """Return :py:class:`ProvidedInstance` provider."""
         return ProvidedInstance(self)
 
     @property
@@ -1946,6 +1949,7 @@ cdef class BaseSingleton(Provider):
 
     @property
     def provided(self):
+        """Return :py:class:`ProvidedInstance` provider."""
         return ProvidedInstance(self)
 
     @property
@@ -2378,6 +2382,7 @@ cdef class List(Provider):
 
     @property
     def provided(self):
+        """Return :py:class:`ProvidedInstance` provider."""
         return ProvidedInstance(self)
 
     @property
@@ -2559,6 +2564,7 @@ cdef class Selector(Provider):
 
     @property
     def provided(self):
+        """Return :py:class:`ProvidedInstance` provider."""
         return ProvidedInstance(self)
 
     @property
