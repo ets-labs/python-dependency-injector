@@ -2653,6 +2653,10 @@ cdef class ProvidedInstance(Provider):
 
 
 cdef class AttributeGetter(Provider):
+    """Provider that returns the attribute of the injected instance.
+
+    You should not create this provider directly. See :py:class:`ProvidedInstance` instead.
+    """
 
     def __init__(self, provider, attribute):
         self.__provider = provider
@@ -2689,6 +2693,10 @@ cdef class AttributeGetter(Provider):
 
 
 cdef class ItemGetter(Provider):
+    """Provider that returns the item of the injected instance.
+
+    You should not create this provider directly. See :py:class:`ProvidedInstance` instead.
+    """
 
     def __init__(self, Provider provider, object item):
         self.__provider = provider
@@ -2725,6 +2733,10 @@ cdef class ItemGetter(Provider):
 
 
 cdef class MethodCaller(Provider):
+    """Provider that calls the method of the injected instance.
+
+    You should not create this provider directly. See :py:class:`ProvidedInstance` instead.
+    """
 
     def __init__(self, provider, *args, **kwargs):
         self.__provider = provider
