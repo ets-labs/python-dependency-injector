@@ -150,6 +150,10 @@ class ObjectProviderTests(unittest.TestCase):
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(providers.Object(object())))
 
+    def test_provided_instance_provider(self):
+        provider = providers.Object(object())
+        self.assertIsInstance(provider.provided, providers.ProvidedInstance)
+
     def test_call_object_provider(self):
         obj = object()
         self.assertIs(providers.Object(obj)(), obj)
@@ -263,6 +267,9 @@ class DependencyTests(unittest.TestCase):
 
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(self.provider))
+
+    def test_provided_instance_provider(self):
+        self.assertIsInstance(self.provider.provided, providers.ProvidedInstance)
 
     def test_call_overridden(self):
         self.provider.provided_by(providers.Factory(list))
