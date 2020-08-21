@@ -12,3 +12,4 @@ Dependency Injector Contributors
 + supakeen (supakeen)
 + Bruno P. Kinoshita (kinow)
 + RobinsonMa (RobinsonMa)
++ Rüdiger Busche (JarnoRFB)
