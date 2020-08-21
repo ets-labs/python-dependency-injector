@@ -60,6 +60,10 @@ class FactoryTests(unittest.TestCase):
         with self.assertRaises(errors.Error):
             ExampleProvider(list)
 
+    def test_provided_instance_provider(self):
+        provider = providers.Factory(Example)
+        self.assertIsInstance(provider.provided, providers.ProvidedInstance)
+
     def test_call(self):
         provider = providers.Factory(Example)
 

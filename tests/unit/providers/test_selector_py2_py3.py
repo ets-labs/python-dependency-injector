@@ -16,6 +16,10 @@ class SelectorTests(unittest.TestCase):
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(providers.Selector(self.selector)))
 
+    def test_provided_instance_provider(self):
+        provider = providers.Selector(self.selector)
+        self.assertIsInstance(provider.provided, providers.ProvidedInstance)
+
     def test_call(self):
         provider = providers.Selector(
             self.selector,

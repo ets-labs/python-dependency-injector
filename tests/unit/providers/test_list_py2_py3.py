@@ -12,6 +12,10 @@ class ListTests(unittest.TestCase):
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(providers.List()))
 
+    def test_provided_instance_provider(self):
+        provider = providers.List()
+        self.assertIsInstance(provider.provided, providers.ProvidedInstance)
+
     def test_call_with_init_positional_args(self):
         provider = providers.List('i1', 'i2')
 

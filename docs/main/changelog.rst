@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.31.0
+------
+- Add a feature that helps to inject provided instance attribute, item, or method call result
+  (see `Issue 281 <https://github.com/ets-labs/python-dependency-injector/issues/281>`_). Design
+  for this feature was provided by `JarnoRFB <https://github.com/JarnoRFB>`_. Many thanks to you,
+  JarnoRFB.
+
 3.30.4
 ------
 - Update README.
