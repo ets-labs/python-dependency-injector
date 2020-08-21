@@ -34,5 +34,4 @@ client_factory = providers.Factory(
 
 if __name__ == '__main__':
     client = client_factory()
-
     assert client.value1 == client.value2 == client.value3 == 'foo'
