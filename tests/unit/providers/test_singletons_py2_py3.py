@@ -62,6 +62,10 @@ class _BaseSingletonTestCase(object):
         with self.assertRaises(errors.Error):
             ExampleProvider(list)
 
+    def test_provided_instance_provider(self):
+        provider = providers.Singleton(Example)
+        self.assertIsInstance(provider.provided, providers.ProvidedInstance)
+
     def test_call(self):
         provider = self.singleton_cls(Example)
 

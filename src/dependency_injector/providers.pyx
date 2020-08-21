@@ -324,6 +324,11 @@ cdef class Object(Provider):
         """
         return self.__str__()
 
+    @property
+    def provided(self):
+        """Return :py:class:`ProvidedInstance` provider."""
+        return ProvidedInstance(self)
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return provided instance.
 
@@ -478,6 +483,11 @@ cdef class Dependency(Provider):
         :rtype: str
         """
         return self.__str__()
+
+    @property
+    def provided(self):
+        """Return :py:class:`ProvidedInstance` provider."""
+        return ProvidedInstance(self)
 
     @property
     def instance_of(self):
@@ -768,6 +778,11 @@ cdef class Callable(Provider):
     def provides(self):
         """Return wrapped callable."""
         return self.__provides
+
+    @property
+    def provided(self):
+        """Return :py:class:`ProvidedInstance` provider."""
+        return ProvidedInstance(self)
 
     @property
     def args(self):
@@ -1600,6 +1615,11 @@ cdef class Factory(Provider):
         return self.__instantiator.provides
 
     @property
+    def provided(self):
+        """Return :py:class:`ProvidedInstance` provider."""
+        return ProvidedInstance(self)
+
+    @property
     def args(self):
         """Return positional argument injections."""
         return self.__instantiator.args
@@ -1931,6 +1951,11 @@ cdef class BaseSingleton(Provider):
     def cls(self):
         """Return provided type."""
         return self.__instantiator.cls
+
+    @property
+    def provided(self):
+        """Return :py:class:`ProvidedInstance` provider."""
+        return ProvidedInstance(self)
 
     @property
     def args(self):
@@ -2361,6 +2386,11 @@ cdef class List(Provider):
         return represent_provider(provider=self, provides=list(self.args))
 
     @property
+    def provided(self):
+        """Return :py:class:`ProvidedInstance` provider."""
+        return ProvidedInstance(self)
+
+    @property
     def args(self):
         """Return positional argument injections."""
         cdef int index
@@ -2538,6 +2568,11 @@ cdef class Selector(Provider):
         )
 
     @property
+    def provided(self):
+        """Return :py:class:`ProvidedInstance` provider."""
+        return ProvidedInstance(self)
+
+    @property
     def providers(self):
         """Return providers."""
         return dict(self.__providers)
@@ -2553,6 +2588,207 @@ cdef class Selector(Provider):
             raise Error('Selector has no "{0}" provider'.format(selector_value))
 
         return self.__providers[selector_value](*args, **kwargs)
+
+
+cdef class ProvidedInstance(Provider):
+    """Provider that helps to inject attributes and items of the injected instance.
+
+    You can use it like that:
+
+    .. code-block:: python
+
+       service = providers.Singleton(Service)
+
+       client_factory = providers.Factory(
+           Client,
+           value1=service.provided[0],
+           value2=service.provided.value,
+           value3=service.provided.values[0],
+           value4=service.provided.get_value.call(),
+       )
+
+    You should not create this provider directly. Get it from the ``.provided`` attribute of the
+    injected provider. This attribute returns the :py:class:`ProvidedInstance` for that provider.
+
+    Providers that have ``.provided`` attribute:
+
+    - :py:class:`Callable` and its subclasses
+    - :py:class:`Factory` and its subclasses
+    - :py:class:`Singleton` and its subclasses
+    - :py:class:`Object`
+    - :py:class:`List`
+    - :py:class:`Selector`
+    - :py:class:`Dependency`
+    """
+
+    def __init__(self, provider):
+        self.__provider = provider
+        super().__init__()
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}(\'{self.__provider}\')'
+
+    def __deepcopy__(self, memo=None):
+        cdef ProvidedInstance copied
+
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        return self.__class__(
+            deepcopy(self.__provider, memo),
+        )
+
+    def __getattr__(self, item):
+        return AttributeGetter(self, item)
+
+    def __getitem__(self, item):
+        return ItemGetter(self, item)
+
+    def call(self, *args, **kwargs):
+        return MethodCaller(self, *args, **kwargs)
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        return self.__provider(*args, **kwargs)
+
+
+cdef class AttributeGetter(Provider):
+    """Provider that returns the attribute of the injected instance.
+
+    You should not create this provider directly. See :py:class:`ProvidedInstance` instead.
+    """
+
+    def __init__(self, provider, attribute):
+        self.__provider = provider
+        self.__attribute = attribute
+        super().__init__()
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}(\'{self.__attribute}\')'
+
+    def __deepcopy__(self, memo=None):
+        cdef AttributeGetter copied
+
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        return self.__class__(
+            deepcopy(self.__provider, memo),
+            self.__attribute,
+        )
+
+    def __getattr__(self, item):
+        return AttributeGetter(self, item)
+
+    def __getitem__(self, item):
+        return ItemGetter(self, item)
+
+    def call(self, *args, **kwargs):
+        return MethodCaller(self, *args, **kwargs)
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        provided = self.__provider(*args, **kwargs)
+        return getattr(provided, self.__attribute)
+
+
+cdef class ItemGetter(Provider):
+    """Provider that returns the item of the injected instance.
+
+    You should not create this provider directly. See :py:class:`ProvidedInstance` instead.
+    """
+
+    def __init__(self, Provider provider, object item):
+        self.__provider = provider
+        self.__item = item
+        super().__init__()
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}(\'{self.__item}\')'
+
+    def __deepcopy__(self, memo=None):
+        cdef ItemGetter copied
+
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        return self.__class__(
+            deepcopy(self.__provider, memo),
+            self.__item,
+        )
+
+    def __getattr__(self, item):
+        return AttributeGetter(self, item)
+
+    def __getitem__(self, item):
+        return ItemGetter(self, item)
+
+    def call(self, *args, **kwargs):
+        return MethodCaller(self, *args, **kwargs)
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        provided = self.__provider(*args, **kwargs)
+        return provided[self.__item]
+
+
+cdef class MethodCaller(Provider):
+    """Provider that calls the method of the injected instance.
+
+    You should not create this provider directly. See :py:class:`ProvidedInstance` instead.
+    """
+
+    def __init__(self, provider, *args, **kwargs):
+        self.__provider = provider
+
+        self.__args = parse_positional_injections(args)
+        self.__args_len = len(self.__args)
+
+        self.__kwargs = parse_named_injections(kwargs)
+        self.__kwargs_len = len(self.__kwargs)
+
+        super().__init__()
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}({self.__provider})'
+
+    def __deepcopy__(self, memo=None):
+        cdef MethodCaller copied
+
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__(deepcopy(self.__provider, memo))
+        copied.__args = deepcopy(self.__args, memo)
+        copied.__args_len = self.__args_len
+        copied.__kwargs = deepcopy(self.__kwargs, memo)
+        copied.__kwargs_len = self.__kwargs_len
+
+        self._copy_overridings(copied, memo)
+
+        return copied
+
+    def __getattr__(self, item):
+        return AttributeGetter(self, item)
+
+    def __getitem__(self, item):
+        return ItemGetter(self, item)
+
+    def call(self, *args, **kwargs):
+        return MethodCaller(self, *args, **kwargs)
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        call = self.__provider()
+        return __call(
+            call,
+            args,
+            self.__args,
+            self.__args_len,
+            kwargs,
+            self.__kwargs,
+            self.__kwargs_len,
+        )
 
 
 cdef class Injection(object):
