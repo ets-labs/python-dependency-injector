@@ -2601,11 +2601,11 @@ cdef class ProvidedInstance(Provider):
 
        client_factory = providers.Factory(
            Client,
-           value1=service.provided.value,
-           value2=service.provided.values[0],
-           value3=service.provided.get_value.call(),
+           value1=service.provided[0],
+           value2=service.provided.value,
+           value3=service.provided.values[0],
+           value4=service.provided.get_value.call(),
        )
-
 
     You should not create this provider directly. Get it from the ``.provided`` attribute of the
     injected provider. This attribute returns the :py:class:`ProvidedInstance` for that provider.
