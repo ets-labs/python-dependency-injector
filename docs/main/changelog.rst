@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.32.0
+------
+- Add a feature that helps to explicitly specify the type of the configuration option value
+  before the injection.
+- Add disqus comments to the docs page on injecting provided instance attributes, items, etc.
+
 3.31.0
 ------
 - Add a feature that helps to inject provided instance attribute, item, or method call result
