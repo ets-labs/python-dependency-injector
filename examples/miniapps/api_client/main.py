@@ -7,7 +7,7 @@ import models
 
 
 # Creating ApiClient and User providers:
-api_client = providers.Singleton(api.Converter,
+api_client = providers.Singleton(api.ApiClient,
                                  host='production.com',
                                  api_key='PROD_API_KEY')
 user_factory = providers.Factory(models.User,
@@ -27,7 +27,7 @@ if __name__ == '__main__':
     # {'id': 2}
 
     # Overriding of ApiClient on dev environment:
-    api_client.override(providers.Singleton(api.Converter,
+    api_client.override(providers.Singleton(api.ApiClient,
                                             host='localhost',
                                             api_key='DEV_API_KEY'))
 
