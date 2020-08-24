@@ -1140,6 +1140,15 @@ cdef class ConfigurationOption(Provider):
         root = self.__root_ref()
         return '.'.join((root.get_name(), self._get_self_name()))
 
+    def as_int(self):
+        return Callable(int, self)
+
+    def as_float(self):
+        return Callable(float, self)
+
+    def as_(self, callback, *args, **kwargs):
+        return Callable(callback, self, *args, **kwargs)
+
     def override(self, value):
         if isinstance(value, Provider):
             raise Error('Configuration option can only be overridden by a value')
