@@ -62,3 +62,5 @@ should use the :py:class:`ProvidedInstance` provider.
 In all other cases you should not use :py:class:`ProvidedInstance`, :py:class:`AttributeGetter`,
 :py:class:`ItemGetter`, or :py:class:`MethodCaller` providers directly. Use the ``.provided``
 attribute of the injected provider instead.
+
+.. disqus::

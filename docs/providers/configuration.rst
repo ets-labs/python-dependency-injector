@@ -96,4 +96,34 @@ where ``examples/providers/configuration/config.local.yml`` is:
 .. literalinclude:: ../../examples/providers/configuration/config.local.yml
    :language: ini
 
+Specifying value type
+~~~~~~~~~~~~~~~~~~~~~
+
+You can specify the type of the injected configuration value explicitly.
+
+This helps when you read the value from the ini file or the environment variable and need to
+convert it into an ``int`` or a ``float``.
+
+.. literalinclude:: ../../examples/providers/configuration/configuration_type.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 17
+
+:py:class:`Configuration` provider has next helper methods:
+
+- ``.as_int()``
+- ``.as_float()``
+- ``.as_(callback, *args, **kwargs)``
+
+The last method ``.as_(callback, *args, **kwargs)`` helps to implement a other conversions.
+
+.. literalinclude:: ../../examples/providers/configuration/configuration_type_custom.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 16
+
+With the ``.as_(callback, *args, **kwargs)`` you can specify the function that will be called
+before the injection. The value from the config will be passed as a first argument. The returned
+value will be injected. Parameters ``*args`` and ``**kwargs`` are handled as any other injections.
+
 .. disqus::
