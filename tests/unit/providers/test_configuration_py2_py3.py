@@ -1,6 +1,7 @@
 """Dependency injector config providers unit tests."""
 
 import contextlib
+import decimal
 import os
 import sys
 import tempfile
@@ -68,6 +69,33 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual(ab(), {'c': 1, 'd': 2})
         self.assertEqual(abc(), 1)
         self.assertEqual(abd(), 2)
+
+    def test_as_int(self):
+        value_provider = providers.Callable(lambda value: value, self.config.test.as_int())
+        self.config.from_dict({'test': '123'})
+
+        value = value_provider()
+
+        self.assertEqual(value, 123)
+
+    def test_as_float(self):
+        value_provider = providers.Callable(lambda value: value, self.config.test.as_float())
+        self.config.from_dict({'test': '123.123'})
+
+        value = value_provider()
+
+        self.assertEqual(value, 123.123)
+
+    def test_as_(self):
+        value_provider = providers.Callable(
+            lambda value: value,
+            self.config.test.as_(decimal.Decimal),
+        )
+        self.config.from_dict({'test': '123.123'})
+
+        value = value_provider()
+
+        self.assertEqual(value, decimal.Decimal('123.123'))
 
     def test_providers_value_override(self):
         a = self.config.a
@@ -356,7 +384,6 @@ class ConfigFromIniWithEnvInterpolationTests(unittest.TestCase):
         )
         self.assertEqual(self.config.section1(), {'value1': 'test-value'})
         self.assertEqual(self.config.section1.value1(), 'test-value')
-
 
 
 class ConfigFromYamlTests(unittest.TestCase):
