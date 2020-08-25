@@ -1,13 +1,16 @@
 from typing import Tuple, Any, Dict
 
-from dependency_injector import providers
+from dependency_injector import providers, types
 
 
 class Animal:
+    xyz: int = 123
     ...
 
 
 class Cat(Animal):
+
+    def __init__(self, *_, **__): ...
 
     @classmethod
     def create(cls) -> Animal:
@@ -38,7 +41,7 @@ provider5 = providers.Factory(Animal)
 provided5: providers.ProvidedInstance = provider5.provided
 attr_getter5: providers.AttributeGetter = provider5.provided.attr
 item_getter5: providers.ItemGetter = provider5.provided['item']
-method_caller: providers.MethodCaller = provider5.provided.method.call(123, arg=324)
+method_caller5: providers.MethodCaller = provider5.provided.method.call(123, arg=324)
 
 # Test 6: to check the DelegatedFactory
 provider6 = providers.DelegatedFactory(Cat)
@@ -48,3 +51,7 @@ animal6: Animal = provider6(1, 2, 3, b='1', c=2, e=0.0)
 provider7 = providers.AbstractFactory(Animal)
 provider7.override(providers.Factory(Cat))
 animal7: Animal = provider7(1, 2, 3, b='1', c=2, e=0.0)
+
+# Test 8: to check the explicit typing
+provider8: types.Factory[Animal] = lambda: None
+animal8: int = provider8()
