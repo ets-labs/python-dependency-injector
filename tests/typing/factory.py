@@ -1,6 +1,6 @@
 from typing import Tuple, Any, Dict
 
-from dependency_injector import providers, types
+from dependency_injector import providers
 
 
 class Animal:
@@ -51,7 +51,3 @@ animal6: Animal = provider6(1, 2, 3, b='1', c=2, e=0.0)
 provider7 = providers.AbstractFactory(Animal)
 provider7.override(providers.Factory(Cat))
 animal7: Animal = provider7(1, 2, 3, b='1', c=2, e=0.0)
-
-# Test 8: to check the explicit typing
-provider8: types.Factory[Animal] = providers.Factory(Cat)
-animal8: Animal = provider8()
