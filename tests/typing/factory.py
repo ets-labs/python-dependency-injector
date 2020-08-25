@@ -4,7 +4,6 @@ from dependency_injector import providers
 
 
 class Animal:
-    xyz: int = 123
     ...
 
 
