@@ -53,5 +53,5 @@ provider7.override(providers.Factory(Cat))
 animal7: Animal = provider7(1, 2, 3, b='1', c=2, e=0.0)
 
 # Test 8: to check the explicit typing
-provider8: types.Factory[Animal] = lambda: None
-animal8: int = provider8()
+provider8: types.Factory[Animal] = providers.Factory(Cat)
+animal8: Animal = provider8()
