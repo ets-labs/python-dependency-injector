@@ -1,6 +1,17 @@
 from __future__ import annotations
 
-from typing import TypeVar, Generic, Type, Callable as _Callable, Any, Tuple, Optional, Dict, Union
+from typing import (
+    TypeVar,
+    Generic,
+    Type,
+    Callable as _Callable,
+    Any,
+    Tuple,
+    Optional,
+    Dict,
+    Union,
+    Coroutine as _Coroutine,
+)
 
 Injection = Any
 T = TypeVar('T')
@@ -90,6 +101,20 @@ class AbstractCallable(Callable):
 
 class CallableDelegate(Delegate):
     def __init__(self, callable: Callable) -> None: ...
+
+
+class Coroutine(Callable): ...
+
+
+class DelegatedCoroutine(Coroutine): ...
+
+
+class AbstractCoroutine(Coroutine):
+    def override(self, provider: Coroutine) -> OverridingContext: ...
+
+
+class CoroutineDelegate(Delegate):
+    def __init__(self, coroutine: Coroutine) -> None: ...
 
 
 class Factory(Provider, Generic[T]):
