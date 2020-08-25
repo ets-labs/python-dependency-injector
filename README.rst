@@ -152,7 +152,7 @@ framework:
        api_client = providers.Singleton(
            ApiClient,
            api_key=config.api_key,
-           timeout=config.timeout,
+           timeout=config.timeout.as_int(),
        )
 
        service = providers.Factory(

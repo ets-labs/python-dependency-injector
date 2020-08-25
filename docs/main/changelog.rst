@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.32.1
+------
+- Update DI Demo 2 example and READ to make typed configuration option injection.
+
 3.32.0
 ------
 - Add a feature that helps to explicitly specify the type of the configuration option value
