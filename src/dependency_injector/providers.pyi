@@ -88,6 +88,10 @@ class AbstractCallable(Callable):
     def override(self, provider: Callable) -> OverridingContext: ...
 
 
+class CallableDelegate(Delegate):
+    def __init__(self, callable: Callable) -> None: ...
+
+
 class Factory(Provider, Generic[T]):
     provided_type: Optional[Type]
     def __init__(self, provides: _Callable[..., T], *args: Injection, **kwargs: Injection) -> None: ...
