@@ -26,7 +26,7 @@ class User:
 
 # Defining User and Photo factories using DelegatedFactory provider:
 photos_factory = providers.DelegatedFactory(Photo)
-users_factory = providers.DelegatedFactory(
+users_factory = providers.Factory(
     User,
     photos_factory=photos_factory,
 )
