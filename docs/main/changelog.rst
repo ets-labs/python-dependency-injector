@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.32.2
+------
+- Make a fix in the factory delegation example (thanks to
+  `Joël Bourgault <https://github.com/ojob>`_ for finding and reporting the issue).
+
 3.32.1
 ------
 - Update DI Demo 2 example and READ to make typed configuration option injection.
