@@ -53,3 +53,12 @@ animal7: Animal = provider7(1, 2, 3, b='1', c=2, e=0.0)
 
 # Test 8: to check the FactoryDelegate __init__
 provider8 = providers.FactoryDelegate(providers.Factory(object))
+
+# Test 9: to check FactoryAggregate provider
+provider9 = providers.FactoryAggregate(
+    a=providers.Factory(object),
+    b=providers.Factory(object),
+)
+factory_a_9: providers.Factory = provider9.a
+factory_b_9: providers.Factory = provider9.b
+val9: Any = provider9('a')
