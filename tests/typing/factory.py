@@ -50,3 +50,6 @@ animal6: Animal = provider6(1, 2, 3, b='1', c=2, e=0.0)
 provider7 = providers.AbstractFactory(Animal)
 provider7.override(providers.Factory(Cat))
 animal7: Animal = provider7(1, 2, 3, b='1', c=2, e=0.0)
+
+# Test 8: to check the FactoryDelegate __init__
+provider8 = providers.FactoryDelegate(providers.Factory(object))
