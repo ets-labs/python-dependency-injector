@@ -76,7 +76,7 @@ How does it different from the other frameworks?
 
 ``Dependency Injector`` makes a simple contract with you:
 
-- You tell the framework how to build you code
+- You tell the framework how to assemble your objects
 - The framework does it for you
 
 The power of the ``Dependency Injector`` is in its simplicity and straightforwardness. It is a simple tool for the powerful concept.
