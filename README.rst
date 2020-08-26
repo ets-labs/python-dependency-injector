@@ -63,7 +63,7 @@ code becomes more flexible, clear and it is easier to test it.
 How to implement dependency injection?
 --------------------------------------
 
-Objects do not create each other anymore. They provide a way to inject the needed dependency
+Objects do not create each other anymore. They provide a way to inject the needed dependencies
 instead.
 
 Before:
@@ -224,7 +224,7 @@ How does it different from the other frameworks?
 
 ``Dependency Injector`` makes a simple contract with you:
 
-- You tell the framework how to build you code
+- You tell the framework how to assemble your objects
 - The framework does it for you
 
 The power of the ``Dependency Injector`` is in its simplicity and straightforwardness. It is a simple tool for the powerful concept.
