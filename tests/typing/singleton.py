@@ -42,23 +42,30 @@ attr_getter5: providers.AttributeGetter = provider5.provided.attr
 item_getter5: providers.ItemGetter = provider5.provided['item']
 method_caller5: providers.MethodCaller = provider5.provided.method.call(123, arg=324)
 
-# Test 6: to check the DelegatedFactory
+# Test 6: to check the DelegatedSingleton
 provider6 = providers.DelegatedSingleton(Cat)
 animal6: Animal = provider6(1, 2, 3, b='1', c=2, e=0.0)
 
-# # Test 7: to check the AbstractFactory
-# provider7 = providers.AbstractFactory(Animal)
-# provider7.override(providers.Factory(Cat))
-# animal7: Animal = provider7(1, 2, 3, b='1', c=2, e=0.0)
-#
-# # Test 8: to check the FactoryDelegate __init__
-# provider8 = providers.FactoryDelegate(providers.Factory(object))
-#
-# # Test 9: to check FactoryAggregate provider
-# provider9 = providers.FactoryAggregate(
-#     a=providers.Factory(object),
-#     b=providers.Factory(object),
-# )
-# factory_a_9: providers.Factory = provider9.a
-# factory_b_9: providers.Factory = provider9.b
-# val9: Any = provider9('a')
+# Test 7: to check the ThreadSafeSingleton
+provider7: providers.BaseSingleton[Animal] = providers.ThreadSafeSingleton(Cat)
+animal7: Animal = provider7()
+
+# Test 8: to check the DelegatedThreadSafeSingleton
+provider8 = providers.DelegatedThreadSafeSingleton(Cat)
+animal8: Animal = provider8(1, 2, 3, b='1', c=2, e=0.0)
+
+# Test 9: to check the ThreadLocalSingleton
+provider9 = providers.ThreadLocalSingleton(Cat)
+animal9: Animal = provider9(1, 2, 3, b='1', c=2, e=0.0)
+
+# Test 10: to check the DelegatedThreadLocalSingleton
+provider10 = providers.DelegatedThreadLocalSingleton(Cat)
+animal10: Animal = provider10(1, 2, 3, b='1', c=2, e=0.0)
+
+# Test 11: to check the AbstractSingleton
+provider11 = providers.AbstractSingleton(Animal)
+provider11.override(providers.Singleton(Cat))
+animal11: Animal = provider11(1, 2, 3, b='1', c=2, e=0.0)
+
+# Test 12: to check the SingletonDelegate __init__
+provider12 = providers.SingletonDelegate(providers.Singleton(object))
