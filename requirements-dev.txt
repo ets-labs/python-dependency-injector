@@ -6,5 +6,6 @@ flake8
 pydocstyle
 sphinx_autobuild
 pip
+mypy
 
 -r requirements-ext.txt

@@ -60,12 +60,13 @@ test-py3: build
 	coverage html --rcfile=./.coveragerc
 
 check:
-	# Static analysis
 	flake8 src/dependency_injector/
 	flake8 examples/
-	# Code style analysis
+
 	pydocstyle src/dependency_injector/
 	pydocstyle examples/
+
+	mypy tests/typing
 
 test-publish: cythonize
 	# Create distributions

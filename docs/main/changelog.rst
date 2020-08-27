@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.33.0
+------
+- Add typing stubs.
+
 3.32.3
 ------
 - Fix few typos on README and docs main pages.
