@@ -47,7 +47,7 @@ setup(name='dependency-injector',
           '': 'src',
       },
       package_data={
-          'dependency_injector': ['*.pxd'],
+          'dependency_injector': ['*.pxd', '*.pyi', 'py.typed'],
       },
       ext_modules=[
           Extension('dependency_injector.containers',

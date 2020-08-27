@@ -22,6 +22,10 @@ jobs:
     env: TOXENV=pydocstyle
     install: pip install tox
     script: tox
+  - python: 3.6
+    env: TOXENV=mypy
+    install: pip install tox
+    script: tox
   - python: 2.7
     env: TOXENV=py27
     install: pip install tox
