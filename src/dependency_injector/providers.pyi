@@ -14,6 +14,9 @@ from typing import (
     Coroutine as _Coroutine,
 )
 
+from .types import Provider as _Provider
+
+
 Injection = Any
 T = TypeVar('T')
 
@@ -24,7 +27,7 @@ class OverridingContext:
     def __exit__(self, *_: Any) -> None: ...
 
 
-class Provider:
+class Provider(_Provider):
     def __init__(self) -> None: ...
     def __call__(self, *args: Injection, **kwargs: Injection) -> Any: ...
     def __deepcopy__(self, memo: Optional[Dict[str, Any]]) -> Provider: ...

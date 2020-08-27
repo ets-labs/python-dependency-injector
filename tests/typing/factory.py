@@ -1,6 +1,6 @@
 from typing import Tuple, Any, Dict
 
-from dependency_injector import providers
+from dependency_injector import providers, types
 
 
 class Animal:
@@ -62,3 +62,7 @@ provider9 = providers.FactoryAggregate(
 factory_a_9: providers.Factory = provider9.a
 factory_b_9: providers.Factory = provider9.b
 val9: Any = provider9('a')
+
+# Test 10: to check the explicit typing
+factory10: types.Provider[Animal] = providers.Factory(Cat)
+animal10: Animal = factory10()
