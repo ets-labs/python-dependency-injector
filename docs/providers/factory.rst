@@ -1,39 +1,29 @@
-Factory providers
------------------
+Factory provider
+----------------
 
 .. currentmodule:: dependency_injector.providers
 
-:py:class:`Factory` provider creates new instance of specified class on every 
-call.
-
-Nothing could be better than brief example:
-
-.. image:: /images/providers/factory.png
-    :width: 80%
-    :align: center
+:py:class:`Factory` provider creates new objects.
 
 .. literalinclude:: ../../examples/providers/factory.py
    :language: python
+   :lines: 3-
 
-Factory providers and __init__ injections
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The first argument of the ``Factory`` provider is a class, a factory function or a method
+that creates an object.
 
-:py:class:`Factory` takes a various number of positional and keyword arguments 
-that are used as ``__init__()`` injections. Every time, when 
-:py:class:`Factory` creates new one instance, positional and keyword 
-argument injections would be passed as instance arguments.
+The rest of the ``Factory`` positional and keyword arguments are the dependencies.
+``Factory`` injects the dependencies every time when creates a new object.
 
-Injections are done according to the next rules:
+Before injecting the dependencies ``Factory`` prepare them using the following rules:
 
-+ All providers (instances of :py:class:`Provider`) are called every time 
-  when injection needs to be done.
-+ Providers could be injected "as is" (delegated), if it is defined obviously.
-  Check out :ref:`factory_providers_delegation`.
-+ All other injectable values are provided *"as is"*.
-+ Positional context arguments will be appended after :py:class:`Factory` 
-  positional injections.
-+ Keyword context arguments have priority on :py:class:`Factory` keyword 
-  injections and will be merged over them.
++ If the injection is a provider, it is called and the result of the call is injected.
++ If you need to inject the provider itself, you should use the ``.provider`` attribute. More at
+  :ref:`factory_providers_delegation`.
++ All other dependencies are injected *"as is"*.
++ Positional context arguments are appended after ``Factory`` positional dependencies.
++ Keyword context arguments have the priority over the ``Factory`` keyword dependencies with the same
+  name.
 
 For example, if injectable value of injection is a :py:class:`Factory`, it 
 will provide new one instance (as a result of its call) every time, when 
