@@ -13,17 +13,16 @@ The first argument of the ``Factory`` provider is a class, a factory function or
 that creates an object.
 
 The rest of the ``Factory`` positional and keyword arguments are the dependencies.
-``Factory`` injects the dependencies every time when creates a new object.
+``Factory`` injects the dependencies every time when creates a new object. The dependencies are
+injected following these rules:
 
-Before injecting the dependencies ``Factory`` prepare them using the following rules:
-
-+ If the injection is a provider, it is called and the result of the call is injected.
++ If the dependency is a provider, this provider is called and the result of the call is injected.
 + If you need to inject the provider itself, you should use the ``.provider`` attribute. More at
   :ref:`factory_providers_delegation`.
 + All other dependencies are injected *"as is"*.
 + Positional context arguments are appended after ``Factory`` positional dependencies.
-+ Keyword context arguments have the priority over the ``Factory`` keyword dependencies with the same
-  name.
++ Keyword context arguments have the priority over the ``Factory`` keyword dependencies with the
+  same name.
 
 For example, if injectable value of injection is a :py:class:`Factory`, it 
 will provide new one instance (as a result of its call) every time, when 
