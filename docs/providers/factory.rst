@@ -30,8 +30,10 @@ injected following these rules:
    :language: python
    :lines: 3-
 
-Factory providers and building complex object graphs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Passing dependencies to the underlying providers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. image:: images/factory_init_injections_underlying.png
 
 You can use :py:class:`Factory` provider to build complex object graphs.
 
