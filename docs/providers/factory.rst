@@ -24,18 +24,11 @@ injected following these rules:
 + Keyword context arguments have the priority over the ``Factory`` keyword dependencies with the
   same name.
 
-For example, if injectable value of injection is a :py:class:`Factory`, it 
-will provide new one instance (as a result of its call) every time, when 
-injection needs to be done.
-
-Example below is a little bit more complicated. It shows how to create 
-:py:class:`Factory` of particular class with ``__init__()`` injections which 
-injectable values are also provided by another factories:
-
-.. image:: /images/providers/factory_init_injections.png
+.. image:: images/factory_init_injections.png
 
 .. literalinclude:: ../../examples/providers/factory_init_injections.py
    :language: python
+   :lines: 3-
 
 Factory providers and building complex object graphs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

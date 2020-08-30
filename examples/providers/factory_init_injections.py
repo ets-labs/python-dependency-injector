@@ -1,39 +1,37 @@
 """`Factory` providers init injections example."""
 
-import collections
-
-import dependency_injector.providers as providers
+from dependency_injector import providers
 
 
-CreditCard = collections.namedtuple('CreditCard', [])
-Photo = collections.namedtuple('Photo', [])
-User = collections.namedtuple('User', ['uid', 'main_photo', 'credit_card'])
-
-# User, Photo and CreditCard factories:
-credit_cards_factory = providers.Factory(CreditCard)
-photos_factory = providers.Factory(Photo)
-users_factory = providers.Factory(User,
-                                  main_photo=photos_factory,
-                                  credit_card=credit_cards_factory)
-
-# Creating several User objects:
-user1 = users_factory(1)
-# Same as: user1 = User(1,
-#                       main_photo=Photo(),
-#                       credit_card=CreditCard())
-user2 = users_factory(2)
-# Same as: user2 = User(2,
-#                       main_photo=Photo(),
-#                       credit_card=CreditCard())
+class Photo:
+    ...
 
 
-# Context keyword arguments have priority on keyword argument injections:
-main_photo = Photo()
-credit_card = CreditCard()
+class User:
 
-user3 = users_factory(3,
-                      main_photo=main_photo,
-                      credit_card=credit_card)
-# Same as: user3 = User(3,
-#                       main_photo=main_photo,
-#                       credit_card=credit_card)
+    def __init__(self, uid: int, main_photo: Photo):
+        self.uid = uid
+        self.main_photo = main_photo
+
+
+photo_factory = providers.Factory(Photo)
+user_factory = providers.Factory(
+    User,
+    main_photo=photo_factory,
+)
+
+
+if __name__ == '__main__':
+    user1 = user_factory(1)
+    # Same as: # user1 = User(1, main_photo=Photo())
+
+    user2 = user_factory(2)
+    # Same as: # user2 = User(2, main_photo=Photo())
+
+    # Context keyword arguments have a priority:
+    another_photo = Photo()
+    user3 = user_factory(
+        uid=3,
+        main_photo=another_photo,
+    )
+    # Same as: # user3 = User(uid=3, main_photo=another_photo)
