@@ -8,8 +8,7 @@ class Photo:
 
 
 class User:
-
-    def __init__(self, uid: int, main_photo: Photo):
+    def __init__(self, uid: int, main_photo: Photo) -> None:
         self.uid = uid
         self.main_photo = main_photo
 

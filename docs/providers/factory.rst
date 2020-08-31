@@ -77,48 +77,20 @@ If ``<dependency>`` is found the underlying provider will receive the
 
 .. _factory_providers_delegation:
 
-Factory providers delegation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Passing providers to the objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:py:class:`Factory` provider could be delegated to any other provider via any 
-kind of injection. 
+When you need to inject the provider itself, but not the result of its call, use the ``.provider``
+attribute of the provider that you're going to inject.
 
-As it was mentioned earlier, if :py:class:`Factory` is 
-injectable value, it will be called every time when injection needs to be 
-done. But sometimes there is a need to inject :py:class:`Factory` provider 
-itself (not a result of its call) as a dependency. Such injections are called 
-- *delegated provider injections*.
-  
-Saying in other words, delegation of factories - is a way to inject factories 
-themselves, instead of results of their calls. 
-
-:py:class:`Factory` delegation is performed by wrapping delegated 
-:py:class:`Factory` into special provider type - :py:class:`Delegate`, that 
-just returns wrapped :py:class:`Factory`. 
-
-Actually, there are three ways for creating factory delegates:
-
-+ ``DelegatedFactory(...)`` - use special type of factory - 
-  :py:class:`DelegatedFactory`. Such factories are always injected as 
-  delegates ("as is"). 
-+ ``Delegate(Factory(...))`` - obviously wrapping factory into 
-  :py:class:`Delegate` provider.
-+ ``Factory(...).delegate()`` - calling factory :py:meth:`Factory.delegate` 
-  method, that returns delegate wrapper for current factory.
-+ ``Factory(...).provider`` - getting factory :py:attr:`Factory.provider` 
-  attribute, that returns delegate wrapper for current factory (alias of 
-  ``Factory(...).delegate()`` method).
-
-Example:
-
-.. image:: /images/providers/factory_delegation.png
-    :width: 85%
-    :align: center
+.. image:: images/factory_delegation.png
 
 .. literalinclude:: ../../examples/providers/factory_delegation.py
    :language: python
+   :lines: 3-
+   :emphasize-lines: 25
 
-.. _factory_providers_specialization:
+.. note:: Any provider has a ``.provider`` attribute.
 
 Factory providers specialization
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
