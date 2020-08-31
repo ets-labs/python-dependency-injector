@@ -92,17 +92,17 @@ attribute of the provider that you're going to inject.
 
 .. note:: Any provider has a ``.provider`` attribute.
 
-Factory providers specialization
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Specializing the provided type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:py:class:`Factory` provider could be specialized for any kind of needs via 
-creating its subclasses. 
-
-One of such specialization features is a limitation to :py:class:`Factory` 
-provided type:
+You can create a specialized ``Factory`` provider that provides only specific type. For doing
+this you need to create a subclass of the ``Factory`` provider and define the ``provided_type``
+class attribute.
 
 .. literalinclude:: ../../examples/providers/factory_provided_type.py
    :language: python
+   :lines: 3-
+   :emphasize-lines: 12-14
 
 .. _abstract_factory_providers:
 
