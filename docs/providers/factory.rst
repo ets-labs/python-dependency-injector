@@ -104,44 +104,24 @@ class attribute.
    :lines: 3-
    :emphasize-lines: 12-14
 
-.. _abstract_factory_providers:
+Abstract factory
+~~~~~~~~~~~~~~~~
 
-Abstract factory providers
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+:py:class:`AbstractFactory` provider helps when you need to create a provider of some base class
+and the particular implementation is not yet know. ``AbstractFactory`` provider is a ``Factory``
+provider with two peculiarities:
 
-:py:class:`AbstractFactory` provider is a :py:class:`Factory` provider that
-must be explicitly overridden before calling.
++ Provides only objects of a specified type.
++ Must be overridden before usage.
 
-.. note::
-
-    Overriding of :py:class:`AbstractFactory` provider is possible only by
-    another :py:class:`Factory` provider.
-
-:py:class:`AbstractFactory` provider is useful when it is needed to specify
-explicitly that it only provides abstraction, but not an implementation.
-Client code must override such factories with factories that provide particular
-implementations. Otherwise, :py:class:`AbstractFactory` will raise an error
-on attempt of calling it. At the same time, :py:class:`AbstractFactory` is
-regular provider that could be injected into other providers (or used for
-any other kind of bindings) without being overridden. After
-:py:class:`AbstractFactory` provider has been overridden, its behaviour is
-identical to regular :py:class:`Factory` provider.
-
-Example:
-
-.. image:: /images/providers/abstract_factory.png
+.. image:: images/abstract_factory.png
     :width: 100%
     :align: center
 
-Listing of ``cache.py``:
-
-.. literalinclude:: ../../examples/providers/abstract_factory/cache.py
+.. literalinclude:: ../../examples/providers/abstract_factory.py
    :language: python
-
-Listing of ``example.py``:
-
-.. literalinclude:: ../../examples/providers/abstract_factory/example.py
-   :language: python
+   :lines: 3-
+   :emphasize-lines: 32
 
 Factory aggregate providers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
