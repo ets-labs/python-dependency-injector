@@ -4,22 +4,22 @@ from dependency_injector import providers
 
 
 class Regularizer:
-    def __init__(self, alpha):
+    def __init__(self, alpha: float):
         self.alpha = alpha
 
 
 class Loss:
-    def __init__(self, regularizer):
+    def __init__(self, regularizer: Regularizer):
         self.regularizer = regularizer
 
 
 class ClassificationTask:
-    def __init__(self, loss):
+    def __init__(self, loss: Loss):
         self.loss = loss
 
 
 class Algorithm:
-    def __init__(self, task):
+    def __init__(self, task: ClassificationTask):
         self.task = task
 
 

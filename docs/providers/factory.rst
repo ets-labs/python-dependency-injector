@@ -30,22 +30,50 @@ injected following these rules:
    :language: python
    :lines: 3-
 
-Passing dependencies to the underlying providers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Passing arguments to the underlying providers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``Factory`` provider can pass the arguments to the underlying providers. This helps when you need
+to assemble a nested objects graph and pass the arguments deep inside.
+
+Consider the example:
 
 .. image:: images/factory_init_injections_underlying.png
 
-You can use :py:class:`Factory` provider to build complex object graphs.
+To create an ``Algorithm`` you need to provide all the dependencies: ``ClassificationTask``,
+``Loss``, and ``Regularizer``. The last object in the chain, the ``Regularizer`` has a dependency
+on the ``alpha`` value. The ``alpha`` value varies from algorithm to algorithm:
 
-Consider next example:
+.. code-block:: python
 
-.. literalinclude:: ../../examples/providers/factory_deep_init_injections.py
+   Algorithm(
+       task=ClassificationTask(
+           loss=Loss(
+               regularizer=Regularizer(
+                   alpha=alpha,  # <-- the dependency
+               ),
+           ),
+       ),
+   )
+
+
+``Factory`` provider helps to deal with the such assembly. You need to create the factories for
+all the classes and use special double-underscore ``__`` syntax for passing the ``alpha`` argument:
+
+.. literalinclude:: ../../examples/providers/factory_init_injections_underlying.py
    :language: python
+   :lines: 3-
+   :emphasize-lines: 24-35,39,42,45
 
-.. note::
+When you use ``__`` separator in the name of the keyword argument the ``Factory`` looks for
+the dependency with the same name as the left part of the ``__`` expression.
 
-   You can use ``__`` separator in the name of the keyword argument to pass the value to the child
-   factory, e.g. ``algorithm_factory(task__loss__regularizer__alpha=0.5)``.
+.. code-block::
+
+   <dependency>__<keyword for the underlying provider>=<value>
+
+If ``<dependency>`` is found the underlying provider will receive the
+``<keyword for the underlying provider>=<value>`` as an argument.
 
 .. _factory_providers_delegation:
 
