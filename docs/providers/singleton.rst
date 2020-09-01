@@ -1,111 +1,100 @@
-Singleton providers
--------------------
+Singleton provider
+------------------
+
+.. meta::
+   :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Singleton,Pattern,Example,
+              Threads,Multithreading,Scoped
+   :description: Singleton provider helps to provide a single object. This page
+                 demonstrates how to use a Singleton provider. It also provides the example
+                 of using a singleton and thread locals singleton in the multi-threaded
+                 environment.
 
 .. currentmodule:: dependency_injector.providers
 
-:py:class:`Singleton` provider creates new instance of specified class on 
-first call and returns same instance on every next call.
-
-Example:
-
-.. image:: /images/providers/singleton.png
-    :width: 80%
-    :align: center
+:py:class:`Singleton` provider provides single object. It memorizes the first created object and
+returns it on the rest of the calls.
 
 .. literalinclude:: ../../examples/providers/singleton.py
    :language: python
+   :lines: 3-
 
-Singleton providers resetting
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Created and memorized by :py:class:`Singleton` instance can be reset. Reset of
-:py:class:`Singleton`'s memorized instance is done by clearing reference to 
-it. Further lifecycle of memorized instance is out of :py:class:`Singleton` 
-provider's control and depends on garbage collection strategy.
-
-Example:
-
-.. literalinclude:: ../../examples/providers/singleton_resetting.py
-   :language: python
-
-Singleton providers and injections
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-:py:class:`Singleton` provider has same interface as :py:class:`Factory` 
-provider, so, all of the rules about injections are the same, as for 
-:py:class:`Factory` provider.
+``Singleton`` provider handles an injection of the dependencies the same way like a
+:ref:`factory-provider`.
 
 .. note::
 
-    Due that :py:class:`Singleton` provider creates specified class instance 
-    only on the first call, all injections are done once, during the first 
-    call. Every next call, while instance has been already created 
-    and memorized, no injections are done, :py:class:`Singleton` provider just 
-    returns memorized earlier instance.
+   ``Singleton`` provider does dependencies injection only when creates the object. When the object
+   is created and memorized ``Singleton`` provider just returns it without applying the injections.
 
-    This may cause some problems, for example, in case of trying to bind
-    :py:class:`Factory` provider with :py:class:`Singleton` provider (provided 
-    by dependent :py:class:`Factory` instance will be injected only once, 
-    during the first call). Be aware that such behaviour was made with opened 
-    eyes and is not a bug.
+Specialization of the provided type and abstract singletons work the same like like for the
+factories:
 
-    By the way, in such case, :py:class:`Delegate` or 
-    :py:class:`DelegatedSingleton` provider can be useful 
-    . It makes possible to inject providers *as is*. Please check out 
-    `Singleton providers delegation`_ section.
+- :ref:`factory-specialize-provided-type`
+- :ref:`abstract-factory`
 
-Singleton providers delegation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Resetting memorized object
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:py:class:`Singleton` provider could be delegated to any other provider via 
-any kind of injection. 
+To reset a memorized object you need to call the ``.reset()`` method of the ``Singleton``
+provider.
 
-Delegation of :py:class:`Singleton` providers is the same as 
-:py:class:`Factory` providers delegation, please follow 
-:ref:`factory_providers_delegation` section for examples (with exception 
-of using :py:class:`DelegatedSingleton` instead of
-:py:class:`DelegatedFactory`).
+.. literalinclude:: ../../examples/providers/singleton_resetting.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 14
 
-Singleton providers specialization
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. note::
+   Resetting of the memorized object clears the reference to it. Further object's lifecycle is
+   managed by the garbage collector.
 
-:py:class:`Singleton` provider could be specialized for any kind of needs via 
-declaring its subclasses. 
+Using singleton with multiple threads
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Specialization of :py:class:`Singleton` providers is the same as 
-:py:class:`Factory` providers specialization, please follow 
-:ref:`factory_providers_specialization` section for examples.
+``Singleton`` provider is NOT thread-safe. You need to explicitly establish a synchronization for
+using the ``Singleton`` provider in the multi-threading application. Otherwise you could trap
+into the race condition problem: ``Singleton`` will create multiple objects.
 
-Abstract singleton providers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There are two thread-safe singleton implementations out of the box:
 
-:py:class:`AbstractSingleton` provider is a :py:class:`Singleton` provider that
-must be explicitly overridden before calling.
-
-Behaviour of :py:class:`AbstractSingleton` providers is the same as of
-:py:class:`AbstractFactory`, please follow :ref:`abstract_factory_providers`
-section for examples (with exception of using :py:class:`AbstractSingleton`
-provider instead of :py:class:`AbstractFactory`).
-
-Singleton providers and multi-threading
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-:py:class:`Singleton` provider is NOT thread-safe and should be used in  
-multi-threading applications with manually controlled locking.
-
-:py:class:`ThreadSafeSingleton` is a thread-safe version of 
-:py:class:`Singleton` and could be used in multi-threading applications 
-without any additional locking.
-
-Also there could be a need to use thread-scoped singletons and there is a 
-special provider for such case - :py:class:`ThreadLocalSingleton`.
-:py:class:`ThreadLocalSingleton` provider creates instance once for each 
-thread and returns it on every call.
-
-Example:
++ :py:class:`ThreadSafeSingleton` - is a thread-safe version of a ``Singleton`` provider. You can use
+  in multi-threading applications without additional synchronization.
++ :py:class:`ThreadLocalSingleton` - is a singleton provider that uses thread-locals as a storage.
+  This type of singleton will manage multiple objects - the one object for the one thread.
 
 .. literalinclude:: ../../examples/providers/singleton_thread_locals.py
    :language: python
+   :lines: 3-
+   :emphasize-lines: 11,12
 
+Implementing scopes
+~~~~~~~~~~~~~~~~~~~
+
+To implement a scoped singleton provider use a ``Singleton`` provider and reset its scope when
+needed.
+
+.. literalinclude:: ../../examples/providers/singleton_scoped.py
+   :language: python
+   :lines: 3-
+
+The output should look like this (each request a ``Service`` object has a different address):
+
+.. code-block::
+
+    * Serving Flask app "singleton_scoped" (lazy loading)
+    * Environment: production
+      WARNING: This is a development server. Do not use it in a production deployment.
+      Use a production WSGI server instead.
+    * Debug mode: off
+    * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+   <__main__.Service object at 0x1099a9d90>
+   127.0.0.1 - - [25/Aug/2020 17:33:11] "GET / HTTP/1.1" 200 -
+   <__main__.Service object at 0x1099a9cd0>
+   127.0.0.1 - - [25/Aug/2020 17:33:17] "GET / HTTP/1.1" 200 -
+   <__main__.Service object at 0x1099a9d00>
+   127.0.0.1 - - [25/Aug/2020 17:33:18] "GET / HTTP/1.1" 200 -
+   <__main__.Service object at 0x1099a9e50>
+   127.0.0.1 - - [25/Aug/2020 17:33:18] "GET / HTTP/1.1" 200 -
+   <__main__.Service object at 0x1099a9d90>
+   127.0.0.1 - - [25/Aug/2020 17:33:18] "GET / HTTP/1.1" 200 -
 
 .. disqus::

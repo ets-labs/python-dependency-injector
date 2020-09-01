@@ -1,27 +1,19 @@
-"""`Singleton` providers resetting example."""
+"""`Singleton` provider resetting example."""
 
-import collections
-
-import dependency_injector.providers as providers
+from dependency_injector import providers
 
 
-UsersService = collections.namedtuple('UsersService', [])
+class UserService:
+    ...
 
-# Users service singleton provider:
-users_service_provider = providers.Singleton(UsersService)
 
-# Retrieving several UsersService objects:
-users_service1 = users_service_provider()
-users_service2 = users_service_provider()
+user_service_provider = providers.Singleton(UserService)
 
-# Making some asserts:
-assert users_service1 is users_service2
 
-# Resetting of memorized instance:
-users_service_provider.reset()
+if __name__ == '__main__':
+    user_service1 = user_service_provider()
 
-# Retrieving one more UserService object:
-users_service3 = users_service_provider()
+    user_service_provider.reset()
 
-# Making some asserts:
-assert users_service3 is not users_service1
+    users_service2 = user_service_provider()
+    assert users_service2 is not user_service1
