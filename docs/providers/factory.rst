@@ -1,6 +1,14 @@
 Factory provider
 ----------------
 
+.. meta::
+   :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Factory,Abstract Factory,
+              Pattern,Example,Aggregate
+   :description: Factory provider helps to implement dependency injection in Python. This page
+                 demonstrates how to use Factory provider, inject the dependencies, and assemble
+                 object graphs passing the injections deep inside. It also provides the examples
+                 of the Abstract Factory pattern & provider and Factories Aggregation pattern.
+
 .. currentmodule:: dependency_injector.providers
 
 :py:class:`Factory` provider creates new objects.
