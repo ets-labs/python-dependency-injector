@@ -3,29 +3,31 @@
 Selector providers
 ------------------
 
+.. meta::
+   :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Configuration,Injection,
+              Selector,Polymorphism,Environment Variable,Flexibility
+   :description: Selector selects provider based on a configuration value or another callable.
+                 This page demonstrates how to implement the polymorphism and increase the
+                 flexibility of your application using the Selector provider.
+
 .. currentmodule:: dependency_injector.providers
 
-:py:class:`Selector` provider selects provider based on the configuration value or other callable.
+:py:class:`Selector` provider selects provider based on a configuration value or another callable.
 
 .. literalinclude:: ../../examples/providers/selector.py
    :language: python
-   :emphasize-lines: 6-10
-   :lines: 3-5,14-20
-
-:py:class:`Selector` provider has a callable called ``selector`` and a dictionary of providers.
-
-The ``selector`` callable is provided as a first positional argument. It can be
-:py:class:`Configuration` provider or any other callable. It has to return a string value.
-This value is used as a key for selecting the provider from the dictionary of providers.
-
-The providers are provided as keyword arguments. Argument name is used as a key for
-selecting the provider.
-
-Full example:
-
-.. literalinclude:: ../../examples/providers/selector.py
-   :language: python
-   :emphasize-lines: 14-18
    :lines: 3-
+   :emphasize-lines: 14-18
+
+The first argument of the ``Selector`` provider is called ``selector``. It can be an option of
+a ``Configuration`` provider or any other callable. The ``selector`` callable has to return a
+string value. This value is used as a key for selecting the provider.
+
+The providers are provided as keyword arguments. Argument name is used as a key for selecting the
+provider.
+
+When a ``Selector`` provider is called, it gets a ``selector`` value and delegates the work to
+the provider with a matching name. The ``selector`` callable works as a switch: when the returned
+value is changed the ``Selector`` provider will delegate the work to another provider.
 
 .. disqus::
