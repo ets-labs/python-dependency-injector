@@ -10,7 +10,7 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Update documentation and rework examples for: ``Singleton``, ``Callable``, ``Coroutine``,
-  ``Object`` providers.
+  ``Object``, ``List`` providers.
 
 3.34.0
 ------
