@@ -12,7 +12,7 @@ There are several use cases how you can use containers:
   container ``Users``, that contains all functional parts of the ``users``
   package).
 
-Containers package API docs - :py:mod:`dependency_injector.containers`.
+Containers module API docs - :py:mod:`dependency_injector.containers`.
 
 ..  toctree::
     :maxdepth: 2

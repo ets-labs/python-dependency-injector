@@ -1,15 +1,15 @@
 """`Factory` providers example."""
 
-import collections
-
-import dependency_injector.providers as providers
+from dependency_injector import providers
 
 
-User = collections.namedtuple('User', [])
+class User:
+    ...
 
-# Factory provider creates new instance of specified class on every call.
+
 users_factory = providers.Factory(User)
 
-# Creating several User objects:
-user1 = users_factory()  # Same as: user1 = User()
-user2 = users_factory()  # Same as: user2 = User()
+
+if __name__ == '__main__':
+    user1 = users_factory()
+    user2 = users_factory()

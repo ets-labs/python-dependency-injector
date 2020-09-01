@@ -1,193 +1,167 @@
-Factory providers
------------------
+Factory provider
+----------------
+
+.. meta::
+   :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Factory,Abstract Factory,
+              Pattern,Example,Aggregate
+   :description: Factory provider helps to implement dependency injection in Python. This page
+                 demonstrates how to use Factory provider, inject the dependencies, and assemble
+                 object graphs passing the injections deep inside. It also provides the examples
+                 of the Abstract Factory pattern & provider and Factories Aggregation pattern.
 
 .. currentmodule:: dependency_injector.providers
 
-:py:class:`Factory` provider creates new instance of specified class on every 
-call.
-
-Nothing could be better than brief example:
-
-.. image:: /images/providers/factory.png
-    :width: 80%
-    :align: center
+:py:class:`Factory` provider creates new objects.
 
 .. literalinclude:: ../../examples/providers/factory.py
    :language: python
+   :lines: 3-
 
-Factory providers and __init__ injections
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The first argument of the ``Factory`` provider is a class, a factory function or a method
+that creates an object.
 
-:py:class:`Factory` takes a various number of positional and keyword arguments 
-that are used as ``__init__()`` injections. Every time, when 
-:py:class:`Factory` creates new one instance, positional and keyword 
-argument injections would be passed as instance arguments.
+The rest of the ``Factory`` positional and keyword arguments are the dependencies.
+``Factory`` injects the dependencies every time when creates a new object. The dependencies are
+injected following these rules:
 
-Injections are done according to the next rules:
++ If the dependency is a provider, this provider is called and the result of the call is injected.
++ If you need to inject the provider itself, you should use the ``.provider`` attribute. More at
+  :ref:`factory_providers_delegation`.
++ All other dependencies are injected *"as is"*.
++ Positional context arguments are appended after ``Factory`` positional dependencies.
++ Keyword context arguments have the priority over the ``Factory`` keyword dependencies with the
+  same name.
 
-+ All providers (instances of :py:class:`Provider`) are called every time 
-  when injection needs to be done.
-+ Providers could be injected "as is" (delegated), if it is defined obviously.
-  Check out :ref:`factory_providers_delegation`.
-+ All other injectable values are provided *"as is"*.
-+ Positional context arguments will be appended after :py:class:`Factory` 
-  positional injections.
-+ Keyword context arguments have priority on :py:class:`Factory` keyword 
-  injections and will be merged over them.
-
-For example, if injectable value of injection is a :py:class:`Factory`, it 
-will provide new one instance (as a result of its call) every time, when 
-injection needs to be done.
-
-Example below is a little bit more complicated. It shows how to create 
-:py:class:`Factory` of particular class with ``__init__()`` injections which 
-injectable values are also provided by another factories:
-
-.. image:: /images/providers/factory_init_injections.png
+.. image:: images/factory_init_injections.png
 
 .. literalinclude:: ../../examples/providers/factory_init_injections.py
    :language: python
+   :lines: 3-
 
-Factory providers and building complex object graphs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Passing arguments to the underlying providers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can use :py:class:`Factory` provider to build complex object graphs.
+``Factory`` provider can pass the arguments to the underlying providers. This helps when you need
+to assemble a nested objects graph and pass the arguments deep inside.
 
-Consider next example:
+Consider the example:
 
-.. literalinclude:: ../../examples/providers/factory_deep_init_injections.py
+.. image:: images/factory_init_injections_underlying.png
+
+To create an ``Algorithm`` you need to provide all the dependencies: ``ClassificationTask``,
+``Loss``, and ``Regularizer``. The last object in the chain, the ``Regularizer`` has a dependency
+on the ``alpha`` value. The ``alpha`` value varies from algorithm to algorithm:
+
+.. code-block:: python
+
+   Algorithm(
+       task=ClassificationTask(
+           loss=Loss(
+               regularizer=Regularizer(
+                   alpha=alpha,  # <-- the dependency
+               ),
+           ),
+       ),
+   )
+
+
+``Factory`` provider helps to deal with the such assembly. You need to create the factories for
+all the classes and use special double-underscore ``__`` syntax for passing the ``alpha`` argument:
+
+.. literalinclude:: ../../examples/providers/factory_init_injections_underlying.py
    :language: python
+   :lines: 3-
+   :emphasize-lines: 24-35,39,42,45
 
-.. note::
+When you use ``__`` separator in the name of the keyword argument the ``Factory`` looks for
+the dependency with the same name as the left part of the ``__`` expression.
 
-   You can use ``__`` separator in the name of the keyword argument to pass the value to the child
-   factory, e.g. ``algorithm_factory(task__loss__regularizer__alpha=0.5)``.
+.. code-block::
+
+   <dependency>__<keyword for the underlying provider>=<value>
+
+If ``<dependency>`` is found the underlying provider will receive the
+``<keyword for the underlying provider>=<value>`` as an argument.
 
 .. _factory_providers_delegation:
 
-Factory providers delegation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Passing providers to the objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:py:class:`Factory` provider could be delegated to any other provider via any 
-kind of injection. 
+When you need to inject the provider itself, but not the result of its call, use the ``.provider``
+attribute of the provider that you're going to inject.
 
-As it was mentioned earlier, if :py:class:`Factory` is 
-injectable value, it will be called every time when injection needs to be 
-done. But sometimes there is a need to inject :py:class:`Factory` provider 
-itself (not a result of its call) as a dependency. Such injections are called 
-- *delegated provider injections*.
-  
-Saying in other words, delegation of factories - is a way to inject factories 
-themselves, instead of results of their calls. 
-
-:py:class:`Factory` delegation is performed by wrapping delegated 
-:py:class:`Factory` into special provider type - :py:class:`Delegate`, that 
-just returns wrapped :py:class:`Factory`. 
-
-Actually, there are three ways for creating factory delegates:
-
-+ ``DelegatedFactory(...)`` - use special type of factory - 
-  :py:class:`DelegatedFactory`. Such factories are always injected as 
-  delegates ("as is"). 
-+ ``Delegate(Factory(...))`` - obviously wrapping factory into 
-  :py:class:`Delegate` provider.
-+ ``Factory(...).delegate()`` - calling factory :py:meth:`Factory.delegate` 
-  method, that returns delegate wrapper for current factory.
-+ ``Factory(...).provider`` - getting factory :py:attr:`Factory.provider` 
-  attribute, that returns delegate wrapper for current factory (alias of 
-  ``Factory(...).delegate()`` method).
-
-Example:
-
-.. image:: /images/providers/factory_delegation.png
-    :width: 85%
-    :align: center
+.. image:: images/factory_delegation.png
 
 .. literalinclude:: ../../examples/providers/factory_delegation.py
    :language: python
+   :lines: 3-
+   :emphasize-lines: 25
 
-.. _factory_providers_specialization:
+.. note:: Any provider has a ``.provider`` attribute.
 
-Factory providers specialization
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Specializing the provided type
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:py:class:`Factory` provider could be specialized for any kind of needs via 
-creating its subclasses. 
-
-One of such specialization features is a limitation to :py:class:`Factory` 
-provided type:
+You can create a specialized ``Factory`` provider that provides only specific type. For doing
+this you need to create a subclass of the ``Factory`` provider and define the ``provided_type``
+class attribute.
 
 .. literalinclude:: ../../examples/providers/factory_provided_type.py
    :language: python
+   :lines: 3-
+   :emphasize-lines: 12-14
 
-.. _abstract_factory_providers:
+Abstract factory
+~~~~~~~~~~~~~~~~
 
-Abstract factory providers
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+:py:class:`AbstractFactory` provider helps when you need to create a provider of some base class
+and the particular implementation is not yet know. ``AbstractFactory`` provider is a ``Factory``
+provider with two peculiarities:
 
-:py:class:`AbstractFactory` provider is a :py:class:`Factory` provider that
-must be explicitly overridden before calling.
++ Provides only objects of a specified type.
++ Must be overridden before usage.
 
-.. note::
-
-    Overriding of :py:class:`AbstractFactory` provider is possible only by
-    another :py:class:`Factory` provider.
-
-:py:class:`AbstractFactory` provider is useful when it is needed to specify
-explicitly that it only provides abstraction, but not an implementation.
-Client code must override such factories with factories that provide particular
-implementations. Otherwise, :py:class:`AbstractFactory` will raise an error
-on attempt of calling it. At the same time, :py:class:`AbstractFactory` is
-regular provider that could be injected into other providers (or used for
-any other kind of bindings) without being overridden. After
-:py:class:`AbstractFactory` provider has been overridden, its behaviour is
-identical to regular :py:class:`Factory` provider.
-
-Example:
-
-.. image:: /images/providers/abstract_factory.png
+.. image:: images/abstract_factory.png
     :width: 100%
     :align: center
 
-Listing of ``cache.py``:
-
-.. literalinclude:: ../../examples/providers/abstract_factory/cache.py
+.. literalinclude:: ../../examples/providers/abstract_factory.py
    :language: python
+   :lines: 3-
+   :emphasize-lines: 32
 
-Listing of ``example.py``:
+Factory aggregate
+~~~~~~~~~~~~~~~~~
 
-.. literalinclude:: ../../examples/providers/abstract_factory/example.py
+:py:class:`FactoryAggregate` provider aggregates multiple factories. When you call the
+``FactoryAggregate`` it delegates the call to one of the factories.
+
+The aggregated factories are associated with the string names. When you call the
+``FactoryAggregate`` you have to provide one of the these names as a first argument.
+``FactoryAggregate`` looks for the factory with a matching name and delegates it the work. The
+rest of the arguments are passed to the delegated ``Factory``.
+
+.. image:: images/factory_aggregate.png
+    :width: 100%
+    :align: center
+
+.. literalinclude:: ../../examples/providers/factory_aggregate.py
    :language: python
+   :lines: 3-
+   :emphasize-lines: 31-35,43
 
-Factory aggregate providers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You can get a dictionary of the aggregated factories using the ``.factories`` attribute of the
+``FactoryAggregate``. To get a game factories dictionary from the previous example you can use
+``game_factory.factories`` attribute.
 
-:py:class:`FactoryAggregate` provider is a special type of provider that 
-aggregates other :py:class:`Factory` providers.
+You can also access an aggregated factory as an attribute. To create the ``Chess`` object from the
+previous example you can do ``chess = game_factory.chess('John', 'Jane')``.
 
 .. note::
+   You can not override the ``FactoryAggregate`` provider.
 
-    :py:class:`FactoryAggregate` is not overridable. Calling of 
-    :py:meth:`FactoryAggregate.override` will result in raising of an 
-    exception.
-
-Next prototype might be the best demonstration of 
-:py:class:`FactoryAggregate` features:
-
-.. literalinclude:: ../../examples/providers/factory_aggregate/prototype.py
-   :language: python
-
-Example below shows one of the :py:class:`FactoryAggregate` use cases, when 
-concrete implementation (game) must be selected based on dynamic input (CLI). 
-
-Listing of ``games.py``:
-
-.. literalinclude:: ../../examples/providers/factory_aggregate/games.py
-   :language: python
-
-Listing of ``example.py``:
-
-.. literalinclude:: ../../examples/providers/factory_aggregate/example.py
-   :language: python
+.. note::
+   When you inject the ``FactoryAggregate`` provider it is passed "as is".
 
 .. disqus::
