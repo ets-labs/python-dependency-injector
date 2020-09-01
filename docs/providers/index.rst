@@ -3,18 +3,32 @@
 Providers
 =========
 
-Providers are strategies of accessing objects. They define how particular 
-objects are provided.
+Providers help to assemble the objects. They create objects and inject the dependencies.
 
-Every provider is callable (implements ``__call__()``). Every call to provider 
-instance returns provided result, according to the providing strategy of 
-particular provider. 
+Each provider is a callable. You call the provider like a function when you need to create an
+object. Provider retrieves the underlying dependencies and inject them into the created object.
+It causes the cascade effect that helps to assemble object graphs.
 
-Current documentation section consists from description of standard providers
-library and some useful information like overriding of providers and writing 
-of custom providers.
+.. code-block:: bash
 
-Providers package API docs - :py:mod:`dependency_injector.providers`
+   provider1()
+   │
+   ├──> provider2()
+   │
+   ├──> provider3()
+   │    │
+   │    └──> provider4()
+   │
+   └──> provider5()
+        │
+        └──> provider6()
+
+Another providers feature is an overriding. Any of the providers can be overridden by another
+provider. When provider is overridden it calls to the overriding provider instead of providing
+the object by its own. This helps in testing. This also helps in overriding API clients with
+stubs for the development or staging environment.
+
+Providers module API docs - :py:mod:`dependency_injector.providers`
 
 ..  toctree::
     :maxdepth: 2

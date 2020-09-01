@@ -1,82 +1,37 @@
 """`Factory` providers delegation example."""
 
-import collections
+from typing import Callable, List
 
-import dependency_injector.providers as providers
-
-
-Photo = collections.namedtuple('Photo', [])
+from dependency_injector import providers
 
 
 class User:
-    """Example user model."""
-
-    def __init__(self, photos_factory):
-        """Initialize instance."""
-        self.photos_factory = photos_factory
-        self._main_photo = None
-
-    @property
-    def main_photo(self):
-        """Return user's main photo."""
-        if not self._main_photo:
-            self._main_photo = self.photos_factory()
-        return self._main_photo
+    def __init__(self, uid: int) -> None:
+        self.uid = uid
 
 
-# Defining User and Photo factories using DelegatedFactory provider:
-photos_factory = providers.DelegatedFactory(Photo)
-users_factory = providers.Factory(
-    User,
-    photos_factory=photos_factory,
-)
+class UserRepository:
+    def __init__(self, user_factory: Callable[..., User]) -> None:
+        self.user_factory = user_factory
 
-# or using Delegate(Factory(...))
+    def get_all(self) -> List[User]:
+        return [
+            self.user_factory(**user_data)
+            for user_data in [{'uid': 1}, {'uid': 2}]
+        ]
 
-photos_factory = providers.Factory(Photo)
-users_factory = providers.Factory(
-    User,
-    photos_factory=providers.Delegate(photos_factory),
+
+user_factory = providers.Factory(User)
+user_repository_factory = providers.Factory(
+    UserRepository,
+    user_factory=user_factory.provider,
 )
 
 
-# or using Factory(...).delegate()
+if __name__ == '__main__':
+    user_repository = user_repository_factory()
 
-photos_factory = providers.Factory(Photo)
-users_factory = providers.Factory(
-    User,
-    photos_factory=photos_factory.delegate(),
-)
+    user1, user2 = user_repository.get_all()
 
-
-# Creating several User objects:
-user1 = users_factory()
-user2 = users_factory()
-
-# Same as:
-# user1 = User(photos_factory=photos_factory)
-# user2 = User(photos_factory=photos_factory)
-
-# Making some asserts:
-assert isinstance(user1.main_photo, Photo)
-assert isinstance(user2.main_photo, Photo)
-
-# or using Factory(...).provider
-
-photos_factory = providers.Factory(Photo)
-users_factory = providers.Factory(
-    User,
-    photos_factory=photos_factory.provider,
-)
-
-# Creating several User objects:
-user1 = users_factory()
-user2 = users_factory()
-
-# Same as:
-# user1 = User(photos_factory=photos_factory)
-# user2 = User(photos_factory=photos_factory)
-
-# Making some asserts:
-assert isinstance(user1.main_photo, Photo)
-assert isinstance(user2.main_photo, Photo)
+    assert user1.uid == 1
+    assert user2.uid == 2
