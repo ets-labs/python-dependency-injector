@@ -1,4 +1,4 @@
-"""`Factory` providers example."""
+"""`Factory` provider example."""
 
 from dependency_injector import providers
 

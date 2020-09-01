@@ -1,19 +1,16 @@
-"""`Singleton` providers example."""
+"""`Singleton` provider example."""
 
-import collections
-
-import dependency_injector.providers as providers
+from dependency_injector import providers
 
 
-UsersService = collections.namedtuple('UsersService', [])
+class UserService:
+    ...
 
-# Singleton provider creates new instance of specified class on first call
-# and returns same instance on every next call.
-users_service_provider = providers.Singleton(UsersService)
 
-# Retrieving several UserService objects:
-users_service1 = users_service_provider()
-users_service2 = users_service_provider()
+user_service_provider = providers.Singleton(UserService)
 
-# Making some asserts:
-assert users_service1 is users_service2
+
+if __name__ == '__main__':
+    user_service1 = user_service_provider()
+    user_service2 = user_service_provider()
+    assert user_service1 is user_service2

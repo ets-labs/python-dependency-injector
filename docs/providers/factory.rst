@@ -1,5 +1,7 @@
+.. _factory-provider:
+
 Factory provider
-----------------
+================
 
 .. meta::
    :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Factory,Abstract Factory,
@@ -100,6 +102,8 @@ attribute of the provider that you're going to inject.
 
 .. note:: Any provider has a ``.provider`` attribute.
 
+.. _factory-specialize-provided-type:
+
 Specializing the provided type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -111,6 +115,8 @@ class attribute.
    :language: python
    :lines: 3-
    :emphasize-lines: 12-14
+
+.. _abstract-factory:
 
 Abstract factory
 ~~~~~~~~~~~~~~~~
