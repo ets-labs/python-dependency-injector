@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Update ``Singleton`` provider documentation.
+- Rework ``Singleton`` provider examples.
+
 3.34.0
 ------
 - Update ``Factory`` provider documentation.
