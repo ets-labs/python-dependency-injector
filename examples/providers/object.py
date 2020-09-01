@@ -1,10 +1,10 @@
-"""Object providers example."""
+"""`Object` provider example."""
 
-import dependency_injector.providers as providers
+from dependency_injector import providers
 
 
-# Creating object provider:
 object_provider = providers.Object(1)
 
-# Making some asserts:
-assert object_provider() == 1
+
+if __name__ == '__main__':
+    assert object_provider() == 1

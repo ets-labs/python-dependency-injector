@@ -9,9 +9,8 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- Update ``Singleton`` provider documentation and rework examples.
-- Update ``Callable`` provider documentation and rework examples.
-- Update ``Coroutine`` provider documentation and rework examples.
+- Update documentation and rework examples for: ``Singleton``, ``Callable``, ``Coroutine``,
+  ``Object`` providers.
 
 3.34.0
 ------
