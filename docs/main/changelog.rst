@@ -11,6 +11,7 @@ Development version
 -------------------
 - Update ``Singleton`` provider documentation and rework examples.
 - Update ``Callable`` provider documentation and rework examples.
+- Update ``Coroutine`` provider documentation and rework examples.
 
 3.34.0
 ------
