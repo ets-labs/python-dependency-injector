@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.34.0
+------
+- Update ``Factory`` provider documentation.
+- Rework ``Factory`` provider examples.
+
 3.33.0
 ------
 - Add typing stubs.
