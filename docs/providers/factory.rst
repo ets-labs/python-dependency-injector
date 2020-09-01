@@ -123,35 +123,37 @@ provider with two peculiarities:
    :lines: 3-
    :emphasize-lines: 32
 
-Factory aggregate providers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Factory aggregate
+~~~~~~~~~~~~~~~~~
 
-:py:class:`FactoryAggregate` provider is a special type of provider that 
-aggregates other :py:class:`Factory` providers.
+:py:class:`FactoryAggregate` provider aggregates multiple factories. When you call the
+``FactoryAggregate`` it delegates the call to one of the factories.
+
+The aggregated factories are associated with the string names. When you call the
+``FactoryAggregate`` you have to provide one of the these names as a first argument.
+``FactoryAggregate`` looks for the factory with a matching name and delegates it the work. The
+rest of the arguments are passed to the delegated ``Factory``.
+
+.. image:: images/factory_aggregate.png
+    :width: 100%
+    :align: center
+
+.. literalinclude:: ../../examples/providers/factory_aggregate.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 31-35,43
+
+You can get a dictionary of the aggregated factories using the ``.factories`` attribute of the
+``FactoryAggregate``. To get a game factories dictionary from the previous example you can use
+``game_factory.factories`` attribute.
+
+You can also access an aggregated factory as an attribute. To create the ``Chess`` object from the
+previous example you can do ``chess = game_factory.chess('John', 'Jane')``.
 
 .. note::
+   You can not override the ``FactoryAggregate`` provider.
 
-    :py:class:`FactoryAggregate` is not overridable. Calling of 
-    :py:meth:`FactoryAggregate.override` will result in raising of an 
-    exception.
-
-Next prototype might be the best demonstration of 
-:py:class:`FactoryAggregate` features:
-
-.. literalinclude:: ../../examples/providers/factory_aggregate/prototype.py
-   :language: python
-
-Example below shows one of the :py:class:`FactoryAggregate` use cases, when 
-concrete implementation (game) must be selected based on dynamic input (CLI). 
-
-Listing of ``games.py``:
-
-.. literalinclude:: ../../examples/providers/factory_aggregate/games.py
-   :language: python
-
-Listing of ``example.py``:
-
-.. literalinclude:: ../../examples/providers/factory_aggregate/example.py
-   :language: python
+.. note::
+   When you inject the ``FactoryAggregate`` provider it is passed "as is".
 
 .. disqus::
