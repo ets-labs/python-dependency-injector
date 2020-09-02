@@ -1,43 +1,21 @@
-Dependency providers
---------------------
+Dependency provider
+-------------------
 
 .. currentmodule:: dependency_injector.providers
 
-:py:class:`Dependency` provider can be useful for development of
-self-sufficient libraries / modules / applications that have required external
-dependencies.
+:py:class:`Dependency` provider is a placeholder for the dependency of the specified type.
 
-For example, you have created self-sufficient library / module / application,
-that has dependency on *database connection*.
+The first argument of the ``Dependency`` provider specifies a type of the dependency. It is
+called ``instance_of``. ``Dependency`` provider controls the type of the returned object to be an
+instance of the ``instance_of`` type.
 
-Second step you want to do is to make this software component to be easy
-reusable by wide amount of developers and to be easily integrated into many
-applications.
-
-It may be good idea, to move all external dependencies (like
-*database connection*) to the top level and make them to be injected on your
-software component's initialization. It will make third party developers feel
-themselves free about integration of your component in their applications,
-because they would be able to find right place / right way for doing this
-in their application's architectures.
-
-At the same time, you can be sure, that your external dependency will be
-satisfied with appropriate instance.
-
-Example:
-
-.. note::
-
-    Class ``UsersService`` is a part of some library. ``UsersService`` has
-    dependency on database connection, which can be satisfied with any
-    DBAPI 2.0 database connection. Being a self-sufficient library,
-    ``UsersService`` doesn't hardcode any kind of database management logic.
-    Instead of this, ``UsersService`` has external dependency, that has to
-    be satisfied by client's code, out of library's scope.
-
-.. image:: /images/providers/dependency.png
+The ``Dependency`` provider must be overridden before usage. It can be overridden by any type of
+the provider. The only rule is that overriding provider must return an instance of ``instance_of``
+dependency type.
 
 .. literalinclude:: ../../examples/providers/dependency.py
    :language: python
+   :lines: 3-
+   :emphasize-lines: 26
 
 .. disqus::
