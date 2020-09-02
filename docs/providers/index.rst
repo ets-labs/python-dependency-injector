@@ -26,7 +26,7 @@ It causes the cascade effect that helps to assemble object graphs.
 Another providers feature is an overriding. Any of the providers can be overridden by another
 provider. When provider is overridden it calls to the overriding provider instead of providing
 the object by its own. This helps in testing. This also helps in overriding API clients with
-stubs for the development or staging environment.
+stubs for the development or staging environment. See the example at :ref:`provider-overriding`.
 
 Providers module API docs - :py:mod:`dependency_injector.providers`
 
