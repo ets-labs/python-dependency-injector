@@ -9,8 +9,9 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
-- Update ``Singleton`` provider documentation.
-- Rework ``Singleton`` provider examples.
+- Update documentation and rework examples for: ``Singleton``, ``Callable``, ``Coroutine``,
+  ``Object``, ``List``, ``Configuration``, ``Selector``, and ``Dependency`` providers.
+- Fix mypy stub of the ``DeclarativeContainer`` to specify the ``__init__`` interface.
 
 3.34.0
 ------

@@ -19,10 +19,11 @@ selector = providers.Selector(
     another=providers.Factory(SomeOtherClass),
 )
 
-config.override({'one_or_another': 'one'})
-instance_1 = selector()
-assert isinstance(instance_1, SomeClass)
+if __name__ == '__main__':
+    config.override({'one_or_another': 'one'})
+    instance_1 = selector()
+    assert isinstance(instance_1, SomeClass)
 
-config.override({'one_or_another': 'another'})
-instance_2 = selector()
-assert isinstance(instance_2, SomeOtherClass)
+    config.override({'one_or_another': 'another'})
+    instance_2 = selector()
+    assert isinstance(instance_2, SomeOtherClass)

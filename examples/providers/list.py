@@ -8,15 +8,11 @@ from dependency_injector import providers
 
 @dataclasses.dataclass
 class Module:
-    """Example module."""
-
     name: str
 
 
 @dataclasses.dataclass
 class Dispatcher:
-    """Example dispatcher."""
-
     modules: List[Module]
 
 
@@ -28,6 +24,7 @@ dispatcher_factory = providers.Factory(
     ),
 )
 
+
 if __name__ == '__main__':
     dispatcher = dispatcher_factory()
 
@@ -35,11 +32,10 @@ if __name__ == '__main__':
     assert dispatcher.modules[0].name == 'm1'
     assert dispatcher.modules[1].name == 'm2'
 
-    # Call of dispatcher_factory() is equivalent to:
-
-    dispatcher = Dispatcher(
-        modules=[
-            Module(name='m1'),
-            Module(name='m2'),
-        ],
-    )
+    # Call "dispatcher = dispatcher_factory()" is an equivalent for:
+    # dispatcher = Dispatcher(
+    #     modules=[
+    #         Module(name='m1'),
+    #         Module(name='m2'),
+    #     ],
+    # )
