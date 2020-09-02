@@ -1,4 +1,4 @@
-"""`Factory` providers delegation example."""
+"""`Factory` provider delegation example."""
 
 from typing import Callable, List
 

@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.35.0
+------
+- Update documentation and rework examples for: ``Singleton``, ``Callable``, ``Coroutine``,
+  ``Object``, ``List``, ``Configuration``, ``Selector``, and ``Dependency`` providers.
+- Fix mypy stub of the ``DeclarativeContainer`` to specify the ``__init__`` interface.
+
 3.34.0
 ------
 - Update ``Factory`` provider documentation.
