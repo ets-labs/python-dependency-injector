@@ -11,6 +11,7 @@ Development version
 -------------------
 - Update documentation and rework examples for: ``Singleton``, ``Callable``, ``Coroutine``,
   ``Object``, ``List``, ``Configuration``, ``Selector`` providers.
+- Fix mypy stub of the ``DeclarativeContainer`` to specify the ``__init__`` interface.
 
 3.34.0
 ------
