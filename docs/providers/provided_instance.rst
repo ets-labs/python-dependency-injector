@@ -1,5 +1,5 @@
 Injecting attributes, items, or call methods of the provided instance
----------------------------------------------------------------------
+=====================================================================
 
 .. currentmodule:: dependency_injector.providers
 

@@ -41,7 +41,7 @@ injected following these rules:
    :lines: 3-
 
 Passing arguments to the underlying providers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------------------
 
 ``Factory`` provider can pass the arguments to the underlying providers. This helps when you need
 to assemble a nested objects graph and pass the arguments deep inside.
@@ -88,7 +88,7 @@ If ``<dependency>`` is found the underlying provider will receive the
 .. _factory_providers_delegation:
 
 Passing providers to the objects
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 When you need to inject the provider itself, but not the result of its call, use the ``.provider``
 attribute of the provider that you're going to inject.
@@ -105,7 +105,7 @@ attribute of the provider that you're going to inject.
 .. _factory-specialize-provided-type:
 
 Specializing the provided type
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------
 
 You can create a specialized ``Factory`` provider that provides only specific type. For doing
 this you need to create a subclass of the ``Factory`` provider and define the ``provided_type``
@@ -119,7 +119,7 @@ class attribute.
 .. _abstract-factory:
 
 Abstract factory
-~~~~~~~~~~~~~~~~
+----------------
 
 :py:class:`AbstractFactory` provider helps when you need to create a provider of some base class
 and the particular implementation is not yet know. ``AbstractFactory`` provider is a ``Factory``
@@ -138,7 +138,7 @@ provider with two peculiarities:
    :emphasize-lines: 32
 
 Factory aggregate
-~~~~~~~~~~~~~~~~~
+-----------------
 
 :py:class:`FactoryAggregate` provider aggregates multiple factories. When you call the
 ``FactoryAggregate`` it delegates the call to one of the factories.

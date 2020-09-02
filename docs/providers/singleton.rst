@@ -1,5 +1,5 @@
 Singleton provider
-------------------
+==================
 
 .. meta::
    :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Singleton,Pattern,Example,
@@ -33,7 +33,7 @@ factories:
 - :ref:`abstract-factory`
 
 Resetting memorized object
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------
 
 To reset a memorized object you need to call the ``.reset()`` method of the ``Singleton``
 provider.
@@ -48,7 +48,7 @@ provider.
    managed by the garbage collector.
 
 Using singleton with multiple threads
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------------------
 
 ``Singleton`` provider is NOT thread-safe. You need to explicitly establish a synchronization for
 using the ``Singleton`` provider in the multi-threading application. Otherwise you could trap
@@ -67,7 +67,7 @@ There are two thread-safe singleton implementations out of the box:
    :emphasize-lines: 11,12
 
 Implementing scopes
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 To implement a scoped singleton provider use a ``Singleton`` provider and reset its scope when
 needed.

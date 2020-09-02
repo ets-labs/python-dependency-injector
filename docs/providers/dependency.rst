@@ -1,5 +1,5 @@
 Dependency provider
--------------------
+===================
 
 .. currentmodule:: dependency_injector.providers
 
