@@ -1,4 +1,4 @@
-"""`Singleton` - flask request scope example."""
+"""`Singleton` - Flask request scope example."""
 
 from dependency_injector import providers
 from flask import Flask
@@ -27,6 +27,7 @@ def teardown_context(request):
 app = Flask(__name__)
 app.add_url_rule('/', 'index', view_func=index_view)
 app.after_request(teardown_context)
+
 
 if __name__ == '__main__':
     app.run()
