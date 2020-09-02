@@ -33,6 +33,7 @@ client_factory = providers.Factory(
     value4=service.provided.get_value.call(),
 )
 
+
 if __name__ == '__main__':
     client = client_factory()
     assert client.value1 == client.value2 == client.value3 == 'foo'

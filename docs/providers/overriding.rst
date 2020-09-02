@@ -10,7 +10,7 @@ Provider overriding
 
 .. currentmodule:: dependency_injector.providers
 
-Any provider can be overridden by another provider.
+You can override any provider by another provider.
 
 When provider is overridden it calls to the overriding provider instead of providing
 the object by its own.
