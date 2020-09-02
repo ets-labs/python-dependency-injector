@@ -1,7 +1,7 @@
 .. _selector-provider:
 
-Selector providers
-------------------
+Selector provider
+-----------------
 
 .. meta::
    :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Configuration,Injection,

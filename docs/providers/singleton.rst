@@ -78,7 +78,7 @@ needed.
 
 The output should look like this (each request a ``Service`` object has a different address):
 
-.. code-block::
+.. code-block:: bash
 
     * Serving Flask app "singleton_scoped" (lazy loading)
     * Environment: production

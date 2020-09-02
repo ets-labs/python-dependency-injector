@@ -78,7 +78,7 @@ all the classes and use special double-underscore ``__`` syntax for passing the 
 When you use ``__`` separator in the name of the keyword argument the ``Factory`` looks for
 the dependency with the same name as the left part of the ``__`` expression.
 
-.. code-block::
+.. code-block:: none
 
    <dependency>__<keyword for the underlying provider>=<value>
 
