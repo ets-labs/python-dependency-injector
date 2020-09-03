@@ -13,7 +13,7 @@ List provider
 .. literalinclude:: ../../examples/providers/list.py
    :language: python
    :lines: 3-
-   :emphasize-lines: 19-22
+   :emphasize-lines: 21-24
 
 ``List`` provider handles positional arguments the same way as a :ref:`factory-provider`.
 
