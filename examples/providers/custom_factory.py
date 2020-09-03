@@ -1,6 +1,6 @@
 """Custom provider example."""
 
-from dependency_injector import providers
+from dependency_injector import containers, providers
 
 
 class CustomFactory(providers.Provider):
@@ -29,14 +29,18 @@ class CustomFactory(providers.Provider):
         return self._factory(*args, **kwargs)
 
 
-factory = CustomFactory(object)
+class Container(containers.DeclarativeContainer):
+
+    factory = CustomFactory(object)
 
 
 if __name__ == '__main__':
-    object1 = factory()
+    container = Container()
+
+    object1 = container.factory()
     assert isinstance(object1, object)
 
-    object2 = factory()
+    object2 = container.factory()
     assert isinstance(object1, object)
 
     assert object1 is not object2
