@@ -2,7 +2,7 @@
 
 from typing import Callable, List
 
-from dependency_injector import providers
+from dependency_injector import containers, providers
 
 
 class User:
@@ -21,15 +21,20 @@ class UserRepository:
         ]
 
 
-user_factory = providers.Factory(User)
-user_repository_factory = providers.Factory(
-    UserRepository,
-    user_factory=user_factory.provider,
-)
+class Container(containers.DeclarativeContainer):
+
+    user_factory = providers.Factory(User)
+
+    user_repository_factory = providers.Factory(
+        UserRepository,
+        user_factory=user_factory.provider,
+    )
 
 
 if __name__ == '__main__':
-    user_repository = user_repository_factory()
+    container = Container()
+
+    user_repository = container.user_repository_factory()
 
     user1, user2 = user_repository.get_all()
 

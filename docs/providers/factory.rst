@@ -73,7 +73,7 @@ all the classes and use special double-underscore ``__`` syntax for passing the 
 .. literalinclude:: ../../examples/providers/factory_init_injections_underlying.py
    :language: python
    :lines: 3-
-   :emphasize-lines: 24-35,39,42,45
+   :emphasize-lines: 44,49
 
 When you use ``__`` separator in the name of the keyword argument the ``Factory`` looks for
 the dependency with the same name as the left part of the ``__`` expression.
@@ -98,7 +98,7 @@ attribute of the provider that you're going to inject.
 .. literalinclude:: ../../examples/providers/factory_delegation.py
    :language: python
    :lines: 3-
-   :emphasize-lines: 25
+   :emphasize-lines: 28
 
 .. note:: Any provider has a ``.provider`` attribute.
 
@@ -135,7 +135,7 @@ provider with two peculiarities:
 .. literalinclude:: ../../examples/providers/abstract_factory.py
    :language: python
    :lines: 3-
-   :emphasize-lines: 32
+   :emphasize-lines: 34
 
 Factory aggregate
 -----------------
@@ -155,7 +155,7 @@ rest of the arguments are passed to the delegated ``Factory``.
 .. literalinclude:: ../../examples/providers/factory_aggregate.py
    :language: python
    :lines: 3-
-   :emphasize-lines: 31-35,43
+   :emphasize-lines: 33-37,47
 
 You can get a dictionary of the aggregated factories using the ``.factories`` attribute of the
 ``FactoryAggregate``. To get a game factories dictionary from the previous example you can use

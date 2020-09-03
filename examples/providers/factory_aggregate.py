@@ -3,7 +3,7 @@
 import dataclasses
 import sys
 
-from dependency_injector import providers
+from dependency_injector import containers, providers
 
 
 @dataclasses.dataclass
@@ -30,11 +30,13 @@ class Ludo(Game):
     ...
 
 
-game_factory = providers.FactoryAggregate(
-    chess=providers.Factory(Chess),
-    checkers=providers.Factory(Checkers),
-    ludo=providers.Factory(Ludo),
-)
+class Container(containers.DeclarativeContainer):
+
+    game_factory = providers.FactoryAggregate(
+        chess=providers.Factory(Chess),
+        checkers=providers.Factory(Checkers),
+        ludo=providers.Factory(Ludo),
+    )
 
 
 if __name__ == '__main__':
@@ -42,7 +44,9 @@ if __name__ == '__main__':
     player1 = sys.argv[2].capitalize()
     player2 = sys.argv[3].capitalize()
 
-    selected_game = game_factory(game_type, player1, player2)
+    container = Container()
+
+    selected_game = container.game_factory(game_type, player1, player2)
     selected_game.play()
 
     # $ python factory_aggregate.py chess John Jane

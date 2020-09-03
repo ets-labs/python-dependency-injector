@@ -32,6 +32,13 @@ factories:
 - :ref:`factory-specialize-provided-type`
 - :ref:`abstract-factory`
 
+``Singleton`` provider scope is tied to the container. Two different containers will provider
+two different singleton objects:
+
+.. literalinclude:: ../../examples/providers/singleton_multiple_containers.py
+   :language: python
+   :lines: 3-
+
 Resetting memorized object
 --------------------------
 
@@ -41,7 +48,7 @@ provider.
 .. literalinclude:: ../../examples/providers/singleton_resetting.py
    :language: python
    :lines: 3-
-   :emphasize-lines: 14
+   :emphasize-lines: 18
 
 .. note::
    Resetting of the memorized object clears the reference to it. Further object's lifecycle is
@@ -64,7 +71,7 @@ There are two thread-safe singleton implementations out of the box:
 .. literalinclude:: ../../examples/providers/singleton_thread_locals.py
    :language: python
    :lines: 3-
-   :emphasize-lines: 11,12
+   :emphasize-lines: 13,15
 
 Implementing scopes
 -------------------

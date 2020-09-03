@@ -17,7 +17,7 @@ Selector provider
 .. literalinclude:: ../../examples/providers/selector.py
    :language: python
    :lines: 3-
-   :emphasize-lines: 14-18
+   :emphasize-lines: 16-20
 
 The first argument of the ``Selector`` provider is called ``selector``. It can be an option of
 a ``Configuration`` provider or any other callable. The ``selector`` callable has to return a

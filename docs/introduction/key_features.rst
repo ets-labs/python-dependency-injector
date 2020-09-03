@@ -3,66 +3,33 @@ Key features
 
 .. meta::
    :keywords: Python,DI,Dependency injection,IoC,Inversion of Control
-   :description: This article describes key features of "Dependency Injector" 
-                 framework. It also provides some cases and recommendations 
-                 about usage of "Dependency Injector" framework.
+   :description: This article describes key features of the Dependency Injector
+                 framework.
 
+Key features of the ``Dependency Injector``:
 
-``Dependency Injector`` is a dependency injection framework for Python.
-It was designed to be a unified and developer-friendly tool that helps
-implement a dependency injection design pattern in a formal, pretty, and
-Pythonic way.
+- **Providers**. Provides ``Factory``, ``Singleton``, ``Callable``, ``Coroutine``, ``Object``,
+  ``List``, ``Configuration``, ``Dependency`` and ``Selector`` providers that help assembling your
+  objects. See :ref:`providers`.
+- **Overriding**. Can override any provider by another provider on the fly. This helps in testing
+  and configuring dev / stage environment to replace API clients with stubs etc. See
+  :ref:`provider-overriding`.
+- **Configuration**. Read configuration from ``yaml`` & ``ini`` files, environment variables
+  and dictionaries. See :ref:`configuration-provider`.
+- **Containers**. Provides declarative and dynamic containers. See :ref:`containers`.
+- **Performance**. Fast. Written in ``Cython``.
+- **Maturity**. Mature and production-ready. Well-tested, documented and supported.
 
-It stands on two principles:
+The framework stands on two principles:
 
-- Explicit is better than implicit (PEP20).
-- Do no magic to your code.
+- **Explicit is better than implicit (PEP20)**.
+- **Do not do any magic to your code**.
 
-How does it different from the other frameworks?
+How is that different from the other frameworks?
 
 - **No autowiring.** The framework does NOT do any autowiring / autoresolving of the dependencies. You need to specify everything explicitly. Because *"Explicit is better than implicit" (PEP20)*.
 - **Does not pollute your code.** Your application does NOT know and does NOT depend on the framework. No ``@inject`` decorators, annotations, patching or any other magic tricks.
 
-``Dependency Injector`` makes a simple contract with you:
-
-- You tell the framework how to build you code
-- The framework does it for you
-
-The power of the ``Dependency Injector`` is in its simplicity and straightforwardness. It is a simple tool for the powerful concept.
-
-The key features of the ``Dependency Injector`` framework are:
-
-+ Easy, smart, and Pythonic style.
-+ Does NOT pollute client code.
-+ Obvious and clear structure.
-+ Extensibility and flexibility.
-+ High performance.
-+ Memory efficiency.
-+ Thread safety.
-+ Documented.
-+ Semantically versioned.
-+ Distributed as pre-compiled wheels.
-
-``Dependency Injector`` containers and providers are implemented as C extension
-types using ``Cython``.
-
-``Dependency Injector`` framework can be used in the different application types:
-
-+ Web applications based on the ``Flask``, ``Django`` or any other web framework.
-+ Asynchronous applications ``asyncio``, ``aiohttp``, ``Tornado``, or ``Twisted``.
-+ Standalone frameworks and libraries.
-+ GUI applications.
-
-``Dependency Injector`` framework can be integrated on the different project
-stages:
-
-+ It can be used in the beginning of the development of a new application.
-+ It can be integrated into application that is on its active development stage.
-+ It can be used for refactoring of legacy application.
-
-Components of ``Dependency Injector`` framework could be used:
-
-+ In composition with each other.
-+ Independently from each other.
+The power of the framework is in a simplicity. ``Dependency Injector`` is a simple tool for the powerful concept.
 
 .. disqus::

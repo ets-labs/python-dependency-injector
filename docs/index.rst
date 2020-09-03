@@ -64,22 +64,49 @@ Dependency Injector --- Dependency injection framework for Python
 
 ``Dependency Injector`` is a dependency injection framework for Python.
 
-It stands on two principles:
+It helps implementing the dependency injection principle.
 
-- Explicit is better than implicit (PEP20).
-- Do no magic to your code.
+Key features of the ``Dependency Injector``:
 
-How does it different from the other frameworks?
+- **Providers**. Provides ``Factory``, ``Singleton``, ``Callable``, ``Coroutine``, ``Object``,
+  ``List``, ``Configuration``, ``Dependency`` and ``Selector`` providers that help assembling your
+  objects. See :ref:`providers`.
+- **Overriding**. Can override any provider by another provider on the fly. This helps in testing
+  and configuring dev / stage environment to replace API clients with stubs etc. See
+  :ref:`provider-overriding`.
+- **Configuration**. Read configuration from ``yaml`` & ``ini`` files, environment variables
+  and dictionaries. See :ref:`configuration-provider`.
+- **Containers**. Provides declarative and dynamic containers. See :ref:`containers`.
+- **Performance**. Fast. Written in ``Cython``.
+- **Maturity**. Mature and production-ready. Well-tested, documented and supported.
 
-- **No autowiring.** The framework does NOT do any autowiring / autoresolving of the dependencies. You need to specify everything explicitly. Because *"Explicit is better than implicit" (PEP20)*.
-- **Does not pollute your code.** Your application does NOT know and does NOT depend on the framework. No ``@inject`` decorators, annotations, patching or any other magic tricks.
+.. code-block:: python
 
-``Dependency Injector`` makes a simple contract with you:
+   from dependency_injector import containers, providers
 
-- You tell the framework how to assemble your objects
-- The framework does it for you
 
-The power of the ``Dependency Injector`` is in its simplicity and straightforwardness. It is a simple tool for the powerful concept.
+   class Container(containers.DeclarativeContainer):
+
+       config = providers.Configuration()
+
+       api_client = providers.Singleton(
+           ApiClient,
+           api_key=config.api_key,
+           timeout=config.timeout.as_int(),
+       )
+
+       service = providers.Factory(
+           Service,
+           api_client=api_client,
+       )
+
+
+   if __name__ == '__main__':
+       container = Container()
+       container.config.api_key.from_env('API_KEY')
+       container.config.timeout.from_env('TIMEOUT')
+
+       service = container.service()
 
 With the ``Dependency Injector`` you keep **application structure in one place**.
 This place is called **the container**. You use the container to manage all the components of the

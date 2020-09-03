@@ -1,12 +1,8 @@
 Feedback
 ========
 
-Feel free to post questions, bugs, feature requests, proposals etc. on
-*Dependency Injector*  GitHub Issues:
-
-    https://github.com/ets-labs/python-dependency-injector/issues
-
-Your feedback is quite important!
-
+To post a question, bug report, a feature proposal or get some help open a
+`Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_ or leave a comment
+below.
 
 .. disqus::

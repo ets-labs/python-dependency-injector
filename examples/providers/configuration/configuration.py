@@ -1,21 +1,24 @@
 """`Configuration` provider example."""
 
 import boto3
-from dependency_injector import providers
+from dependency_injector import containers, providers
 
 
-config = providers.Configuration()
+class Container(containers.DeclarativeContainer):
 
-s3_client_factory = providers.Factory(
-    boto3.client,
-    's3',
-    aws_access_key_id=config.aws.access_key_id,
-    aws_secret_access_key=config.aws.secret_access_key,
-)
+    config = providers.Configuration()
+
+    s3_client_factory = providers.Factory(
+        boto3.client,
+        's3',
+        aws_access_key_id=config.aws.access_key_id,
+        aws_secret_access_key=config.aws.secret_access_key,
+    )
 
 
 if __name__ == '__main__':
-    config.from_dict(
+    container = Container()
+    container.config.from_dict(
         {
             'aws': {
                  'access_key_id': 'KEY',
@@ -23,4 +26,4 @@ if __name__ == '__main__':
              },
         },
     )
-    s3_client = s3_client_factory()
+    s3_client = container.s3_client_factory()

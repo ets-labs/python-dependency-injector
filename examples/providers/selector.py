@@ -1,6 +1,6 @@
 """`Selector` provider example."""
 
-from dependency_injector import providers
+from dependency_injector import containers, providers
 
 
 class SomeClass:
@@ -11,19 +11,24 @@ class SomeOtherClass:
     ...
 
 
-config = providers.Configuration()
+class Container(containers.DeclarativeContainer):
 
-selector = providers.Selector(
-    config.one_or_another,
-    one=providers.Factory(SomeClass),
-    another=providers.Factory(SomeOtherClass),
-)
+    config = providers.Configuration()
+
+    selector = providers.Selector(
+        config.one_or_another,
+        one=providers.Factory(SomeClass),
+        another=providers.Factory(SomeOtherClass),
+    )
+
 
 if __name__ == '__main__':
-    config.override({'one_or_another': 'one'})
-    instance_1 = selector()
+    container = Container()
+
+    container.config.override({'one_or_another': 'one'})
+    instance_1 = container.selector()
     assert isinstance(instance_1, SomeClass)
 
-    config.override({'one_or_another': 'another'})
-    instance_2 = selector()
+    container.config.override({'one_or_another': 'another'})
+    instance_2 = container.selector()
     assert isinstance(instance_2, SomeOtherClass)

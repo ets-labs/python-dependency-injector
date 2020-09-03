@@ -7,6 +7,14 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.37.0
+------
+- Update index documentation page.
+- Make multiple improvements and fixes for the providers documentation.
+- Update "Key Features" documentation page.
+- Remove "Structure of Dependency Injector" documentation page.
+- Edit "Feedback" documentation page.
+
 3.36.0
 ------
 - Update providers overriding documentation and rework examples.

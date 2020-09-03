@@ -1,13 +1,27 @@
 """`Configuration` provider values loading example."""
 
-from dependency_injector import providers
+from dependency_injector import containers, providers
 
 
-config = providers.Configuration()
+class Container(containers.DeclarativeContainer):
 
-config.from_ini('examples/providers/configuration/config.ini')
+    config = providers.Configuration()
 
-assert config() == {'aws': {'access_key_id': 'KEY', 'secret_access_key': 'SECRET'}}
-assert config.aws() == {'access_key_id': 'KEY', 'secret_access_key': 'SECRET'}
-assert config.aws.access_key_id() == 'KEY'
-assert config.aws.secret_access_key() == 'SECRET'
+
+if __name__ == '__main__':
+    container = Container()
+
+    container.config.from_ini('examples/providers/configuration/config.ini')
+
+    assert container.config() == {
+        'aws': {
+            'access_key_id': 'KEY',
+            'secret_access_key': 'SECRET',
+        },
+    }
+    assert container.config.aws() == {
+        'access_key_id': 'KEY',
+        'secret_access_key': 'SECRET',
+    }
+    assert container.config.aws.access_key_id() == 'KEY'
+    assert container.config.aws.secret_access_key() == 'SECRET'

@@ -1,15 +1,19 @@
 """`Factory` provider example."""
 
-from dependency_injector import providers
+from dependency_injector import containers, providers
 
 
 class User:
     ...
 
 
-users_factory = providers.Factory(User)
+class Container(containers.DeclarativeContainer):
+
+    user_factory = providers.Factory(User)
 
 
 if __name__ == '__main__':
-    user1 = users_factory()
-    user2 = users_factory()
+    container = Container()
+
+    user1 = container.user_factory()
+    user2 = container.user_factory()

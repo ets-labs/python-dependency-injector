@@ -2,7 +2,7 @@
 
 import asyncio
 
-from dependency_injector import providers
+from dependency_injector import containers, providers
 
 
 async def coroutine(arg1, arg2):
@@ -10,10 +10,14 @@ async def coroutine(arg1, arg2):
     return arg1, arg2
 
 
-coroutine_provider = providers.Coroutine(coroutine, arg1=1, arg2=2)
+class Container(containers.DeclarativeContainer):
+
+    coroutine_provider = providers.Coroutine(coroutine, arg1=1, arg2=2)
 
 
 if __name__ == '__main__':
-    arg1, arg2 = asyncio.run(coroutine_provider())
+    container = Container()
+
+    arg1, arg2 = asyncio.run(container.coroutine_provider())
     assert (arg1, arg2) == (1, 2)
-    assert asyncio.iscoroutinefunction(coroutine_provider)
+    assert asyncio.iscoroutinefunction(container.coroutine_provider)
