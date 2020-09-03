@@ -1,7 +1,7 @@
 .. _create-provider:
 
-Creating a custom providers
-===========================
+Creating a custom provider
+==========================
 
 .. meta::
    :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Custom provider, Create
