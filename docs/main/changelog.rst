@@ -11,6 +11,7 @@ Development version
 -------------------
 - Update providers overriding documentation and rework examples.
 - Update documentation on injecting provided object attributes, items or method calls.
+- Update documentation and example on creating a custom provider.
 
 3.35.1
 ------
