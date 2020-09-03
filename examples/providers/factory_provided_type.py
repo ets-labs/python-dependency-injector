@@ -17,7 +17,7 @@ class ServiceProvider(providers.Factory):
 
 
 # Creating service provider with a correct provided type:
-class Container(containers.DeclarativeContainer):
+class Services(containers.DeclarativeContainer):
 
     some_service_provider = ServiceProvider(SomeService)
 
