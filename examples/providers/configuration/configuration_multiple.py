@@ -1,14 +1,28 @@
 """`Configuration` provider values loading example."""
 
-from dependency_injector import providers
+from dependency_injector import containers, providers
 
 
-config = providers.Configuration()
+class Container(containers.DeclarativeContainer):
 
-config.from_yaml('examples/providers/configuration/config.yml')
-config.from_yaml('examples/providers/configuration/config.local.yml')
+    config = providers.Configuration()
 
-assert config() == {'aws': {'access_key_id': 'LOCAL-KEY', 'secret_access_key': 'LOCAL-SECRET'}}
-assert config.aws() == {'access_key_id': 'LOCAL-KEY', 'secret_access_key': 'LOCAL-SECRET'}
-assert config.aws.access_key_id() == 'LOCAL-KEY'
-assert config.aws.secret_access_key() == 'LOCAL-SECRET'
+
+if __name__ == '__main__':
+    container = Container()
+
+    container.config.from_yaml('examples/providers/configuration/config.yml')
+    container.config.from_yaml('examples/providers/configuration/config.local.yml')
+
+    assert container.config() == {
+        'aws': {
+            'access_key_id': 'LOCAL-KEY',
+            'secret_access_key': 'LOCAL-SECRET',
+        },
+    }
+    assert container.config.aws() == {
+        'access_key_id': 'LOCAL-KEY',
+        'secret_access_key': 'LOCAL-SECRET',
+    }
+    assert container.config.aws.access_key_id() == 'LOCAL-KEY'
+    assert container.config.aws.secret_access_key() == 'LOCAL-SECRET'

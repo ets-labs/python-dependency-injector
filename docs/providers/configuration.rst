@@ -16,8 +16,8 @@ Configuration provider
 
 .. literalinclude:: ../../examples/providers/configuration/configuration.py
    :language: python
-   :emphasize-lines: 4,9-10
-   :lines: 4-14
+   :emphasize-lines: 7,12-13
+   :lines: 3-
 
 It implements the principle "use first, define later".
 
@@ -29,8 +29,8 @@ Loading from an INI file
 
 .. literalinclude:: ../../examples/providers/configuration/configuration_ini.py
    :language: python
-   :lines: 3-5,6-
-   :emphasize-lines: 6
+   :lines: 3-
+   :emphasize-lines: 12
 
 where ``examples/providers/configuration/config.ini`` is:
 
@@ -49,8 +49,8 @@ Loading from a YAML file
 
 .. literalinclude:: ../../examples/providers/configuration/configuration_yaml.py
    :language: python
-   :lines: 3-5,6-
-   :emphasize-lines: 6
+   :lines: 3-
+   :emphasize-lines: 12
 
 where ``examples/providers/configuration/config.yml`` is:
 
@@ -83,8 +83,8 @@ Loading from a dictionary
 
 .. literalinclude:: ../../examples/providers/configuration/configuration_dict.py
    :language: python
-   :lines: 3-5,6-
-   :emphasize-lines: 6-13
+   :lines: 3-
+   :emphasize-lines: 12-19
 
 Loading from an environment variable
 ------------------------------------
@@ -94,8 +94,8 @@ Loading from an environment variable
 
 .. literalinclude:: ../../examples/providers/configuration/configuration_env.py
    :language: python
-   :lines: 5-7,13-21
-   :emphasize-lines: 6-8
+   :lines: 3-
+   :emphasize-lines: 18-20
 
 Loading from the multiple sources
 ---------------------------------
@@ -105,8 +105,8 @@ configuration is merged recursively over the existing configuration.
 
 .. literalinclude:: ../../examples/providers/configuration/configuration_multiple.py
    :language: python
-   :lines: 3-5,6-14
-   :emphasize-lines: 6-7
+   :lines: 3-
+   :emphasize-lines: 12-13
 
 where ``examples/providers/configuration/config.local.yml`` is:
 
@@ -124,7 +124,7 @@ convert it into an ``int`` or a ``float``.
 .. literalinclude:: ../../examples/providers/configuration/configuration_type.py
    :language: python
    :lines: 3-
-   :emphasize-lines: 17
+   :emphasize-lines: 19
 
 ``Configuration`` provider has next helper methods:
 
@@ -137,10 +137,27 @@ The last method ``.as_(callback, *args, **kwargs)`` helps to implement other con
 .. literalinclude:: ../../examples/providers/configuration/configuration_type_custom.py
    :language: python
    :lines: 3-
-   :emphasize-lines: 16
+   :emphasize-lines: 18
 
 With the ``.as_(callback, *args, **kwargs)`` you can specify a function that will be called
 before the injection. The value from the config will be passed as a first argument. The returned
 value will be injected. Parameters ``*args`` and ``**kwargs`` are handled as any other injections.
+
+Injecting invariants
+--------------------
+
+You can inject invariant configuration options based on the value of the other configuration
+option.
+
+To use that you should provide the switch-value as an item of the configuration option that
+contains sections ``config.options[config.switch]``:
+
+- When the value of the ``config.switch`` is ``A``, the ``config.options.A`` is injected
+- When the value of the ``config.switch`` is ``B``, the ``config.options.B`` is injected
+
+.. literalinclude:: ../../examples/providers/configuration/configuration_itemselector.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 15,30-31,38
 
 .. disqus::
