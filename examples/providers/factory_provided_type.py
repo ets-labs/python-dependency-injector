@@ -1,6 +1,6 @@
 """`Factory` specialization with limitation to provided type example."""
 
-from dependency_injector import providers, errors
+from dependency_injector import containers, providers, errors
 
 
 class BaseService:
@@ -17,11 +17,15 @@ class ServiceProvider(providers.Factory):
 
 
 # Creating service provider with a correct provided type:
-some_service_provider = ServiceProvider(SomeService)
+class Container(containers.DeclarativeContainer):
+
+    some_service_provider = ServiceProvider(SomeService)
+
 
 # Trying to create service provider an incorrect provided type:
 try:
-    some_service_provider = ServiceProvider(object)
+    class Container(containers.DeclarativeContainer):
+        some_service_provider = ServiceProvider(object)
 except errors.Error as exception:
     print(exception)
     # The output is:
