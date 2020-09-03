@@ -77,8 +77,8 @@ Key features of the ``Dependency Injector``:
 - **Configuration**. Read configuration from ``yaml`` & ``ini`` files, environment variables
   and dictionaries. See :ref:`configuration-provider`.
 - **Containers**. Provides declarative and dynamic containers. See :ref:`containers`.
-- **Performance**. Written in ``Cython``.
-- **Maturity**. Mature and ready for production.
+- **Performance**. Fast. Written in ``Cython``.
+- **Maturity**. Mature and production-ready. Well-tested, documented and supported.
 
 .. code-block:: python
 

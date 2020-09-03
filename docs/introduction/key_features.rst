@@ -17,8 +17,8 @@ Key features of the ``Dependency Injector``:
 - **Configuration**. Read configuration from ``yaml`` & ``ini`` files, environment variables
   and dictionaries. See :ref:`configuration-provider`.
 - **Containers**. Provides declarative and dynamic containers. See :ref:`containers`.
-- **Performance**. Written in ``Cython``.
-- **Maturity**. Mature and ready for production.
+- **Performance**. Fast. Written in ``Cython``.
+- **Maturity**. Mature and production-ready. Well-tested, documented and supported.
 
 The framework stands on two principles:
 
@@ -31,13 +31,5 @@ How is that different from the other frameworks?
 - **Does not pollute your code.** Your application does NOT know and does NOT depend on the framework. No ``@inject`` decorators, annotations, patching or any other magic tricks.
 
 The power of the framework is in a simplicity. ``Dependency Injector`` is a simple tool for the powerful concept.
-
-In addition ``Dependency Injector`` is:
-
-- Tested.
-- Documented.
-- Supported.
-- Semantically versioned.
-- Distributed as pre-compiled wheels.
 
 .. disqus::

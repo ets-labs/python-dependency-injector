@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Update index documentation page.
+- Make multiple improvements and fixes for the providers documentation.
 - Update "Key Features" documentation page.
 - Remove "Structure of Dependency Injector" documentation page.
 - Edit "Feedback" documentation page.
