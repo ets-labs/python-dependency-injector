@@ -12,6 +12,7 @@ Development version
 - Update index documentation page.
 - Update "Key Features" documentation page.
 - Remove "Structure of Dependency Injector" documentation page.
+- Edit "Feedback" documentation page.
 
 3.36.0
 ------
