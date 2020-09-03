@@ -1,3 +1,5 @@
+.. _create-provider:
+
 Creating a custom providers
 ===========================
 

@@ -1,3 +1,5 @@
+.. _provided-instance:
+
 Injecting provided object attributes, items, or call its methods
 ================================================================
 
