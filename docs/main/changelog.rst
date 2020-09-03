@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Update "Key Features" documentation page.
+
 3.36.0
 ------
 - Update providers overriding documentation and rework examples.
