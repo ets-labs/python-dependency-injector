@@ -7,11 +7,14 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+3.36.0
+------
 - Update providers overriding documentation and rework examples.
 - Update documentation on injecting provided object attributes, items or method calls.
 - Update documentation and example on creating a custom provider.
+- Update providers index documentation page to give better overview of providers functionality.
+- Fix mypy stub of the ``Provider`` to specify the protected ``._copy_overridings()`` method.
+- Update copyright year in the documentation.
 
 3.35.1
 ------
