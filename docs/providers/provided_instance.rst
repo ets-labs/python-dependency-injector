@@ -14,7 +14,7 @@ You can inject provided object attribute, item or result of its method call.
 
 .. literalinclude:: ../../examples/providers/provided_instance.py
    :language: python
-   :emphasize-lines: 26-32
+   :emphasize-lines: 28-34
    :lines: 3-
 
 To use the feature you should use the ``.provided`` attribute of the injected provider. This
@@ -32,7 +32,7 @@ You can do nested constructions:
 
 .. literalinclude:: ../../examples/providers/provided_instance_complex.py
    :language: python
-   :emphasize-lines: 24-30
+   :emphasize-lines: 26-32
    :lines: 3-
 
 The ``.provided`` attribute is available for the next providers:

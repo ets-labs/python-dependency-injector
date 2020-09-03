@@ -1,6 +1,6 @@
 """Example of the injecting of provided instance attributes and items."""
 
-from dependency_injector import providers
+from dependency_injector import containers, providers
 
 
 class Service:
@@ -23,17 +23,21 @@ class Client:
         self.value4 = value4
 
 
-service = providers.Singleton(Service)
+class Container(containers.DeclarativeContainer):
 
-client_factory = providers.Factory(
-    Client,
-    value1=service.provided[0],
-    value2=service.provided.value,
-    value3=service.provided.values[0],
-    value4=service.provided.get_value.call(),
-)
+    service = providers.Singleton(Service)
+
+    client_factory = providers.Factory(
+        Client,
+        value1=service.provided[0],
+        value2=service.provided.value,
+        value3=service.provided.values[0],
+        value4=service.provided.get_value.call(),
+    )
 
 
 if __name__ == '__main__':
-    client = client_factory()
+    container = Container()
+
+    client = container.client_factory()
     assert client.value1 == client.value2 == client.value3 == 'foo'
