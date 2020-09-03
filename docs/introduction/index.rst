@@ -17,4 +17,3 @@ dependency injection pattern, inversion of control principle and
     what_is_di
     di_in_python
     key_features
-    structure

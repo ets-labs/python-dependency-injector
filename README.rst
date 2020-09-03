@@ -52,7 +52,7 @@ What is ``Dependency Injector``?
 
 ``Dependency Injector`` is a dependency injection framework for Python.
 
-It helps you in implementing the dependency injection principle.
+It helps you implementing the dependency injection principle.
 
 What is dependency injection?
 -----------------------------

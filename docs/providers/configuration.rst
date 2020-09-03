@@ -1,3 +1,5 @@
+.. _configuration-provider:
+
 Configuration provider
 ======================
 
