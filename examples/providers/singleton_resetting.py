@@ -19,5 +19,5 @@ if __name__ == '__main__':
 
     container.user_service_provider.reset()
 
-    users_service2 = container.user_service_provider()
-    assert users_service2 is not user_service1
+    user_service2 = container.user_service_provider()
+    assert user_service2 is not user_service1

@@ -32,6 +32,13 @@ factories:
 - :ref:`factory-specialize-provided-type`
 - :ref:`abstract-factory`
 
+``Singleton`` provider scope is tied to the container. Two different containers will provider
+two different singleton objects:
+
+.. literalinclude:: ../../examples/providers/singleton_multiple_containers.py
+   :language: python
+   :lines: 3-
+
 Resetting memorized object
 --------------------------
 
