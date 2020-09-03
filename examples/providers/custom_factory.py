@@ -1,40 +1,42 @@
-"""Custom `Factory` example."""
+"""Custom provider example."""
 
-import dependency_injector.providers as providers
-
-
-class User:
-    """Example class User."""
+from dependency_injector import providers
 
 
-class UsersFactory(providers.Provider):
-    """Example users factory."""
+class CustomFactory(providers.Provider):
 
     __slots__ = ('_factory',)
 
-    def __init__(self):
-        """Initialize instance."""
-        self._factory = providers.Factory(User)
+    def __init__(self, provides, *args, **kwargs):
+        self._factory = providers.Factory(provides, *args, **kwargs)
         super().__init__()
 
-    def __call__(self, *args, **kwargs):
-        """Return provided object.
+    def __deepcopy__(self, memo):
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
 
-        Callable interface implementation.
-        """
-        if self.last_overriding is not None:
-            return self.last_overriding._provide(args, kwargs)
+        copied = self.__class__(
+            self._factory.provides,
+            *providers.deepcopy(self._factory.args, memo),
+            **providers.deepcopy(self._factory.kwargs, memo),
+        )
+        self._copy_overridings(copied, memo)
+
+        return copied
+
+    def _provide(self, args, kwargs):
         return self._factory(*args, **kwargs)
 
 
-# Users factory:
-users_factory = UsersFactory()
+factory = CustomFactory(object)
 
-# Creating several User objects:
-user1 = users_factory()
-user2 = users_factory()
 
-# Making some asserts:
-assert isinstance(user1, User)
-assert isinstance(user2, User)
-assert user1 is not user2
+if __name__ == '__main__':
+    object1 = factory()
+    assert isinstance(object1, object)
+
+    object2 = factory()
+    assert isinstance(object1, object)
+
+    assert object1 is not object2

@@ -1,47 +1,43 @@
-Overriding of providers
------------------------
+.. _provider-overriding:
+
+Provider overriding
+===================
+
+.. meta::
+   :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Override,Test,Unit
+   :description: This page demonstrates how to implement providers overriding. This helps in
+                 testing and configuring the system for the multiple environments.
 
 .. currentmodule:: dependency_injector.providers
 
-Every provider could be overridden by another provider.
+You can override any provider by another provider.
 
-This gives opportunity to make system behaviour more flexible at some point.
-The main feature is that while your code is using providers, it depends on 
-providers, but not on the objects that providers provide. As a result of this, 
-you can change providing by provider object to a different one, but still
-compatible one, without changing your previously written code.
+When provider is overridden it calls to the overriding provider instead of providing
+the object by its own.
 
-Provider overriding functionality has such interface:
+This helps in testing. This also helps in overriding API clients with stubs for the development
+or staging environment.
 
-.. image:: /images/providers/provider_override.png
-    :width: 55%
-    :align: center
+To override a provider you need to call the ``Provider.override()`` method. This method receives
+a single argument called ``overriding``.  If the ``overriding`` value is a provider, this provider
+is called instead of the original. If value is not a provider, this value is returned instead of
+calling the original provider.
 
-+ :py:meth:`Provider.override()` - takes another provider that will be used 
-  instead of current provider. This method could be called several times. 
-  In such case, last passed provider would be used as overriding one.
-+ :py:meth:`Provider.reset_override()` - resets all overriding providers. 
-  Provider starts to behave itself like usual.
-+ :py:meth:`Provider.reset_last_overriding()` - remove last overriding 
-  provider from stack of overriding providers.
-
-Example:
-
-.. image:: /images/providers/overriding_simple.png
+.. image:: images/overriding.png
     :width: 80%
     :align: center
 
-.. literalinclude:: ../../examples/providers/overriding_simple.py
+.. literalinclude:: ../../examples/providers/overriding.py
    :language: python
+   :lines: 3-
 
-Example:
+You can override a provider multiple times. In that case the latest ``overriding`` value will be
+used. The rest of the overriding values will form a stack.
 
-.. image:: /images/providers/overriding_users_model.png
-    :width: 100%
-    :align: center
+To reset an overriding you can use the ``Provider.reset_override()`` or
+``Provider.reset_last_overriding()`` methods.
 
-.. literalinclude:: ../../examples/providers/overriding_users_model.py
-   :language: python
-
+You can use a context manager for overriding a provider ``with Provider.override():``. The
+overriding will be reset when context closed.
 
 .. disqus::

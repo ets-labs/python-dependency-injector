@@ -31,6 +31,7 @@ demo_list = providers.List(
     dependency.provided['foo']['baz'].call(service)['arg'].get_value.call(),
 )
 
+
 if __name__ == '__main__':
     assert demo_list() == [
         10,

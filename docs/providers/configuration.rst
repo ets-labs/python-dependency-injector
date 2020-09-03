@@ -1,5 +1,5 @@
 Configuration provider
-----------------------
+======================
 
 .. meta::
    :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Configuration,Injection,
@@ -20,7 +20,7 @@ Configuration provider
 It implements the principle "use first, define later".
 
 Loading from an INI file
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 ``Configuration`` provider can load configuration from an ``ini`` file using the
 :py:meth:`Configuration.from_ini` method:
@@ -40,7 +40,7 @@ where ``examples/providers/configuration/config.ini`` is:
 variable ``ENV_NAME``.
 
 Loading from a YAML file
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 ``Configuration`` provider can load configuration from a ``yaml`` file using the
 :py:meth:`Configuration.from_yaml` method:
@@ -74,7 +74,7 @@ variable ``ENV_NAME``.
    *Don't forget to mirror the changes in the requirements file.*
 
 Loading from a dictionary
-~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------
 
 ``Configuration`` provider can load configuration from a Python ``dict`` using the
 :py:meth:`Configuration.from_dict` method:
@@ -85,7 +85,7 @@ Loading from a dictionary
    :emphasize-lines: 6-13
 
 Loading from an environment variable
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------
 
 ``Configuration`` provider can load configuration from an environment variable using the
 :py:meth:`Configuration.from_env` method:
@@ -96,7 +96,7 @@ Loading from an environment variable
    :emphasize-lines: 6-8
 
 Loading from the multiple sources
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------------
 
 ``Configuration`` provider can load configuration from the multiple sources. Loaded
 configuration is merged recursively over the existing configuration.
@@ -112,7 +112,7 @@ where ``examples/providers/configuration/config.local.yml`` is:
    :language: ini
 
 Specifying the value type
-~~~~~~~~~~~~~~~~~~~~~~~~~
+-------------------------
 
 You can specify the type of the injected configuration value explicitly.
 

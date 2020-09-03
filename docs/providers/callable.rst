@@ -1,5 +1,5 @@
 Callable provider
------------------
+=================
 
 .. meta::
    :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Function,Method,Example

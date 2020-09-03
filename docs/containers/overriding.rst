@@ -1,5 +1,5 @@
-Overriding of the container
----------------------------
+Container overriding
+--------------------
 
 .. currentmodule:: dependency_injector.containers
 

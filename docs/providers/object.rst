@@ -1,5 +1,5 @@
 Object provider
----------------
+===============
 
 .. meta::
    :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Object
