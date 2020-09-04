@@ -189,8 +189,8 @@ framework:
 
 Retrieving of the ``Service`` instance now is done like this ``container.service()``.
 
-The responsibility of assembling the object is consolidated in the container. When you need to
-make a change you do it in one place.
+Objects assembling is consolidated in the container. When you need to make a change you do it in
+one place.
 
 When doing the testing you call the ``container.api_client.override()`` to replace the real API
 client with a mock:
