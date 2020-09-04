@@ -7,9 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+3.38.0
+------
 - Update "What is What is dependency injection?" documentation page.
+- Update README.
+- Fix a bunch of typos.
 
 3.37.0
 ------
