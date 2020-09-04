@@ -1,5 +1,5 @@
-Services mini application example (v2 - single container)
----------------------------------------------------------
+Services mini application example (multiple containers)
+=======================================================
 
 .. meta::
    :description: "Services miniapp" is an example mini application that 

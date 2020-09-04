@@ -131,9 +131,10 @@ Contents
     introduction/index
     main/installation
     tutorials/index
+    examples/index
     providers/index
     containers/index
-    examples/index
+    examples-other/index
     api/index
     main/feedback
     main/changelog
