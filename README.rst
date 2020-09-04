@@ -70,7 +70,7 @@ Coupling and cohesion are about how tough the components are tied.
 
 When the cohesion is high the coupling is low.
 
-High cohesion brings the flexibility. Your code becomes easier to change and to test.
+High cohesion brings the flexibility. Your code becomes easier to change and test.
 
 How to implement dependency injection?
 --------------------------------------
@@ -87,14 +87,14 @@ Before:
    class ApiClient:
 
        def __init__(self):
-           self.api_key = os.getenv('API_KEY')
-           self.timeout = os.getenv('TIMEOUT')
+           self.api_key = os.getenv('API_KEY')  # <-- the dependency
+           self.timeout = os.getenv('TIMEOUT')  # <-- the dependency
 
 
    class Service:
 
        def __init__(self):
-           self.api_client = ApiClient()
+           self.api_client = ApiClient()  # <-- the dependency
 
 
    if __name__ == '__main__':
@@ -111,14 +111,14 @@ After:
    class ApiClient:
 
        def __init__(self, api_key: str, timeout: int):
-           self.api_key = api_key
-           self.timeout = timeout
+           self.api_key = api_key  # <-- the dependency is injected
+           self.timeout = timeout  # <-- the dependency is injected
 
 
    class Service:
 
        def __init__(self, api_client: ApiClient):
-           self.api_client = api_client
+           self.api_client = api_client  # <-- the dependency is injected
 
 
    if __name__ == '__main__':

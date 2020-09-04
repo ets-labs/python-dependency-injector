@@ -21,7 +21,7 @@ Coupling and cohesion are about how tough the components are tied.
 
 When the cohesion is high the coupling is low.
 
-High cohesion brings the flexibility. Your code becomes easier to change and to test.
+High cohesion brings the flexibility. Your code becomes easier to change and test.
 
 The example
 ~~~~~~~~~~~
