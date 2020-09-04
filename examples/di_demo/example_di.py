@@ -1,18 +1,18 @@
-"""The Code that demonstrates dependency injection pattern."""
+import os
+
+
+class ApiClient:
+
+    def __init__(self, api_key: str, timeout: int):
+        self.api_key = api_key
+        self.timeout = timeout
 
 
 class Service:
-    """The Service."""
 
-
-class Client:
-    """The Client that uses the Service."""
-
-    def __init__(self, service):  # The Service is injected into the Client
-        """Initialize the Client."""
-        self.service = service
+    def __init__(self, api_client: ApiClient):
+        self.api_client = api_client
 
 
 if __name__ == '__main__':
-    service = Service()       # Application creates the Service
-    client = Client(service)  # and inject the Service into the Client
+    service = Service(ApiClient(os.getenv('API_KEY'), os.getenv('TIMEOUT')))

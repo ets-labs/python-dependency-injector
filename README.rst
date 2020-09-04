@@ -57,14 +57,25 @@ It helps implementing the dependency injection principle.
 What is dependency injection?
 -----------------------------
 
-Dependency injection is a principle that helps to decrease coupling and increase cohesion. Your
-code becomes more flexible, clear and it is easier to test it.
+Dependency injection is a principle that helps to decrease coupling and increase cohesion.
+
+What is coupling and cohesion?
+
+Coupling and cohesion are about how tough the components are tied.
+
+- **High coupling**. If the coupling is high it's like using a superglue or welding. No easy way
+  to disassemble.
+- **High cohesion**. High cohesion is like using the screws. Very easy to disassemble and
+  assemble back or assemble a different way. It is an alternative to high coupling.
+
+When the cohesion is high the coupling is low.
+
+High cohesion brings the flexibility. Your code becomes easier to change and test.
 
 How to implement dependency injection?
 --------------------------------------
 
-Objects do not create each other anymore. They provide a way to inject the needed dependencies
-instead.
+Objects do not create each other anymore. They provide a way to inject the dependencies instead.
 
 Before:
 
@@ -76,14 +87,14 @@ Before:
    class ApiClient:
 
        def __init__(self):
-           self.api_key = os.getenv('API_KEY')
-           self.timeout = os.getenv('TIMEOUT')
+           self.api_key = os.getenv('API_KEY')  # <-- the dependency
+           self.timeout = os.getenv('TIMEOUT')  # <-- the dependency
 
 
    class Service:
 
        def __init__(self):
-           self.api_client = ApiClient()
+           self.api_client = ApiClient()  # <-- the dependency
 
 
    if __name__ == '__main__':
@@ -100,28 +111,36 @@ After:
    class ApiClient:
 
        def __init__(self, api_key: str, timeout: int):
-           self.api_key = api_key
-           self.timeout = timeout
+           self.api_key = api_key  # <-- the dependency is injected
+           self.timeout = timeout  # <-- the dependency is injected
 
 
    class Service:
 
        def __init__(self, api_client: ApiClient):
-           self.api_client = api_client
+           self.api_client = api_client  # <-- the dependency is injected
 
 
    if __name__ == '__main__':
        service = Service(ApiClient(os.getenv('API_KEY'), os.getenv('TIMEOUT')))
 
 
-Flexibility comes with a price: now you need to assemble your objects like this
+``ApiClient`` is decoupled from knowing where the options come from. You can read a key and a
+timeout from a configuration file or even get them from a database.
+
+``Service`` is decoupled from the ``ApiClient``. It does not create it anymore. You can provide a
+stub or other compatible object.
+
+Flexibility comes with a price.
+
+Now you need to assemble your objects like this
 ``Service(ApiClient(os.getenv('API_KEY'), os.getenv('TIMEOUT')))``. The assembly code might get
 duplicated and it'll become harder to change the application structure.
 
 What does Dependency Injector do?
 ---------------------------------
 
-``Dependency Injector`` helps you assemble the objects.
+``Dependency Injector`` helps to assemble the objects.
 
 It provides you the container and the providers that help you describe objects assembly. When you
 need an object you get it from the container. The rest of the assembly work is done by the
@@ -170,8 +189,11 @@ framework:
 
 Retrieving of the ``Service`` instance now is done like this ``container.service()``.
 
-Also ``Dependency Injector`` provides a bonus in overriding any of the providers with the
-``.override()`` method:
+The responsibility of assembling the object is consolidated in the container. When you need to
+make a change you do it in one place.
+
+When doing the testing you call the ``container.api_client.override()`` to replace the real API
+client with a mock:
 
 .. code-block:: python
 
@@ -180,7 +202,6 @@ Also ``Dependency Injector`` provides a bonus in overriding any of the providers
 
    with container.api_client.override(mock.Mock()):
        service = container.service()
-       assert isinstance(service.api_client, mock.Mock)
 
 It helps in a testing. Also you can use it for configuring project for the different environments:
 replace an API client with a stub on the dev or stage.
@@ -217,7 +238,7 @@ Concept
 - Explicit is better than implicit (PEP20).
 - Do no magic to your code.
 
-How does it different from the other frameworks?
+How is it different from the other frameworks?
 
 - **No autowiring.** The framework does NOT do any autowiring / autoresolving of the dependencies. You need to specify everything explicitly. Because *"Explicit is better than implicit" (PEP20)*.
 - **Does not pollute your code.** Your application does NOT know and does NOT depend on the framework. No ``@inject`` decorators, annotations, patching or any other magic tricks.
