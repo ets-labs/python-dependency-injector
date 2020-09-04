@@ -4,14 +4,14 @@ import logging.config
 import sqlite3
 
 import boto3
-
 from dependency_injector import containers, providers
+
 from . import services
 
 
 class Container(containers.DeclarativeContainer):
 
-    config = providers.Configuration('config')
+    config = providers.Configuration()
 
     configure_logging = providers.Callable(
         logging.config.fileConfig,
