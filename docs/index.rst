@@ -129,11 +129,11 @@ Contents
     :maxdepth: 2
 
     introduction/index
-    main/installation
+    examples/index
     tutorials/index
     providers/index
     containers/index
-    examples/index
+    examples-other/index
     api/index
     main/feedback
     main/changelog
