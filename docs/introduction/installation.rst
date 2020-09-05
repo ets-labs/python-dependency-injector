@@ -31,7 +31,7 @@ Verification of currently installed version could be done using
 
     >>> import dependency_injector
     >>> dependency_injector.__version__
-    '3.15.2'
+    '3.38.0'
 
 .. _PyPi: https://pypi.org/project/dependency-injector/
 .. _GitHub: https://github.com/ets-labs/python-dependency-injector
