@@ -175,13 +175,16 @@ What's next?
 
 Choose one of the following as a next step:
 
-+ Pass one of the tutorials:
-    + :ref:`cli-tutorial`
-    + :ref:`flask-tutorial`
-    + :ref:`aiohttp-tutorial`
-    + :ref:`asyncio-daemon-tutorial`
-+ Know more about the :ref:`providers`
-+ Go to the :ref:`contents`
+- Look at application examples:
+    - :ref:`application-single-container`
+    - :ref:`application-multiple-containers`
+- Pass the tutorials:
+    - :ref:`flask-tutorial`
+    - :ref:`aiohttp-tutorial`
+    - :ref:`asyncio-daemon-tutorial`
+    - :ref:`cli-tutorial`
+- Know more about the :ref:`providers`
+- Go to the :ref:`contents`
 
 .. disqus::
 

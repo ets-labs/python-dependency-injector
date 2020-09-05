@@ -129,9 +129,8 @@ Contents
     :maxdepth: 2
 
     introduction/index
-    main/installation
-    tutorials/index
     examples/index
+    tutorials/index
     providers/index
     containers/index
     examples-other/index

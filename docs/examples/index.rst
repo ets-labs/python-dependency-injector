@@ -10,5 +10,7 @@ Explore the examples to see the ``Dependency Injector`` in action.
 ..  toctree::
     :maxdepth: 2
 
-    services-single-container
-    services-multiple-containers
+    application-single-container
+    application-multiple-containers
+
+.. disqus::

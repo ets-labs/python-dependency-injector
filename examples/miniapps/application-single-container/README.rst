@@ -1,5 +1,5 @@
-Services mini application example (single container)
-====================================================
+Application example (single container)
+======================================
 
 Create virtual env:
 
