@@ -1,1 +1,1 @@
-"""Bundles package."""
+"""Top-level package."""
