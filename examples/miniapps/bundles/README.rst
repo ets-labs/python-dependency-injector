@@ -18,7 +18,7 @@ Run:
 
 .. code-block:: bash
 
-   python -m bundles
+   python -m example
 
 You should see:
 
