@@ -1,10 +1,10 @@
 """Main module."""
 
-from .containers import Application
+from .containers import ApplicationContainer
 
 
 if __name__ == '__main__':
-    application = Application()
+    application = ApplicationContainer()
     application.config.from_ini('config.ini')
 
     user_repository = application.user_bundle.user_repository()

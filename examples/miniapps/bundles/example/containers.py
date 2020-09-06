@@ -10,7 +10,7 @@ from .photo.containers import PhotoContainer
 from .analytics.containers import AnalyticsContainer
 
 
-class Application(containers.DeclarativeContainer):
+class ApplicationContainer(containers.DeclarativeContainer):
 
     config = providers.Configuration()
 
