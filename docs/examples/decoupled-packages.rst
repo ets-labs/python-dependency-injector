@@ -1,7 +1,16 @@
 Decoupled packages example (multiple containers)
 ================================================
 
-.. currentmodule:: dependency_injector.containers
+.. meta::
+   :keywords: Python,Dependency Injection,Inversion of Control,Container,Example,Application,
+              Framework,AWS,boto3,client
+   :description: This example shows how to use Dependency Injector to create Python decoupled packages.
+                 To achieve a decoupling each package has a container with the components. When
+                 a component needs a dependency from the outside of the package scope we use the
+                 Dependency provider. The package container has no knowledge on where the
+                 dependencies come from. It states a need that the dependencies must be provided.
+                 This helps to decouple a package from the 3rd party dependencies and other
+                 packages.
 
 This example shows how to use ``Dependency Injector`` to create decoupled packages.
 
