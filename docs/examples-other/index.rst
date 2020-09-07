@@ -14,6 +14,6 @@ This sections contains assorted ``Dependency Injector`` examples.
     :maxdepth: 2
 
     use_cases_miniapp
-    password_hashing_miniapp
+    password-hashing
     chained_factories
     factory_of_factories
