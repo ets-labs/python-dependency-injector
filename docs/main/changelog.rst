@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.40.0
+------
+- Add "Decoupled packages" example.
+- Delete "Bundles" examples mini application.
+
 3.39.0
 ------
 - Add application examples with single and multiple containers.
