@@ -1,5 +1,5 @@
-Bundles application example
-===========================
+Decoupled packages example
+==========================
 
 Create virtual env:
 

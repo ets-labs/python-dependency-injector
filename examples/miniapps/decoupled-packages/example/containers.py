@@ -23,19 +23,19 @@ class ApplicationContainer(containers.DeclarativeContainer):
         aws_secret_access_key=config.aws.secret_access_key,
     )
 
-    user_bundle = providers.Container(
+    user_package = providers.Container(
         UserContainer,
         database=sqlite,
     )
 
-    photo_bundle = providers.Container(
+    photo_package = providers.Container(
         PhotoContainer,
         database=sqlite,
         file_storage=s3,
     )
 
-    analytics_bundle = providers.Container(
+    analytics_package = providers.Container(
         AnalyticsContainer,
-        user_repository=user_bundle.user_repository,
-        photo_repository=photo_bundle.photo_repository,
+        user_repository=user_package.user_repository,
+        photo_repository=photo_package.photo_repository,
     )
