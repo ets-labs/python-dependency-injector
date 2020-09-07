@@ -1,7 +1,10 @@
 Use cases example
 =================
 
-.. currentmodule:: dependency_injector.providers
+.. meta::
+   :keywords: Python,Dependency Injection,Inversion of Control,Container,Example,Application,
+              Framework,DependenciesContainer
+   :description: This example demonstrates a usage of the DependenciesContainer provider.
 
 This example demonstrates a usage of the ``DependenciesContainer`` provider.
 
