@@ -11,6 +11,7 @@ Develop
 -------
 - Refactor "password hashing" example.
 - Fix declarative container mypy stub to ``__init__`` to accept not only providers.
+- Refactor main module of the "decoupled packages" example.
 
 3.40.0
 ------
