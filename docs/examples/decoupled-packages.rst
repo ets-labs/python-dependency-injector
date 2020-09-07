@@ -15,7 +15,7 @@ To wire the packages we use an application container. Application container has 
 dependencies and package containers. It wires the packages and dependencies to create a
 complete application.
 
-We build an example micro application that consists from 3 packages:
+We build an example micro application that consists of 3 packages:
 
 - ``user`` - a package with user domain logic, depends on a database
 - ``photo`` - a package with photo domain logic, depends on a database and AWS S3
