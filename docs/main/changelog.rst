@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 Develop
 -------
 - Refactor "password hashing" example.
+- Fix declarative container mypy stub to ``__init__`` to accept not only providers.
 
 3.40.0
 ------
