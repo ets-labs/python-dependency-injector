@@ -8,14 +8,11 @@ Other examples
                  of inversion of control principle and powered by 
                  "Dependency Injector" framework.
 
-Current section of documentation is designed to provide several example mini 
-applications that are built according to the inversion of control principle 
-and powered by *Dependency Injector* framework.
+This sections contains assorted ``Dependency Injector`` examples.
 
 ..  toctree::
     :maxdepth: 2
 
-    bundles_miniapp
     use_cases_miniapp
     password_hashing_miniapp
     chained_factories
