@@ -3,7 +3,7 @@
 from .containers import ApplicationContainer
 
 
-if __name__ == '__main__':
+def main() -> None:
     application = ApplicationContainer()
     application.config.from_ini('config.ini')
 
@@ -22,3 +22,7 @@ if __name__ == '__main__':
     assert aggregation_service.user_repository is user_repository
     assert aggregation_service.photo_repository is photo_repository
     print('Aggregate analytics from user and photo packages')
+
+
+if __name__ == '__main__':
+    main()
