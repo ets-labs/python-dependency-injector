@@ -13,7 +13,7 @@ This sections contains assorted ``Dependency Injector`` examples.
 ..  toctree::
     :maxdepth: 2
 
-    use_cases_miniapp
+    use-cases
     password-hashing
     chained_factories
     factory_of_factories
