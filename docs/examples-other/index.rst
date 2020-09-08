@@ -2,18 +2,16 @@ Other examples
 ==============
 
 .. meta::
-   :keywords: Python,DI,Dependency injection,IoC,Inversion of Control
-   :description: Current section of documentation is designed to provide 
-                 several example mini applications that are built on the top 
-                 of inversion of control principle and powered by 
-                 "Dependency Injector" framework.
+   :keywords: Python,Dependency Injection,Inversion of Control,Container,Example,Application,
+              Framework
+   :description: This sections contains assorted Dependency Injector examples.
 
 This sections contains assorted ``Dependency Injector`` examples.
 
 ..  toctree::
     :maxdepth: 2
 
-    use_cases_miniapp
-    password_hashing_miniapp
-    chained_factories
-    factory_of_factories
+    use-cases
+    password-hashing
+    chained-factories
+    factory-of-factories

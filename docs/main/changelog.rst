@@ -7,6 +7,17 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.41.0
+------
+- Refactor "use cases" example.
+- Refactor "password hashing" example.
+- Refactor "chained factories" pattern example.
+- Refactor "factory of factories" pattern example.
+- Fix declarative container mypy stub to ``__init__`` to accept not only providers.
+- Refactor main module of the "decoupled packages" example.
+- Delete "api client" example mini app.
+- Delete "mail service" example mini app.
+
 3.40.0
 ------
 - Add "Decoupled packages" example.

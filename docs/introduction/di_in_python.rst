@@ -134,6 +134,7 @@ Choose one of the following as a next step:
 - Look at application examples:
     - :ref:`application-single-container`
     - :ref:`application-multiple-containers`
+    - :ref:`decoupled-packages`
 - Pass the tutorials:
     - :ref:`flask-tutorial`
     - :ref:`aiohttp-tutorial`
