@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Develop
--------
+3.41.0
+------
 - Refactor "use cases" example.
 - Refactor "password hashing" example.
 - Refactor "chained factories" pattern example.
