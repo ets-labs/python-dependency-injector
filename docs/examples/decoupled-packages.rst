@@ -1,3 +1,5 @@
+.. _decoupled-packages:
+
 Decoupled packages example (multiple containers)
 ================================================
 
