@@ -13,5 +13,5 @@ This sections contains assorted ``Dependency Injector`` examples.
 
     use-cases
     password-hashing
-    chained_factories
+    chained-factories
     factory_of_factories

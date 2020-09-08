@@ -11,6 +11,7 @@ Develop
 -------
 - Refactor "use cases" example.
 - Refactor "password hashing" example.
+- Refactor "chained factories" pattern example.
 - Fix declarative container mypy stub to ``__init__`` to accept not only providers.
 - Refactor main module of the "decoupled packages" example.
 
