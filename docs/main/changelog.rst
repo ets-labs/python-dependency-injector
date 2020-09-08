@@ -15,6 +15,7 @@ Develop
 - Refactor "factory of factories" pattern example.
 - Fix declarative container mypy stub to ``__init__`` to accept not only providers.
 - Refactor main module of the "decoupled packages" example.
+- Delete "api client" example mini app.
 
 3.40.0
 ------
