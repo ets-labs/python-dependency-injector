@@ -13,7 +13,7 @@ additional arguments.
        base_argument=1,
    )
 
-   factory = providers.Factory(
+   concrete_factory = providers.Factory(
        base_factory,
        extra_argument=2,
    )
@@ -22,7 +22,6 @@ additional arguments.
    if __name__ == '__main__':
        instance = concrete_factory()
        # Same as: # instance = SomeClass(base_argument=1, extra_argument=2)
-
 
 Sample code
 -----------
@@ -36,8 +35,6 @@ Arguments priority
 ------------------
 
 Passing of the arguments works the same way like for any other :ref:`factory-provider`.
-
-Explanation & some more examples:
 
 .. code-block:: python
 
@@ -55,7 +52,7 @@ Explanation & some more examples:
    )
    print(chained_dict_factory())  # prints: {'arg1': 2}
 
-   # 3. Keyword arguments provided from context have most priority
+   # 3. Keyword arguments provided from context have the most priority
    chained_dict_factory = providers.Factory(
        providers.Factory(dict, arg1=1),
        arg1=2,

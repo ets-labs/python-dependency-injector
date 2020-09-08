@@ -10,10 +10,16 @@ This example demonstrates an injection of the ``Callable`` provider.
 
 The source code is available on the `Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/password-hashing>`_.
 
-Listing of the ``example.py``:
+Sample code
+-----------
+
+Listing of the pattern example:
 
 .. literalinclude:: ../../examples/miniapps/password-hashing/example.py
    :language: python
+
+Run the example
+---------------
 
 Instructions for running:
 
