@@ -16,6 +16,7 @@ Develop
 - Fix declarative container mypy stub to ``__init__`` to accept not only providers.
 - Refactor main module of the "decoupled packages" example.
 - Delete "api client" example mini app.
+- Delete "mail service" example mini app.
 
 3.40.0
 ------
