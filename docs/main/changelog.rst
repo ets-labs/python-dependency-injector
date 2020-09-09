@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 Develop
 -------
 - Update "DI in Python" documentation page.
+- Delete "What is DI?" documentation page.
 - Delete "engines cars" example mini app.
 
 3.41.0
