@@ -3,11 +3,11 @@ Introduction
 
 .. meta::
    :keywords: Python,DI,Dependency injection,IoC,Inversion of Control
-   :description: Current section of documentation is designed to give an
-                 overview on dependency injection, inversion of
+   :description: Current section of the documentation is provides an
+                 overview of the dependency injection, inversion of
                  control and Dependency Injector framework.
 
-Current section of documentation is designed to give an overview on the
+Current section of the documentation provides an overview of the
 dependency injection, inversion of control and the ``Dependency Injector`` framework.
 
 ..  toctree::
