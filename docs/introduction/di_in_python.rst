@@ -200,7 +200,7 @@ Also monkey-patching is a way too dirty to be used outside of the testing code f
 reconfiguring the project for the different environments.
 
 Conclusion
----------
+----------
 
 Dependency injection brings you 3 advantages:
 
