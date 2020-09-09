@@ -3,16 +3,17 @@ Dependency injection and inversion of control in Python
 
 .. meta::
    :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Example
-   :description: This page describes a usage of the dependency injection pattern in Python. It
-                 contains Python examples that show how to implement dependency injection. It
-                 demonstrates a usage of the dependency injection framework
+   :description: This page describes a usage of the dependency injection and inversion of control
+                 in Python. It contains Python examples that show how to implement dependency
+                 injection. It demonstrates a usage of the dependency injection framework
                  Dependency Injector, its container, Factory, Singleton and Configuration
                  providers. The example show how to use Dependency Injector providers overriding
                  feature for testing or configuring project in different environments and explains
                  why it's better then monkey-patching.
 
 Originally dependency injection pattern got popular in the languages with a static typing,
-like Java. Dependency injection framework can significantly improve flexibility of the language
+like Java. Dependency injection is a principle that helps to achieve an inversion of control.
+Dependency injection framework can significantly improve a flexibility of the language
 with a static typing. Implementation of a dependency injection framework for a language
 with a static typing is not something that one can do quickly. It will be a quite complex thing
 to be done well. And will take time.

@@ -70,7 +70,7 @@ Coupling and cohesion are about how tough the components are tied.
 
 When the cohesion is high the coupling is low.
 
-Low coupling and high cohesion brings a flexibility. Your code becomes easier to change and test.
+Low coupling brings a flexibility. Your code becomes easier to change and test.
 
 How to implement dependency injection?
 --------------------------------------
@@ -124,7 +124,6 @@ After:
    if __name__ == '__main__':
        service = Service(ApiClient(os.getenv('API_KEY'), os.getenv('TIMEOUT')))
 
-
 ``ApiClient`` is decoupled from knowing where the options come from. You can read a key and a
 timeout from a configuration file or even get them from a database.
 
@@ -133,35 +132,29 @@ stub or other compatible object.
 
 Flexibility comes with a price.
 
-Now you need to assemble your objects like this
-``Service(ApiClient(os.getenv('API_KEY'), os.getenv('TIMEOUT')))``. The assembly code might get
-duplicated and it'll become harder to change the application structure.
+Now you need to assemble the objects like this::
 
-What does Dependency Injector do?
----------------------------------
+    service = Service(ApiClient(os.getenv('API_KEY'), os.getenv('TIMEOUT')))
+
+The assembly code might get duplicated and it'll become harder to change the application structure.
+
+Here comes the ``Dependency Injector``.
+
+What does the Dependency Injector do?
+-------------------------------------
+
+With the dependency injection pattern objects lose the responsibility of assembling the
+dependencies. The ``Dependency Injector`` absorbs that responsibility.
 
 ``Dependency Injector`` helps to assemble the objects.
 
-It provides you the container and the providers that help you describe objects assembly. When you
+It provides a container and providers that help you with the objects assembly. When you
 need an object you get it from the container. The rest of the assembly work is done by the
 framework:
 
 .. code-block:: python
 
    from dependency_injector import containers, providers
-
-
-   class ApiClient:
-
-       def __init__(self, api_key: str, timeout: int):
-           self.api_key = api_key
-           self.timeout = timeout
-
-
-   class Service:
-
-       def __init__(self, api_client: ApiClient):
-           self.api_client = api_client
 
 
    class Container(containers.DeclarativeContainer):
@@ -187,12 +180,14 @@ framework:
 
        service = container.service()
 
-Retrieving of the ``Service`` instance now is done like this ``container.service()``.
+Retrieving of the ``Service`` instance now is done like this::
+
+    service = container.service()
 
 Objects assembling is consolidated in the container. When you need to make a change you do it in
 one place.
 
-When doing the testing you call the ``container.api_client.override()`` to replace the real API
+When doing a testing you call the ``container.api_client.override()`` to replace the real API
 client with a mock:
 
 .. code-block:: python
@@ -203,8 +198,10 @@ client with a mock:
    with container.api_client.override(mock.Mock()):
        service = container.service()
 
-It helps in a testing. Also you can use it for configuring project for the different environments:
-replace an API client with a stub on the dev or stage.
+You can override any provider by another provider.
+
+It also helps you in configuring project for the different environments: replace an API client
+with a stub on the dev or stage.
 
 `More examples <https://github.com/ets-labs/python-dependency-injector/tree/master/examples>`_
 
