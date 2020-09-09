@@ -1,3 +1,5 @@
+.. _key-features:
+
 Key features
 ------------
 
