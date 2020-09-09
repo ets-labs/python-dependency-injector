@@ -12,6 +12,7 @@ Develop
 - Update "DI in Python" documentation page.
 - Delete "What is DI?" documentation page.
 - Delete "engines cars" example mini app.
+- Update README.
 
 3.41.0
 ------
