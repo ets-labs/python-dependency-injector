@@ -17,11 +17,11 @@ Coupling and cohesion are about how tough the components are tied.
 - **High coupling**. If the coupling is high it's like using a superglue or welding. No easy way
   to disassemble.
 - **High cohesion**. High cohesion is like using the screws. Very easy to disassemble and
-  assemble back or assemble a different way. It is an alternative to high coupling.
+  assemble back or assemble a different way. It is an opposite to high coupling.
 
 When the cohesion is high the coupling is low.
 
-High cohesion brings the flexibility. Your code becomes easier to change and test.
+Low coupling and high cohesion bring a flexibility. Your code becomes easier to change and test.
 
 The example
 ~~~~~~~~~~~
