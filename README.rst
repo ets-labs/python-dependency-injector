@@ -203,8 +203,6 @@ You can override any provider by another provider.
 It also helps you in configuring project for the different environments: replace an API client
 with a stub on the dev or stage.
 
-`More examples <https://github.com/ets-labs/python-dependency-injector/tree/master/examples>`_
-
 Installation
 ------------
 
