@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Develop
+-------
+- Update "DI in Python" documentation page.
+- Delete "engines cars" example mini app.
+
 3.41.0
 ------
 - Refactor "use cases" example.
