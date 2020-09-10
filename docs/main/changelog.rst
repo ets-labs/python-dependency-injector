@@ -7,9 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Develop
--------
+3.43.0
+------
+- Update API documentation.
 - Remove not relevant "speech" example.
+- Fix a few typos.
 
 3.42.0
 ------
