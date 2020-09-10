@@ -143,7 +143,7 @@ Here comes the ``Dependency Injector``.
 What does the Dependency Injector do?
 -------------------------------------
 
-With the dependency injection pattern objects lose the responsibility of assembling the
+With the dependency injection pattern objects loose the responsibility of assembling the
 dependencies. The ``Dependency Injector`` absorbs that responsibility.
 
 ``Dependency Injector`` helps to assemble the objects.
