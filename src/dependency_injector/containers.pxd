@@ -1,7 +1,4 @@
-"""Dependency injector containers.
-
-Powered by Cython.
-"""
+"""Containers module."""
 
 # Declarative containers are declared as regular types because of metaclasses
 

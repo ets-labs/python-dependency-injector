@@ -24,7 +24,7 @@ It causes the cascade effect that helps to assemble object graphs. See ``Factory
         │
         └──> provider6()
 
-Another providers feature is an overriding. You can override any provider by another provider.
+Another providers feature is an overriding. You can override any provider with another provider.
 This helps in testing. This also helps in overriding API clients with stubs for the development
 or staging environment. See the example at :ref:`provider-overriding`.
 

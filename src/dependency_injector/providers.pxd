@@ -1,7 +1,4 @@
-"""Dependency injector providers.
-
-Powered by Cython.
-"""
+"""Providers module."""
 
 cimport cython
 
