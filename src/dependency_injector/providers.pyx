@@ -1,7 +1,4 @@
-"""Dependency injector providers.
-
-Powered by Cython.
-"""
+"""Providers module."""
 
 from __future__ import absolute_import
 

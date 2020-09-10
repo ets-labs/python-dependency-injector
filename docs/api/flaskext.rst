@@ -3,7 +3,7 @@ dependency_injector.ext.flask
 
 .. automodule:: dependency_injector.ext.flask
    :members:
-   :special-members:
+   :show-inheritance:
 
 
 .. disqus::

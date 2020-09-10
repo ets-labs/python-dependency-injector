@@ -1,7 +1,4 @@
-"""Dependency injector containers.
-
-Powered by Cython.
-"""
+"""Containers module."""
 
 import six
 
