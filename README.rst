@@ -198,7 +198,7 @@ client with a mock:
    with container.api_client.override(mock.Mock()):
        service = container.service()
 
-You can override any provider by another provider.
+You can override any provider with another provider.
 
 It also helps you in configuring project for the different environments: replace an API client
 with a stub on the dev or stage.
