@@ -3,12 +3,11 @@ import warnings
 
 
 warnings.warn(
-    message=(
-        'Types module is deprecated since version 3.44.0. Use "Provider" class from the '
-        '"providers" module: providers.Provider[SomeClass]'
-    ),
+    'Types module is deprecated since version 3.44.0. Use "providers" module instead: '
+    'providers.Provider[SomeClass]',
     category=DeprecationWarning,
 )
+
 
 Injection = Any
 T = TypeVar('T')
