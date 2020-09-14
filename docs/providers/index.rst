@@ -49,3 +49,4 @@ Providers module API docs - :py:mod:`dependency_injector.providers`
     overriding
     provided_instance
     custom
+    typing_mypy

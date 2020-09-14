@@ -11,6 +11,7 @@ Develop
 -------
 - Add native support of the generics to the providers: ``some_provider = providers.Provider[SomeClass]``.
 - Deprecate module ``types``.
+- Add documentation page on providers typing and ``mypy`` support.
 
 3.43.1
 ------

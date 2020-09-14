@@ -78,7 +78,7 @@ Key features of the ``Dependency Injector``:
   and dictionaries. See :ref:`configuration-provider`.
 - **Containers**. Provides declarative and dynamic containers. See :ref:`containers`.
 - **Performance**. Fast. Written in ``Cython``.
-- **Typing**. Provides typing stubs, ``mypy``-friendly.
+- **Typing**. Provides typing stubs, ``mypy``-friendly. See :ref:`provider-typing`.
 - **Maturity**. Mature and production-ready. Well-tested, documented and supported.
 
 .. code-block:: python
