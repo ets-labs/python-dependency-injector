@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+3.44.0
+------
+- Add native support of the generics to the providers: ``some_provider = providers.Provider[SomeClass]``.
+- Deprecate module ``types``.
+- Add documentation page on providers typing and ``mypy`` support.
+- Update README.
+
 3.43.1
 ------
 - Fix a typo in README.

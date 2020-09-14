@@ -54,103 +54,23 @@ What is ``Dependency Injector``?
 
 It helps implementing the dependency injection principle.
 
-What is dependency injection?
------------------------------
+Key features of the ``Dependency Injector``:
 
-Dependency injection is a principle that helps to decrease coupling and increase cohesion.
-
-What is coupling and cohesion?
-
-Coupling and cohesion are about how tough the components are tied.
-
-- **High coupling**. If the coupling is high it's like using a superglue or welding. No easy way
-  to disassemble.
-- **High cohesion**. High cohesion is like using the screws. Very easy to disassemble and
-  assemble back or assemble a different way. It is an opposite to high coupling.
-
-When the cohesion is high the coupling is low.
-
-Low coupling brings a flexibility. Your code becomes easier to change and test.
-
-How to implement dependency injection?
---------------------------------------
-
-Objects do not create each other anymore. They provide a way to inject the dependencies instead.
-
-Before:
-
-.. code-block:: python
-
-   import os
-
-
-   class ApiClient:
-
-       def __init__(self):
-           self.api_key = os.getenv('API_KEY')  # <-- the dependency
-           self.timeout = os.getenv('TIMEOUT')  # <-- the dependency
-
-
-   class Service:
-
-       def __init__(self):
-           self.api_client = ApiClient()  # <-- the dependency
-
-
-   if __name__ == '__main__':
-       service = Service()
-
-
-After:
-
-.. code-block:: python
-
-   import os
-
-
-   class ApiClient:
-
-       def __init__(self, api_key: str, timeout: int):
-           self.api_key = api_key  # <-- the dependency is injected
-           self.timeout = timeout  # <-- the dependency is injected
-
-
-   class Service:
-
-       def __init__(self, api_client: ApiClient):
-           self.api_client = api_client  # <-- the dependency is injected
-
-
-   if __name__ == '__main__':
-       service = Service(ApiClient(os.getenv('API_KEY'), os.getenv('TIMEOUT')))
-
-``ApiClient`` is decoupled from knowing where the options come from. You can read a key and a
-timeout from a configuration file or even get them from a database.
-
-``Service`` is decoupled from the ``ApiClient``. It does not create it anymore. You can provide a
-stub or other compatible object.
-
-Flexibility comes with a price.
-
-Now you need to assemble the objects like this::
-
-    service = Service(ApiClient(os.getenv('API_KEY'), os.getenv('TIMEOUT')))
-
-The assembly code might get duplicated and it'll become harder to change the application structure.
-
-Here comes the ``Dependency Injector``.
-
-What does the Dependency Injector do?
--------------------------------------
-
-With the dependency injection pattern objects loose the responsibility of assembling the
-dependencies. The ``Dependency Injector`` absorbs that responsibility.
-
-``Dependency Injector`` helps to assemble the objects.
-
-It provides a container and providers that help you with the objects assembly. When you
-need an object you get it from the container. The rest of the assembly work is done by the
-framework:
+- **Providers**. Provides ``Factory``, ``Singleton``, ``Callable``, ``Coroutine``, ``Object``,
+  ``List``, ``Configuration``, ``Dependency`` and ``Selector`` providers that help assembling your
+  objects. See `Providers <http://python-dependency-injector.ets-labs.org/providers/index.html>`_.
+- **Overriding**. Can override any provider by another provider on the fly. This helps in testing
+  and configuring dev / stage environment to replace API clients with stubs etc. See
+  `Provider overriding <http://python-dependency-injector.ets-labs.org/providers/overriding.html>`_.
+- **Configuration**. Read configuration from ``yaml`` & ``ini`` files, environment variables
+  and dictionaries.
+  See `Configuration provider <http://python-dependency-injector.ets-labs.org/providers/configuration.html>`_.
+- **Containers**. Provides declarative and dynamic containers.
+  See `Containers <http://python-dependency-injector.ets-labs.org/containers/index.html>`_.
+- **Performance**. Fast. Written in ``Cython``.
+- **Typing**. Provides typing stubs, ``mypy``-friendly.
+  See `Typing and mypy <http://python-dependency-injector.ets-labs.org/providers/typing_mypy.html>`_.
+- **Maturity**. Mature and production-ready. Well-tested, documented and supported.
 
 .. code-block:: python
 
@@ -180,28 +100,18 @@ framework:
 
        service = container.service()
 
-Retrieving of the ``Service`` instance now is done like this::
+With the ``Dependency Injector`` you keep **application structure in one place**.
+This place is called **the container**. You use the container to manage all the components of the
+application. All the component dependencies are defined explicitly. This provides the control on
+the application structure. It is **easy to understand and change** it.
 
-    service = container.service()
+.. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/di-map.svg
+   :target: https://github.com/ets-labs/python-dependency-injector
 
-Objects assembling is consolidated in the container. When you need to make a change you do it in
-one place.
+*The container is like a map of your application. You always know what depends on what.*
 
-When doing a testing you call the ``container.api_client.override()`` to replace the real API
-client with a mock:
-
-.. code-block:: python
-
-   from unittest import mock
-
-
-   with container.api_client.override(mock.Mock()):
-       service = container.service()
-
-You can override any provider with another provider.
-
-It also helps you in configuring project for the different environments: replace an API client
-with a stub on the dev or stage.
+Visit the docs to know more about the
+`Dependency injection and inversion of control in Python <http://python-dependency-injector.ets-labs.org/introduction/di_in_python.html>`_.
 
 Installation
 ------------
@@ -214,6 +124,15 @@ Documentation
 -------------
 
 The documentation is available on the `Read The Docs <http://python-dependency-injector.ets-labs.org/>`_
+
+Examples
+--------
+
+Choose one of the following:
+
+- `Application example (single container) <http://python-dependency-injector.ets-labs.org/examples/application-single-container.html>`_
+- `Application example (multiple containers) <http://python-dependency-injector.ets-labs.org/examples/application-multiple-containers.html>`_
+- `Decoupled packages example (multiple containers) <http://python-dependency-injector.ets-labs.org/examples/decoupled-packages.html>`_
 
 Tutorials
 ---------
