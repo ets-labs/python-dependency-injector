@@ -139,6 +139,11 @@ class ProviderTests(unittest.TestCase):
         self.assertIsNot(overriding_provider, overriding_provider_copy)
         self.assertIsInstance(overriding_provider_copy, providers.Provider)
 
+    def test_generic_type(self):
+        provider: providers.Provider[object] = providers.Factory(object)
+        some_object = provider()
+        self.assertIsInstance(some_object, object)
+
     def test_repr(self):
         self.assertEqual(repr(self.provider),
                          '<dependency_injector.providers.'

@@ -169,6 +169,10 @@ cdef class Provider(object):
 
         return copied
 
+    @classmethod
+    def __class_getitem__(cls, item):
+        return cls
+
     def __str__(self):
         """Return string representation of provider.
 
