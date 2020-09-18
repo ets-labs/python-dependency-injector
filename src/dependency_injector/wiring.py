@@ -118,16 +118,18 @@ def _patch_with_injections(fn, injections):
     return _patched
 
 
-class ConfigurationOption:
+class ConfigurationOptionMeta(type):
+
+    def __getitem__(cls, item):
+        # Spike for Python 3.6
+        return cls(item)
+
+
+class ConfigurationOption(metaclass=ConfigurationOptionMeta):
     """Configuration option marker."""
 
     def __init__(self, selector: str):
         self.selector = selector
 
     def __class_getitem__(cls, item):
-        return cls(item)
-
-    @classmethod
-    def __getitem__(cls, item):
-        # Spike for Python 3.6
         return cls(item)
