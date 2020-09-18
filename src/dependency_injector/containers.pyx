@@ -1,14 +1,21 @@
 """Containers module."""
 
+import sys
+
 import six
 
 from .errors import Error
-
 from .providers cimport (
     Provider,
     deepcopy,
 )
-from .wiring import wire
+
+
+if sys.version_info[:2] >= (3, 7):
+    from .wiring import wire
+else:
+    def wire(*args, **kwargs):
+        raise NotADirectoryError('Wiring requires Python 3.7 or above')
 
 
 class DynamicContainer(object):
