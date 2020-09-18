@@ -8,6 +8,7 @@ from .providers cimport (
     Provider,
     deepcopy,
 )
+from .wiring import wire
 
 
 class DynamicContainer(object):
@@ -170,6 +171,17 @@ class DynamicContainer(object):
 
         for provider in six.itervalues(self.providers):
             provider.reset_override()
+
+    def wire(self, modules=None, packages=None):
+        """Wire container providers with provided packages and modules by name.
+
+        :rtype: None
+        """
+        wire(
+            container=self,
+            modules=modules,
+            packages=packages,
+        )
 
 
 class DeclarativeContainerMetaClass(type):
@@ -362,6 +374,18 @@ class DeclarativeContainer(object):
 
         for provider in six.itervalues(cls.providers):
             provider.reset_override()
+
+    @classmethod
+    def wire(cls, modules=None, packages=None):
+        """Wire container providers with provided packages and modules by name.
+
+        :rtype: None
+        """
+        wire(
+            container=cls,
+            modules=modules,
+            packages=packages,
+        )
 
 
 def override(object container):

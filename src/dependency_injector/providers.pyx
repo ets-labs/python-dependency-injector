@@ -1143,6 +1143,23 @@ cdef class ConfigurationOption(Provider):
         root = self.__root_ref()
         return '.'.join((root.get_name(), self._get_self_name()))
 
+    def get_option_provider(self, selector):
+        """Return configuration option provider.
+
+        :param selector: Selector string, e.g. "option1.option2"
+        :type selector: str
+
+        :return: Option provider.
+        :rtype: :py:class:`ConfigurationOption`
+        """
+        key, *other_keys = selector.split('.')
+        child = getattr(self, key)
+
+        if other_keys:
+            child = child.get_option_provider('.'.join(other_keys))
+
+        return child
+
     def as_int(self):
         return Callable(int, self)
 
@@ -1356,6 +1373,23 @@ cdef class Configuration(Object):
                 break
 
         return value
+
+    def get_option_provider(self, selector):
+        """Return configuration option provider.
+
+        :param selector: Selector string, e.g. "option1.option2"
+        :type selector: str
+
+        :return: Option provider.
+        :rtype: :py:class:`ConfigurationOption`
+        """
+        key, *other_keys = selector.split('.')
+        child = getattr(self, key)
+
+        if other_keys:
+            child = child.get_option_provider('.'.join(other_keys))
+
+        return child
 
     def set(self, selector, value):
         """Override configuration option.
