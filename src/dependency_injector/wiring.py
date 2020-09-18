@@ -126,3 +126,8 @@ class ConfigurationOption:
 
     def __class_getitem__(cls, item):
         return cls(item)
+
+    @classmethod
+    def __getitem__(cls, item):
+        # Spike for Python 3.6
+        return cls(item)
