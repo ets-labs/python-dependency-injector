@@ -11,11 +11,11 @@ from .providers cimport (
 )
 
 
-if sys.version_info[:2] >= (3, 7):
+if sys.version_info[:2] >= (3, 6):
     from .wiring import wire
 else:
     def wire(*args, **kwargs):
-        raise NotADirectoryError('Wiring requires Python 3.7 or above')
+        raise NotADirectoryError('Wiring requires Python 3.6 or above')
 
 
 class DynamicContainer(object):

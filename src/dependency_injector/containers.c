@@ -2899,7 +2899,7 @@ static const char __pyx_k_Declarative_inversion_of_control[] = "Declarative inve
 static const char __pyx_k_DynamicContainer_override_provid[] = "DynamicContainer.override_providers";
 static const char __pyx_k_DynamicContainer_reset_last_over[] = "DynamicContainer.reset_last_overriding";
 static const char __pyx_k_Dynamic_inversion_of_control_con[] = "Dynamic inversion of control container.\n\n    .. code-block:: python\n\n        services = DynamicContainer()\n        services.auth = providers.Factory(AuthService)\n        services.users = providers.Factory(UsersService,\n                                           auth_service=services.auth)\n\n    .. py:attribute:: providers\n\n        Read-only dictionary of all providers.\n\n        :type: dict[str, :py:class:`dependency_injector.providers.Provider`]\n\n    .. py:attribute:: overridden\n\n        Tuple of overriding containers.\n\n        :type: tuple[:py:class:`DynamicContainer`]\n\n    .. py:attribute:: provider_type\n\n        Type of providers that could be placed in container.\n\n        :type: type\n    ";
-static const char __pyx_k_Wiring_requires_Python_3_7_or_ab[] = "Wiring requires Python 3.7 or above";
+static const char __pyx_k_Wiring_requires_Python_3_6_or_ab[] = "Wiring requires Python 3.6 or above";
 static const char __pyx_k_src_dependency_injector_containe[] = "src/dependency_injector/containers.pyx";
 static const char __pyx_k_Container_0_could_not_be_overrid_2[] = "Container {0} could not be overridden with itself or its subclasses";
 static const char __pyx_k_Declarative_inversion_of_control_2[] = "Declarative inversion of control container.\n\n    .. code-block:: python\n\n        class Services(DeclarativeContainer):\n            auth = providers.Factory(AuthService)\n            users = providers.Factory(UsersService,\n                                      auth_service=auth)\n    ";
@@ -2936,7 +2936,7 @@ static PyObject *__pyx_kp_s_Dynamic_inversion_of_control_con;
 static PyObject *__pyx_n_s_Error;
 static PyObject *__pyx_n_s_IS_CONTAINER;
 static PyObject *__pyx_n_s_NotADirectoryError;
-static PyObject *__pyx_kp_s_Wiring_requires_Python_3_7_or_ab;
+static PyObject *__pyx_kp_s_Wiring_requires_Python_3_6_or_ab;
 static PyObject *__pyx_n_s__7;
 static PyObject *__pyx_n_s_add_metaclass;
 static PyObject *__pyx_n_s_args;
@@ -3055,7 +3055,7 @@ static PyObject *__pyx_tp_new_19dependency_injector_10containers___pyx_scope_str
 static __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_items = {0, &__pyx_n_s_items, 0, 0, 0};
 static PyObject *__pyx_int_2;
 static PyObject *__pyx_int_3;
-static PyObject *__pyx_int_7;
+static PyObject *__pyx_int_6;
 static PyObject *__pyx_int_neg_1;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_slice__2;
@@ -3117,7 +3117,7 @@ static PyObject *__pyx_codeobj__55;
  *     from .wiring import wire
  * else:
  *     def wire(*args, **kwargs):             # <<<<<<<<<<<<<<
- *         raise NotADirectoryError('Wiring requires Python 3.7 or above')
+ *         raise NotADirectoryError('Wiring requires Python 3.6 or above')
  * 
  */
 
@@ -3155,7 +3155,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_wire(CYTHON_UNUSED 
   /* "dependency_injector/containers.pyx":18
  * else:
  *     def wire(*args, **kwargs):
- *         raise NotADirectoryError('Wiring requires Python 3.7 or above')             # <<<<<<<<<<<<<<
+ *         raise NotADirectoryError('Wiring requires Python 3.6 or above')             # <<<<<<<<<<<<<<
  * 
  * 
  */
@@ -3172,7 +3172,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_wire(CYTHON_UNUSED 
  *     from .wiring import wire
  * else:
  *     def wire(*args, **kwargs):             # <<<<<<<<<<<<<<
- *         raise NotADirectoryError('Wiring requires Python 3.7 or above')
+ *         raise NotADirectoryError('Wiring requires Python 3.6 or above')
  * 
  */
 
@@ -12284,7 +12284,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Error, __pyx_k_Error, sizeof(__pyx_k_Error), 0, 0, 1, 1},
   {&__pyx_n_s_IS_CONTAINER, __pyx_k_IS_CONTAINER, sizeof(__pyx_k_IS_CONTAINER), 0, 0, 1, 1},
   {&__pyx_n_s_NotADirectoryError, __pyx_k_NotADirectoryError, sizeof(__pyx_k_NotADirectoryError), 0, 0, 1, 1},
-  {&__pyx_kp_s_Wiring_requires_Python_3_7_or_ab, __pyx_k_Wiring_requires_Python_3_7_or_ab, sizeof(__pyx_k_Wiring_requires_Python_3_7_or_ab), 0, 0, 1, 0},
+  {&__pyx_kp_s_Wiring_requires_Python_3_6_or_ab, __pyx_k_Wiring_requires_Python_3_6_or_ab, sizeof(__pyx_k_Wiring_requires_Python_3_6_or_ab), 0, 0, 1, 0},
   {&__pyx_n_s__7, __pyx_k__7, sizeof(__pyx_k__7), 0, 0, 1, 1},
   {&__pyx_n_s_add_metaclass, __pyx_k_add_metaclass, sizeof(__pyx_k_add_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_args, __pyx_k_args, sizeof(__pyx_k_args), 0, 0, 1, 1},
@@ -12386,11 +12386,11 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "dependency_injector/containers.pyx":18
  * else:
  *     def wire(*args, **kwargs):
- *         raise NotADirectoryError('Wiring requires Python 3.7 or above')             # <<<<<<<<<<<<<<
+ *         raise NotADirectoryError('Wiring requires Python 3.6 or above')             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Wiring_requires_Python_3_7_or_ab); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Wiring_requires_Python_3_6_or_ab); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
 
@@ -12432,14 +12432,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "dependency_injector/containers.pyx":14
  * 
  * 
- * if sys.version_info[:2] >= (3, 7):             # <<<<<<<<<<<<<<
+ * if sys.version_info[:2] >= (3, 6):             # <<<<<<<<<<<<<<
  *     from .wiring import wire
  * else:
  */
   __pyx_slice__8 = PySlice_New(Py_None, __pyx_int_2, Py_None); if (unlikely(!__pyx_slice__8)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__8);
   __Pyx_GIVEREF(__pyx_slice__8);
-  __pyx_tuple__9 = PyTuple_Pack(2, __pyx_int_3, __pyx_int_7); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_tuple__9 = PyTuple_Pack(2, __pyx_int_3, __pyx_int_6); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
@@ -12447,7 +12447,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     from .wiring import wire
  * else:
  *     def wire(*args, **kwargs):             # <<<<<<<<<<<<<<
- *         raise NotADirectoryError('Wiring requires Python 3.7 or above')
+ *         raise NotADirectoryError('Wiring requires Python 3.6 or above')
  * 
  */
   __pyx_tuple__10 = PyTuple_Pack(2, __pyx_n_s_args, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(0, 17, __pyx_L1_error)
@@ -12734,7 +12734,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   __pyx_int_2 = PyInt_FromLong(2); if (unlikely(!__pyx_int_2)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_3 = PyInt_FromLong(3); if (unlikely(!__pyx_int_3)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_7 = PyInt_FromLong(7); if (unlikely(!__pyx_int_7)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_6 = PyInt_FromLong(6); if (unlikely(!__pyx_int_6)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -13278,7 +13278,7 @@ if (!__Pyx_RefNanny) {
   /* "dependency_injector/containers.pyx":14
  * 
  * 
- * if sys.version_info[:2] >= (3, 7):             # <<<<<<<<<<<<<<
+ * if sys.version_info[:2] >= (3, 6):             # <<<<<<<<<<<<<<
  *     from .wiring import wire
  * else:
  */
@@ -13298,7 +13298,7 @@ if (!__Pyx_RefNanny) {
 
     /* "dependency_injector/containers.pyx":15
  * 
- * if sys.version_info[:2] >= (3, 7):
+ * if sys.version_info[:2] >= (3, 6):
  *     from .wiring import wire             # <<<<<<<<<<<<<<
  * else:
  *     def wire(*args, **kwargs):
@@ -13320,7 +13320,7 @@ if (!__Pyx_RefNanny) {
     /* "dependency_injector/containers.pyx":14
  * 
  * 
- * if sys.version_info[:2] >= (3, 7):             # <<<<<<<<<<<<<<
+ * if sys.version_info[:2] >= (3, 6):             # <<<<<<<<<<<<<<
  *     from .wiring import wire
  * else:
  */
@@ -13331,7 +13331,7 @@ if (!__Pyx_RefNanny) {
  *     from .wiring import wire
  * else:
  *     def wire(*args, **kwargs):             # <<<<<<<<<<<<<<
- *         raise NotADirectoryError('Wiring requires Python 3.7 or above')
+ *         raise NotADirectoryError('Wiring requires Python 3.6 or above')
  * 
  */
   /*else*/ {
