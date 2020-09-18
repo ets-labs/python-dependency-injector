@@ -111,7 +111,11 @@ def _prepare_config_injection(
     elif parameter.annotation is float:
         provider = provider.as_float()
     elif parameter.annotation is not inspect.Parameter.empty:
-        provider = provider.as_(parameter.annotation)
+        try:
+            provider = provider.as_(parameter.annotation)
+        except Exception:
+            raise Exception(provider, relative_option_name, parameter.annotation)
+
     return provider
 
 
