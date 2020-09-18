@@ -30,7 +30,7 @@ class WiringTest(unittest.TestCase):
 
     def test_package_lookup(self):
         from .package.subpackage.submodule import test_function
-        service = module.test_function()
+        service = test_function()
         self.assertIsInstance(service, Service)
 
     def test_class_wiring(self):
