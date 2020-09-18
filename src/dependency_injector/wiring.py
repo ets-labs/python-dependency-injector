@@ -126,5 +126,3 @@ class ConfigurationOption:
 
     def __class_getitem__(cls, item):
         return cls(item)
-
-
