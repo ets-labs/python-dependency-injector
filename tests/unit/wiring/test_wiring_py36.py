@@ -1,19 +1,9 @@
 import unittest
 
-from dependency_injector import containers, providers
 
 from . import module, package
-
-
-class Service:
-    ...
-
-
-class Container(containers.DeclarativeContainer):
-
-    config = providers.Configuration()
-
-    service = providers.Factory(Service)
+from .service import Service
+from .container import Container
 
 
 class WiringTest(unittest.TestCase):

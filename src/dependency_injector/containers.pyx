@@ -57,6 +57,7 @@ class DynamicContainer(object):
         self.provider_type = Provider
         self.providers = dict()
         self.overridden = tuple()
+        self.declarative_parent = None
         super(DynamicContainer, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -68,6 +69,7 @@ class DynamicContainer(object):
         copied = self.__class__()
         copied.provider_type = Provider
         copied.overridden = deepcopy(self.overridden, memo)
+        copied.declarative_parent = self.declarative_parent
 
         for name, provider in deepcopy(self.providers, memo).items():
             setattr(copied, name, provider)
@@ -178,6 +180,20 @@ class DynamicContainer(object):
 
         for provider in six.itervalues(self.providers):
             provider.reset_override()
+
+    def resolve_provider_name(self, provider_to_resolve):
+        """Try to resolve provider name by its instance."""
+        if self.declarative_parent:
+            provider_name = self.declarative_parent.resolve_provider_name(provider_to_resolve)
+            if provider_name:
+                return provider_name
+
+        for provider_name, container_provider in self.providers.items():
+            if container_provider is provider_to_resolve:
+                return provider_name
+        else:
+            return None
+
 
     def wire(self, modules=None, packages=None):
         """Wire container providers with provided packages and modules by name.
@@ -329,6 +345,7 @@ class DeclarativeContainer(object):
         """
         container = cls.instance_type()
         container.provider_type = cls.provider_type
+        container.declarative_parent = cls
         container.set_providers(**deepcopy(cls.providers))
         container.override_providers(**overriding_providers)
         return container
@@ -381,6 +398,15 @@ class DeclarativeContainer(object):
 
         for provider in six.itervalues(cls.providers):
             provider.reset_override()
+
+    @classmethod
+    def resolve_provider_name(cls, provider_to_resolve):
+        """Try to resolve provider name by its instance."""
+        for provider_name, container_provider in cls.providers.items():
+            if container_provider is provider_to_resolve:
+                return provider_name
+        else:
+            return None
 
     @classmethod
     def wire(cls, modules=None, packages=None):

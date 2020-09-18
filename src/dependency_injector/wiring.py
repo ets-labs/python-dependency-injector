@@ -4,11 +4,12 @@ import functools
 import inspect
 import pkgutil
 from types import ModuleType
-from typing import Optional, Iterable, Callable, Any, Type, Dict
+from typing import Optional, Iterable, Callable, Any, Type, Dict, Generic, TypeVar
 
 from . import providers
 
 AnyContainer = Any
+T = TypeVar('T')
 
 
 def wire(
@@ -62,26 +63,41 @@ def _patch_fn(
 
 
 def _resolve_injections(fn: Callable[..., Any], container: AnyContainer) -> Dict[str, Any]:
-    signature = inspect.signature(fn)
-
     config = _resolve_container_config(container)
+
+    signature = inspect.signature(fn)
 
     injections = {}
     for parameter_name, parameter in signature.parameters.items():
-        if parameter_name in container.providers:
-            injections[parameter_name] = container.providers[parameter_name]
+        if not isinstance(parameter.default, _Marker):
+            continue
+        marker = parameter.default
 
-        if parameter_name.endswith('_provider'):
-            provider_name = parameter_name[:-9]
-            if provider_name in container.providers:
-                injections[parameter_name] = container.providers[provider_name].provider
+        provider = None
 
-        if config and isinstance(parameter.default, ConfigurationOption):
-            option_provider = config.get_option_provider(parameter.default.selector)
-            if parameter.annotation:
-                injections[parameter_name] = option_provider.as_(parameter.annotation)
-            else:
-                injections[parameter_name] = option_provider
+        provider_name = container.resolve_provider_name(marker.provider)
+        if provider_name:
+            provider = container.providers[provider_name]
+
+        if config and isinstance(marker.provider, providers.ConfigurationOption):
+            full_option_name = marker.provider.get_name()
+            _, *parts = full_option_name.split('.')
+            relative_option_name = '.'.join(parts)
+            provider = config.get_option_provider(relative_option_name)
+            if parameter.annotation is int:
+                provider = provider.as_int()
+            elif parameter.annotation is float:
+                provider = provider.as_float()
+            elif parameter.annotation is not inspect.Parameter.empty:
+                provider = provider.as_(parameter.annotation)
+
+        if provider is None:
+            continue
+
+        if isinstance(marker, Provide):
+            injections[parameter_name] = provider
+        elif isinstance(marker, Provider):
+            injections[parameter_name] = provider.provider
 
     return injections
 
@@ -118,18 +134,24 @@ def _patch_with_injections(fn, injections):
     return _patched
 
 
-class ConfigurationOptionMeta(type):
+class ClassGetItemMeta(type):
 
     def __getitem__(cls, item):
         # Spike for Python 3.6
         return cls(item)
 
 
-class ConfigurationOption(metaclass=ConfigurationOptionMeta):
-    """Configuration option marker."""
+class _Marker(Generic[T], metaclass=ClassGetItemMeta):
+    def __init__(self, provider: providers.Provider) -> None:
+        self.provider = provider
 
-    def __init__(self, selector: str):
-        self.selector = selector
-
-    def __class_getitem__(cls, item):
+    def __class_getitem__(cls, item) -> T:
         return cls(item)
+
+
+class Provide(_Marker):
+    ...
+
+
+class Provider(_Marker):
+    ...
