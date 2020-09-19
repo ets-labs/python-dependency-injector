@@ -50,7 +50,10 @@ def _patch_cls(
         return
     init_method = getattr(cls, '__init__')
 
-    injections = _resolve_injections(init_method, container)
+    try:
+        injections = _resolve_injections(init_method, container)
+    except Exception:
+        raise Exception(cls)
     if not injections:
         return
 
@@ -114,7 +117,7 @@ def _prepare_config_injection(
         try:
             provider = provider.as_(parameter.annotation)
         except Exception:
-            raise Exception(provider, relative_option_name, parameter.annotation)
+            raise Exception(option, parameter, parameter.annotation)
 
     return provider
 
