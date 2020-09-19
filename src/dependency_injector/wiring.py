@@ -2,19 +2,12 @@
 
 import functools
 import inspect
-import sys
 import pkgutil
 from types import ModuleType
 from typing import Optional, Iterable, Callable, Any, Type, Dict, Generic, TypeVar
 
-# Spike for Python 3.6
-# if sys.version_info < (3, 7):
-#     from typing import GenericMeta
-# else:
-#     class GenericMeta(type):
-#         ...
-
 from . import providers
+
 
 AnyContainer = Any
 T = TypeVar('T')
