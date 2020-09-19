@@ -1161,13 +1161,13 @@ cdef class ConfigurationOption(Provider):
         return child
 
     def as_int(self):
-        return Callable(int, self)
+        return TypedConfigurationOption(int, self)
 
     def as_float(self):
-        return Callable(float, self)
+        return TypedConfigurationOption(float, self)
 
     def as_(self, callback, *args, **kwargs):
-        return Callable(callback, self, *args, **kwargs)
+        return TypedConfigurationOption(callback, self, *args, **kwargs)
 
     def override(self, value):
         if isinstance(value, Provider):
@@ -1277,6 +1277,13 @@ cdef class ConfigurationOption(Provider):
         """
         value = os.getenv(name, default)
         self.override(value)
+
+
+cdef class TypedConfigurationOption(Callable):
+
+    @property
+    def option(self):
+        return self.args[0]
 
 
 cdef class Configuration(Object):

@@ -50,10 +50,7 @@ def _patch_cls(
         return
     init_method = getattr(cls, '__init__')
 
-    try:
-        injections = _resolve_injections(init_method, container)
-    except Exception:
-        raise Exception(cls)
+    injections = _resolve_injections(init_method, container)
     if not injections:
         return
 
@@ -84,11 +81,19 @@ def _resolve_injections(fn: Callable[..., Any], container: AnyContainer) -> Dict
             continue
         marker = parameter.default
 
-        provider_name = container.resolve_provider_name(marker.provider)
-        if provider_name:
+        if config and isinstance(marker.provider, providers.ConfigurationOption):
+            provider = _prepare_config_injection(marker.provider.get_name(), config)
+        elif config and isinstance(marker.provider, providers.TypedConfigurationOption):
+            provider = _prepare_config_injection(
+                marker.provider.option.get_name(),
+                config,
+                marker.provider.provides,
+            )
+        elif isinstance(marker.provider, providers.Provider):
+            provider_name = container.resolve_provider_name(marker.provider)
+            if not provider_name:
+                continue
             provider = container.providers[provider_name]
-        elif config and isinstance(marker.provider, providers.ConfigurationOption):
-            provider = _prepare_config_injection(marker.provider, parameter, config)
         else:
             continue
 
@@ -101,24 +106,15 @@ def _resolve_injections(fn: Callable[..., Any], container: AnyContainer) -> Dict
 
 
 def _prepare_config_injection(
-        option: providers.ConfigurationOption,
-        parameter: inspect.Parameter,
+        option_name: str,
         config: providers.Configuration,
+        as_: Any = None,
 ) -> providers.Provider:
-    full_option_name = option.get_name()
-    _, *parts = full_option_name.split('.')
+    _, *parts = option_name.split('.')
     relative_option_name = '.'.join(parts)
     provider = config.get_option_provider(relative_option_name)
-    if parameter.annotation is int:
-        provider = provider.as_int()
-    elif parameter.annotation is float:
-        provider = provider.as_float()
-    elif parameter.annotation is not inspect.Parameter.empty:
-        try:
-            provider = provider.as_(parameter.annotation)
-        except Exception:
-            raise Exception(option, parameter, parameter.annotation)
-
+    if as_:
+        return provider.as_(as_)
     return provider
 
 
