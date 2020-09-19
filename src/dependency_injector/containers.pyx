@@ -12,9 +12,12 @@ from .providers cimport (
 
 
 if sys.version_info[:2] >= (3, 6):
-    from .wiring import wire
+    from .wiring import wire, unwire
 else:
     def wire(*args, **kwargs):
+        raise NotADirectoryError('Wiring requires Python 3.6 or above')
+
+    def unwire(*args, **kwargs):
         raise NotADirectoryError('Wiring requires Python 3.6 or above')
 
 
@@ -55,9 +58,11 @@ class DynamicContainer(object):
         :rtype: None
         """
         self.provider_type = Provider
-        self.providers = dict()
+        self.providers = {}
         self.overridden = tuple()
         self.declarative_parent = None
+        self.wired_to_modules = []
+        self.wired_to_packages = []
         super(DynamicContainer, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -196,7 +201,7 @@ class DynamicContainer(object):
 
 
     def wire(self, modules=None, packages=None):
-        """Wire container providers with provided packages and modules by name.
+        """Wire container providers with provided packages and modules.
 
         :rtype: None
         """
@@ -205,6 +210,23 @@ class DynamicContainer(object):
             modules=modules,
             packages=packages,
         )
+
+        if modules:
+            self.wired_to_modules.extend(modules)
+
+        if packages:
+            self.wired_to_packages.extend(packages)
+
+    def unwire(self):
+        """Unwire container providers from previously wired packages and modules."""
+        unwire(
+            modules=self.wired_to_modules,
+            packages=self.wired_to_packages,
+        )
+
+        self.wired_to_modules.clear()
+        self.wired_to_packages.clear()
+
 
 
 class DeclarativeContainerMetaClass(type):

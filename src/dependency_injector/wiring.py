@@ -27,7 +27,7 @@ def wire(
         modules: Optional[Iterable[ModuleType]] = None,
         packages: Optional[Iterable[ModuleType]] = None,
 ) -> None:
-    """Wire container providers with provided packages and modules by name."""
+    """Wire container providers with provided packages and modules."""
     if not modules:
         modules = []
 
@@ -43,6 +43,27 @@ def wire(
                 _patch_cls(member, container)
 
 
+def unwire(
+        *,
+        modules: Optional[Iterable[ModuleType]] = None,
+        packages: Optional[Iterable[ModuleType]] = None,
+) -> None:
+    """Wire provided packages and modules with previous wired providers."""
+    if not modules:
+        modules = []
+
+    if packages:
+        for package in packages:
+            modules.extend(_fetch_modules(package))
+
+    for module in modules:
+        for name, member in inspect.getmembers(module):
+            if inspect.isfunction(member):
+                _unpatch_fn(module, name, member)
+            elif inspect.isclass(member):
+                _unpatch_cls(member,)
+
+
 def _patch_cls(
         cls: Type[Any],
         container: AnyContainer,
@@ -50,12 +71,19 @@ def _patch_cls(
     if not hasattr(cls, '__init__'):
         return
     init_method = getattr(cls, '__init__')
-
     injections = _resolve_injections(init_method, container)
     if not injections:
         return
-
     setattr(cls, '__init__', _patch_with_injections(init_method, injections))
+
+
+def _unpatch_cls(cls: Type[Any]) -> None:
+    if not hasattr(cls, '__init__'):
+        return
+    init_method = getattr(cls, '__init__')
+    if not _is_patched(init_method):
+        return
+    setattr(cls, '__init__', _get_original_from_patched(init_method))
 
 
 def _patch_fn(
@@ -67,8 +95,17 @@ def _patch_fn(
     injections = _resolve_injections(fn, container)
     if not injections:
         return
-
     setattr(module, name, _patch_with_injections(fn, injections))
+
+
+def _unpatch_fn(
+        module: ModuleType,
+        name: str,
+        fn: Callable[..., Any],
+) -> None:
+    if not _is_patched(fn):
+        return
+    setattr(module, name, _get_original_from_patched(fn))
 
 
 def _resolve_injections(fn: Callable[..., Any], container: AnyContainer) -> Dict[str, Any]:
@@ -148,7 +185,20 @@ def _patch_with_injections(fn, injections):
         to_inject.update(kwargs)
 
         return fn(*args, **to_inject)
+
+    _patched.__wired__ = True
+    _patched.__original__ = fn
+    _patched.__injections__ = injections
+
     return _patched
+
+
+def _is_patched(fn):
+    return getattr(fn, '__wired__', False) is True
+
+
+def _get_original_from_patched(fn):
+    return getattr(fn, '__original__')
 
 
 class ClassGetItemMeta(GenericMeta):

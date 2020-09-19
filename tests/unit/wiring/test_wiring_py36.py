@@ -10,13 +10,13 @@ class WiringTest(unittest.TestCase):
 
     container: Container
 
-    @classmethod
-    def setUpClass(cls) -> None:
-        cls.container = Container(config={'a': {'b': {'c': 10}}})
-        cls.container.wire(
+    def setUp(self) -> None:
+        self.container = Container(config={'a': {'b': {'c': 10}}})
+        self.container.wire(
             modules=[module],
             packages=[package],
         )
+        self.addCleanup(self.container.unwire)
 
     def test_package_lookup(self):
         from .package.subpackage.submodule import test_function
