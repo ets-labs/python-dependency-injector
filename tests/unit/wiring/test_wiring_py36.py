@@ -1,5 +1,5 @@
+from decimal import Decimal
 import unittest
-
 
 from . import module, package
 from .service import Service
@@ -54,6 +54,7 @@ class WiringTest(unittest.TestCase):
         self.assertIs(service, test_service)
 
     def test_configuration_option(self):
-        int_value, str_value = module.test_config_value()
+        int_value, str_value, decimal_value = module.test_config_value()
         self.assertEqual(int_value, 10)
         self.assertEqual(str_value, '10')
+        self.assertEqual(decimal_value, Decimal(10))

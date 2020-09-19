@@ -1,5 +1,6 @@
 """Test module for wiring."""
 
+from decimal import Decimal
 from typing import Callable
 
 from dependency_injector.wiring import Provide, Provider
@@ -26,5 +27,6 @@ def test_function_provider(service_provider: Callable[..., Service] = Provider[C
 def test_config_value(
         some_value_int: int = Provide[Container.config.a.b.c],
         some_value_str: str = Provide[Container.config.a.b.c],
+        some_value_decimal: Decimal = Provide[Container.config.a.b.c],
 ):
-    return some_value_int, some_value_str
+    return some_value_int, some_value_str, some_value_decimal
