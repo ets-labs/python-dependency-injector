@@ -3,8 +3,16 @@
 import functools
 import inspect
 import pkgutil
+import sys
 from types import ModuleType
 from typing import Optional, Iterable, Callable, Any, Type, Dict, Generic, TypeVar
+
+if sys.version_info < (3, 7):
+    from typing import GenericMeta
+else:
+    class GenericMeta:
+        ...
+
 
 from . import providers
 
@@ -144,13 +152,17 @@ def _patch_with_injections(fn, injections):
 
 
 class ClassGetItemMeta(type):
-
     def __getitem__(cls, item):
         # Spike for Python 3.6
         return cls(item)
 
 
-class _Marker(Generic[T], metaclass=ClassGetItemMeta):
+class GenericClassGetItemMeta(GenericMeta, ClassGetItemMeta):
+    pass
+
+
+
+class _Marker(Generic[T], metaclass=GenericClassGetItemMeta):
     def __init__(self, provider: providers.Provider) -> None:
         self.provider = provider
 
