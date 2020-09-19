@@ -8,11 +8,11 @@ from types import ModuleType
 from typing import Optional, Iterable, Callable, Any, Type, Dict, Generic, TypeVar
 
 # Spike for Python 3.6
-if sys.version_info < (3, 7):
-    from typing import GenericMeta
-else:
-    class GenericMeta(type):
-        ...
+# if sys.version_info < (3, 7):
+#     from typing import GenericMeta
+# else:
+#     class GenericMeta(type):
+#         ...
 
 from . import providers
 
@@ -157,11 +157,7 @@ class ClassGetItemMeta(type):
         return cls(item)
 
 
-class GenericClassGetItemMeta(GenericMeta, ClassGetItemMeta):
-    pass
-
-
-class _Marker(Generic[T], metaclass=GenericClassGetItemMeta):
+class _Marker(Generic[T], metaclass=ClassGetItemMeta):
     def __init__(self, provider: providers.Provider) -> None:
         self.provider = provider
 
