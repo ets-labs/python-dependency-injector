@@ -10,7 +10,7 @@ from typing import Optional, Iterable, Callable, Any, Type, Dict, Generic, TypeV
 if sys.version_info < (3, 7):
     from typing import GenericMeta
 else:
-    class GenericMeta:
+    class GenericMeta(type):
         ...
 
 
@@ -151,18 +151,14 @@ def _patch_with_injections(fn, injections):
     return _patched
 
 
-class ClassGetItemMeta(type):
+class ClassGetItemMeta(GenericMeta):
     def __getitem__(cls, item):
         # Spike for Python 3.6
         return cls(item)
 
 
-class GenericClassGetItemMeta(GenericMeta, ClassGetItemMeta):
-    pass
+class _Marker(Generic[T], metaclass=ClassGetItemMeta):
 
-
-
-class _Marker(Generic[T], metaclass=GenericClassGetItemMeta):
     def __init__(self, provider: providers.Provider) -> None:
         self.provider = provider
 
