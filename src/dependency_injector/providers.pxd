@@ -93,6 +93,10 @@ cdef class ConfigurationOption(Provider):
     cdef object __cache
 
 
+cdef class TypedConfigurationOption(Callable):
+    pass
+
+
 cdef class Configuration(Object):
     cdef str __name
     cdef dict __children

@@ -1,13 +1,24 @@
 """Containers module."""
 
+import sys
+
 import six
 
 from .errors import Error
-
 from .providers cimport (
     Provider,
     deepcopy,
 )
+
+
+if sys.version_info[:2] >= (3, 6):
+    from .wiring import wire, unwire
+else:
+    def wire(*args, **kwargs):
+        raise NotADirectoryError('Wiring requires Python 3.6 or above')
+
+    def unwire(*args, **kwargs):
+        raise NotADirectoryError('Wiring requires Python 3.6 or above')
 
 
 class DynamicContainer(object):
@@ -47,8 +58,11 @@ class DynamicContainer(object):
         :rtype: None
         """
         self.provider_type = Provider
-        self.providers = dict()
+        self.providers = {}
         self.overridden = tuple()
+        self.declarative_parent = None
+        self.wired_to_modules = []
+        self.wired_to_packages = []
         super(DynamicContainer, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -60,6 +74,7 @@ class DynamicContainer(object):
         copied = self.__class__()
         copied.provider_type = Provider
         copied.overridden = deepcopy(self.overridden, memo)
+        copied.declarative_parent = self.declarative_parent
 
         for name, provider in deepcopy(self.providers, memo).items():
             setattr(copied, name, provider)
@@ -170,6 +185,48 @@ class DynamicContainer(object):
 
         for provider in six.itervalues(self.providers):
             provider.reset_override()
+
+    def resolve_provider_name(self, provider_to_resolve):
+        """Try to resolve provider name by its instance."""
+        if self.declarative_parent:
+            provider_name = self.declarative_parent.resolve_provider_name(provider_to_resolve)
+            if provider_name:
+                return provider_name
+
+        for provider_name, container_provider in self.providers.items():
+            if container_provider is provider_to_resolve:
+                return provider_name
+        else:
+            return None
+
+
+    def wire(self, modules=None, packages=None):
+        """Wire container providers with provided packages and modules.
+
+        :rtype: None
+        """
+        wire(
+            container=self,
+            modules=modules,
+            packages=packages,
+        )
+
+        if modules:
+            self.wired_to_modules.extend(modules)
+
+        if packages:
+            self.wired_to_packages.extend(packages)
+
+    def unwire(self):
+        """Unwire container providers from previously wired packages and modules."""
+        unwire(
+            modules=self.wired_to_modules,
+            packages=self.wired_to_packages,
+        )
+
+        self.wired_to_modules.clear()
+        self.wired_to_packages.clear()
+
 
 
 class DeclarativeContainerMetaClass(type):
@@ -310,6 +367,7 @@ class DeclarativeContainer(object):
         """
         container = cls.instance_type()
         container.provider_type = cls.provider_type
+        container.declarative_parent = cls
         container.set_providers(**deepcopy(cls.providers))
         container.override_providers(**overriding_providers)
         return container
@@ -362,6 +420,27 @@ class DeclarativeContainer(object):
 
         for provider in six.itervalues(cls.providers):
             provider.reset_override()
+
+    @classmethod
+    def resolve_provider_name(cls, provider_to_resolve):
+        """Try to resolve provider name by its instance."""
+        for provider_name, container_provider in cls.providers.items():
+            if container_provider is provider_to_resolve:
+                return provider_name
+        else:
+            return None
+
+    @classmethod
+    def wire(cls, modules=None, packages=None):
+        """Wire container providers with provided packages and modules by name.
+
+        :rtype: None
+        """
+        wire(
+            container=cls,
+            modules=modules,
+            packages=packages,
+        )
 
 
 def override(object container):
