@@ -14,5 +14,15 @@ class Service:
         self.api_client = api_client
 
 
+def main() -> None:
+    service = Service(
+        api_client=ApiClient(
+            api_key=os.getenv('API_KEY'),
+            timeout=os.getenv('TIMEOUT'),
+        ),
+    )
+    ...
+
+
 if __name__ == '__main__':
-    service = Service(ApiClient(os.getenv('API_KEY'), os.getenv('TIMEOUT')))
+    main()

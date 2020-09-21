@@ -74,31 +74,39 @@ Key features of the ``Dependency Injector``:
 
 .. code-block:: python
 
-   from dependency_injector import containers, providers
+    from dependency_injector import containers, providers
+    from dependency_injector.wiring import Provide
 
 
-   class Container(containers.DeclarativeContainer):
+    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+        config = providers.Configuration()
 
-       api_client = providers.Singleton(
-           ApiClient,
-           api_key=config.api_key,
-           timeout=config.timeout.as_int(),
-       )
+        api_client = providers.Singleton(
+            ApiClient,
+            api_key=config.api_key,
+            timeout=config.timeout.as_int(),
+        )
 
-       service = providers.Factory(
-           Service,
-           api_client=api_client,
-       )
+        service = providers.Factory(
+            Service,
+            api_client=api_client,
+        )
 
 
-   if __name__ == '__main__':
-       container = Container()
-       container.config.api_key.from_env('API_KEY')
-       container.config.timeout.from_env('TIMEOUT')
+    def main(service: Service = Provide[Container.service]):
+        ...
 
-       service = container.service()
+
+    if __name__ == '__main__':
+        container = Container()
+
+        container.config.api_key.from_env('API_KEY')
+        container.config.timeout.from_env('TIMEOUT')
+
+        container.wire(modules=[sys.modules[__name__]])
+
+        main()
 
 With the ``Dependency Injector`` you keep **application structure in one place**.
 This place is called **the container**. You use the container to manage all the components of the

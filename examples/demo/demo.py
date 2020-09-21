@@ -1,17 +1,9 @@
+import sys
+
 from dependency_injector import containers, providers
+from dependency_injector.wiring import Provide
 
-
-class ApiClient:
-
-    def __init__(self, api_key: str, timeout: int):
-        self.api_key = api_key
-        self.timeout = timeout
-
-
-class Service:
-
-    def __init__(self, api_client: ApiClient):
-        self.api_client = api_client
+from di import ApiClient, Service
 
 
 class Container(containers.DeclarativeContainer):
@@ -30,9 +22,16 @@ class Container(containers.DeclarativeContainer):
     )
 
 
+def main(service: Service = Provide[Container.service]):
+    ...
+
+
 if __name__ == '__main__':
     container = Container()
+
     container.config.api_key.from_env('API_KEY')
     container.config.timeout.from_env('TIMEOUT')
 
-    service = container.service()
+    container.wire(modules=[sys.modules[__name__]])
+
+    main()

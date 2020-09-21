@@ -14,5 +14,10 @@ class Service:
         self.api_client = ApiClient()
 
 
-if __name__ == '__main__':
+def main() -> None:
     service = Service()
+    ...
+
+
+if __name__ == '__main__':
+    main()
