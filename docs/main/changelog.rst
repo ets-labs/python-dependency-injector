@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.0.0
+-----
+- Add wiring.
+
 3.44.0
 ------
 - Add native support of the generics to the providers: ``some_provider = providers.Provider[SomeClass]``.
