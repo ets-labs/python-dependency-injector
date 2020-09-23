@@ -11,7 +11,9 @@ from .application import create_app
 
 @pytest.fixture
 def app():
-    return create_app()
+    app = create_app()
+    yield app
+    app.container.unwire()
 
 
 def test_index(client, app):

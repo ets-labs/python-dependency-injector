@@ -1,8 +1,8 @@
-Flask Dependency Injection Example
-==================================
+Dependency Injector + Flask Example
+===================================
 
 Application ``githubnavigator`` is a `Flask <https://flask.palletsprojects.com/>`_ +
-`Dependency Injector <http://python-dependency-injector.ets-labs.org/>`_ application.
+`Dependency Injector <http://python-dependency-injector.ets-labs.org/>`_ example application.
 
 .. image:: screenshot.png
 
@@ -90,10 +90,10 @@ The output should be something like:
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
    githubnavigator/__init__.py          0      0   100%
-   githubnavigator/application.py      11      0   100%
-   githubnavigator/containers.py       13      0   100%
+   githubnavigator/application.py      15      0   100%
+   githubnavigator/containers.py        7      0   100%
    githubnavigator/services.py         14      0   100%
-   githubnavigator/tests.py            32      0   100%
-   githubnavigator/views.py             7      0   100%
+   githubnavigator/tests.py            34      0   100%
+   githubnavigator/views.py             9      0   100%
    ----------------------------------------------------
-   TOTAL                               77      0   100%
+   TOTAL                               79      0   100%

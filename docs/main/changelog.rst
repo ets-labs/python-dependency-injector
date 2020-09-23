@@ -11,6 +11,7 @@ follows `Semantic versioning`_
 -----
 - Add ``wiring`` feature.
 - Update ``aiohttp`` example.
+- Update ``flask`` example.
 
 3.44.0
 ------

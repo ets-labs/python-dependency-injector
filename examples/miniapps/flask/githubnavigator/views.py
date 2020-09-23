@@ -1,14 +1,16 @@
 """Views module."""
 
 from flask import request, render_template
+from dependency_injector.wiring import Provide
 
 from .services import SearchService
+from .containers import Container
 
 
 def index(
-        search_service: SearchService,
-        default_query: str,
-        default_limit: int,
+        search_service: SearchService = Provide[Container.search_service],
+        default_query: str = Provide[Container.config.default.query],
+        default_limit: int = Provide[Container.config.default.limit.as_int()],
 ):
     query = request.args.get('query', default_query)
     limit = request.args.get('limit', default_limit, int)
