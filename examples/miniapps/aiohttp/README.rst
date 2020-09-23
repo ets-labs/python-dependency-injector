@@ -110,8 +110,8 @@ The output should be something like:
    giphynavigator/application.py      12      0   100%
    giphynavigator/containers.py        6      0   100%
    giphynavigator/giphy.py            14      9    36%
+   giphynavigator/handlers.py          9      0   100%
    giphynavigator/services.py          9      1    89%
    giphynavigator/tests.py            37      0   100%
-   giphynavigator/views.py             9      0   100%
    ---------------------------------------------------
    TOTAL                              92     15    84%

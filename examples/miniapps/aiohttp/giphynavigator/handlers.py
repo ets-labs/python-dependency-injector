@@ -1,4 +1,4 @@
-"""Views module."""
+"""Handlers module."""
 
 from aiohttp import web
 from dependency_injector.wiring import Provide

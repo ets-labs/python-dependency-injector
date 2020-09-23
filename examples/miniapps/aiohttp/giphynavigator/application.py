@@ -3,7 +3,7 @@
 from aiohttp import web
 
 from .containers import Container
-from . import views
+from . import handlers
 
 
 def create_app():
@@ -12,13 +12,13 @@ def create_app():
     container.config.from_yaml('config.yml')
     container.config.giphy.api_key.from_env('GIPHY_API_KEY')
 
-    container.wire(modules=[views])
+    container.wire(modules=[handlers])
 
     app = web.Application()
     app.container = container
 
     app.add_routes([
-        web.get('/', views.index),
+        web.get('/', handlers.index),
     ])
 
     return app
