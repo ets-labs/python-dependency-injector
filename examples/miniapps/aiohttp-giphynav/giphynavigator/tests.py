@@ -10,7 +10,9 @@ from giphynavigator.giphy import GiphyClient
 
 @pytest.fixture
 def app():
-    return create_app()
+    app = create_app()
+    yield app
+    app.container.unwire()
 
 
 @pytest.fixture
@@ -73,5 +75,5 @@ async def test_index_default_params(client, app):
 
     assert response.status == 200
     data = await response.json()
-    assert data['query'] == app.container.config.search.default_query()
-    assert data['limit'] == app.container.config.search.default_limit()
+    assert data['query'] == app.container.config.default.query()
+    assert data['limit'] == app.container.config.default.limit()

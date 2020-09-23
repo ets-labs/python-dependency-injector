@@ -2,20 +2,23 @@
 
 from aiohttp import web
 
-from .containers import ApplicationContainer
+from .containers import Container
+from . import views
 
 
 def create_app():
     """Create and return aiohttp application."""
-    container = ApplicationContainer()
+    container = Container()
     container.config.from_yaml('config.yml')
     container.config.giphy.api_key.from_env('GIPHY_API_KEY')
 
-    app: web.Application = container.app()
+    container.wire(modules=[views])
+
+    app = web.Application()
     app.container = container
 
     app.add_routes([
-        web.get('/', container.index_view.as_view()),
+        web.get('/', views.index),
     ])
 
     return app

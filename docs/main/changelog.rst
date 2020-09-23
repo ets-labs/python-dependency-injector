@@ -9,7 +9,8 @@ follows `Semantic versioning`_
 
 4.0.0
 -----
-- Add wiring.
+- Add ``wiring`` feature.
+- Update ``aiohttp`` example.
 
 3.44.0
 ------

@@ -1,15 +1,17 @@
 """Views module."""
 
 from aiohttp import web
+from dependency_injector.wiring import Provide
 
 from .services import SearchService
+from .containers import Container
 
 
 async def index(
         request: web.Request,
-        search_service: SearchService,
-        default_query: str,
-        default_limit: int,
+        search_service: SearchService = Provide[Container.search_service],
+        default_query: str = Provide[Container.config.default.query],
+        default_limit: int = Provide[Container.config.default.limit.as_int()],
 ) -> web.Response:
     query = request.query.get('query', default_query)
     limit = int(request.query.get('limit', default_limit))

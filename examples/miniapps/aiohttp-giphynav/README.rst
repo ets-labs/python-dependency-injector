@@ -1,8 +1,8 @@
-Aiohttp Dependency Injection Example
-====================================
+Dependency Injector + Aiohttp Example
+=====================================
 
 Application ``giphynavigator`` is an `Aiohttp <https://docs.aiohttp.org/>`_ +
-`Dependency Injector <http://python-dependency-injector.ets-labs.org/>`_ application.
+`Dependency Injector <http://python-dependency-injector.ets-labs.org/>`_ example application.
 
 Run
 ---
@@ -107,11 +107,11 @@ The output should be something like:
    ---------------------------------------------------
    giphynavigator/__init__.py          0      0   100%
    giphynavigator/__main__.py          5      5     0%
-   giphynavigator/application.py      10      0   100%
-   giphynavigator/containers.py       10      0   100%
+   giphynavigator/application.py      12      0   100%
+   giphynavigator/containers.py        6      0   100%
    giphynavigator/giphy.py            14      9    36%
    giphynavigator/services.py          9      1    89%
-   giphynavigator/tests.py            35      0   100%
-   giphynavigator/views.py             7      0   100%
+   giphynavigator/tests.py            37      0   100%
+   giphynavigator/views.py             9      0   100%
    ---------------------------------------------------
-   TOTAL                              90     15    83%
+   TOTAL                              92     15    84%
