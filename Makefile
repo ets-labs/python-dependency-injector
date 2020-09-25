@@ -45,14 +45,7 @@ install: uninstall clean cythonize
 uninstall:
 	- pip uninstall -y -q dependency-injector 2> /dev/null
 
-test-py2: build
-	# Unit tests with coverage report
-	coverage erase
-	coverage run --rcfile=./.coveragerc -m unittest2 discover -s tests/unit/ -p test_*_py2_py3.py
-	coverage report --rcfile=./.coveragerc
-	coverage html --rcfile=./.coveragerc
-
-test-py3: build
+test: build
 	# Unit tests with coverage report
 	coverage erase
 	coverage run --rcfile=./.coveragerc -m unittest2 discover -s tests/unit/ -p test_*py3*.py

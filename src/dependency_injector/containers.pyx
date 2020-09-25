@@ -2,8 +2,6 @@
 
 import sys
 
-import six
-
 from .errors import Error
 from .providers cimport (
     Provider,
@@ -21,7 +19,7 @@ else:
         raise NotADirectoryError('Wiring requires Python 3.6 or above')
 
 
-class DynamicContainer(object):
+class DynamicContainer:
     """Dynamic inversion of control container.
 
     .. code-block:: python
@@ -124,7 +122,7 @@ class DynamicContainer(object):
 
         :rtype: None
         """
-        for name, provider in six.iteritems(providers):
+        for name, provider in providers.items():
             setattr(self, name, provider)
 
     def override(self, object overriding):
@@ -144,7 +142,7 @@ class DynamicContainer(object):
 
         self.overridden += (overriding,)
 
-        for name, provider in six.iteritems(overriding.providers):
+        for name, provider in overriding.providers.items():
             try:
                 getattr(self, name).override(provider)
             except AttributeError:
@@ -159,7 +157,7 @@ class DynamicContainer(object):
 
         :rtype: None
         """
-        for name, overriding_provider in six.iteritems(overriding_providers):
+        for name, overriding_provider in overriding_providers.items():
             container_provider = getattr(self, name)
             container_provider.override(overriding_provider)
 
@@ -173,7 +171,7 @@ class DynamicContainer(object):
 
         self.overridden = self.overridden[:-1]
 
-        for provider in six.itervalues(self.providers):
+        for provider in self.providers.values():
             provider.reset_last_overriding()
 
     def reset_override(self):
@@ -183,7 +181,7 @@ class DynamicContainer(object):
         """
         self.overridden = tuple()
 
-        for provider in six.itervalues(self.providers):
+        for provider in self.providers.values():
             provider.reset_override()
 
     def resolve_provider_name(self, provider_to_resolve):
@@ -239,20 +237,19 @@ class DeclarativeContainerMetaClass(type):
         cdef type cls
 
         containers = tuple((name, container)
-                           for name, container in six.iteritems(attributes)
+                           for name, container in attributes.items()
                            if is_container(container))
 
         attributes['containers'] = dict(containers)
 
         cls_providers = tuple((name, provider)
-                              for name, provider in six.iteritems(attributes)
+                              for name, provider in attributes.items()
                               if isinstance(provider, Provider))
 
         inherited_providers = tuple((name, provider)
                                     for base in bases if is_container(
                                         base) and base is not DynamicContainer
-                                    for name, provider in six.iteritems(
-                                        base.cls_providers))
+                                    for name, provider in base.cls_providers.items())
 
         attributes['cls_providers'] = dict(cls_providers)
         attributes['inherited_providers'] = dict(inherited_providers)
@@ -260,7 +257,7 @@ class DeclarativeContainerMetaClass(type):
 
         cls = <type>type.__new__(mcs, class_name, bases, attributes)
 
-        for provider in six.itervalues(cls.providers):
+        for provider in cls.providers.values():
             _check_provider_type(cls, provider)
 
         return cls
@@ -302,8 +299,7 @@ class DeclarativeContainerMetaClass(type):
         super(DeclarativeContainerMetaClass, cls).__delattr__(name)
 
 
-@six.add_metaclass(DeclarativeContainerMetaClass)
-class DeclarativeContainer(object):
+class DeclarativeContainer(metaclass=DeclarativeContainerMetaClass):
     """Declarative inversion of control container.
 
     .. code-block:: python
@@ -390,7 +386,7 @@ class DeclarativeContainer(object):
 
         cls.overridden += (overriding,)
 
-        for name, provider in six.iteritems(overriding.cls_providers):
+        for name, provider in overriding.cls_providers.items():
             try:
                 getattr(cls, name).override(provider)
             except AttributeError:
@@ -407,7 +403,7 @@ class DeclarativeContainer(object):
 
         cls.overridden = cls.overridden[:-1]
 
-        for provider in six.itervalues(cls.providers):
+        for provider in cls.providers.values():
             provider.reset_last_overriding()
 
     @classmethod
@@ -418,7 +414,7 @@ class DeclarativeContainer(object):
         """
         cls.overridden = tuple()
 
-        for provider in six.itervalues(cls.providers):
+        for provider in cls.providers.values():
             provider.reset_override()
 
     @classmethod
@@ -475,7 +471,7 @@ def copy(object container):
     """
     def _decorator(copied_container):
         cdef dict memo = dict()
-        for name, provider in six.iteritems(copied_container.cls_providers):
+        for name, provider in copied_container.cls_providers.items():
             try:
                 source_provider = getattr(container, name)
             except AttributeError:
@@ -484,7 +480,7 @@ def copy(object container):
                 memo[id(source_provider)] = provider
 
         providers_copy = deepcopy(container.providers, memo)
-        for name, provider in six.iteritems(providers_copy):
+        for name, provider in providers_copy.items():
             setattr(copied_container, name, provider)
 
         return copied_container
