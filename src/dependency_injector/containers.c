@@ -883,7 +883,7 @@ struct __pyx_opt_args_19dependency_injector_9providers_deepcopy {
 /* "providers.pxd":7
  * 
  * # Base providers
- * cdef class Provider(object):             # <<<<<<<<<<<<<<
+ * cdef class Provider:             # <<<<<<<<<<<<<<
  *     cdef tuple __overridden
  *     cdef Provider __last_overriding
  */
@@ -1537,7 +1537,7 @@ struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_5_copy {
 /* "providers.pxd":7
  * 
  * # Base providers
- * cdef class Provider(object):             # <<<<<<<<<<<<<<
+ * cdef class Provider:             # <<<<<<<<<<<<<<
  *     cdef tuple __overridden
  *     cdef Provider __last_overriding
  */

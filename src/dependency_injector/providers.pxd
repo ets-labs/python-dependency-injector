@@ -4,7 +4,7 @@ cimport cython
 
 
 # Base providers
-cdef class Provider(object):
+cdef class Provider:
     cdef tuple __overridden
     cdef Provider __last_overriding
 

@@ -40,15 +40,7 @@ from .errors import (
 cimport cython
 
 
-if sys.version_info[0] == 3:  # pragma: no cover
-    CLASS_TYPES = (type,)
-else:  # pragma: no cover
-    CLASS_TYPES = (type, types.ClassType)
-
-    copy._deepcopy_dispatch[types.MethodType] = \
-        lambda obj, memo: type(obj)(obj.im_func,
-                                    copy.deepcopy(obj.im_self, memo),
-                                    obj.im_class)
+CLASS_TYPES = (type,)
 
 if yaml:
     yaml_env_marker_pattern = re.compile(r'\$\{([^}^{]+)\}')
@@ -59,34 +51,21 @@ if yaml:
     yaml.add_implicit_resolver('!path', yaml_env_marker_pattern)
     yaml.add_constructor('!path', yaml_env_marker_constructor)
 
-if sys.version_info[0] == 3:
-    class EnvInterpolation(iniconfigparser.BasicInterpolation):
-        """Interpolation which expands environment variables in values."""
 
-        def before_get(self, parser, section, option, value, defaults):
-            value = super().before_get(parser, section, option, value, defaults)
-            return os.path.expandvars(value)
+class EnvInterpolation(iniconfigparser.BasicInterpolation):
+    """Interpolation which expands environment variables in values."""
 
-    def _parse_ini_file(filepath):
-        parser = iniconfigparser.ConfigParser(interpolation=EnvInterpolation())
-        parser.read(filepath)
-        return parser
-else:
-    import StringIO
+    def before_get(self, parser, section, option, value, defaults):
+        value = super().before_get(parser, section, option, value, defaults)
+        return os.path.expandvars(value)
 
-    def _parse_ini_file(filepath):
-        parser = iniconfigparser.ConfigParser()
-        try:
-            with open(filepath) as config_file:
-                config_string = os.path.expandvars(config_file.read())
-        except IOError:
-            return parser
-        else:
-            parser.readfp(StringIO.StringIO(config_string))
-            return parser
+def _parse_ini_file(filepath):
+    parser = iniconfigparser.ConfigParser(interpolation=EnvInterpolation())
+    parser.read(filepath)
+    return parser
 
 
-cdef class Provider(object):
+cdef class Provider:
     """Base provider class.
 
     :py:class:`Provider` is callable (implements ``__call__`` method). Every
