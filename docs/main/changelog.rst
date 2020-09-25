@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 4.0.0
 -----
 - Add ``wiring`` feature.
+- Drop Python 2.7 support.
 - Add ``sanic`` example.
 - Update ``aiohttp`` example.
 - Update ``flask`` example.
