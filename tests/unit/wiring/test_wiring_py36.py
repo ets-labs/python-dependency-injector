@@ -58,3 +58,7 @@ class WiringTest(unittest.TestCase):
         self.assertEqual(int_value, 10)
         self.assertEqual(str_value, '10')
         self.assertEqual(decimal_value, Decimal(10))
+
+    def test_provide_provider(self):
+        service = module.test_provide_provider()
+        self.assertIsInstance(service, Service)

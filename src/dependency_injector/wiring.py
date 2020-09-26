@@ -127,6 +127,9 @@ def _resolve_injections(fn: Callable[..., Any], container: AnyContainer) -> Dict
                 config,
                 marker.provider.provides,
             )
+        elif isinstance(marker.provider, providers.Delegate):
+            provider_name = container.resolve_provider_name(marker.provider.provides)
+            provider = container.providers[provider_name]
         elif isinstance(marker.provider, providers.Provider):
             provider_name = container.resolve_provider_name(marker.provider)
             if not provider_name:

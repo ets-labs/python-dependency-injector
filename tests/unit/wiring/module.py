@@ -30,3 +30,8 @@ def test_config_value(
         some_value_decimal: Decimal = Provide[Container.config.a.b.c.as_(Decimal)],
 ):
     return some_value_int, some_value_str, some_value_decimal
+
+
+def test_provide_provider(service_provider: Callable[..., Service] = Provider[Container.service.provider]):
+    service = service_provider()
+    return service

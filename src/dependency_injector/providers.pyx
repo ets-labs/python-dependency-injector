@@ -391,6 +391,11 @@ cdef class Delegate(Provider):
         """
         return self.__str__()
 
+    @property
+    def provides(self):
+        """Return provider."""
+        return self.__provides
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return provided instance.
 
