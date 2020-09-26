@@ -108,7 +108,7 @@ def _unpatch_fn(
     setattr(module, name, _get_original_from_patched(fn))
 
 
-def _resolve_injections(fn: Callable[..., Any], container: AnyContainer) -> Dict[str, Any]:
+def _resolve_injections(fn: Callable[..., Any], container: AnyContainer) -> Dict[str, Any]:  # noqa
     config = _resolve_container_config(container)
 
     signature = inspect.signature(fn)
