@@ -1,4 +1,5 @@
 import sys
+from unittest import mock
 
 from dependency_injector import containers, providers
 from dependency_injector.wiring import Provide
@@ -35,3 +36,6 @@ if __name__ == '__main__':
     container.wire(modules=[sys.modules[__name__]])
 
     main()
+
+    with container.api_client.override(mock.Mock()):
+        main()
