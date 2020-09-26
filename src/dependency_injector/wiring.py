@@ -130,6 +130,16 @@ def _resolve_injections(fn: Callable[..., Any], container: AnyContainer) -> Dict
         elif isinstance(marker.provider, providers.Delegate):
             provider_name = container.resolve_provider_name(marker.provider.provides)
             provider = container.providers[provider_name]
+        elif isinstance(marker.provider, (
+                providers.ProvidedInstance,
+                providers.AttributeGetter,
+                providers.ItemGetter,
+                providers.MethodCaller,
+        )):
+            provider = _prepare_provided_instance_injection(
+                marker.provider,
+                container,
+            )
         elif isinstance(marker.provider, providers.Provider):
             provider_name = container.resolve_provider_name(marker.provider)
             if not provider_name:
@@ -156,6 +166,40 @@ def _prepare_config_injection(
     provider = config.get_option_provider(relative_option_name)
     if as_:
         return provider.as_(as_)
+    return provider
+
+
+def _prepare_provided_instance_injection(
+        current_provider: providers.Provider,
+        container: AnyContainer,
+) -> providers.Provider:
+    provided_instance_markers = []
+    instance_provider_marker = current_provider
+    while isinstance(instance_provider_marker, (
+            providers.ProvidedInstance,
+            providers.AttributeGetter,
+            providers.ItemGetter,
+            providers.MethodCaller,
+    )):
+        provided_instance_markers.insert(0, instance_provider_marker)
+        instance_provider_marker = instance_provider_marker.provides
+
+    provider_name = container.resolve_provider_name(instance_provider_marker)
+    provider = container.providers[provider_name]
+
+    for provided_instance in provided_instance_markers:
+        if isinstance(provided_instance, providers.ProvidedInstance):
+            provider = provider.provided
+        elif isinstance(provided_instance, providers.AttributeGetter):
+            provider = getattr(provider, provided_instance.name)
+        elif isinstance(provided_instance, providers.ItemGetter):
+            provider = provider[provided_instance.name]
+        elif isinstance(provided_instance, providers.MethodCaller):
+            provider = provider.call(
+                *provided_instance.args,
+                **provided_instance.kwargs,
+            )
+
     return provider
 
 

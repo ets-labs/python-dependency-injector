@@ -35,3 +35,7 @@ def test_config_value(
 def test_provide_provider(service_provider: Callable[..., Service] = Provider[Container.service.provider]):
     service = service_provider()
     return service
+
+
+def test_provided_instance(some_value: int = Provide[Container.service.provided.foo['bar'].call()]):
+    return some_value

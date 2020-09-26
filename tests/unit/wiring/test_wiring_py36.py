@@ -62,3 +62,13 @@ class WiringTest(unittest.TestCase):
     def test_provide_provider(self):
         service = module.test_provide_provider()
         self.assertIsInstance(service, Service)
+
+    def test_provided_instance(self):
+        class TestService:
+            foo = {
+                'bar': lambda: 10,
+            }
+
+        with self.container.service.override(TestService()):
+            some_value = module.test_provided_instance()
+        self.assertEqual(some_value, 10)

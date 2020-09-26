@@ -2703,6 +2703,11 @@ cdef class ProvidedInstance(Provider):
     def __getitem__(self, item):
         return ItemGetter(self, item)
 
+    @property
+    def provides(self):
+        """Return provider."""
+        return self.__provider
+
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
 
@@ -2741,6 +2746,16 @@ cdef class AttributeGetter(Provider):
 
     def __getitem__(self, item):
         return ItemGetter(self, item)
+
+    @property
+    def provides(self):
+        """Return provider."""
+        return self.__provider
+
+    @property
+    def name(self):
+        """Return name of the attribute."""
+        return self.__attribute
 
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
@@ -2781,6 +2796,16 @@ cdef class ItemGetter(Provider):
 
     def __getitem__(self, item):
         return ItemGetter(self, item)
+
+    @property
+    def provides(self):
+        """Return provider."""
+        return self.__provider
+
+    @property
+    def name(self):
+        """Return name of the item."""
+        return self.__item
 
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
@@ -2832,6 +2857,37 @@ cdef class MethodCaller(Provider):
 
     def __getitem__(self, item):
         return ItemGetter(self, item)
+
+    @property
+    def provides(self):
+        """Return provider."""
+        return self.__provider
+
+    @property
+    def args(self):
+        """Return positional argument injections."""
+        cdef int index
+        cdef PositionalInjection arg
+        cdef list args
+
+        args = list()
+        for index in range(self.__args_len):
+            arg = self.__args[index]
+            args.append(arg.__value)
+        return tuple(args)
+
+    @property
+    def kwargs(self):
+        """Return keyword argument injections."""
+        cdef int index
+        cdef NamedInjection kwarg
+        cdef dict kwargs
+
+        kwargs = dict()
+        for index in range(self.__kwargs_len):
+            kwarg = self.__kwargs[index]
+            kwargs[kwarg.__name] = kwarg.__value
+        return kwargs
 
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
