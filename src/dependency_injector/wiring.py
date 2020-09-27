@@ -80,6 +80,7 @@ class ProvidersMap:
             original: providers.ConfigurationOption,
             as_: Any = None,
     ) -> providers.Provider:
+        # TODO: Take care about invariant injections
         original_root = original.root
         new_root: providers.Configuration = cast(providers.Configuration, self._resolve_provider(original_root))
         new_option = new_root.get_option_provider(original.get_relative_name())
@@ -120,6 +121,7 @@ def wire(
         packages: Optional[Iterable[ModuleType]] = None,
 ) -> None:
     """Wire container providers with provided packages and modules."""
+    # TODO: Add protection to only wire declarative container instances
     if not modules:
         modules = []
 
