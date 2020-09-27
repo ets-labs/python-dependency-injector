@@ -80,13 +80,21 @@ class ProvidersMap:
             original: providers.ConfigurationOption,
             as_: Any = None,
     ) -> providers.Provider:
-        # TODO: Take care about invariant injections
         original_root = original.root
-        new_root: providers.Configuration = cast(providers.Configuration, self._resolve_provider(original_root))
-        new_option = new_root.get_option_provider(original.get_relative_name())
+        new = self._resolve_provider(original_root)
+        new = cast(providers.Configuration, new)
+
+        for segment in original.get_name_segments():
+            if providers.is_provider(segment):
+                segment = self.resolve_provider(segment)
+                new = new[segment]
+            else:
+                new = getattr(new, segment)
+
         if as_:
-            new_option = new_option.as_(as_)
-        return new_option
+            new = new.as_(as_)
+
+        return new
 
     def _resolve_provider(self, original: providers.Provider) -> providers.Provider:
         try:
