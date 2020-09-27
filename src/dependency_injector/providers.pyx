@@ -1144,9 +1144,16 @@ cdef class ConfigurationOption(Provider):
             segment() if is_provider(segment) else segment for segment in self.__name
         )
 
+    @property
+    def root(self):
+        return self.__root_ref()
+
     def get_name(self):
         root = self.__root_ref()
         return '.'.join((root.get_name(), self._get_self_name()))
+
+    def get_relative_name(self):
+        return self._get_self_name()
 
     def get_option_provider(self, selector):
         """Return configuration option provider.
