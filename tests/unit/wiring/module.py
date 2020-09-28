@@ -43,3 +43,7 @@ def test_provided_instance(some_value: int = Provide[Container.service.provided.
 
 def test_subcontainer_provider(some_value: int = Provide[Container.sub.int_object]):
     return some_value
+
+
+def test_config_invariant(some_value: int = Provide[Container.config.option[Container.config.switch]]):
+    return some_value

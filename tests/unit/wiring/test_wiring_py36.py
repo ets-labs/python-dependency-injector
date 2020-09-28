@@ -76,3 +76,21 @@ class WiringTest(unittest.TestCase):
     def test_subcontainer(self):
         some_value = module.test_subcontainer_provider()
         self.assertEqual(some_value, 1)
+
+    def test_config_invariant(self):
+        config = {
+            'option': {
+                'a': 1,
+                'b': 2,
+            },
+            'switch': 'a',
+        }
+        self.container.config.from_dict(config)
+
+        with self.container.config.switch.override('a'):
+            value_a = module.test_config_invariant()
+        self.assertEqual(value_a, 1)
+
+        with self.container.config.switch.override('b'):
+            value_b = module.test_config_invariant()
+        self.assertEqual(value_b, 2)
