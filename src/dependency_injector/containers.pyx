@@ -15,10 +15,10 @@ if sys.version_info[:2] >= (3, 6):
     from .wiring import wire, unwire
 else:
     def wire(*args, **kwargs):
-        raise NotADirectoryError('Wiring requires Python 3.6 or above')
+        raise NotImplementedError('Wiring requires Python 3.6 or above')
 
     def unwire(*args, **kwargs):
-        raise NotADirectoryError('Wiring requires Python 3.6 or above')
+        raise NotImplementedError('Wiring requires Python 3.6 or above')
 
 
 class DynamicContainer(object):
@@ -415,18 +415,6 @@ class DeclarativeContainer(object):
                 return provider_name
         else:
             return None
-
-    @classmethod
-    def wire(cls, modules=None, packages=None):
-        """Wire container providers with provided packages and modules by name.
-
-        :rtype: None
-        """
-        wire(
-            container=cls,
-            modules=modules,
-            packages=packages,
-        )
 
 
 def override(object container):

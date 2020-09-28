@@ -1,6 +1,8 @@
 from decimal import Decimal
 import unittest
 
+from dependency_injector.wiring import wire
+
 from . import module, package
 from .service import Service
 from .container import Container
@@ -94,3 +96,11 @@ class WiringTest(unittest.TestCase):
         with self.container.config.switch.override('b'):
             value_b = module.test_config_invariant()
         self.assertEqual(value_b, 2)
+
+    def test_wire_with_class_error(self):
+        with self.assertRaises(Exception):
+            wire(
+                container=Container,
+                modules=[module],
+            )
+

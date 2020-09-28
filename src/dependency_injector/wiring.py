@@ -25,7 +25,7 @@ __all__ = (
 )
 
 T = TypeVar('T')
-AnyContainer = Any
+Container = Any
 
 
 class ProvidersMap:
@@ -135,13 +135,15 @@ class ProvidersMap:
 
 
 def wire(
-        container: AnyContainer,
+        container: Container,
         *,
         modules: Optional[Iterable[ModuleType]] = None,
         packages: Optional[Iterable[ModuleType]] = None,
 ) -> None:
     """Wire container providers with provided packages and modules."""
-    # TODO: Add protection to only wire declarative container instances
+    if not _is_declarative_container_instance(container):
+        raise Exception('Can wire only an instance of the declarative container')
+
     if not modules:
         modules = []
 
@@ -288,6 +290,12 @@ def _is_patched(fn):
 
 def _get_original_from_patched(fn):
     return getattr(fn, '__original__')
+
+
+def _is_declarative_container_instance(instance: Any) -> bool:
+    return (not isinstance(instance, type)
+            and getattr(instance, '__IS_CONTAINER__', False) is True
+            and getattr(instance, 'declarative_parent', None) is not None)
 
 
 class ClassGetItemMeta(GenericMeta):
