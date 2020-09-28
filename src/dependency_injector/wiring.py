@@ -17,6 +17,13 @@ else:
 from . import providers
 
 
+__all__ = (
+    'wire',
+    'unwire',
+    'Provide',
+    'Provider',
+)
+
 T = TypeVar('T')
 AnyContainer = Any
 
