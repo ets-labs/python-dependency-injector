@@ -13,6 +13,7 @@ follows `Semantic versioning`_
 - Deprecate ``ext.aiohttp`` module.
 - Deprecate ``ext.flask`` module.
 - Remove deprecated ``types`` module.
+- Deprecate ``.delegate()`` provider method in favor of ``.provider`` attribute.
 - Add ``sanic`` example.
 - Update ``aiohttp`` example.
 - Update ``flask`` example.

@@ -8,6 +8,7 @@ import re
 import sys
 import types
 import threading
+import warnings
 import weakref
 
 try:
@@ -257,6 +258,11 @@ cdef class Provider(object):
 
         :rtype: :py:class:`Delegate`
         """
+        warnings.warn(
+            'Method ".delegate()" is deprecated since version 4.0.0. '
+            'Use ".provider" attribute instead.',
+            category=DeprecationWarning,
+        )
         return Delegate(self)
 
     @property
