@@ -1,10 +1,18 @@
 """Flask extension module."""
 
 from __future__ import absolute_import
+import warnings
 
 from flask import request as flask_request
 
 from dependency_injector import providers, errors
+
+
+warnings.warn(
+    'Module "dependency_injector.ext.aiohttp" is deprecated since '
+    'version 4.0.0. Use "dependency_injector.wiring" module instead.',
+    category=DeprecationWarning,
+)
 
 
 request = providers.Object(flask_request)

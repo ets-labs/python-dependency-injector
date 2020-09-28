@@ -10,6 +10,9 @@ follows `Semantic versioning`_
 4.0.0
 -----
 - Add ``wiring`` feature.
+- Deprecate ``ext.aiohttp`` module.
+- Deprecate ``ext.flask`` module.
+- Remove deprecated ``types`` module.
 - Add ``sanic`` example.
 - Update ``aiohttp`` example.
 - Update ``flask`` example.
