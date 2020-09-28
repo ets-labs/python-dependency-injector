@@ -1312,14 +1312,14 @@ struct __pyx_obj_19dependency_injector_9providers_List {
  * 
  * 
  * cdef class Container(Provider):             # <<<<<<<<<<<<<<
- *     cdef object container_cls
- *     cdef dict overriding_providers
+ *     cdef object __container_cls
+ *     cdef dict __overriding_providers
  */
 struct __pyx_obj_19dependency_injector_9providers_Container {
   struct __pyx_obj_19dependency_injector_9providers_Provider __pyx_base;
-  PyObject *container_cls;
-  PyObject *overriding_providers;
-  PyObject *container;
+  PyObject *__pyx___container_cls;
+  PyObject *__pyx___overriding_providers;
+  PyObject *__pyx___container;
 };
 
 
@@ -1989,8 +1989,8 @@ static struct __pyx_vtabstruct_19dependency_injector_9providers_List *__pyx_vtab
  * 
  * 
  * cdef class Container(Provider):             # <<<<<<<<<<<<<<
- *     cdef object container_cls
- *     cdef dict overriding_providers
+ *     cdef object __container_cls
+ *     cdef dict __overriding_providers
  */
 
 struct __pyx_vtabstruct_19dependency_injector_9providers_Container {

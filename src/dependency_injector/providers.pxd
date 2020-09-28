@@ -185,9 +185,9 @@ cdef class List(Provider):
 
 
 cdef class Container(Provider):
-    cdef object container_cls
-    cdef dict overriding_providers
-    cdef object container
+    cdef object __container_cls
+    cdef dict __overriding_providers
+    cdef object __container
 
     cpdef object _provide(self, tuple args, dict kwargs)
 

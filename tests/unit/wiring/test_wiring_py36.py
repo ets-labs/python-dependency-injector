@@ -72,3 +72,7 @@ class WiringTest(unittest.TestCase):
         with self.container.service.override(TestService()):
             some_value = module.test_provided_instance()
         self.assertEqual(some_value, 10)
+
+    def test_subcontainer(self):
+        some_value = module.test_subcontainer_provider()
+        self.assertEqual(some_value, 1)

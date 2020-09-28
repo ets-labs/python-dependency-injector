@@ -25,7 +25,10 @@ class ProvidersMap:
 
     def __init__(self, container):
         self._container = container
-        self._map = self._create_providers_map(container)
+        self._map = self._create_providers_map(
+            current_providers=container.providers,
+            original_providers=container.declarative_parent.providers,
+        )
 
     def resolve_provider(self, provider: providers.Provider) -> providers.Provider:
         if isinstance(provider, providers.Delegate):
@@ -105,18 +108,20 @@ class ProvidersMap:
     @classmethod
     def _create_providers_map(
             cls,
-            container: AnyContainer,
+            current_providers: Dict[str, providers.Provider],
+            original_providers: Dict[str, providers.Provider],
     ) -> Dict[providers.Provider, providers.Provider]:
-        current_providers = container.providers
-        original_providers = container.declarative_parent.providers
-
         providers_map = {}
         for provider_name, current_provider in current_providers.items():
             original_provider = original_providers[provider_name]
             providers_map[original_provider] = current_provider
 
-            if isinstance(current_provider, providers.Container):
-                subcontainer_map = cls._create_providers_map(current_provider.container)
+            if isinstance(current_provider, providers.Container) \
+                    and isinstance(original_provider, providers.Container):
+                subcontainer_map = cls._create_providers_map(
+                    current_providers=current_provider.container.providers,
+                    original_providers=original_provider.container.providers,
+                )
                 providers_map.update(subcontainer_map)
 
         return providers_map

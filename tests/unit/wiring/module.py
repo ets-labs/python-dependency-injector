@@ -39,3 +39,7 @@ def test_provide_provider(service_provider: Callable[..., Service] = Provider[Co
 
 def test_provided_instance(some_value: int = Provide[Container.service.provided.foo['bar'].call()]):
     return some_value
+
+
+def test_subcontainer_provider(some_value: int = Provide[Container.sub.int_object]):
+    return some_value
