@@ -186,20 +186,6 @@ class DynamicContainer(object):
         for provider in six.itervalues(self.providers):
             provider.reset_override()
 
-    def resolve_provider_name(self, provider_to_resolve):
-        """Try to resolve provider name by its instance."""
-        if self.declarative_parent:
-            provider_name = self.declarative_parent.resolve_provider_name(provider_to_resolve)
-            if provider_name:
-                return provider_name
-
-        for provider_name, container_provider in self.providers.items():
-            if container_provider is provider_to_resolve:
-                return provider_name
-        else:
-            return None
-
-
     def wire(self, modules=None, packages=None):
         """Wire container providers with provided packages and modules.
 

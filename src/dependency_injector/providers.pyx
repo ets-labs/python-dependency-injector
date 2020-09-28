@@ -1144,26 +1144,16 @@ cdef class ConfigurationOption(Provider):
             segment() if is_provider(segment) else segment for segment in self.__name
         )
 
+    @property
+    def root(self):
+        return self.__root_ref()
+
     def get_name(self):
         root = self.__root_ref()
         return '.'.join((root.get_name(), self._get_self_name()))
 
-    def get_option_provider(self, selector):
-        """Return configuration option provider.
-
-        :param selector: Selector string, e.g. "option1.option2"
-        :type selector: str
-
-        :return: Option provider.
-        :rtype: :py:class:`ConfigurationOption`
-        """
-        key, *other_keys = selector.split('.')
-        child = getattr(self, key)
-
-        if other_keys:
-            child = child.get_option_provider('.'.join(other_keys))
-
-        return child
+    def get_name_segments(self):
+        return self.__name
 
     def as_int(self):
         return TypedConfigurationOption(int, self)
@@ -1385,23 +1375,6 @@ cdef class Configuration(Object):
                 break
 
         return value
-
-    def get_option_provider(self, selector):
-        """Return configuration option provider.
-
-        :param selector: Selector string, e.g. "option1.option2"
-        :type selector: str
-
-        :return: Option provider.
-        :rtype: :py:class:`ConfigurationOption`
-        """
-        key, *other_keys = selector.split('.')
-        child = getattr(self, key)
-
-        if other_keys:
-            child = child.get_option_provider('.'.join(other_keys))
-
-        return child
 
     def set(self, selector, value):
         """Override configuration option.
@@ -2504,13 +2477,13 @@ cdef class Container(Provider):
 
     def __init__(self, container_cls, container=None, **overriding_providers):
         """Initialize provider."""
-        self.container_cls = container_cls
-        self.overriding_providers = overriding_providers
+        self.__container_cls = container_cls
+        self.__overriding_providers = overriding_providers
 
         if container is None:
             container = container_cls()
             container.override_providers(**overriding_providers)
-        self.container = container
+        self.__container = container
 
         super(Container, self).__init__()
 
@@ -2521,9 +2494,9 @@ cdef class Container(Provider):
             return copied
 
         copied = self.__class__(
-            self.container_cls,
-            deepcopy(self.container, memo),
-            **deepcopy(self.overriding_providers, memo),
+            self.__container_cls,
+            deepcopy(self.__container, memo),
+            **deepcopy(self.__overriding_providers, memo),
         )
 
         return copied
@@ -2535,7 +2508,11 @@ cdef class Container(Provider):
                 '\'{cls}\' object has no attribute '
                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
                                               attribute_name=name))
-        return getattr(self.container, name)
+        return getattr(self.__container, name)
+
+    @property
+    def container(self):
+        return self.__container
 
     def override(self, provider):
         """Override provider with another provider."""
@@ -2543,7 +2520,7 @@ cdef class Container(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
-        return self.container
+        return self.__container
 
 
 cdef class Selector(Provider):
