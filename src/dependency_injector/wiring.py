@@ -5,7 +5,7 @@ import inspect
 import pkgutil
 import sys
 from types import ModuleType
-from typing import Optional, Iterable, Callable, Any, Type, Dict, Generic, TypeVar, cast
+from typing import Optional, Iterable, Callable, Any, Dict, Generic, TypeVar, cast
 
 if sys.version_info < (3, 7):
     from typing import GenericMeta
