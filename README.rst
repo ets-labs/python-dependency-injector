@@ -67,9 +67,12 @@ Key features of the ``Dependency Injector``:
   See `Configuration provider <http://python-dependency-injector.ets-labs.org/providers/configuration.html>`_.
 - **Containers**. Provides declarative and dynamic containers.
   See `Containers <http://python-dependency-injector.ets-labs.org/containers/index.html>`_.
-- **Performance**. Fast. Written in ``Cython``.
+- **Wiring**. Injects container providers into functions and methods. Helps integrating with
+  other frameworks: Django, Flask, Aiohttp, etc.
+  See `Wiring <http://python-dependency-injector.ets-labs.org/wiring.html>`_.
 - **Typing**. Provides typing stubs, ``mypy``-friendly.
   See `Typing and mypy <http://python-dependency-injector.ets-labs.org/providers/typing_mypy.html>`_.
+- **Performance**. Fast. Written in ``Cython``.
 - **Maturity**. Mature and production-ready. Well-tested, documented and supported.
 
 .. code-block:: python

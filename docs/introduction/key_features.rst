@@ -19,20 +19,21 @@ Key features of the ``Dependency Injector``:
 - **Configuration**. Read configuration from ``yaml`` & ``ini`` files, environment variables
   and dictionaries. See :ref:`configuration-provider`.
 - **Containers**. Provides declarative and dynamic containers. See :ref:`containers`.
-- **Performance**. Fast. Written in ``Cython``.
+- **Wiring**. Injects container providers into functions and methods. Helps integrating with
+  other frameworks: Django, Flask, Aiohttp, etc. See :ref:`wiring`.
 - **Typing**. Provides typing stubs, ``mypy``-friendly. See :ref:`provider-typing`.
+- **Performance**. Fast. Written in ``Cython``.
 - **Maturity**. Mature and production-ready. Well-tested, documented and supported.
 
-The framework stands on two principles:
+The framework stands on the `PEP20 (The Zen of Python) <https://www.python.org/dev/peps/pep-0020/>`_ principle:
 
-- **Explicit is better than implicit (PEP20)**.
-- **Do not do any magic to your code**.
+.. code-block:: plain
 
-How is that different from the other frameworks?
+   Explicit is better than implicit
 
-- **No autowiring.** The framework does NOT do any autowiring / autoresolving of the dependencies. You need to specify everything explicitly. Because *"Explicit is better than implicit" (PEP20)*.
-- **Does not pollute your code.** Your application does NOT know and does NOT depend on the framework. No ``@inject`` decorators, annotations, patching or any other magic tricks.
+You need to specify how to assemble and where to inject the dependencies explicitly.
 
-The power of the framework is in a simplicity. ``Dependency Injector`` is a simple tool for the powerful concept.
+The power of the framework is in a simplicity.
+``Dependency Injector`` is a simple tool for the powerful concept.
 
 .. disqus::
