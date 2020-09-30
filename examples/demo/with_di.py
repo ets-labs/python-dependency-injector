@@ -4,7 +4,7 @@ from unittest import mock
 from dependency_injector import containers, providers
 from dependency_injector.wiring import Provide
 
-from di import ApiClient, Service
+from after import ApiClient, Service
 
 
 class Container(containers.DeclarativeContainer):
