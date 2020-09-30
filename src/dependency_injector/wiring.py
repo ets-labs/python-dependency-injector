@@ -158,7 +158,8 @@ def wire(
             if inspect.isfunction(member):
                 _patch_fn(module, name, member, providers_map)
             elif inspect.isclass(member):
-                _patch_cls(member, providers_map)
+                for method_name, method in inspect.getmembers(member, inspect.isfunction):
+                    _patch_fn(member, method_name, method, providers_map)
 
 
 def unwire(
@@ -179,29 +180,8 @@ def unwire(
             if inspect.isfunction(member):
                 _unpatch_fn(module, name, member)
             elif inspect.isclass(member):
-                _unpatch_cls(member,)
-
-
-def _patch_cls(
-        cls: Type[Any],
-        providers_map: ProvidersMap,
-) -> None:
-    if not hasattr(cls, '__init__'):
-        return
-    init_method = getattr(cls, '__init__')
-    injections = _resolve_injections(init_method, providers_map)
-    if not injections:
-        return
-    setattr(cls, '__init__', _patch_with_injections(init_method, injections))
-
-
-def _unpatch_cls(cls: Type[Any]) -> None:
-    if not hasattr(cls, '__init__'):
-        return
-    init_method = getattr(cls, '__init__')
-    if not _is_patched(init_method):
-        return
-    setattr(cls, '__init__', _get_original_from_patched(init_method))
+                for method_name, method in inspect.getmembers(member, inspect.isfunction):
+                    _unpatch_fn(member, method_name, method)
 
 
 def _patch_fn(

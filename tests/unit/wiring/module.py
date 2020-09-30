@@ -14,6 +14,9 @@ class TestClass:
     def __init__(self, service: Service = Provide[Container.service]):
         self.service = service
 
+    def method(self, service: Service = Provide[Container.service]):
+        return service
+
 
 def test_function(service: Service = Provide[Container.service]):
     return service

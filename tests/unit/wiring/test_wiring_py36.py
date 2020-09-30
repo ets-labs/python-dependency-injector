@@ -1,7 +1,7 @@
 from decimal import Decimal
 import unittest
 
-from dependency_injector.wiring import wire
+from dependency_injector.wiring import wire, Provide
 
 from . import module, package
 from .service import Service
@@ -34,6 +34,11 @@ class WiringTest(unittest.TestCase):
 
         test_class_object = module.TestClass(service=test_service)
         self.assertIs(test_class_object.service, test_service)
+
+    def test_class_method_wiring(self):
+        test_class_object = module.TestClass()
+        service = test_class_object.method()
+        self.assertIsInstance(service, Service)
 
     def test_function_wiring(self):
         service = module.test_function()
@@ -104,3 +109,26 @@ class WiringTest(unittest.TestCase):
                 modules=[module],
             )
 
+    def test_unwire_function(self):
+        self.container.unwire()
+        self.assertIsInstance(module.test_function(), Provide)
+
+    def test_unwire_class(self):
+        self.container.unwire()
+        test_class_object = module.TestClass()
+        self.assertIsInstance(test_class_object.service, Provide)
+
+    def test_unwire_class_method(self):
+        self.container.unwire()
+        test_class_object = module.TestClass()
+        self.assertIsInstance(test_class_object.method(), Provide)
+
+    def test_unwire_package_function(self):
+        self.container.unwire()
+        from .package.subpackage.submodule import test_function
+        self.assertIsInstance(test_function(), Provide)
+
+    def test_unwire_package_function_by_reference(self):
+        from .package.subpackage import submodule
+        self.container.unwire()
+        self.assertIsInstance(submodule.test_function(), Provide)
