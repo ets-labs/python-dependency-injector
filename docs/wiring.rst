@@ -153,6 +153,23 @@ You can use that in testing to re-create and re-wire a container before each tes
    Wiring can take time if you have a large codebase. Consider to persist a container instance and
    avoid re-wiring between tests.
 
+.. note::
+   Python has a limitation on patching already imported individual members. To protect from errors
+   prefer an import of modules instead of individual members or make sure that imports happen
+   after the wiring:
+
+   .. code-block:: python
+
+      from . import module
+
+      module.fn()
+
+      # instead of
+
+      from .module import fn
+
+      fn()
+
 Integration with other frameworks
 ---------------------------------
 
