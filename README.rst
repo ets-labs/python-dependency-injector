@@ -158,22 +158,16 @@ Choose one of the following:
 Concept
 -------
 
-``Dependency Injector`` stands on two principles:
+The framework stands on the `PEP20 (The Zen of Python) <https://www.python.org/dev/peps/pep-0020/>`_ principle:
 
-- Explicit is better than implicit (PEP20).
-- Do no magic to your code.
+.. code-block:: plain
 
-How is it different from the other frameworks?
+   Explicit is better than implicit
 
-- **No autowiring.** The framework does NOT do any autowiring / autoresolving of the dependencies. You need to specify everything explicitly. Because *"Explicit is better than implicit" (PEP20)*.
-- **Does not pollute your code.** Your application does NOT know and does NOT depend on the framework. No ``@inject`` decorators, annotations, patching or any other magic tricks.
+You need to specify how to assemble and where to inject the dependencies explicitly.
 
-``Dependency Injector`` makes a simple contract with you:
-
-- You tell the framework how to assemble your objects
-- The framework does it for you
-
-The power of the ``Dependency Injector`` is in its simplicity and straightforwardness. It is a simple tool for the powerful concept.
+The power of the framework is in a simplicity.
+``Dependency Injector`` is a simple tool for the powerful concept.
 
 Frequently asked questions
 --------------------------
@@ -182,35 +176,17 @@ What is the dependency injection?
  - dependency injection is a principle that decreases coupling and increases cohesion
 
 Why should I do the dependency injection?
- - your code becomes more flexible, testable and clear
- - you have no problems when you need to understand how it works or change it 😎 
+ - your code becomes more flexible, testable and clear 😎
 
 How do I start doing the dependency injection?
  - you start writing the code following the dependency injection principle
  - you register all of your application components and their dependencies in the container
- - when you need a component, you get it from the container
-
-Why do I need a framework for this?
- - you need the framework for this to not create it by your own
- - this framework gives you the container and the providers
- - the container is like a dictionary with the batteries 🔋 
- - the providers manage the lifetime of your components, you will need factories, singletons, smart config object etc
+ - when you need a component, you specify where to inject it or get it from the container
 
 What price do I pay and what do I get?
- - you need to explicitly specify the dependencies in the container
+ - you need to explicitly specify the dependencies
  - it will be extra work in the beginning
- - it will payoff when project grows or in two weeks 😊 (when you forget what project was about)
-
-What features does the framework have?
- - building objects graph
- - smart configuration object
- - providers: factory, singleton, thread locals registers, etc
- - positional and keyword context injections
- - overriding of the objects in any part of the graph
-
-What features the framework does NOT have?
- - autowiring / autoresolving of the dependencies
- - the annotations and ``@inject``-like decorators
+ - it will payoff when the project grows
 
 Have a question?
  - Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
