@@ -77,8 +77,10 @@ Key features of the ``Dependency Injector``:
 - **Configuration**. Read configuration from ``yaml`` & ``ini`` files, environment variables
   and dictionaries. See :ref:`configuration-provider`.
 - **Containers**. Provides declarative and dynamic containers. See :ref:`containers`.
-- **Performance**. Fast. Written in ``Cython``.
+- **Wiring**. Injects container providers into functions and methods. Helps integrating with
+  other frameworks: Django, Flask, Aiohttp, etc. See :ref:`wiring`.
 - **Typing**. Provides typing stubs, ``mypy``-friendly. See :ref:`provider-typing`.
+- **Performance**. Fast. Written in ``Cython``.
 - **Maturity**. Mature and production-ready. Well-tested, documented and supported.
 
 .. code-block:: python
@@ -134,15 +136,16 @@ Explore the documentation to know more about the ``Dependency Injector``.
 Contents
 --------
 
-..  toctree::
-    :maxdepth: 2
+.. toctree::
+   :maxdepth: 2
 
-    introduction/index
-    examples/index
-    tutorials/index
-    providers/index
-    containers/index
-    examples-other/index
-    api/index
-    main/feedback
-    main/changelog
+   introduction/index
+   examples/index
+   tutorials/index
+   providers/index
+   containers/index
+   wiring
+   examples-other/index
+   api/index
+   main/feedback
+   main/changelog
