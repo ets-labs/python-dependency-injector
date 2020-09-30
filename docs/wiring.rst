@@ -44,6 +44,7 @@ There are two types of markers:
 
 
    def foo(bar_provider: Callable[..., Bar] = Provider[Container.bar]):
+       bar = bar_provider()
        ...
 
 You can use configuration, provided instance and sub-container providers as you normally do.
