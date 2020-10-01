@@ -116,7 +116,7 @@ This place is called **the container**. You use the container to manage all the 
 application. All the component dependencies are defined explicitly. This provides the control on
 the application structure. It is **easy to understand and change** it.
 
-.. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/di-map.svg
+.. figure:: ./main.svg
    :target: https://github.com/ets-labs/python-dependency-injector
 
 *The container is like a map of your application. You always know what depends on what.*
