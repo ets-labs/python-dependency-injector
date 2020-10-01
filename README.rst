@@ -111,6 +111,12 @@ Key features of the ``Dependency Injector``:
 
         main()
 
+With the ``Dependency Injector`` you explicitly define and inject the dependencies.
+This helps to understand and change how application works.
+
+.. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/di-readme.svg
+   :target: https://github.com/ets-labs/python-dependency-injector
+
 Visit the docs to know more about the
 `Dependency injection and inversion of control in Python <http://python-dependency-injector.ets-labs.org/introduction/di_in_python.html>`_.
 
