@@ -118,6 +118,7 @@ the application structure. It is **easy to understand and change** it.
 
 .. figure:: ./main.svg
    :target: https://github.com/ets-labs/python-dependency-injector
+   :width: 70%
 
 *The container is like a map of your application. You always know what depends on what.*
 
