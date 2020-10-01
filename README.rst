@@ -111,17 +111,6 @@ Key features of the ``Dependency Injector``:
 
         main()
 
-With the ``Dependency Injector`` you keep **application structure in one place**.
-This place is called **the container**. You use the container to manage all the components of the
-application. All the component dependencies are defined explicitly. This provides the control on
-the application structure. It is **easy to understand and change** it.
-
-.. figure:: ./main.svg
-   :target: https://github.com/ets-labs/python-dependency-injector
-   :width: 80%
-
-*The container is like a map of your application. You always know what depends on what.*
-
 Visit the docs to know more about the
 `Dependency injection and inversion of control in Python <http://python-dependency-injector.ets-labs.org/introduction/di_in_python.html>`_.
 
