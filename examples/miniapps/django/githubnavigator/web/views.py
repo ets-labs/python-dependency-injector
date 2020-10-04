@@ -1,5 +1,3 @@
-"""Views module."""
-
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from dependency_injector.wiring import Provide
