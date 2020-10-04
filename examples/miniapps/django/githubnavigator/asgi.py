@@ -1,5 +1,4 @@
-"""
-ASGI config for githubnavigator project.
+"""ASGI config for githubnavigator project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
