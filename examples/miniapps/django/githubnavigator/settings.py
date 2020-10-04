@@ -119,3 +119,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Github client settings
+GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
+GITHUB_REQUEST_TIMEOUT = 10
+
+# Default search settings
+DEFAULT_LIMIT = 5
+DEFAULT_QUERY = 'Dependency Injector'

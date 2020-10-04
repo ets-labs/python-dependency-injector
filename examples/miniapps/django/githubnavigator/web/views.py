@@ -9,8 +9,8 @@ from githubnavigator.services import SearchService
 def index(
         request: HttpRequest,
         search_service: SearchService = Provide[Container.search_service],
-        default_query: str = Provide[Container.config.default.query],
-        default_limit: int = Provide[Container.config.default.limit.as_int()],
+        default_query: str = Provide[Container.config.DEFAULT_QUERY],
+        default_limit: int = Provide[Container.config.DEFAULT_LIMIT.as_int()],
 ) -> HttpResponse:
     query = request.GET.get('query', default_query)
     limit = int(request.GET.get('limit', default_limit))

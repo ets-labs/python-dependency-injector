@@ -12,8 +12,8 @@ class Container(containers.DeclarativeContainer):
 
     github_client = providers.Factory(
         Github,
-        login_or_token=config.github.auth_token,
-        timeout=config.github.request_timeout,
+        login_or_token=config.GITHUB_TOKEN,
+        timeout=config.GITHUB_REQUEST_TIMEOUT,
     )
 
     search_service = providers.Factory(
