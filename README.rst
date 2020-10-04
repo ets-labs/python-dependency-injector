@@ -182,7 +182,7 @@ How do I start doing the dependency injection?
 What price do I pay and what do I get?
  - you need to explicitly specify the dependencies
  - it will be extra work in the beginning
- - it will payoff when the project grows
+ - it will payoff as the project grows
 
 Have a question?
  - Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
