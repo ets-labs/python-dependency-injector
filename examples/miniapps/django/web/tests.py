@@ -7,7 +7,7 @@ from github import Github
 from githubnavigator import container
 
 
-class SampleTests(TestCase):
+class IndexTests(TestCase):
 
     def test_index(self):
         github_client_mock = mock.Mock(spec=Github)

@@ -5,7 +5,7 @@ from . import views
 
 
 class WebConfig(AppConfig):
-    name = 'githubnavigator.web'
+    name = 'web'
 
     def ready(self):
         container.wire(modules=[views])
