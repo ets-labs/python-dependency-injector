@@ -1,0 +1,10 @@
+{% extends 'bootstrap4/bootstrap4.html' %}
+
+{% load bootstrap4 %}
+
+{% block bootstrap4_title %}{% block title %}{% endblock %}{% endblock %}
+
+{% block bootstrap4_content %}
+        {% autoescape off %}{% bootstrap_messages %}{% endautoescape %}
+        {% block content %}(no content){% endblock %}
+{% endblock %}
