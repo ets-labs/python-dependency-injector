@@ -1,4 +1,4 @@
-"""Main package."""
+"""Project package."""
 
 from .containers import Container
 from . import settings

@@ -22,7 +22,7 @@
                     Limit:
                 </label>
                 <select class="form-control" id="search_limit" name="limit">
-                    {% for value in limits %}
+                    {% for value in limit_options %}
                     <option {% if value == limit %}selected{% endif %}>
                         {{ value }}
                     </option>

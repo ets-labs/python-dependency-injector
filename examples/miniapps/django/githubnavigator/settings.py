@@ -128,4 +128,4 @@ GITHUB_REQUEST_TIMEOUT = 10
 # Search settings
 DEFAULT_LIMIT = 5
 DEFAULT_QUERY = 'Dependency Injector'
-LIMITS = [5, 10, 20]
+LIMIT_OPTIONS = [5, 10, 20]

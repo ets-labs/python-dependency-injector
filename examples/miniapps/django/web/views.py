@@ -15,7 +15,7 @@ def index(
         search_service: SearchService = Provide[Container.search_service],
         default_query: str = Provide[Container.config.DEFAULT_QUERY],
         default_limit: int = Provide[Container.config.DEFAULT_LIMIT.as_int()],
-        limits: List[int] = Provide[Container.config.LIMITS],
+        limit_options: List[int] = Provide[Container.config.LIMIT_OPTIONS],
 ) -> HttpResponse:
     query = request.GET.get('query', default_query)
     limit = int(request.GET.get('limit', default_limit))
@@ -28,7 +28,7 @@ def index(
         context={
             'query': query,
             'limit': limit,
-            'limits': limits,
+            'limit_options': limit_options,
             'repositories': repositories,
         }
     )
