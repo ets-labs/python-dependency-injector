@@ -49,7 +49,6 @@ After that visit http://127.0.0.1:8000/ in your browser.
 
 .. note::
 
-
    Github has a rate limit. When the rate limit is exceed you will see an exception
    ``github.GithubException.RateLimitExceededException``. For unauthenticated requests, the rate
    limit allows for up to 60 requests per hour. To extend the limit to 5000 requests per hour you
