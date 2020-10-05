@@ -1,41 +1,42 @@
 Installation
 ============
 
-*Dependency Injector* framework is distributed by PyPi_.
-
-Latest stable version (and all previous versions) of *Dependency Injector* 
-framework can be installed from PyPi_:
+``Dependency Injector`` is available on `PyPI <https://pypi.org/project/dependency-injector/>`_.
+To install latest version you can use ``pip``:
 
 .. code-block:: bash
 
     pip install dependency-injector
 
-.. note::
-    Some components of *Dependency Injector* are implemented as C extension types. 
-    *Dependency Injector* is distributed as an archive with a source code, so 
-    C compiler and Python header files are required for the installation.
+Some modules of the ``Dependency Injector`` are implemented as C extensions.
+``Dependency Injector`` is distributed as a pre-compiled wheels. Wheels are
+available for all supported Python versions on Linux, Windows and MacOS.
+Linux distribution uses `manylinux <https://github.com/pypa/manylinux>`_.
 
-Sources can be cloned from GitHub_:
+If there is no appropriate wheel for your environment (Python version and OS)
+installer will compile the package from sources on your machine. You'll need
+a C compiler and Python header files.
 
-.. code-block:: bash
-
-    git clone https://github.com/ets-labs/python-dependency-injector.git
-
-Also all *Dependency Injector* releases can be downloaded from 
-`GitHub releases page`_.
-
-Verification of currently installed version could be done using 
-:py:obj:`dependency_injector.VERSION` constant:
+To verify the installed version:
 
 .. code-block:: bash
 
     >>> import dependency_injector
     >>> dependency_injector.__version__
-    '3.43.0'
+    '4.0.0'
 
-.. _PyPi: https://pypi.org/project/dependency-injector/
-.. _GitHub: https://github.com/ets-labs/python-dependency-injector
-.. _GitHub releases page: https://github.com/ets-labs/python-dependency-injector/releases
+.. note::
+    When add ``Dependency Injector`` to the ``requirements.txt`` don't forget to pin version
+    to the current major:
 
+    .. code-block:: bash
+
+        dependency-injector>=4.0,<5.0
+
+    *Next major version can be incompatible.*
+
+All releases are available on `PyPI release history page <https://pypi.org/project/dependency-injector/#history>`_.
+Each release has appropriate tag. The tags are available on
+`GitHub releases page <https://github.com/ets-labs/python-dependency-injector/releases>`_.
 
 .. disqus::
