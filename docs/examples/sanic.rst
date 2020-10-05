@@ -54,7 +54,7 @@ Listing of ``giphynavigator/handlers.py``:
 Application factory
 -------------------
 Application factory creates container, wires it with the ``handlers`` module, creates
-``Sanic`` app instance and setup routes.
+``Sanic`` app and setup routes.
 
 Listing of ``giphynavigator/application.py``:
 
@@ -64,7 +64,7 @@ Listing of ``giphynavigator/application.py``:
 Tests
 -----
 
-Tests use :ref:`provider-overriding` feature to replace search service with a mock ``web/giphynavigator.py``:
+Tests use :ref:`provider-overriding` feature to replace search service with a mock ``giphynavigator/tests.py``:
 
 .. literalinclude:: ../../examples/miniapps/sanic/giphynavigator/tests.py
    :language: python
