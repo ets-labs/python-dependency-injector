@@ -4,6 +4,8 @@ Django + Dependency Injector Example
 Application ``githubnavigator`` is a `Django <https://www.djangoproject.com/>`_ +
 `Dependency Injector <http://python-dependency-injector.ets-labs.org/>`_ example application.
 
+.. image:: screenshot.png
+
 Run
 ---
 
