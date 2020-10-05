@@ -17,6 +17,7 @@ follows `Semantic versioning`_
 - Add ``sanic`` example.
 - Update ``aiohttp`` example.
 - Update ``flask`` example.
+- Add ``django`` example.
 
 3.44.0
 ------
