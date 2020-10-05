@@ -1,3 +1,4 @@
 dependency-injector
 django
+django-bootstrap4
 pygithub

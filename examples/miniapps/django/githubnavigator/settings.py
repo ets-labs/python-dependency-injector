@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'web.apps.WebConfig',
+    'bootstrap4',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -124,6 +125,7 @@ STATIC_URL = '/static/'
 GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
 GITHUB_REQUEST_TIMEOUT = 10
 
-# Default search settings
+# Search settings
 DEFAULT_LIMIT = 5
 DEFAULT_QUERY = 'Dependency Injector'
+LIMITS = [5, 10, 20]

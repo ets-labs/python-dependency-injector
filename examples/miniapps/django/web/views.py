@@ -1,3 +1,7 @@
+"""Views module."""
+
+from typing import List
+
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from dependency_injector.wiring import Provide
@@ -11,6 +15,7 @@ def index(
         search_service: SearchService = Provide[Container.search_service],
         default_query: str = Provide[Container.config.DEFAULT_QUERY],
         default_limit: int = Provide[Container.config.DEFAULT_LIMIT.as_int()],
+        limits: List[int] = Provide[Container.config.LIMITS],
 ) -> HttpResponse:
     query = request.GET.get('query', default_query)
     limit = int(request.GET.get('limit', default_limit))
@@ -23,7 +28,7 @@ def index(
         context={
             'query': query,
             'limit': limit,
-            'limits': [5, 10, 20],
+            'limits': limits,
             'repositories': repositories,
         }
     )
