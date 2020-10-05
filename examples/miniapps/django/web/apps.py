@@ -1,3 +1,5 @@
+"""Application config module."""
+
 from django.apps import AppConfig
 
 from githubnavigator import container
