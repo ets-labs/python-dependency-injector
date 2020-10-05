@@ -15,6 +15,7 @@ Explore the examples to see the ``Dependency Injector`` in action.
     decoupled-packages
     django
     flask
+    aiohttp
     sanic
 
 .. disqus::

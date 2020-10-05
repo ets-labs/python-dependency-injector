@@ -71,7 +71,7 @@ Listing of ``githubnavigator/application.py``:
 Tests
 -----
 
-Tests use :ref:`provider-overriding` feature to replace search service with a mock ``githubnavigator/tests.py``:
+Tests use :ref:`provider-overriding` feature to replace github client with a mock ``githubnavigator/tests.py``:
 
 .. literalinclude:: ../../examples/miniapps/flask/githubnavigator/tests.py
    :language: python
