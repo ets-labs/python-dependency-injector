@@ -1,5 +1,5 @@
-Dependency Injector + Sanic Example
-=====================================
+Django + Dependency Injector Example
+====================================
 
 Application ``githubnavigator`` is a `Django <https://www.djangoproject.com/>`_ +
 `Dependency Injector <http://python-dependency-injector.ets-labs.org/>`_ example application.
@@ -20,66 +20,53 @@ Install requirements:
 
     pip install -r requirements.txt
 
+Run migrations:
+
+.. code-block:: bash
+
+   python manage.py migrate
+
 To run the application do:
 
 .. code-block:: bash
 
-    export GIPHY_API_KEY=wBJ2wZG7SRqfrU9nPgPiWvORmloDyuL0
-    python -m giphynavigator
+   python manage.py runserver
 
 The output should be something like:
 
 .. code-block::
 
-   [2020-09-23 18:16:31 -0400] [48258] [INFO] Goin' Fast @ http://0.0.0.0:8000
-   [2020-09-23 18:16:31 -0400] [48258] [INFO] Starting worker [48258]
+   Watching for file changes with StatReloader
+   Performing system checks...
 
-After that visit http://127.0.0.1:8000/ in your browser or use CLI command (``curl``, ``httpie``,
-etc). You should see something like:
+   System check identified no issues (0 silenced).
+   October 05, 2020 - 03:17:05
+   Django version 3.1.2, using settings 'githubnavigator.settings'
+   Starting development server at http://127.0.0.1:8000/
+   Quit the server with CONTROL-C.
 
-.. code-block:: json
-
-   {
-       "query": "Dependency Injector",
-       "limit": 10,
-       "gifs": [
-           {
-               "url": "https://giphy.com/gifs/boxes-dependent-swbf2-6Eo7KzABxgJMY"
-           },
-           {
-               "url": "https://giphy.com/gifs/depends-J56qCcOhk6hKE"
-           },
-           {
-               "url": "https://giphy.com/gifs/web-series-ccstudios-bro-dependent-1lhU8KAVwmVVu"
-           },
-           {
-               "url": "https://giphy.com/gifs/TheBoysTV-friends-friend-weneedeachother-XxR9qcIwcf5Jq404Sx"
-           },
-           {
-               "url": "https://giphy.com/gifs/netflix-a-series-of-unfortunate-events-asoue-9rgeQXbwoK53pcxn7f"
-           },
-           {
-               "url": "https://giphy.com/gifs/black-and-white-sad-skins-Hs4YzLs2zJuLu"
-           },
-           {
-               "url": "https://giphy.com/gifs/always-there-for-you-i-am-here-PlayjhCco9jHBYrd9w"
-           },
-           {
-               "url": "https://giphy.com/gifs/stream-famous-dollar-YT2dvOByEwXCdoYiA1"
-           },
-           {
-               "url": "https://giphy.com/gifs/i-love-you-there-for-am-1BhGzgpZXYWwWMAGB1"
-           },
-           {
-               "url": "https://giphy.com/gifs/life-like-twerk-9hlnWxjHqmH28"
-           }
-       ]
-   }
+After that visit http://127.0.0.1:8000/ in your browser.
 
 .. note::
 
-   To create your own Giphy API key follow this
-   `guide <https://support.giphy.com/hc/en-us/articles/360020283431-Request-A-GIPHY-API-Key>`_.
+
+   Github has a rate limit. When the rate limit is exceed you will see an exception
+   ``github.GithubException.RateLimitExceededException``. For unauthenticated requests, the rate
+   limit allows for up to 60 requests per hour. To extend the limit to 5000 requests per hour you
+   need to set personal access token.
+
+   It's easy:
+
+   - Follow this `guide <https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token>`_ to create a token.
+   - Set a token to the environment variable:
+
+   .. code-block:: bash
+
+      export GITHUB_TOKEN=<your token>
+
+   - Restart the app with ``python manage.py runserver``
+
+   `Read more on Github rate limit <https://developer.github.com/v3/#rate-limiting>`_
 
 Test
 ----
@@ -90,28 +77,34 @@ To run the tests do:
 
 .. code-block:: bash
 
-   py.test giphynavigator/tests.py --cov=giphynavigator
+   coverage run --source='.' manage.py test && coverage report
 
 The output should be something like:
 
 .. code-block::
 
-   platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
-   plugins: cov-2.10.0, sanic-1.6.1
-   collected 3 items
+   Creating test database for alias 'default'...
+   System check identified no issues (0 silenced).
+   ..
+   ----------------------------------------------------------------------
+   Ran 2 tests in 0.037s
 
-   giphynavigator/tests.py ...                                     [100%]
-
-   ---------- coverage: platform darwin, python 3.8.3-final-0 -----------
+   OK
+   Destroying test database for alias 'default'...
    Name                            Stmts   Miss  Cover
    ---------------------------------------------------
-   giphynavigator/__init__.py          0      0   100%
-   giphynavigator/__main__.py          4      4     0%
-   giphynavigator/application.py      12      0   100%
-   giphynavigator/containers.py        6      0   100%
-   giphynavigator/giphy.py            14      9    36%
-   giphynavigator/handlers.py         10      0   100%
-   giphynavigator/services.py          9      1    89%
-   giphynavigator/tests.py            34      0   100%
+   githubnavigator/__init__.py         4      0   100%
+   githubnavigator/asgi.py             4      4     0%
+   githubnavigator/containers.py       7      0   100%
+   githubnavigator/services.py        14      0   100%
+   githubnavigator/settings.py        23      0   100%
+   githubnavigator/urls.py             3      0   100%
+   githubnavigator/wsgi.py             4      4     0%
+   manage.py                          12      2    83%
+   web/__init__.py                     0      0   100%
+   web/apps.py                         7      0   100%
+   web/tests.py                       28      0   100%
+   web/urls.py                         3      0   100%
+   web/views.py                       11      0   100%
    ---------------------------------------------------
-   TOTAL                              89     14    84%
+   TOTAL                             120     10    92%
