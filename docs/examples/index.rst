@@ -14,5 +14,6 @@ Explore the examples to see the ``Dependency Injector`` in action.
     application-multiple-containers
     decoupled-packages
     django
+    sanic
 
 .. disqus::

@@ -6,7 +6,7 @@ Django example
    :description: This example demonstrates a usage of the Django and Dependency Injector.
 
 
-This example shows how to use ``Dependency Injector`` with ``Django``.
+This example shows how to use ``Dependency Injector`` with `Django <https://www.djangoproject.com/>`_.
 
 The example application helps to search for repositories on the Github.
 
