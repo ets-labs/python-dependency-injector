@@ -15,7 +15,7 @@ def main(
         user_service: UserService = Provide[Container.user_service],
         auth_service: AuthService = Provide[Container.auth_service],
         photo_service: PhotoService = Provide[Container.photo_service],
-):
+) -> None:
     user = user_service.get_user(email)
     auth_service.authenticate(user, password)
     photo_service.upload_photo(user, photo)
