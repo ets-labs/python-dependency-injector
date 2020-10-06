@@ -289,6 +289,10 @@ Choose one of the following as a next step:
     - :ref:`application-single-container`
     - :ref:`application-multiple-containers`
     - :ref:`decoupled-packages`
+    - :ref:`django-example`
+    - :ref:`flask-example`
+    - :ref:`aiohttp-example`
+    - :ref:`sanic-example`
 - Pass the tutorials:
     - :ref:`flask-tutorial`
     - :ref:`aiohttp-tutorial`

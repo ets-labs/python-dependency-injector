@@ -1,3 +1,5 @@
+.. _flask-example:
+
 Flask example
 =============
 

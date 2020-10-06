@@ -1,3 +1,5 @@
+.. _aiohttp-example:
+
 Aiohttp example
 ===============
 

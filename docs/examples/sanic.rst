@@ -1,3 +1,5 @@
+.. _sanic-example:
+
 Sanic example
 ==============
 

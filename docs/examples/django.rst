@@ -1,3 +1,5 @@
+.. _django-example:
+
 Django example
 ==============
 

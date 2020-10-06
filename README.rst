@@ -138,6 +138,10 @@ Choose one of the following:
 - `Application example (single container) <http://python-dependency-injector.ets-labs.org/examples/application-single-container.html>`_
 - `Application example (multiple containers) <http://python-dependency-injector.ets-labs.org/examples/application-multiple-containers.html>`_
 - `Decoupled packages example (multiple containers) <http://python-dependency-injector.ets-labs.org/examples/decoupled-packages.html>`_
+- `Django example <http://python-dependency-injector.ets-labs.org/examples/django.html>`_
+- `Flask example <http://python-dependency-injector.ets-labs.org/examples/flask.html>`_
+- `Aiohttp example <http://python-dependency-injector.ets-labs.org/examples/aiohttp.html>`_
+- `Sanic example <http://python-dependency-injector.ets-labs.org/examples/sanic.html>`_
 
 Tutorials
 ---------
