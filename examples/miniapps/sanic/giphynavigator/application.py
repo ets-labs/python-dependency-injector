@@ -11,7 +11,6 @@ def create_app():
     container = Container()
     container.config.from_yaml('config.yml')
     container.config.giphy.api_key.from_env('GIPHY_API_KEY')
-
     container.wire(modules=[handlers])
 
     app = Sanic('Giphy Navigator')

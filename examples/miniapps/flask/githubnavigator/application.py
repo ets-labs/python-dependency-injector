@@ -11,7 +11,6 @@ def create_app():
     container = Container()
     container.config.from_yaml('config.yml')
     container.config.github.auth_token.from_env('GITHUB_TOKEN')
-
     container.wire(modules=[views])
 
     app = Flask(__name__)
