@@ -271,7 +271,7 @@ cdef class Provider(object):
 
         :rtype: :py:class:`Delegate`
         """
-        return self.delegate()
+        return Delegate(self)
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Providing strategy implementation.
