@@ -5,7 +5,7 @@ from dependency_injector import containers, providers
 from . import finders, listers, entities
 
 
-class ApplicationContainer(containers.DeclarativeContainer):
+class Container(containers.DeclarativeContainer):
 
     config = providers.Configuration()
 

@@ -1,25 +1,27 @@
 """Main module."""
 
-from .containers import ApplicationContainer
+import sys
+
+from dependency_injector.wiring import Provide
+
+from .listers import MovieLister
+from .containers import Container
 
 
-def main():
-    container = ApplicationContainer()
+def main(lister: MovieLister = Provide[Container.lister]):
+    print('Francis Lawrence movies:')
+    for movie in lister.movies_directed_by('Francis Lawrence'):
+        print('\t-', movie)
 
-    container.config.from_yaml('config.yml')
-    container.config.finder.type.from_env('MOVIE_FINDER_TYPE')
-
-    lister = container.lister()
-
-    print(
-        'Francis Lawrence movies:',
-        lister.movies_directed_by('Francis Lawrence'),
-    )
-    print(
-        '2016 movies:',
-        lister.movies_released_in(2016),
-    )
+    print('2016 movies:')
+    for movie in lister.movies_released_in(2016):
+        print('\t-', movie)
 
 
 if __name__ == '__main__':
+    container = Container()
+    container.config.from_yaml('config.yml')
+    container.config.finder.type.from_env('MOVIE_FINDER_TYPE')
+    container.wire(modules=[sys.modules[__name__]])
+
     main()
