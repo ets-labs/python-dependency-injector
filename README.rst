@@ -103,10 +103,8 @@ Key features of the ``Dependency Injector``:
 
     if __name__ == '__main__':
         container = Container()
-
         container.config.api_key.from_env('API_KEY')
         container.config.timeout.from_env('TIMEOUT')
-
         container.wire(modules=[sys.modules[__name__]])
 
         main()
