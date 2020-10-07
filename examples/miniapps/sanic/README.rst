@@ -1,8 +1,10 @@
-Dependency Injector + Sanic Example
-=====================================
+Sanic + Dependency Injector Example
+===================================
 
-Application ``giphynavigator`` is a `Sanic <https://sanic.readthedocs.io/en/latest/index.html>`_ +
+This is a `Sanic <https://sanic.readthedocs.io/en/latest/index.html>`_ +
 `Dependency Injector <http://python-dependency-injector.ets-labs.org/>`_ example application.
+
+The example application is a REST API that searches for funny GIFs on the `Giphy <https://giphy.com/>`_.
 
 Run
 ---

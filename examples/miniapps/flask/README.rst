@@ -1,8 +1,10 @@
-Dependency Injector + Flask Example
+Flask + Dependency Injector Example
 ===================================
 
-Application ``githubnavigator`` is a `Flask <https://flask.palletsprojects.com/>`_ +
+This is a `Flask <https://flask.palletsprojects.com/>`_ +
 `Dependency Injector <http://python-dependency-injector.ets-labs.org/>`_ example application.
+
+The example application helps to search for repositories on the Github.
 
 .. image:: screenshot.png
 
