@@ -174,19 +174,28 @@ You can use that in testing to re-create and re-wire a container before each tes
 Integration with other frameworks
 ---------------------------------
 
-Wiring feature helps integrate the container providers with other frameworks:
-Django, Flask, Aiohttp, Sanic, your custom framework, etc.
+Wiring feature helps to integrate with other frameworks like Django, Flask, etc.
 
 With wiring you do not need to change the traditional application structure of your framework.
 
 1. Create a container and put framework-independent components as providers.
 2. Place wiring markers in the functions and methods where you want the providers
    to be injected (Flask or Django views, Aiohttp or Sanic handlers, etc).
-3. Wire the container with the application.
+3. Wire the container with the application modules.
 4. Run the application.
 
 .. literalinclude:: ../examples/wiring/flask_example.py
    :language: python
    :lines: 3-
+
+Take a look at other application examples:
+
+- :ref:`application-single-container`
+- :ref:`application-multiple-containers`
+- :ref:`decoupled-packages`
+- :ref:`django-example`
+- :ref:`flask-example`
+- :ref:`aiohttp-example`
+- :ref:`sanic-example`
 
 .. disqus::
