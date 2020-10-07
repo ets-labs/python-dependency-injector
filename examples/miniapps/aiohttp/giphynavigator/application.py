@@ -6,7 +6,7 @@ from .containers import Container
 from . import handlers
 
 
-def create_app():
+def create_app() -> web.Application:
     """Create and return aiohttp application."""
     container = Container()
     container.config.from_yaml('config.yml')
@@ -15,9 +15,7 @@ def create_app():
 
     app = web.Application()
     app.container = container
-
     app.add_routes([
         web.get('/', handlers.index),
     ])
-
     return app

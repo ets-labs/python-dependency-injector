@@ -7,7 +7,7 @@ from .containers import Container
 from . import views
 
 
-def create_app():
+def create_app() -> Flask:
     container = Container()
     container.config.from_yaml('config.yml')
     container.config.github.auth_token.from_env('GITHUB_TOKEN')
@@ -15,10 +15,9 @@ def create_app():
 
     app = Flask(__name__)
     app.container = container
+    app.add_url_rule('/', 'index', views.index)
 
     bootstrap = Bootstrap()
     bootstrap.init_app(app)
-
-    app.add_url_rule('/', 'index', views.index)
 
     return app

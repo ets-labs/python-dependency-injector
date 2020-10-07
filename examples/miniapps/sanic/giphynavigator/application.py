@@ -6,7 +6,7 @@ from .containers import Container
 from . import handlers
 
 
-def create_app():
+def create_app() -> Sanic:
     """Create and return aiohttp application."""
     container = Container()
     container.config.from_yaml('config.yml')
@@ -15,7 +15,5 @@ def create_app():
 
     app = Sanic('Giphy Navigator')
     app.container = container
-
     app.add_route(handlers.index, '/')
-
     return app
