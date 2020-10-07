@@ -7,7 +7,7 @@ from . import handlers
 
 
 def create_app() -> Sanic:
-    """Create and return aiohttp application."""
+    """Create and return Sanic application."""
     container = Container()
     container.config.from_yaml('config.yml')
     container.config.giphy.api_key.from_env('GIPHY_API_KEY')
