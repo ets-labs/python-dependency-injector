@@ -1,4 +1,4 @@
-"""Application containers module."""
+"""Containers module."""
 
 from dependency_injector import containers, providers
 from github import Github
