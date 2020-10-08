@@ -829,7 +829,7 @@ Tests
 
 In this section we will add some tests.
 
-We will use `pytest <https://docs.pytest.org/en/stable/>`_ and
+We will use `pytest <https://docs.pytest.org/en/stable/>`_ with its Flask extension and
 `coverage <https://coverage.readthedocs.io/>`_.
 
 Edit ``requirements.txt``:
@@ -845,7 +845,7 @@ Edit ``requirements.txt``:
    pytest-flask
    pytest-cov
 
-And let's install it:
+And install added packages:
 
 .. code-block:: bash
 
@@ -874,7 +874,7 @@ Create empty file ``tests.py`` in the ``githubnavigator`` package:
 and put next into it:
 
 .. code-block:: python
-   :emphasize-lines: 42,65
+   :emphasize-lines: 44,67
 
    """Tests module."""
 
@@ -889,7 +889,9 @@ and put next into it:
 
    @pytest.fixture
    def app():
-       return create_app()
+       app = create_app()
+       yield app
+       app.container.unwire()
 
 
    def test_index(client, app):
@@ -966,13 +968,13 @@ You should see:
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
    githubnavigator/__init__.py          0      0   100%
-   githubnavigator/application.py      11      0   100%
-   githubnavigator/containers.py       13      0   100%
+   githubnavigator/application.py      15      0   100%
+   githubnavigator/containers.py        7      0   100%
    githubnavigator/services.py         14      0   100%
-   githubnavigator/tests.py            32      0   100%
-   githubnavigator/views.py             7      0   100%
+   githubnavigator/tests.py            34      0   100%
+   githubnavigator/views.py             9      0   100%
    ----------------------------------------------------
-   TOTAL                               77      0   100%
+   TOTAL                               79      0   100%
 
 .. note::
 
@@ -983,53 +985,22 @@ You should see:
 Conclusion
 ----------
 
-We are done.
-
 In this tutorial we've built a ``Flask`` application following the dependency injection principle.
 We've used the ``Dependency Injector`` as a dependency injection framework.
 
-The main part of this application is the container. It keeps all the application components and
-their dependencies defined explicitly in one place:
+Container and providers helped to specify how to assemble search service and integrate it with a
+3rd-party library.
 
-.. code-block:: python
+``Configuration`` provider helped to deal with reading YAML file and environment variable.
 
-   """Application containers module."""
+We used :ref:`wiring` feature to inject the dependencies into the ``index()`` view.
+:ref:`provider-overriding` feature helped in testing.
 
-   from dependency_injector import containers, providers
-   from dependency_injector.ext import flask
-   from flask import Flask
-   from flask_bootstrap import Bootstrap
-   from github import Github
+We kept all the dependencies injected explicitly. This will help when we need to add or
+change something in future.
 
-   from . import services, views
-
-
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = flask.Application(Flask, __name__)
-
-       bootstrap = flask.Extension(Bootstrap)
-
-       config = providers.Configuration()
-
-       github_client = providers.Factory(
-           Github,
-           login_or_token=config.github.auth_token,
-           timeout=config.github.request_timeout,
-       )
-
-       search_service = providers.Factory(
-           services.SearchService,
-           github_client=github_client,
-       )
-
-       index_view = flask.View(
-           views.index,
-           search_service=search_service,
-           default_query=config.search.default_query,
-           default_limit=config.search.default_limit,
-       )
+You can find complete project on the
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/ghnav-flask>`_.
 
 What's next?
 
