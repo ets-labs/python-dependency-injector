@@ -783,19 +783,21 @@ Let's make some refactoring. We will move these values to the config.
 Edit ``views.py``:
 
 .. code-block:: python
-   :emphasize-lines: 8-14
+   :emphasize-lines: 10-16
 
    """Views module."""
 
    from flask import request, render_template
+   from dependency_injector.wiring import Provide
 
    from .services import SearchService
+   from .containers import Container
 
 
    def index(
-           search_service: SearchService,
-           default_query: str,
-           default_limit: int,
+           search_service: SearchService = Provide[Container.search_service],
+           default_query: str = Provide[Container.config.default.query],
+           default_limit: int = Provide[Container.config.default.limit.as_int()],
    ):
        query = request.args.get('query', default_query)
        limit = request.args.get('limit', default_limit, int)
@@ -809,53 +811,6 @@ Edit ``views.py``:
            repositories=repositories,
        )
 
-Now we need to inject these values. Let's update the container.
-
-Edit ``containers.py``:
-
-.. code-block:: python
-   :emphasize-lines: 35-36
-
-   """Application containers module."""
-
-   from dependency_injector import containers, providers
-   from dependency_injector.ext import flask
-   from flask import Flask
-   from flask_bootstrap import Bootstrap
-   from github import Github
-
-   from . import services, views
-
-
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = flask.Application(Flask, __name__)
-
-       bootstrap = flask.Extension(Bootstrap)
-
-       config = providers.Configuration()
-
-       github_client = providers.Factory(
-           Github,
-           login_or_token=config.github.auth_token,
-           timeout=config.github.request_timeout,
-       )
-
-       search_service = providers.Factory(
-           services.SearchService,
-           github_client=github_client,
-       )
-
-       index_view = flask.View(
-           views.index,
-           search_service=search_service,
-           default_query=config.search.default_query,
-           default_limit=config.search.default_limit,
-       )
-
-Finally let's update the config.
-
 Edit ``config.yml``:
 
 .. code-block:: yaml
@@ -863,18 +818,16 @@ Edit ``config.yml``:
 
    github:
      request_timeout: 10
-   search:
-     default_query: "Dependency Injector"
-     default_limit: 10
+   default:
+     query: "Dependency Injector"
+     limit: 10
 
-That's it.
-
-The refactoring is done. We've made it cleaner.
+That's it. The refactoring is done. We've made it cleaner.
 
 Tests
 -----
 
-It would be nice to add some tests. Let's do this.
+In this section we will add some tests.
 
 We will use `pytest <https://docs.pytest.org/en/stable/>`_ and
 `coverage <https://coverage.readthedocs.io/>`_.
