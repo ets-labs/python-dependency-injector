@@ -862,7 +862,7 @@ In next section we will add some tests.
 Tests
 -----
 
-It would be nice to add some tests. Let's do it.
+In this section we will add some tests.
 
 We will use `pytest <https://docs.pytest.org/en/stable/>`_ and
 `coverage <https://coverage.readthedocs.io/>`_.
@@ -992,14 +992,14 @@ You should see:
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
    monitoringdaemon/__init__.py         0      0   100%
-   monitoringdaemon/__main__.py         9      9     0%
+   monitoringdaemon/__main__.py        12     12     0%
    monitoringdaemon/containers.py      11      0   100%
-   monitoringdaemon/dispatcher.py      43      5    88%
+   monitoringdaemon/dispatcher.py      44      5    89%
    monitoringdaemon/http.py             6      3    50%
    monitoringdaemon/monitors.py        23      1    96%
    monitoringdaemon/tests.py           37      0   100%
    ----------------------------------------------------
-   TOTAL                              129     18    86%
+   TOTAL                              133     21    84%
 
 .. note::
 

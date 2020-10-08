@@ -70,7 +70,7 @@ The output should be something like:
    plugins: asyncio-0.14.0, cov-2.10.0
    collected 2 items
 
-   monitoringdaemon/tests.py ..                                     [100%]
+   monitoringdaemon/tests.py ..                                    [100%]
 
    ----------- coverage: platform linux, python 3.8.3-final-0 -----------
    Name                             Stmts   Miss  Cover
