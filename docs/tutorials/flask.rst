@@ -591,7 +591,7 @@ Github API client setup is done.
 Search service
 --------------
 
-Now it's time to add  the ``SearchService``. It will:
+Now it's time to add ``SearchService``. It will:
 
 - Perform the search.
 - Fetch commit extra data for each result.
@@ -672,25 +672,17 @@ Now let's add ``SearchService`` to the container.
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 9,27-30
+   :emphasize-lines: 6,19-22
 
-   """Application containers module."""
+   """Containers module."""
 
    from dependency_injector import containers, providers
-   from dependency_injector.ext import flask
-   from flask import Flask
-   from flask_bootstrap import Bootstrap
    from github import Github
 
-   from . import services, views
+   from . import services
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = flask.Application(Flask, __name__)
-
-       bootstrap = flask.Extension(Bootstrap)
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -704,8 +696,6 @@ Edit ``containers.py``:
            services.SearchService,
            github_client=github_client,
        )
-
-       index_view = flask.View(views.index)
 
 Make the search work
 --------------------
