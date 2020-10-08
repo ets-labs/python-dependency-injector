@@ -88,18 +88,18 @@ Prepare the environment
 
 Let's create the environment for the project.
 
-First we need to create a project folder and the virtual environment:
+First we need to create a project folder:
 
 .. code-block:: bash
 
    mkdir giphynav-aiohttp-tutorial
    cd giphynav-aiohttp-tutorial
-   python3 -m venv venv
 
-Now let's activate the virtual environment:
+Now let's create and activate virtual environment:
 
 .. code-block:: bash
 
+   python3 -m venv venv
    . venv/bin/activate
 
 Environment is ready and now we're going to create the layout of the project.
@@ -242,12 +242,6 @@ Put next into the ``application.py``:
        ])
 
        return app
-
-.. note::
-
-   Container is the first object in the application.
-
-   The container is used to create all other objects.
 
 Now we're ready to run our application
 

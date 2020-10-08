@@ -63,18 +63,18 @@ Prepare the environment
 
 Let's create the environment for the project.
 
-First we need to create a project folder and the virtual environment:
+First we need to create a project folder:
 
 .. code-block:: bash
 
    mkdir movie-lister-tutorial
    cd movie-lister-tutorial
-   python3 -m venv venv
 
-Now let's activate the virtual environment:
+Now let's create and activate virtual environment:
 
 .. code-block:: bash
 
+   python3 -m venv venv
    . venv/bin/activate
 
 Project layout
@@ -270,10 +270,6 @@ Edit ``__main__.py``:
        container = Container()
 
        main()
-
-.. note::
-
-   Container is the first object in the application.
 
 Csv finder
 ----------
