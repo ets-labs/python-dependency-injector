@@ -1,8 +1,10 @@
-Asyncio Daemon Dependency Injection Example
-===========================================
+Asyncio Daemon + Dependency Injector Example
+============================================
 
-Application ``monitoringdaemon`` is an `asyncio <https://docs.python.org/3/library/asyncio.html>`_
-+ `Dependency Injector <http://python-dependency-injector.ets-labs.org/>`_ application.
+This is an `asyncio <https://docs.python.org/3/library/asyncio.html>`_ +
+`Dependency Injector <http://python-dependency-injector.ets-labs.org/>`_ example application.
+
+The example application is a daemon that monitors availability of web services.
 
 Run
 ---
@@ -31,19 +33,16 @@ The output should be something like:
    monitor_1  |     response code: 200
    monitor_1  |     content length: 648
    monitor_1  |     request took: 0.074 seconds
-   monitor_1  |
    monitor_1  | [2020-08-08 17:04:36,811] [INFO] [HttpMonitor]: Check
    monitor_1  |     GET https://httpbin.org/get
    monitor_1  |     response code: 200
    monitor_1  |     content length: 310
    monitor_1  |     request took: 0.153 seconds
-   monitor_1  |
    monitor_1  | [2020-08-08 17:04:41,731] [INFO] [HttpMonitor]: Check
    monitor_1  |     GET http://example.com
    monitor_1  |     response code: 200
    monitor_1  |     content length: 648
    monitor_1  |     request took: 0.067 seconds
-   monitor_1  |
    monitor_1  | [2020-08-08 17:04:41,787] [INFO] [HttpMonitor]: Check
    monitor_1  |     GET https://httpbin.org/get
    monitor_1  |     response code: 200
@@ -77,11 +76,11 @@ The output should be something like:
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
    monitoringdaemon/__init__.py         0      0   100%
-   monitoringdaemon/__main__.py         9      9     0%
+   monitoringdaemon/__main__.py        12     12     0%
    monitoringdaemon/containers.py      11      0   100%
-   monitoringdaemon/dispatcher.py      43      5    88%
+   monitoringdaemon/dispatcher.py      44      5    89%
    monitoringdaemon/http.py             6      3    50%
    monitoringdaemon/monitors.py        23      1    96%
    monitoringdaemon/tests.py           37      0   100%
    ----------------------------------------------------
-   TOTAL                              129     18    86%
+   TOTAL                              133     21    84%

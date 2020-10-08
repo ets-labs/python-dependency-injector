@@ -6,7 +6,7 @@ from unittest import mock
 
 import pytest
 
-from .containers import ApplicationContainer
+from .containers import Container
 
 
 @dataclasses.dataclass
@@ -17,7 +17,7 @@ class RequestStub:
 
 @pytest.fixture
 def container():
-    container = ApplicationContainer()
+    container = Container()
     container.config.from_dict({
         'log': {
             'level': 'INFO',

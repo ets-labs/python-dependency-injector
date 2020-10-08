@@ -47,7 +47,7 @@ class HttpMonitor(Monitor):
             '    %s %s\n'
             '    response code: %s\n'
             '    content length: %s\n'
-            '    request took: %s seconds\n',
+            '    request took: %s seconds',
             self._method,
             self._url,
             response.status,

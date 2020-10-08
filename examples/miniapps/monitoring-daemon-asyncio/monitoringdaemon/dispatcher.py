@@ -44,6 +44,7 @@ class Dispatcher:
         self._logger.info('Shutting down')
         for task, monitor in zip(self._monitor_tasks, self._monitors):
             task.cancel()
+        self._monitor_tasks.clear()
         self._logger.info('Shutdown finished successfully')
 
     @staticmethod

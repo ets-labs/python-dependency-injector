@@ -1,4 +1,4 @@
-"""Application containers module."""
+"""Containers module."""
 
 import logging
 import sys
@@ -8,8 +8,7 @@ from dependency_injector import containers, providers
 from . import http, monitors, dispatcher
 
 
-class ApplicationContainer(containers.DeclarativeContainer):
-    """Application container."""
+class Container(containers.DeclarativeContainer):
 
     config = providers.Configuration()
 
