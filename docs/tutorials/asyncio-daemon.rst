@@ -79,8 +79,8 @@ Create the project root folder and set it as a working directory:
 
 .. code-block:: bash
 
-   mkdir monitoring-daemon-tutorial
-   cd monitoring-daemon-tutorial
+   mkdir asyncio-daemon-tutorial
+   cd asyncio-daemon-tutorial
 
 Now we need to create the initial project structure. Create the files and folders following next
 layout. All files should be empty for now. We will fill them later.
@@ -190,10 +190,10 @@ The output should look like:
 
 .. code-block:: bash
 
-   Creating network "monitoring-daemon-tutorial_default" with the default driver
-   Creating monitoring-daemon-tutorial_monitor_1 ... done
-   Attaching to monitoring-daemon-tutorial_monitor_1
-   monitoring-daemon-tutorial_monitor_1 exited with code 0
+   Creating network "asyncio-daemon-tutorial_default" with the default driver
+   Creating asyncio-daemon-tutorial_monitor_1 ... done
+   Attaching to asyncio-daemon-tutorial_monitor_1
+   asyncio-daemon-tutorial_monitor_1 exited with code 0
 
 The environment is ready. The application does not do any work and just exits with a code ``0``.
 
