@@ -1047,16 +1047,19 @@ Conclusion
 In this tutorial we've built a CLI application following the dependency injection principle.
 We've used the ``Dependency Injector`` as a dependency injection framework.
 
-With a help of container and providers we have defined how to assemble application components.
+With a help of :ref:`containers` and :ref:`providers` we have defined how to assemble application components.
 
 ``Selector`` provider served as a switch for selecting the database format based on a configuration.
-``Configuration`` provider helped to deal with reading YAML file and environment variable.
+:ref:`configuration-provider` helped to deal with reading YAML file and environment variable.
 
 We used :ref:`wiring` feature to inject the dependencies into the ``main()`` function.
 :ref:`provider-overriding` feature helped in testing.
 
-We kept all the dependencies and injections defined explicitly. This will help when we need
-to add or change something in future.
+We kept all the dependencies injected explicitly. This will help when we need to add or
+change something in future.
+
+You can find complete project on the
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/movie-lister>`_.
 
 What's next?
 

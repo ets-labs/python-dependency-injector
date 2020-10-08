@@ -954,6 +954,9 @@ cause you have everything defined explicitly in one place:
            default_limit=config.search.default_limit,
        )
 
+You can find complete project on the
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/giphynav-aiohttp>`_.
+
 What's next?
 
 - Look at the other :ref:`tutorials`

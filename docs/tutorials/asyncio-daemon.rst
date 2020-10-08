@@ -1078,6 +1078,9 @@ cause you have everything defined explicitly in one place:
            ),
        )
 
+You can find complete project on the
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/monitoring-daemon-asyncio>`_.
+
 What's next?
 
 - Look at the other :ref:`tutorials`

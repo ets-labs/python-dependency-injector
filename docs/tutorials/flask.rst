@@ -988,10 +988,10 @@ Conclusion
 In this tutorial we've built a ``Flask`` application following the dependency injection principle.
 We've used the ``Dependency Injector`` as a dependency injection framework.
 
-Container and providers helped to specify how to assemble search service and integrate it with a
-3rd-party library.
+:ref:`containers` and :ref:`providers` helped to specify how to assemble search service and
+integrate it with a 3rd-party library.
 
-``Configuration`` provider helped to deal with reading YAML file and environment variable.
+:ref:`configuration-provider` helped to deal with reading YAML file and environment variable.
 
 We used :ref:`wiring` feature to inject the dependencies into the ``index()`` view.
 :ref:`provider-overriding` feature helped in testing.
