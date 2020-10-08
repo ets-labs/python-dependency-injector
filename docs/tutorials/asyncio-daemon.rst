@@ -214,7 +214,7 @@ Put next lines into the ``containers.py`` file:
 
 .. code-block:: python
 
-   """Application containers module."""
+   """Containers module."""
 
    import logging
    import sys
@@ -222,8 +222,7 @@ Put next lines into the ``containers.py`` file:
    from dependency_injector import containers, providers
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -259,27 +258,25 @@ Put next lines into the ``__main__.py`` file:
 
 .. code-block:: python
 
-    """Main module."""
+   """Main module."""
 
-    from .containers import ApplicationContainer
-
-
-    def main() -> None:
-        """Run the application."""
-        container = ApplicationContainer()
-
-        container.config.from_yaml('config.yml')
-        container.configure_logging()
+   from .containers import Container
 
 
-    if __name__ == '__main__':
-        main()
+   def main() -> None:
+       ...
+
+
+   if __name__ == '__main__':
+       container = Container()
+       container.config.from_yaml('config.yml')
+       container.configure_logging()
+
+       main()
 
 .. note::
 
    Container is the first object in the application.
-
-   The container is used to create all other objects.
 
 Logging and configuration parsing part is done. In the next section we will create the monitoring
 checks dispatcher.
@@ -336,7 +333,7 @@ and next into the ``dispatcher.py``:
 
 .. code-block:: python
 
-   """"Dispatcher module."""
+   """Dispatcher module."""
 
    import asyncio
    import logging
@@ -382,6 +379,7 @@ and next into the ``dispatcher.py``:
            self._logger.info('Shutting down')
            for task, monitor in zip(self._monitor_tasks, self._monitors):
                task.cancel()
+           self._monitor_tasks.clear()
            self._logger.info('Shutdown finished successfully')
 
        @staticmethod
@@ -407,9 +405,9 @@ Now we need to add the dispatcher to the container.
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 8,23-28
+   :emphasize-lines: 8,22-27
 
-   """Application containers module."""
+   """Containers module."""
 
    import logging
    import sys
@@ -419,8 +417,7 @@ Edit ``containers.py``:
    from . import dispatcher
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -438,35 +435,35 @@ Edit ``containers.py``:
            ),
        )
 
-.. note::
+At the last we will inject dispatcher into the ``main()`` function
+and call the ``run()`` method. We will use :ref:`wiring` feature.
 
-   Every component should be added to the container.
-
-At the last we will add the dispatcher in the ``main()`` function. We will retrieve the
-dispatcher instance from the container and call the ``run()`` method.
 
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 13-14
+   :emphasize-lines: 3-7,11-12,19
 
    """Main module."""
 
-   from .containers import ApplicationContainer
+   import sys
+
+   from dependency_injector.wiring import Provide
+
+   from .dispatcher import Dispatcher
+   from .containers import Container
 
 
-   def main() -> None:
-       """Run the application."""
-       container = ApplicationContainer()
-
-       container.config.from_yaml('config.yml')
-       container.configure_logging()
-
-       dispatcher = container.dispatcher()
+   def main(dispatcher: Dispatcher = Provide[Container.dispatcher]) -> None:
        dispatcher.run()
 
 
    if __name__ == '__main__':
+       container = Container()
+       container.config.from_yaml('config.yml')
+       container.configure_logging()
+       container.wire(modules=[sys.modules[__name__]])
+
        main()
 
 Finally let's start the daemon to check that all works.
@@ -481,12 +478,12 @@ The output should look like:
 
 .. code-block:: bash
 
-   Starting monitoring-daemon-tutorial_monitor_1 ... done
-   Attaching to monitoring-daemon-tutorial_monitor_1
+   Starting asyncio-daemon-tutorial_monitor_1 ... done
+   Attaching to asyncio-daemon-tutorial_monitor_1
    monitor_1  | [2020-08-08 16:12:35,772] [INFO] [Dispatcher]: Starting up
    monitor_1  | [2020-08-08 16:12:35,774] [INFO] [Dispatcher]: Shutting down
    monitor_1  | [2020-08-08 16:12:35,774] [INFO] [Dispatcher]: Shutdown finished successfully
-   monitoring-daemon-tutorial_monitor_1 exited with code 0
+   asyncio-daemon-tutorial_monitor_1 exited with code 0
 
 Everything works properly. Dispatcher starts up and exits because there are no monitoring tasks.
 
@@ -551,7 +548,7 @@ Edit ``containers.py``:
 .. code-block:: python
    :emphasize-lines: 8, 23
 
-   """Application containers module."""
+   """Containers module."""
 
    import logging
    import sys
@@ -561,8 +558,7 @@ Edit ``containers.py``:
    from . import http, dispatcher
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -657,7 +653,7 @@ Edit ``containers.py``:
 .. code-block:: python
    :emphasize-lines: 8,25-29,34
 
-   """Application containers module."""
+   """Containers module."""
 
    import logging
    import sys
@@ -667,8 +663,7 @@ Edit ``containers.py``:
    from . import http, monitors, dispatcher
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -758,7 +753,7 @@ Edit ``containers.py``:
 .. code-block:: python
    :emphasize-lines: 31-35,41
 
-   """Application containers module."""
+   """Containers module."""
 
    import logging
    import sys
@@ -768,8 +763,7 @@ Edit ``containers.py``:
    from . import http, monitors, dispatcher
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -909,7 +903,7 @@ and put next into it:
 
    import pytest
 
-   from .containers import ApplicationContainer
+   from .containers import Container
 
 
    @dataclasses.dataclass
@@ -920,7 +914,7 @@ and put next into it:
 
    @pytest.fixture
    def container():
-       container = ApplicationContainer()
+       container = Container()
        container.config.from_dict({
            'log': {
                'level': 'INFO',
@@ -1034,7 +1028,7 @@ cause you have everything defined explicitly in one place:
 
 .. code-block:: python
 
-   """Application containers module."""
+   """Containers module."""
 
    import logging
    import sys
@@ -1044,8 +1038,7 @@ cause you have everything defined explicitly in one place:
    from . import http, monitors, dispatcher
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
