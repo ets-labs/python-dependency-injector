@@ -857,7 +857,7 @@ Edit ``containers.py``:
            movie_finder=finder,
        )
 
-The switch is the ``config.finder.type`` option. When its value is ``csv``, the provider under
+The switch is the ``config.finder.type`` option. When its value is ``csv``, the provider with the
 ``csv`` key is used. The same is for ``sqlite``.
 
 Now we need to read the value of the ``config.finder.type`` option from the environment variable
@@ -866,32 +866,34 @@ Now we need to read the value of the ``config.finder.type`` option from the envi
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 10
+   :emphasize-lines: 24
 
    """Main module."""
 
+   import sys
+
+   from dependency_injector.wiring import Provide
+
+   from .listers import MovieLister
    from .containers import Container
 
 
-   def main():
-       container = Container()
+   def main(lister: MovieLister = Provide[Container.lister]) -> None:
+       print('Francis Lawrence movies:')
+       for movie in lister.movies_directed_by('Francis Lawrence'):
+           print('\t-', movie)
 
-       container.config.from_yaml('config.yml')
-       container.config.finder.type.from_env('MOVIE_FINDER_TYPE')
-
-       lister = container.lister()
-
-       print(
-           'Francis Lawrence movies:',
-           lister.movies_directed_by('Francis Lawrence'),
-       )
-       print(
-           '2016 movies:',
-           lister.movies_released_in(2016),
-       )
+       print('2016 movies:')
+       for movie in lister.movies_released_in(2016):
+           print('\t-', movie)
 
 
    if __name__ == '__main__':
+       container = Container()
+       container.config.from_yaml('config.yml')
+       container.config.finder.type.from_env('MOVIE_FINDER_TYPE')
+       container.wire(modules=[sys.modules[__name__]])
+
        main()
 
 Done.
@@ -903,12 +905,15 @@ Run in the terminal line by line:
    MOVIE_FINDER_TYPE=csv python -m movies
    MOVIE_FINDER_TYPE=sqlite python -m movies
 
-The output should be something like this for each command:
+The output should be similar for each command:
 
-.. code-block:: bash
+.. code-block:: plain
 
-   Francis Lawrence movies: [Movie(title='The Hunger Games: Mockingjay - Part 2', year=2015, director='Francis Lawrence')]
-   2016 movies: [Movie(title='Rogue One: A Star Wars Story', year=2016, director='Gareth Edwards'), Movie(title='The Jungle Book', year=2016, director='Jon Favreau')]
+   Francis Lawrence movies:
+       - Movie(title='The Hunger Games: Mockingjay - Part 2', year=2015, director='Francis Lawrence')
+   2016 movies:
+       - Movie(title='Rogue One: A Star Wars Story', year=2016, director='Gareth Edwards')
+       - Movie(title='The Jungle Book', year=2016, director='Jon Favreau')
 
 In the next section we will add some tests.
 
@@ -1011,7 +1016,7 @@ Run in the terminal:
 
 You should see:
 
-.. code-block:: bash
+.. code-block::
 
    platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
    plugins: cov-2.10.0
@@ -1023,14 +1028,14 @@ You should see:
    Name                   Stmts   Miss  Cover
    ------------------------------------------
    movies/__init__.py         0      0   100%
-   movies/__main__.py        10     10     0%
+   movies/__main__.py        13     13     0%
    movies/containers.py       9      0   100%
    movies/entities.py         7      1    86%
    movies/finders.py         26     13    50%
    movies/listers.py          8      0   100%
    movies/tests.py           24      0   100%
    ------------------------------------------
-   TOTAL                     84     24    71%
+   TOTAL                     87     27    69%
 
 .. note::
 
@@ -1047,48 +1052,16 @@ Conclusion
 In this tutorial we've built a CLI application following the dependency injection principle.
 We've used the ``Dependency Injector`` as a dependency injection framework.
 
-The benefit you get with the ``Dependency Injector`` is the container. It starts to payoff
-when you need to understand or change your application structure. It's easy with the container,
-cause you have everything defined explicitly in one place:
+With a help of container and providers we have defined how to assemble application components.
 
-.. code-block:: python
+``Selector`` provider served as a switch for selecting the database format based on a configuration.
+``Configuration`` provider helped to deal with reading YAML file and environment variable.
 
-   """Containers module."""
+We used :ref:`wiring` feature to inject the dependencies into the ``main()`` function.
+:ref:`provider-overriding` feature helped in testing.
 
-   from dependency_injector import containers, providers
-
-   from . import finders, listers, entities
-
-
-   class Container(containers.DeclarativeContainer):
-
-       config = providers.Configuration()
-
-       movie = providers.Factory(entities.Movie)
-
-       csv_finder = providers.Singleton(
-           finders.CsvMovieFinder,
-           movie_factory=movie.provider,
-           path=config.finder.csv.path,
-           delimiter=config.finder.csv.delimiter,
-       )
-
-       sqlite_finder = providers.Singleton(
-           finders.SqliteMovieFinder,
-           movie_factory=movie.provider,
-           path=config.finder.sqlite.path,
-       )
-
-       finder = providers.Selector(
-           config.finder.type,
-           csv=csv_finder,
-           sqlite=sqlite_finder,
-       )
-
-       lister = providers.Factory(
-           listers.MovieLister,
-           movie_finder=finder,
-       )
+We kept all the dependencies and injections defined explicitly. This will help when we need
+to add or change something in future.
 
 What's next?
 
