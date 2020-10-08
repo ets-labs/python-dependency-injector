@@ -697,24 +697,28 @@ Edit ``containers.py``:
            github_client=github_client,
        )
 
-Make the search work
---------------------
+Inject search service into view
+-------------------------------
 
-Now we are ready to make the search work. Let's use the ``SearchService`` in the ``index`` view.
+Now we are ready to make the search work.
+
+Let's inject ``SearchService`` into the ``index`` view. We will use :ref:`Wiring` feature.
 
 Edit ``views.py``:
 
 .. code-block:: python
-   :emphasize-lines: 5,8,12
+   :emphasize-lines: 4,6-7,10,14
 
    """Views module."""
 
    from flask import request, render_template
+   from dependency_injector.wiring import Provide
 
    from .services import SearchService
+   from .containers import Container
 
 
-   def index(search_service: SearchService):
+   def index(search_service: SearchService = Provide[Container.search_service]):
        query = request.args.get('query', 'Dependency Injector')
        limit = request.args.get('limit', 10, int)
 
@@ -727,48 +731,38 @@ Edit ``views.py``:
            repositories=repositories,
        )
 
-Now let's inject the ``SearchService`` dependency into the ``index`` view.
+To make the injection work we need to wire the container instance with the ``views`` module.
+This needs to be done once. After it's done we can use ``Provide`` markers to specify as many
+injections as needed for any view inside the module.
 
-Edit ``containers.py``:
+Edit ``application.py``:
 
 .. code-block:: python
-   :emphasize-lines: 32-35
+   :emphasize-lines: 14
 
-   """Application containers module."""
+   """Application module."""
 
-   from dependency_injector import containers, providers
-   from dependency_injector.ext import flask
    from flask import Flask
    from flask_bootstrap import Bootstrap
-   from github import Github
 
-   from . import services, views
+   from .containers import Container
+   from . import views
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   def create_app() -> Flask:
+       container = Container()
+       container.config.from_yaml('config.yml')
+       container.config.github.auth_token.from_env('GITHUB_TOKEN')
+       container.wire(modules=[views])
 
-       app = flask.Application(Flask, __name__)
+       app = Flask(__name__)
+       app.container = container
+       app.add_url_rule('/', 'index', views.index)
 
-       bootstrap = flask.Extension(Bootstrap)
+       bootstrap = Bootstrap()
+       bootstrap.init_app(app)
 
-       config = providers.Configuration()
-
-       github_client = providers.Factory(
-           Github,
-           login_or_token=config.github.auth_token,
-           timeout=config.github.request_timeout,
-       )
-
-       search_service = providers.Factory(
-           services.SearchService,
-           github_client=github_client,
-       )
-
-       index_view = flask.View(
-           views.index,
-           search_service=search_service,
-       )
+       return app
 
 Make sure the app is running or use ``flask run`` and open ``http://127.0.0.1:5000/``.
 
