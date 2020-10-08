@@ -50,18 +50,18 @@ Prepare the environment
 
 Let's create the environment for the project.
 
-First we need to create a project folder and the virtual environment:
+First we need to create a project folder:
 
 .. code-block:: bash
 
    mkdir ghnav-flask-tutorial
    cd ghnav-flask-tutorial
-   python3 -m venv venv
 
-Now let's activate the virtual environment:
+Now let's create and activate virtual environment:
 
 .. code-block:: bash
 
+   python3 -m venv venv
    . venv/bin/activate
 
 Project layout
@@ -110,7 +110,7 @@ You should see something like:
 .. code-block:: bash
 
    (venv) $ python -c "import dependency_injector; print(dependency_injector.__version__)"
-   3.22.0
+   4.0.0
    (venv) $ python -c "import flask; print(flask.__version__)"
    1.1.2
 
@@ -133,34 +133,25 @@ Put next into the ``views.py``:
 
 Ok, we have the view.
 
-Now let's create the main part of our application - the container. Container will keep all of the
-application components and their dependencies. First two providers we need to add are
-the ``Flask`` application provider and the view provider.
+Now let's create a container. Container will keep all of the application components and their dependencies.
 
-Put next into the ``containers.py``:
+Edit ``containers.py``:
 
 .. code-block:: python
 
-   """Application containers module."""
+   """Containers module."""
 
    from dependency_injector import containers
-   from dependency_injector.ext import flask
-   from flask import Flask
-
-   from . import views
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   class Container(containers.DeclarativeContainer):
+       ...
 
-       app = flask.Application(Flask, __name__)
+Container is empty for now. We will add the providers in the following sections.
 
-       index_view = flask.View(views.index)
-
-Finally we need to create the Flask application factory. It is traditionally called
-``create_app()``. It will create the container. Then it will use the container to create
-the Flask application. Last step is to configure the routing - we will assign ``index_view`` from
-the container to handle user requests to the root ``/`` of our web application.
+Finally we need to create Flask application factory. It will create and configure container
+and Flask application. It is traditionally called ``create_app()``.
+We will assign ``index`` view to handle user requests to the root ``/`` of our web application.
 
 Put next into the ``application.py``:
 
@@ -168,25 +159,20 @@ Put next into the ``application.py``:
 
    """Application module."""
 
-   from .containers import ApplicationContainer
+   from flask import Flask
+
+   from .containers import Container
+   from . import views
 
 
-   def create_app():
-       """Create and return Flask application."""
-       container = ApplicationContainer()
+   def create_app() -> Flask:
+       container = Container()
 
-       app = container.app()
+       app = Flask(__name__)
        app.container = container
-
-       app.add_url_rule('/', view_func=container.index_view.as_view())
+       app.add_url_rule('/', 'index', views.index)
 
        return app
-
-.. note::
-
-   Container is the first object in the application.
-
-   The container is used to create all other objects.
 
 Ok. Now we're ready to say "Hello, World!".
 
@@ -237,57 +223,33 @@ and run in the terminal:
 
 .. code-block:: bash
 
-   pip install --upgrade -r requirements.txt
-
-Now we need to add ``bootstrap-flask`` extension to the container.
-
-Edit ``containers.py``:
-
-.. code-block:: python
-   :emphasize-lines: 6,16
-
-   """Application containers module."""
-
-   from dependency_injector import containers
-   from dependency_injector.ext import flask
-   from flask import Flask
-   from flask_bootstrap import Bootstrap
-
-   from . import views
-
-
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = flask.Application(Flask, __name__)
-
-       bootstrap = flask.Extension(Bootstrap)
-
-       index_view = flask.View(views.index)
+   pip install -r requirements.txt
 
 Let's initialize ``bootstrap-flask`` extension. We will need to modify ``create_app()``.
 
 Edit ``application.py``:
 
 .. code-block:: python
-   :emphasize-lines: 13-14
+   :emphasize-lines: 4,17-18
 
    """Application module."""
 
-   from .containers import ApplicationContainer
+   from flask import Flask
+   from flask_bootstrap import Bootstrap
+
+   from .containers import Container
+   from . import views
 
 
-   def create_app():
-       """Create and return Flask application."""
-       container = ApplicationContainer()
+   def create_app() -> Flask:
+       container = Container()
 
-       app = container.app()
+       app = Flask(__name__)
        app.container = container
+       app.add_url_rule('/', 'index', views.index)
 
-       bootstrap = container.bootstrap()
+       bootstrap = Bootstrap()
        bootstrap.init_app(app)
-
-       app.add_url_rule('/', view_func=container.index_view.as_view())
 
        return app
 
