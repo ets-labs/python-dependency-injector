@@ -278,7 +278,7 @@ Put next lines into the ``__main__.py`` file:
 
    Container is the first object in the application.
 
-Logging and configuration parsing part is done. In the next section we will create the monitoring
+Logging and configuration parsing part is done. In next section we will create the monitoring
 checks dispatcher.
 
 Dispatcher
@@ -487,7 +487,7 @@ The output should look like:
 
 Everything works properly. Dispatcher starts up and exits because there are no monitoring tasks.
 
-By the end of this section we have the application skeleton ready. In the next section will will
+By the end of this section we have the application skeleton ready. In next section will will
 add first monitoring task.
 
 Example.com monitor
@@ -722,8 +722,8 @@ You should see:
 
 .. code-block:: bash
 
-   Starting monitoring-daemon-tutorial_monitor_1 ... done
-   Attaching to monitoring-daemon-tutorial_monitor_1
+   Starting asyncio-daemon-tutorial_monitor_1 ... done
+   Attaching to asyncio-daemon-tutorial_monitor_1
    monitor_1  | [2020-08-08 17:06:41,965] [INFO] [Dispatcher]: Starting up
    monitor_1  | [2020-08-08 17:06:42,033] [INFO] [HttpMonitor]: Check
    monitor_1  |     GET http://example.com
@@ -743,14 +743,14 @@ Let's add a monitor for the `http://httpbin.org <http://httpbin.org>`_.
 Httpbin.org monitor
 -------------------
 
-Adding of the monitor for the `httpbin.org`_ will be much easier because we have all the
+Adding of a monitor for the `httpbin.org`_ will be much easier because we have all the
 components ready. We just need to create a new provider in the container and update the
 configuration.
 
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 31-35,41
+   :emphasize-lines: 30-34,40
 
    """Containers module."""
 
@@ -830,27 +830,24 @@ You should see:
 
 .. code-block:: bash
 
-   Starting monitoring-daemon-tutorial_monitor_1 ... done
-   Attaching to monitoring-daemon-tutorial_monitor_1
+   Starting asyncio-daemon-tutorial_monitor_1 ... done
+   Attaching to asyncio-daemon-tutorial_monitor_1
    monitor_1  | [2020-08-08 18:09:08,540] [INFO] [Dispatcher]: Starting up
    monitor_1  | [2020-08-08 18:09:08,618] [INFO] [HttpMonitor]: Check
    monitor_1  |     GET http://example.com
    monitor_1  |     response code: 200
    monitor_1  |     content length: 648
    monitor_1  |     request took: 0.077 seconds
-   monitor_1  |
    monitor_1  | [2020-08-08 18:09:08,722] [INFO] [HttpMonitor]: Check
    monitor_1  |     GET https://httpbin.org/get
    monitor_1  |     response code: 200
    monitor_1  |     content length: 310
    monitor_1  |     request took: 0.18 seconds
-   monitor_1  |
    monitor_1  | [2020-08-08 18:09:13,619] [INFO] [HttpMonitor]: Check
    monitor_1  |     GET http://example.com
    monitor_1  |     response code: 200
    monitor_1  |     content length: 648
    monitor_1  |     request took: 0.066 seconds
-   monitor_1  |
    monitor_1  | [2020-08-08 18:09:13,681] [INFO] [HttpMonitor]: Check
    monitor_1  |     GET https://httpbin.org/get
    monitor_1  |     response code: 200
@@ -860,7 +857,7 @@ You should see:
 The functional part is done. Daemon monitors `http://example.com <http://example.com>`_  and
 `https://httpbin.org <https://httpbin.org>`_.
 
-In the next section we will add some tests.
+In next section we will add some tests.
 
 Tests
 -----
