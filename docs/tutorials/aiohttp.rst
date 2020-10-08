@@ -21,7 +21,7 @@ Start from the scratch or jump to the section:
    :backlinks: none
 
 You can find complete project on the
-`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/giphynav-aiohttp>`_.
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/aiohttp>`_.
 
 What are we going to build?
 ---------------------------
@@ -955,7 +955,7 @@ cause you have everything defined explicitly in one place:
        )
 
 You can find complete project on the
-`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/giphynav-aiohttp>`_.
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/aiohttp>`_.
 
 What's next?
 

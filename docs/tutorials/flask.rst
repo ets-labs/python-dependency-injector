@@ -21,7 +21,7 @@ Start from the scratch or jump to the section:
    :backlinks: none
 
 You can find complete project on the
-`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/ghnav-flask>`_.
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/flask>`_.
 
 What are we going to build?
 ---------------------------
@@ -1000,7 +1000,7 @@ We kept all the dependencies injected explicitly. This will help when we need to
 change something in future.
 
 You can find complete project on the
-`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/ghnav-flask>`_.
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/flask>`_.
 
 What's next?
 
