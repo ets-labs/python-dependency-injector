@@ -439,7 +439,7 @@ and run in the terminal:
 
 .. code-block:: bash
 
-   pip install --upgrade -r requirements.txt
+   pip install -r requirements.txt
 
 Now we need to add Github API client the container. We will need to add two more providers from
 the ``dependency_injector.providers`` module:
@@ -448,30 +448,18 @@ the ``dependency_injector.providers`` module:
 - ``Configuration`` provider that will be used for providing the API token and the request timeout
   for the ``Github`` client.
 
-Let's do it.
-
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 3,7,19,21-25
+   :emphasize-lines: 3-4,9,11-15
 
-   """Application containers module."""
+   """Containers module."""
 
    from dependency_injector import containers, providers
-   from dependency_injector.ext import flask
-   from flask import Flask
-   from flask_bootstrap import Bootstrap
    from github import Github
 
-   from . import views
 
-
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = flask.Application(Flask, __name__)
-
-       bootstrap = flask.Extension(Bootstrap)
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -481,8 +469,6 @@ Edit ``containers.py``:
            timeout=config.github.request_timeout,
        )
 
-       index_view = flask.View(views.index)
-
 .. note::
 
    We have used the configuration value before it was defined. That's the principle how
@@ -490,11 +476,16 @@ Edit ``containers.py``:
 
    Use first, define later.
 
+.. note::
+
+   Don't forget to remove the Ellipsis ``...`` from the container. We don't need it anymore
+   since we container is not empty.
+
 Now let's add the configuration file.
 
 We will use YAML.
 
-Create an empty file ``config.yml`` in the root root of the project:
+Create an empty file ``config.yml`` in the root of the project:
 
 .. code-block:: bash
    :emphasize-lines: 11
@@ -537,7 +528,7 @@ and install it:
 
 .. code-block:: bash
 
-   pip install --upgrade -r requirements.txt
+   pip install -r requirements.txt
 
 We will use environment variable ``GITHUB_TOKEN`` to provide the API token.
 
@@ -549,26 +540,28 @@ Now we need to edit ``create_app()`` to make two things when application starts:
 Edit ``application.py``:
 
 .. code-block:: python
-   :emphasize-lines: 9-10
+   :emphasize-lines: 12-13
 
    """Application module."""
 
-   from .containers import ApplicationContainer
+   from flask import Flask
+   from flask_bootstrap import Bootstrap
+
+   from .containers import Container
+   from . import views
 
 
-   def create_app():
-       """Create and return Flask application."""
-       container = ApplicationContainer()
+   def create_app() -> Flask:
+       container = Container()
        container.config.from_yaml('config.yml')
        container.config.github.auth_token.from_env('GITHUB_TOKEN')
 
-       app = container.app()
+       app = Flask(__name__)
        app.container = container
+       app.add_url_rule('/', 'index', views.index)
 
-       bootstrap = container.bootstrap()
+       bootstrap = Bootstrap()
        bootstrap.init_app(app)
-
-       app.add_url_rule('/', view_func=container.index_view.as_view())
 
        return app
 
