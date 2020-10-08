@@ -493,7 +493,7 @@ add first monitoring task.
 Example.com monitor
 -------------------
 
-In this section we will add the monitoring task that will check the availability of the
+In this section we will add a monitoring task that will check the availability of the
 `http://example.com <http://example.com>`_.
 
 We will start from the extending of our class model with a new type of the monitoring check, the
@@ -505,7 +505,7 @@ the ``HttpClient``.
 
 .. image:: asyncio-images/class_2.png
 
-First, we need to create the ``HttpClient``.
+First we need to create the ``HttpClient``.
 
 Create ``http.py`` in the ``monitoringdaemon`` package:
 
@@ -546,7 +546,7 @@ Now we need to add the ``HttpClient`` to the container.
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 8, 23
+   :emphasize-lines: 8,22
 
    """Containers module."""
 
@@ -583,7 +583,7 @@ Now we're ready to add the ``HttpMonitor``. We will add it to the ``monitors`` m
 Edit ``monitors.py``:
 
 .. code-block:: python
-   :emphasize-lines: 4-5,7,20-56
+   :emphasize-lines: 4-7,20-56
 
    """Monitors module."""
 
@@ -634,7 +634,7 @@ Edit ``monitors.py``:
                '    %s %s\n'
                '    response code: %s\n'
                '    content length: %s\n'
-               '    request took: %s seconds\n',
+               '    request took: %s seconds',
                self._method,
                self._url,
                response.status,
@@ -651,7 +651,7 @@ We make two changes in the container:
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 8,25-29,34
+   :emphasize-lines: 8,24-28,33
 
    """Containers module."""
 
@@ -730,7 +730,6 @@ You should see:
    monitor_1  |     response code: 200
    monitor_1  |     content length: 648
    monitor_1  |     request took: 0.067 seconds
-   monitor_1  |
    monitor_1  | [2020-08-08 17:06:47,040] [INFO] [HttpMonitor]: Check
    monitor_1  |     GET http://example.com
    monitor_1  |     response code: 200
@@ -739,7 +738,7 @@ You should see:
 
 Our daemon can monitor `http://example.com <http://example.com>`_ availability.
 
-Let's add the monitor for the `http://httpbin.org <http://httpbin.org>`_.
+Let's add a monitor for the `http://httpbin.org <http://httpbin.org>`_.
 
 Httpbin.org monitor
 -------------------
