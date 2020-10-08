@@ -4,7 +4,7 @@ API Documentation
 ..  toctree::
     :maxdepth: 2
 
-   top_level
+   top-level
    providers
    containers
    wiring
