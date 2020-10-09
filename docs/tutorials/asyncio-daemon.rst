@@ -27,7 +27,7 @@ Start from the scratch or jump to the section:
    :backlinks: none
 
 You can find complete project on the
-`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/monitoring-daemon-asyncio>`_.
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/asyncio-daemon>`_.
 
 What are we going to build?
 ---------------------------
@@ -42,7 +42,7 @@ response it will log:
 - The amount of bytes in the response
 - The time took to complete the response
 
-.. image::  asyncio_images/diagram.png
+.. image::  asyncio-images/diagram.png
 
 Prerequisites
 -------------
@@ -79,8 +79,8 @@ Create the project root folder and set it as a working directory:
 
 .. code-block:: bash
 
-   mkdir monitoring-daemon-tutorial
-   cd monitoring-daemon-tutorial
+   mkdir asyncio-daemon-tutorial
+   cd asyncio-daemon-tutorial
 
 Now we need to create the initial project structure. Create the files and folders following next
 layout. All files should be empty for now. We will fill them later.
@@ -190,10 +190,10 @@ The output should look like:
 
 .. code-block:: bash
 
-   Creating network "monitoring-daemon-tutorial_default" with the default driver
-   Creating monitoring-daemon-tutorial_monitor_1 ... done
-   Attaching to monitoring-daemon-tutorial_monitor_1
-   monitoring-daemon-tutorial_monitor_1 exited with code 0
+   Creating network "asyncio-daemon-tutorial_default" with the default driver
+   Creating asyncio-daemon-tutorial_monitor_1 ... done
+   Attaching to asyncio-daemon-tutorial_monitor_1
+   asyncio-daemon-tutorial_monitor_1 exited with code 0
 
 The environment is ready. The application does not do any work and just exits with a code ``0``.
 
@@ -214,7 +214,7 @@ Put next lines into the ``containers.py`` file:
 
 .. code-block:: python
 
-   """Application containers module."""
+   """Containers module."""
 
    import logging
    import sys
@@ -222,8 +222,7 @@ Put next lines into the ``containers.py`` file:
    from dependency_injector import containers, providers
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -259,29 +258,27 @@ Put next lines into the ``__main__.py`` file:
 
 .. code-block:: python
 
-    """Main module."""
+   """Main module."""
 
-    from .containers import ApplicationContainer
-
-
-    def main() -> None:
-        """Run the application."""
-        container = ApplicationContainer()
-
-        container.config.from_yaml('config.yml')
-        container.configure_logging()
+   from .containers import Container
 
 
-    if __name__ == '__main__':
-        main()
+   def main() -> None:
+       ...
+
+
+   if __name__ == '__main__':
+       container = Container()
+       container.config.from_yaml('config.yml')
+       container.configure_logging()
+
+       main()
 
 .. note::
 
    Container is the first object in the application.
 
-   The container is used to create all other objects.
-
-Logging and configuration parsing part is done. In the next section we will create the monitoring
+Logging and configuration parsing part is done. In next section we will create the monitoring
 checks dispatcher.
 
 Dispatcher
@@ -293,7 +290,7 @@ The dispatcher will control a list of the monitoring tasks. It will execute each
 to the configured schedule. The ``Monitor`` class is the base class for all the monitors. You can
 create different monitors by subclassing it and implementing the ``check()`` method.
 
-.. image:: asyncio_images/class_1.png
+.. image:: asyncio-images/classes-01.png
 
 Let's create dispatcher and the monitor base classes.
 
@@ -336,7 +333,7 @@ and next into the ``dispatcher.py``:
 
 .. code-block:: python
 
-   """"Dispatcher module."""
+   """Dispatcher module."""
 
    import asyncio
    import logging
@@ -382,6 +379,7 @@ and next into the ``dispatcher.py``:
            self._logger.info('Shutting down')
            for task, monitor in zip(self._monitor_tasks, self._monitors):
                task.cancel()
+           self._monitor_tasks.clear()
            self._logger.info('Shutdown finished successfully')
 
        @staticmethod
@@ -407,9 +405,9 @@ Now we need to add the dispatcher to the container.
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 8,23-28
+   :emphasize-lines: 8,22-27
 
-   """Application containers module."""
+   """Containers module."""
 
    import logging
    import sys
@@ -419,8 +417,7 @@ Edit ``containers.py``:
    from . import dispatcher
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -438,35 +435,35 @@ Edit ``containers.py``:
            ),
        )
 
-.. note::
+At the last we will inject dispatcher into the ``main()`` function
+and call the ``run()`` method. We will use :ref:`wiring` feature.
 
-   Every component should be added to the container.
-
-At the last we will add the dispatcher in the ``main()`` function. We will retrieve the
-dispatcher instance from the container and call the ``run()`` method.
 
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 13-14
+   :emphasize-lines: 3-7,11-12,19
 
    """Main module."""
 
-   from .containers import ApplicationContainer
+   import sys
+
+   from dependency_injector.wiring import Provide
+
+   from .dispatcher import Dispatcher
+   from .containers import Container
 
 
-   def main() -> None:
-       """Run the application."""
-       container = ApplicationContainer()
-
-       container.config.from_yaml('config.yml')
-       container.configure_logging()
-
-       dispatcher = container.dispatcher()
+   def main(dispatcher: Dispatcher = Provide[Container.dispatcher]) -> None:
        dispatcher.run()
 
 
    if __name__ == '__main__':
+       container = Container()
+       container.config.from_yaml('config.yml')
+       container.configure_logging()
+       container.wire(modules=[sys.modules[__name__]])
+
        main()
 
 Finally let's start the daemon to check that all works.
@@ -481,22 +478,22 @@ The output should look like:
 
 .. code-block:: bash
 
-   Starting monitoring-daemon-tutorial_monitor_1 ... done
-   Attaching to monitoring-daemon-tutorial_monitor_1
+   Starting asyncio-daemon-tutorial_monitor_1 ... done
+   Attaching to asyncio-daemon-tutorial_monitor_1
    monitor_1  | [2020-08-08 16:12:35,772] [INFO] [Dispatcher]: Starting up
    monitor_1  | [2020-08-08 16:12:35,774] [INFO] [Dispatcher]: Shutting down
    monitor_1  | [2020-08-08 16:12:35,774] [INFO] [Dispatcher]: Shutdown finished successfully
-   monitoring-daemon-tutorial_monitor_1 exited with code 0
+   asyncio-daemon-tutorial_monitor_1 exited with code 0
 
 Everything works properly. Dispatcher starts up and exits because there are no monitoring tasks.
 
-By the end of this section we have the application skeleton ready. In the next section will will
+By the end of this section we have the application skeleton ready. In next section will will
 add first monitoring task.
 
 Example.com monitor
 -------------------
 
-In this section we will add the monitoring task that will check the availability of the
+In this section we will add a monitoring task that will check the availability of the
 `http://example.com <http://example.com>`_.
 
 We will start from the extending of our class model with a new type of the monitoring check, the
@@ -506,9 +503,9 @@ The ``HttpMonitor`` is a subclass of the ``Monitor``. We will implement the ``ch
 will send the HTTP request to the specified URL. The http request sending will be delegated to
 the ``HttpClient``.
 
-.. image:: asyncio_images/class_2.png
+.. image:: asyncio-images/classes-02.png
 
-First, we need to create the ``HttpClient``.
+First we need to create the ``HttpClient``.
 
 Create ``http.py`` in the ``monitoringdaemon`` package:
 
@@ -549,9 +546,9 @@ Now we need to add the ``HttpClient`` to the container.
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 8, 23
+   :emphasize-lines: 8,22
 
-   """Application containers module."""
+   """Containers module."""
 
    import logging
    import sys
@@ -561,8 +558,7 @@ Edit ``containers.py``:
    from . import http, dispatcher
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -587,7 +583,7 @@ Now we're ready to add the ``HttpMonitor``. We will add it to the ``monitors`` m
 Edit ``monitors.py``:
 
 .. code-block:: python
-   :emphasize-lines: 4-5,7,20-56
+   :emphasize-lines: 4-7,20-56
 
    """Monitors module."""
 
@@ -638,7 +634,7 @@ Edit ``monitors.py``:
                '    %s %s\n'
                '    response code: %s\n'
                '    content length: %s\n'
-               '    request took: %s seconds\n',
+               '    request took: %s seconds',
                self._method,
                self._url,
                response.status,
@@ -655,9 +651,9 @@ We make two changes in the container:
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 8,25-29,34
+   :emphasize-lines: 8,24-28,33
 
-   """Application containers module."""
+   """Containers module."""
 
    import logging
    import sys
@@ -667,8 +663,7 @@ Edit ``containers.py``:
    from . import http, monitors, dispatcher
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -727,15 +722,14 @@ You should see:
 
 .. code-block:: bash
 
-   Starting monitoring-daemon-tutorial_monitor_1 ... done
-   Attaching to monitoring-daemon-tutorial_monitor_1
+   Starting asyncio-daemon-tutorial_monitor_1 ... done
+   Attaching to asyncio-daemon-tutorial_monitor_1
    monitor_1  | [2020-08-08 17:06:41,965] [INFO] [Dispatcher]: Starting up
    monitor_1  | [2020-08-08 17:06:42,033] [INFO] [HttpMonitor]: Check
    monitor_1  |     GET http://example.com
    monitor_1  |     response code: 200
    monitor_1  |     content length: 648
    monitor_1  |     request took: 0.067 seconds
-   monitor_1  |
    monitor_1  | [2020-08-08 17:06:47,040] [INFO] [HttpMonitor]: Check
    monitor_1  |     GET http://example.com
    monitor_1  |     response code: 200
@@ -744,21 +738,21 @@ You should see:
 
 Our daemon can monitor `http://example.com <http://example.com>`_ availability.
 
-Let's add the monitor for the `http://httpbin.org <http://httpbin.org>`_.
+Let's add a monitor for the `http://httpbin.org <http://httpbin.org>`_.
 
 Httpbin.org monitor
 -------------------
 
-Adding of the monitor for the `httpbin.org`_ will be much easier because we have all the
+Adding of a monitor for the `httpbin.org`_ will be much easier because we have all the
 components ready. We just need to create a new provider in the container and update the
 configuration.
 
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 31-35,41
+   :emphasize-lines: 30-34,40
 
-   """Application containers module."""
+   """Containers module."""
 
    import logging
    import sys
@@ -768,8 +762,7 @@ Edit ``containers.py``:
    from . import http, monitors, dispatcher
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -837,27 +830,24 @@ You should see:
 
 .. code-block:: bash
 
-   Starting monitoring-daemon-tutorial_monitor_1 ... done
-   Attaching to monitoring-daemon-tutorial_monitor_1
+   Starting asyncio-daemon-tutorial_monitor_1 ... done
+   Attaching to asyncio-daemon-tutorial_monitor_1
    monitor_1  | [2020-08-08 18:09:08,540] [INFO] [Dispatcher]: Starting up
    monitor_1  | [2020-08-08 18:09:08,618] [INFO] [HttpMonitor]: Check
    monitor_1  |     GET http://example.com
    monitor_1  |     response code: 200
    monitor_1  |     content length: 648
    monitor_1  |     request took: 0.077 seconds
-   monitor_1  |
    monitor_1  | [2020-08-08 18:09:08,722] [INFO] [HttpMonitor]: Check
    monitor_1  |     GET https://httpbin.org/get
    monitor_1  |     response code: 200
    monitor_1  |     content length: 310
    monitor_1  |     request took: 0.18 seconds
-   monitor_1  |
    monitor_1  | [2020-08-08 18:09:13,619] [INFO] [HttpMonitor]: Check
    monitor_1  |     GET http://example.com
    monitor_1  |     response code: 200
    monitor_1  |     content length: 648
    monitor_1  |     request took: 0.066 seconds
-   monitor_1  |
    monitor_1  | [2020-08-08 18:09:13,681] [INFO] [HttpMonitor]: Check
    monitor_1  |     GET https://httpbin.org/get
    monitor_1  |     response code: 200
@@ -867,12 +857,12 @@ You should see:
 The functional part is done. Daemon monitors `http://example.com <http://example.com>`_  and
 `https://httpbin.org <https://httpbin.org>`_.
 
-In the next section we will add some tests.
+In next section we will add some tests.
 
 Tests
 -----
 
-It would be nice to add some tests. Let's do it.
+In this section we will add some tests.
 
 We will use `pytest <https://docs.pytest.org/en/stable/>`_ and
 `coverage <https://coverage.readthedocs.io/>`_.
@@ -909,7 +899,7 @@ and put next into it:
 
    import pytest
 
-   from .containers import ApplicationContainer
+   from .containers import Container
 
 
    @dataclasses.dataclass
@@ -920,7 +910,7 @@ and put next into it:
 
    @pytest.fixture
    def container():
-       container = ApplicationContainer()
+       container = Container()
        container.config.from_dict({
            'log': {
                'level': 'INFO',
@@ -1002,14 +992,14 @@ You should see:
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
    monitoringdaemon/__init__.py         0      0   100%
-   monitoringdaemon/__main__.py         9      9     0%
+   monitoringdaemon/__main__.py        12     12     0%
    monitoringdaemon/containers.py      11      0   100%
-   monitoringdaemon/dispatcher.py      43      5    88%
+   monitoringdaemon/dispatcher.py      44      5    89%
    monitoringdaemon/http.py             6      3    50%
    monitoringdaemon/monitors.py        23      1    96%
    monitoringdaemon/tests.py           37      0   100%
    ----------------------------------------------------
-   TOTAL                              129     18    86%
+   TOTAL                              133     21    84%
 
 .. note::
 
@@ -1028,55 +1018,19 @@ In this tutorial we've built an ``asyncio`` monitoring daemon  following the dep
 injection principle.
 We've used the ``Dependency Injector`` as a dependency injection framework.
 
-The benefit you get with the ``Dependency Injector`` is the container. It starts to payoff
-when you need to understand or change your application structure. It's easy with the container,
-cause you have everything defined explicitly in one place:
+With a help of :ref:`containers` and :ref:`providers` we have defined how to assemble application components.
 
-.. code-block:: python
+``List`` provider helped to inject a list of monitors into dispatcher.
+:ref:`configuration-provider` helped to deal with reading YAML file.
 
-   """Application containers module."""
+We used :ref:`wiring` feature to inject dispatcher into the ``main()`` function.
+:ref:`provider-overriding` feature helped in testing.
 
-   import logging
-   import sys
+We kept all the dependencies injected explicitly. This will help when you need to add or
+change something in future.
 
-   from dependency_injector import containers, providers
-
-   from . import http, monitors, dispatcher
-
-
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       config = providers.Configuration()
-
-       configure_logging = providers.Callable(
-           logging.basicConfig,
-           stream=sys.stdout,
-           level=config.log.level,
-           format=config.log.format,
-       )
-
-       http_client = providers.Factory(http.HttpClient)
-
-       example_monitor = providers.Factory(
-           monitors.HttpMonitor,
-           http_client=http_client,
-           options=config.monitors.example,
-       )
-
-       httpbin_monitor = providers.Factory(
-           monitors.HttpMonitor,
-           http_client=http_client,
-           options=config.monitors.httpbin,
-       )
-
-       dispatcher = providers.Factory(
-           dispatcher.Dispatcher,
-           monitors=providers.List(
-               example_monitor,
-               httpbin_monitor,
-           ),
-       )
+You can find complete project on the
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/asyncio-daemon>`_.
 
 What's next?
 

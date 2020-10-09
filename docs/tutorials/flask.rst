@@ -21,7 +21,7 @@ Start from the scratch or jump to the section:
    :backlinks: none
 
 You can find complete project on the
-`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/ghnav-flask>`_.
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/flask>`_.
 
 What are we going to build?
 ---------------------------
@@ -43,25 +43,25 @@ How does Github Navigator work?
 - User can click on the repository, the repository owner or the last commit to open its web page
   on the Github.
 
-.. image::  flask_images/screen_02.png
+.. image::  flask-images/screen-02.png
 
 Prepare the environment
 -----------------------
 
 Let's create the environment for the project.
 
-First we need to create a project folder and the virtual environment:
+First we need to create a project folder:
 
 .. code-block:: bash
 
    mkdir ghnav-flask-tutorial
    cd ghnav-flask-tutorial
-   python3 -m venv venv
 
-Now let's activate the virtual environment:
+Now let's create and activate virtual environment:
 
 .. code-block:: bash
 
+   python3 -m venv venv
    . venv/bin/activate
 
 Project layout
@@ -110,13 +110,13 @@ You should see something like:
 .. code-block:: bash
 
    (venv) $ python -c "import dependency_injector; print(dependency_injector.__version__)"
-   3.22.0
+   4.0.0
    (venv) $ python -c "import flask; print(flask.__version__)"
    1.1.2
 
 *Versions can be different. That's fine.*
 
-Hello world!
+Hello World!
 ------------
 
 Let's create minimal application.
@@ -133,34 +133,25 @@ Put next into the ``views.py``:
 
 Ok, we have the view.
 
-Now let's create the main part of our application - the container. Container will keep all of the
-application components and their dependencies. First two providers we need to add are
-the ``Flask`` application provider and the view provider.
+Now let's create a container. Container will keep all of the application components and their dependencies.
 
-Put next into the ``containers.py``:
+Edit ``containers.py``:
 
 .. code-block:: python
 
-   """Application containers module."""
+   """Containers module."""
 
    from dependency_injector import containers
-   from dependency_injector.ext import flask
-   from flask import Flask
-
-   from . import views
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   class Container(containers.DeclarativeContainer):
+       ...
 
-       app = flask.Application(Flask, __name__)
+Container is empty for now. We will add the providers in the following sections.
 
-       index_view = flask.View(views.index)
-
-Finally we need to create the Flask application factory. It is traditionally called
-``create_app()``. It will create the container. Then it will use the container to create
-the Flask application. Last step is to configure the routing - we will assign ``index_view`` from
-the container to handle user requests to the root ``/`` of our web application.
+Finally we need to create Flask application factory. It will create and configure container
+and Flask application. It is traditionally called ``create_app()``.
+We will assign ``index`` view to handle user requests to the root ``/`` of our web application.
 
 Put next into the ``application.py``:
 
@@ -168,25 +159,20 @@ Put next into the ``application.py``:
 
    """Application module."""
 
-   from .containers import ApplicationContainer
+   from flask import Flask
+
+   from .containers import Container
+   from . import views
 
 
-   def create_app():
-       """Create and return Flask application."""
-       container = ApplicationContainer()
+   def create_app() -> Flask:
+       container = Container()
 
-       app = container.app()
+       app = Flask(__name__)
        app.container = container
-
-       app.add_url_rule('/', view_func=container.index_view.as_view())
+       app.add_url_rule('/', 'index', views.index)
 
        return app
-
-.. note::
-
-   Container is the first object in the application.
-
-   The container is used to create all other objects.
 
 Ok. Now we're ready to say "Hello, World!".
 
@@ -237,57 +223,33 @@ and run in the terminal:
 
 .. code-block:: bash
 
-   pip install --upgrade -r requirements.txt
-
-Now we need to add ``bootstrap-flask`` extension to the container.
-
-Edit ``containers.py``:
-
-.. code-block:: python
-   :emphasize-lines: 6,16
-
-   """Application containers module."""
-
-   from dependency_injector import containers
-   from dependency_injector.ext import flask
-   from flask import Flask
-   from flask_bootstrap import Bootstrap
-
-   from . import views
-
-
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = flask.Application(Flask, __name__)
-
-       bootstrap = flask.Extension(Bootstrap)
-
-       index_view = flask.View(views.index)
+   pip install -r requirements.txt
 
 Let's initialize ``bootstrap-flask`` extension. We will need to modify ``create_app()``.
 
 Edit ``application.py``:
 
 .. code-block:: python
-   :emphasize-lines: 13-14
+   :emphasize-lines: 4,17-18
 
    """Application module."""
 
-   from .containers import ApplicationContainer
+   from flask import Flask
+   from flask_bootstrap import Bootstrap
+
+   from .containers import Container
+   from . import views
 
 
-   def create_app():
-       """Create and return Flask application."""
-       container = ApplicationContainer()
+   def create_app() -> Flask:
+       container = Container()
 
-       app = container.app()
+       app = Flask(__name__)
        app.container = container
+       app.add_url_rule('/', 'index', views.index)
 
-       bootstrap = container.bootstrap()
+       bootstrap = Bootstrap()
        bootstrap.init_app(app)
-
-       app.add_url_rule('/', view_func=container.index_view.as_view())
 
        return app
 
@@ -454,7 +416,7 @@ Make sure the app is running or use ``flask run`` and open ``http://127.0.0.1:50
 
 You should see:
 
-.. image::  flask_images/screen_01.png
+.. image::  flask-images/screen-01.png
 
 Connect to the GitHub
 ---------------------
@@ -477,7 +439,7 @@ and run in the terminal:
 
 .. code-block:: bash
 
-   pip install --upgrade -r requirements.txt
+   pip install -r requirements.txt
 
 Now we need to add Github API client the container. We will need to add two more providers from
 the ``dependency_injector.providers`` module:
@@ -486,30 +448,18 @@ the ``dependency_injector.providers`` module:
 - ``Configuration`` provider that will be used for providing the API token and the request timeout
   for the ``Github`` client.
 
-Let's do it.
-
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 3,7,19,21-25
+   :emphasize-lines: 3-4,9,11-15
 
-   """Application containers module."""
+   """Containers module."""
 
    from dependency_injector import containers, providers
-   from dependency_injector.ext import flask
-   from flask import Flask
-   from flask_bootstrap import Bootstrap
    from github import Github
 
-   from . import views
 
-
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = flask.Application(Flask, __name__)
-
-       bootstrap = flask.Extension(Bootstrap)
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -519,8 +469,6 @@ Edit ``containers.py``:
            timeout=config.github.request_timeout,
        )
 
-       index_view = flask.View(views.index)
-
 .. note::
 
    We have used the configuration value before it was defined. That's the principle how
@@ -528,11 +476,16 @@ Edit ``containers.py``:
 
    Use first, define later.
 
+.. note::
+
+   Don't forget to remove the Ellipsis ``...`` from the container. We don't need it anymore
+   since we container is not empty.
+
 Now let's add the configuration file.
 
 We will use YAML.
 
-Create an empty file ``config.yml`` in the root root of the project:
+Create an empty file ``config.yml`` in the root of the project:
 
 .. code-block:: bash
    :emphasize-lines: 11
@@ -575,7 +528,7 @@ and install it:
 
 .. code-block:: bash
 
-   pip install --upgrade -r requirements.txt
+   pip install -r requirements.txt
 
 We will use environment variable ``GITHUB_TOKEN`` to provide the API token.
 
@@ -587,26 +540,28 @@ Now we need to edit ``create_app()`` to make two things when application starts:
 Edit ``application.py``:
 
 .. code-block:: python
-   :emphasize-lines: 9-10
+   :emphasize-lines: 12-13
 
    """Application module."""
 
-   from .containers import ApplicationContainer
+   from flask import Flask
+   from flask_bootstrap import Bootstrap
+
+   from .containers import Container
+   from . import views
 
 
-   def create_app():
-       """Create and return Flask application."""
-       container = ApplicationContainer()
+   def create_app() -> Flask:
+       container = Container()
        container.config.from_yaml('config.yml')
        container.config.github.auth_token.from_env('GITHUB_TOKEN')
 
-       app = container.app()
+       app = Flask(__name__)
        app.container = container
+       app.add_url_rule('/', 'index', views.index)
 
-       bootstrap = container.bootstrap()
+       bootstrap = Bootstrap()
        bootstrap.init_app(app)
-
-       app.add_url_rule('/', view_func=container.index_view.as_view())
 
        return app
 
@@ -636,7 +591,7 @@ Github API client setup is done.
 Search service
 --------------
 
-Now it's time to add  the ``SearchService``. It will:
+Now it's time to add ``SearchService``. It will:
 
 - Perform the search.
 - Fetch commit extra data for each result.
@@ -717,25 +672,17 @@ Now let's add ``SearchService`` to the container.
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 9,27-30
+   :emphasize-lines: 6,19-22
 
-   """Application containers module."""
+   """Containers module."""
 
    from dependency_injector import containers, providers
-   from dependency_injector.ext import flask
-   from flask import Flask
-   from flask_bootstrap import Bootstrap
    from github import Github
 
-   from . import services, views
+   from . import services
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = flask.Application(Flask, __name__)
-
-       bootstrap = flask.Extension(Bootstrap)
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -750,26 +697,28 @@ Edit ``containers.py``:
            github_client=github_client,
        )
 
-       index_view = flask.View(views.index)
+Inject search service into view
+-------------------------------
 
-Make the search work
---------------------
+Now we are ready to make the search work.
 
-Now we are ready to make the search work. Let's use the ``SearchService`` in the ``index`` view.
+Let's inject ``SearchService`` into the ``index`` view. We will use :ref:`Wiring` feature.
 
 Edit ``views.py``:
 
 .. code-block:: python
-   :emphasize-lines: 5,8,12
+   :emphasize-lines: 4,6-7,10,14
 
    """Views module."""
 
    from flask import request, render_template
+   from dependency_injector.wiring import Provide
 
    from .services import SearchService
+   from .containers import Container
 
 
-   def index(search_service: SearchService):
+   def index(search_service: SearchService = Provide[Container.search_service]):
        query = request.args.get('query', 'Dependency Injector')
        limit = request.args.get('limit', 10, int)
 
@@ -782,54 +731,44 @@ Edit ``views.py``:
            repositories=repositories,
        )
 
-Now let's inject the ``SearchService`` dependency into the ``index`` view.
+To make the injection work we need to wire the container instance with the ``views`` module.
+This needs to be done once. After it's done we can use ``Provide`` markers to specify as many
+injections as needed for any view.
 
-Edit ``containers.py``:
+Edit ``application.py``:
 
 .. code-block:: python
-   :emphasize-lines: 32-35
+   :emphasize-lines: 14
 
-   """Application containers module."""
+   """Application module."""
 
-   from dependency_injector import containers, providers
-   from dependency_injector.ext import flask
    from flask import Flask
    from flask_bootstrap import Bootstrap
-   from github import Github
 
-   from . import services, views
+   from .containers import Container
+   from . import views
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   def create_app() -> Flask:
+       container = Container()
+       container.config.from_yaml('config.yml')
+       container.config.github.auth_token.from_env('GITHUB_TOKEN')
+       container.wire(modules=[views])
 
-       app = flask.Application(Flask, __name__)
+       app = Flask(__name__)
+       app.container = container
+       app.add_url_rule('/', 'index', views.index)
 
-       bootstrap = flask.Extension(Bootstrap)
+       bootstrap = Bootstrap()
+       bootstrap.init_app(app)
 
-       config = providers.Configuration()
-
-       github_client = providers.Factory(
-           Github,
-           login_or_token=config.github.auth_token,
-           timeout=config.github.request_timeout,
-       )
-
-       search_service = providers.Factory(
-           services.SearchService,
-           github_client=github_client,
-       )
-
-       index_view = flask.View(
-           views.index,
-           search_service=search_service,
-       )
+       return app
 
 Make sure the app is running or use ``flask run`` and open ``http://127.0.0.1:5000/``.
 
 You should see:
 
-.. image::  flask_images/screen_02.png
+.. image::  flask-images/screen-02.png
 
 Make some refactoring
 ---------------------
@@ -844,19 +783,21 @@ Let's make some refactoring. We will move these values to the config.
 Edit ``views.py``:
 
 .. code-block:: python
-   :emphasize-lines: 8-14
+   :emphasize-lines: 10-16
 
    """Views module."""
 
    from flask import request, render_template
+   from dependency_injector.wiring import Provide
 
    from .services import SearchService
+   from .containers import Container
 
 
    def index(
-           search_service: SearchService,
-           default_query: str,
-           default_limit: int,
+           search_service: SearchService = Provide[Container.search_service],
+           default_query: str = Provide[Container.config.default.query],
+           default_limit: int = Provide[Container.config.default.limit.as_int()],
    ):
        query = request.args.get('query', default_query)
        limit = request.args.get('limit', default_limit, int)
@@ -870,53 +811,6 @@ Edit ``views.py``:
            repositories=repositories,
        )
 
-Now we need to inject these values. Let's update the container.
-
-Edit ``containers.py``:
-
-.. code-block:: python
-   :emphasize-lines: 35-36
-
-   """Application containers module."""
-
-   from dependency_injector import containers, providers
-   from dependency_injector.ext import flask
-   from flask import Flask
-   from flask_bootstrap import Bootstrap
-   from github import Github
-
-   from . import services, views
-
-
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = flask.Application(Flask, __name__)
-
-       bootstrap = flask.Extension(Bootstrap)
-
-       config = providers.Configuration()
-
-       github_client = providers.Factory(
-           Github,
-           login_or_token=config.github.auth_token,
-           timeout=config.github.request_timeout,
-       )
-
-       search_service = providers.Factory(
-           services.SearchService,
-           github_client=github_client,
-       )
-
-       index_view = flask.View(
-           views.index,
-           search_service=search_service,
-           default_query=config.search.default_query,
-           default_limit=config.search.default_limit,
-       )
-
-Finally let's update the config.
-
 Edit ``config.yml``:
 
 .. code-block:: yaml
@@ -924,20 +818,18 @@ Edit ``config.yml``:
 
    github:
      request_timeout: 10
-   search:
-     default_query: "Dependency Injector"
-     default_limit: 10
+   default:
+     query: "Dependency Injector"
+     limit: 10
 
-That's it.
-
-The refactoring is done. We've made it cleaner.
+That's it. The refactoring is done. We've made it cleaner.
 
 Tests
 -----
 
-It would be nice to add some tests. Let's do this.
+In this section we will add some tests.
 
-We will use `pytest <https://docs.pytest.org/en/stable/>`_ and
+We will use `pytest <https://docs.pytest.org/en/stable/>`_ with its Flask extension and
 `coverage <https://coverage.readthedocs.io/>`_.
 
 Edit ``requirements.txt``:
@@ -953,7 +845,7 @@ Edit ``requirements.txt``:
    pytest-flask
    pytest-cov
 
-And let's install it:
+And install added packages:
 
 .. code-block:: bash
 
@@ -982,7 +874,7 @@ Create empty file ``tests.py`` in the ``githubnavigator`` package:
 and put next into it:
 
 .. code-block:: python
-   :emphasize-lines: 42,65
+   :emphasize-lines: 44,67
 
    """Tests module."""
 
@@ -997,7 +889,9 @@ and put next into it:
 
    @pytest.fixture
    def app():
-       return create_app()
+       app = create_app()
+       yield app
+       app.container.unwire()
 
 
    def test_index(client, app):
@@ -1074,13 +968,13 @@ You should see:
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
    githubnavigator/__init__.py          0      0   100%
-   githubnavigator/application.py      11      0   100%
-   githubnavigator/containers.py       13      0   100%
+   githubnavigator/application.py      15      0   100%
+   githubnavigator/containers.py        7      0   100%
    githubnavigator/services.py         14      0   100%
-   githubnavigator/tests.py            32      0   100%
-   githubnavigator/views.py             7      0   100%
+   githubnavigator/tests.py            34      0   100%
+   githubnavigator/views.py             9      0   100%
    ----------------------------------------------------
-   TOTAL                               77      0   100%
+   TOTAL                               79      0   100%
 
 .. note::
 
@@ -1091,53 +985,22 @@ You should see:
 Conclusion
 ----------
 
-We are done.
-
 In this tutorial we've built a ``Flask`` application following the dependency injection principle.
 We've used the ``Dependency Injector`` as a dependency injection framework.
 
-The main part of this application is the container. It keeps all the application components and
-their dependencies defined explicitly in one place:
+:ref:`containers` and :ref:`providers` helped to specify how to assemble search service and
+integrate it with a 3rd-party library.
 
-.. code-block:: python
+:ref:`configuration-provider` helped to deal with reading YAML file and environment variable.
 
-   """Application containers module."""
+We used :ref:`wiring` feature to inject the dependencies into the ``index()`` view.
+:ref:`provider-overriding` feature helped in testing.
 
-   from dependency_injector import containers, providers
-   from dependency_injector.ext import flask
-   from flask import Flask
-   from flask_bootstrap import Bootstrap
-   from github import Github
+We kept all the dependencies injected explicitly. This will help when you need to add or
+change something in future.
 
-   from . import services, views
-
-
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = flask.Application(Flask, __name__)
-
-       bootstrap = flask.Extension(Bootstrap)
-
-       config = providers.Configuration()
-
-       github_client = providers.Factory(
-           Github,
-           login_or_token=config.github.auth_token,
-           timeout=config.github.request_timeout,
-       )
-
-       search_service = providers.Factory(
-           services.SearchService,
-           github_client=github_client,
-       )
-
-       index_view = flask.View(
-           views.index,
-           search_service=search_service,
-           default_query=config.search.default_query,
-           default_limit=config.search.default_limit,
-       )
+You can find complete project on the
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/flask>`_.
 
 What's next?
 

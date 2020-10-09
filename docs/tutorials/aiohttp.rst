@@ -21,7 +21,7 @@ Start from the scratch or jump to the section:
    :backlinks: none
 
 You can find complete project on the
-`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/giphynav-aiohttp>`_.
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/aiohttp>`_.
 
 What are we going to build?
 ---------------------------
@@ -88,18 +88,18 @@ Prepare the environment
 
 Let's create the environment for the project.
 
-First we need to create a project folder and the virtual environment:
+First we need to create a project folder:
 
 .. code-block:: bash
 
    mkdir giphynav-aiohttp-tutorial
    cd giphynav-aiohttp-tutorial
-   python3 -m venv venv
 
-Now let's activate the virtual environment:
+Now let's create and activate virtual environment:
 
 .. code-block:: bash
 
+   python3 -m venv venv
    . venv/bin/activate
 
 Environment is ready and now we're going to create the layout of the project.
@@ -116,7 +116,7 @@ Initial project layout::
    │   ├── __init__.py
    │   ├── application.py
    │   ├── containers.py
-   │   └── views.py
+   │   └── handlers.py
    ├── venv/
    └── requirements.txt
 
@@ -164,14 +164,14 @@ The requirements are setup. Now we will build a minimal application.
 Minimal application
 -------------------
 
-In this section we will build a minimal application. It will have an endpoint that we can call.
-The endpoint will answer in the right format and will have no data.
+In this section we will build a minimal application. It will have an endpoint that
+will answer our requests in json format. There will be no payload for now.
 
-Edit ``views.py``:
+Edit ``handlers.py``:
 
 .. code-block:: python
 
-   """Views module."""
+   """Handlers module."""
 
    from aiohttp import web
 
@@ -190,34 +190,25 @@ Edit ``views.py``:
            },
        )
 
-Now let's create the main part of our application - the container. Container will keep all of the
-application components and their dependencies. First two providers we need to add are
-the ``aiohttp`` application provider and the view provider.
+Now let's create a container. Container will keep all of the application components and their dependencies.
 
-Put next into the ``containers.py``:
+Edit ``containers.py``:
 
 .. code-block:: python
 
-   """Application containers module."""
+   """Containers module."""
 
    from dependency_injector import containers
-   from dependency_injector.ext import aiohttp
-   from aiohttp import web
-
-   from . import views
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   class Container(containers.DeclarativeContainer):
+       ...
 
-       app = aiohttp.Application(web.Application)
+Container is empty for now. We will add the providers in the following sections.
 
-       index_view = aiohttp.View(views.index)
-
-At the last we need to create the ``aiohttp`` application factory. It is traditionally called
-``create_app()``. It will create the container. Then it will use the container to create
-the ``aiohttp`` application. Last step is to configure the routing - we will assign
-``index_view`` from the container to handle the requests to the root ``/`` of our REST API server.
+Finally we need to create ``aiohttp`` application factory. It will create and configure container
+and ``web.Application``. It is traditionally called ``create_app()``.
+We will assign ``index`` handler to handle user requests to the root ``/`` of our web application.
 
 Put next into the ``application.py``:
 
@@ -227,27 +218,19 @@ Put next into the ``application.py``:
 
    from aiohttp import web
 
-   from .containers import ApplicationContainer
+   from .containers import Container
+   from . import handlers
 
 
-   def create_app():
-       """Create and return aiohttp application."""
-       container = ApplicationContainer()
+   def create_app() -> web.Application:
+       container = Container()
 
-       app: web.Application = container.app()
+       app = web.Application()
        app.container = container
-
        app.add_routes([
-           web.get('/', container.index_view.as_view()),
+           web.get('/', handlers.index),
        ])
-
        return app
-
-.. note::
-
-   Container is the first object in the application.
-
-   The container is used to create all other objects.
 
 Now we're ready to run our application
 
@@ -264,7 +247,7 @@ The output should be something like:
    [18:52:59] Starting aux server at http://localhost:8001 ◆
    [18:52:59] Starting dev server at http://localhost:8000 ●
 
-Let's use ``httpie`` to check that it works:
+Let's check that it works. Open another terminal session and use ``httpie``:
 
 .. code-block:: bash
 
@@ -306,7 +289,7 @@ Create ``giphy.py`` module in the ``giphynavigator`` package:
    │   ├── application.py
    │   ├── containers.py
    │   ├── giphy.py
-   │   └── views.py
+   │   └── handlers.py
    ├── venv/
    └── requirements.txt
 
@@ -351,21 +334,16 @@ providers from the ``dependency_injector.providers`` module:
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 3,7,15,17-21
+   :emphasize-lines: 3-5,10-16
 
-   """Application containers module."""
+   """Containers module."""
 
    from dependency_injector import containers, providers
-   from dependency_injector.ext import aiohttp
-   from aiohttp import web
 
-   from . import giphy, views
+   from . import giphy
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = aiohttp.Application(web.Application)
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -374,8 +352,6 @@ Edit ``containers.py``:
            api_key=config.giphy.api_key,
            timeout=config.giphy.request_timeout,
        )
-
-       index_view = aiohttp.View(views.index)
 
 .. note::
 
@@ -399,7 +375,7 @@ Create an empty file ``config.yml`` in the root root of the project:
    │   ├── application.py
    │   ├── containers.py
    │   ├── giphy.py
-   │   └── views.py
+   │   └── handlers.py
    ├── venv/
    ├── config.yml
    └── requirements.txt
@@ -427,23 +403,22 @@ Edit ``application.py``:
 
    from aiohttp import web
 
-   from .containers import ApplicationContainer
+   from .containers import Container
+   from . import handlers
 
 
-   def create_app():
-       """Create and return aiohttp application."""
-       container = ApplicationContainer()
+   def create_app() -> web.Application:
+       container = Container()
        container.config.from_yaml('config.yml')
        container.config.giphy.api_key.from_env('GIPHY_API_KEY')
 
-       app: web.Application = container.app()
+       app = web.Application()
        app.container = container
-
        app.add_routes([
-           web.get('/', container.index_view.as_view()),
+           web.get('/', handlers.index),
        ])
-
        return app
+
 
 Now we need to create an API key and set it to the environment variable.
 
@@ -473,7 +448,7 @@ Now it's time to add the ``SearchService``. It will:
 Create ``services.py`` module in the ``giphynavigator`` package:
 
 .. code-block:: bash
-   :emphasize-lines: 7
+   :emphasize-lines: 8
 
    ./
    ├── giphynavigator/
@@ -481,9 +456,10 @@ Create ``services.py`` module in the ``giphynavigator`` package:
    │   ├── application.py
    │   ├── containers.py
    │   ├── giphy.py
-   │   ├── services.py
-   │   └── views.py
+   │   ├── handlers.py
+   │   └── services.py
    ├── venv/
+   ├── config.yml
    └── requirements.txt
 
 and put next into it:
@@ -509,27 +485,22 @@ and put next into it:
 
            return [{'url': gif['url']} for gif in result['data']]
 
-The ``SearchService`` has a dependency on the ``GiphyClient``. This dependency will be injected.
-Let's add ``SearchService`` to the container.
+The ``SearchService`` has a dependency on the ``GiphyClient``. This dependency will be
+injected when we add ``SearchService`` to the container.
 
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 7,23-26
+   :emphasize-lines: 5,18-21
 
-   """Application containers module."""
+   """Containers module."""
 
    from dependency_injector import containers, providers
-   from dependency_injector.ext import aiohttp
-   from aiohttp import web
 
-   from . import giphy, services, views
+   from . import giphy, services
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = aiohttp.Application(web.Application)
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -544,31 +515,31 @@ Edit ``containers.py``:
            giphy_client=giphy_client,
        )
 
-       index_view = aiohttp.View(views.index)
-
-
-The search service is ready. In the next section we're going to make it work.
+The search service is ready. In next section we're going to put it to work.
 
 Make the search work
 --------------------
 
-Now we are ready to make the search work. Let's use the ``SearchService`` in the ``index`` view.
+Now we are ready to put the search into work. Let's inject ``SearchService`` into
+the ``index`` handler. We will use :ref:`wiring` feature.
 
-Edit ``views.py``:
+Edit ``handlers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 5,8-11,15
+   :emphasize-lines: 4-7,10-13,17
 
-   """Views module."""
+   """Handlers module."""
 
    from aiohttp import web
+   from dependency_injector.wiring import Provide
 
    from .services import SearchService
+   from .containers import Container
 
 
    async def index(
            request: web.Request,
-           search_service: SearchService,
+           search_service: SearchService = Provide[Container.search_service],
    ) -> web.Response:
        query = request.query.get('query', 'Dependency Injector')
        limit = int(request.query.get('limit', 10))
@@ -583,44 +554,35 @@ Edit ``views.py``:
            },
        )
 
-Now let's inject the ``SearchService`` dependency into the ``index`` view.
+To make the injection work we need to wire the container instance with the ``handlers`` module.
+This needs to be done once. After it's done we can use ``Provide`` markers to specify as many
+injections as needed for any handler.
 
-Edit ``containers.py``:
+Edit ``application.py``:
 
 .. code-block:: python
-   :emphasize-lines: 28-31
+   :emphasize-lines: 13
 
-   """Application containers module."""
+   """Application module."""
 
-   from dependency_injector import containers, providers
-   from dependency_injector.ext import aiohttp
    from aiohttp import web
 
-   from . import giphy, services, views
+   from .containers import Container
+   from . import handlers
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   def create_app() -> web.Application:
+       container = Container()
+       container.config.from_yaml('config.yml')
+       container.config.giphy.api_key.from_env('GIPHY_API_KEY')
+       container.wire(modules=[handlers])
 
-       app = aiohttp.Application(web.Application)
-
-       config = providers.Configuration()
-
-       giphy_client = providers.Factory(
-           giphy.GiphyClient,
-           api_key=config.giphy.api_key,
-           timeout=config.giphy.request_timeout,
-       )
-
-       search_service = providers.Factory(
-           services.SearchService,
-           giphy_client=giphy_client,
-       )
-
-       index_view = aiohttp.View(
-           views.index,
-           search_service=search_service,
-       )
+       app = web.Application()
+       app.container = container
+       app.add_routes([
+           web.get('/', handlers.index),
+       ])
+       return app
 
 Make sure the app is running or use:
 
@@ -639,30 +601,30 @@ You should see:
 .. code-block:: json
 
    HTTP/1.1 200 OK
-   Content-Length: 850
+   Content-Length: 492
    Content-Type: application/json; charset=utf-8
-   Date: Wed, 29 Jul 2020 22:22:55 GMT
+   Date: Fri, 09 Oct 2020 01:35:48 GMT
    Server: Python/3.8 aiohttp/3.6.2
 
    {
        "gifs": [
            {
+               "url": "https://giphy.com/gifs/dollyparton-3xIVVMnZfG3KQ9v4Ye"
+           },
+           {
+               "url": "https://giphy.com/gifs/tennistv-unbelievable-disbelief-cant-believe-UWWJnhHHbpGvZOapEh"
+           },
+           {
                "url": "https://giphy.com/gifs/discoverychannel-nugget-gold-rush-rick-ness-KGGPIlnC4hr4u2s3pY"
            },
            {
-               "url": "https://giphy.com/gifs/primevideoin-ll1hyBS2IrUPLE0E71"
+               "url": "https://giphy.com/gifs/soulpancake-wow-work-xUe4HVXTPi0wQ2OAJC"
            },
            {
-               "url": "https://giphy.com/gifs/jackman-works-jackmanworks-l4pTgQoCrmXq8Txlu"
-           },
-           {
-               "url": "https://giphy.com/gifs/cat-massage-at-work-l46CzMaOlJXAFuO3u"
-           },
-           {
-               "url": "https://giphy.com/gifs/everwhatproductions-fun-christmas-3oxHQCI8tKXoeW4IBq"
-           },
+               "url": "https://giphy.com/gifs/readingrainbow-teamwork-levar-burton-reading-rainbow-3o7qE1EaTWLQGDSabK"
+           }
        ],
-       "limit": 10,
+       "limit": 5,
        "query": "wow,it works"
    }
 
@@ -673,30 +635,32 @@ The search works!
 Make some refactoring
 ---------------------
 
-Our ``index`` view has two hardcoded config values:
+Our ``index`` handler has two hardcoded config values:
 
 - Default search query
 - Default results limit
 
 Let's make some refactoring. We will move these values to the config.
 
-Edit ``views.py``:
+Edit ``handlers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 11-12,14-15
+   :emphasize-lines: 13-14,16-17
 
-   """Views module."""
+   """Handlers module."""
 
    from aiohttp import web
+   from dependency_injector.wiring import Provide
 
    from .services import SearchService
+   from .containers import Container
 
 
    async def index(
            request: web.Request,
-           search_service: SearchService,
-           default_query: str,
-           default_limit: int,
+           search_service: SearchService = Provide[Container.search_service],
+           default_query: str = Provide[Container.config.default.query],
+           default_limit: int = Provide[Container.config.default.limit.as_int()],
    ) -> web.Response:
        query = request.query.get('query', default_query)
        limit = int(request.query.get('limit', default_limit))
@@ -711,48 +675,7 @@ Edit ``views.py``:
            },
        )
 
-Now we need to inject these values. Let's update the container.
-
-Edit ``containers.py``:
-
-.. code-block:: python
-   :emphasize-lines: 31-32
-
-   """Application containers module."""
-
-   from dependency_injector import containers, providers
-   from dependency_injector.ext import aiohttp
-   from aiohttp import web
-
-   from . import giphy, services, views
-
-
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = aiohttp.Application(web.Application)
-
-       config = providers.Configuration()
-
-       giphy_client = providers.Factory(
-           giphy.GiphyClient,
-           api_key=config.giphy.api_key,
-           timeout=config.giphy.request_timeout,
-       )
-
-       search_service = providers.Factory(
-           services.SearchService,
-           giphy_client=giphy_client,
-       )
-
-       index_view = aiohttp.View(
-           views.index,
-           search_service=search_service,
-           default_query=config.search.default_query,
-           default_limit=config.search.default_limit,
-       )
-
-Finally let's update the config.
+Let's update the config.
 
 Edit ``config.yml``:
 
@@ -761,26 +684,21 @@ Edit ``config.yml``:
 
    giphy:
      request_timeout: 10
-   search:
-     default_query: "Dependency Injector"
-     default_limit: 10
+   default:
+     query: "Dependency Injector"
+     limit: 10
 
 The refactoring is done. We've made it cleaner - hardcoded values are now moved to the config.
-
-In the next section we will add some tests.
 
 Tests
 -----
 
-It would be nice to add some tests. Let's do it.
-
-We will use `pytest <https://docs.pytest.org/en/stable/>`_ and
-`coverage <https://coverage.readthedocs.io/>`_.
+In this section we will add some tests.
 
 Create ``tests.py`` module in the ``giphynavigator`` package:
 
 .. code-block:: bash
-   :emphasize-lines: 8
+   :emphasize-lines: 9
 
    ./
    ├── giphynavigator/
@@ -788,16 +706,17 @@ Create ``tests.py`` module in the ``giphynavigator`` package:
    │   ├── application.py
    │   ├── containers.py
    │   ├── giphy.py
+   │   ├── handlers.py
    │   ├── services.py
-   │   ├── tests.py
-   │   └── views.py
+   │   └── tests.py
    ├── venv/
+   ├── config.yml
    └── requirements.txt
 
 and put next into it:
 
 .. code-block:: python
-   :emphasize-lines: 30,57,71
+   :emphasize-lines: 32,59,73
 
    """Tests module."""
 
@@ -811,7 +730,9 @@ and put next into it:
 
    @pytest.fixture
    def app():
-       return create_app()
+       app = create_app()
+       yield app
+       app.container.unwire()
 
 
    @pytest.fixture
@@ -874,8 +795,8 @@ and put next into it:
 
        assert response.status == 200
        data = await response.json()
-       assert data['query'] == app.container.config.search.default_query()
-       assert data['limit'] == app.container.config.search.default_limit()
+       assert data['query'] == app.container.config.default.query()
+       assert data['limit'] == app.container.config.default.limit()
 
 Now let's run it and check the coverage:
 
@@ -885,7 +806,7 @@ Now let's run it and check the coverage:
 
 You should see:
 
-.. code-block:: bash
+.. code-block::
 
    platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
    plugins: cov-2.10.0, aiohttp-0.3.0, asyncio-0.14.0
@@ -897,15 +818,14 @@ You should see:
    Name                            Stmts   Miss  Cover
    ---------------------------------------------------
    giphynavigator/__init__.py          0      0   100%
-   giphynavigator/__main__.py          5      5     0%
-   giphynavigator/application.py      10      0   100%
-   giphynavigator/containers.py       10      0   100%
+   giphynavigator/application.py      12      0   100%
+   giphynavigator/containers.py        6      0   100%
    giphynavigator/giphy.py            14      9    36%
+   giphynavigator/handlers.py          9      0   100%
    giphynavigator/services.py          9      1    89%
-   giphynavigator/tests.py            35      0   100%
-   giphynavigator/views.py             7      0   100%
+   giphynavigator/tests.py            37      0   100%
    ---------------------------------------------------
-   TOTAL                              90     15    83%
+   TOTAL                              87     10    89%
 
 .. note::
 
@@ -920,45 +840,19 @@ In this tutorial we've built an ``aiohttp`` REST API application following the d
 injection principle.
 We've used the ``Dependency Injector`` as a dependency injection framework.
 
-The benefit you get with the ``Dependency Injector`` is the container. It starts to payoff
-when you need to understand or change your application structure. It's easy with the container,
-cause you have everything defined explicitly in one place:
+:ref:`containers` and :ref:`providers` helped to specify how to assemble search service and
+giphy client.
 
-.. code-block:: python
+:ref:`configuration-provider` helped to deal with reading YAML file and environment variable.
 
-   """Application containers module."""
+We used :ref:`wiring` feature to inject the dependencies into the ``index()`` handler.
+:ref:`provider-overriding` feature helped in testing.
 
-   from dependency_injector import containers, providers
-   from dependency_injector.ext import aiohttp
-   from aiohttp import web
+We kept all the dependencies injected explicitly. This will help when you need to add or
+change something in future.
 
-   from . import giphy, services, views
-
-
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = aiohttp.Application(web.Application)
-
-       config = providers.Configuration()
-
-       giphy_client = providers.Factory(
-           giphy.GiphyClient,
-           api_key=config.giphy.api_key,
-           timeout=config.giphy.request_timeout,
-       )
-
-       search_service = providers.Factory(
-           services.SearchService,
-           giphy_client=giphy_client,
-       )
-
-       index_view = aiohttp.View(
-           views.index,
-           search_service=search_service,
-           default_query=config.search.default_query,
-           default_limit=config.search.default_limit,
-       )
+You can find complete project on the
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/aiohttp>`_.
 
 What's next?
 

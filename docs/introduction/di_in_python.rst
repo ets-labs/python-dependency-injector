@@ -67,19 +67,23 @@ Before:
    class ApiClient:
 
        def __init__(self):
-           self.api_key = os.getenv('API_KEY')  # <-- the dependency
-           self.timeout = os.getenv('TIMEOUT')  # <-- the dependency
+           self.api_key = os.getenv('API_KEY')  # <-- dependency
+           self.timeout = os.getenv('TIMEOUT')  # <-- dependency
 
 
    class Service:
 
        def __init__(self):
-           self.api_client = ApiClient()  # <-- the dependency
+           self.api_client = ApiClient()  # <-- dependency
+
+
+   def main() -> None:
+       service = Service()  # <-- dependency
+       ...
 
 
    if __name__ == '__main__':
-       service = Service()
-
+       main()
 
 After:
 
@@ -91,18 +95,29 @@ After:
    class ApiClient:
 
        def __init__(self, api_key: str, timeout: int):
-           self.api_key = api_key  # <-- the dependency is injected
-           self.timeout = timeout  # <-- the dependency is injected
+           self.api_key = api_key  # <-- dependency is injected
+           self.timeout = timeout  # <-- dependency is injected
 
 
    class Service:
 
        def __init__(self, api_client: ApiClient):
-           self.api_client = api_client  # <-- the dependency is injected
+           self.api_client = api_client  # <-- dependency is injected
+
+
+   def main(service: Service):  # <-- dependency is injected
+       ...
 
 
    if __name__ == '__main__':
-       service = Service(ApiClient(os.getenv('API_KEY'), os.getenv('TIMEOUT')))
+       main(
+           service=Service(
+               api_client=ApiClient(
+                   api_key=os.getenv('API_KEY'),
+                   timeout=os.getenv('TIMEOUT'),
+               ),
+           ),
+       )
 
 ``ApiClient`` is decoupled from knowing where the options come from. You can read a key and a
 timeout from a configuration file or even get them from a database.
@@ -110,11 +125,22 @@ timeout from a configuration file or even get them from a database.
 ``Service`` is decoupled from the ``ApiClient``. It does not create it anymore. You can provide a
 stub or other compatible object.
 
+Function ``main()`` is decoupled from ``Service``. It receives it as an argument.
+
 Flexibility comes with a price.
 
-Now you need to assemble the objects like this::
+Now you need to assemble and inject the objects like this:
 
-    service = Service(ApiClient(os.getenv('API_KEY'), os.getenv('TIMEOUT')))
+.. code-block:: python
+
+   main(
+       service=Service(
+           api_client=ApiClient(
+               api_key=os.getenv('API_KEY'),
+               timeout=os.getenv('TIMEOUT'),
+           ),
+       ),
+   )
 
 The assembly code might get duplicated and it'll become harder to change the application structure.
 
@@ -123,18 +149,20 @@ Here comes the ``Dependency Injector``.
 What does the Dependency Injector do?
 -------------------------------------
 
-With the dependency injection pattern objects loose the responsibility of assembling the
-dependencies. The ``Dependency Injector`` absorbs that responsibility.
+With the dependency injection pattern objects loose the responsibility of assembling
+the dependencies. The ``Dependency Injector`` absorbs that responsibilities.
 
-``Dependency Injector`` helps to assemble the objects.
+``Dependency Injector`` helps to assemble and inject the dependencies.
 
-It provides a container and providers that help you with the objects assembly. When you
-need an object you get it from the container. The rest of the assembly work is done by the
-framework:
+It provides a container and providers that help you with the objects assembly.
+When you need an object you place a ``Provide`` marker as a default value of a
+function argument. When you call this function framework assembles and injects
+the dependency.
 
 .. code-block:: python
 
    from dependency_injector import containers, providers
+   from dependency_injector.wiring import Provide
 
 
    class Container(containers.DeclarativeContainer):
@@ -153,35 +181,33 @@ framework:
        )
 
 
+   def main(service: Service = Provide[Container.service]):
+       ...
+
+
    if __name__ == '__main__':
        container = Container()
        container.config.api_key.from_env('API_KEY')
        container.config.timeout.from_env('TIMEOUT')
+       container.wire(modules=[sys.modules[__name__]])
 
-       service = container.service()
+       main()  # <-- dependency is injected automatically
 
-Retrieving of the ``Service`` instance now is done like this::
+       with container.api_client.override(mock.Mock()):
+           main()  # <-- overridden dependency is injected automatically
 
-    service = container.service()
-
-Objects assembling is consolidated in the container. When you need to make a change you do it in
-one place.
+When you call ``main()`` function the ``Service`` dependency is assembled and injected automatically.
 
 When doing a testing you call the ``container.api_client.override()`` to replace the real API
-client with a mock:
-
-.. code-block:: python
-
-   from unittest import mock
-
-
-   with container.api_client.override(mock.Mock()):
-       service = container.service()
+client with a mock. When you call ``main()`` the mock is injected.
 
 You can override any provider with another provider.
 
 It also helps you in configuring project for the different environments: replace an API client
 with a stub on the dev or stage.
+
+Objects assembling is consolidated in the container. Dependency injections are defined explicitly.
+This makes easier to understand and change how application works.
 
 Testing, Monkey-patching and dependency injection
 -------------------------------------------------
@@ -254,6 +280,10 @@ Choose one of the following as a next step:
     - :ref:`application-single-container`
     - :ref:`application-multiple-containers`
     - :ref:`decoupled-packages`
+    - :ref:`django-example`
+    - :ref:`flask-example`
+    - :ref:`aiohttp-example`
+    - :ref:`sanic-example`
 - Pass the tutorials:
     - :ref:`flask-tutorial`
     - :ref:`aiohttp-tutorial`
@@ -261,6 +291,7 @@ Choose one of the following as a next step:
     - :ref:`cli-tutorial`
 - Know more about the ``Dependency Injector`` :ref:`key-features`
 - Know more about the :ref:`providers`
+- Know more about the :ref:`wiring`
 - Go to the :ref:`contents`
 
 Useful links

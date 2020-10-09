@@ -3,8 +3,16 @@
 from __future__ import absolute_import
 
 import functools
+import warnings
 
 from dependency_injector import providers
+
+
+warnings.warn(
+    'Module "dependency_injector.ext.aiohttp" is deprecated since '
+    'version 4.0.0. Use "dependency_injector.wiring" module instead.',
+    category=DeprecationWarning,
+)
 
 
 class Application(providers.Singleton):

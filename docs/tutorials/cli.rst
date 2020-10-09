@@ -50,7 +50,7 @@ inversion of control:
 
 Here is a class diagram of the Movie Lister application:
 
-.. image:: cli-images/classes_01.png
+.. image:: cli-images/classes-01.png
 
 The responsibilities are split next way:
 
@@ -63,18 +63,18 @@ Prepare the environment
 
 Let's create the environment for the project.
 
-First we need to create a project folder and the virtual environment:
+First we need to create a project folder:
 
 .. code-block:: bash
 
    mkdir movie-lister-tutorial
    cd movie-lister-tutorial
-   python3 -m venv venv
 
-Now let's activate the virtual environment:
+Now let's create and activate virtual environment:
 
 .. code-block:: bash
 
+   python3 -m venv venv
    . venv/bin/activate
 
 Project layout
@@ -245,13 +245,13 @@ Edit ``containers.py``:
    from dependency_injector import containers
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
+   class Container(containers.DeclarativeContainer):
        ...
 
 Container is empty for now. We will add the providers in the following sections.
 
 Let's also create the ``main()`` function. Its responsibility is to run our application. For now
-it will just create the container.
+it will just do nothing.
 
 Edit ``__main__.py``:
 
@@ -259,21 +259,17 @@ Edit ``__main__.py``:
 
    """Main module."""
 
-   from .containers import ApplicationContainer
+   from .containers import Container
 
 
-   def main():
-       container = ApplicationContainer()
+   def main() -> None:
+       ...
 
 
    if __name__ == '__main__':
+       container = Container()
+
        main()
-
-.. note::
-
-   Container is the first object in the application.
-
-   The container is used to create all other objects.
 
 Csv finder
 ----------
@@ -289,7 +285,7 @@ We will add:
 
 After each step we will add the provider to the container.
 
-.. image:: cli-images/classes_02.png
+.. image:: cli-images/classes-02.png
 
 Create the ``entities.py`` in the ``movies`` package:
 
@@ -338,7 +334,7 @@ Now we need to add the ``Movie`` factory to the container. We need to add import
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 3,5,9
+   :emphasize-lines: 3,5,10
 
    """Containers module."""
 
@@ -346,7 +342,8 @@ Edit ``containers.py``:
 
    from . import entities
 
-   class ApplicationContainer(containers.DeclarativeContainer):
+
+   class Container(containers.DeclarativeContainer):
 
        movie = providers.Factory(entities.Movie)
 
@@ -420,7 +417,7 @@ Now let's add the csv finder into the container.
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 5,9,13-18
+   :emphasize-lines: 5,10,14-19
 
    """Containers module."""
 
@@ -428,7 +425,8 @@ Edit ``containers.py``:
 
    from . import finders, entities
 
-   class ApplicationContainer(containers.DeclarativeContainer):
+
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -474,20 +472,21 @@ The configuration file is ready. Now let's update the  ``main()`` function to sp
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 9
+   :emphasize-lines: 12
 
    """Main module."""
 
-   from .containers import ApplicationContainer
+   from .containers import Container
 
 
-   def main():
-       container = ApplicationContainer()
-
-       container.config.from_yaml('config.yml')
+   def main() -> None:
+       ...
 
 
    if __name__ == '__main__':
+       container = Container()
+       container.config.from_yaml('config.yml')
+
        main()
 
 Move on to the lister.
@@ -542,7 +541,7 @@ and put next into it:
 and edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 5,20-23
+   :emphasize-lines: 5,21-24
 
    """Containers module."""
 
@@ -550,7 +549,8 @@ and edit ``containers.py``:
 
    from . import finders, listers, entities
 
-   class ApplicationContainer(containers.DeclarativeContainer):
+
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -570,36 +570,69 @@ and edit ``containers.py``:
 
 All the components are created and added to the container.
 
-Finally let's update the  ``main()`` function.
+Let's inject the ``lister`` into the  ``main()`` function.
 
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 11-20
+   :emphasize-lines: 3-7,11,18
 
    """Main module."""
 
-   from .containers import ApplicationContainer
+   import sys
+
+   from dependency_injector.wiring import Provide
+
+   from .listers import MovieLister
+   from .containers import Container
 
 
-   def main():
-       container = ApplicationContainer()
-
-       container.config.from_yaml('config.yml')
-
-       lister = container.lister()
-
-       print(
-           'Francis Lawrence movies:',
-           lister.movies_directed_by('Francis Lawrence'),
-       )
-       print(
-           '2016 movies:',
-           lister.movies_released_in(2016),
-       )
+   def main(lister: MovieLister = Provide[Container.lister]) -> None:
+       ...
 
 
    if __name__ == '__main__':
+       container = Container()
+       container.config.from_yaml('config.yml')
+       container.wire(modules=[sys.modules[__name__]])
+
+       main()
+
+Now when we call ``main()`` the container will assemble and inject the movie lister.
+
+Let's add some payload to ``main()`` function. It will list movies directed by
+Francis Lawrence and movies released in 2016.
+
+Edit ``__main__.py``:
+
+.. code-block:: python
+   :emphasize-lines: 12-18
+
+   """Main module."""
+
+   import sys
+
+   from dependency_injector.wiring import Provide
+
+   from .listers import MovieLister
+   from .containers import Container
+
+
+   def main(lister: MovieLister = Provide[Container.lister]) -> None:
+       print('Francis Lawrence movies:')
+       for movie in lister.movies_directed_by('Francis Lawrence'):
+           print('\t-', movie)
+
+       print('2016 movies:')
+       for movie in lister.movies_released_in(2016):
+           print('\t-', movie)
+
+
+   if __name__ == '__main__':
+       container = Container()
+       container.config.from_yaml('config.yml')
+       container.wire(modules=[sys.modules[__name__]])
+
        main()
 
 All set. Now we run the application.
@@ -612,12 +645,15 @@ Run in the terminal:
 
 You should see:
 
-.. code-block:: bash
+.. code-block:: plain
 
-   Francis Lawrence movies: [Movie(title='The Hunger Games: Mockingjay - Part 2', year=2015, director='Francis Lawrence')]
-   2016 movies: [Movie(title='Rogue One: A Star Wars Story', year=2016, director='Gareth Edwards'), Movie(title='The Jungle Book', year=2016, director='Jon Favreau')]
+   Francis Lawrence movies:
+       - Movie(title='The Hunger Games: Mockingjay - Part 2', year=2015, director='Francis Lawrence')
+   2016 movies:
+       - Movie(title='Rogue One: A Star Wars Story', year=2016, director='Gareth Edwards')
+       - Movie(title='The Jungle Book', year=2016, director='Jon Favreau')
 
-Our application can work with the movies database in the csv format. We also need to support
+Our application can work with the movies database in the csv format. We also want to support
 the sqlite format. We will deal with it in the next section.
 
 Sqlite finder
@@ -688,7 +724,7 @@ Now we need to add the sqlite finder to the container and update lister's depend
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 20-24,28
+   :emphasize-lines: 21-25,29
 
    """Containers module."""
 
@@ -696,7 +732,8 @@ Edit ``containers.py``:
 
    from . import finders, listers, entities
 
-   class ApplicationContainer(containers.DeclarativeContainer):
+
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -747,10 +784,13 @@ Run in the terminal:
 
 You should see:
 
-.. code-block:: bash
+.. code-block:: plain
 
-   Francis Lawrence movies: [Movie(title='The Hunger Games: Mockingjay - Part 2', year=2015, director='Francis Lawrence')]
-   2016 movies: [Movie(title='Rogue One: A Star Wars Story', year=2016, director='Gareth Edwards'), Movie(title='The Jungle Book', year=2016, director='Jon Favreau')]
+   Francis Lawrence movies:
+       - Movie(title='The Hunger Games: Mockingjay - Part 2', year=2015, director='Francis Lawrence')
+   2016 movies:
+       - Movie(title='Rogue One: A Star Wars Story', year=2016, director='Gareth Edwards')
+       - Movie(title='The Jungle Book', year=2016, director='Jon Favreau')
 
 Our application now supports both formats: csv files and sqlite databases. Every time when we
 need to work with the different format we need to make a code change in the container. We will
@@ -782,7 +822,7 @@ Edit ``containers.py``:
    from . import finders, listers, entities
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -812,7 +852,7 @@ Edit ``containers.py``:
            movie_finder=finder,
        )
 
-The switch is the ``config.finder.type`` option. When its value is ``csv``, the provider under
+The switch is the ``config.finder.type`` option. When its value is ``csv``, the provider with the
 ``csv`` key is used. The same is for ``sqlite``.
 
 Now we need to read the value of the ``config.finder.type`` option from the environment variable
@@ -821,32 +861,34 @@ Now we need to read the value of the ``config.finder.type`` option from the envi
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 10
+   :emphasize-lines: 24
 
    """Main module."""
 
-   from .containers import ApplicationContainer
+   import sys
+
+   from dependency_injector.wiring import Provide
+
+   from .listers import MovieLister
+   from .containers import Container
 
 
-   def main():
-       container = ApplicationContainer()
+   def main(lister: MovieLister = Provide[Container.lister]) -> None:
+       print('Francis Lawrence movies:')
+       for movie in lister.movies_directed_by('Francis Lawrence'):
+           print('\t-', movie)
 
-       container.config.from_yaml('config.yml')
-       container.config.finder.type.from_env('MOVIE_FINDER_TYPE')
-
-       lister = container.lister()
-
-       print(
-           'Francis Lawrence movies:',
-           lister.movies_directed_by('Francis Lawrence'),
-       )
-       print(
-           '2016 movies:',
-           lister.movies_released_in(2016),
-       )
+       print('2016 movies:')
+       for movie in lister.movies_released_in(2016):
+           print('\t-', movie)
 
 
    if __name__ == '__main__':
+       container = Container()
+       container.config.from_yaml('config.yml')
+       container.config.finder.type.from_env('MOVIE_FINDER_TYPE')
+       container.wire(modules=[sys.modules[__name__]])
+
        main()
 
 Done.
@@ -858,12 +900,15 @@ Run in the terminal line by line:
    MOVIE_FINDER_TYPE=csv python -m movies
    MOVIE_FINDER_TYPE=sqlite python -m movies
 
-The output should be something like this for each command:
+The output should be similar for each command:
 
-.. code-block:: bash
+.. code-block:: plain
 
-   Francis Lawrence movies: [Movie(title='The Hunger Games: Mockingjay - Part 2', year=2015, director='Francis Lawrence')]
-   2016 movies: [Movie(title='Rogue One: A Star Wars Story', year=2016, director='Gareth Edwards'), Movie(title='The Jungle Book', year=2016, director='Jon Favreau')]
+   Francis Lawrence movies:
+       - Movie(title='The Hunger Games: Mockingjay - Part 2', year=2015, director='Francis Lawrence')
+   2016 movies:
+       - Movie(title='Rogue One: A Star Wars Story', year=2016, director='Gareth Edwards')
+       - Movie(title='The Jungle Book', year=2016, director='Jon Favreau')
 
 In the next section we will add some tests.
 
@@ -908,12 +953,12 @@ and put next into it:
 
    import pytest
 
-   from .containers import ApplicationContainer
+   from .containers import Container
 
 
    @pytest.fixture
    def container():
-       container = ApplicationContainer()
+       container = Container()
        container.config.from_dict({
            'finder': {
                'type': 'csv',
@@ -966,7 +1011,7 @@ Run in the terminal:
 
 You should see:
 
-.. code-block:: bash
+.. code-block::
 
    platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
    plugins: cov-2.10.0
@@ -974,18 +1019,18 @@ You should see:
 
    movies/tests.py ..                                              [100%]
 
-   ---------- coverage: platform darwin, python 3.8.3-final-0 -----------
+   ---------- coverage: platform darwin, python 3.8.5-final-0 -----------
    Name                   Stmts   Miss  Cover
    ------------------------------------------
    movies/__init__.py         0      0   100%
-   movies/__main__.py        10     10     0%
+   movies/__main__.py        17     17     0%
    movies/containers.py       9      0   100%
    movies/entities.py         7      1    86%
    movies/finders.py         26     13    50%
    movies/listers.py          8      0   100%
    movies/tests.py           24      0   100%
    ------------------------------------------
-   TOTAL                     84     24    71%
+   TOTAL                     91     31    66%
 
 .. note::
 
@@ -1002,48 +1047,19 @@ Conclusion
 In this tutorial we've built a CLI application following the dependency injection principle.
 We've used the ``Dependency Injector`` as a dependency injection framework.
 
-The benefit you get with the ``Dependency Injector`` is the container. It starts to payoff
-when you need to understand or change your application structure. It's easy with the container,
-cause you have everything defined explicitly in one place:
+With a help of :ref:`containers` and :ref:`providers` we have defined how to assemble application components.
 
-.. code-block:: python
+``Selector`` provider served as a switch for selecting the database format based on a configuration.
+:ref:`configuration-provider` helped to deal with reading YAML file and environment variable.
 
-   """Containers module."""
+We used :ref:`wiring` feature to inject the dependencies into the ``main()`` function.
+:ref:`provider-overriding` feature helped in testing.
 
-   from dependency_injector import containers, providers
+We kept all the dependencies injected explicitly. This will help when you need to add or
+change something in future.
 
-   from . import finders, listers, entities
-
-
-   class ApplicationContainer(containers.DeclarativeContainer):
-
-       config = providers.Configuration()
-
-       movie = providers.Factory(entities.Movie)
-
-       csv_finder = providers.Singleton(
-           finders.CsvMovieFinder,
-           movie_factory=movie.provider,
-           path=config.finder.csv.path,
-           delimiter=config.finder.csv.delimiter,
-       )
-
-       sqlite_finder = providers.Singleton(
-           finders.SqliteMovieFinder,
-           movie_factory=movie.provider,
-           path=config.finder.sqlite.path,
-       )
-
-       finder = providers.Selector(
-           config.finder.type,
-           csv=csv_finder,
-           sqlite=sqlite_finder,
-       )
-
-       lister = providers.Factory(
-           listers.MovieLister,
-           movie_finder=finder,
-       )
+You can find complete project on the
+`Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/movie-lister>`_.
 
 What's next?
 

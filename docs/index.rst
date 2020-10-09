@@ -77,13 +77,16 @@ Key features of the ``Dependency Injector``:
 - **Configuration**. Read configuration from ``yaml`` & ``ini`` files, environment variables
   and dictionaries. See :ref:`configuration-provider`.
 - **Containers**. Provides declarative and dynamic containers. See :ref:`containers`.
-- **Performance**. Fast. Written in ``Cython``.
+- **Wiring**. Injects dependencies into functions and methods. Helps integrating with
+  other frameworks: Django, Flask, Aiohttp, etc. See :ref:`wiring`.
 - **Typing**. Provides typing stubs, ``mypy``-friendly. See :ref:`provider-typing`.
+- **Performance**. Fast. Written in ``Cython``.
 - **Maturity**. Mature and production-ready. Well-tested, documented and supported.
 
 .. code-block:: python
 
    from dependency_injector import containers, providers
+   from dependency_injector.wiring import Provide
 
 
    class Container(containers.DeclarativeContainer):
@@ -102,22 +105,27 @@ Key features of the ``Dependency Injector``:
        )
 
 
+   def main(service: Service = Provide[Container.service]):
+       ...
+
+
    if __name__ == '__main__':
        container = Container()
        container.config.api_key.from_env('API_KEY')
        container.config.timeout.from_env('TIMEOUT')
+       container.wire(modules=[sys.modules[__name__]])
 
-       service = container.service()
+       main()  # <-- dependency is injected automatically
 
-With the ``Dependency Injector`` you keep **application structure in one place**.
-This place is called **the container**. You use the container to manage all the components of the
-application. All the component dependencies are defined explicitly. This provides the control on
-the application structure. It is **easy to understand and change** it.
+       with container.api_client.override(mock.Mock()):
+           main()  # <-- overridden dependency is injected automatically
 
-.. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/di-map.svg
+With the ``Dependency Injector`` objects assembling is consolidated in the container.
+Dependency injections are defined explicitly.
+This makes easier to understand and change how application works.
+
+.. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/di-readme.svg
    :target: https://github.com/ets-labs/python-dependency-injector
-
-*The container is like a map of your application. You always know what depends on what.*
 
 Explore the documentation to know more about the ``Dependency Injector``.
 
@@ -126,15 +134,16 @@ Explore the documentation to know more about the ``Dependency Injector``.
 Contents
 --------
 
-..  toctree::
-    :maxdepth: 2
+.. toctree::
+   :maxdepth: 2
 
-    introduction/index
-    examples/index
-    tutorials/index
-    providers/index
-    containers/index
-    examples-other/index
-    api/index
-    main/feedback
-    main/changelog
+   introduction/index
+   examples/index
+   tutorials/index
+   providers/index
+   containers/index
+   wiring
+   examples-other/index
+   api/index
+   main/feedback
+   main/changelog
