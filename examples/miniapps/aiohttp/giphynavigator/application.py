@@ -7,7 +7,6 @@ from . import handlers
 
 
 def create_app() -> web.Application:
-    """Create and return aiohttp application."""
     container = Container()
     container.config.from_yaml('config.yml')
     container.config.giphy.api_key.from_env('GIPHY_API_KEY')

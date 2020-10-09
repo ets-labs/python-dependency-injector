@@ -116,7 +116,7 @@ Initial project layout::
    │   ├── __init__.py
    │   ├── application.py
    │   ├── containers.py
-   │   └── views.py
+   │   └── handlers.py
    ├── venv/
    └── requirements.txt
 
@@ -164,14 +164,14 @@ The requirements are setup. Now we will build a minimal application.
 Minimal application
 -------------------
 
-In this section we will build a minimal application. It will have an endpoint that we can call.
-The endpoint will answer in the right format and will have no data.
+In this section we will build a minimal application. It will have an endpoint that
+will answer our requests in json format. There will be no payload for now.
 
-Edit ``views.py``:
+Edit ``handlers.py``:
 
 .. code-block:: python
 
-   """Views module."""
+   """Handlers module."""
 
    from aiohttp import web
 
@@ -190,34 +190,25 @@ Edit ``views.py``:
            },
        )
 
-Now let's create the main part of our application - the container. Container will keep all of the
-application components and their dependencies. First two providers we need to add are
-the ``aiohttp`` application provider and the view provider.
+Now let's create a container. Container will keep all of the application components and their dependencies.
 
-Put next into the ``containers.py``:
+Edit ``containers.py``:
 
 .. code-block:: python
 
-   """Application containers module."""
+   """Containers module."""
 
    from dependency_injector import containers
-   from dependency_injector.ext import aiohttp
-   from aiohttp import web
-
-   from . import views
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   class Container(containers.DeclarativeContainer):
+       ...
 
-       app = aiohttp.Application(web.Application)
+Container is empty for now. We will add the providers in the following sections.
 
-       index_view = aiohttp.View(views.index)
-
-At the last we need to create the ``aiohttp`` application factory. It is traditionally called
-``create_app()``. It will create the container. Then it will use the container to create
-the ``aiohttp`` application. Last step is to configure the routing - we will assign
-``index_view`` from the container to handle the requests to the root ``/`` of our REST API server.
+Finally we need to create ``aiohttp`` application factory. It will create and configure container
+and ``web.Application``. It is traditionally called ``create_app()``.
+We will assign ``index`` handler to handle user requests to the root ``/`` of our web application.
 
 Put next into the ``application.py``:
 
@@ -227,20 +218,18 @@ Put next into the ``application.py``:
 
    from aiohttp import web
 
-   from .containers import ApplicationContainer
+   from .containers import Container
+   from . import handlers
 
 
-   def create_app():
-       """Create and return aiohttp application."""
-       container = ApplicationContainer()
+   def create_app() -> web.Application:
+       container = Container()
 
-       app: web.Application = container.app()
+       app = web.Application()
        app.container = container
-
        app.add_routes([
-           web.get('/', container.index_view.as_view()),
+           web.get('/', handlers.index),
        ])
-
        return app
 
 Now we're ready to run our application
@@ -258,7 +247,7 @@ The output should be something like:
    [18:52:59] Starting aux server at http://localhost:8001 ◆
    [18:52:59] Starting dev server at http://localhost:8000 ●
 
-Let's use ``httpie`` to check that it works:
+Let's check that it works. Open another terminal session and use ``httpie``:
 
 .. code-block:: bash
 
@@ -300,7 +289,7 @@ Create ``giphy.py`` module in the ``giphynavigator`` package:
    │   ├── application.py
    │   ├── containers.py
    │   ├── giphy.py
-   │   └── views.py
+   │   └── handlers.py
    ├── venv/
    └── requirements.txt
 
@@ -393,7 +382,7 @@ Create an empty file ``config.yml`` in the root root of the project:
    │   ├── application.py
    │   ├── containers.py
    │   ├── giphy.py
-   │   └── views.py
+   │   └── h.py
    ├── venv/
    ├── config.yml
    └── requirements.txt
@@ -553,7 +542,7 @@ Edit ``views.py``:
 .. code-block:: python
    :emphasize-lines: 5,8-11,15
 
-   """Views module."""
+   """Handlers module."""
 
    from aiohttp import web
 
@@ -679,7 +668,7 @@ Edit ``views.py``:
 .. code-block:: python
    :emphasize-lines: 11-12,14-15
 
-   """Views module."""
+   """Handlers module."""
 
    from aiohttp import web
 
