@@ -50,7 +50,7 @@ inversion of control:
 
 Here is a class diagram of the Movie Lister application:
 
-.. image:: cli-images/classes_01.png
+.. image:: cli-images/classes-01.png
 
 The responsibilities are split next way:
 
@@ -285,7 +285,7 @@ We will add:
 
 After each step we will add the provider to the container.
 
-.. image:: cli-images/classes_02.png
+.. image:: cli-images/classes-02.png
 
 Create the ``entities.py`` in the ``movies`` package:
 

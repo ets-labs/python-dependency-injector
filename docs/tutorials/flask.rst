@@ -43,7 +43,7 @@ How does Github Navigator work?
 - User can click on the repository, the repository owner or the last commit to open its web page
   on the Github.
 
-.. image::  flask-images/screen_02.png
+.. image::  flask-images/screen-02.png
 
 Prepare the environment
 -----------------------
@@ -416,7 +416,7 @@ Make sure the app is running or use ``flask run`` and open ``http://127.0.0.1:50
 
 You should see:
 
-.. image::  flask-images/screen_01.png
+.. image::  flask-images/screen-01.png
 
 Connect to the GitHub
 ---------------------
@@ -768,7 +768,7 @@ Make sure the app is running or use ``flask run`` and open ``http://127.0.0.1:50
 
 You should see:
 
-.. image::  flask-images/screen_02.png
+.. image::  flask-images/screen-02.png
 
 Make some refactoring
 ---------------------

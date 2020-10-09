@@ -290,7 +290,7 @@ The dispatcher will control a list of the monitoring tasks. It will execute each
 to the configured schedule. The ``Monitor`` class is the base class for all the monitors. You can
 create different monitors by subclassing it and implementing the ``check()`` method.
 
-.. image:: asyncio-images/class_1.png
+.. image:: asyncio-images/classes-01.png
 
 Let's create dispatcher and the monitor base classes.
 
@@ -503,7 +503,7 @@ The ``HttpMonitor`` is a subclass of the ``Monitor``. We will implement the ``ch
 will send the HTTP request to the specified URL. The http request sending will be delegated to
 the ``HttpClient``.
 
-.. image:: asyncio-images/class_2.png
+.. image:: asyncio-images/classes-02.png
 
 First we need to create the ``HttpClient``.
 
