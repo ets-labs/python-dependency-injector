@@ -334,21 +334,16 @@ providers from the ``dependency_injector.providers`` module:
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 3,7,15,17-21
+   :emphasize-lines: 3-5,10-16
 
-   """Application containers module."""
+   """Containers module."""
 
    from dependency_injector import containers, providers
-   from dependency_injector.ext import aiohttp
-   from aiohttp import web
 
-   from . import giphy, views
+   from . import giphy
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = aiohttp.Application(web.Application)
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -357,8 +352,6 @@ Edit ``containers.py``:
            api_key=config.giphy.api_key,
            timeout=config.giphy.request_timeout,
        )
-
-       index_view = aiohttp.View(views.index)
 
 .. note::
 
@@ -382,7 +375,7 @@ Create an empty file ``config.yml`` in the root root of the project:
    │   ├── application.py
    │   ├── containers.py
    │   ├── giphy.py
-   │   └── h.py
+   │   └── handlers.py
    ├── venv/
    ├── config.yml
    └── requirements.txt
@@ -410,23 +403,22 @@ Edit ``application.py``:
 
    from aiohttp import web
 
-   from .containers import ApplicationContainer
+   from .containers import Container
+   from . import handlers
 
 
-   def create_app():
-       """Create and return aiohttp application."""
-       container = ApplicationContainer()
+   def create_app() -> web.Application:
+       container = Container()
        container.config.from_yaml('config.yml')
        container.config.giphy.api_key.from_env('GIPHY_API_KEY')
 
-       app: web.Application = container.app()
+       app = web.Application()
        app.container = container
-
        app.add_routes([
-           web.get('/', container.index_view.as_view()),
+           web.get('/', handlers.index),
        ])
-
        return app
+
 
 Now we need to create an API key and set it to the environment variable.
 
