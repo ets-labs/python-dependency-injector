@@ -123,7 +123,7 @@ It also helps you in configuring project for the different environments: replace
 with a stub on the dev or stage.
 
 With the ``Dependency Injector`` objects assembling is consolidated in the container.
-Dependencies and injections are defined explicitly.
+Dependency injections are defined explicitly.
 This makes easier to understand and change how application works.
 
 .. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/di-readme.svg

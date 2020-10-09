@@ -206,7 +206,7 @@ You can override any provider with another provider.
 It also helps you in configuring project for the different environments: replace an API client
 with a stub on the dev or stage.
 
-Objects assembling is consolidated in the container. Dependencies and injections are defined explicitly.
+Objects assembling is consolidated in the container. Dependency injections are defined explicitly.
 This makes easier to understand and change how application works.
 
 Testing, Monkey-patching and dependency injection

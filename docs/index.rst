@@ -121,7 +121,7 @@ Key features of the ``Dependency Injector``:
             main()  # <-- overridden dependency is injected automatically
 
 With the ``Dependency Injector`` objects assembling is consolidated in the container.
-Dependencies and injections are defined explicitly.
+Dependency injections are defined explicitly.
 This makes easier to understand and change how application works.
 
 .. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/di-readme.svg
