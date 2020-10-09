@@ -1018,54 +1018,16 @@ In this tutorial we've built an ``asyncio`` monitoring daemon  following the dep
 injection principle.
 We've used the ``Dependency Injector`` as a dependency injection framework.
 
-The benefit you get with the ``Dependency Injector`` is the container. It starts to payoff
-when you need to understand or change your application structure. It's easy with the container,
-cause you have everything defined explicitly in one place:
+With a help of :ref:`containers` and :ref:`providers` we have defined how to assemble application components.
 
-.. code-block:: python
+``List`` provider helped to inject a list of monitors into dispatcher.
+:ref:`configuration-provider` helped to deal with reading YAML file.
 
-   """Containers module."""
+We used :ref:`wiring` feature to inject dispatcher into the ``main()`` function.
+:ref:`provider-overriding` feature helped in testing.
 
-   import logging
-   import sys
-
-   from dependency_injector import containers, providers
-
-   from . import http, monitors, dispatcher
-
-
-   class Container(containers.DeclarativeContainer):
-
-       config = providers.Configuration()
-
-       configure_logging = providers.Callable(
-           logging.basicConfig,
-           stream=sys.stdout,
-           level=config.log.level,
-           format=config.log.format,
-       )
-
-       http_client = providers.Factory(http.HttpClient)
-
-       example_monitor = providers.Factory(
-           monitors.HttpMonitor,
-           http_client=http_client,
-           options=config.monitors.example,
-       )
-
-       httpbin_monitor = providers.Factory(
-           monitors.HttpMonitor,
-           http_client=http_client,
-           options=config.monitors.httpbin,
-       )
-
-       dispatcher = providers.Factory(
-           dispatcher.Dispatcher,
-           monitors=providers.List(
-               example_monitor,
-               httpbin_monitor,
-           ),
-       )
+We kept all the dependencies injected explicitly. This will help when we need to add or
+change something in future.
 
 You can find complete project on the
 `Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/asyncio-daemon>`_.
