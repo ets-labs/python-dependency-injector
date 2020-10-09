@@ -733,7 +733,7 @@ Edit ``views.py``:
 
 To make the injection work we need to wire the container instance with the ``views`` module.
 This needs to be done once. After it's done we can use ``Provide`` markers to specify as many
-injections as needed for any view inside the module.
+injections as needed for any view.
 
 Edit ``application.py``:
 

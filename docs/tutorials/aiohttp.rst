@@ -448,7 +448,7 @@ Now it's time to add the ``SearchService``. It will:
 Create ``services.py`` module in the ``giphynavigator`` package:
 
 .. code-block:: bash
-   :emphasize-lines: 7
+   :emphasize-lines: 8
 
    ./
    ├── giphynavigator/
@@ -456,9 +456,10 @@ Create ``services.py`` module in the ``giphynavigator`` package:
    │   ├── application.py
    │   ├── containers.py
    │   ├── giphy.py
-   │   ├── services.py
-   │   └── views.py
+   │   ├── handlers.py
+   │   └── services.py
    ├── venv/
+   ├── config.yml
    └── requirements.txt
 
 and put next into it:
@@ -484,27 +485,22 @@ and put next into it:
 
            return [{'url': gif['url']} for gif in result['data']]
 
-The ``SearchService`` has a dependency on the ``GiphyClient``. This dependency will be injected.
-Let's add ``SearchService`` to the container.
+The ``SearchService`` has a dependency on the ``GiphyClient``. This dependency will be
+injected when we add ``SearchService`` to the container.
 
 Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 7,23-26
+   :emphasize-lines: 5,18-21
 
-   """Application containers module."""
+   """Containers module."""
 
    from dependency_injector import containers, providers
-   from dependency_injector.ext import aiohttp
-   from aiohttp import web
 
-   from . import giphy, services, views
+   from . import giphy, services
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = aiohttp.Application(web.Application)
+   class Container(containers.DeclarativeContainer):
 
        config = providers.Configuration()
 
@@ -519,31 +515,31 @@ Edit ``containers.py``:
            giphy_client=giphy_client,
        )
 
-       index_view = aiohttp.View(views.index)
-
-
-The search service is ready. In the next section we're going to make it work.
+The search service is ready. In next section we're going to put it to work.
 
 Make the search work
 --------------------
 
-Now we are ready to make the search work. Let's use the ``SearchService`` in the ``index`` view.
+Now we are ready to put the search into work. Let's inject ``SearchService`` into
+the ``index`` handler. We will use :ref:`wiring` feature.
 
-Edit ``views.py``:
+Edit ``handlers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 5,8-11,15
+   :emphasize-lines: 4-7,10-13,17
 
    """Handlers module."""
 
    from aiohttp import web
+   from dependency_injector.wiring import Provide
 
    from .services import SearchService
+   from .containers import Container
 
 
    async def index(
            request: web.Request,
-           search_service: SearchService,
+           search_service: SearchService = Provide[Container.search_service],
    ) -> web.Response:
        query = request.query.get('query', 'Dependency Injector')
        limit = int(request.query.get('limit', 10))
@@ -558,44 +554,35 @@ Edit ``views.py``:
            },
        )
 
-Now let's inject the ``SearchService`` dependency into the ``index`` view.
+To make the injection work we need to wire the container instance with the ``handlers`` module.
+This needs to be done once. After it's done we can use ``Provide`` markers to specify as many
+injections as needed for any handler.
 
-Edit ``containers.py``:
+Edit ``application.py``:
 
 .. code-block:: python
-   :emphasize-lines: 28-31
+   :emphasize-lines: 13
 
-   """Application containers module."""
+   """Application module."""
 
-   from dependency_injector import containers, providers
-   from dependency_injector.ext import aiohttp
    from aiohttp import web
 
-   from . import giphy, services, views
+   from .containers import Container
+   from . import handlers
 
 
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
+   def create_app() -> web.Application:
+       container = Container()
+       container.config.from_yaml('config.yml')
+       container.config.giphy.api_key.from_env('GIPHY_API_KEY')
+       container.wire(modules=[handlers])
 
-       app = aiohttp.Application(web.Application)
-
-       config = providers.Configuration()
-
-       giphy_client = providers.Factory(
-           giphy.GiphyClient,
-           api_key=config.giphy.api_key,
-           timeout=config.giphy.request_timeout,
-       )
-
-       search_service = providers.Factory(
-           services.SearchService,
-           giphy_client=giphy_client,
-       )
-
-       index_view = aiohttp.View(
-           views.index,
-           search_service=search_service,
-       )
+       app = web.Application()
+       app.container = container
+       app.add_routes([
+           web.get('/', handlers.index),
+       ])
+       return app
 
 Make sure the app is running or use:
 
@@ -614,30 +601,30 @@ You should see:
 .. code-block:: json
 
    HTTP/1.1 200 OK
-   Content-Length: 850
+   Content-Length: 492
    Content-Type: application/json; charset=utf-8
-   Date: Wed, 29 Jul 2020 22:22:55 GMT
+   Date: Fri, 09 Oct 2020 01:35:48 GMT
    Server: Python/3.8 aiohttp/3.6.2
 
    {
        "gifs": [
            {
+               "url": "https://giphy.com/gifs/dollyparton-3xIVVMnZfG3KQ9v4Ye"
+           },
+           {
+               "url": "https://giphy.com/gifs/tennistv-unbelievable-disbelief-cant-believe-UWWJnhHHbpGvZOapEh"
+           },
+           {
                "url": "https://giphy.com/gifs/discoverychannel-nugget-gold-rush-rick-ness-KGGPIlnC4hr4u2s3pY"
            },
            {
-               "url": "https://giphy.com/gifs/primevideoin-ll1hyBS2IrUPLE0E71"
+               "url": "https://giphy.com/gifs/soulpancake-wow-work-xUe4HVXTPi0wQ2OAJC"
            },
            {
-               "url": "https://giphy.com/gifs/jackman-works-jackmanworks-l4pTgQoCrmXq8Txlu"
-           },
-           {
-               "url": "https://giphy.com/gifs/cat-massage-at-work-l46CzMaOlJXAFuO3u"
-           },
-           {
-               "url": "https://giphy.com/gifs/everwhatproductions-fun-christmas-3oxHQCI8tKXoeW4IBq"
-           },
+               "url": "https://giphy.com/gifs/readingrainbow-teamwork-levar-burton-reading-rainbow-3o7qE1EaTWLQGDSabK"
+           }
        ],
-       "limit": 10,
+       "limit": 5,
        "query": "wow,it works"
    }
 
