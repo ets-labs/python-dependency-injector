@@ -9,16 +9,41 @@ follows `Semantic versioning`_
 
 4.0.0
 -----
+New features:
+
 - Add ``wiring`` feature.
+
+Deprecations:
+
 - Deprecate ``ext.aiohttp`` module.
 - Deprecate ``ext.flask`` module.
-- Remove deprecated ``types`` module.
 - Deprecate ``.delegate()`` provider method in favor of ``.provider`` attribute.
+
+Removals:
+
+- Remove deprecated ``types`` module.
+
+Tutorials:
+
+-  Update ``flask`` tutorial.
+-  Update ``aiohttp`` tutorial.
+-  Update ``asyncio`` daemon tutorial.
+-  Update CLI application tutorial.
+
+Examples:
+
+- Add ``django`` example.
 - Add ``sanic`` example.
 - Update ``aiohttp`` example.
 - Update ``flask`` example.
-- Add ``django`` example.
+- Update ``asyncio`` daemon example.
+- Update ``movie-lister`` example.
+- Update CLI application example.
+
+Misc:
+
 - Regenerate C sources using Cython 0.29.21.
+- Improve documentation and README (typos removal, rewording, etc).
 
 3.44.0
 ------
