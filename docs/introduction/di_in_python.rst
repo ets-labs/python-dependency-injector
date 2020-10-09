@@ -67,18 +67,18 @@ Before:
    class ApiClient:
 
        def __init__(self):
-           self.api_key = os.getenv('API_KEY')  # <-- the dependency
-           self.timeout = os.getenv('TIMEOUT')  # <-- the dependency
+           self.api_key = os.getenv('API_KEY')  # <-- dependency
+           self.timeout = os.getenv('TIMEOUT')  # <-- dependency
 
 
    class Service:
 
        def __init__(self):
-           self.api_client = ApiClient()  # <-- the dependency
+           self.api_client = ApiClient()  # <-- dependency
 
 
    def main() -> None:
-       service = Service()  # <-- the dependency
+       service = Service()  # <-- dependency
        ...
 
 
@@ -95,17 +95,17 @@ After:
    class ApiClient:
 
        def __init__(self, api_key: str, timeout: int):
-           self.api_key = api_key  # <-- the dependency is injected
-           self.timeout = timeout  # <-- the dependency is injected
+           self.api_key = api_key  # <-- dependency is injected
+           self.timeout = timeout  # <-- dependency is injected
 
 
    class Service:
 
        def __init__(self, api_client: ApiClient):
-           self.api_client = api_client  # <-- the dependency is injected
+           self.api_client = api_client  # <-- dependency is injected
 
 
-   def main(service: Service):  # <-- the dependency is injected
+   def main(service: Service):  # <-- dependency is injected
        ...
 
 
@@ -187,36 +187,27 @@ the dependency.
 
    if __name__ == '__main__':
        container = Container()
-
        container.config.api_key.from_env('API_KEY')
        container.config.timeout.from_env('TIMEOUT')
-
        container.wire(modules=[sys.modules[__name__]])
 
-       main()
+       main()  # <-- dependency is injected automatically
 
-When you call ``main()`` function the ``Service`` dependency is assembled and injected::
+       with container.api_client.override(mock.Mock()):
+           main()  # <-- overridden dependency is injected automatically
 
-    main()
-
-Objects assembling is consolidated in the container. When you need to make a change you do it in
-one place.
+When you call ``main()`` function the ``Service`` dependency is assembled and injected automatically.
 
 When doing a testing you call the ``container.api_client.override()`` to replace the real API
-client with a mock. When you call ``main()`` the mock is injected:
-
-.. code-block:: python
-
-   from unittest import mock
-
-
-   with container.api_client.override(mock.Mock()):
-       main()
+client with a mock. When you call ``main()`` the mock is injected.
 
 You can override any provider with another provider.
 
 It also helps you in configuring project for the different environments: replace an API client
 with a stub on the dev or stage.
+
+Objects assembling is consolidated in the container. Dependencies and injections are defined explicitly.
+This makes easier to understand and change how application works.
 
 Testing, Monkey-patching and dependency injection
 -------------------------------------------------

@@ -107,9 +107,23 @@ Key features of the ``Dependency Injector``:
         container.config.timeout.from_env('TIMEOUT')
         container.wire(modules=[sys.modules[__name__]])
 
-        main()
+        main()  # <-- dependency is injected automatically
 
-With the ``Dependency Injector`` you explicitly define and inject the dependencies.
+        with container.api_client.override(mock.Mock()):
+            main()  # <-- overridden dependency is injected automatically
+
+When you call ``main()`` function the ``Service`` dependency is assembled and injected automatically.
+
+When doing a testing you call the ``container.api_client.override()`` to replace the real API
+client with a mock. When you call ``main()`` the mock is injected.
+
+You can override any provider with another provider.
+
+It also helps you in configuring project for the different environments: replace an API client
+with a stub on the dev or stage.
+
+With the ``Dependency Injector`` objects assembling is consolidated in the container.
+Dependencies and injections are defined explicitly.
 This makes easier to understand and change how application works.
 
 .. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/di-readme.svg

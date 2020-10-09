@@ -33,7 +33,7 @@ if __name__ == '__main__':
     container.config.timeout.from_env('TIMEOUT')
     container.wire(modules=[sys.modules[__name__]])
 
-    main()
+    main()  # <-- dependency is injected automatically
 
     with container.api_client.override(mock.Mock()):
-        main()
+        main()  # <-- overridden dependency is injected automatically

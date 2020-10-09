@@ -848,7 +848,7 @@ giphy client.
 We used :ref:`wiring` feature to inject the dependencies into the ``index()`` handler.
 :ref:`provider-overriding` feature helped in testing.
 
-We kept all the dependencies injected explicitly. This will help when we need to add or
+We kept all the dependencies injected explicitly. This will help when you need to add or
 change something in future.
 
 You can find complete project on the

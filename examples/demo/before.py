@@ -4,18 +4,18 @@ import os
 class ApiClient:
 
     def __init__(self):
-        self.api_key = os.getenv('API_KEY')  # <-- the dependency
-        self.timeout = os.getenv('TIMEOUT')  # <-- the dependency
+        self.api_key = os.getenv('API_KEY')  # <-- dependency
+        self.timeout = os.getenv('TIMEOUT')  # <-- dependency
 
 
 class Service:
 
     def __init__(self):
-        self.api_client = ApiClient()  # <-- the dependency
+        self.api_client = ApiClient()  # <-- dependency
 
 
 def main() -> None:
-    service = Service()  # <-- the dependency
+    service = Service()  # <-- dependency
     ...
 
 

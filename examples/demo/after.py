@@ -4,17 +4,17 @@ import os
 class ApiClient:
 
     def __init__(self, api_key: str, timeout: int):
-        self.api_key = api_key  # <-- the dependency is injected
-        self.timeout = timeout  # <-- the dependency is injected
+        self.api_key = api_key  # <-- dependency is injected
+        self.timeout = timeout  # <-- dependency is injected
 
 
 class Service:
 
     def __init__(self, api_client: ApiClient):
-        self.api_client = api_client  # <-- the dependency is injected
+        self.api_client = api_client  # <-- dependency is injected
 
 
-def main(service: Service):  # <-- the dependency is injected
+def main(service: Service):  # <-- dependency is injected
     ...
 
 
