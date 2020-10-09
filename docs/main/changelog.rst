@@ -18,6 +18,7 @@ follows `Semantic versioning`_
 - Update ``aiohttp`` example.
 - Update ``flask`` example.
 - Add ``django`` example.
+- Regenerate C sources using Cython 0.29.21.
 
 3.44.0
 ------
