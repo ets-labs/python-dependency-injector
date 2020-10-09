@@ -172,7 +172,7 @@ Concept
 
 The framework stands on the `PEP20 (The Zen of Python) <https://www.python.org/dev/peps/pep-0020/>`_ principle:
 
-.. code-block:: plain
+.. code-block:: bash
 
    Explicit is better than implicit
 
