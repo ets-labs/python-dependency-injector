@@ -840,45 +840,16 @@ In this tutorial we've built an ``aiohttp`` REST API application following the d
 injection principle.
 We've used the ``Dependency Injector`` as a dependency injection framework.
 
-The benefit you get with the ``Dependency Injector`` is the container. It starts to payoff
-when you need to understand or change your application structure. It's easy with the container,
-cause you have everything defined explicitly in one place:
+:ref:`containers` and :ref:`providers` helped to specify how to assemble search service and
+giphy client.
 
-.. code-block:: python
+:ref:`configuration-provider` helped to deal with reading YAML file and environment variable.
 
-   """Application containers module."""
+We used :ref:`wiring` feature to inject the dependencies into the ``index()`` handler.
+:ref:`provider-overriding` feature helped in testing.
 
-   from dependency_injector import containers, providers
-   from dependency_injector.ext import aiohttp
-   from aiohttp import web
-
-   from . import giphy, services, views
-
-
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = aiohttp.Application(web.Application)
-
-       config = providers.Configuration()
-
-       giphy_client = providers.Factory(
-           giphy.GiphyClient,
-           api_key=config.giphy.api_key,
-           timeout=config.giphy.request_timeout,
-       )
-
-       search_service = providers.Factory(
-           services.SearchService,
-           giphy_client=giphy_client,
-       )
-
-       index_view = aiohttp.View(
-           views.index,
-           search_service=search_service,
-           default_query=config.search.default_query,
-           default_limit=config.search.default_limit,
-       )
+We kept all the dependencies injected explicitly. This will help when we need to add or
+change something in future.
 
 You can find complete project on the
 `Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/aiohttp>`_.
