@@ -116,7 +116,7 @@ You should see something like:
 
 *Versions can be different. That's fine.*
 
-Hello world!
+Hello World!
 ------------
 
 Let's create minimal application.
