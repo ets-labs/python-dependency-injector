@@ -15,8 +15,8 @@ New features:
 
 Deprecations:
 
-- Deprecate ``ext.aiohttp`` module.
-- Deprecate ``ext.flask`` module.
+- Deprecate ``ext.aiohttp`` module in favor of ``wiring`` feature.
+- Deprecate ``ext.flask`` module in favor of ``wiring`` feature.
 - Deprecate ``.delegate()`` provider method in favor of ``.provider`` attribute.
 
 Removals:
