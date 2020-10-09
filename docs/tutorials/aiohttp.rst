@@ -635,30 +635,32 @@ The search works!
 Make some refactoring
 ---------------------
 
-Our ``index`` view has two hardcoded config values:
+Our ``index`` handler has two hardcoded config values:
 
 - Default search query
 - Default results limit
 
 Let's make some refactoring. We will move these values to the config.
 
-Edit ``views.py``:
+Edit ``handlers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 11-12,14-15
+   :emphasize-lines: 13-14,16-17
 
    """Handlers module."""
 
    from aiohttp import web
+   from dependency_injector.wiring import Provide
 
    from .services import SearchService
+   from .containers import Container
 
 
    async def index(
            request: web.Request,
-           search_service: SearchService,
-           default_query: str,
-           default_limit: int,
+           search_service: SearchService = Provide[Container.search_service],
+           default_query: str = Provide[Container.config.default.query],
+           default_limit: int = Provide[Container.config.default.limit.as_int()],
    ) -> web.Response:
        query = request.query.get('query', default_query)
        limit = int(request.query.get('limit', default_limit))
@@ -673,48 +675,7 @@ Edit ``views.py``:
            },
        )
 
-Now we need to inject these values. Let's update the container.
-
-Edit ``containers.py``:
-
-.. code-block:: python
-   :emphasize-lines: 31-32
-
-   """Application containers module."""
-
-   from dependency_injector import containers, providers
-   from dependency_injector.ext import aiohttp
-   from aiohttp import web
-
-   from . import giphy, services, views
-
-
-   class ApplicationContainer(containers.DeclarativeContainer):
-       """Application container."""
-
-       app = aiohttp.Application(web.Application)
-
-       config = providers.Configuration()
-
-       giphy_client = providers.Factory(
-           giphy.GiphyClient,
-           api_key=config.giphy.api_key,
-           timeout=config.giphy.request_timeout,
-       )
-
-       search_service = providers.Factory(
-           services.SearchService,
-           giphy_client=giphy_client,
-       )
-
-       index_view = aiohttp.View(
-           views.index,
-           search_service=search_service,
-           default_query=config.search.default_query,
-           default_limit=config.search.default_limit,
-       )
-
-Finally let's update the config.
+Let's update the config.
 
 Edit ``config.yml``:
 
@@ -723,26 +684,21 @@ Edit ``config.yml``:
 
    giphy:
      request_timeout: 10
-   search:
-     default_query: "Dependency Injector"
-     default_limit: 10
+   default:
+     query: "Dependency Injector"
+     limit: 10
 
 The refactoring is done. We've made it cleaner - hardcoded values are now moved to the config.
-
-In the next section we will add some tests.
 
 Tests
 -----
 
-It would be nice to add some tests. Let's do it.
-
-We will use `pytest <https://docs.pytest.org/en/stable/>`_ and
-`coverage <https://coverage.readthedocs.io/>`_.
+In this section we will add some tests.
 
 Create ``tests.py`` module in the ``giphynavigator`` package:
 
 .. code-block:: bash
-   :emphasize-lines: 8
+   :emphasize-lines: 9
 
    ./
    ├── giphynavigator/
@@ -750,16 +706,17 @@ Create ``tests.py`` module in the ``giphynavigator`` package:
    │   ├── application.py
    │   ├── containers.py
    │   ├── giphy.py
+   │   ├── handlers.py
    │   ├── services.py
-   │   ├── tests.py
-   │   └── views.py
+   │   └── tests.py
    ├── venv/
+   ├── config.yml
    └── requirements.txt
 
 and put next into it:
 
 .. code-block:: python
-   :emphasize-lines: 30,57,71
+   :emphasize-lines: 32,59,73
 
    """Tests module."""
 
@@ -773,7 +730,9 @@ and put next into it:
 
    @pytest.fixture
    def app():
-       return create_app()
+       app = create_app()
+       yield app
+       app.container.unwire()
 
 
    @pytest.fixture
@@ -836,8 +795,8 @@ and put next into it:
 
        assert response.status == 200
        data = await response.json()
-       assert data['query'] == app.container.config.search.default_query()
-       assert data['limit'] == app.container.config.search.default_limit()
+       assert data['query'] == app.container.config.default.query()
+       assert data['limit'] == app.container.config.default.limit()
 
 Now let's run it and check the coverage:
 
@@ -847,7 +806,7 @@ Now let's run it and check the coverage:
 
 You should see:
 
-.. code-block:: bash
+.. code-block::
 
    platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
    plugins: cov-2.10.0, aiohttp-0.3.0, asyncio-0.14.0
@@ -859,15 +818,14 @@ You should see:
    Name                            Stmts   Miss  Cover
    ---------------------------------------------------
    giphynavigator/__init__.py          0      0   100%
-   giphynavigator/__main__.py          5      5     0%
-   giphynavigator/application.py      10      0   100%
-   giphynavigator/containers.py       10      0   100%
+   giphynavigator/application.py      12      0   100%
+   giphynavigator/containers.py        6      0   100%
    giphynavigator/giphy.py            14      9    36%
+   giphynavigator/handlers.py          9      0   100%
    giphynavigator/services.py          9      1    89%
-   giphynavigator/tests.py            35      0   100%
-   giphynavigator/views.py             7      0   100%
+   giphynavigator/tests.py            37      0   100%
    ---------------------------------------------------
-   TOTAL                              90     15    83%
+   TOTAL                              87     10    89%
 
 .. note::
 
