@@ -4,9 +4,8 @@ API Documentation
 ..  toctree::
     :maxdepth: 2
 
-    top_level
-    providers
-    containers
-    errors
-    aiohttpext
-    flaskext
+   top-level
+   providers
+   containers
+   wiring
+   errors

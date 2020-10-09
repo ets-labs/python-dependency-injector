@@ -8,6 +8,7 @@ import re
 import sys
 import types
 import threading
+import warnings
 import weakref
 
 try:
@@ -257,6 +258,11 @@ cdef class Provider(object):
 
         :rtype: :py:class:`Delegate`
         """
+        warnings.warn(
+            'Method ".delegate()" is deprecated since version 4.0.0. '
+            'Use ".provider" attribute instead.',
+            category=DeprecationWarning,
+        )
         return Delegate(self)
 
     @property
@@ -265,7 +271,7 @@ cdef class Provider(object):
 
         :rtype: :py:class:`Delegate`
         """
-        return self.delegate()
+        return Delegate(self)
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Providing strategy implementation.
@@ -390,6 +396,11 @@ cdef class Delegate(Provider):
         :rtype: str
         """
         return self.__str__()
+
+    @property
+    def provides(self):
+        """Return provider."""
+        return self.__provides
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return provided instance.
@@ -1139,18 +1150,25 @@ cdef class ConfigurationOption(Provider):
             segment() if is_provider(segment) else segment for segment in self.__name
         )
 
+    @property
+    def root(self):
+        return self.__root_ref()
+
     def get_name(self):
         root = self.__root_ref()
         return '.'.join((root.get_name(), self._get_self_name()))
 
+    def get_name_segments(self):
+        return self.__name
+
     def as_int(self):
-        return Callable(int, self)
+        return TypedConfigurationOption(int, self)
 
     def as_float(self):
-        return Callable(float, self)
+        return TypedConfigurationOption(float, self)
 
     def as_(self, callback, *args, **kwargs):
-        return Callable(callback, self, *args, **kwargs)
+        return TypedConfigurationOption(callback, self, *args, **kwargs)
 
     def override(self, value):
         if isinstance(value, Provider):
@@ -1260,6 +1278,13 @@ cdef class ConfigurationOption(Provider):
         """
         value = os.getenv(name, default)
         self.override(value)
+
+
+cdef class TypedConfigurationOption(Callable):
+
+    @property
+    def option(self):
+        return self.args[0]
 
 
 cdef class Configuration(Object):
@@ -2458,13 +2483,13 @@ cdef class Container(Provider):
 
     def __init__(self, container_cls, container=None, **overriding_providers):
         """Initialize provider."""
-        self.container_cls = container_cls
-        self.overriding_providers = overriding_providers
+        self.__container_cls = container_cls
+        self.__overriding_providers = overriding_providers
 
         if container is None:
             container = container_cls()
             container.override_providers(**overriding_providers)
-        self.container = container
+        self.__container = container
 
         super(Container, self).__init__()
 
@@ -2475,9 +2500,9 @@ cdef class Container(Provider):
             return copied
 
         copied = self.__class__(
-            self.container_cls,
-            deepcopy(self.container, memo),
-            **deepcopy(self.overriding_providers, memo),
+            self.__container_cls,
+            deepcopy(self.__container, memo),
+            **deepcopy(self.__overriding_providers, memo),
         )
 
         return copied
@@ -2489,7 +2514,11 @@ cdef class Container(Provider):
                 '\'{cls}\' object has no attribute '
                 '\'{attribute_name}\''.format(cls=self.__class__.__name__,
                                               attribute_name=name))
-        return getattr(self.container, name)
+        return getattr(self.__container, name)
+
+    @property
+    def container(self):
+        return self.__container
 
     def override(self, provider):
         """Override provider with another provider."""
@@ -2497,7 +2526,7 @@ cdef class Container(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
-        return self.container
+        return self.__container
 
 
 cdef class Selector(Provider):
@@ -2657,6 +2686,11 @@ cdef class ProvidedInstance(Provider):
     def __getitem__(self, item):
         return ItemGetter(self, item)
 
+    @property
+    def provides(self):
+        """Return provider."""
+        return self.__provider
+
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
 
@@ -2695,6 +2729,16 @@ cdef class AttributeGetter(Provider):
 
     def __getitem__(self, item):
         return ItemGetter(self, item)
+
+    @property
+    def provides(self):
+        """Return provider."""
+        return self.__provider
+
+    @property
+    def name(self):
+        """Return name of the attribute."""
+        return self.__attribute
 
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
@@ -2735,6 +2779,16 @@ cdef class ItemGetter(Provider):
 
     def __getitem__(self, item):
         return ItemGetter(self, item)
+
+    @property
+    def provides(self):
+        """Return provider."""
+        return self.__provider
+
+    @property
+    def name(self):
+        """Return name of the item."""
+        return self.__item
 
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
@@ -2786,6 +2840,37 @@ cdef class MethodCaller(Provider):
 
     def __getitem__(self, item):
         return ItemGetter(self, item)
+
+    @property
+    def provides(self):
+        """Return provider."""
+        return self.__provider
+
+    @property
+    def args(self):
+        """Return positional argument injections."""
+        cdef int index
+        cdef PositionalInjection arg
+        cdef list args
+
+        args = list()
+        for index in range(self.__args_len):
+            arg = self.__args[index]
+            args.append(arg.__value)
+        return tuple(args)
+
+    @property
+    def kwargs(self):
+        """Return keyword argument injections."""
+        cdef int index
+        cdef NamedInjection kwarg
+        cdef dict kwargs
+
+        kwargs = dict()
+        for index in range(self.__kwargs_len):
+            kwarg = self.__kwargs[index]
+            kwargs[kwarg.__name] = kwarg.__value
+        return kwargs
 
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)

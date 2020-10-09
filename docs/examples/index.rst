@@ -13,5 +13,9 @@ Explore the examples to see the ``Dependency Injector`` in action.
     application-single-container
     application-multiple-containers
     decoupled-packages
+    django
+    flask
+    aiohttp
+    sanic
 
 .. disqus::

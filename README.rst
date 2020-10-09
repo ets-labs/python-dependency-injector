@@ -67,14 +67,18 @@ Key features of the ``Dependency Injector``:
   See `Configuration provider <http://python-dependency-injector.ets-labs.org/providers/configuration.html>`_.
 - **Containers**. Provides declarative and dynamic containers.
   See `Containers <http://python-dependency-injector.ets-labs.org/containers/index.html>`_.
-- **Performance**. Fast. Written in ``Cython``.
+- **Wiring**. Injects dependencies into functions and methods. Helps integrating with
+  other frameworks: Django, Flask, Aiohttp, etc.
+  See `Wiring <http://python-dependency-injector.ets-labs.org/wiring.html>`_.
 - **Typing**. Provides typing stubs, ``mypy``-friendly.
   See `Typing and mypy <http://python-dependency-injector.ets-labs.org/providers/typing_mypy.html>`_.
+- **Performance**. Fast. Written in ``Cython``.
 - **Maturity**. Mature and production-ready. Well-tested, documented and supported.
 
 .. code-block:: python
 
    from dependency_injector import containers, providers
+   from dependency_injector.wiring import Provide
 
 
    class Container(containers.DeclarativeContainer):
@@ -93,22 +97,37 @@ Key features of the ``Dependency Injector``:
        )
 
 
+   def main(service: Service = Provide[Container.service]):
+       ...
+
+
    if __name__ == '__main__':
        container = Container()
        container.config.api_key.from_env('API_KEY')
        container.config.timeout.from_env('TIMEOUT')
+       container.wire(modules=[sys.modules[__name__]])
 
-       service = container.service()
+       main()  # <-- dependency is injected automatically
 
-With the ``Dependency Injector`` you keep **application structure in one place**.
-This place is called **the container**. You use the container to manage all the components of the
-application. All the component dependencies are defined explicitly. This provides the control on
-the application structure. It is **easy to understand and change** it.
+       with container.api_client.override(mock.Mock()):
+           main()  # <-- overridden dependency is injected automatically
 
-.. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/di-map.svg
+When you call ``main()`` function the ``Service`` dependency is assembled and injected automatically.
+
+When doing a testing you call the ``container.api_client.override()`` to replace the real API
+client with a mock. When you call ``main()`` the mock is injected.
+
+You can override any provider with another provider.
+
+It also helps you in configuring project for the different environments: replace an API client
+with a stub on the dev or stage.
+
+With the ``Dependency Injector`` objects assembling is consolidated in the container.
+Dependency injections are defined explicitly.
+This makes easier to understand and change how application works.
+
+.. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/di-readme.svg
    :target: https://github.com/ets-labs/python-dependency-injector
-
-*The container is like a map of your application. You always know what depends on what.*
 
 Visit the docs to know more about the
 `Dependency injection and inversion of control in Python <http://python-dependency-injector.ets-labs.org/introduction/di_in_python.html>`_.
@@ -133,6 +152,10 @@ Choose one of the following:
 - `Application example (single container) <http://python-dependency-injector.ets-labs.org/examples/application-single-container.html>`_
 - `Application example (multiple containers) <http://python-dependency-injector.ets-labs.org/examples/application-multiple-containers.html>`_
 - `Decoupled packages example (multiple containers) <http://python-dependency-injector.ets-labs.org/examples/decoupled-packages.html>`_
+- `Django example <http://python-dependency-injector.ets-labs.org/examples/django.html>`_
+- `Flask example <http://python-dependency-injector.ets-labs.org/examples/flask.html>`_
+- `Aiohttp example <http://python-dependency-injector.ets-labs.org/examples/aiohttp.html>`_
+- `Sanic example <http://python-dependency-injector.ets-labs.org/examples/sanic.html>`_
 
 Tutorials
 ---------
@@ -147,22 +170,16 @@ Choose one of the following:
 Concept
 -------
 
-``Dependency Injector`` stands on two principles:
+The framework stands on the `PEP20 (The Zen of Python) <https://www.python.org/dev/peps/pep-0020/>`_ principle:
 
-- Explicit is better than implicit (PEP20).
-- Do no magic to your code.
+.. code-block:: plain
 
-How is it different from the other frameworks?
+   Explicit is better than implicit
 
-- **No autowiring.** The framework does NOT do any autowiring / autoresolving of the dependencies. You need to specify everything explicitly. Because *"Explicit is better than implicit" (PEP20)*.
-- **Does not pollute your code.** Your application does NOT know and does NOT depend on the framework. No ``@inject`` decorators, annotations, patching or any other magic tricks.
+You need to specify how to assemble and where to inject the dependencies explicitly.
 
-``Dependency Injector`` makes a simple contract with you:
-
-- You tell the framework how to assemble your objects
-- The framework does it for you
-
-The power of the ``Dependency Injector`` is in its simplicity and straightforwardness. It is a simple tool for the powerful concept.
+The power of the framework is in a simplicity.
+``Dependency Injector`` is a simple tool for the powerful concept.
 
 Frequently asked questions
 --------------------------
@@ -171,35 +188,17 @@ What is the dependency injection?
  - dependency injection is a principle that decreases coupling and increases cohesion
 
 Why should I do the dependency injection?
- - your code becomes more flexible, testable and clear
- - you have no problems when you need to understand how it works or change it 😎 
+ - your code becomes more flexible, testable and clear 😎
 
 How do I start doing the dependency injection?
  - you start writing the code following the dependency injection principle
  - you register all of your application components and their dependencies in the container
- - when you need a component, you get it from the container
-
-Why do I need a framework for this?
- - you need the framework for this to not create it by your own
- - this framework gives you the container and the providers
- - the container is like a dictionary with the batteries 🔋 
- - the providers manage the lifetime of your components, you will need factories, singletons, smart config object etc
+ - when you need a component, you specify where to inject it or get it from the container
 
 What price do I pay and what do I get?
- - you need to explicitly specify the dependencies in the container
+ - you need to explicitly specify the dependencies
  - it will be extra work in the beginning
- - it will payoff when project grows or in two weeks 😊 (when you forget what project was about)
-
-What features does the framework have?
- - building objects graph
- - smart configuration object
- - providers: factory, singleton, thread locals registers, etc
- - positional and keyword context injections
- - overriding of the objects in any part of the graph
-
-What features the framework does NOT have?
- - autowiring / autoresolving of the dependencies
- - the annotations and ``@inject``-like decorators
+ - it will payoff as the project grows
 
 Have a question?
  - Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
