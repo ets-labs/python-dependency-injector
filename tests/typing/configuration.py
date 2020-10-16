@@ -1,3 +1,4 @@
+from pathlib import Path
 from dependency_injector import providers
 
 
@@ -9,7 +10,10 @@ provider1 = providers.Factory(dict, a=config1.a)
 config2 = providers.Configuration()
 config2.from_dict({})
 config2.from_ini('config.ini')
+config2.from_ini(Path('config.ini'))
+
 config2.from_yaml('config.yml')
+config2.from_yaml(Path('config.yml'))
 config2.from_env('ENV', 'default')
 
 # Test 3: to check as_*() methods
