@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.0.2
+-----
+- Fix typing stubs for ``@container.override()`` and ``@containers.copy()`` decorators (
+  see `PR 302 <https://github.com/ets-labs/python-dependency-injector/pull/302>`_). Thanks
+  to `JarnoRFB <https://github.com/JarnoRFB>`_ for reporting the issue.
+
 4.0.1
 -----
 - Extend ``Configuration.from_ini()`` and ``Configuration.from_yaml()`` typing stubs to
