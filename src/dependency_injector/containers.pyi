@@ -1,5 +1,5 @@
 from types import ModuleType
-from typing import Type, Dict, Tuple, Optional, Any, Union, ClassVar, Callable as _Callable, Iterable
+from typing import Type, Dict, Tuple, Optional, Any, Union, ClassVar, Callable as _Callable, Iterable, TypeVar
 
 from .providers import Provider
 
@@ -31,9 +31,12 @@ class DeclarativeContainer(Container):
     def __init__(self, **overriding_providers: Union[Provider, Any]) -> None: ...
 
 
-def override(container: Container) -> _Callable[[Container], Container]: ...
+C = TypeVar('C', bound=DeclarativeContainer)
 
 
-def copy(container: Container) -> _Callable[[Container], Container]: ...
+def override(container: Type[C]) -> _Callable[[Type[C]], Type[C]]: ...
+
+
+def copy(container: Type[C]) -> _Callable[[Type[C]], Type[C]]: ...
 
 def is_container(instance: Any) -> bool: ...
