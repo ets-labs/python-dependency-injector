@@ -7,6 +7,15 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.0.1
+-----
+- Extend ``Configuration.from_ini()`` and ``Configuration.from_yaml()`` typing stubs to
+  accept ``pathlib.Path``. The methods were already compatible with ``pathlib.Path``
+  and just did not accept it in their signatures (see
+  `PR 300 <https://github.com/ets-labs/python-dependency-injector/pull/300>`_). Fix
+  was provided by `JarnoRFB <https://github.com/JarnoRFB>`_. Many thanks to you again,
+  JarnoRFB.
+
 4.0.0
 -----
 New features:
