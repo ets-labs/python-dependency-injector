@@ -23,10 +23,10 @@ class Container22(containers.DeclarativeContainer):
 
 
 # Test 3: to check @copy decorator
-class Container21(containers.DeclarativeContainer):
+class Container31(containers.DeclarativeContainer):
     provider = providers.Factory(int)
 
 
-@containers.copy(Container21)
-class Container22(containers.DeclarativeContainer):
+@containers.copy(Container31)
+class Container32(containers.DeclarativeContainer):
     ...
