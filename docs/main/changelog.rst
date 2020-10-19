@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Develop
+-------
+- Update all links in documentation and examples to use ``https://`` instead of ``http``.
+
 4.0.4
 -----
 - Fix typing stubs for ``container.override()`` method.
