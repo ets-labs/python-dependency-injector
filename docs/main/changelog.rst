@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Develop
--------
+4.0.5
+-----
 - Move ``.provided`` attribute to ``providers.Provider``.
 - Update all links in documentation and examples to use ``https://`` instead of ``http``.
 
