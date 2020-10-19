@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Develop
 -------
+- Move ``.provided`` attribute to ``providers.Provider``.
 - Update all links in documentation and examples to use ``https://`` instead of ``http``.
 
 4.0.4
