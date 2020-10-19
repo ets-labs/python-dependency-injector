@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.0.5
+-----
+- Move ``.provided`` attribute to ``providers.Provider``.
+- Update all links in documentation and examples to use ``https://`` instead of ``http``.
+
 4.0.4
 -----
 - Fix typing stubs for ``container.override()`` method.
@@ -1191,4 +1196,4 @@ Previous versions
 .. disqus::
 
 
-.. _Semantic versioning: http://semver.org/
+.. _Semantic versioning: https://semver.org/

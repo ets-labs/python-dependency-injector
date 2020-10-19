@@ -738,14 +738,14 @@ You should see:
 
 Our daemon can monitor `http://example.com <http://example.com>`_ availability.
 
-Let's add a monitor for the `http://httpbin.org <http://httpbin.org>`_.
+Let's add a monitor for the `https://httpbin.org <https://httpbin.org>`_.
 
 Httpbin.org monitor
 -------------------
 
-Adding of a monitor for the `httpbin.org`_ will be much easier because we have all the
-components ready. We just need to create a new provider in the container and update the
-configuration.
+Adding of a monitor for the `https://httpbin.org <https://httpbin.org>`_ will be much
+easier because we have all the components ready. We just need to create a new provider
+in the container and update the configuration.
 
 Edit ``containers.py``:
 

@@ -304,7 +304,7 @@ and put next into it:
 
    class GiphyClient:
 
-       API_URL = 'http://api.giphy.com/v1'
+       API_URL = 'https://api.giphy.com/v1'
 
        def __init__(self, api_key, timeout):
            self._api_key = api_key

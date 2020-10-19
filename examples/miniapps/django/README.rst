@@ -2,7 +2,7 @@ Django + Dependency Injector Example
 ====================================
 
 This is a `Django <https://www.djangoproject.com/>`_ +
-`Dependency Injector <http://python-dependency-injector.ets-labs.org/>`_ example application.
+`Dependency Injector <https://python-dependency-injector.ets-labs.org/>`_ example application.
 
 The example application helps to search for repositories on the Github.
 

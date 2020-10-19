@@ -46,7 +46,7 @@ How does Movie Lister work?
 Movie Lister is a naive example from Martin Fowler's article about the dependency injection and
 inversion of control:
 
-    http://www.martinfowler.com/articles/injection.html
+    https://www.martinfowler.com/articles/injection.html
 
 Here is a class diagram of the Movie Lister application:
 

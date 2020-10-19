@@ -2,7 +2,7 @@ Asyncio Daemon + Dependency Injector Example
 ============================================
 
 This is an `asyncio <https://docs.python.org/3/library/asyncio.html>`_ +
-`Dependency Injector <http://python-dependency-injector.ets-labs.org/>`_ example application.
+`Dependency Injector <https://python-dependency-injector.ets-labs.org/>`_ example application.
 
 The example application is a daemon that monitors availability of web services.
 

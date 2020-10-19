@@ -2,7 +2,7 @@ Aiohttp + Dependency Injector Example
 =====================================
 
 This is an `Aiohttp <https://docs.aiohttp.org/>`_ +
-`Dependency Injector <http://python-dependency-injector.ets-labs.org/>`_ example application.
+`Dependency Injector <https://python-dependency-injector.ets-labs.org/>`_ example application.
 
 The example application is a REST API that searches for funny GIFs on the `Giphy <https://giphy.com/>`_.
 

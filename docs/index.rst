@@ -54,8 +54,8 @@ Dependency Injector --- Dependency injection framework for Python
    :target: https://travis-ci.org/ets-labs/python-dependency-injector
    :alt: Build Status
 
-.. image:: http://readthedocs.org/projects/python-dependency-injector/badge/?version=latest
-   :target: http://python-dependency-injector.ets-labs.org/
+.. image:: https://readthedocs.org/projects/python-dependency-injector/badge/?version=latest
+   :target: https://python-dependency-injector.ets-labs.org/
    :alt: Docs Status
 
 .. image:: https://coveralls.io/repos/github/ets-labs/python-dependency-injector/badge.svg?branch=master
