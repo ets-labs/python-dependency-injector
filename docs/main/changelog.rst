@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.0.4
+-----
+- Fix typing stubs for ``container.override()`` method.
+
 4.0.3
 -----
 - Deprecate ``@containers.override()`` and ``@containers.copy()`` decorators.
