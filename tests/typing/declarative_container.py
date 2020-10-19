@@ -30,3 +30,11 @@ class Container31(containers.DeclarativeContainer):
 @containers.copy(Container31)
 class Container32(containers.DeclarativeContainer):
     ...
+
+
+# Test 4: to override()
+class Container4(containers.DeclarativeContainer):
+    provider = providers.Factory(int)
+
+container4 = Container4()
+container4.override(Container4())
