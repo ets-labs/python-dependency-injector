@@ -39,8 +39,8 @@
    :target: https://travis-ci.org/ets-labs/python-dependency-injector
    :alt: Build Status
    
-.. image:: http://readthedocs.org/projects/python-dependency-injector/badge/?version=latest
-   :target: http://python-dependency-injector.ets-labs.org/
+.. image:: https://readthedocs.org/projects/python-dependency-injector/badge/?version=latest
+   :target: https://python-dependency-injector.ets-labs.org/
    :alt: Docs Status
    
 .. image:: https://coveralls.io/repos/github/ets-labs/python-dependency-injector/badge.svg?branch=master
@@ -58,20 +58,20 @@ Key features of the ``Dependency Injector``:
 
 - **Providers**. Provides ``Factory``, ``Singleton``, ``Callable``, ``Coroutine``, ``Object``,
   ``List``, ``Configuration``, ``Dependency`` and ``Selector`` providers that help assembling your
-  objects. See `Providers <http://python-dependency-injector.ets-labs.org/providers/index.html>`_.
+  objects. See `Providers <https://python-dependency-injector.ets-labs.org/providers/index.html>`_.
 - **Overriding**. Can override any provider by another provider on the fly. This helps in testing
   and configuring dev / stage environment to replace API clients with stubs etc. See
-  `Provider overriding <http://python-dependency-injector.ets-labs.org/providers/overriding.html>`_.
+  `Provider overriding <https://python-dependency-injector.ets-labs.org/providers/overriding.html>`_.
 - **Configuration**. Read configuration from ``yaml`` & ``ini`` files, environment variables
   and dictionaries.
-  See `Configuration provider <http://python-dependency-injector.ets-labs.org/providers/configuration.html>`_.
+  See `Configuration provider <https://python-dependency-injector.ets-labs.org/providers/configuration.html>`_.
 - **Containers**. Provides declarative and dynamic containers.
-  See `Containers <http://python-dependency-injector.ets-labs.org/containers/index.html>`_.
+  See `Containers <https://python-dependency-injector.ets-labs.org/containers/index.html>`_.
 - **Wiring**. Injects dependencies into functions and methods. Helps integrating with
   other frameworks: Django, Flask, Aiohttp, etc.
-  See `Wiring <http://python-dependency-injector.ets-labs.org/wiring.html>`_.
+  See `Wiring <https://python-dependency-injector.ets-labs.org/wiring.html>`_.
 - **Typing**. Provides typing stubs, ``mypy``-friendly.
-  See `Typing and mypy <http://python-dependency-injector.ets-labs.org/providers/typing_mypy.html>`_.
+  See `Typing and mypy <https://python-dependency-injector.ets-labs.org/providers/typing_mypy.html>`_.
 - **Performance**. Fast. Written in ``Cython``.
 - **Maturity**. Mature and production-ready. Well-tested, documented and supported.
 
@@ -130,7 +130,7 @@ This makes easier to understand and change how application works.
    :target: https://github.com/ets-labs/python-dependency-injector
 
 Visit the docs to know more about the
-`Dependency injection and inversion of control in Python <http://python-dependency-injector.ets-labs.org/introduction/di_in_python.html>`_.
+`Dependency injection and inversion of control in Python <https://python-dependency-injector.ets-labs.org/introduction/di_in_python.html>`_.
 
 Installation
 ------------
@@ -142,30 +142,30 @@ The package is available on the `PyPi`_::
 Documentation
 -------------
 
-The documentation is available on the `Read The Docs <http://python-dependency-injector.ets-labs.org/>`_
+The documentation is available on the `Read The Docs <https://python-dependency-injector.ets-labs.org/>`_
 
 Examples
 --------
 
 Choose one of the following:
 
-- `Application example (single container) <http://python-dependency-injector.ets-labs.org/examples/application-single-container.html>`_
-- `Application example (multiple containers) <http://python-dependency-injector.ets-labs.org/examples/application-multiple-containers.html>`_
-- `Decoupled packages example (multiple containers) <http://python-dependency-injector.ets-labs.org/examples/decoupled-packages.html>`_
-- `Django example <http://python-dependency-injector.ets-labs.org/examples/django.html>`_
-- `Flask example <http://python-dependency-injector.ets-labs.org/examples/flask.html>`_
-- `Aiohttp example <http://python-dependency-injector.ets-labs.org/examples/aiohttp.html>`_
-- `Sanic example <http://python-dependency-injector.ets-labs.org/examples/sanic.html>`_
+- `Application example (single container) <https://python-dependency-injector.ets-labs.org/examples/application-single-container.html>`_
+- `Application example (multiple containers) <https://python-dependency-injector.ets-labs.org/examples/application-multiple-containers.html>`_
+- `Decoupled packages example (multiple containers) <https://python-dependency-injector.ets-labs.org/examples/decoupled-packages.html>`_
+- `Django example <https://python-dependency-injector.ets-labs.org/examples/django.html>`_
+- `Flask example <https://python-dependency-injector.ets-labs.org/examples/flask.html>`_
+- `Aiohttp example <https://python-dependency-injector.ets-labs.org/examples/aiohttp.html>`_
+- `Sanic example <https://python-dependency-injector.ets-labs.org/examples/sanic.html>`_
 
 Tutorials
 ---------
 
 Choose one of the following:
 
-- `Flask web application tutorial <http://python-dependency-injector.ets-labs.org/tutorials/flask.html>`_
-- `Aiohttp REST API tutorial <http://python-dependency-injector.ets-labs.org/tutorials/aiohttp.html>`_
-- `Asyncio monitoring daemon tutorial <http://python-dependency-injector.ets-labs.org/tutorials/asyncio-daemon.html>`_
-- `CLI application tutorial <http://python-dependency-injector.ets-labs.org/tutorials/cli.html>`_
+- `Flask web application tutorial <https://python-dependency-injector.ets-labs.org/tutorials/flask.html>`_
+- `Aiohttp REST API tutorial <https://python-dependency-injector.ets-labs.org/tutorials/aiohttp.html>`_
+- `Asyncio monitoring daemon tutorial <https://python-dependency-injector.ets-labs.org/tutorials/asyncio-daemon.html>`_
+- `CLI application tutorial <https://python-dependency-injector.ets-labs.org/tutorials/cli.html>`_
 
 Concept
 -------
