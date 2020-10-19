@@ -1191,4 +1191,4 @@ Previous versions
 .. disqus::
 
 
-.. _Semantic versioning: http://semver.org/
+.. _Semantic versioning: https://semver.org/
