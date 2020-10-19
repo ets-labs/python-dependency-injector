@@ -137,3 +137,10 @@ class ProvidedInstancePuzzleTests(unittest.TestCase):
                 'foo-bar',
             ],
         )
+
+
+class ProvidedInstanceInBaseClassTests(unittest.TestCase):
+
+    def test_provided_attribute(self):
+        provider = providers.Provider()
+        assert isinstance(provider.provided, providers.ProvidedInstance)

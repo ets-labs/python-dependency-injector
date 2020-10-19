@@ -35,24 +35,4 @@ You can do nested constructions:
    :emphasize-lines: 26-32
    :lines: 3-
 
-The ``.provided`` attribute is available for the next providers:
-
-- :py:class:`Factory` and its subclasses
-- :py:class:`Singleton` and its subclasses
-- :py:class:`Callable` and its subclasses
-- :py:class:`Object`
-- :py:class:`List`
-- :py:class:`Selector`
-- :py:class:`Dependency`
-
-When you create a new provider subclass and want to implement the ``.provided`` attribute, you
-should use the :py:class:`ProvidedInstance` provider. Add the ``.provided`` property
-implementation to a new subclass:
-
-.. code-block:: python
-
-   @property
-   def provided(self):
-       return ProvidedInstance(self)
-
 .. disqus::

@@ -273,6 +273,11 @@ cdef class Provider(object):
         """
         return Delegate(self)
 
+    @property
+    def provided(self):
+        """Return :py:class:`ProvidedInstance` provider."""
+        return ProvidedInstance(self)
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Providing strategy implementation.
 
@@ -332,11 +337,6 @@ cdef class Object(Provider):
         :rtype: str
         """
         return self.__str__()
-
-    @property
-    def provided(self):
-        """Return :py:class:`ProvidedInstance` provider."""
-        return ProvidedInstance(self)
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return provided instance.
@@ -497,11 +497,6 @@ cdef class Dependency(Provider):
         :rtype: str
         """
         return self.__str__()
-
-    @property
-    def provided(self):
-        """Return :py:class:`ProvidedInstance` provider."""
-        return ProvidedInstance(self)
 
     @property
     def instance_of(self):
@@ -792,11 +787,6 @@ cdef class Callable(Provider):
     def provides(self):
         """Return wrapped callable."""
         return self.__provides
-
-    @property
-    def provided(self):
-        """Return :py:class:`ProvidedInstance` provider."""
-        return ProvidedInstance(self)
 
     @property
     def args(self):
@@ -1652,11 +1642,6 @@ cdef class Factory(Provider):
         return self.__instantiator.provides
 
     @property
-    def provided(self):
-        """Return :py:class:`ProvidedInstance` provider."""
-        return ProvidedInstance(self)
-
-    @property
     def args(self):
         """Return positional argument injections."""
         return self.__instantiator.args
@@ -1988,11 +1973,6 @@ cdef class BaseSingleton(Provider):
     def cls(self):
         """Return provided type."""
         return self.__instantiator.cls
-
-    @property
-    def provided(self):
-        """Return :py:class:`ProvidedInstance` provider."""
-        return ProvidedInstance(self)
 
     @property
     def args(self):
@@ -2423,11 +2403,6 @@ cdef class List(Provider):
         return represent_provider(provider=self, provides=list(self.args))
 
     @property
-    def provided(self):
-        """Return :py:class:`ProvidedInstance` provider."""
-        return ProvidedInstance(self)
-
-    @property
     def args(self):
         """Return positional argument injections."""
         cdef int index
@@ -2607,11 +2582,6 @@ cdef class Selector(Provider):
             )),
             address=hex(id(self)),
         )
-
-    @property
-    def provided(self):
-        """Return :py:class:`ProvidedInstance` provider."""
-        return ProvidedInstance(self)
 
     @property
     def providers(self):
