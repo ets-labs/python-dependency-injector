@@ -4,7 +4,7 @@ Movie lister - a naive example of dependency injection in Python
 This is a Python implementation of the dependency injection example from Martin Fowler's
 article:
 
-    http://www.martinfowler.com/articles/injection.html
+    https://www.martinfowler.com/articles/injection.html
 
 Run
 ---
