@@ -21,6 +21,11 @@ class WiringTest(unittest.TestCase):
         self.addCleanup(self.container.unwire)
 
     def test_package_lookup(self):
+        from .package import test_package_function
+        service = test_package_function()
+        self.assertIsInstance(service, Service)
+
+    def test_package_submodule_lookup(self):
         from .package.subpackage.submodule import test_function
         service = test_function()
         self.assertIsInstance(service, Service)
