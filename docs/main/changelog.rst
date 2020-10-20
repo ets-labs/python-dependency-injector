@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.0.6
+-----
+- Fix wiring for top-level package ``__init__.py``.
+
 4.0.5
 -----
 - Move ``.provided`` attribute to ``providers.Provider``.

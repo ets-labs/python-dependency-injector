@@ -3,9 +3,20 @@ import unittest
 
 from dependency_injector.wiring import wire, Provide
 
-from . import module, package
-from .service import Service
-from .container import Container
+# Runtime import to avoid syntax errors in samples on Python < 3.5
+import os
+_SAMPLES_DIR = os.path.abspath(
+    os.path.sep.join((
+        os.path.dirname(__file__),
+        '../samples/',
+    )),
+)
+import sys
+sys.path.append(_SAMPLES_DIR)
+
+from wiringsamples import module, package
+from wiringsamples.service import Service
+from wiringsamples.container import Container
 
 
 class WiringTest(unittest.TestCase):
@@ -21,7 +32,17 @@ class WiringTest(unittest.TestCase):
         self.addCleanup(self.container.unwire)
 
     def test_package_lookup(self):
-        from .package.subpackage.submodule import test_function
+        from wiringsamples.package import test_package_function
+        service = test_package_function()
+        self.assertIsInstance(service, Service)
+
+    def test_package_subpackage_lookup(self):
+        from wiringsamples.package.subpackage import test_package_function
+        service = test_package_function()
+        self.assertIsInstance(service, Service)
+
+    def test_package_submodule_lookup(self):
+        from wiringsamples.package.subpackage.submodule import test_function
         service = test_function()
         self.assertIsInstance(service, Service)
 
@@ -125,10 +146,10 @@ class WiringTest(unittest.TestCase):
 
     def test_unwire_package_function(self):
         self.container.unwire()
-        from .package.subpackage.submodule import test_function
+        from wiringsamples.package.subpackage.submodule import test_function
         self.assertIsInstance(test_function(), Provide)
 
     def test_unwire_package_function_by_reference(self):
-        from .package.subpackage import submodule
+        from wiringsamples.package.subpackage import submodule
         self.container.unwire()
         self.assertIsInstance(submodule.test_function(), Provide)
