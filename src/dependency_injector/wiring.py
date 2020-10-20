@@ -225,7 +225,7 @@ def _resolve_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> 
 
 
 def _fetch_modules(package):
-    modules = []
+    modules = [package]
     for loader, module_name, is_pkg in pkgutil.walk_packages(
             path=package.__path__,
             prefix=package.__name__ + '.',
