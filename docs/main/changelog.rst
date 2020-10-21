@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Develop
+-------
+- Remove redirects that occur while getting badge images to optimize docs load speed.
+
 4.0.6
 -----
 - Fix wiring for top-level package ``__init__.py``.
