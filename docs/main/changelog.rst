@@ -11,6 +11,7 @@ Develop
 -------
 - Add favicon.
 - Remove redirects that occur while getting badge images to optimize docs load speed.
+- Update license year.
 
 4.0.6
 -----
