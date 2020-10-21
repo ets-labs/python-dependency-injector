@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Develop
 -------
+- Add favicon.
 - Remove redirects that occur while getting badge images to optimize docs load speed.
 
 4.0.6
