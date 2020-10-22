@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Develop
 -------
+- Add ``Dict`` provider.
 - "Un-deprecate" ``@containers.override()`` and ``@containers.copy()`` decorators (
   see `Issue 301 <https://github.com/ets-labs/python-dependency-injector/issues/301>`_
   for more information).
