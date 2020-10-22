@@ -57,8 +57,9 @@ It helps implementing the dependency injection principle.
 Key features of the ``Dependency Injector``:
 
 - **Providers**. Provides ``Factory``, ``Singleton``, ``Callable``, ``Coroutine``, ``Object``,
-  ``List``, ``Configuration``, ``Dependency`` and ``Selector`` providers that help assembling your
-  objects. See `Providers <https://python-dependency-injector.ets-labs.org/providers/index.html>`_.
+  ``List``, ``Dict``, ``Configuration``, ``Dependency`` and ``Selector`` providers that help
+  assembling your objects.
+  See `Providers <https://python-dependency-injector.ets-labs.org/providers/index.html>`_.
 - **Overriding**. Can override any provider by another provider on the fly. This helps in testing
   and configuring dev / stage environment to replace API clients with stubs etc. See
   `Provider overriding <https://python-dependency-injector.ets-labs.org/providers/overriding.html>`_.

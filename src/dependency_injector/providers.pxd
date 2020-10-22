@@ -184,6 +184,13 @@ cdef class List(Provider):
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
+cdef class Dict(Provider):
+    cdef tuple __kwargs
+    cdef int __kwargs_len
+
+    cpdef object _provide(self, tuple args, dict kwargs)
+
+
 cdef class Container(Provider):
     cdef object __container_cls
     cdef dict __overriding_providers

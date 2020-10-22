@@ -2449,6 +2449,108 @@ cdef class List(Provider):
         return list(__provide_positional_args(args, self.__args, self.__args_len))
 
 
+cdef class Dict(Provider):
+    """Dict provider provides a dictionary of values.
+
+    :py:class:`Dict` provider is needed for injecting a dictionary of dependencies. It handles
+    keyword argument injections the same way as :py:class:`Factory` provider.
+
+    Positional argument injections are not supported.
+
+    .. code-block:: python
+
+        dispatcher_factory = Factory(
+            Dispatcher,
+            modules=Dict(
+                module1=Factory(ModuleA, dependency_a),
+                module2=Factory(ModuleB, dependency_b),
+            ),
+        )
+
+        dispatcher = dispatcher_factory()
+
+        # is equivalent to:
+
+        dispatcher = Dispatcher(
+            modules={
+                'module1': ModuleA(dependency_a),
+                'module2': ModuleB(dependency_b),
+            },
+        )
+    """
+
+    def __init__(self, **kwargs):
+        """Initializer."""
+        self.__kwargs = tuple()
+        self.__kwargs_len = 0
+        self.set_kwargs(**kwargs)
+        super(Dict, self).__init__()
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__(**deepcopy(self.kwargs, memo))
+        self._copy_overridings(copied, memo)
+
+        return copied
+
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=dict(self.kwargs))
+
+    @property
+    def kwargs(self):
+        """Return keyword argument injections."""
+        cdef int index
+        cdef NamedInjection kwarg
+        cdef dict kwargs
+
+        kwargs = dict()
+        for index in range(self.__kwargs_len):
+            kwarg = self.__kwargs[index]
+            kwargs[kwarg.__name] = kwarg.__value
+        return kwargs
+
+    def add_kwargs(self, **kwargs):
+        """Add keyword argument injections.
+
+        :return: Reference ``self``
+        """
+        self.__kwargs += parse_named_injections(kwargs)
+        self.__kwargs_len = len(self.__kwargs)
+        return self
+
+    def set_kwargs(self, **kwargs):
+        """Set keyword argument injections.
+
+        Existing keyword argument injections are dropped.
+
+        :return: Reference ``self``
+        """
+        self.__kwargs = parse_named_injections(kwargs)
+        self.__kwargs_len = len(self.__kwargs)
+        return self
+
+    def clear_kwargs(self):
+        """Drop keyword argument injections.
+
+        :return: Reference ``self``
+        """
+        self.__kwargs = tuple()
+        self.__kwargs_len = len(self.__kwargs)
+        return self
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        """Return result of provided callable's call."""
+        return __provide_keyword_args(kwargs, self.__kwargs, self.__kwargs_len)
+
+
 cdef class Container(Provider):
     """Container provider provides an instance of declarative container.
 

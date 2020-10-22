@@ -69,8 +69,8 @@ It helps implementing the dependency injection principle.
 Key features of the ``Dependency Injector``:
 
 - **Providers**. Provides ``Factory``, ``Singleton``, ``Callable``, ``Coroutine``, ``Object``,
-  ``List``, ``Configuration``, ``Dependency`` and ``Selector`` providers that help assembling your
-  objects. See :ref:`providers`.
+  ``List``, ``Dict``, ``Configuration``, ``Dependency`` and ``Selector`` providers that help
+  assembling your objects. See :ref:`providers`.
 - **Overriding**. Can override any provider by another provider on the fly. This helps in testing
   and configuring dev / stage environment to replace API clients with stubs etc. See
   :ref:`provider-overriding`.
