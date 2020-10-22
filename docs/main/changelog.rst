@@ -9,6 +9,9 @@ follows `Semantic versioning`_
 
 Develop
 -------
+- "Un-deprecate" ``@containers.override()`` and ``@containers.copy()`` decorators (
+  see `Issue 301 <https://github.com/ets-labs/python-dependency-injector/issues/301>`_
+  for more information).
 - Add favicon.
 - Remove redirects that occur while getting badge images to optimize docs load speed.
 - Update license year.
@@ -57,8 +60,6 @@ Deprecations:
 - Deprecate ``ext.aiohttp`` module in favor of ``wiring`` feature.
 - Deprecate ``ext.flask`` module in favor of ``wiring`` feature.
 - Deprecate ``.delegate()`` provider method in favor of ``.provider`` attribute.
-- Deprecate ``@containers.override()`` decorator in favor of overriding container on instance level.
-- Deprecate ``@containers.copy()`` decorator.
 
 Removals:
 
