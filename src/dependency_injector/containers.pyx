@@ -1,7 +1,6 @@
 """Containers module."""
 
 import sys
-import warnings
 
 import six
 
@@ -428,11 +427,6 @@ def override(object container):
     :return: Declarative container's overriding decorator.
     :rtype: callable(:py:class:`DeclarativeContainer`)
     """
-    warnings.warn(
-        'Decorator "@override()" is deprecated since version 4.0.3. '
-        'Use overriding on instance level instead "container.override(AnotherContainer())".',
-        category=DeprecationWarning,
-    )
     def _decorator(object overriding_container):
         """Overriding decorator."""
         container.override(overriding_container)
@@ -453,10 +447,6 @@ def copy(object container):
     :return: Declarative container's copying decorator.
     :rtype: callable(:py:class:`DeclarativeContainer`)
     """
-    warnings.warn(
-        'Decorator "@copy()" is deprecated since version 4.0.3.',
-        category=DeprecationWarning,
-    )
     def _decorator(copied_container):
         cdef dict memo = dict()
         for name, provider in six.iteritems(copied_container.cls_providers):
