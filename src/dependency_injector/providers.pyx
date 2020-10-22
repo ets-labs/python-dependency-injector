@@ -2452,7 +2452,31 @@ cdef class List(Provider):
 cdef class Dict(Provider):
     """Dict provider provides a dictionary of values.
 
-    TBD.
+    :py:class:`Dict` provider is needed for injecting a dictionary of dependencies. It handles
+    keyword argument injections the same way as :py:class:`Factory` provider.
+
+    Positional argument injections are not supported.
+
+    .. code-block:: python
+
+        dispatcher_factory = Factory(
+            Dispatcher,
+            modules=Dict(
+                module1=Factory(ModuleA, dependency_a),
+                module2=Factory(ModuleB, dependency_b),
+            ),
+        )
+
+        dispatcher = dispatcher_factory()
+
+        # is equivalent to:
+
+        dispatcher = Dispatcher(
+            modules={
+                'module1': ModuleA(dependency_a),
+                'module2': ModuleB(dependency_b),
+            },
+        )
     """
 
     def __init__(self, **kwargs):
