@@ -7,6 +7,7 @@ import six
 from .errors import Error
 from .providers cimport (
     Provider,
+    Resource,
     deepcopy,
 )
 
@@ -213,6 +214,19 @@ class DynamicContainer(object):
         self.wired_to_modules.clear()
         self.wired_to_packages.clear()
 
+    def init_resources(self):
+        """Initialize all container resources."""
+        for provider in self.providers.values():
+            if not isinstance(provider, Resource):
+                continue
+            provider.init()
+
+    def shutdown_resources(self):
+        """Shutdown all container resources."""
+        for provider in self.providers.values():
+            if not isinstance(provider, Resource):
+                continue
+            provider.shutdown()
 
 
 class DeclarativeContainerMetaClass(type):
