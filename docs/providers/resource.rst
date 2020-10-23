@@ -48,8 +48,8 @@ Container has an interface to initialize and shutdown all resources:
    container.init_resources()
    container.shutdown_resources()
 
-You also can initialize and shutdown resources using ``init()`` and ``shutdown()``
-methods of the provider:
+You also can initialize and shutdown resources one-by-one using ``init()`` and
+``shutdown()`` methods of the provider:
 
 .. code-block:: python
 
@@ -57,7 +57,7 @@ methods of the provider:
    container.thread_pool.init()
    container.thread_pool.shutdown()
 
-Resource provider supports 3 types of resource initializers:
+Resource provider supports 3 types of initializers:
 
 - Function
 - Generator
@@ -82,7 +82,7 @@ Function is the most common way to specify resource initialization:
            argument2=...,
        )
 
-Function initializer should not necessarily return a value. This often happens when
+Function initializer may not return a value. This often happens when
 you configure global resource:
 
 .. code-block:: python
@@ -153,7 +153,7 @@ object is not mandatory. You can leave ``yield`` statement empty:
 Subclass initializer
 --------------------
 
-You can provide resource initializer by implementing a subclass of ``resources.Resource``:
+You can create resource initializer by implementing a subclass of the ``resources.Resource``:
 
 .. code-block:: python
 
@@ -178,14 +178,14 @@ You can provide resource initializer by implementing a subclass of ``resources.R
            argument2=...,
        )
 
-Subclass must implement two methods: ``.init()`` and ``.shutdown()``.
+Subclass must implement two methods: ``init()`` and ``shutdown()``.
 
-Method ``.init()`` receives arguments specified in resource provider.
+Method ``init()`` receives arguments specified in resource provider.
 It performs initialization and returns resource object. Returning of the object
 is not mandatory.
 
-Method ``.shutdown()`` receives resource object returned from ``.init()``. If ``.init()``
-didn't return an object ``.shutdown()`` method will be called anyway with ``None`` as a
+Method ``shutdown()`` receives resource object returned from ``init()``. If ``init()``
+didn't return an object ``shutdown()`` method will be called anyway with ``None`` as a
 first argument.
 
 .. code-block:: python
