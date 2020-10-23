@@ -69,13 +69,15 @@ It helps implementing the dependency injection principle.
 Key features of the ``Dependency Injector``:
 
 - **Providers**. Provides ``Factory``, ``Singleton``, ``Callable``, ``Coroutine``, ``Object``,
-  ``List``, ``Dict``, ``Configuration``, ``Dependency`` and ``Selector`` providers that help
-  assembling your objects. See :ref:`providers`.
+  ``List``, ``Dict``, ``Configuration``, ``Resource``, ``Dependency`` and ``Selector`` providers
+  that help assembling your objects. See :ref:`providers`.
 - **Overriding**. Can override any provider by another provider on the fly. This helps in testing
   and configuring dev / stage environment to replace API clients with stubs etc. See
   :ref:`provider-overriding`.
-- **Configuration**. Read configuration from ``yaml`` & ``ini`` files, environment variables
+- **Configuration**. Reads configuration from ``yaml`` & ``ini`` files, environment variables
   and dictionaries. See :ref:`configuration-provider`.
+- **Resources**. Helps with initialization and configuring of logging, event loop, thread
+  or process pool, etc. See :ref:`resource-provider`.
 - **Containers**. Provides declarative and dynamic containers. See :ref:`containers`.
 - **Wiring**. Injects dependencies into functions and methods. Helps integrating with
   other frameworks: Django, Flask, Aiohttp, etc. See :ref:`wiring`.
