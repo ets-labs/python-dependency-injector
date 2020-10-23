@@ -2706,7 +2706,7 @@ cdef class Resource(Provider):
         if self.__initialized:
             return self.__resource
 
-        if _is_resource(self.__initializer):
+        if _is_resource_subclass(self.__initializer):
             initializer = self.__initializer()
             self.__resource = __call(
                 initializer.init,
@@ -3359,8 +3359,10 @@ def merge_dicts(dict1, dict2):
     return result
 
 
-def _is_resource(instance):
+def _is_resource_subclass(instance):
     if  sys.version_info < (3, 5):
         return False
+    if not isinstance(instance, CLASS_TYPES):
+        return
     from . import resources
-    return isinstance(instance, resources.Resource)
+    return issubclass(instance, resources.Resource)
