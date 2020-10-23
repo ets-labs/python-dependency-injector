@@ -39,7 +39,6 @@ from .errors import (
     Error,
     NoSuchProviderError,
 )
-from . import resources
 
 cimport cython
 
@@ -2707,7 +2706,7 @@ cdef class Resource(Provider):
         if self.__initialized:
             return self.__resource
 
-        if isinstance(self.__initializer, resources.Resource):
+        if _is_resource(self.__initializer):
             initializer = self.__initializer()
             self.__resource = __call(
                 initializer.init,
@@ -3358,3 +3357,10 @@ def merge_dicts(dict1, dict2):
     result = dict1.copy()
     result.update(dict2)
     return result
+
+
+def _is_resource(instance):
+    if  sys.version_info < (3, 5):
+        return False
+    from . import resources
+    return isinstance(instance, resources.Resource)
