@@ -93,7 +93,7 @@ class DictTests(unittest.TestCase):
 
         self.assertIs(provider_copy, provider_copy_memo)
 
-    def test_deepcopy_args(self):
+    def test_deepcopy_kwargs(self):
         provider = providers.Dict()
         dependent_provider1 = providers.Factory(list)
         dependent_provider2 = providers.Factory(dict)
