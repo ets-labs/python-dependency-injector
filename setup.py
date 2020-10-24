@@ -31,11 +31,11 @@ if os.environ.get('DEPENDENCY_INJECTOR_DEBUG_MODE') == '1':
 
 setup(name='dependency-injector',
       version=version,
-      description='Dependency injection microframework for Python',
+      description='Dependency injection framework for Python',
       long_description=description,
       author='ETS Labs',
       author_email='rmogilatov@gmail.com',
-      maintainer='Roman Mogilatov',
+      maintainer='Roman Mogylatov',
       maintainer_email='rmogilatov@gmail.com',
       url='https://github.com/ets-labs/python-dependency-injector',
       download_url='https://pypi.python.org/pypi/dependency_injector',
