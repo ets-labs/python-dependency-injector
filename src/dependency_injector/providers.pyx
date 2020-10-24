@@ -2504,7 +2504,7 @@ cdef class Dict(Provider):
 
         :rtype: str
         """
-        return represent_provider(provider=self, provides=dict(self.kwargs))
+        return represent_provider(provider=self, provides=self.kwargs)
 
     @property
     def kwargs(self):
@@ -2706,7 +2706,7 @@ cdef class Resource(Provider):
         if self.__initialized:
             return self.__resource
 
-        if _is_resource_subclass(self.__initializer):
+        if self._is_resource_subclass(self.__initializer):
             initializer = self.__initializer()
             self.__resource = __call(
                 initializer.init,
@@ -2745,6 +2745,15 @@ cdef class Resource(Provider):
 
         self.__initialized = True
         return self.__resource
+
+    @staticmethod
+    def _is_resource_subclass(instance):
+        if  sys.version_info < (3, 5):
+            return False
+        if not isinstance(instance, CLASS_TYPES):
+            return
+        from . import resources
+        return issubclass(instance, resources.Resource)
 
 
 cdef class Container(Provider):
@@ -3357,12 +3366,3 @@ def merge_dicts(dict1, dict2):
     result = dict1.copy()
     result.update(dict2)
     return result
-
-
-def _is_resource_subclass(instance):
-    if  sys.version_info < (3, 5):
-        return False
-    if not isinstance(instance, CLASS_TYPES):
-        return
-    from . import resources
-    return issubclass(instance, resources.Resource)

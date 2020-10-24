@@ -25,7 +25,7 @@ class ResourceTests(unittest.TestCase):
     # + Initializer: function
     # + Initializer: generator
     # + Initializer: base class
-    # - Initializer: unknown type
+    # + Initializer: unknown type
     # + Init() and shutdown() methods
     # + Initialized
     # + Args
@@ -111,6 +111,11 @@ class ResourceTests(unittest.TestCase):
         provider.shutdown()
         self.assertEqual(TestResource.init_counter, 2)
         self.assertEqual(TestResource.shutdown_counter, 2)
+
+    def test_init_not_callable(self):
+        provider = providers.Resource(1)
+        with self.assertRaises(errors.Error):
+            provider.init()
 
     def test_init_and_shutdown(self):
         def _init():
