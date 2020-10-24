@@ -4,7 +4,7 @@ import sys
 
 import unittest2 as unittest
 
-from dependency_injector import providers, resources, errors
+from dependency_injector import containers, providers, resources, errors
 
 
 def init_fn(*args, **kwargs):
@@ -20,20 +20,30 @@ class ResourceTests(unittest.TestCase):
         provider = providers.Resource(init_fn)
         self.assertIsInstance(provider.provided, providers.ProvidedInstance)
 
-    # Initialization and shutdown
-    # Injection
-    # + Initializer: function
-    # + Initializer: generator
-    # + Initializer: base class
-    # + Initializer: unknown type
-    # + Init() and shutdown() methods
-    # + Initialized
-    # + Args
-    # + Kwargs
-    # + Overridden
-    # + Deepcopy
-    # + Deepcopy initialized
-    # + Repr
+    def test_injection(self):
+        resource = object()
+
+        def _init():
+            _init.counter += 1
+            return resource
+        _init.counter = 0
+
+        class Container(containers.DeclarativeContainer):
+            resource = providers.Resource(_init)
+            dependency1 = providers.List(resource)
+            dependency2 = providers.List(resource)
+
+        container = Container()
+        list1 = container.dependency1()
+        list2 = container.dependency2()
+
+        self.assertEqual(list1, [resource])
+        self.assertIs(list1[0], resource)
+
+        self.assertEqual(list2, [resource])
+        self.assertIs(list2[0], resource)
+
+        self.assertEqual(_init.counter, 1)
 
     def test_init_function(self):
         def _init():

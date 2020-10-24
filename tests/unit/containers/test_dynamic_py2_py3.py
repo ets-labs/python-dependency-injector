@@ -186,6 +186,52 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertEqual(container.overridden, tuple())
         self.assertEqual(container.p11.overridden, tuple())
 
+    def test_init_shutdown_resources(self):
+        def _init1():
+            _init1.init_counter += 1
+            yield
+            _init1.shutdown_counter += 1
+
+        _init1.init_counter = 0
+        _init1.shutdown_counter = 0
+
+        def _init2():
+            _init2.init_counter += 1
+            yield
+            _init2.shutdown_counter += 1
+
+        _init2.init_counter = 0
+        _init2.shutdown_counter = 0
+
+        class Container(containers.DeclarativeContainer):
+            resource1 = providers.Resource(_init1)
+            resource2 = providers.Resource(_init2)
+
+        container = Container()
+        self.assertEqual(_init1.init_counter, 0)
+        self.assertEqual(_init1.shutdown_counter, 0)
+        self.assertEqual(_init2.init_counter, 0)
+        self.assertEqual(_init2.shutdown_counter, 0)
+
+        container.init_resources()
+        self.assertEqual(_init1.init_counter, 1)
+        self.assertEqual(_init1.shutdown_counter, 0)
+        self.assertEqual(_init2.init_counter, 1)
+        self.assertEqual(_init2.shutdown_counter, 0)
+
+        container.shutdown_resources()
+        self.assertEqual(_init1.init_counter, 1)
+        self.assertEqual(_init1.shutdown_counter, 1)
+        self.assertEqual(_init2.init_counter, 1)
+        self.assertEqual(_init2.shutdown_counter, 1)
+
+        container.init_resources()
+        container.shutdown_resources()
+        self.assertEqual(_init1.init_counter, 2)
+        self.assertEqual(_init1.shutdown_counter, 2)
+        self.assertEqual(_init2.init_counter, 2)
+        self.assertEqual(_init2.shutdown_counter, 2)
+
 
 if __name__ == '__main__':
     unittest.main()
