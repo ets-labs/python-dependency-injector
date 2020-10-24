@@ -2,7 +2,7 @@
 
 import abc
 import sys
-from typing import Generic, TypeVar
+from typing import TypeVar, Generic
 
 if sys.version_info < (3, 7):
     from typing import GenericMeta

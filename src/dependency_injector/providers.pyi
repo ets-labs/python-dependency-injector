@@ -13,7 +13,9 @@ from typing import (
     Optional,
     Union,
     Coroutine as _Coroutine,
+    Iterator as _Iterator,
     Generator as _Generator,
+    overload,
 )
 
 from . import resources
@@ -278,16 +280,12 @@ class Dict(Provider):
 
 
 class Resource(Provider, Generic[T]):
-    def __init__(
-            self,
-            initializer: Union[
-                resources.Resource,
-                _Generator[T, ..., ...],
-                _Callable[..., T],
-            ],
-            *args: Injection,
-            **kwargs: Injection,
-    ): ...
+    @overload
+    def __init__(self, initializer: _Callable[..., resources.Resource[T]], *args: Injection, **kwargs: Injection) -> None: ...
+    @overload
+    def __init__(self, initializer: _Callable[..., _Iterator[T]], *args: Injection, **kwargs: Injection) -> None: ...
+    @overload
+    def __init__(self, initializer: _Callable[..., T], *args: Injection, **kwargs: Injection) -> None: ...
     def __call__(self, *args: Injection, **kwargs: Injection) -> T: ...
     @property
     def args(self) -> Tuple[Injection]: ...
