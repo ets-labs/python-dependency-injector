@@ -2728,7 +2728,7 @@ cdef class Resource(Provider):
                 self.__kwargs,
                 self.__kwargs_len,
             )
-            self.__resource = initializer.__next__()
+            self.__resource = next(initializer)
             self.__shutdowner = initializer.send
         elif callable(self.__initializer):
             self.__resource = __call(
