@@ -3,7 +3,6 @@
 from __future__ import absolute_import
 
 import copy
-import contextlib
 import inspect
 import os
 import re
@@ -2695,8 +2694,10 @@ cdef class Resource(Provider):
             return
 
         if self.__shutdowner:
-            with contextlib.suppress(StopIteration):
+            try:
                 self.__shutdowner(self.__resource)
+            except StopIteration:
+                pass
 
         self.__resource = None
         self.__initialized = False
