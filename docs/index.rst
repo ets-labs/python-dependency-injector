@@ -34,15 +34,15 @@ Dependency Injector --- Dependency injection framework for Python
    :target: https://pypi.org/project/dependency-injector/
    :alt: Supported Python implementations
 
-.. image:: https://pepy.tech/badge/dependency-injector
+.. image:: https://static.pepy.tech/badge/dependency-injector
    :target: https://pepy.tech/project/dependency-injector
    :alt: Downloads
 
-.. image:: https://pepy.tech/badge/dependency-injector/month
+.. image:: https://static.pepy.tech/badge/dependency-injector/month
    :target: https://pepy.tech/project/dependency-injector
    :alt: Downloads
 
-.. image:: https://pepy.tech/badge/dependency-injector/week
+.. image:: https://static.pepy.tech/badge/dependency-injector/week
    :target: https://pepy.tech/project/dependency-injector
    :alt: Downloads
 
@@ -50,7 +50,7 @@ Dependency Injector --- Dependency injection framework for Python
    :target: https://pypi.org/project/dependency-injector/
    :alt: Wheel
 
-.. image:: https://travis-ci.org/ets-labs/python-dependency-injector.svg?branch=master
+.. image:: https://api.travis-ci.org/ets-labs/python-dependency-injector.svg?branch=master
    :target: https://travis-ci.org/ets-labs/python-dependency-injector
    :alt: Build Status
 
@@ -69,13 +69,15 @@ It helps implementing the dependency injection principle.
 Key features of the ``Dependency Injector``:
 
 - **Providers**. Provides ``Factory``, ``Singleton``, ``Callable``, ``Coroutine``, ``Object``,
-  ``List``, ``Configuration``, ``Dependency`` and ``Selector`` providers that help assembling your
-  objects. See :ref:`providers`.
+  ``List``, ``Dict``, ``Configuration``, ``Resource``, ``Dependency`` and ``Selector`` providers
+  that help assembling your objects. See :ref:`providers`.
 - **Overriding**. Can override any provider by another provider on the fly. This helps in testing
   and configuring dev / stage environment to replace API clients with stubs etc. See
   :ref:`provider-overriding`.
-- **Configuration**. Read configuration from ``yaml`` & ``ini`` files, environment variables
+- **Configuration**. Reads configuration from ``yaml`` & ``ini`` files, environment variables
   and dictionaries. See :ref:`configuration-provider`.
+- **Resources**. Helps with initialization and configuring of logging, event loop, thread
+  or process pool, etc. See :ref:`resource-provider`.
 - **Containers**. Provides declarative and dynamic containers. See :ref:`containers`.
 - **Wiring**. Injects dependencies into functions and methods. Helps integrating with
   other frameworks: Django, Flask, Aiohttp, etc. See :ref:`wiring`.

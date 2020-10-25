@@ -43,7 +43,9 @@ Providers module API docs - :py:mod:`dependency_injector.providers`
     coroutine
     object
     list
+    dict
     configuration
+    resource
     selector
     dependency
     overriding

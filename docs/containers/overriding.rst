@@ -21,4 +21,20 @@ The container also has:
 
 :py:class:`DynamicContainer` has the same functionality.
 
+Another possible way to override container providers on declarative level is
+``@containers.override()`` decorator:
+
+.. literalinclude:: ../../examples/containers/declarative_override_decorator.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 12-16
+
+Decorator ``@containers.override()`` takes a container for overriding as an argument.
+This container providers will be overridden by the providers with the same names from
+the decorated container.
+
+It helps to change the behaviour of application by importing extension modules but not a code change.
+Imported module can override providers in main container. While the code uses main container as
+before, the overridden providers provide components defined in the extension module.
+
 .. disqus::

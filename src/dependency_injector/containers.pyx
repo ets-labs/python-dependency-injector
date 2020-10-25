@@ -1,13 +1,13 @@
 """Containers module."""
 
 import sys
-import warnings
 
 import six
 
 from .errors import Error
 from .providers cimport (
     Provider,
+    Resource,
     deepcopy,
 )
 
@@ -214,6 +214,19 @@ class DynamicContainer(object):
         self.wired_to_modules.clear()
         self.wired_to_packages.clear()
 
+    def init_resources(self):
+        """Initialize all container resources."""
+        for provider in self.providers.values():
+            if not isinstance(provider, Resource):
+                continue
+            provider.init()
+
+    def shutdown_resources(self):
+        """Shutdown all container resources."""
+        for provider in self.providers.values():
+            if not isinstance(provider, Resource):
+                continue
+            provider.shutdown()
 
 
 class DeclarativeContainerMetaClass(type):
@@ -428,11 +441,6 @@ def override(object container):
     :return: Declarative container's overriding decorator.
     :rtype: callable(:py:class:`DeclarativeContainer`)
     """
-    warnings.warn(
-        'Decorator "@override()" is deprecated since version 4.0.3. '
-        'Use overriding on instance level instead "container.override(AnotherContainer())".',
-        category=DeprecationWarning,
-    )
     def _decorator(object overriding_container):
         """Overriding decorator."""
         container.override(overriding_container)
@@ -453,10 +461,6 @@ def copy(object container):
     :return: Declarative container's copying decorator.
     :rtype: callable(:py:class:`DeclarativeContainer`)
     """
-    warnings.warn(
-        'Decorator "@copy()" is deprecated since version 4.0.3.',
-        category=DeprecationWarning,
-    )
     def _decorator(copied_container):
         cdef dict memo = dict()
         for name, provider in six.iteritems(copied_container.cls_providers):

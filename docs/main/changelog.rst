@@ -7,6 +7,18 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.1.0
+-----
+- Add ``Resource`` provider.
+- Add ``Dict`` provider.
+- "Un-deprecate" ``@containers.override()`` and ``@containers.copy()`` decorators (
+  see `Issue 301 <https://github.com/ets-labs/python-dependency-injector/issues/301>`_
+  for more information).
+- Add favicon.
+- Remove redirects that occur while getting badge images to optimize docs load speed.
+- Update license year.
+- Update short description on PyPI.
+
 4.0.6
 -----
 - Fix wiring for top-level package ``__init__.py``.
@@ -51,8 +63,6 @@ Deprecations:
 - Deprecate ``ext.aiohttp`` module in favor of ``wiring`` feature.
 - Deprecate ``ext.flask`` module in favor of ``wiring`` feature.
 - Deprecate ``.delegate()`` provider method in favor of ``.provider`` attribute.
-- Deprecate ``@containers.override()`` decorator in favor of overriding container on instance level.
-- Deprecate ``@containers.copy()`` decorator.
 
 Removals:
 
