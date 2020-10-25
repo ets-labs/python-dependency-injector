@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Develop
 -------
+- Add ``Resource`` provider.
 - Add ``Dict`` provider.
 - "Un-deprecate" ``@containers.override()`` and ``@containers.copy()`` decorators (
   see `Issue 301 <https://github.com/ets-labs/python-dependency-injector/issues/301>`_
@@ -16,6 +17,7 @@ Develop
 - Add favicon.
 - Remove redirects that occur while getting badge images to optimize docs load speed.
 - Update license year.
+- Update short description on PyPI.
 
 4.0.6
 -----

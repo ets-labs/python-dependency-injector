@@ -3,6 +3,7 @@
 from __future__ import absolute_import
 
 import copy
+import inspect
 import os
 import re
 import sys
@@ -2502,7 +2503,7 @@ cdef class Dict(Provider):
 
         :rtype: str
         """
-        return represent_provider(provider=self, provides=dict(self.kwargs))
+        return represent_provider(provider=self, provides=self.kwargs)
 
     @property
     def kwargs(self):
@@ -2549,6 +2550,211 @@ cdef class Dict(Provider):
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable's call."""
         return __provide_keyword_args(kwargs, self.__kwargs, self.__kwargs_len)
+
+
+cdef class Resource(Provider):
+    """Resource provider provides a component with initialization and shutdown."""
+
+    def __init__(self, initializer, *args, **kwargs):
+        self.__initializer = initializer
+        self.__initialized = False
+        self.__resource = None
+        self.__shutdowner = None
+
+        self.__args = tuple()
+        self.__args_len = 0
+        self.set_args(*args)
+
+        self.__kwargs = tuple()
+        self.__kwargs_len = 0
+        self.set_kwargs(**kwargs)
+
+        super().__init__()
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        if self.__initialized:
+            raise Error('Can not copy initialized resource')
+
+        copied = self.__class__(
+            self.__initializer,
+            *deepcopy(self.args, memo),
+            **deepcopy(self.kwargs, memo),
+        )
+        self._copy_overridings(copied, memo)
+
+        return copied
+
+    def __repr__(self):
+        return (
+            f'{self.__class__.__name__}({self.__initializer}, '
+            f'initialized={self.__initialized})'
+        )
+
+    @property
+    def args(self):
+        """Return positional argument injections."""
+        cdef int index
+        cdef PositionalInjection arg
+        cdef list args
+
+        args = list()
+        for index in range(self.__args_len):
+            arg = self.__args[index]
+            args.append(arg.__value)
+        return tuple(args)
+
+    def add_args(self, *args):
+        """Add positional argument injections.
+
+        :return: Reference ``self``
+        """
+        self.__args += parse_positional_injections(args)
+        self.__args_len = len(self.__args)
+        return self
+
+    def set_args(self, *args):
+        """Set positional argument injections.
+
+        Existing positional argument injections are dropped.
+
+        :return: Reference ``self``
+        """
+        self.__args = parse_positional_injections(args)
+        self.__args_len = len(self.__args)
+        return self
+
+    def clear_args(self):
+        """Drop positional argument injections.
+
+        :return: Reference ``self``
+        """
+        self.__args = tuple()
+        self.__args_len = len(self.__args)
+        return self
+
+    @property
+    def kwargs(self):
+        """Return keyword argument injections."""
+        cdef int index
+        cdef NamedInjection kwarg
+        cdef dict kwargs
+
+        kwargs = dict()
+        for index in range(self.__kwargs_len):
+            kwarg = self.__kwargs[index]
+            kwargs[kwarg.__name] = kwarg.__value
+        return kwargs
+
+    def add_kwargs(self, **kwargs):
+        """Add keyword argument injections.
+
+        :return: Reference ``self``
+        """
+        self.__kwargs += parse_named_injections(kwargs)
+        self.__kwargs_len = len(self.__kwargs)
+        return self
+
+    def set_kwargs(self, **kwargs):
+        """Set keyword argument injections.
+
+        Existing keyword argument injections are dropped.
+
+        :return: Reference ``self``
+        """
+        self.__kwargs = parse_named_injections(kwargs)
+        self.__kwargs_len = len(self.__kwargs)
+        return self
+
+    def clear_kwargs(self):
+        """Drop keyword argument injections.
+
+        :return: Reference ``self``
+        """
+        self.__kwargs = tuple()
+        self.__kwargs_len = len(self.__kwargs)
+        return self
+
+    @property
+    def initialized(self):
+        """Check if resource is initialized."""
+        return self.__initialized
+
+    def init(self):
+        """Initialize resource."""
+        return self.__call__()
+
+    def shutdown(self):
+        """Shutdown resource."""
+        if not self.__initialized:
+            return
+
+        if self.__shutdowner:
+            try:
+                self.__shutdowner(self.__resource)
+            except StopIteration:
+                pass
+
+        self.__resource = None
+        self.__initialized = False
+        self.__shutdowner = None
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        if self.__initialized:
+            return self.__resource
+
+        if self._is_resource_subclass(self.__initializer):
+            initializer = self.__initializer()
+            self.__resource = __call(
+                initializer.init,
+                args,
+                self.__args,
+                self.__args_len,
+                kwargs,
+                self.__kwargs,
+                self.__kwargs_len,
+            )
+            self.__shutdowner = initializer.shutdown
+        elif inspect.isgeneratorfunction(self.__initializer):
+            initializer = __call(
+                self.__initializer,
+                args,
+                self.__args,
+                self.__args_len,
+                kwargs,
+                self.__kwargs,
+                self.__kwargs_len,
+            )
+            self.__resource = next(initializer)
+            self.__shutdowner = initializer.send
+        elif callable(self.__initializer):
+            self.__resource = __call(
+                self.__initializer,
+                args,
+                self.__args,
+                self.__args_len,
+                kwargs,
+                self.__kwargs,
+                self.__kwargs_len,
+            )
+        else:
+            raise Error('Unknown type of resource initializer')
+
+        self.__initialized = True
+        return self.__resource
+
+    @staticmethod
+    def _is_resource_subclass(instance):
+        if  sys.version_info < (3, 5):
+            return False
+        if not isinstance(instance, CLASS_TYPES):
+            return
+        from . import resources
+        return issubclass(instance, resources.Resource)
 
 
 cdef class Container(Provider):
