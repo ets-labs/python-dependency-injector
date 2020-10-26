@@ -31,7 +31,7 @@ You can do injections and use provided instance the same way like you do with an
        config = providers.Configuration()
 
        thread_pool = providers.Resource(
-           init_threat_pool,
+           init_thread_pool,
            max_workers=config.max_workers,
        )
 
