@@ -7,7 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dependency_injector import containers, providers
 
 
-def init_threat_pool(max_workers: int):
+def init_thread_pool(max_workers: int):
     thread_pool = ThreadPoolExecutor(max_workers=max_workers)
     yield thread_pool
     thread_pool.shutdown(wait=True)
@@ -18,7 +18,7 @@ class Container(containers.DeclarativeContainer):
     config = providers.Configuration()
 
     thread_pool = providers.Resource(
-        init_threat_pool,
+        init_thread_pool,
         max_workers=config.max_workers,
     )
 
