@@ -4,6 +4,7 @@ language: python
 jobs:
   - os: osx
     language: shell
+    osx_image: xcode10.2
     env: TWINE_USERNAME=__token__
     install: python3 -m pip install cibuildwheel==1.5.1
     script: python3 -m cibuildwheel --output-dir wheelhouse
