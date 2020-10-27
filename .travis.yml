@@ -6,11 +6,11 @@ jobs:
     language: shell
     osx_image: xcode10.2
     env: TWINE_USERNAME=__token__
-    install: python3 -m pip install cibuildwheel==1.5.1
+    install: python3 -m pip install cibuildwheel==1.6.3
     script: python3 -m cibuildwheel --output-dir wheelhouse
     after_success:
-#      - python3 -m pip install twine
-#      - python3 -m twine upload wheelhouse/*.whl
+      - python3 -m pip install twine
+      - python3 -m twine upload wheelhouse/*.whl
   - os: windows
     language: shell
     env: TWINE_USERNAME=__token__
@@ -24,8 +24,8 @@ jobs:
       - echo $SSL_CERT_FILE
     script: python -m cibuildwheel --output-dir wheelhouse
     after_success:
-#      - python -m pip install twine
-#      - python -m twine upload wheelhouse/*.whl
+      - python -m pip install twine
+      - python -m twine upload wheelhouse/*.whl
 notifications:
   slack:
     rooms:
