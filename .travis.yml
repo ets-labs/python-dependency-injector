@@ -69,7 +69,7 @@ jobs:
   - services: docker
     if: tag IS present
     env: TWINE_USERNAME=__token__
-    install: python3 -m pip install cibuildwheel==1.5.1
+    install: python3 -m pip install cibuildwheel>=1.5.1
     script: python3 -m cibuildwheel --output-dir wheelhouse
     after_success:
       - python3 -m pip install twine
@@ -78,7 +78,7 @@ jobs:
     if: tag IS present
     language: shell
     env: TWINE_USERNAME=__token__
-    install: python3 -m pip install cibuildwheel==1.5.1
+    install: python3 -m pip install cibuildwheel>=1.5.1
     script: python3 -m cibuildwheel --output-dir wheelhouse
     after_success:
       - python3 -m pip install twine
@@ -90,7 +90,7 @@ jobs:
     before_install:
       - choco install python --version 3.8.0
       - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
-    install: python -m pip install cibuildwheel==1.5.1
+    install: python -m pip install cibuildwheel>=1.5.1
     script: python -m cibuildwheel --output-dir wheelhouse
     after_success:
       - python -m pip install twine
