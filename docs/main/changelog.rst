@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.1.5
+-----
+- Fix Travis CI windows and MacOS builds.
+
 4.1.4
 -----
 - Fix version of ``cibuildwheel==1.63``.
