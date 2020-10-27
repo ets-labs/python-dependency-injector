@@ -90,10 +90,10 @@ jobs:
     before_install:
       - choco install python --version 3.8.6
       - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
-      install:
-        - python3 -m pip install certifi cibuildwheel>=1.5.1
-        - export SSL_CERT_FILE=`python3 -c "import certifi;print(certifi.where())"`
-        - echo $SSL_CERT_FILE
+    install:
+      - python3 -m pip install certifi cibuildwheel>=1.5.1
+      - export SSL_CERT_FILE=`python3 -c "import certifi;print(certifi.where())"`
+      - echo $SSL_CERT_FILE
     script: python -m cibuildwheel --output-dir wheelhouse
     after_success:
       - python -m pip install twine
