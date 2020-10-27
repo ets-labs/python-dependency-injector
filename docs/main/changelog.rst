@@ -7,9 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Develop
+-----
+- Migrate from ``travis-ci.org`` to ``travis-ci.com`` to fix build issues.
+
 4.1.2
 -----
-Bump version of ``cibuildwheel>=1.5.1`` to resolve Windows build problem.
+- Bump version of ``cibuildwheel>=1.5.1`` to resolve Windows build problem.
 
 4.1.1
 -----
