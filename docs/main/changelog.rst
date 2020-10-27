@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 Develop
 -----
 - Migrate from ``travis-ci.org`` to ``travis-ci.com`` to fix build issues.
+- Add explicit installation of ``certifi`` for Windows build to resolve build problems.
 
 4.1.2
 -----
