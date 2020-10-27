@@ -226,3 +226,4 @@ Want to contribute?
 .. |tell| unicode:: U+1F4AC .. tell sign
 .. |fork| unicode:: U+1F500 .. fork sign
 .. |pull| unicode:: U+2B05 U+FE0F .. pull sign
+
