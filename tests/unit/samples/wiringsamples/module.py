@@ -17,6 +17,14 @@ class TestClass:
     def method(self, service: Service = Provide[Container.service]):
         return service
 
+    @classmethod
+    def class_method(cls, service: Service = Provide[Container.service]):
+        return service
+
+    @staticmethod
+    def static_method(service: Service = Provide[Container.service]):
+        return service
+
 
 def test_function(service: Service = Provide[Container.service]):
     return service

@@ -158,7 +158,7 @@ def wire(
             if inspect.isfunction(member):
                 _patch_fn(module, name, member, providers_map)
             elif inspect.isclass(member):
-                for method_name, method in inspect.getmembers(member, inspect.isfunction):
+                for method_name, method in inspect.getmembers(member, _is_method):
                     _patch_fn(member, method_name, method, providers_map)
 
 
@@ -233,6 +233,10 @@ def _fetch_modules(package):
         module = loader.find_module(module_name).load_module(module_name)
         modules.append(module)
     return modules
+
+
+def _is_method(member):
+    return inspect.ismethod(member) or inspect.isfunction(member)
 
 
 def _patch_with_injections(fn, injections):

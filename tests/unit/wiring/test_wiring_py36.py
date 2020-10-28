@@ -61,6 +61,14 @@ class WiringTest(unittest.TestCase):
         service = test_class_object.method()
         self.assertIsInstance(service, Service)
 
+    def test_class_classmethod_wiring(self):
+        service = module.TestClass.class_method()
+        self.assertIsInstance(service, Service)
+
+    def test_class_staticmethod_wiring(self):
+        service = module.TestClass.static_method()
+        self.assertIsInstance(service, Service)
+
     def test_function_wiring(self):
         service = module.test_function()
         self.assertIsInstance(service, Service)
