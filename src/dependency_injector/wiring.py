@@ -37,7 +37,10 @@ class ProvidersMap:
             original_providers=container.declarative_parent.providers,
         )
 
-    def resolve_provider(self, provider: providers.Provider) -> Optional[providers.Provider]:
+    def resolve_provider(
+            self,
+            provider: providers.Provider,
+    ) -> Optional[providers.Provider]:
         if isinstance(provider, providers.Delegate):
             return self._resolve_delegate(provider)
         elif isinstance(provider, (
@@ -54,10 +57,16 @@ class ProvidersMap:
         else:
             return self._resolve_provider(provider)
 
-    def _resolve_delegate(self, original: providers.Delegate) -> Optional[providers.Provider]:
+    def _resolve_delegate(
+            self,
+            original: providers.Delegate,
+    ) -> Optional[providers.Provider]:
         return self._resolve_provider(original.provides)
 
-    def _resolve_provided_instance(self, original: providers.Provider) -> Optional[providers.Provider]:
+    def _resolve_provided_instance(
+            self,
+            original: providers.Provider,
+    ) -> Optional[providers.Provider]:
         modifiers = []
         while isinstance(original, (
                 providers.ProvidedInstance,
@@ -110,7 +119,10 @@ class ProvidersMap:
 
         return new
 
-    def _resolve_provider(self, original: providers.Provider) -> Optional[providers.Provider]:
+    def _resolve_provider(
+            self,
+            original: providers.Provider,
+    ) -> Optional[providers.Provider]:
         try:
             return self._map[original]
         except KeyError:
@@ -210,7 +222,7 @@ def _unpatch_fn(
     setattr(module, name, _get_original_from_patched(fn))
 
 
-def _resolve_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> Dict[str, Any]:  # noqa
+def _resolve_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> Dict[str, Any]:
     signature = inspect.signature(fn)
 
     injections = {}
