@@ -100,6 +100,19 @@ jobs:
     after_success:
       - python -m pip install twine
       - python -m twine upload wheelhouse/*.whl
+  - python: 3.8
+    if: branch = develop
+    install:
+      - pip install -r requirements-doc.txt
+      - pip install awscli
+      - pip install -e .
+    script: (cd docs && make clean html)
+    after_success:
+      - aws s3 sync docs/_build/html s3://python-dependency-injector-docs --delete
+      - aws cloudfront create-invalidation --distribution-id ${AWS_CLOUDFRONT_DISTRIBUTION_ID} --path "/*" > /dev/null
+      - echo "Cache invalidation triggered"
+echo "Result: OK"
+      - python -m twine upload wheelhouse/*.whl
 notifications:
   slack:
     rooms:
