@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.1.6
+-----
+- Fix wiring of multiple containers
+  (see issue `#313 <https://github.com/ets-labs/python-dependency-injector/issues/313>`_).
+  Thanks to `iskorini <https://github.com/iskorini>`_ for reporting the  issue.
+- Fix wiring for ``@classmethod``.
+
 4.1.5
 -----
 - Fix Travis CI windows and MacOS builds.

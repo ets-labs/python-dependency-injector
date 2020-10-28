@@ -5,7 +5,7 @@ from typing import Callable
 
 from dependency_injector.wiring import Provide, Provider
 
-from .container import Container
+from .container import Container, SubContainer
 from .service import Service
 
 
@@ -15,6 +15,14 @@ class TestClass:
         self.service = service
 
     def method(self, service: Service = Provide[Container.service]):
+        return service
+
+    @classmethod
+    def class_method(cls, service: Service = Provide[Container.service]):
+        return service
+
+    @staticmethod
+    def static_method(service: Service = Provide[Container.service]):
         return service
 
 
@@ -50,3 +58,10 @@ def test_subcontainer_provider(some_value: int = Provide[Container.sub.int_objec
 
 def test_config_invariant(some_value: int = Provide[Container.config.option[Container.config.switch]]):
     return some_value
+
+
+def test_provide_from_different_containers(
+        service: Service = Provide[Container.service],
+        some_value: int = Provide[SubContainer.int_object],
+):
+    return service, some_value

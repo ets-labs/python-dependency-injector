@@ -16,7 +16,7 @@ sys.path.append(_SAMPLES_DIR)
 
 from wiringsamples import module, package
 from wiringsamples.service import Service
-from wiringsamples.container import Container
+from wiringsamples.container import Container, SubContainer
 
 
 class WiringTest(unittest.TestCase):
@@ -59,6 +59,14 @@ class WiringTest(unittest.TestCase):
     def test_class_method_wiring(self):
         test_class_object = module.TestClass()
         service = test_class_object.method()
+        self.assertIsInstance(service, Service)
+
+    def test_class_classmethod_wiring(self):
+        service = module.TestClass.class_method()
+        self.assertIsInstance(service, Service)
+
+    def test_class_staticmethod_wiring(self):
+        service = module.TestClass.static_method()
         self.assertIsInstance(service, Service)
 
     def test_function_wiring(self):
@@ -153,3 +161,16 @@ class WiringTest(unittest.TestCase):
         from wiringsamples.package.subpackage import submodule
         self.container.unwire()
         self.assertIsInstance(submodule.test_function(), Provide)
+
+    def test_wire_multiple_containers(self):
+        sub_container = SubContainer()
+        sub_container.wire(
+            modules=[module],
+            packages=[package],
+        )
+        self.addCleanup(sub_container.unwire)
+
+        service, some_value = module.test_provide_from_different_containers()
+
+        self.assertIsInstance(service, Service)
+        self.assertEqual(some_value, 1)

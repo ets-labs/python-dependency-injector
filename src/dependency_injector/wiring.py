@@ -37,7 +37,10 @@ class ProvidersMap:
             original_providers=container.declarative_parent.providers,
         )
 
-    def resolve_provider(self, provider: providers.Provider) -> providers.Provider:
+    def resolve_provider(
+            self,
+            provider: providers.Provider,
+    ) -> Optional[providers.Provider]:
         if isinstance(provider, providers.Delegate):
             return self._resolve_delegate(provider)
         elif isinstance(provider, (
@@ -54,10 +57,16 @@ class ProvidersMap:
         else:
             return self._resolve_provider(provider)
 
-    def _resolve_delegate(self, original: providers.Delegate) -> providers.Provider:
+    def _resolve_delegate(
+            self,
+            original: providers.Delegate,
+    ) -> Optional[providers.Provider]:
         return self._resolve_provider(original.provides)
 
-    def _resolve_provided_instance(self, original: providers.Provider) -> providers.Provider:
+    def _resolve_provided_instance(
+            self,
+            original: providers.Provider,
+    ) -> Optional[providers.Provider]:
         modifiers = []
         while isinstance(original, (
                 providers.ProvidedInstance,
@@ -69,6 +78,8 @@ class ProvidersMap:
             original = original.provides
 
         new = self._resolve_provider(original)
+        if new is None:
+            return None
 
         for modifier in modifiers:
             if isinstance(modifier, providers.ProvidedInstance):
@@ -89,9 +100,11 @@ class ProvidersMap:
             self,
             original: providers.ConfigurationOption,
             as_: Any = None,
-    ) -> providers.Provider:
+    ) -> Optional[providers.Provider]:
         original_root = original.root
         new = self._resolve_provider(original_root)
+        if new is None:
+            return None
         new = cast(providers.Configuration, new)
 
         for segment in original.get_name_segments():
@@ -106,11 +119,14 @@ class ProvidersMap:
 
         return new
 
-    def _resolve_provider(self, original: providers.Provider) -> providers.Provider:
+    def _resolve_provider(
+            self,
+            original: providers.Provider,
+    ) -> Optional[providers.Provider]:
         try:
             return self._map[original]
         except KeyError:
-            raise Exception('Unable to resolve original provider')
+            pass
 
     @classmethod
     def _create_providers_map(
@@ -158,7 +174,7 @@ def wire(
             if inspect.isfunction(member):
                 _patch_fn(module, name, member, providers_map)
             elif inspect.isclass(member):
-                for method_name, method in inspect.getmembers(member, inspect.isfunction):
+                for method_name, method in inspect.getmembers(member, _is_method):
                     _patch_fn(member, method_name, method, providers_map)
 
 
@@ -206,7 +222,7 @@ def _unpatch_fn(
     setattr(module, name, _get_original_from_patched(fn))
 
 
-def _resolve_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> Dict[str, Any]:  # noqa
+def _resolve_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> Dict[str, Any]:
     signature = inspect.signature(fn)
 
     injections = {}
@@ -216,6 +232,9 @@ def _resolve_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> 
         marker = parameter.default
 
         provider = providers_map.resolve_provider(marker.provider)
+        if provider is None:
+            continue
+
         if isinstance(marker, Provide):
             injections[parameter_name] = provider
         elif isinstance(marker, Provider):
@@ -233,6 +252,10 @@ def _fetch_modules(package):
         module = loader.find_module(module_name).load_module(module_name)
         modules.append(module)
     return modules
+
+
+def _is_method(member):
+    return inspect.ismethod(member) or inspect.isfunction(member)
 
 
 def _patch_with_injections(fn, injections):
