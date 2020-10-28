@@ -16,7 +16,7 @@ sys.path.append(_SAMPLES_DIR)
 
 from wiringsamples import module, package
 from wiringsamples.service import Service
-from wiringsamples.container import Container
+from wiringsamples.container import Container, SubContainer
 
 
 class WiringTest(unittest.TestCase):
@@ -161,3 +161,16 @@ class WiringTest(unittest.TestCase):
         from wiringsamples.package.subpackage import submodule
         self.container.unwire()
         self.assertIsInstance(submodule.test_function(), Provide)
+
+    def test_wire_multiple_containers(self):
+        sub_container = SubContainer()
+        sub_container.wire(
+            modules=[module],
+            packages=[package],
+        )
+        self.addCleanup(sub_container.unwire)
+
+        service, some_value = module.test_provide_from_different_containers()
+
+        self.assertIsInstance(service, Service)
+        self.assertEqual(some_value, 1)
