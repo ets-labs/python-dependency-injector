@@ -101,7 +101,7 @@ jobs:
       - python -m pip install twine
       - python -m twine upload wheelhouse/*.whl
   - python: 3.8
-    if: branch = develop
+    if: branch = master
     install:
       - pip install -r requirements-doc.txt
       - pip install awscli
