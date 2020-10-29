@@ -226,7 +226,7 @@ Put next lines into the ``containers.py`` file:
 
        config = providers.Configuration()
 
-       configure_logging = providers.Callable(
+       logging = providers.Resource(
            logging.basicConfig,
            stream=sys.stdout,
            level=config.log.level,
@@ -270,7 +270,7 @@ Put next lines into the ``__main__.py`` file:
    if __name__ == '__main__':
        container = Container()
        container.config.from_yaml('config.yml')
-       container.configure_logging()
+       container.init_resources()
 
        main()
 
@@ -421,7 +421,7 @@ Edit ``containers.py``:
 
        config = providers.Configuration()
 
-       configure_logging = providers.Callable(
+       logging = providers.Resource(
            logging.basicConfig,
            stream=sys.stdout,
            level=config.log.level,
@@ -461,7 +461,7 @@ Edit ``__main__.py``:
    if __name__ == '__main__':
        container = Container()
        container.config.from_yaml('config.yml')
-       container.configure_logging()
+       container.init_resources()
        container.wire(modules=[sys.modules[__name__]])
 
        main()
@@ -562,7 +562,7 @@ Edit ``containers.py``:
 
        config = providers.Configuration()
 
-       configure_logging = providers.Callable(
+       logging = providers.Resource(
            logging.basicConfig,
            stream=sys.stdout,
            level=config.log.level,
@@ -667,7 +667,7 @@ Edit ``containers.py``:
 
        config = providers.Configuration()
 
-       configure_logging = providers.Callable(
+       logging = providers.Resource(
            logging.basicConfig,
            stream=sys.stdout,
            level=config.log.level,
@@ -766,7 +766,7 @@ Edit ``containers.py``:
 
        config = providers.Configuration()
 
-       configure_logging = providers.Callable(
+       logging = providers.Resource(
            logging.basicConfig,
            stream=sys.stdout,
            level=config.log.level,
