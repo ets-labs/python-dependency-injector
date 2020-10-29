@@ -13,7 +13,7 @@ class Core(containers.DeclarativeContainer):
 
     config = providers.Configuration()
 
-    configure_logging = providers.Callable(
+    logging = providers.Resource(
         logging.config.dictConfig,
         config=config.logging,
     )

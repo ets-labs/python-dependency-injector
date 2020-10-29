@@ -15,7 +15,7 @@ def main(dispatcher: Dispatcher = Provide[Container.dispatcher]) -> None:
 if __name__ == '__main__':
     container = Container()
     container.config.from_yaml('config.yml')
-    container.configure_logging()
+    container.init_resources()
     container.wire(modules=[sys.modules[__name__]])
 
     main()

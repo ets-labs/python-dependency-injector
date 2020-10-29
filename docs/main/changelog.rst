@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.1.8
+-----
+- Update asyncio daemon, single- and multi-container examples to use ``Resource`` provider.
+
 4.1.7
 -----
 - Add CI job to build and push documentation to S3 bucket.

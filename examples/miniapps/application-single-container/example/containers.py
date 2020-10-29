@@ -13,7 +13,7 @@ class Container(containers.DeclarativeContainer):
 
     config = providers.Configuration()
 
-    configure_logging = providers.Callable(
+    logging = providers.Resource(
         logging.config.fileConfig,
         fname='logging.ini',
     )

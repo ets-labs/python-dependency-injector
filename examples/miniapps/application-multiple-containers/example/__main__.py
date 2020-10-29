@@ -24,7 +24,7 @@ def main(
 if __name__ == '__main__':
     application = Application()
     application.config.from_yaml('config.yml')
-    application.core.configure_logging()
+    application.core.init_resources()
     application.wire(modules=[sys.modules[__name__]])
 
     main(*sys.argv[1:])
