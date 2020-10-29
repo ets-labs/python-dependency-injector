@@ -1,5 +1,5 @@
 sphinx
-alabaster>=0.7.12
+alabaster>=0.7,<0.8,!=0.7.5
 -e git://github.com/rmk135/sphinxcontrib-disqus.git#egg=sphinxcontrib-disqus
 
 -r requirements-ext.txt
