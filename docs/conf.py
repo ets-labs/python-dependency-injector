@@ -305,4 +305,5 @@ html_theme_options = {
     'logo': 'logo.svg',
     'description': 'Dependency injection framework for Python',
     'code_font_size': '10pt',
+    'analytics_id': 'UA-67012059-1',
 }
