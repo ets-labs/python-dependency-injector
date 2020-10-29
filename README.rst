@@ -38,11 +38,7 @@
 .. image:: https://api.travis-ci.com/ets-labs/python-dependency-injector.svg?branch=master
    :target: https://travis-ci.com/github/ets-labs/python-dependency-injector
    :alt: Build Status
-   
-.. image:: https://readthedocs.org/projects/python-dependency-injector/badge/?version=latest
-   :target: https://python-dependency-injector.ets-labs.org/
-   :alt: Docs Status
-   
+
 .. image:: https://coveralls.io/repos/github/ets-labs/python-dependency-injector/badge.svg?branch=master
    :target: https://coveralls.io/github/ets-labs/python-dependency-injector?branch=master
    :alt: Coverage Status
@@ -146,7 +142,7 @@ The package is available on the `PyPi`_::
 Documentation
 -------------
 
-The documentation is available on the `Read The Docs <https://python-dependency-injector.ets-labs.org/>`_
+The documentation is available `here <https://python-dependency-injector.ets-labs.org/>`_
 
 Examples
 --------

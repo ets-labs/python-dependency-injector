@@ -50,6 +50,10 @@ jobs:
     env: TOXENV=py38
     install: pip install tox
     script: tox
+  - python: 3.9
+    env: TOXENV=py39
+    install: pip install tox
+    script: tox
   - python: pypy
     env: TOXENV=pypy
     install: pip install tox
