@@ -66,6 +66,10 @@ You can use configuration, provided instance and sub-container providers as you 
    def foo(bar: Bar = Provide[Container.subcontainer.bar]):
        ...
 
+
+You can compound wiring and ``Resource`` provider to implement per-function execution scope.
+See :ref:`Resources, wiring and per-function execution scope <resource-provider-wiring-closing>` for details.
+
 Wiring with modules and packages
 --------------------------------
 

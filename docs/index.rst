@@ -73,7 +73,8 @@ Key features of the ``Dependency Injector``:
 - **Configuration**. Reads configuration from ``yaml`` & ``ini`` files, environment variables
   and dictionaries. See :ref:`configuration-provider`.
 - **Resources**. Helps with initialization and configuring of logging, event loop, thread
-  or process pool, etc. See :ref:`resource-provider`.
+  or process pool, etc. Can be used for per-function execution scope in tandem with wiring.
+  See :ref:`resource-provider`.
 - **Containers**. Provides declarative and dynamic containers. See :ref:`containers`.
 - **Wiring**. Injects dependencies into functions and methods. Helps integrating with
   other frameworks: Django, Flask, Aiohttp, etc. See :ref:`wiring`.

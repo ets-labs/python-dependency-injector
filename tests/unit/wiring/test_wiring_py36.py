@@ -174,3 +174,22 @@ class WiringTest(unittest.TestCase):
 
         self.assertIsInstance(service, Service)
         self.assertEqual(some_value, 1)
+
+    def test_closing_resource(self):
+        from wiringsamples import resourceclosing
+
+        container = resourceclosing.Container()
+        container.wire(modules=[resourceclosing])
+        self.addCleanup(container.unwire)
+
+        result_1 = resourceclosing.test_function()
+        self.assertIsInstance(result_1, resourceclosing.Service)
+        self.assertEqual(result_1.init_counter, 1)
+        self.assertEqual(result_1.shutdown_counter, 1)
+
+        result_2 = resourceclosing.test_function()
+        self.assertIsInstance(result_2, resourceclosing.Service)
+        self.assertEqual(result_2.init_counter, 2)
+        self.assertEqual(result_2.shutdown_counter, 2)
+
+        self.assertIsNot(result_1, result_2)

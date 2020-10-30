@@ -203,4 +203,36 @@ first argument.
            # shutdown
            ...
 
+
+.. _resource-provider-wiring-closing:
+
+Resources, wiring and per-function execution scope
+--------------------------------------------------
+
+You can compound ``Resource`` provider with :ref:`wiring` to implement per-function
+execution scope. For doing this you need to use additional ``Closing`` marker from
+``wiring`` module.
+
+.. literalinclude:: ../../examples/wiring/flask_resource_closing.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 23
+
+Framework initializes and injects the resource into the function. With the ``Closing`` marker
+framework calls resource ``shutdown()`` method when function execution is over.
+
+The example above produces next output:
+
+.. code-block:: bash
+
+   Init service
+   Shutdown service
+   127.0.0.1 - - [29/Oct/2020 22:39:40] "GET / HTTP/1.1" 200 -
+   Init service
+   Shutdown service
+   127.0.0.1 - - [29/Oct/2020 22:39:41] "GET / HTTP/1.1" 200 -
+   Init service
+   Shutdown service
+   127.0.0.1 - - [29/Oct/2020 22:39:41] "GET / HTTP/1.1" 200 -
+
 .. disqus::
