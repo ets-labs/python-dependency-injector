@@ -178,6 +178,8 @@ class WiringTest(unittest.TestCase):
     def test_closing_resource(self):
         from wiringsamples import resourceclosing
 
+        resourceclosing.Service.reset_counter()
+
         container = resourceclosing.Container()
         container.wire(modules=[resourceclosing])
         self.addCleanup(container.unwire)
@@ -193,3 +195,23 @@ class WiringTest(unittest.TestCase):
         self.assertEqual(result_2.shutdown_counter, 2)
 
         self.assertIsNot(result_1, result_2)
+
+    def test_closing_resource_context(self):
+        from wiringsamples import resourceclosing
+
+        resourceclosing.Service.reset_counter()
+        service = resourceclosing.Service()
+
+        container = resourceclosing.Container()
+        container.wire(modules=[resourceclosing])
+        self.addCleanup(container.unwire)
+
+        result_1 = resourceclosing.test_function(service=service)
+        self.assertIs(result_1, service)
+        self.assertEqual(result_1.init_counter, 0)
+        self.assertEqual(result_1.shutdown_counter, 0)
+
+        result_2 = resourceclosing.test_function(service=service)
+        self.assertIs(result_2, service)
+        self.assertEqual(result_2.init_counter, 0)
+        self.assertEqual(result_2.shutdown_counter, 0)
