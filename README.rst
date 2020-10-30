@@ -142,7 +142,7 @@ The package is available on the `PyPi`_::
 Documentation
 -------------
 
-The documentation is available `here <https://python-dependency-injector.ets-labs.org/>`_
+The documentation is available `here <https://python-dependency-injector.ets-labs.org/>`_.
 
 Examples
 --------
