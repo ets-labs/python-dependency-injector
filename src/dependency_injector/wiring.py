@@ -273,47 +273,56 @@ def _is_method(member):
 
 def _patch_with_injections(fn, injections, closing):
     if inspect.iscoroutinefunction(fn):
-        @functools.wraps(fn)
-        async def _patched(*args, **kwargs):
-            to_inject = kwargs.copy()
-            for injection, provider in injections.items():
-                if injection not in kwargs:
-                    to_inject[injection] = provider()
-
-            result = await fn(*args, **to_inject)
-
-            for injection, provider in closing.items():
-                if injection in kwargs:
-                    continue
-                if not isinstance(provider, providers.Resource):
-                    continue
-                provider.shutdown()
-
-            return result
+        _patched = _get_async_patched(fn, injections, closing)
     else:
-        @functools.wraps(fn)
-        def _patched(*args, **kwargs):
-            to_inject = kwargs.copy()
-            for injection, provider in injections.items():
-                if injection not in kwargs:
-                    to_inject[injection] = provider()
-
-            result = fn(*args, **to_inject)
-
-            for injection, provider in closing.items():
-                if injection in kwargs:
-                    continue
-                if not isinstance(provider, providers.Resource):
-                    continue
-                provider.shutdown()
-
-            return result
+        _patched = _get_patched(fn, injections, closing)
 
     _patched.__wired__ = True
     _patched.__original__ = fn
     _patched.__injections__ = injections
     _patched.__closing__ = closing
 
+    return _patched
+
+
+def _get_patched(fn, injections, closing):
+    def _patched(*args, **kwargs):
+        to_inject = kwargs.copy()
+        for injection, provider in injections.items():
+            if injection not in kwargs:
+                to_inject[injection] = provider()
+
+        result = fn(*args, **to_inject)
+
+        for injection, provider in closing.items():
+            if injection in kwargs:
+                continue
+            if not isinstance(provider, providers.Resource):
+                continue
+            provider.shutdown()
+
+        return result
+    return _patched
+
+
+def _get_async_patched(fn, injections, closing):
+    @functools.wraps(fn)
+    async def _patched(*args, **kwargs):
+        to_inject = kwargs.copy()
+        for injection, provider in injections.items():
+            if injection not in kwargs:
+                to_inject[injection] = provider()
+
+        result = await fn(*args, **to_inject)
+
+        for injection, provider in closing.items():
+            if injection in kwargs:
+                continue
+            if not isinstance(provider, providers.Resource):
+                continue
+            provider.shutdown()
+
+        return result
     return _patched
 
 
