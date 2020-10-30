@@ -7,6 +7,11 @@ class Service:
     shutdown_counter: int = 0
 
     @classmethod
+    def reset_counter(cls):
+        cls.init_counter = 0
+        cls.shutdown_counter = 0
+
+    @classmethod
     def init(cls):
         cls.init_counter += 1
 

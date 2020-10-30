@@ -5,7 +5,7 @@ import inspect
 import pkgutil
 import sys
 from types import ModuleType
-from typing import Optional, Iterable, Callable, Any, Tuple, List, Dict, Generic, TypeVar, cast
+from typing import Optional, Iterable, Callable, Any, Tuple, Dict, Generic, TypeVar, cast
 
 if sys.version_info < (3, 7):
     from typing import GenericMeta
@@ -226,11 +226,11 @@ def _unpatch_fn(
 def _resolve_injections(
         fn: Callable[..., Any],
         providers_map: ProvidersMap,
-) -> Tuple[Dict[str, Any], List[Any]]:
+) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     signature = inspect.signature(fn)
 
     injections = {}
-    closing = []
+    closing = {}
     for parameter_name, parameter in signature.parameters.items():
         if not isinstance(parameter.default, _Marker):
             continue
@@ -246,7 +246,7 @@ def _resolve_injections(
             continue
 
         if closing_modifier:
-            closing.append(provider)
+            closing[parameter_name] = provider
 
         if isinstance(marker, Provide):
             injections[parameter_name] = provider
@@ -273,43 +273,57 @@ def _is_method(member):
 
 def _patch_with_injections(fn, injections, closing):
     if inspect.iscoroutinefunction(fn):
-        @functools.wraps(fn)
-        async def _patched(*args, **kwargs):
-            to_inject = {}
-            for injection, provider in injections.items():
-                to_inject[injection] = provider()
-
-            to_inject.update(kwargs)
-
-            result = await fn(*args, **to_inject)
-
-            for provider in closing:
-                if isinstance(provider, providers.Resource):
-                    provider.shutdown()
-
-            return result
+        _patched = _get_async_patched(fn, injections, closing)
     else:
-        @functools.wraps(fn)
-        def _patched(*args, **kwargs):
-            to_inject = {}
-            for injection, provider in injections.items():
-                to_inject[injection] = provider()
-
-            to_inject.update(kwargs)
-
-            result = fn(*args, **to_inject)
-
-            for provider in closing:
-                if isinstance(provider, providers.Resource):
-                    provider.shutdown()
-
-            return result
+        _patched = _get_patched(fn, injections, closing)
 
     _patched.__wired__ = True
     _patched.__original__ = fn
     _patched.__injections__ = injections
-    _patched.__closing__ = []
+    _patched.__closing__ = closing
 
+    return _patched
+
+
+def _get_patched(fn, injections, closing):
+    @functools.wraps(fn)
+    def _patched(*args, **kwargs):
+        to_inject = kwargs.copy()
+        for injection, provider in injections.items():
+            if injection not in kwargs:
+                to_inject[injection] = provider()
+
+        result = fn(*args, **to_inject)
+
+        for injection, provider in closing.items():
+            if injection in kwargs:
+                continue
+            if not isinstance(provider, providers.Resource):
+                continue
+            provider.shutdown()
+
+        return result
+    return _patched
+
+
+def _get_async_patched(fn, injections, closing):
+    @functools.wraps(fn)
+    async def _patched(*args, **kwargs):
+        to_inject = kwargs.copy()
+        for injection, provider in injections.items():
+            if injection not in kwargs:
+                to_inject[injection] = provider()
+
+        result = await fn(*args, **to_inject)
+
+        for injection, provider in closing.items():
+            if injection in kwargs:
+                continue
+            if not isinstance(provider, providers.Resource):
+                continue
+            provider.shutdown()
+
+        return result
     return _patched
 
 
