@@ -286,6 +286,7 @@ def _patch_with_injections(fn, injections, closing):
 
 
 def _get_patched(fn, injections, closing):
+    @functools.wraps(fn)
     def _patched(*args, **kwargs):
         to_inject = kwargs.copy()
         for injection, provider in injections.items():
