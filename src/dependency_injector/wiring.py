@@ -223,7 +223,10 @@ def _unpatch_fn(
     setattr(module, name, _get_original_from_patched(fn))
 
 
-def _resolve_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> Tuple[Dict[str, Any], List[Any]]:
+def _resolve_injections(
+        fn: Callable[..., Any],
+        providers_map: ProvidersMap,
+) -> Tuple[Dict[str, Any], List[Any]]:
     signature = inspect.signature(fn)
 
     injections = {}
