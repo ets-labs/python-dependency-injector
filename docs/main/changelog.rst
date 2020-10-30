@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.3.0
+-----
+- Implement per-function execution scope for ``Resource`` provider in tandem
+  with ``wiring.Closing``.
+
 4.2.0
 -----
 - Add support of Python 3.9.
