@@ -65,7 +65,7 @@ Key features of the ``Dependency Injector``:
 - **Containers**. Provides declarative and dynamic containers.
   See `Containers <https://python-dependency-injector.ets-labs.org/containers/index.html>`_.
 - **Resources**. Helps with initialization and configuring of logging, event loop, thread
-  or process pool, etc.
+  or process pool, etc. Can be used for per-function execution scope in tandem with wiring.
   See `Resource provider <https://python-dependency-injector.ets-labs.org/providers/resource.html>`_.
 - **Wiring**. Injects dependencies into functions and methods. Helps integrating with
   other frameworks: Django, Flask, Aiohttp, etc.
