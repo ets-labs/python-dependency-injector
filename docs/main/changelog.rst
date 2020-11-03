@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Develop
--------
+4.3.3
+-----
 - Fix a bug in ``wiring`` with improper patching of ``@classmethod`` and ``@staticmethod`` decorated methods
   (See issue `#318 <https://github.com/ets-labs/python-dependency-injector/issues/318>`_).
 
