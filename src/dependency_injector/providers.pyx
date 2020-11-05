@@ -1386,7 +1386,7 @@ cdef class Configuration(Object):
         :rtype: :py:class:`OverridingContext`
         """
         keys = selector.split('.')
-        original_value = current_value = self.__call__()
+        original_value = current_value = deepcopy(self.__call__())
 
         while len(keys) > 0:
             key = keys.pop(0)

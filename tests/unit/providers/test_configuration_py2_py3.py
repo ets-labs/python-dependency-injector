@@ -110,6 +110,21 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual(abc(), 1)
         self.assertEqual(abd(), 2)
 
+    def test_configuration_option_override_and_reset_override(self):
+        # Bug: https://github.com/ets-labs/python-dependency-injector/issues/319
+        self.config.from_dict({'a': {'b': {'c': 1}}})
+
+        self.assertEqual(self.config.a.b.c(), 1)
+
+        with self.config.set('a.b.c', 'xxx'):
+            self.assertEqual(self.config.a.b.c(), 'xxx')
+        self.assertEqual(self.config.a.b.c(), 1)
+
+        with self.config.a.b.c.override('yyy'):
+            self.assertEqual(self.config.a.b.c(), 'yyy')
+
+        self.assertEqual(self.config.a.b.c(), 1)
+
     def test_providers_with_already_overridden_value(self):
         self.config.override({'a': {'b': {'c': 1, 'd': 2}}})
 
