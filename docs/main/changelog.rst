@@ -7,12 +7,16 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.3.6
+-----
+- Fix changelog typo.
+
 4.3.5
 -----
 - Fix a bug in ``wiring`` module that caused multiple imports of the modules
   when ``.wire(packages=[...])`` is used
   (See issue `#320 <https://github.com/ets-labs/python-dependency-injector/issues/320>`_). Thanks
-  to `Federico iskorini <iskorini>`_ for reporting the issue.
+  to `Federico iskorini <https://github.com/iskorini>`_ for reporting the issue.
 
 4.3.4
 -----
