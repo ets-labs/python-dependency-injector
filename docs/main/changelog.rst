@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.3.4
+-----
+- Fix a bug in ``Configuration`` provider that resulted in not working ``.reset_override()``
+  (See issue `#319 <https://github.com/ets-labs/python-dependency-injector/issues/319>`_). Thanks
+  to `Jun lust4life <https://github.com/lust4life>`_ for reporting the issue and suggesting a fix.
+
 4.3.3
 -----
 - Fix a bug in ``wiring`` with improper patching of ``@classmethod`` and ``@staticmethod`` decorated methods
