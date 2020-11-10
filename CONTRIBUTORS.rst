@@ -13,3 +13,4 @@ Dependency Injector Contributors
 + Bruno P. Kinoshita (kinow)
 + RobinsonMa (RobinsonMa)
 + Rüdiger Busche (JarnoRFB)
++ Dmitry Rassoshenko (rda-dev)
