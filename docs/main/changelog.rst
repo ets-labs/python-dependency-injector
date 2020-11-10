@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.3.7
+-----
+- Fix race in ``ThreadSafeSingleton``. Many thanks to
+  `Dmitry Rassoshenko aka rda-dev <https://github.com/rda-dev>`_ for the pull request
+  (See PR `#322 <https://github.com/ets-labs/python-dependency-injector/pull/322>`_).
+
 4.3.6
 -----
 - Fix changelog typo.
