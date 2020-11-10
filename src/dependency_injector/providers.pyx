@@ -2178,15 +2178,19 @@ cdef class ThreadSafeSingleton(BaseSingleton):
 
         :rtype: None
         """
-        self.__storage = None
+        with self.__storage_lock:
+            self.__storage = None
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
-        with self.__storage_lock:
-            if self.__storage is None:
-                self.__storage = __factory_call(self.__instantiator,
-                                                args, kwargs)
-        return self.__storage
+        storage = self.__storage
+        if storage is None:
+            with self.__storage_lock:
+                if self.__storage is None:
+                    self.__storage = __factory_call(self.__instantiator,
+                                                    args, kwargs)
+                storage = self.__storage
+        return storage
 
 
 cdef class DelegatedThreadSafeSingleton(ThreadSafeSingleton):
