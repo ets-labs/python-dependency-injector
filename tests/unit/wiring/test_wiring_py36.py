@@ -1,7 +1,7 @@
 from decimal import Decimal
 import unittest
 
-from dependency_injector.wiring import wire, Provide
+from dependency_injector.wiring import wire, Provide, Closing
 
 # Runtime import to avoid syntax errors in samples on Python < 3.5
 import os
@@ -225,3 +225,41 @@ class WiringTest(unittest.TestCase):
         self.assertIs(result_2, service)
         self.assertEqual(result_2.init_counter, 0)
         self.assertEqual(result_2.shutdown_counter, 0)
+
+
+class WiringAndFastAPITest(unittest.TestCase):
+
+    container: Container
+
+    def test_bypass_marker_injection(self):
+        container = Container()
+        container.wire(modules=[module])
+        self.addCleanup(container.unwire)
+
+        service = module.test_function(service=Provide[Container.service])
+        self.assertIsInstance(service, Service)
+
+    def test_closing_resource_bypass_marker_injection(self):
+        from wiringsamples import resourceclosing
+
+        resourceclosing.Service.reset_counter()
+
+        container = resourceclosing.Container()
+        container.wire(modules=[resourceclosing])
+        self.addCleanup(container.unwire)
+
+        result_1 = resourceclosing.test_function(
+            service=Closing[Provide[resourceclosing.Container.service]],
+        )
+        self.assertIsInstance(result_1, resourceclosing.Service)
+        self.assertEqual(result_1.init_counter, 1)
+        self.assertEqual(result_1.shutdown_counter, 1)
+
+        result_2 = resourceclosing.test_function(
+            service=Closing[Provide[resourceclosing.Container.service]],
+        )
+        self.assertIsInstance(result_2, resourceclosing.Service)
+        self.assertEqual(result_2.init_counter, 2)
+        self.assertEqual(result_2.shutdown_counter, 2)
+
+        self.assertIsNot(result_1, result_2)

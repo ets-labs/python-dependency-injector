@@ -316,13 +316,15 @@ def _get_patched(fn, injections, closing):
     def _patched(*args, **kwargs):
         to_inject = kwargs.copy()
         for injection, provider in injections.items():
-            if injection not in kwargs:
+            if injection not in kwargs \
+                    or _is_fastapi_default_arg_injection(injection, kwargs):
                 to_inject[injection] = provider()
 
         result = fn(*args, **to_inject)
 
         for injection, provider in closing.items():
-            if injection in kwargs:
+            if injection in kwargs \
+                    and not _is_fastapi_default_arg_injection(injection, kwargs):
                 continue
             if not isinstance(provider, providers.Resource):
                 continue
@@ -337,13 +339,15 @@ def _get_async_patched(fn, injections, closing):
     async def _patched(*args, **kwargs):
         to_inject = kwargs.copy()
         for injection, provider in injections.items():
-            if injection not in kwargs:
+            if injection not in kwargs \
+                    or _is_fastapi_default_arg_injection(injection, kwargs):
                 to_inject[injection] = provider()
 
         result = await fn(*args, **to_inject)
 
         for injection, provider in closing.items():
-            if injection in kwargs:
+            if injection in kwargs \
+                    and not _is_fastapi_default_arg_injection(injection, kwargs):
                 continue
             if not isinstance(provider, providers.Resource):
                 continue
@@ -351,6 +355,11 @@ def _get_async_patched(fn, injections, closing):
 
         return result
     return _patched
+
+
+def _is_fastapi_default_arg_injection(injection, kwargs):
+    """Check if injection is FastAPI injection of the default argument."""
+    return injection in kwargs and isinstance(kwargs[injection], _Marker)
 
 
 def _is_patched(fn):
