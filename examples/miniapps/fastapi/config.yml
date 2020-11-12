@@ -1,0 +1,5 @@
+giphy:
+  request_timeout: 10
+default:
+  query: "Dependency Injector"
+  limit: 10
