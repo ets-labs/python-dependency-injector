@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.3.8
+-----
+- Add a hotfix to support wiring for ``FastAPI`` endpoints.
+
 4.3.7
 -----
 - Fix race in ``ThreadSafeSingleton``. Many thanks to
