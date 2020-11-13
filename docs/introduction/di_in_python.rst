@@ -284,6 +284,7 @@ Choose one of the following as a next step:
     - :ref:`flask-example`
     - :ref:`aiohttp-example`
     - :ref:`sanic-example`
+    - :ref:`fastapi-example`
 - Pass the tutorials:
     - :ref:`flask-tutorial`
     - :ref:`aiohttp-tutorial`
