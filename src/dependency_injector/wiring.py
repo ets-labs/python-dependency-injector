@@ -207,7 +207,8 @@ def unwire(
 def inject(fn: F) -> F:
     """Decorate callable with injecting decorator."""
     reference_injections, reference_closing = _fetch_reference_injections(fn)
-    return _get_patched(fn, reference_injections, reference_closing)
+    patched = _get_patched(fn, reference_injections, reference_closing)
+    return cast(F, patched)
 
 
 def _patch_fn(
