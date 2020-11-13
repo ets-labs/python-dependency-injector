@@ -28,6 +28,7 @@ __all__ = (
 )
 
 T = TypeVar('T')
+F = TypeVar('F', bound=Callable[..., Any])
 Container = Any
 
 
@@ -203,7 +204,7 @@ def unwire(
                     _unpatch(member, method_name, method)
 
 
-def inject(fn: Callable[..., Any]) -> Callable[..., Any]:
+def inject(fn: F) -> F:
     """Decorate callable with injecting decorator."""
     reference_injections, reference_closing = _fetch_reference_injections(fn)
     return _get_patched(fn, reference_injections, reference_closing)
