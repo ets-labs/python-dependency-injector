@@ -68,7 +68,7 @@ Key features of the ``Dependency Injector``:
   or process pool, etc. Can be used for per-function execution scope in tandem with wiring.
   See `Resource provider <https://python-dependency-injector.ets-labs.org/providers/resource.html>`_.
 - **Wiring**. Injects dependencies into functions and methods. Helps integrating with
-  other frameworks: Django, Flask, Aiohttp, etc.
+  other frameworks: Django, Flask, Aiohttp, Sanic, FastAPI, etc.
   See `Wiring <https://python-dependency-injector.ets-labs.org/wiring.html>`_.
 - **Typing**. Provides typing stubs, ``mypy``-friendly.
   See `Typing and mypy <https://python-dependency-injector.ets-labs.org/providers/typing_mypy.html>`_.

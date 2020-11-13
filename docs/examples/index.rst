@@ -17,5 +17,6 @@ Explore the examples to see the ``Dependency Injector`` in action.
     flask
     aiohttp
     sanic
+    fastapi
 
 .. disqus::
