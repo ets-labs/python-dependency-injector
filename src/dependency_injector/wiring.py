@@ -21,6 +21,7 @@ from . import providers
 __all__ = (
     'wire',
     'unwire',
+    'inject',
     'Provide',
     'Provider',
     'Closing',
@@ -200,6 +201,12 @@ def unwire(
             elif inspect.isclass(member):
                 for method_name, method in inspect.getmembers(member, inspect.isfunction):
                     _unpatch(member, method_name, method)
+
+
+def inject(fn: Callable[..., Any]) -> Callable[..., Any]:
+    """Decorate callable with injecting decorator."""
+    reference_injections, reference_closing = _fetch_reference_injections(fn)
+    return _get_patched(fn, reference_injections, reference_closing)
 
 
 def _patch_fn(
