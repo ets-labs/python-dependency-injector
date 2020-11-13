@@ -201,5 +201,6 @@ Take a look at other application examples:
 - :ref:`flask-example`
 - :ref:`aiohttp-example`
 - :ref:`sanic-example`
+- :ref:`fastapi-example`
 
 .. disqus::
