@@ -216,7 +216,7 @@ execution scope. For doing this you need to use additional ``Closing`` marker fr
 .. literalinclude:: ../../examples/wiring/flask_resource_closing.py
    :language: python
    :lines: 3-
-   :emphasize-lines: 23
+   :emphasize-lines: 24
 
 Framework initializes and injects the resource into the function. With the ``Closing`` marker
 framework calls resource ``shutdown()`` method when function execution is over.

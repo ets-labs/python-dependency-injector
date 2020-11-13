@@ -3,7 +3,7 @@
 import sys
 
 from dependency_injector import containers, providers
-from dependency_injector.wiring import Provide
+from dependency_injector.wiring import inject, Provide
 from flask import Flask, json
 
 
@@ -16,6 +16,7 @@ class Container(containers.DeclarativeContainer):
     service = providers.Factory(Service)
 
 
+@inject
 def index_view(service: Service = Provide[Container.service]) -> str:
     return json.dumps({'service_id': id(service)})
 
