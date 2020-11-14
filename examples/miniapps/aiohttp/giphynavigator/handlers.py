@@ -1,12 +1,13 @@
 """Handlers module."""
 
 from aiohttp import web
-from dependency_injector.wiring import Provide
+from dependency_injector.wiring import inject, Provide
 
 from .services import SearchService
 from .containers import Container
 
 
+@inject
 async def index(
         request: web.Request,
         search_service: SearchService = Provide[Container.search_service],
