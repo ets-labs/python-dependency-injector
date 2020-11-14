@@ -108,6 +108,6 @@ The output should be something like:
    web/apps.py                         7      0   100%
    web/tests.py                       28      0   100%
    web/urls.py                         3      0   100%
-   web/views.py                       11      0   100%
+   web/views.py                       12      0   100%
    ---------------------------------------------------
-   TOTAL                             120     10    92%
+   TOTAL                             121     10    92%
