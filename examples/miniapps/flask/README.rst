@@ -95,6 +95,6 @@ The output should be something like:
    githubnavigator/containers.py        7      0   100%
    githubnavigator/services.py         14      0   100%
    githubnavigator/tests.py            34      0   100%
-   githubnavigator/views.py             9      0   100%
+   githubnavigator/views.py            10      0   100%
    ----------------------------------------------------
-   TOTAL                               79      0   100%
+   TOTAL                               80      0   100%

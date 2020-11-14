@@ -1,12 +1,13 @@
 """Views module."""
 
 from flask import request, render_template
-from dependency_injector.wiring import Provide
+from dependency_injector.wiring import inject, Provide
 
 from .services import SearchService
 from .containers import Container
 
 
+@inject
 def index(
         search_service: SearchService = Provide[Container.search_service],
         default_query: str = Provide[Container.config.default.query],
