@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Github Navigator{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Github Navigator</h1>
+
+    <form>
+        <div class="form-group form-row">
+            <div class="col-10">
+                <label for="search_query" class="col-form-label">
+                    Search for:
+                </label>
+                <input class="form-control" type="text" id="search_query"
+                       placeholder="Type something to search on the GitHub"
+                       name="query"
+                       value="{{ query if query }}">
+            </div>
+            <div class="col">
+                <label for="search_limit" class="col-form-label">
+                    Limit:
+                </label>
+                <select class="form-control" id="search_limit" name="limit">
+                    {% for value in [5, 10, 20] %}
+                    <option {% if value == limit %}selected{% endif %}>
+                        {{ value }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <p><small>Results found: {{ repositories|length }}</small></p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Repository</th>
+                <th class="text-nowrap">Repository owner</th>
+                <th class="text-nowrap">Last commit</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for repository in repositories %} {{n}}
+            <tr>
+              <th>{{ loop.index }}</th>
+              <td><a href="{{ repository.url }}">
+                  {{ repository.name }}</a>
+              </td>
+              <td><a href="{{ repository.owner.url }}">
+                  <img src="{{ repository.owner.avatar_url }}"
+                       alt="avatar" height="24" width="24"/></a>
+                  <a href="{{ repository.owner.url }}">
+                      {{ repository.owner.login }}</a>
+              </td>
+              <td><a href="{{ repository.latest_commit.url }}">
+                  {{ repository.latest_commit.sha }}</a>
+                  {{ repository.latest_commit.message }}
+                  {{ repository.latest_commit.author_name }}
+              </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
