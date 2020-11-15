@@ -1,12 +1,16 @@
-"""Views module."""
+"""Example blueprint."""
 
-from flask import request, render_template
+from flask import Blueprint, request, render_template
 from dependency_injector.wiring import inject, Provide
 
-from .services import SearchService
-from .containers import Container
+from githubnavigator.services import SearchService
+from githubnavigator.containers import Container
 
 
+blueprint = Blueprint('example', __name__, template_folder='templates/')
+
+
+@blueprint.route('/')
 @inject
 def index(
         search_service: SearchService = Provide[Container.search_service],

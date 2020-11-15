@@ -2,7 +2,7 @@
 
 import sys
 
-from dependency_injector.wiring import Provide
+from dependency_injector.wiring import inject, Provide
 
 from .user.repositories import UserRepository
 from .photo.repositories import PhotoRepository
@@ -10,6 +10,7 @@ from .analytics.services import AggregationService
 from .containers import ApplicationContainer
 
 
+@inject
 def main(
         user_repository: UserRepository = Provide[
             ApplicationContainer.user_package.user_repository

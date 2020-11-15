@@ -1,7 +1,7 @@
-Flask + Dependency Injector Example
-===================================
+Flask Blueprints + Dependency Injector Example
+==============================================
 
-This is a `Flask <https://flask.palletsprojects.com/>`_ +
+This is a `Flask <https://flask.palletsprojects.com/>`_ Blueprints +
 `Dependency Injector <https://python-dependency-injector.ets-labs.org/>`_ example application.
 
 The example application helps to search for repositories on the Github.
@@ -90,11 +90,11 @@ The output should be something like:
    ---------- coverage: platform darwin, python 3.8.3-final-0 -----------
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
-   githubnavigator/__init__.py          0      0   100%
-   githubnavigator/application.py      15      0   100%
-   githubnavigator/containers.py        7      0   100%
-   githubnavigator/services.py         14      0   100%
-   githubnavigator/tests.py            34      0   100%
-   githubnavigator/views.py            10      0   100%
-   ----------------------------------------------------
-   TOTAL                               80      0   100%
+   githubnavigator/__init__.py                 0      0   100%
+   githubnavigator/application.py             15      0   100%
+   githubnavigator/blueprints/example.py      12      0   100%
+   githubnavigator/containers.py               7      0   100%
+   githubnavigator/services.py                14      0   100%
+   githubnavigator/tests.py                   34      0   100%
+   -----------------------------------------------------------
+   TOTAL                                      82      0   100%

@@ -2,7 +2,7 @@ import sys
 from unittest import mock
 
 from dependency_injector import containers, providers
-from dependency_injector.wiring import Provide
+from dependency_injector.wiring import inject, Provide
 
 from after import ApiClient, Service
 
@@ -23,6 +23,7 @@ class Container(containers.DeclarativeContainer):
     )
 
 
+@inject
 def main(service: Service = Provide[Container.service]):
     ...
 

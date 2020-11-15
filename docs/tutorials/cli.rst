@@ -575,18 +575,19 @@ Let's inject the ``lister`` into the  ``main()`` function.
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 3-7,11,18
+   :emphasize-lines: 3-7,11-12,19
 
    """Main module."""
 
    import sys
 
-   from dependency_injector.wiring import Provide
+   from dependency_injector.wiring import inject, Provide
 
    from .listers import MovieLister
    from .containers import Container
 
 
+   @inject
    def main(lister: MovieLister = Provide[Container.lister]) -> None:
        ...
 
@@ -606,18 +607,19 @@ Francis Lawrence and movies released in 2016.
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 12-18
+   :emphasize-lines: 13-19
 
    """Main module."""
 
    import sys
 
-   from dependency_injector.wiring import Provide
+   from dependency_injector.wiring import inject, Provide
 
    from .listers import MovieLister
    from .containers import Container
 
 
+   @inject
    def main(lister: MovieLister = Provide[Container.lister]) -> None:
        print('Francis Lawrence movies:')
        for movie in lister.movies_directed_by('Francis Lawrence'):
@@ -861,18 +863,19 @@ Now we need to read the value of the ``config.finder.type`` option from the envi
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 24
+   :emphasize-lines: 25
 
    """Main module."""
 
    import sys
 
-   from dependency_injector.wiring import Provide
+   from dependency_injector.wiring import inject, Provide
 
    from .listers import MovieLister
    from .containers import Container
 
 
+   @inject
    def main(lister: MovieLister = Provide[Container.lister]) -> None:
        print('Francis Lawrence movies:')
        for movie in lister.movies_directed_by('Francis Lawrence'):
@@ -1023,14 +1026,14 @@ You should see:
    Name                   Stmts   Miss  Cover
    ------------------------------------------
    movies/__init__.py         0      0   100%
-   movies/__main__.py        17     17     0%
+   movies/__main__.py        18     18     0%
    movies/containers.py       9      0   100%
    movies/entities.py         7      1    86%
    movies/finders.py         26     13    50%
    movies/listers.py          8      0   100%
    movies/tests.py           24      0   100%
    ------------------------------------------
-   TOTAL                     91     31    66%
+   TOTAL                     92     32    65%
 
 .. note::
 

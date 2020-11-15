@@ -707,17 +707,19 @@ Let's inject ``SearchService`` into the ``index`` view. We will use :ref:`Wiring
 Edit ``views.py``:
 
 .. code-block:: python
-   :emphasize-lines: 4,6-7,10,14
+   :emphasize-lines: 4,6-7,10-11,15
+   :emphasize-lines: 4,6-7,10-11,15
 
    """Views module."""
 
    from flask import request, render_template
-   from dependency_injector.wiring import Provide
+   from dependency_injector.wiring import inject, Provide
 
    from .services import SearchService
    from .containers import Container
 
 
+   @inject
    def index(search_service: SearchService = Provide[Container.search_service]):
        query = request.args.get('query', 'Dependency Injector')
        limit = request.args.get('limit', 10, int)
@@ -783,17 +785,18 @@ Let's make some refactoring. We will move these values to the config.
 Edit ``views.py``:
 
 .. code-block:: python
-   :emphasize-lines: 10-16
+   :emphasize-lines: 11-17
 
    """Views module."""
 
    from flask import request, render_template
-   from dependency_injector.wiring import Provide
+   from dependency_injector.wiring import inject, Provide
 
    from .services import SearchService
    from .containers import Container
 
 
+   @inject
    def index(
            search_service: SearchService = Provide[Container.search_service],
            default_query: str = Provide[Container.config.default.query],
@@ -972,9 +975,9 @@ You should see:
    githubnavigator/containers.py        7      0   100%
    githubnavigator/services.py         14      0   100%
    githubnavigator/tests.py            34      0   100%
-   githubnavigator/views.py             9      0   100%
+   githubnavigator/views.py            10      0   100%
    ----------------------------------------------------
-   TOTAL                               79      0   100%
+   TOTAL                               80      0   100%
 
 .. note::
 

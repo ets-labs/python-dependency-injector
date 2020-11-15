@@ -2,12 +2,13 @@
 
 import sys
 
-from dependency_injector.wiring import Provide
+from dependency_injector.wiring import inject, Provide
 
 from .services import UserService, AuthService, PhotoService
 from .containers import Container
 
 
+@inject
 def main(
         email: str,
         password: str,

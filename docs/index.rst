@@ -85,7 +85,7 @@ Key features of the ``Dependency Injector``:
 .. code-block:: python
 
    from dependency_injector import containers, providers
-   from dependency_injector.wiring import Provide
+   from dependency_injector.wiring import inject, Provide
 
 
    class Container(containers.DeclarativeContainer):
@@ -104,6 +104,7 @@ Key features of the ``Dependency Injector``:
        )
 
 
+   @inject
    def main(service: Service = Provide[Container.service]):
        ...
 

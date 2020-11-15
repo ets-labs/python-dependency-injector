@@ -162,7 +162,7 @@ the dependency.
 .. code-block:: python
 
    from dependency_injector import containers, providers
-   from dependency_injector.wiring import Provide
+   from dependency_injector.wiring import inject, Provide
 
 
    class Container(containers.DeclarativeContainer):
@@ -181,6 +181,7 @@ the dependency.
        )
 
 
+   @inject
    def main(service: Service = Provide[Container.service]):
        ...
 
@@ -282,6 +283,7 @@ Choose one of the following as a next step:
     - :ref:`decoupled-packages`
     - :ref:`django-example`
     - :ref:`flask-example`
+    - :ref:`flask-blueprints-example`
     - :ref:`aiohttp-example`
     - :ref:`sanic-example`
     - :ref:`fastapi-example`

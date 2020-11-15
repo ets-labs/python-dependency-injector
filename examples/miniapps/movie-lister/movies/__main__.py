@@ -2,12 +2,13 @@
 
 import sys
 
-from dependency_injector.wiring import Provide
+from dependency_injector.wiring import inject, Provide
 
 from .listers import MovieLister
 from .containers import Container
 
 
+@inject
 def main(lister: MovieLister = Provide[Container.lister]) -> None:
     print('Francis Lawrence movies:')
     for movie in lister.movies_directed_by('Francis Lawrence'):
