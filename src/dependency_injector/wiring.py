@@ -6,7 +6,7 @@ import importlib
 import pkgutil
 import sys
 from types import ModuleType
-from typing import Optional, Iterable, Callable, Any, Tuple, Dict, Generic, TypeVar, Type, cast
+from typing import Optional, Iterable, Iterator, Callable, Any, Tuple, Dict, Generic, TypeVar, Type, cast
 
 if sys.version_info < (3, 7):
     from typing import GenericMeta
@@ -30,6 +30,24 @@ __all__ = (
 T = TypeVar('T')
 F = TypeVar('F', bound=Callable[..., Any])
 Container = Any
+
+
+class Registry:
+
+    def __init__(self):
+        self._storage = set()
+
+    def add(self, patched: Callable[..., Any]) -> None:
+        self._storage.add(patched)
+
+    def get_from_module(self, module: ModuleType) -> Iterator[Callable[..., Any]]:
+        for patched in self._storage:
+            if patched.__module__ != module.__name__:
+                continue
+            yield patched
+
+
+_patched_registry = Registry()
 
 
 class ProvidersMap:
@@ -181,6 +199,9 @@ def wire(
                 for method_name, method in inspect.getmembers(member, _is_method):
                     _patch_method(member, method_name, method, providers_map)
 
+        for patched in _patched_registry.get_from_module(module):
+            _bind_injections(patched, providers_map)
+
 
 def unwire(
         *,
@@ -203,11 +224,15 @@ def unwire(
                 for method_name, method in inspect.getmembers(member, inspect.isfunction):
                     _unpatch(member, method_name, method)
 
+        for patched in _patched_registry.get_from_module(module):
+            _unbind_injections(patched)
+
 
 def inject(fn: F) -> F:
     """Decorate callable with injecting decorator."""
     reference_injections, reference_closing = _fetch_reference_injections(fn)
     patched = _get_patched(fn, reference_injections, reference_closing)
+    _patched_registry.add(patched)
     return cast(F, patched)
 
 
@@ -222,6 +247,7 @@ def _patch_fn(
         if not reference_injections:
             return
         fn = _get_patched(fn, reference_injections, reference_closing)
+        _patched_registry.add(fn)
 
     _bind_injections(fn, providers_map)
 
@@ -247,6 +273,7 @@ def _patch_method(
         if not reference_injections:
             return
         fn = _get_patched(fn, reference_injections, reference_closing)
+        _patched_registry.add(fn)
 
     _bind_injections(fn, providers_map)
 

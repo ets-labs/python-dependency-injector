@@ -3,7 +3,7 @@
 from decimal import Decimal
 from typing import Callable
 
-from dependency_injector.wiring import Provide, Provider
+from dependency_injector.wiring import inject, Provide, Provider
 
 from .container import Container, SubContainer
 from .service import Service
@@ -65,3 +65,17 @@ def test_provide_from_different_containers(
         some_value: int = Provide[SubContainer.int_object],
 ):
     return service, some_value
+
+
+class ClassDecorator:
+    def __init__(self, fn):
+        self._fn = fn
+
+    def __call__(self, *args, **kwargs):
+        return self._fn(*args, **kwargs)
+
+
+@ClassDecorator
+@inject
+def test_class_decorator(service: Service = Provide[Container.service]):
+    return service
