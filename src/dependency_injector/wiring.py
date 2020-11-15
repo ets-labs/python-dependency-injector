@@ -6,7 +6,19 @@ import importlib
 import pkgutil
 import sys
 from types import ModuleType
-from typing import Optional, Iterable, Iterator, Callable, Any, Tuple, Dict, Generic, TypeVar, Type, cast
+from typing import (
+    Optional,
+    Iterable,
+    Iterator,
+    Callable,
+    Any,
+    Tuple,
+    Dict,
+    Generic,
+    TypeVar,
+    Type,
+    cast,
+)
 
 if sys.version_info < (3, 7):
     from typing import GenericMeta
@@ -172,7 +184,7 @@ class ProvidersMap:
         return providers_map
 
 
-def wire(
+def wire(  # noqa: C901
         container: Container,
         *,
         modules: Optional[Iterable[ModuleType]] = None,
