@@ -283,6 +283,7 @@ Choose one of the following as a next step:
     - :ref:`decoupled-packages`
     - :ref:`django-example`
     - :ref:`flask-example`
+    - :ref:`flask-blueprints-example`
     - :ref:`aiohttp-example`
     - :ref:`sanic-example`
     - :ref:`fastapi-example`
