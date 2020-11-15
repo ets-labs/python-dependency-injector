@@ -7,6 +7,17 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.4.0
+-----
+- Add ``@inject`` decorator. It helps to fix a number of wiring bugs and make wiring be more resilient.
+- Refactor ``wiring`` module.
+- Update documentation and examples to use ``@inject`` decorator.
+- Add ``Flask`` blueprints example.
+- Fix wiring bug when wiring doesn't work with the class-based decorators.
+- Fix wiring bug when wiring doesn't work with the decorators that doesn't use ``functools.wraps(...)``.
+- Fix wiring bug with ``@app.route(...)`` -style decorators (Flask, Sanic, FastAPI, etc.).
+- Fix wiring bug when wiring doesn't work with Flask blueprints.
+
 4.3.9
 -----
 - Add ``FastAPI`` example.
