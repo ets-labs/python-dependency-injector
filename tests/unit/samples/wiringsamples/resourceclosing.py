@@ -1,5 +1,5 @@
 from dependency_injector import containers, providers
-from dependency_injector.wiring import Provide, Closing
+from dependency_injector.wiring import inject, Provide, Closing
 
 
 class Service:
@@ -32,5 +32,6 @@ class Container(containers.DeclarativeContainer):
     service = providers.Resource(init_service)
 
 
+@inject
 def test_function(service: Service = Closing[Provide[Container.service]]):
     return service
