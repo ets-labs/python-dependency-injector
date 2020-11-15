@@ -7,7 +7,8 @@ Wiring feature provides a way to inject container providers into the functions a
 
 To use wiring you need:
 
-- **Place markers in the code**. Wiring marker specifies what provider to inject,
+- **Place @inject decorator**. Decorator ``@inject`` injects the dependencies.
+- **Place markers**. Wiring marker specifies what dependency to inject,
   e.g. ``Provide[Container.bar]``. This helps container to find the injections.
 - **Wire the container with the markers in the code**. Call ``container.wire()``
   specifying modules and packages you would like to wire it with.
@@ -25,9 +26,10 @@ a function or method argument:
 
 .. code-block:: python
 
-   from dependency_injector.wiring import Provide
+   from dependency_injector.wiring import inject, Provide
 
 
+   @inject
    def foo(bar: Bar = Provide[Container.bar]):
        ...
 
@@ -40,9 +42,10 @@ There are two types of markers:
 
 .. code-block:: python
 
-   from dependency_injector.wiring import Provider
+   from dependency_injector.wiring import inject, Provider
 
 
+   @inject
    def foo(bar_provider: Callable[..., Bar] = Provider[Container.bar]):
        bar = bar_provider()
        ...
@@ -51,18 +54,22 @@ You can use configuration, provided instance and sub-container providers as you 
 
 .. code-block:: python
 
+   @inject
    def foo(token: str = Provide[Container.config.api_token]):
        ...
 
 
+   @inject
    def foo(timeout: int = Provide[Container.config.timeout.as_(int)]):
        ...
 
 
+   @inject
    def foo(baz: Baz = Provide[Container.bar.provided.baz]):
        ...
 
 
+   @inject
    def foo(bar: Bar = Provide[Container.subcontainer.bar]):
        ...
 
@@ -100,6 +107,7 @@ When wiring is done functions and methods with the markers are patched to provid
 
 .. code-block:: python
 
+   @inject
    def foo(bar: Bar = Provide[Container.bar]):
        ...
 
@@ -201,5 +209,6 @@ Take a look at other application examples:
 - :ref:`flask-example`
 - :ref:`aiohttp-example`
 - :ref:`sanic-example`
+- :ref:`fastapi-example`
 
 .. disqus::

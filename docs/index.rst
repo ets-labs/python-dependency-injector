@@ -77,7 +77,7 @@ Key features of the ``Dependency Injector``:
   See :ref:`resource-provider`.
 - **Containers**. Provides declarative and dynamic containers. See :ref:`containers`.
 - **Wiring**. Injects dependencies into functions and methods. Helps integrating with
-  other frameworks: Django, Flask, Aiohttp, etc. See :ref:`wiring`.
+  other frameworks: Django, Flask, Aiohttp, Sanic, FastAPI, etc. See :ref:`wiring`.
 - **Typing**. Provides typing stubs, ``mypy``-friendly. See :ref:`provider-typing`.
 - **Performance**. Fast. Written in ``Cython``.
 - **Maturity**. Mature and production-ready. Well-tested, documented and supported.
@@ -85,7 +85,7 @@ Key features of the ``Dependency Injector``:
 .. code-block:: python
 
    from dependency_injector import containers, providers
-   from dependency_injector.wiring import Provide
+   from dependency_injector.wiring import inject, Provide
 
 
    class Container(containers.DeclarativeContainer):
@@ -104,6 +104,7 @@ Key features of the ``Dependency Injector``:
        )
 
 
+   @inject
    def main(service: Service = Provide[Container.service]):
        ...
 

@@ -442,18 +442,19 @@ and call the ``run()`` method. We will use :ref:`wiring` feature.
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 3-7,11-12,19
+   :emphasize-lines: 3-7,11-13,20
 
    """Main module."""
 
    import sys
 
-   from dependency_injector.wiring import Provide
+   from dependency_injector.wiring import inject, Provide
 
    from .dispatcher import Dispatcher
    from .containers import Container
 
 
+   @inject
    def main(dispatcher: Dispatcher = Provide[Container.dispatcher]) -> None:
        dispatcher.run()
 
@@ -992,14 +993,14 @@ You should see:
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
    monitoringdaemon/__init__.py         0      0   100%
-   monitoringdaemon/__main__.py        12     12     0%
+   monitoringdaemon/__main__.py        13     13     0%
    monitoringdaemon/containers.py      11      0   100%
    monitoringdaemon/dispatcher.py      44      5    89%
    monitoringdaemon/http.py             6      3    50%
    monitoringdaemon/monitors.py        23      1    96%
    monitoringdaemon/tests.py           37      0   100%
    ----------------------------------------------------
-   TOTAL                              133     21    84%
+   TOTAL                              134     22    84%
 
 .. note::
 

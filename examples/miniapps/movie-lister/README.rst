@@ -68,11 +68,11 @@ The output should be something like:
    Name                   Stmts   Miss  Cover
    ------------------------------------------
    movies/__init__.py         0      0   100%
-   movies/__main__.py        17     17     0%
+   movies/__main__.py        18     18     0%
    movies/containers.py       9      0   100%
    movies/entities.py         7      1    86%
    movies/finders.py         26     13    50%
    movies/listers.py          8      0   100%
    movies/tests.py           24      0   100%
    ------------------------------------------
-   TOTAL                     91     31    66%
+   TOTAL                     92     32    65%

@@ -4,12 +4,13 @@ from typing import List
 
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-from dependency_injector.wiring import Provide
+from dependency_injector.wiring import inject, Provide
 
 from githubnavigator.containers import Container
 from githubnavigator.services import SearchService
 
 
+@inject
 def index(
         request: HttpRequest,
         search_service: SearchService = Provide[Container.search_service],

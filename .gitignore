@@ -69,3 +69,6 @@ src/dependency_injector/containers/*.h
 src/dependency_injector/containers/*.so
 src/dependency_injector/providers/*.h
 src/dependency_injector/providers/*.so
+
+# Workspace for samples
+.workspace/

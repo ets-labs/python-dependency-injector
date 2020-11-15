@@ -226,6 +226,10 @@ class WiringTest(unittest.TestCase):
         self.assertEqual(result_2.init_counter, 0)
         self.assertEqual(result_2.shutdown_counter, 0)
 
+    def test_class_decorator(self):
+        service = module.test_class_decorator()
+        self.assertIsInstance(service, Service)
+
 
 class WiringAndFastAPITest(unittest.TestCase):
 

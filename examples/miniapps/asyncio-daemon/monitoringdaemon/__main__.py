@@ -2,12 +2,13 @@
 
 import sys
 
-from dependency_injector.wiring import Provide
+from dependency_injector.wiring import inject, Provide
 
 from .dispatcher import Dispatcher
 from .containers import Container
 
 
+@inject
 def main(dispatcher: Dispatcher = Provide[Container.dispatcher]) -> None:
     dispatcher.run()
 

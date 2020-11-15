@@ -2,12 +2,13 @@
 
 from sanic.request import Request
 from sanic.response import HTTPResponse, json
-from dependency_injector.wiring import Provide
+from dependency_injector.wiring import inject, Provide
 
 from .services import SearchService
 from .containers import Container
 
 
+@inject
 async def index(
         request: Request,
         search_service: SearchService = Provide[Container.search_service],
