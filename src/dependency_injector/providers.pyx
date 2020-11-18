@@ -2699,7 +2699,11 @@ cdef class Resource(Provider):
 
         if self.__shutdowner:
             try:
-                self.__shutdowner(self.__resource)
+                if inspect.iscoroutinefunction(self.__shutdowner):
+                    loop = asyncio.get_event_loop()
+                    loop.run_until_complete(self.__shutdowner(self.__resource))
+                else:
+                    self.__shutdowner(self.__resource)
             except StopIteration:
                 pass
 
@@ -2723,6 +2727,21 @@ cdef class Resource(Provider):
                 self.__kwargs_len,
             )
             self.__shutdowner = initializer.shutdown
+        elif self._is_async_resource_subclass(self.__initializer):
+            loop = asyncio.get_event_loop()
+            initializer = self.__initializer()
+            self.__resource = loop.run_until_complete(
+                __call(
+                    initializer.init,
+                    args,
+                    self.__args,
+                    self.__args_len,
+                    kwargs,
+                    self.__kwargs,
+                    self.__kwargs_len,
+                ),
+            )
+            self.__shutdowner = initializer.shutdown
         elif inspect.isgeneratorfunction(self.__initializer):
             initializer = __call(
                 self.__initializer,
@@ -2735,6 +2754,31 @@ cdef class Resource(Provider):
             )
             self.__resource = next(initializer)
             self.__shutdowner = initializer.send
+        elif inspect.iscoroutinefunction(self.__initializer):
+            loop = asyncio.get_event_loop()
+            initializer = __call(
+                self.__initializer,
+                args,
+                self.__args,
+                self.__args_len,
+                kwargs,
+                self.__kwargs,
+                self.__kwargs_len,
+            )
+            self.__resource = loop.run_until_complete(initializer)
+        elif inspect.isasyncgenfunction(self.__initializer):
+            loop = asyncio.get_event_loop()
+            initializer = __call(
+                self.__initializer,
+                args,
+                self.__args,
+                self.__args_len,
+                kwargs,
+                self.__kwargs,
+                self.__kwargs_len,
+            )
+            self.__resource = loop.run_until_complete(initializer.__anext__())
+            self.__shutdowner = initializer.__anext__
         elif callable(self.__initializer):
             self.__resource = __call(
                 self.__initializer,
@@ -2756,9 +2800,18 @@ cdef class Resource(Provider):
         if  sys.version_info < (3, 5):
             return False
         if not isinstance(instance, CLASS_TYPES):
-            return
+            return False
         from . import resources
         return issubclass(instance, resources.Resource)
+
+    @staticmethod
+    def _is_async_resource_subclass(instance):
+        if  sys.version_info < (3, 5):
+            return False
+        if not isinstance(instance, CLASS_TYPES):
+            return False
+        from . import resources
+        return issubclass(instance, resources.AsyncResource)
 
 
 cdef class Container(Provider):
