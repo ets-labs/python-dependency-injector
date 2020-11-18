@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.4.1
+-----
+- Improve ``FastAPI`` integration: handle ``Depends(Provide[...])``.
+- Update ``FastAPI`` example.
+- Remove a typo from the ``Flask`` tutorial.
+
 4.4.0
 -----
 - Add ``@inject`` decorator. It helps to fix a number of wiring bugs and make wiring be more resilient.
