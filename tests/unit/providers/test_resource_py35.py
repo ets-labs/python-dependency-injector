@@ -367,36 +367,36 @@ class AsyncResourceTests(AsyncTestCase):
         self.assertEqual(_init.counter, 1)
 
         provider.shutdown()
-    #
-    # def test_init_generator(self):
-    #     def _init():
-    #         _init.init_counter += 1
-    #         yield
-    #         _init.shutdown_counter += 1
-    #
-    #     _init.init_counter = 0
-    #     _init.shutdown_counter = 0
-    #
-    #     provider = providers.Resource(_init)
-    #
-    #     result1 = provider()
-    #     self.assertIsNone(result1)
-    #     self.assertEqual(_init.init_counter, 1)
-    #     self.assertEqual(_init.shutdown_counter, 0)
-    #
-    #     provider.shutdown()
-    #     self.assertEqual(_init.init_counter, 1)
-    #     self.assertEqual(_init.shutdown_counter, 1)
-    #
-    #     result2 = provider()
-    #     self.assertIsNone(result2)
-    #     self.assertEqual(_init.init_counter, 2)
-    #     self.assertEqual(_init.shutdown_counter, 1)
-    #
-    #     provider.shutdown()
-    #     self.assertEqual(_init.init_counter, 2)
-    #     self.assertEqual(_init.shutdown_counter, 2)
-    #
+
+    def test_async_init_generator(self):
+        async def _init():
+            _init.init_counter += 1
+            yield
+            _init.shutdown_counter += 1
+
+        _init.init_counter = 0
+        _init.shutdown_counter = 0
+
+        provider = providers.Resource(_init)
+
+        result1 = provider()
+        self.assertIsNone(result1)
+        self.assertEqual(_init.init_counter, 1)
+        self.assertEqual(_init.shutdown_counter, 0)
+
+        provider.shutdown()
+        self.assertEqual(_init.init_counter, 1)
+        self.assertEqual(_init.shutdown_counter, 1)
+
+        result2 = provider()
+        self.assertIsNone(result2)
+        self.assertEqual(_init.init_counter, 2)
+        self.assertEqual(_init.shutdown_counter, 1)
+
+        provider.shutdown()
+        self.assertEqual(_init.init_counter, 2)
+        self.assertEqual(_init.shutdown_counter, 2)
+
     # def test_init_class(self):
     #     class TestResource(resources.Resource):
     #         init_counter = 0
