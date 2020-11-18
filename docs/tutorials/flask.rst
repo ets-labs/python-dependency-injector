@@ -708,7 +708,6 @@ Edit ``views.py``:
 
 .. code-block:: python
    :emphasize-lines: 4,6-7,10-11,15
-   :emphasize-lines: 4,6-7,10-11,15
 
    """Views module."""
 

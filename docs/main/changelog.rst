@@ -11,6 +11,7 @@ Develop
 -------
 - Improve ``FastAPI`` integration: handle ``Depends(Provide[...])``.
 - Update ``FastAPI`` example.
+- Remove a typo from the ``Flask`` tutorial.
 
 4.4.0
 -----
