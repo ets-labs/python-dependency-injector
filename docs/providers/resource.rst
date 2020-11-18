@@ -235,4 +235,32 @@ The example above produces next output:
    Shutdown service
    127.0.0.1 - - [29/Oct/2020 22:39:41] "GET / HTTP/1.1" 200 -
 
+Asynchronous resources
+----------------------
+
+Resource provider supports asynchronous initialization and shutdown. To use it you need to make the
+initializer asynchronous using one of the following ways:
+
+.. code-block:: python
+
+   async def init():
+       return await connect()
+
+
+   async def init():
+       connection = await connect()
+       yield connection
+       await connection.close()
+
+
+   class Connection(resources.AsyncResource):
+
+       async def init():
+           yield await connect()
+
+       async def shutdown(connection):
+           await connection.close()
+
+Initialization, shutdown, injections to the providers and wiring work the same way as for sync resources.
+
 .. disqus::
