@@ -2699,7 +2699,7 @@ cdef class Resource(Provider):
 
         if self.__shutdowner:
             try:
-                if inspect.iscoroutinefunction(self.__shutdowner):
+                if iscoroutinefunction(self.__shutdowner):
                     loop = asyncio.get_event_loop()
                     loop.run_until_complete(self.__shutdowner(self.__resource))
                 else:
@@ -2754,7 +2754,7 @@ cdef class Resource(Provider):
             )
             self.__resource = next(initializer)
             self.__shutdowner = initializer.send
-        elif inspect.iscoroutinefunction(self.__initializer):
+        elif iscoroutinefunction(self.__initializer):
             loop = asyncio.get_event_loop()
             initializer = __call(
                 self.__initializer,
@@ -2766,7 +2766,7 @@ cdef class Resource(Provider):
                 self.__kwargs_len,
             )
             self.__resource = loop.run_until_complete(initializer)
-        elif inspect.isasyncgenfunction(self.__initializer):
+        elif isasyncgenfunction(self.__initializer):
             loop = asyncio.get_event_loop()
             initializer = __call(
                 self.__initializer,
@@ -3424,3 +3424,25 @@ def merge_dicts(dict1, dict2):
     result = dict1.copy()
     result.update(dict2)
     return result
+
+
+def iscoroutinefunction(obj):
+    """Check if object is a coroutine function.
+
+    Return False for any object in Python 3.4 or below.
+    """
+    try:
+        return inspect.iscoroutinefunction(obj)
+    except AttributeError:
+        return False
+
+
+def isasyncgenfunction(obj):
+    """Check if object is an asynchronous generator function.
+
+    Return False for any object in Python 3.4 or below.
+    """
+    try:
+        return inspect.isasyncgenfunction(obj)
+    except AttributeError:
+        return False
