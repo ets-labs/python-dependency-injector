@@ -1,10 +1,12 @@
 """Dependency injector resource provider unit tests."""
 
+import asyncio
 import sys
 
 import unittest2 as unittest
 
 from dependency_injector import containers, providers, resources, errors
+from .utils import AsyncTestCase
 
 
 def init_fn(*args, **kwargs):
@@ -320,3 +322,142 @@ class ResourceTests(unittest.TestCase):
                 provider.initialized,
             )
         )
+
+
+class AsyncResourceTests(AsyncTestCase):
+
+    def test_async_injection(self):
+        resource = object()
+
+        async def _init():
+            _init.counter += 1
+            return resource
+        _init.counter = 0
+
+        class Container(containers.DeclarativeContainer):
+            resource = providers.Resource(_init)
+            dependency1 = providers.List(resource)
+            dependency2 = providers.List(resource)
+
+        container = Container()
+        list1 = container.dependency1()
+        list2 = container.dependency2()
+
+        self.assertEqual(list1, [resource])
+        self.assertIs(list1[0], resource)
+
+        self.assertEqual(list2, [resource])
+        self.assertIs(list2[0], resource)
+
+        self.assertEqual(_init.counter, 1)
+
+    def test_async_init_function(self):
+        async def _init():
+            _init.counter += 1
+        _init.counter = 0
+
+        provider = providers.Resource(_init)
+
+        result1 = provider()
+        self.assertIsNone(result1)
+        self.assertEqual(_init.counter, 1)
+
+        result2 = provider()
+        self.assertIsNone(result2)
+        self.assertEqual(_init.counter, 1)
+
+        provider.shutdown()
+    #
+    # def test_init_generator(self):
+    #     def _init():
+    #         _init.init_counter += 1
+    #         yield
+    #         _init.shutdown_counter += 1
+    #
+    #     _init.init_counter = 0
+    #     _init.shutdown_counter = 0
+    #
+    #     provider = providers.Resource(_init)
+    #
+    #     result1 = provider()
+    #     self.assertIsNone(result1)
+    #     self.assertEqual(_init.init_counter, 1)
+    #     self.assertEqual(_init.shutdown_counter, 0)
+    #
+    #     provider.shutdown()
+    #     self.assertEqual(_init.init_counter, 1)
+    #     self.assertEqual(_init.shutdown_counter, 1)
+    #
+    #     result2 = provider()
+    #     self.assertIsNone(result2)
+    #     self.assertEqual(_init.init_counter, 2)
+    #     self.assertEqual(_init.shutdown_counter, 1)
+    #
+    #     provider.shutdown()
+    #     self.assertEqual(_init.init_counter, 2)
+    #     self.assertEqual(_init.shutdown_counter, 2)
+    #
+    # def test_init_class(self):
+    #     class TestResource(resources.Resource):
+    #         init_counter = 0
+    #         shutdown_counter = 0
+    #
+    #         def init(self):
+    #             self.__class__.init_counter += 1
+    #
+    #         def shutdown(self, _):
+    #             self.__class__.shutdown_counter += 1
+    #
+    #     provider = providers.Resource(TestResource)
+    #
+    #     result1 = provider()
+    #     self.assertIsNone(result1)
+    #     self.assertEqual(TestResource.init_counter, 1)
+    #     self.assertEqual(TestResource.shutdown_counter, 0)
+    #
+    #     provider.shutdown()
+    #     self.assertEqual(TestResource.init_counter, 1)
+    #     self.assertEqual(TestResource.shutdown_counter, 1)
+    #
+    #     result2 = provider()
+    #     self.assertIsNone(result2)
+    #     self.assertEqual(TestResource.init_counter, 2)
+    #     self.assertEqual(TestResource.shutdown_counter, 1)
+    #
+    #     provider.shutdown()
+    #     self.assertEqual(TestResource.init_counter, 2)
+    #     self.assertEqual(TestResource.shutdown_counter, 2)
+    #
+    # def test_init_not_callable(self):
+    #     provider = providers.Resource(1)
+    #     with self.assertRaises(errors.Error):
+    #         provider.init()
+    #
+    # def test_init_and_shutdown(self):
+    #     def _init():
+    #         _init.init_counter += 1
+    #         yield
+    #         _init.shutdown_counter += 1
+    #
+    #     _init.init_counter = 0
+    #     _init.shutdown_counter = 0
+    #
+    #     provider = providers.Resource(_init)
+    #
+    #     result1 = provider.init()
+    #     self.assertIsNone(result1)
+    #     self.assertEqual(_init.init_counter, 1)
+    #     self.assertEqual(_init.shutdown_counter, 0)
+    #
+    #     provider.shutdown()
+    #     self.assertEqual(_init.init_counter, 1)
+    #     self.assertEqual(_init.shutdown_counter, 1)
+    #
+    #     result2 = provider.init()
+    #     self.assertIsNone(result2)
+    #     self.assertEqual(_init.init_counter, 2)
+    #     self.assertEqual(_init.shutdown_counter, 1)
+    #
+    #     provider.shutdown()
+    #     self.assertEqual(_init.init_counter, 2)
+    #     self.assertEqual(_init.shutdown_counter, 2)
