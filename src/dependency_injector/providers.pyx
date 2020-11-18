@@ -2779,7 +2779,7 @@ cdef class Resource(Provider):
             )
             self.__resource = loop.run_until_complete(initializer.__anext__())
             self.__shutdowner = initializer.__anext__
-        elif callable(self.__initializer):
+        elif inspect.isfunction(self.__initializer):
             self.__resource = __call(
                 self.__initializer,
                 args,
