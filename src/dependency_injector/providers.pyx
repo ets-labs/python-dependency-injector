@@ -2699,13 +2699,16 @@ cdef class Resource(Provider):
 
         if self.__shutdowner:
             try:
-                if iscoroutinefunction(self.__shutdowner):
-                    loop = asyncio.get_event_loop()
-                    loop.run_until_complete(self.__shutdowner(self.__resource))
-                else:
-                    self.__shutdowner(self.__resource)
+                shutdown = self.__shutdowner(self.__resource)
             except StopIteration:
                 pass
+            else:
+                if inspect.isawaitable(shutdown):
+                    loop = asyncio.get_event_loop()
+                    try:
+                        loop.run_until_complete(shutdown)
+                    except StopAsyncIteration:
+                        pass
 
         self.__resource = None
         self.__initialized = False
