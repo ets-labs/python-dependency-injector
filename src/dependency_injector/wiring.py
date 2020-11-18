@@ -27,6 +27,13 @@ else:
         ...
 
 
+try:
+    from fastapi.params import Depends as FastAPIDepends
+    fastapi_installed = True
+except ImportError:
+    fastapi_installed = False
+
+
 from . import providers
 
 
@@ -320,9 +327,14 @@ def _fetch_reference_injections(
     injections = {}
     closing = {}
     for parameter_name, parameter in signature.parameters.items():
-        if not isinstance(parameter.default, _Marker):
+        if not isinstance(parameter.default, _Marker) \
+                and not _is_fastapi_depends(parameter.default):
             continue
+
         marker = parameter.default
+
+        if _is_fastapi_depends(marker):
+            marker = marker.dependency
 
         if isinstance(marker, Closing):
             marker = marker.provider
@@ -435,6 +447,10 @@ def _is_fastapi_default_arg_injection(injection, kwargs):
     return injection in kwargs and isinstance(kwargs[injection], _Marker)
 
 
+def _is_fastapi_depends(param: Any) -> bool:
+    return fastapi_installed and isinstance(param, FastAPIDepends)
+
+
 def _is_patched(fn):
     return getattr(fn, '__wired__', False) is True
 
@@ -458,6 +474,9 @@ class _Marker(Generic[T], metaclass=ClassGetItemMeta):
 
     def __class_getitem__(cls, item) -> T:
         return cls(item)
+
+    def __call__(self) -> T:
+        return self
 
 
 class Provide(_Marker):
