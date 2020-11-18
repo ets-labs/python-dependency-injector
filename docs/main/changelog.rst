@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Develop
+-------
+- Add simple ``FastAPI`` example.
+
 4.4.1
 -----
 - Improve ``FastAPI`` integration: handle ``Depends(Provide[...])``.
