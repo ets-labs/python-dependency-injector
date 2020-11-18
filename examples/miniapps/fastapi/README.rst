@@ -113,9 +113,9 @@ The output should be something like:
    giphynavigator/__init__.py          0      0   100%
    giphynavigator/application.py      13      0   100%
    giphynavigator/containers.py        6      0   100%
-   giphynavigator/endpoints.py         6      0   100%
+   giphynavigator/endpoints.py        20      0   100%
    giphynavigator/giphy.py            14      9    36%
    giphynavigator/services.py          9      1    89%
    giphynavigator/tests.py            38      0   100%
    ---------------------------------------------------
-   TOTAL                              86     10    88%
+   TOTAL                             100     10    90%

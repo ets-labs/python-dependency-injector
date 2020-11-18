@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 Develop
 -------
 - Improve ``FastAPI`` integration: handle ``Depends(Provide[...])``.
+- Update ``FastAPI`` example.
 
 4.4.0
 -----

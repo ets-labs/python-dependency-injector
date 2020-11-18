@@ -14,7 +14,7 @@ def create_app() -> FastAPI:
 
     app = FastAPI()
     app.container = container
-    app.add_api_route('/', endpoints.index)
+    app.include_router(endpoints.router)
     return app
 
 
