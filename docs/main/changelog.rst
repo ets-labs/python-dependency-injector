@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Develop
 -------
+- Add support of non-string keys for ``Dict`` provider.
 - Add simple ``FastAPI`` example.
 - Add extra typing test for provided instance of ``DependenciesContainer`` provider.
 

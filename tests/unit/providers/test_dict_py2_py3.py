@@ -16,6 +16,31 @@ class DictTests(unittest.TestCase):
         provider = providers.Dict()
         self.assertIsInstance(provider.provided, providers.ProvidedInstance)
 
+    def test_init_with_non_string_keys(self):
+        a1 = object()
+        a2 = object()
+        provider = providers.Dict({a1: 'i1', a2: 'i2'})
+
+        dict1 = provider()
+        dict2 = provider()
+
+        self.assertEqual(dict1, {a1: 'i1', a2: 'i2'})
+        self.assertEqual(dict2, {a1: 'i1', a2: 'i2'})
+
+        self.assertIsNot(dict1, dict2)
+
+    def test_init_with_string_and_non_string_keys(self):
+        a1 = object()
+        provider = providers.Dict({a1: 'i1'}, a2='i2')
+
+        dict1 = provider()
+        dict2 = provider()
+
+        self.assertEqual(dict1, {a1: 'i1', 'a2': 'i2'})
+        self.assertEqual(dict2, {a1: 'i1', 'a2': 'i2'})
+
+        self.assertIsNot(dict1, dict2)
+
     def test_call_with_init_keyword_args(self):
         provider = providers.Dict(a1='i1', a2='i2')
 
@@ -46,11 +71,47 @@ class DictTests(unittest.TestCase):
             .add_kwargs(a1='i1', a2='i2')
         self.assertEqual(provider(), {'a1': 'i1', 'a2': 'i2'})
 
+    def test_add_kwargs(self):
+        provider = providers.Dict() \
+            .add_kwargs(a1='i1') \
+            .add_kwargs(a2='i2')
+        self.assertEqual(provider.kwargs, {'a1': 'i1', 'a2': 'i2'})
+
+    def test_add_kwargs_non_string_keys(self):
+        a1 = object()
+        a2 = object()
+        provider = providers.Dict() \
+            .add_kwargs({a1: 'i1'}) \
+            .add_kwargs({a2: 'i2'})
+        self.assertEqual(provider.kwargs, {a1: 'i1', a2: 'i2'})
+
+    def test_add_kwargs_string_and_non_string_keys(self):
+        a2 = object()
+        provider = providers.Dict() \
+            .add_kwargs(a1='i1') \
+            .add_kwargs({a2: 'i2'})
+        self.assertEqual(provider.kwargs, {'a1': 'i1', a2: 'i2'})
+
     def test_set_kwargs(self):
         provider = providers.Dict() \
             .add_kwargs(a1='i1', a2='i2') \
             .set_kwargs(a3='i3', a4='i4')
         self.assertEqual(provider.kwargs, {'a3': 'i3', 'a4': 'i4'})
+
+    def test_set_kwargs_non_string_keys(self):
+        a3 = object()
+        a4 = object()
+        provider = providers.Dict() \
+            .add_kwargs(a1='i1', a2='i2') \
+            .set_kwargs({a3: 'i3', a4: 'i4'})
+        self.assertEqual(provider.kwargs, {a3: 'i3', a4: 'i4'})
+
+    def test_set_kwargs_string_and_non_string_keys(self):
+        a3 = object()
+        provider = providers.Dict() \
+            .add_kwargs(a1='i1', a2='i2') \
+            .set_kwargs({a3: 'i3'}, a4='i4')
+        self.assertEqual(provider.kwargs, {a3: 'i3', 'a4': 'i4'})
 
     def test_clear_kwargs(self):
         provider = providers.Dict() \
