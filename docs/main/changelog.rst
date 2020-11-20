@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Develop
--------
+4.5.0
+-----
 - Add support of non-string keys for ``Dict`` provider.
 - Add simple ``FastAPI`` example.
 - Add ``Commands  and Handlers`` example from
