@@ -1,0 +1,5 @@
+"""Repositories module."""
+
+
+class RatingRepository:
+    ...
