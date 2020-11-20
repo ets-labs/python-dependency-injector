@@ -2484,11 +2484,11 @@ cdef class Dict(Provider):
         )
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, dict_=None, **kwargs):
         """Initializer."""
         self.__kwargs = tuple()
         self.__kwargs_len = 0
-        self.set_kwargs(**kwargs)
+        self.add_kwargs(dict_, **kwargs)
         super(Dict, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -2497,7 +2497,7 @@ cdef class Dict(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(**deepcopy(self.kwargs, memo))
+        copied = self.__class__(deepcopy(self.kwargs, memo))
         self._copy_overridings(copied, memo)
 
         return copied
@@ -2522,24 +2522,34 @@ cdef class Dict(Provider):
             kwargs[kwarg.__name] = kwarg.__value
         return kwargs
 
-    def add_kwargs(self, **kwargs):
+    def add_kwargs(self, dict_=None, **kwargs):
         """Add keyword argument injections.
 
         :return: Reference ``self``
         """
+        if dict_ is None:
+            dict_ = {}
+
+        self.__kwargs += parse_named_injections(dict_)
         self.__kwargs += parse_named_injections(kwargs)
         self.__kwargs_len = len(self.__kwargs)
+
         return self
 
-    def set_kwargs(self, **kwargs):
+    def set_kwargs(self, dict_=None, **kwargs):
         """Set keyword argument injections.
 
         Existing keyword argument injections are dropped.
 
         :return: Reference ``self``
         """
-        self.__kwargs = parse_named_injections(kwargs)
+        if dict_ is None:
+            dict_ = {}
+
+        self.__kwargs = parse_named_injections(dict_)
+        self.__kwargs += parse_named_injections(kwargs)
         self.__kwargs_len = len(self.__kwargs)
+
         return self
 
     def clear_kwargs(self):

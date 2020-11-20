@@ -18,7 +18,7 @@ provider2 = providers.List(
 )
 args2: Tuple[Any] = provider2.args
 
-# Test 5: to check the provided instance interface
+# Test 3: to check the provided instance interface
 provider3 = providers.List(
     providers.Factory(object),
     providers.Factory(object),

@@ -7,6 +7,14 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.5.0
+-----
+- Add support of non-string keys for ``Dict`` provider.
+- Add simple ``FastAPI`` example.
+- Add ``Commands  and Handlers`` example from
+  issue `#327 <https://github.com/ets-labs/python-dependency-injector/issues/327>`_.
+- Add extra typing test for provided instance of ``DependenciesContainer`` provider.
+
 4.4.1
 -----
 - Improve ``FastAPI`` integration: handle ``Depends(Provide[...])``.

@@ -8,3 +8,4 @@ provider1 = providers.DependenciesContainer(
 )
 a1: providers.Provider = provider1.a
 b1: providers.Provider = provider1.b
+c1: providers.ProvidedInstance = provider1.c.provided
