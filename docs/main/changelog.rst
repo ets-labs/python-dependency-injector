@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 Develop
 -------
 - Add simple ``FastAPI`` example.
+- Add extra typing test for provided instance of ``DependenciesContainer`` provider.
 
 4.4.1
 -----
