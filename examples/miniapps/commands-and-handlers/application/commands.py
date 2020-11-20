@@ -1,5 +1,6 @@
 """Commands module."""
 
+
 class Command:
     ...
 
