@@ -17,7 +17,21 @@ Dict provider
 
 ``Dict`` provider handles keyword arguments the same way as a :ref:`factory-provider`.
 
-.. note::
-    Positional argument are not supported.
+To use non-string keys or keys with ``.`` and ``-`` provide a dictionary as a positional argument:
+
+.. code-block:: python
+
+   providers.Dict({
+       SomeClass: providers.Factory(...),
+       'key.with.periods': providers.Factory(...),
+       'key-with-dashes': providers.Factory(...),
+   })
+
+Example:
+
+.. literalinclude:: ../../examples/providers/dict_non_string_keys.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 40-43
 
 .. disqus::
