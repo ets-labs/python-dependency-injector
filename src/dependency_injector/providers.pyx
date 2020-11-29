@@ -2709,9 +2709,11 @@ cdef class Resource(Provider):
 
         if self.__shutdowner:
             try:
-                self.__shutdowner(self.__resource)
+                shutdown = self.__shutdowner(self.__resource)
             except StopIteration:
                 pass
+            if inspect.isawaitable(shutdown):
+                return __async_resource_shutdown(self, shutdown)
 
         self.__resource = None
         self.__initialized = False
@@ -2745,6 +2747,30 @@ cdef class Resource(Provider):
             )
             self.__resource = next(initializer)
             self.__shutdowner = initializer.send
+        elif inspect.iscoroutinefunction(self.__initializer):
+            initializer = __call(
+                self.__initializer,
+                args,
+                self.__args,
+                self.__args_len,
+                kwargs,
+                self.__kwargs,
+                self.__kwargs_len,
+            )
+            self.__initialized = True
+            return __async_resource_init(self, initializer)
+        elif inspect.isasyncgenfunction(self.__initializer):
+            initializer = __call(
+                self.__initializer,
+                args,
+                self.__args,
+                self.__args_len,
+                kwargs,
+                self.__kwargs,
+                self.__kwargs_len,
+            )
+            self.__initialized = True
+            return __async_resource_init(self, initializer.__anext__(), initializer.asend)
         elif callable(self.__initializer):
             self.__resource = __call(
                 self.__initializer,
@@ -3381,3 +3407,26 @@ def merge_dicts(dict1, dict2):
     result = dict1.copy()
     result.update(dict2)
     return result
+
+
+async def __async_resource_init(self: Resource, initializer: object, shutdowner: object = None) -> None:
+    try:
+        resource = await initializer
+    except Exception:
+        self.__initialized = False
+        raise
+    else:
+        self.__resource = resource
+        self.__shutdowner = shutdowner
+        return self.__resource
+
+
+async def __async_resource_shutdown(self: Resource, shutdowner: object) -> None:
+    try:
+        await shutdowner
+    except StopAsyncIteration:
+        pass
+
+    self.__resource = None
+    self.__initialized = False
+    self.__shutdowner = None
