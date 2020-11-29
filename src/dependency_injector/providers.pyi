@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import (
+    Awaitable,
     TypeVar,
     Generic,
     Type,
@@ -300,7 +301,7 @@ class Resource(Provider, Generic[T]):
     @property
     def initialized(self) -> bool: ...
     def init(self) -> T: ...
-    def shutdown(self) -> None: ...
+    def shutdown(self) -> Optional[Awaitable]: ...
 
 
 class Container(Provider):
