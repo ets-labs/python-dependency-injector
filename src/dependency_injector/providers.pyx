@@ -2735,6 +2735,19 @@ cdef class Resource(Provider):
                 self.__kwargs_len,
             )
             self.__shutdowner = initializer.shutdown
+        elif self._is_async_resource_subclass(self.__initializer):
+            initializer = self.__initializer()
+            async_init = __call(
+                initializer.init,
+                args,
+                self.__args,
+                self.__args_len,
+                kwargs,
+                self.__kwargs,
+                self.__kwargs_len,
+            )
+            self.__initialized = True
+            return __async_resource_init(self, async_init, initializer.shutdown)
         elif inspect.isgeneratorfunction(self.__initializer):
             initializer = __call(
                 self.__initializer,
@@ -2795,6 +2808,15 @@ cdef class Resource(Provider):
             return
         from . import resources
         return issubclass(instance, resources.Resource)
+
+    @staticmethod
+    def _is_async_resource_subclass(instance):
+        if  sys.version_info < (3, 5):
+            return False
+        if not isinstance(instance, CLASS_TYPES):
+            return
+        from . import resources
+        return issubclass(instance, resources.AsyncResource)
 
 
 cdef class Container(Provider):
