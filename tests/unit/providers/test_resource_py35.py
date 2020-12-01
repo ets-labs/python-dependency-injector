@@ -1,10 +1,23 @@
 """Dependency injector resource provider unit tests."""
 
-import sys
+import asyncio
 
 import unittest2 as unittest
 
 from dependency_injector import containers, providers, resources, errors
+
+# Runtime import to get asyncutils module
+import os
+_TOP_DIR = os.path.abspath(
+    os.path.sep.join((
+        os.path.dirname(__file__),
+        '../',
+    )),
+)
+import sys
+sys.path.append(_TOP_DIR)
+
+from asyncutils import AsyncTestCase
 
 
 def init_fn(*args, **kwargs):
@@ -320,3 +333,128 @@ class ResourceTests(unittest.TestCase):
                 provider.initialized,
             )
         )
+
+
+class AsyncResourceTest(AsyncTestCase):
+
+    def test_init_async_function(self):
+        resource = object()
+
+        async def _init():
+            await asyncio.sleep(0.001)
+            _init.counter += 1
+            return resource
+        _init.counter = 0
+
+        provider = providers.Resource(_init)
+
+        result1 = self._run(provider())
+        self.assertIs(result1, resource)
+        self.assertEqual(_init.counter, 1)
+
+        result2 = self._run(provider())
+        self.assertIs(result2, resource)
+        self.assertEqual(_init.counter, 1)
+
+        self._run(provider.shutdown())
+
+    def test_init_async_generator(self):
+        resource = object()
+
+        async def _init():
+            await asyncio.sleep(0.001)
+            _init.init_counter += 1
+
+            yield resource
+
+            await asyncio.sleep(0.001)
+            _init.shutdown_counter += 1
+
+        _init.init_counter = 0
+        _init.shutdown_counter = 0
+
+        provider = providers.Resource(_init)
+
+        result1 = self._run(provider())
+        self.assertIs(result1, resource)
+        self.assertEqual(_init.init_counter, 1)
+        self.assertEqual(_init.shutdown_counter, 0)
+
+        self._run(provider.shutdown())
+        self.assertEqual(_init.init_counter, 1)
+        self.assertEqual(_init.shutdown_counter, 1)
+
+        result2 = self._run(provider())
+        self.assertIs(result2, resource)
+        self.assertEqual(_init.init_counter, 2)
+        self.assertEqual(_init.shutdown_counter, 1)
+
+        self._run(provider.shutdown())
+        self.assertEqual(_init.init_counter, 2)
+        self.assertEqual(_init.shutdown_counter, 2)
+
+    def test_init_async_class(self):
+        resource = object()
+
+        class TestResource(resources.AsyncResource):
+            init_counter = 0
+            shutdown_counter = 0
+
+            async def init(self):
+                self.__class__.init_counter += 1
+                return resource
+
+            async def shutdown(self, resource_):
+                self.__class__.shutdown_counter += 1
+                assert resource_ is resource
+
+        provider = providers.Resource(TestResource)
+
+        result1 = self._run(provider())
+        self.assertIs(result1, resource)
+        self.assertEqual(TestResource.init_counter, 1)
+        self.assertEqual(TestResource.shutdown_counter, 0)
+
+        self._run(provider.shutdown())
+        self.assertEqual(TestResource.init_counter, 1)
+        self.assertEqual(TestResource.shutdown_counter, 1)
+
+        result2 = self._run(provider())
+        self.assertIs(result2, resource)
+        self.assertEqual(TestResource.init_counter, 2)
+        self.assertEqual(TestResource.shutdown_counter, 1)
+
+        self._run(provider.shutdown())
+        self.assertEqual(TestResource.init_counter, 2)
+        self.assertEqual(TestResource.shutdown_counter, 2)
+
+    def test_init_and_shutdown_methods(self):
+        async def _init():
+            await asyncio.sleep(0.001)
+            _init.init_counter += 1
+
+            yield
+
+            await asyncio.sleep(0.001)
+            _init.shutdown_counter += 1
+
+        _init.init_counter = 0
+        _init.shutdown_counter = 0
+
+        provider = providers.Resource(_init)
+
+        self._run(provider.init())
+        self.assertEqual(_init.init_counter, 1)
+        self.assertEqual(_init.shutdown_counter, 0)
+
+        self._run(provider.shutdown())
+        self.assertEqual(_init.init_counter, 1)
+        self.assertEqual(_init.shutdown_counter, 1)
+
+        self._run(provider.init())
+        self.assertEqual(_init.init_counter, 2)
+        self.assertEqual(_init.shutdown_counter, 1)
+
+        self._run(provider.shutdown())
+        self.assertEqual(_init.init_counter, 2)
+        self.assertEqual(_init.shutdown_counter, 2)
