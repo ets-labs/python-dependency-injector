@@ -401,10 +401,12 @@ class AsyncResourceTest(AsyncTestCase):
             shutdown_counter = 0
 
             async def init(self):
+                await asyncio.sleep(0.001)
                 self.__class__.init_counter += 1
                 return resource
 
             async def shutdown(self, resource_):
+                await asyncio.sleep(0.001)
                 self.__class__.shutdown_counter += 1
                 assert resource_ is resource
 
