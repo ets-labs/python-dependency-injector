@@ -336,6 +336,9 @@ def _fetch_reference_injections(
         if _is_fastapi_depends(marker):
             marker = marker.dependency
 
+            if not isinstance(marker, providers.Provider):
+                continue
+
         if isinstance(marker, Closing):
             marker = marker.provider
             closing[parameter_name] = marker
