@@ -80,10 +80,11 @@ class WiringFastAPITest(AsyncTestCase):
         super().tearDown()
 
     def test_depends_marker_injection(self):
-        service_mock = mock.AsyncMock(spec=web.Service)
-        service_mock.process.return_value = 'Foo'
+        class ServiceMock:
+            async def process(self):
+                return 'Foo'
 
-        with web.container.service.override(service_mock):
+        with web.container.service.override(ServiceMock()):
             response = self._run(self.client.get('/'))
 
         self.assertEqual(response.status_code, 200)
