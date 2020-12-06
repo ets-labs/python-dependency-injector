@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.5.3
+-----
+- Fix ``4.5.2`` degradation bug in wiring ``@inject`` with not working ``FastAPI.Depends`` directive.
+  See issue `#331 <https://github.com/ets-labs/python-dependency-injector/issues/331>`_ for details.
+  Thanks to `Juan Esteban Marín <https://github.com/juanmarin96>`_ for reporting the issue.
+- Add ``FastAPI`` tests.
+
 4.5.2
 -----
 - Fix a bug in wiring ``@inject`` with not properly working ``FastAPI.Depends`` directive.
