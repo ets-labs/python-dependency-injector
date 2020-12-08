@@ -1,4 +1,4 @@
-"""Dependency injector dynamic container unit tests."""
+"""Dependency injector dynamic container unit tests for async resources."""
 
 import unittest2 as unittest
 
@@ -21,7 +21,7 @@ from dependency_injector import (
 )
 
 
-class AsyncResourcesInitializationTest(AsyncTestCase):
+class AsyncResourcesTest(AsyncTestCase):
 
     @unittest.skipIf(sys.version_info[:2] <= (3, 5), 'Async test')
     def test_async_init_resources(self):

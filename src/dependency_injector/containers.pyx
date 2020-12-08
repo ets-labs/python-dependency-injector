@@ -229,7 +229,7 @@ class DynamicContainer(object):
 
             resource = provider.init()
 
-            if inspect.isawaitable(resource):
+            if _isawaitable(resource):
                 futures.append(resource)
 
         if futures:
@@ -244,7 +244,7 @@ class DynamicContainer(object):
 
             shutdown = provider.shutdown()
 
-            if inspect.isawaitable(shutdown):
+            if _isawaitable(shutdown):
                 futures.append(shutdown)
 
         if futures:
@@ -516,3 +516,10 @@ cpdef object _check_provider_type(object container, object provider):
     if not isinstance(provider, container.provider_type):
         raise Error('{0} can contain only {1} '
                     'instances'.format(container, container.provider_type))
+
+
+cpdef bint _isawaitable(object instance):
+    try:
+        return <bint> inspect.isawaitable(instance)
+    except AttributeError:
+        return <bint> False
