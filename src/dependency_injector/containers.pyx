@@ -1,6 +1,12 @@
 """Containers module."""
 
+import inspect
 import sys
+
+try:
+    import asyncio
+except ImportError:
+    asyncio = None
 
 import six
 
@@ -216,17 +222,33 @@ class DynamicContainer(object):
 
     def init_resources(self):
         """Initialize all container resources."""
+        futures = []
         for provider in self.providers.values():
             if not isinstance(provider, Resource):
                 continue
-            provider.init()
+
+            resource = provider.init()
+
+            if inspect.isawaitable(resource):
+                futures.append(resource)
+
+        if futures:
+            return asyncio.gather(*futures)
 
     def shutdown_resources(self):
         """Shutdown all container resources."""
+        futures = []
         for provider in self.providers.values():
             if not isinstance(provider, Resource):
                 continue
-            provider.shutdown()
+
+            shutdown = provider.shutdown()
+
+            if inspect.isawaitable(shutdown):
+                futures.append(shutdown)
+
+        if futures:
+            return asyncio.gather(*futures)
 
 
 class DeclarativeContainerMetaClass(type):

@@ -1,5 +1,17 @@
 from types import ModuleType
-from typing import Type, Dict, Tuple, Optional, Any, Union, ClassVar, Callable as _Callable, Iterable, TypeVar
+from typing import (
+    Type,
+    Dict,
+    Tuple,
+    Optional,
+    Any,
+    Union,
+    ClassVar,
+    Callable as _Callable,
+    Iterable,
+    TypeVar,
+    Awaitable,
+)
 
 from .providers import Provider
 
@@ -25,8 +37,8 @@ class Container:
     def resolve_provider_name(self, provider_to_resolve: Provider) -> Optional[str]: ...
     def wire(self, modules: Optional[Iterable[ModuleType]] = None, packages: Optional[Iterable[ModuleType]] = None) -> None: ...
     def unwire(self) -> None: ...
-    def init_resources(self) -> None: ...
-    def shutdown_resources(self) -> None: ...
+    def init_resources(self) -> Optional[Awaitable]: ...
+    def shutdown_resources(self) -> Optional[Awaitable]: ...
 
 
 class DynamicContainer(Container): ...
