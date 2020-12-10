@@ -72,7 +72,9 @@ jobs:
 #      - python3 -m twine upload dist/*
   - services: docker
 #    if: tag IS present
-    env: TWINE_USERNAME=__token__
+    env:
+      - TWINE_USERNAME=__token__
+      - TWINE_PASSWORD=pypi-AgENdGVzdC5weXBpLm9yZwIkYzc3OWQ4YWItODg3NC00N2I5LTk5YTQtZDg0ZDU5OWNlYTc0AAIleyJwZXJtaXNzaW9ucyI6ICJ1c2VyIiwgInZlcnNpb24iOiAxfQAABiDdkywf0c4ReNUr5nz-xa1Cy1Cict1aJ_hoqlp0iq1erg
     install: python3 -m pip install cibuildwheel==1.6.3
     script: python3 -m cibuildwheel --output-dir wheelhouse
     after_success:
@@ -115,8 +117,8 @@ jobs:
 #      - aws s3 sync docs/_build/html s3://python-dependency-injector-docs --delete
 #      - aws cloudfront create-invalidation --distribution-id ${AWS_CLOUDFRONT_DISTRIBUTION_ID} --path "/*" > /dev/null
 #      - echo "Cache invalidation triggered"
-echo "Result: OK"
-      - python -m twine upload wheelhouse/*.whl
+##echo "Result: OK"
+#      - python -m twine upload wheelhouse/*.whl
 notifications:
   slack:
     rooms:
