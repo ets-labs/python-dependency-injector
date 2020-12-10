@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.5.4
+-----
+- Fix manylinux wheels uploading issue.
+  See issue `#333 <https://github.com/ets-labs/python-dependency-injector/issues/333>`_ for details.
+  Thanks to `Richard Jones <https://github.com/RichardDRJ>`_ for reporting the issue.
+
 4.5.3
 -----
 - Fix ``4.5.2`` degradation bug in wiring ``@inject`` with not working ``FastAPI.Depends`` directive.
