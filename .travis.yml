@@ -76,7 +76,7 @@ jobs:
       install: python3 -m pip install cibuildwheel==1.6.3
       script: python3 -m cibuildwheel --output-dir wheelhouse
       after_success:
-        - python3 -m pip install twine
+        - python3 -m pip install --upgrade --upgrade-strategy eager twine
         - python3 -m twine upload wheelhouse/*.whl
     - os: osx
       if: tag IS present
@@ -86,7 +86,7 @@ jobs:
       install: python3 -m pip install cibuildwheel==1.6.3
       script: python3 -m cibuildwheel --output-dir wheelhouse
       after_success:
-        - python3 -m pip install twine
+        - python3 -m pip install --upgrade --upgrade-strategy eager twine
         - python3 -m twine upload wheelhouse/*.whl
     - os: windows
       if: tag IS present
@@ -102,7 +102,7 @@ jobs:
         - echo $SSL_CERT_FILE
       script: python -m cibuildwheel --output-dir wheelhouse
       after_success:
-        - python -m pip install twine
+        - python -m pip install --upgrade --upgrade-strategy eager twine
         - python -m twine upload wheelhouse/*.whl
     - python: 3.8
       if: branch = master
