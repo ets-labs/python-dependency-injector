@@ -1,5 +1,8 @@
 """Providers module."""
 
+import asyncio
+import inspect
+
 cimport cython
 
 
@@ -353,6 +356,7 @@ cdef inline tuple __provide_positional_args(
     return tuple(positional_args)
 
 
+# TODO: refactor
 @cython.boundscheck(False)
 @cython.wraparound(False)
 cdef inline dict __provide_keyword_args(
@@ -363,14 +367,19 @@ cdef inline dict __provide_keyword_args(
     cdef int index
     cdef object name
     cdef object value
-    cdef dict prefixed
+    cdef dict prefixed = {}
+    cdef list awaitables = []
     cdef NamedInjection kw_injection
 
     if len(kwargs) == 0:
         for index in range(inj_kwargs_len):
             kw_injection = <NamedInjection>inj_kwargs[index]
             name = __get_name(kw_injection)
-            kwargs[name] = __get_value(kw_injection)
+            value = __get_value(kw_injection)
+            if inspect.isawaitable(value):
+                awaitables.append((name, value))
+            else:
+                kwargs[name] = value
     else:
         kwargs, prefixed = __separate_prefixed_kwargs(kwargs)
 
@@ -387,9 +396,12 @@ cdef inline dict __provide_keyword_args(
             else:
                 value = __get_value(kw_injection)
 
-            kwargs[name] = value
+            if inspect.isawaitable(value):
+                awaitables.append((name, value))
+            else:
+                kwargs[name] = value
 
-    return kwargs
+    return {'kwargs': kwargs, 'awaitables': awaitables}
 
 
 @cython.boundscheck(False)
@@ -424,13 +436,47 @@ cdef inline object __call(
         injection_args,
         injection_args_len,
     )
-    keyword_args = __provide_keyword_args(
+    kw_return = __provide_keyword_args(
         kwargs,
         injection_kwargs,
         injection_kwargs_len,
     )
+    keyword_args, awaitable_keyword_args = kw_return['kwargs'], kw_return['awaitables']
+
+    # TODO: Refactor
+    if awaitable_keyword_args:
+        call_future = asyncio.Future()
+
+        future = asyncio.Future()
+        future.set_result(
+            (
+                call_future,
+                call,
+                positional_args,
+                keyword_args,
+                awaitable_keyword_args,
+            ),
+        )
+
+        kwargs_ready = asyncio.gather(future, *[value for _, value in awaitable_keyword_args])
+        kwargs_ready.add_done_callback(__async_call_callback)
+        asyncio.ensure_future(kwargs_ready)
+
+        return call_future
 
     return call(*positional_args, **keyword_args)
+
+
+# TODO: refactor
+cdef inline object __async_call_callback(object injections):
+    (call_future, call, positional_args, keyword_args, awaitable_keyword_args), *awaited_keyword_args = injections.result()
+
+    for value, (name, _) in zip(awaited_keyword_args, awaitable_keyword_args):
+        keyword_args[name] = value
+
+    result = call(*positional_args, **keyword_args)
+
+    call_future.set_result(result)
 
 
 cdef inline object __callable_call(Callable self, tuple args, dict kwargs):
