@@ -376,7 +376,7 @@ cdef inline dict __provide_keyword_args(
             kw_injection = <NamedInjection>inj_kwargs[index]
             name = __get_name(kw_injection)
             value = __get_value(kw_injection)
-            if inspect.isawaitable(value):
+            if __isawaitable(value):
                 awaitables.append((name, value))
             else:
                 kwargs[name] = value
@@ -396,7 +396,7 @@ cdef inline dict __provide_keyword_args(
             else:
                 value = __get_value(kw_injection)
 
-            if inspect.isawaitable(value):
+            if __isawaitable(value):
                 awaitables.append((name, value))
             else:
                 kwargs[name] = value
@@ -502,3 +502,19 @@ cdef inline object __factory_call(Factory self, tuple args, dict kwargs):
                             self.__attributes_len)
 
     return instance
+
+
+cdef bint __has_isawaitable = False
+
+
+cdef inline bint __isawaitable(object instance):
+    global __has_isawaitable
+
+    if __has_isawaitable is True:
+        return inspect.isawaitable(instance)
+
+    if hasattr(inspect, 'isawaitable'):
+        __has_isawaitable = True
+        return inspect.isawaitable(instance)
+
+    return False
