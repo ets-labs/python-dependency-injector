@@ -360,10 +360,9 @@ cdef inline tuple __provide_positional_args(
     return tuple(positional_args)
 
 
-# TODO: refactor
 @cython.boundscheck(False)
 @cython.wraparound(False)
-cdef inline dict __provide_keyword_args(
+cdef inline object __provide_keyword_args(
         dict kwargs,
         tuple inj_kwargs,
         int inj_kwargs_len,
@@ -380,10 +379,9 @@ cdef inline dict __provide_keyword_args(
             kw_injection = <NamedInjection>inj_kwargs[index]
             name = __get_name(kw_injection)
             value = __get_value(kw_injection)
+            kwargs[name] = value
             if __isawaitable(value):
                 awaitables.append((name, value))
-            else:
-                kwargs[name] = value
     else:
         kwargs, prefixed = __separate_prefixed_kwargs(kwargs)
 
@@ -400,12 +398,29 @@ cdef inline dict __provide_keyword_args(
             else:
                 value = __get_value(kw_injection)
 
+            kwargs[name] = value
             if __isawaitable(value):
                 awaitables.append((name, value))
-            else:
-                kwargs[name] = value
 
-    return {'kwargs': kwargs, 'awaitables': awaitables}
+    if awaitables:
+        future_result = asyncio.Future()
+
+        args_future = asyncio.Future()
+        args_future.set_result((future_result, kwargs, awaitables))
+        kwargs_ready = asyncio.gather(args_future, *[value for _, value in awaitables])
+        kwargs_ready.add_done_callback(__async_prepare_kwargs_callback)
+        asyncio.ensure_future(kwargs_ready)
+
+        return future_result
+
+    return kwargs
+
+
+cdef inline void __async_prepare_kwargs_callback(object future):
+    (future_result, kwargs, awaitables), *awaited = future.result()
+    for value, (name, _) in zip(awaited, awaitables):
+        kwargs[name] = value
+    future_result.set_result(kwargs)
 
 
 @cython.boundscheck(False)
@@ -428,59 +443,39 @@ cdef inline object __call(
         tuple context_args,
         tuple injection_args,
         int injection_args_len,
-        dict kwargs,
+        dict context_kwargs,
         tuple injection_kwargs,
         int injection_kwargs_len,
 ):
-    cdef tuple positional_args
-    cdef dict keyword_args
-
-    positional_args = __provide_positional_args(
+    args = __provide_positional_args(
         context_args,
         injection_args,
         injection_args_len,
     )
-    kw_return = __provide_keyword_args(
-        kwargs,
+    kwargs = __provide_keyword_args(
+        context_kwargs,
         injection_kwargs,
         injection_kwargs_len,
     )
-    keyword_args, awaitable_keyword_args = kw_return['kwargs'], kw_return['awaitables']
 
-    # TODO: Refactor
-    if awaitable_keyword_args:
-        call_future = asyncio.Future()
+    if __isawaitable(kwargs):
+        future_result = asyncio.Future()
 
-        future = asyncio.Future()
-        future.set_result(
-            (
-                call_future,
-                call,
-                positional_args,
-                keyword_args,
-                awaitable_keyword_args,
-            ),
-        )
+        args_future = asyncio.Future()
+        args_future.set_result((future_result, call, args))
+        args_kwargs_ready = asyncio.gather(args_future, kwargs)
+        args_kwargs_ready.add_done_callback(__async_call_callback)
+        asyncio.ensure_future(args_kwargs_ready)
 
-        kwargs_ready = asyncio.gather(future, *[value for _, value in awaitable_keyword_args])
-        kwargs_ready.add_done_callback(__async_call_callback)
-        asyncio.ensure_future(kwargs_ready)
+        return future_result
 
-        return call_future
-
-    return call(*positional_args, **keyword_args)
+    return call(*args, **kwargs)
 
 
-# TODO: refactor
-cdef inline object __async_call_callback(object injections):
-    (call_future, call, positional_args, keyword_args, awaitable_keyword_args), *awaited_keyword_args = injections.result()
-
-    for value, (name, _) in zip(awaited_keyword_args, awaitable_keyword_args):
-        keyword_args[name] = value
-
-    result = call(*positional_args, **keyword_args)
-
-    call_future.set_result(result)
+cdef inline void __async_call_callback(object future):
+    (future_result, call, args), kwargs = future.result()
+    result = call(*args, **kwargs)
+    future_result.set_result(result)
 
 
 cdef inline object __callable_call(Callable self, tuple args, dict kwargs):

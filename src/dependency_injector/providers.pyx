@@ -2564,9 +2564,7 @@ cdef class Dict(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable's call."""
-        # TODO: hotfix, remove
-        kwargs = __provide_keyword_args(kwargs, self.__kwargs, self.__kwargs_len)
-        return kwargs['kwargs']
+        return __provide_keyword_args(kwargs, self.__kwargs, self.__kwargs_len)
 
 
 cdef class Resource(Provider):
