@@ -339,25 +339,33 @@ cdef inline tuple __separate_prefixed_kwargs(dict kwargs):
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-cdef inline tuple __provide_positional_args(
+cdef inline object __provide_positional_args(
         tuple args,
         tuple inj_args,
         int inj_args_len,
 ):
     cdef int index
-    cdef list positional_args
+    cdef list positional_args = []
+    cdef list awaitables = []
     cdef PositionalInjection injection
 
     if inj_args_len == 0:
         return args
 
-    positional_args = list()
     for index in range(inj_args_len):
         injection = <PositionalInjection>inj_args[index]
-        positional_args.append(__get_value(injection))
+        value = __get_value(injection)
+        positional_args.append(value)
+
+        if __isawaitable(value):
+            awaitables.append((index, value))
+
     positional_args.extend(args)
 
-    return tuple(positional_args)
+    if awaitables:
+        return __awaitable_args_kwargs_future(positional_args, awaitables)
+
+    return positional_args
 
 
 @cython.boundscheck(False)
@@ -403,24 +411,29 @@ cdef inline object __provide_keyword_args(
                 awaitables.append((name, value))
 
     if awaitables:
-        future_result = asyncio.Future()
-
-        args_future = asyncio.Future()
-        args_future.set_result((future_result, kwargs, awaitables))
-        kwargs_ready = asyncio.gather(args_future, *[value for _, value in awaitables])
-        kwargs_ready.add_done_callback(__async_prepare_kwargs_callback)
-        asyncio.ensure_future(kwargs_ready)
-
-        return future_result
+        return __awaitable_args_kwargs_future(kwargs, awaitables)
 
     return kwargs
 
 
-cdef inline void __async_prepare_kwargs_callback(object future):
-    (future_result, kwargs, awaitables), *awaited = future.result()
-    for value, (name, _) in zip(awaited, awaitables):
-        kwargs[name] = value
-    future_result.set_result(kwargs)
+cdef inline object __awaitable_args_kwargs_future(object args, list awaitables):
+    future_result = asyncio.Future()
+
+    args_future = asyncio.Future()
+    args_future.set_result((future_result, args, awaitables))
+
+    args_ready = asyncio.gather(args_future, *[value for _, value in awaitables])
+    args_ready.add_done_callback(__async_prepare_args_kwargs_callback)
+    asyncio.ensure_future(args_ready)
+
+    return future_result
+
+
+cdef inline void __async_prepare_args_kwargs_callback(object future):
+    (future_result, args, awaitables), *awaited = future.result()
+    for value, (key, _) in zip(awaited, awaitables):
+        args[key] = value
+    future_result.set_result(args)
 
 
 @cython.boundscheck(False)
@@ -458,12 +471,27 @@ cdef inline object __call(
         injection_kwargs_len,
     )
 
-    if __isawaitable(kwargs):
+    args_awaitable = __isawaitable(args)
+    kwargs_awaitable = __isawaitable(kwargs)
+
+    if args_awaitable or kwargs_awaitable:
+        if not args_awaitable:
+            future = asyncio.Future()
+            future.set_result(args)
+            args = future
+
+        if not kwargs_awaitable:
+            future = asyncio.Future()
+            future.set_result(kwargs)
+            kwargs = future
+
+
         future_result = asyncio.Future()
 
-        args_future = asyncio.Future()
-        args_future.set_result((future_result, call, args))
-        args_kwargs_ready = asyncio.gather(args_future, kwargs)
+        future = asyncio.Future()
+        future.set_result((future_result, call))
+
+        args_kwargs_ready = asyncio.gather(future, args, kwargs)
         args_kwargs_ready.add_done_callback(__async_call_callback)
         asyncio.ensure_future(args_kwargs_ready)
 
@@ -473,7 +501,7 @@ cdef inline object __call(
 
 
 cdef inline void __async_call_callback(object future):
-    (future_result, call, args), kwargs = future.result()
+    (future_result, call), args, kwargs = future.result()
     result = call(*args, **kwargs)
     future_result.set_result(result)
 

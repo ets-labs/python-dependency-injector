@@ -56,7 +56,51 @@ class Container(containers.DeclarativeContainer):
 
 class FactoryTests(AsyncTestCase):
 
-    def test_direct_injection(self):
+    def test_args_injection(self):
+        class ContainerWithArgs(containers.DeclarativeContainer):
+            resource1 = providers.Resource(init_resource, providers.Object(RESOURCE1))
+            resource2 = providers.Resource(init_resource, providers.Object(RESOURCE2))
+
+            client = providers.Factory(
+                Client,
+                resource1,
+                resource2,
+            )
+
+            service = providers.Factory(
+                Service,
+                client,
+            )
+
+        container = ContainerWithArgs()
+
+        client1 = self._run(container.client())
+        client2 = self._run(container.client())
+
+        self.assertIsInstance(client1, Client)
+        self.assertIs(client1.resource1, RESOURCE1)
+        self.assertIs(client1.resource2, RESOURCE2)
+
+        self.assertIsInstance(client2, Client)
+        self.assertIs(client2.resource1, RESOURCE1)
+        self.assertIs(client2.resource2, RESOURCE2)
+
+        service1 = self._run(container.service())
+        service2 = self._run(container.service())
+
+        self.assertIsInstance(service1, Service)
+        self.assertIsInstance(service1.client, Client)
+        self.assertIs(service1.client.resource1, RESOURCE1)
+        self.assertIs(service1.client.resource2, RESOURCE2)
+
+        self.assertIsInstance(service2, Service)
+        self.assertIsInstance(service2.client, Client)
+        self.assertIs(service2.client.resource1, RESOURCE1)
+        self.assertIs(service2.client.resource2, RESOURCE2)
+
+        self.assertIsNot(service1.client, service2.client)
+
+    def test_kwargs_injection(self):
         container = Container()
 
         client1 = self._run(container.client())
@@ -70,8 +114,49 @@ class FactoryTests(AsyncTestCase):
         self.assertIs(client2.resource1, RESOURCE1)
         self.assertIs(client2.resource2, RESOURCE2)
 
-    def test_children_injection(self):
-        container = Container()
+        service1 = self._run(container.service())
+        service2 = self._run(container.service())
+
+        self.assertIsInstance(service1, Service)
+        self.assertIsInstance(service1.client, Client)
+        self.assertIs(service1.client.resource1, RESOURCE1)
+        self.assertIs(service1.client.resource2, RESOURCE2)
+
+        self.assertIsInstance(service2, Service)
+        self.assertIsInstance(service2.client, Client)
+        self.assertIs(service2.client.resource1, RESOURCE1)
+        self.assertIs(service2.client.resource2, RESOURCE2)
+
+        self.assertIsNot(service1.client, service2.client)
+
+    def test_args_kwargs_injection(self):
+        class ContainerWithArgsAndKwArgs(containers.DeclarativeContainer):
+            resource1 = providers.Resource(init_resource, providers.Object(RESOURCE1))
+            resource2 = providers.Resource(init_resource, providers.Object(RESOURCE2))
+
+            client = providers.Factory(
+                Client,
+                resource1,
+                resource2=resource2,
+            )
+
+            service = providers.Factory(
+                Service,
+                client=client,
+            )
+
+        container = ContainerWithArgsAndKwArgs()
+
+        client1 = self._run(container.client())
+        client2 = self._run(container.client())
+
+        self.assertIsInstance(client1, Client)
+        self.assertIs(client1.resource1, RESOURCE1)
+        self.assertIs(client1.resource2, RESOURCE2)
+
+        self.assertIsInstance(client2, Client)
+        self.assertIs(client2.resource1, RESOURCE1)
+        self.assertIs(client2.resource2, RESOURCE2)
 
         service1 = self._run(container.service())
         service2 = self._run(container.service())
