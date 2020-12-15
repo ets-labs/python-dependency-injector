@@ -218,3 +218,154 @@ class FactoryTests(AsyncTestCase):
         self.assertIs(service2.client.resource2, RESOURCE2)
 
         self.assertIsNot(service1.client, service2.client)
+
+
+class SingletonTests(AsyncTestCase):
+
+    def test_injections(self):
+        class ContainerWithSingletons(containers.DeclarativeContainer):
+            resource1 = providers.Resource(init_resource, providers.Object(RESOURCE1))
+            resource2 = providers.Resource(init_resource, providers.Object(RESOURCE2))
+
+            client = providers.Singleton(
+                Client,
+                resource1=resource1,
+                resource2=resource2,
+            )
+
+            service = providers.Singleton(
+                Service,
+                client=client,
+            )
+
+        container = ContainerWithSingletons()
+
+        client1 = self._run(container.client())
+        client2 = self._run(container.client())
+
+        self.assertIsInstance(client1, Client)
+        self.assertIs(client1.resource1, RESOURCE1)
+        self.assertIs(client1.resource2, RESOURCE2)
+
+        self.assertIsInstance(client2, Client)
+        self.assertIs(client2.resource1, RESOURCE1)
+        self.assertIs(client2.resource2, RESOURCE2)
+
+        service1 = self._run(container.service())
+        service2 = self._run(container.service())
+
+        self.assertIsInstance(service1, Service)
+        self.assertIsInstance(service1.client, Client)
+        self.assertIs(service1.client.resource1, RESOURCE1)
+        self.assertIs(service1.client.resource2, RESOURCE2)
+
+        self.assertIsInstance(service2, Service)
+        self.assertIsInstance(service2.client, Client)
+        self.assertIs(service2.client.resource1, RESOURCE1)
+        self.assertIs(service2.client.resource2, RESOURCE2)
+
+        self.assertIs(service1, service2)
+        self.assertIs(service1.client, service2.client)
+        self.assertIs(service1.client, client1)
+
+        self.assertIs(service2.client, client2)
+        self.assertIs(client1, client2)
+
+    def test_async_mode(self):
+        instance = object()
+
+        async def create_instance():
+            return instance
+
+        provider = providers.Singleton(create_instance)
+
+        instance1 = self._run(provider())
+        instance2 = self._run(provider())
+
+        self.assertIs(instance1, instance2)
+        self.assertIs(instance, instance)
+
+
+class DelegatedSingletonTests(AsyncTestCase):
+
+    def test_async_mode(self):
+        instance = object()
+
+        async def create_instance():
+            return instance
+
+        provider = providers.DelegatedSingleton(create_instance)
+
+        instance1 = self._run(provider())
+        instance2 = self._run(provider())
+
+        self.assertIs(instance1, instance2)
+        self.assertIs(instance, instance)
+
+
+class ThreadSafeSingletonTests(AsyncTestCase):
+
+    def test_async_mode(self):
+        instance = object()
+
+        async def create_instance():
+            return instance
+
+        provider = providers.ThreadSafeSingleton(create_instance)
+
+        instance1 = self._run(provider())
+        instance2 = self._run(provider())
+
+        self.assertIs(instance1, instance2)
+        self.assertIs(instance, instance)
+
+
+class DelegatedThreadSafeSingletonTests(AsyncTestCase):
+
+    def test_async_mode(self):
+        instance = object()
+
+        async def create_instance():
+            return instance
+
+        provider = providers.DelegatedThreadSafeSingleton(create_instance)
+
+        instance1 = self._run(provider())
+        instance2 = self._run(provider())
+
+        self.assertIs(instance1, instance2)
+        self.assertIs(instance, instance)
+
+
+class ThreadLocalSingletonTests(AsyncTestCase):
+
+    def test_async_mode(self):
+        instance = object()
+
+        async def create_instance():
+            return instance
+
+        provider = providers.ThreadLocalSingleton(create_instance)
+
+        instance1 = self._run(provider())
+        instance2 = self._run(provider())
+
+        self.assertIs(instance1, instance2)
+        self.assertIs(instance, instance)
+
+
+class DelegatedThreadLocalSingletonTests(AsyncTestCase):
+
+    def test_async_mode(self):
+        instance = object()
+
+        async def create_instance():
+            return instance
+
+        provider = providers.DelegatedThreadLocalSingleton(create_instance)
+
+        instance1 = self._run(provider())
+        instance2 = self._run(provider())
+
+        self.assertIs(instance1, instance2)
+        self.assertIs(instance, instance)

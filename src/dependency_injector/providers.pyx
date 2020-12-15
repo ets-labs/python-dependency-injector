@@ -1941,6 +1941,7 @@ cdef class BaseSingleton(Provider):
                 self.__class__, self.__class__.provided_type))
 
         self.__instantiator = Factory(provides, *args, **kwargs)
+        self.__async = False
 
         super(BaseSingleton, self).__init__()
 
@@ -2128,9 +2129,29 @@ cdef class Singleton(BaseSingleton):
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
         if self.__storage is None:
-            self.__storage = __factory_call(self.__instantiator,
-                                            args, kwargs)
+            instance = __factory_call(self.__instantiator, args, kwargs)
+
+            if __isawaitable(instance):
+                future_result = asyncio.Future()
+                instance = asyncio.ensure_future(instance)
+                instance.add_done_callback(functools.partial(self._async_init_instance, future_result))
+                self.__storage = future_result
+                return future_result
+
+            self.__storage = instance
+
+        if self.__async:
+            result = asyncio.Future()
+            result.set_result(self.__storage)
+            return result
+
         return self.__storage
+
+    def _async_init_instance(self, future_result, result):
+        instance = result.result()
+        self.__storage = instance
+        self.__async = True
+        future_result.set_result(instance)
 
 
 cdef class DelegatedSingleton(Singleton):
@@ -3488,8 +3509,20 @@ def merge_dicts(dict1, dict2):
     return result
 
 
+def isawaitable(obj):
+    """Check if object is a coroutine function.
+
+    Return False for any object in Python 3.4 or below.
+    """
+    try:
+        return inspect.isawaitable(obj)
+    except AttributeError:
+        return False
+
+
 def iscoroutinefunction(obj):
     """Check if object is a coroutine function.
+
     Return False for any object in Python 3.4 or below.
     """
     try:
@@ -3500,6 +3533,7 @@ def iscoroutinefunction(obj):
 
 def isasyncgenfunction(obj):
     """Check if object is an asynchronous generator function.
+
     Return False for any object in Python 3.4 or below.
     """
     try:
