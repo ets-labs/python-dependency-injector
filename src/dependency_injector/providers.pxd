@@ -141,11 +141,11 @@ cdef class FactoryAggregate(Provider):
 # Singleton providers
 cdef class BaseSingleton(Provider):
     cdef Factory __instantiator
+    cdef object __storage
     cdef bint __async
 
 
 cdef class Singleton(BaseSingleton):
-    cdef object __storage
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
@@ -155,7 +155,6 @@ cdef class DelegatedSingleton(Singleton):
 
 
 cdef class ThreadSafeSingleton(BaseSingleton):
-    cdef object __storage
     cdef object __storage_lock
 
     cpdef object _provide(self, tuple args, dict kwargs)
@@ -166,7 +165,6 @@ cdef class DelegatedThreadSafeSingleton(ThreadSafeSingleton):
 
 
 cdef class ThreadLocalSingleton(BaseSingleton):
-    cdef object __storage
 
     cpdef object _provide(self, tuple args, dict kwargs)
 

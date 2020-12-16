@@ -2077,6 +2077,12 @@ cdef class BaseSingleton(Provider):
         """
         raise NotImplementedError()
 
+    def _async_init_instance(self, future_result, result):
+        instance = result.result()
+        self.__storage = instance
+        self.__async = True
+        future_result.set_result(instance)
+
 
 cdef class Singleton(BaseSingleton):
     """Singleton provider returns same instance on every call.
@@ -2124,6 +2130,8 @@ cdef class Singleton(BaseSingleton):
 
         :rtype: None
         """
+        if __isawaitable(self.__storage):
+            asyncio.ensure_future(self.__storage).cancel()
         self.__storage = None
 
     cpdef object _provide(self, tuple args, dict kwargs):
@@ -2146,12 +2154,6 @@ cdef class Singleton(BaseSingleton):
             return result
 
         return self.__storage
-
-    def _async_init_instance(self, future_result, result):
-        instance = result.result()
-        self.__storage = instance
-        self.__async = True
-        future_result.set_result(instance)
 
 
 cdef class DelegatedSingleton(Singleton):
@@ -2201,18 +2203,35 @@ cdef class ThreadSafeSingleton(BaseSingleton):
         :rtype: None
         """
         with self.__storage_lock:
+            if __isawaitable(self.__storage):
+                asyncio.ensure_future(self.__storage).cancel()
             self.__storage = None
+
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
-        storage = self.__storage
-        if storage is None:
+        instance = self.__storage
+
+        if instance is None:
             with self.__storage_lock:
                 if self.__storage is None:
-                    self.__storage = __factory_call(self.__instantiator,
-                                                    args, kwargs)
-                storage = self.__storage
-        return storage
+                    instance = __factory_call(self.__instantiator, args, kwargs)
+
+                    if __isawaitable(instance):
+                        future_result = asyncio.Future()
+                        instance = asyncio.ensure_future(instance)
+                        instance.add_done_callback(functools.partial(self._async_init_instance, future_result))
+                        self.__storage = future_result
+                        return future_result
+
+                    self.__storage = instance
+
+        if self.__async:
+            result = asyncio.Future()
+            result.set_result(instance)
+            return result
+
+        return instance
 
 
 cdef class DelegatedThreadSafeSingleton(ThreadSafeSingleton):
@@ -2270,6 +2289,8 @@ cdef class ThreadLocalSingleton(BaseSingleton):
 
         :rtype: None
         """
+        if __isawaitable(self.__storage.instance):
+            asyncio.ensure_future(self.__storage.instance).cancel()
         del self.__storage.instance
 
     cpdef object _provide(self, tuple args, dict kwargs):
@@ -2280,9 +2301,27 @@ cdef class ThreadLocalSingleton(BaseSingleton):
             instance = self.__storage.instance
         except AttributeError:
             instance = __factory_call(self.__instantiator, args, kwargs)
+
+            if __isawaitable(instance):
+                future_result = asyncio.Future()
+                instance = asyncio.ensure_future(instance)
+                instance.add_done_callback(functools.partial(self._async_init_instance, future_result))
+                self.__storage.instance = future_result
+                return future_result
+
             self.__storage.instance = instance
         finally:
+            if self.__async:
+                result = asyncio.Future()
+                result.set_result(instance)
+                return result
             return instance
+
+    def _async_init_instance(self, future_result, result):
+        instance = result.result()
+        self.__storage.instance = instance
+        self.__async = True
+        future_result.set_result(instance)
 
 
 cdef class DelegatedThreadLocalSingleton(ThreadLocalSingleton):
