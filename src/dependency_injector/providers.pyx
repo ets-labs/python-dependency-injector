@@ -2794,6 +2794,8 @@ cdef class Resource(Provider):
     cpdef object _provide(self, tuple args, dict kwargs):
         if self.__initialized:
             if self.__async:
+                if __isawaitable(self.__resource):
+                    return self.__resource
                 result = asyncio.Future()
                 result.set_result(self.__resource)
                 return result
@@ -2887,6 +2889,8 @@ cdef class Resource(Provider):
 
         future = asyncio.ensure_future(future)
         future.add_done_callback(callback)
+        self.__resource = future
+
         return future
 
     def _async_init_callback(self, initializer, shutdowner=None):
@@ -3202,7 +3206,17 @@ cdef class AttributeGetter(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         provided = self.__provider(*args, **kwargs)
+        if __isawaitable(provided):
+            future_result = asyncio.Future()
+            provided = asyncio.ensure_future(provided)
+            provided.add_done_callback(functools.partial(self._async_provide, future_result))
+            return future_result
         return getattr(provided, self.__attribute)
+
+    def _async_provide(self, future_result, future):
+        provided = future.result()
+        result = getattr(provided, self.__attribute)
+        future_result.set_result(result)
 
 
 cdef class ItemGetter(Provider):
@@ -3252,7 +3266,17 @@ cdef class ItemGetter(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         provided = self.__provider(*args, **kwargs)
+        if __isawaitable(provided):
+            future_result = asyncio.Future()
+            provided = asyncio.ensure_future(provided)
+            provided.add_done_callback(functools.partial(self._async_provide, future_result))
+            return future_result
         return provided[self.__item]
+
+    def _async_provide(self, future_result, future):
+        provided = future.result()
+        result = provided[self.__item]
+        future_result.set_result(result)
 
 
 cdef class MethodCaller(Provider):
@@ -3334,6 +3358,11 @@ cdef class MethodCaller(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         call = self.__provider()
+        if __isawaitable(call):
+            future_result = asyncio.Future()
+            call = asyncio.ensure_future(call)
+            call.add_done_callback(functools.partial(self._async_provide, future_result, args, kwargs))
+            return future_result
         return __call(
             call,
             args,
@@ -3343,6 +3372,19 @@ cdef class MethodCaller(Provider):
             self.__kwargs,
             self.__kwargs_len,
         )
+
+    def _async_provide(self, future_result, args, kwargs, future):
+        call = future.result()
+        result = __call(
+            call,
+            args,
+            self.__args,
+            self.__args_len,
+            kwargs,
+            self.__kwargs,
+            self.__kwargs_len,
+        )
+        future_result.set_result(result)
 
 
 cdef class Injection(object):

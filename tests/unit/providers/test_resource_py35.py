@@ -460,3 +460,27 @@ class AsyncResourceTest(AsyncTestCase):
         self._run(provider.shutdown())
         self.assertEqual(_init.init_counter, 2)
         self.assertEqual(_init.shutdown_counter, 2)
+
+    def test_concurent_init(self):
+        resource = object()
+
+        async def _init():
+            await asyncio.sleep(0.001)
+            _init.counter += 1
+            return resource
+        _init.counter = 0
+
+        provider = providers.Resource(_init)
+
+        result1, result2 = self._run(
+            asyncio.gather(
+                provider(),
+                provider()
+            ),
+        )
+
+        self.assertIs(result1, resource)
+        self.assertEqual(_init.counter, 1)
+
+        self.assertIs(result2, resource)
+        self.assertEqual(_init.counter, 1)

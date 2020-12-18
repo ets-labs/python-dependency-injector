@@ -369,3 +369,93 @@ class DelegatedThreadLocalSingletonTests(AsyncTestCase):
 
         self.assertIs(instance1, instance2)
         self.assertIs(instance, instance)
+
+
+class ProvidedInstanceTests(AsyncTestCase):
+
+    def test_provided_attribute(self):
+        class TestClient:
+            def __init__(self, resource):
+                self.resource = resource
+
+        class TestService:
+            def __init__(self, resource):
+                self.resource = resource
+
+        class TestContainer(containers.DeclarativeContainer):
+            resource = providers.Resource(init_resource, providers.Object(RESOURCE1))
+            client = providers.Factory(TestClient, resource=resource)
+            service = providers.Factory(TestService, resource=client.provided.resource)
+
+        container = TestContainer()
+
+        instance1, instance2 = self._run(
+            asyncio.gather(
+                container.service(),
+                container.service(),
+            ),
+        )
+
+        self.assertIs(instance1.resource, RESOURCE1)
+        self.assertIs(instance2.resource, RESOURCE1)
+        self.assertIs(instance1.resource, instance2.resource)
+
+    def test_provided_item(self):
+        class TestClient:
+            def __init__(self, resource):
+                self.resource = resource
+
+            def __getitem__(self, item):
+                return getattr(self, item)
+
+        class TestService:
+            def __init__(self, resource):
+                self.resource = resource
+
+        class TestContainer(containers.DeclarativeContainer):
+            resource = providers.Resource(init_resource, providers.Object(RESOURCE1))
+            client = providers.Factory(TestClient, resource=resource)
+            service = providers.Factory(TestService, resource=client.provided['resource'])
+
+        container = TestContainer()
+
+        instance1, instance2 = self._run(
+            asyncio.gather(
+                container.service(),
+                container.service(),
+            ),
+        )
+
+        self.assertIs(instance1.resource, RESOURCE1)
+        self.assertIs(instance2.resource, RESOURCE1)
+        self.assertIs(instance1.resource, instance2.resource)
+
+    def test_provided_method_call(self):
+        class TestClient:
+            def __init__(self, resource):
+                self.resource = resource
+
+            def get_resource(self):
+                return self.resource
+
+        class TestService:
+            def __init__(self, resource):
+                self.resource = resource
+
+        class TestContainer(containers.DeclarativeContainer):
+            resource = providers.Resource(init_resource, providers.Object(RESOURCE1))
+            client = providers.Factory(TestClient, resource=resource)
+            service = providers.Factory(TestService, resource=client.provided.get_resource.call())
+
+        container = TestContainer()
+
+        instance1, instance2 = self._run(
+            asyncio.gather(
+                container.service(),
+                container.service(),
+            ),
+        )
+
+        self.assertIs(instance1.resource, RESOURCE1)
+        self.assertIs(instance2.resource, RESOURCE1)
+        self.assertIs(instance1.resource, instance2.resource)
