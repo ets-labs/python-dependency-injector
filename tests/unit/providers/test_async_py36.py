@@ -1,7 +1,7 @@
 import asyncio
 import random
 
-from dependency_injector import containers, providers
+from dependency_injector import containers, providers, errors
 
 # Runtime import to get asyncutils module
 import os
@@ -459,3 +459,55 @@ class ProvidedInstanceTests(AsyncTestCase):
         self.assertIs(instance1.resource, RESOURCE1)
         self.assertIs(instance2.resource, RESOURCE1)
         self.assertIs(instance1.resource, instance2.resource)
+
+
+class DependencyTests(AsyncTestCase):
+
+    def test_isinstance(self):
+        dependency = 1.0
+
+        async def get_async():
+            return dependency
+
+        provider = providers.Dependency(instance_of=float)
+        provider.override(providers.Callable(get_async))
+
+        dependency1 = self._run(provider())
+        dependency2 = self._run(provider())
+
+        self.assertEqual(dependency1, dependency)
+        self.assertEqual(dependency2, dependency)
+
+    def test_isinstance_invalid(self):
+        async def get_async():
+            return {}
+
+        provider = providers.Dependency(instance_of=float)
+        provider.override(providers.Callable(get_async))
+
+        with self.assertRaises(errors.Error):
+            self._run(provider())
+
+    def test_async_mode(self):
+        dependency = 123
+
+        async def get_async():
+            return dependency
+
+        def get_sync():
+            return dependency
+
+        provider = providers.Dependency(instance_of=int)
+        provider.override(providers.Factory(get_async))
+
+        dependency1 = self._run(provider())
+        dependency2 = self._run(provider())
+        self.assertEqual(dependency1, dependency)
+        self.assertEqual(dependency2, dependency)
+
+        provider.override(providers.Factory(get_sync))
+
+        dependency3 = self._run(provider())
+        dependency4 = self._run(provider())
+        self.assertEqual(dependency3, dependency)
+        self.assertEqual(dependency4, dependency)

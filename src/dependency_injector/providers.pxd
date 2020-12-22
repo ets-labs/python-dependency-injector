@@ -33,6 +33,7 @@ cdef class Delegate(Provider):
 
 cdef class Dependency(Provider):
     cdef object __instance_of
+    cdef bint __async
 
 
 cdef class ExternalDependency(Dependency):

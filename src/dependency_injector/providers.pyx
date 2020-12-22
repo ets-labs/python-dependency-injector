@@ -452,6 +452,7 @@ cdef class Dependency(Provider):
             )
 
         self.__instance_of = instance_of
+        self.__async = False
         super(Dependency, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -480,9 +481,19 @@ cdef class Dependency(Provider):
 
         instance = self.__last_overriding(*args, **kwargs)
 
-        if not isinstance(instance, self.instance_of):
-            raise Error('{0} is not an '.format(instance) +
-                        'instance of {0}'.format(self.instance_of))
+        if __isawaitable(instance):
+            future_result = asyncio.Future()
+            instance = asyncio.ensure_future(instance)
+            instance.add_done_callback(functools.partial(self._async_provide, future_result))
+            self.__async = True
+            return future_result
+
+        self._check_instance_type(instance)
+
+        if self.__async:
+            result = asyncio.Future()
+            result.set_result(instance)
+            return result
 
         return instance
 
@@ -514,6 +525,19 @@ cdef class Dependency(Provider):
         :rtype: None
         """
         return self.override(provider)
+
+    def _async_provide(self, future_result, future):
+        instance = future.result()
+        try:
+            self._check_instance_type(instance)
+        except Error as exception:
+            future_result.set_exception(exception)
+        else:
+            future_result.set_result(instance)
+
+    def _check_instance_type(self, instance):
+        if not isinstance(instance, self.instance_of):
+            raise Error('{0} is not an instance of {1}'.format(instance, self.instance_of))
 
 
 cdef class ExternalDependency(Dependency):
