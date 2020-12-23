@@ -3,118 +3,123 @@ dist: xenial
 language: python
 jobs:
   include:
+#    - python: 3.8
+#      env: TOXENV=coveralls DEPENDENCY_INJECTOR_DEBUG_MODE=1
+#      install:
+#        - pip install tox
+#        - pip install cython
+#        - make cythonize
+#      script: tox
+#    - python: 3.6
+#      env: TOXENV=pylint
+#      install: pip install tox
+#      script: tox
+#    - python: 3.6
+#      env: TOXENV=flake8
+#      install: pip install tox
+#      script: tox
+#    - python: 3.6
+#      env: TOXENV=pydocstyle
+#      install: pip install tox
+#      script: tox
+#    - python: 3.6
+#      env: TOXENV=mypy
+#      install: pip install tox
+#      script: tox
+#    - python: 2.7
+#      env: TOXENV=py27
+#      install: pip install tox
+#      script: tox
+#    - python: 3.4
+#      env: TOXENV=py34
+#      install: pip install tox
+#      script: tox
+#    - python: 3.5
+#      env: TOXENV=py35
+#      install: pip install tox
+#      script: tox
+#    - python: 3.6
+#      env: TOXENV=py36
+#      install: pip install tox
+#      script: tox
+#    - python: 3.7
+#      env: TOXENV=py37
+#      install: pip install tox
+#      script: tox
+#    - python: 3.8
+#      env: TOXENV=py38
+#      install: pip install tox
+#      script: tox
+#    - python: 3.9
+#      env: TOXENV=py39
+#      install: pip install tox
+#      script: tox
+#    - python: pypy
+#      env: TOXENV=pypy
+#      install: pip install tox
+#      script: tox
+#    - python: pypy3
+#      env: TOXENV=pypy3
+#      install: pip install tox
+#      script: tox
     - python: 3.8
-      env: TOXENV=coveralls DEPENDENCY_INJECTOR_DEBUG_MODE=1
-      install:
-        - pip install tox
-        - pip install cython
-        - make cythonize
-      script: tox
-    - python: 3.6
-      env: TOXENV=pylint
-      install: pip install tox
-      script: tox
-    - python: 3.6
-      env: TOXENV=flake8
-      install: pip install tox
-      script: tox
-    - python: 3.6
-      env: TOXENV=pydocstyle
-      install: pip install tox
-      script: tox
-    - python: 3.6
-      env: TOXENV=mypy
-      install: pip install tox
-      script: tox
-    - python: 2.7
-      env: TOXENV=py27
-      install: pip install tox
-      script: tox
-    - python: 3.4
-      env: TOXENV=py34
-      install: pip install tox
-      script: tox
-    - python: 3.5
-      env: TOXENV=py35
-      install: pip install tox
-      script: tox
-    - python: 3.6
-      env: TOXENV=py36
-      install: pip install tox
-      script: tox
-    - python: 3.7
-      env: TOXENV=py37
-      install: pip install tox
-      script: tox
-    - python: 3.8
-      env: TOXENV=py38
-      install: pip install tox
-      script: tox
-    - python: 3.9
-      env: TOXENV=py39
-      install: pip install tox
-      script: tox
-    - python: pypy
-      env: TOXENV=pypy
-      install: pip install tox
-      script: tox
-    - python: pypy3
-      env: TOXENV=pypy3
-      install: pip install tox
-      script: tox
-    - python: 3.8
-      if: tag IS present
-      env: TWINE_USERNAME=__token__
+#      if: tag IS present
+      env:
+        TWINE_USERNAME=__token__
+        TWINE_PASSWORD=pypi-AgENdGVzdC5weXBpLm9yZwIkNzc4N2YzM2ItMGZiMS00MDMyLWIzZmQtZDA0NzUzYmYxMjYzAAJEeyJwZXJtaXNzaW9ucyI6IHsicHJvamVjdHMiOiBbImRlcGVuZGVuY3ktaW5qZWN0b3IiXX0sICJ2ZXJzaW9uIjogMX0AAAYgQCGWW9F8Atw-87wdCa9bDcY9Hx8ne4uq3B76RfMrhMc
       install: pip install pip --upgrade
       script: python setup.py sdist
       after_success:
         - python3 -m pip install twine
-        - python3 -m twine upload dist/*
+        - python3 -m twine upload --repository testpypi dist/*
     - services: docker
-      if: tag IS present
-      env: TWINE_USERNAME=__token__
+      arch: arm64
+#      if: tag IS present
+      env:
+        TWINE_USERNAME=__token__
+        TWINE_PASSWORD=pypi-AgENdGVzdC5weXBpLm9yZwIkNzc4N2YzM2ItMGZiMS00MDMyLWIzZmQtZDA0NzUzYmYxMjYzAAJEeyJwZXJtaXNzaW9ucyI6IHsicHJvamVjdHMiOiBbImRlcGVuZGVuY3ktaW5qZWN0b3IiXX0sICJ2ZXJzaW9uIjogMX0AAAYgQCGWW9F8Atw-87wdCa9bDcY9Hx8ne4uq3B76RfMrhMc
       install: python3 -m pip install cibuildwheel==1.6.3
       script: python3 -m cibuildwheel --output-dir wheelhouse
       after_success:
         - python3 -m pip install --upgrade --upgrade-strategy eager twine
-        - python3 -m twine upload wheelhouse/*.whl
-    - os: osx
-      if: tag IS present
-      language: shell
-      osx_image: xcode10.2
-      env: TWINE_USERNAME=__token__
-      install: python3 -m pip install cibuildwheel==1.6.3
-      script: python3 -m cibuildwheel --output-dir wheelhouse
-      after_success:
-        - python3 -m pip install --upgrade --upgrade-strategy eager twine
-        - python3 -m twine upload wheelhouse/*.whl
-    - os: windows
-      if: tag IS present
-      language: shell
-      env: TWINE_USERNAME=__token__
-      before_install:
-        - choco install python --version 3.8.6
-        - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
-        - ln -s /c/Python38/python.exe /c/Python38/python3.exe
-      install:
-        - python3 -m pip install certifi cibuildwheel==1.6.3
-        - export SSL_CERT_FILE=`python3 -c "import certifi;print(certifi.where())"`
-        - echo $SSL_CERT_FILE
-      script: python -m cibuildwheel --output-dir wheelhouse
-      after_success:
-        - python -m pip install --upgrade --upgrade-strategy eager twine
-        - python -m twine upload wheelhouse/*.whl
-    - python: 3.8
-      if: branch = master
-      install:
-        - pip install -r requirements-doc.txt
-        - pip install awscli
-        - pip install -e .
-      script: (cd docs && make clean html)
-      after_success:
-        - aws s3 sync docs/_build/html s3://python-dependency-injector-docs --delete
-        - aws cloudfront create-invalidation --distribution-id ${AWS_CLOUDFRONT_DISTRIBUTION_ID} --path "/*" > /dev/null
-        - echo "Cache invalidation triggered"
+        - python3 -m twine upload --repository testpypi wheelhouse/*.whl
+#    - os: osx
+#      if: tag IS present
+#      language: shell
+#      osx_image: xcode10.2
+#      env: TWINE_USERNAME=__token__
+#      install: python3 -m pip install cibuildwheel==1.6.3
+#      script: python3 -m cibuildwheel --output-dir wheelhouse
+#      after_success:
+#        - python3 -m pip install --upgrade --upgrade-strategy eager twine
+#        - python3 -m twine upload wheelhouse/*.whl
+#    - os: windows
+#      if: tag IS present
+#      language: shell
+#      env: TWINE_USERNAME=__token__
+#      before_install:
+#        - choco install python --version 3.8.6
+#        - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
+#        - ln -s /c/Python38/python.exe /c/Python38/python3.exe
+#      install:
+#        - python3 -m pip install certifi cibuildwheel==1.6.3
+#        - export SSL_CERT_FILE=`python3 -c "import certifi;print(certifi.where())"`
+#        - echo $SSL_CERT_FILE
+#      script: python -m cibuildwheel --output-dir wheelhouse
+#      after_success:
+#        - python -m pip install --upgrade --upgrade-strategy eager twine
+#        - python -m twine upload wheelhouse/*.whl
+#    - python: 3.8
+#      if: branch = master
+#      install:
+#        - pip install -r requirements-doc.txt
+#        - pip install awscli
+#        - pip install -e .
+#      script: (cd docs && make clean html)
+#      after_success:
+#        - aws s3 sync docs/_build/html s3://python-dependency-injector-docs --delete
+#        - aws cloudfront create-invalidation --distribution-id ${AWS_CLOUDFRONT_DISTRIBUTION_ID} --path "/*" > /dev/null
+#        - echo "Cache invalidation triggered"
 echo "Result: OK"
   - python -m twine upload wheelhouse/*.whl
 notifications:
