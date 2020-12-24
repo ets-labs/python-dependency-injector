@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Add ARM wheel builds.
+  See issue `#342 <https://github.com/ets-labs/python-dependency-injector/issues/342>`_ for details.
+
 4.5.4
 -----
 - Fix manylinux wheels uploading issue.

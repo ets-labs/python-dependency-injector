@@ -78,6 +78,15 @@ jobs:
       after_success:
         - python3 -m pip install --upgrade --upgrade-strategy eager twine
         - python3 -m twine upload wheelhouse/*.whl
+    - services: docker
+      arch: arm64
+      if: tag IS present
+      env: TWINE_USERNAME=__token__
+      install: python3 -m pip install cibuildwheel==1.6.3
+      script: python3 -m cibuildwheel --output-dir wheelhouse
+      after_success:
+        - python3 -m pip install --upgrade --upgrade-strategy eager twine
+        - python3 -m twine upload wheelhouse/*.whl
     - os: osx
       if: tag IS present
       language: shell
