@@ -89,6 +89,11 @@ else:
             return parser
 
 
+cdef int ASYNC_MODE_UNDEFINED = 0
+cdef int ASYNC_MODE_ENABLED = 1
+cdef int ASYNC_MODE_DISABLED = 2
+
+
 cdef class Provider(object):
     """Base provider class.
 
@@ -149,6 +154,7 @@ cdef class Provider(object):
         """Initializer."""
         self.__overridden = tuple()
         self.__last_overriding = None
+        self.__async_mode = ASYNC_MODE_UNDEFINED
         super(Provider, self).__init__()
 
     def __call__(self, *args, **kwargs):
@@ -157,8 +163,24 @@ cdef class Provider(object):
         Callable interface implementation.
         """
         if self.__last_overriding is not None:
-            return self.__last_overriding(*args, **kwargs)
-        return self._provide(args, kwargs)
+            result = self.__last_overriding(*args, **kwargs)
+        else:
+            result = self._provide(args, kwargs)
+
+        if self.__async_mode == ASYNC_MODE_DISABLED:
+            return result
+        elif self.__async_mode == ASYNC_MODE_ENABLED:
+            if not __isawaitable(result):
+                future_result = asyncio.Future()
+                future_result.set_result(result)
+                return future_result
+            return result
+        elif self.__async_mode == ASYNC_MODE_UNDEFINED:
+            if __isawaitable(result):
+                self.__async_mode = ASYNC_MODE_ENABLED
+            else:
+                self.__async_mode = ASYNC_MODE_DISABLED
+            return result
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""

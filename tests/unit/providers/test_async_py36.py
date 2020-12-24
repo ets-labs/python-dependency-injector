@@ -511,3 +511,62 @@ class DependencyTests(AsyncTestCase):
         dependency4 = self._run(provider())
         self.assertEqual(dependency3, dependency)
         self.assertEqual(dependency4, dependency)
+
+
+class OverrideTests(AsyncTestCase):
+
+    def test_provider(self):
+        dependency = object()
+
+        async def _get_dependency_async():
+            return dependency
+
+        def _get_dependency_sync():
+            return dependency
+
+        provider = providers.Provider()
+
+        provider.override(providers.Callable(_get_dependency_async))
+        dependency1 = self._run(provider())
+
+        provider.override(providers.Callable(_get_dependency_sync))
+        dependency2 = self._run(provider())
+
+        self.assertIs(dependency1, dependency)
+        self.assertIs(dependency2, dependency)
+
+    def test_callable(self):
+        dependency = object()
+
+        async def _get_dependency_async():
+            return dependency
+
+        def _get_dependency_sync():
+            return dependency
+
+        provider = providers.Callable(_get_dependency_async)
+        dependency1 = self._run(provider())
+
+        provider.override(providers.Callable(_get_dependency_sync))
+        dependency2 = self._run(provider())
+
+        self.assertIs(dependency1, dependency)
+        self.assertIs(dependency2, dependency)
+
+    def test_factory(self):
+        dependency = object()
+
+        async def _get_dependency_async():
+            return dependency
+
+        def _get_dependency_sync():
+            return dependency
+
+        provider = providers.Factory(_get_dependency_async)
+        dependency1 = self._run(provider())
+
+        provider.override(providers.Callable(_get_dependency_sync))
+        dependency2 = self._run(provider())
+
+        self.assertIs(dependency1, dependency)
+        self.assertIs(dependency2, dependency)

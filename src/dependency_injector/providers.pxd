@@ -14,6 +14,7 @@ cimport cython
 cdef class Provider(object):
     cdef tuple __overridden
     cdef Provider __last_overriding
+    cdef int __async_mode
 
     cpdef object _provide(self, tuple args, dict kwargs)
     cpdef void _copy_overridings(self, Provider copied, dict memo)
