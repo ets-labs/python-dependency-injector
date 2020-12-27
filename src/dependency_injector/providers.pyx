@@ -951,7 +951,7 @@ cdef class AbstractCallable(Callable):
         """
         if self.__last_overriding is None:
             raise Error('{0} must be overridden before calling'.format(self))
-        return self.__last_overriding(*args, **kwargs)
+        return super().__call__(*args, **kwargs)
 
     def override(self, provider):
         """Override provider with another provider.
@@ -1067,7 +1067,7 @@ cdef class AbstractCoroutine(Coroutine):
         """
         if self.__last_overriding is None:
             raise Error('{0} must be overridden before calling'.format(self))
-        return self.__last_overriding(*args, **kwargs)
+        return super().__call__(*args, **kwargs)
 
     def override(self, provider):
         """Override provider with another provider.
@@ -1837,7 +1837,7 @@ cdef class AbstractFactory(Factory):
         """
         if self.__last_overriding is None:
             raise Error('{0} must be overridden before calling'.format(self))
-        return self.__last_overriding(*args, **kwargs)
+        return super().__call__(*args, **kwargs)
 
     def override(self, provider):
         """Override provider with another provider.
@@ -2409,7 +2409,7 @@ cdef class AbstractSingleton(BaseSingleton):
         """
         if self.__last_overriding is None:
             raise Error('{0} must be overridden before calling'.format(self))
-        return self.__last_overriding(*args, **kwargs)
+        return super().__call__(*args, **kwargs)
 
     def override(self, provider):
         """Override provider with another provider.
