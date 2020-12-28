@@ -1,5 +1,6 @@
 import asyncio
 import random
+import unittest
 
 from dependency_injector import containers, providers, errors
 
@@ -570,3 +571,41 @@ class OverrideTests(AsyncTestCase):
 
         self.assertIs(dependency1, dependency)
         self.assertIs(dependency2, dependency)
+
+
+class TestAsyncModeApi(unittest.TestCase):
+
+    def setUp(self):
+        self.provider = providers.Provider()
+
+    def test_default_mode(self):
+        self.assertFalse(self.provider.is_async_mode_enabled())
+        self.assertFalse(self.provider.is_async_mode_disabled())
+        self.assertTrue(self.provider.is_async_mode_undefined())
+
+    def test_enable(self):
+        self.provider.enable_async_mode()
+
+        self.assertTrue(self.provider.is_async_mode_enabled())
+        self.assertFalse(self.provider.is_async_mode_disabled())
+        self.assertFalse(self.provider.is_async_mode_undefined())
+
+    def test_disable(self):
+        self.provider.disable_async_mode()
+
+        self.assertFalse(self.provider.is_async_mode_enabled())
+        self.assertTrue(self.provider.is_async_mode_disabled())
+        self.assertFalse(self.provider.is_async_mode_undefined())
+
+    def test_reset(self):
+        self.provider.enable_async_mode()
+
+        self.assertTrue(self.provider.is_async_mode_enabled())
+        self.assertFalse(self.provider.is_async_mode_disabled())
+        self.assertFalse(self.provider.is_async_mode_undefined())
+
+        self.provider.reset_async_mode()
+
+        self.assertFalse(self.provider.is_async_mode_enabled())
+        self.assertFalse(self.provider.is_async_mode_disabled())
+        self.assertTrue(self.provider.is_async_mode_undefined())
