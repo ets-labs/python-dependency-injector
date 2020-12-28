@@ -167,19 +167,19 @@ cdef class Provider(object):
         else:
             result = self._provide(args, kwargs)
 
-        if self.__async_mode == ASYNC_MODE_DISABLED:
+        if self.is_async_mode_disabled():
             return result
-        elif self.__async_mode == ASYNC_MODE_ENABLED:
+        elif self.is_async_mode_enabled():
             if not __isawaitable(result):
                 future_result = asyncio.Future()
                 future_result.set_result(result)
                 return future_result
             return result
-        elif self.__async_mode == ASYNC_MODE_UNDEFINED:
+        elif self.is_async_mode_undefined():
             if __isawaitable(result):
-                self.__async_mode = ASYNC_MODE_ENABLED
+                self.enable_async_mode()
             else:
-                self.__async_mode = ASYNC_MODE_DISABLED
+                self.disable_async_mode()
             return result
 
     def __deepcopy__(self, memo):
@@ -313,7 +313,7 @@ cdef class Provider(object):
     def reset_async_mode(self):
         """Reset async mode.
 
-        Provider will automatically define the mode on the next call.
+        Provider will automatically set the mode on the next call.
         """
         self.__async_mode = ASYNC_MODE_UNDEFINED
 
