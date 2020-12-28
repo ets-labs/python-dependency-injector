@@ -572,6 +572,60 @@ class OverrideTests(AsyncTestCase):
         self.assertIs(dependency1, dependency)
         self.assertIs(dependency2, dependency)
 
+    def test_async_mode_enabling(self):
+        dependency = object()
+
+        async def _get_dependency_async():
+            return dependency
+
+        provider = providers.Callable(_get_dependency_async)
+        self.assertTrue(provider.is_async_mode_undefined())
+
+        self._run(provider())
+
+        self.assertTrue(provider.is_async_mode_enabled())
+
+    def test_async_mode_disabling(self):
+        dependency = object()
+
+        def _get_dependency():
+            return dependency
+
+        provider = providers.Callable(_get_dependency)
+        self.assertTrue(provider.is_async_mode_undefined())
+
+        provider()
+
+        self.assertTrue(provider.is_async_mode_disabled())
+
+    def test_async_mode_enabling_on_overriding(self):
+        dependency = object()
+
+        async def _get_dependency_async():
+            return dependency
+
+        provider = providers.Provider()
+        provider.override(providers.Callable(_get_dependency_async))
+        self.assertTrue(provider.is_async_mode_undefined())
+
+        self._run(provider())
+
+        self.assertTrue(provider.is_async_mode_enabled())
+
+    def test_async_mode_disabling_on_overriding(self):
+        dependency = object()
+
+        def _get_dependency():
+            return dependency
+
+        provider = providers.Provider()
+        provider.override(providers.Callable(_get_dependency))
+        self.assertTrue(provider.is_async_mode_undefined())
+
+        provider()
+
+        self.assertTrue(provider.is_async_mode_disabled())
+
 
 class TestAsyncModeApi(unittest.TestCase):
 
