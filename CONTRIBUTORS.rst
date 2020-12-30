@@ -14,3 +14,4 @@ Dependency Injector Contributors
 + RobinsonMa (RobinsonMa)
 + Rüdiger Busche (JarnoRFB)
 + Dmitry Rassoshenko (rda-dev)
++ Fotis Koutoupas (kootoopas)

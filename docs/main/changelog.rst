@@ -11,6 +11,9 @@ Development version
 -------------------
 - Add ARM wheel builds.
   See issue `#342 <https://github.com/ets-labs/python-dependency-injector/issues/342>`_ for details.
+- Fix a typo in `ext.flask` deprecation warning.
+  See PR `#345 <https://github.com/ets-labs/python-dependency-injector/pull/345>`_ for details.
+  Thanks to `Fotis Koutoupas <https://github.com/kootoopas>`_ for the fix.
 
 4.5.4
 -----
