@@ -501,7 +501,6 @@ cdef class Dependency(Provider):
             )
 
         self.__instance_of = instance_of
-        self.__async = False
         super(Dependency, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -523,28 +522,38 @@ cdef class Dependency(Provider):
 
         :rtype: object
         """
-        cdef object instance
-
         if self.__last_overriding is None:
             raise Error('Dependency is not defined')
 
-        instance = self.__last_overriding(*args, **kwargs)
+        result = self.__last_overriding(*args, **kwargs)
 
-        if __isawaitable(instance):
-            future_result = asyncio.Future()
-            instance = asyncio.ensure_future(instance)
-            instance.add_done_callback(functools.partial(self._async_provide, future_result))
-            self.__async = True
-            return future_result
 
-        self._check_instance_type(instance)
-
-        if self.__async:
-            result = asyncio.Future()
-            result.set_result(instance)
+        if self.is_async_mode_disabled():
+            self._check_instance_type(result)
             return result
+        elif self.is_async_mode_enabled():
+            if __isawaitable(result):
+                future_result = asyncio.Future()
+                result = asyncio.ensure_future(result)
+                result.add_done_callback(functools.partial(self._async_provide, future_result))
+                return future_result
+            else:
+                self._check_instance_type(result)
+                future_result = asyncio.Future()
+                future_result.set_result(result)
+                return future_result
+        elif self.is_async_mode_undefined():
+            if __isawaitable(result):
+                self.enable_async_mode()
 
-        return instance
+                future_result = asyncio.Future()
+                result = asyncio.ensure_future(result)
+                result.add_done_callback(functools.partial(self._async_provide, future_result))
+                return future_result
+            else:
+                self.disable_async_mode()
+                self._check_instance_type(result)
+                return result
 
     def __str__(self):
         """Return string representation of provider.
