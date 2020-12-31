@@ -221,6 +221,33 @@ class FactoryTests(AsyncTestCase):
         self.assertIsNot(service1.client, service2.client)
 
 
+class FactoryAggregateTests(AsyncTestCase):
+
+    def test_async_mode(self):
+        object1 = object()
+        object2 = object()
+
+        async def _get_object1():
+            return object1
+
+        def _get_object2():
+            return object2
+
+        provider = providers.FactoryAggregate(
+            object1=providers.Factory(_get_object1),
+            object2=providers.Factory(_get_object2),
+        )
+
+        self.assertTrue(provider.is_async_mode_undefined())
+
+        created_object1 = self._run(provider('object1'))
+        self.assertIs(created_object1, object1)
+        self.assertTrue(provider.is_async_mode_enabled())
+
+        created_object2 = self._run(provider('object2'))
+        self.assertIs(created_object2, object2)
+
+
 class SingletonTests(AsyncTestCase):
 
     def test_injections(self):

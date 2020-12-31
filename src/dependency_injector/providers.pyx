@@ -1964,13 +1964,6 @@ cdef class FactoryAggregate(Provider):
 
         return copied
 
-    def __call__(self, factory_name, *args, **kwargs):
-        """Create new object using factory with provided name.
-
-        Callable interface implementation.
-        """
-        return self.__get_factory(factory_name)(*args, **kwargs)
-
     def __getattr__(self, factory_name):
         """Return aggregated factory."""
         return self.__get_factory(factory_name)
@@ -1997,6 +1990,19 @@ cdef class FactoryAggregate(Provider):
         """
         raise Error(
             '{0} providers could not be overridden'.format(self.__class__))
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        try:
+            factory_name = args[0]
+        except IndexError:
+            try:
+                factory_name = kwargs.pop('factory_name')
+            except KeyError:
+                raise TypeError('Factory missing 1 required positional argument: \'factory_name\'')
+        else:
+            args = args[1:]
+
+        return self.__get_factory(factory_name)(*args, **kwargs)
 
     cdef Factory __get_factory(self, str factory_name):
         if factory_name not in self.__factories:
