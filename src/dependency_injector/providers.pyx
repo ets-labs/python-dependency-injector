@@ -2029,7 +2029,6 @@ cdef class BaseSingleton(Provider):
                 self.__class__, self.__class__.provided_type))
 
         self.__instantiator = Factory(provides, *args, **kwargs)
-        self.__async = False
 
         super(BaseSingleton, self).__init__()
 

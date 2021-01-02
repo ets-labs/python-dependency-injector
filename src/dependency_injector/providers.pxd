@@ -143,7 +143,6 @@ cdef class FactoryAggregate(Provider):
 cdef class BaseSingleton(Provider):
     cdef Factory __instantiator
     cdef object __storage
-    cdef bint __async
 
 
 cdef class Singleton(BaseSingleton):
