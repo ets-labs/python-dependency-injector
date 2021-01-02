@@ -2388,16 +2388,11 @@ cdef class ThreadLocalSingleton(BaseSingleton):
 
             self.__storage.instance = instance
         finally:
-            if self.__async:
-                result = asyncio.Future()
-                result.set_result(instance)
-                return result
             return instance
 
     def _async_init_instance(self, future_result, result):
         instance = result.result()
         self.__storage.instance = instance
-        self.__async = True
         future_result.set_result(instance)
 
 
