@@ -2308,11 +2308,6 @@ cdef class ThreadSafeSingleton(BaseSingleton):
 
                     self.__storage = instance
 
-        if self.__async:
-            result = asyncio.Future()
-            result.set_result(instance)
-            return result
-
         return instance
 
 
