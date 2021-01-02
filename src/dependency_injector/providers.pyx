@@ -2168,7 +2168,6 @@ cdef class BaseSingleton(Provider):
     def _async_init_instance(self, future_result, result):
         instance = result.result()
         self.__storage = instance
-        self.__async = True
         future_result.set_result(instance)
 
 
@@ -2235,11 +2234,6 @@ cdef class Singleton(BaseSingleton):
                 return future_result
 
             self.__storage = instance
-
-        if self.__async:
-            result = asyncio.Future()
-            result.set_result(self.__storage)
-            return result
 
         return self.__storage
 
