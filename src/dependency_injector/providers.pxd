@@ -202,7 +202,6 @@ cdef class Resource(Provider):
     cdef bint __initialized
     cdef object __shutdowner
     cdef object __resource
-    cdef bint __async
 
     cdef tuple __args
     cdef int __args_len

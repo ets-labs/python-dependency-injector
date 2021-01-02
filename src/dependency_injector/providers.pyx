@@ -2706,7 +2706,6 @@ cdef class Resource(Provider):
         self.__initialized = False
         self.__resource = None
         self.__shutdowner = None
-        self.__async = False
 
         self.__args = tuple()
         self.__args_len = 0
@@ -2838,7 +2837,7 @@ cdef class Resource(Provider):
     def shutdown(self):
         """Shutdown resource."""
         if not self.__initialized:
-            if self.__async:
+            if self.is_async_mode_enabled():
                 result = asyncio.Future()
                 result.set_result(None)
                 return result
@@ -2857,20 +2856,13 @@ cdef class Resource(Provider):
         self.__initialized = False
         self.__shutdowner = None
 
-        if self.__async:
+        if self.is_async_mode_enabled():
             result = asyncio.Future()
             result.set_result(None)
             return result
 
     cpdef object _provide(self, tuple args, dict kwargs):
         if self.__initialized:
-            if self.__async:
-                if __isawaitable(self.__resource):
-                    return self.__resource
-                result = asyncio.Future()
-                result.set_result(self.__resource)
-                return result
-
             return self.__resource
 
         if self._is_resource_subclass(self.__initializer):
@@ -2897,7 +2889,6 @@ cdef class Resource(Provider):
                 self.__kwargs_len,
             )
             self.__initialized = True
-            self.__async = True
             return self._create_init_future(async_init, initializer.shutdown)
         elif inspect.isgeneratorfunction(self.__initializer):
             initializer = __call(
@@ -2922,7 +2913,6 @@ cdef class Resource(Provider):
                 self.__kwargs_len,
             )
             self.__initialized = True
-            self.__async = True
             return self._create_init_future(initializer)
         elif isasyncgenfunction(self.__initializer):
             initializer = __call(
@@ -2935,7 +2925,6 @@ cdef class Resource(Provider):
                 self.__kwargs_len,
             )
             self.__initialized = True
-            self.__async = True
             return self._create_init_future(initializer.__anext__(), initializer.asend)
         elif callable(self.__initializer):
             self.__resource = __call(
