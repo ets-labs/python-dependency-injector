@@ -69,3 +69,9 @@ animal11: Animal = provider11(1, 2, 3, b='1', c=2, e=0.0)
 
 # Test 12: to check the SingletonDelegate __init__
 provider12 = providers.SingletonDelegate(providers.Singleton(object))
+
+# Test 13: to check the return type with await
+provider13 = providers.Singleton(Cat)
+async def _async13() -> None:
+    animal1: Animal = await provider13(1, 2, 3, b='1', c=2, e=0.0)  # type: ignore
+    animal2: Animal = await provider13.async_(1, 2, 3, b='1', c=2, e=0.0)

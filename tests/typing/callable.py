@@ -50,3 +50,9 @@ animal7: Animal = provider7(1, 2, 3, b='1', c=2, e=0.0)
 
 # Test 8: to check the CallableDelegate __init__
 provider8 = providers.CallableDelegate(providers.Callable(lambda: None))
+
+# Test 9: to check the return type with await
+provider9 = providers.Callable(Cat)
+async def _async9() -> None:
+    animal1: Animal = await provider9(1, 2, 3, b='1', c=2, e=0.0)  # type: ignore
+    animal2: Animal = await provider9.async_(1, 2, 3, b='1', c=2, e=0.0)
