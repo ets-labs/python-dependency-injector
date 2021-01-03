@@ -461,7 +461,7 @@ class AsyncResourceTest(AsyncTestCase):
         self.assertEqual(_init.init_counter, 2)
         self.assertEqual(_init.shutdown_counter, 2)
 
-    def test_concurent_init(self):
+    def test_concurrent_init(self):
         resource = object()
 
         async def _init():
