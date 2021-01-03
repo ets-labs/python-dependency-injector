@@ -439,6 +439,26 @@ class AsyncResourceTest(AsyncTestCase):
         self.assertEqual(TestResource.init_counter, 2)
         self.assertEqual(TestResource.shutdown_counter, 2)
 
+    def test_init_with_error(self):
+        async def _init():
+            raise RuntimeError()
+
+        provider = providers.Resource(_init)
+
+        future = provider()
+        self.assertTrue(provider.initialized)
+
+        # Disable default exception handling to prevent output
+        asyncio.get_event_loop().set_exception_handler(lambda loop, context: ...)
+
+        with self.assertRaises(RuntimeError):
+            self._run(future)
+
+        # Restore default exception handling
+        asyncio.get_event_loop().set_exception_handler(None)
+
+        self.assertFalse(provider.initialized)
+
     def test_init_and_shutdown_methods(self):
         async def _init():
             await asyncio.sleep(0.001)
