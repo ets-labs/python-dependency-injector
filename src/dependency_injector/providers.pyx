@@ -2182,9 +2182,14 @@ cdef class BaseSingleton(Provider):
         raise NotImplementedError()
 
     def _async_init_instance(self, future_result, result):
-        instance = result.result()
-        self.__storage = instance
-        future_result.set_result(instance)
+        try:
+            instance = result.result()
+        except Exception as exception:
+            self.__storage = None
+            future_result.set_exception(exception)
+        else:
+            self.__storage = instance
+            future_result.set_result(instance)
 
 
 cdef class Singleton(BaseSingleton):
@@ -2407,9 +2412,14 @@ cdef class ThreadLocalSingleton(BaseSingleton):
             return instance
 
     def _async_init_instance(self, future_result, result):
-        instance = result.result()
-        self.__storage.instance = instance
-        future_result.set_result(instance)
+        try:
+            instance = result.result()
+        except Exception as exception:
+            del self.__storage.instance
+            future_result.set_exception(exception)
+        else:
+            self.__storage.instance = instance
+            future_result.set_result(instance)
 
 
 cdef class DelegatedThreadLocalSingleton(ThreadLocalSingleton):

@@ -447,6 +447,7 @@ class AsyncResourceTest(AsyncTestCase):
 
         future = provider()
         self.assertTrue(provider.initialized)
+        self.assertTrue(provider.is_async_mode_enabled())
 
         # Disable default exception handling to prevent output
         asyncio.get_event_loop().set_exception_handler(lambda loop, context: ...)
@@ -458,6 +459,7 @@ class AsyncResourceTest(AsyncTestCase):
         asyncio.get_event_loop().set_exception_handler(None)
 
         self.assertFalse(provider.initialized)
+        self.assertTrue(provider.is_async_mode_enabled())
 
     def test_init_and_shutdown_methods(self):
         async def _init():

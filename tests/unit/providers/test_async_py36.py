@@ -329,6 +329,37 @@ class SingletonTests(AsyncTestCase):
         self.assertIs(instance1, instance2)
         self.assertIs(instance, instance)
 
+    def test_async_init_with_error(self):
+        # Disable default exception handling to prevent output
+        asyncio.get_event_loop().set_exception_handler(lambda loop, context: ...)
+
+        async def create_instance():
+            create_instance.counter += 1
+            raise RuntimeError()
+
+        create_instance.counter = 0
+
+        provider = providers.Singleton(create_instance)
+
+
+        future = provider()
+        self.assertTrue(provider.is_async_mode_enabled())
+
+        with self.assertRaises(RuntimeError):
+            self._run(future)
+
+        self.assertEqual(create_instance.counter, 1)
+        self.assertTrue(provider.is_async_mode_enabled())
+
+        with self.assertRaises(RuntimeError):
+            self._run(provider())
+
+        self.assertEqual(create_instance.counter, 2)
+        self.assertTrue(provider.is_async_mode_enabled())
+
+        # Restore default exception handling
+        asyncio.get_event_loop().set_exception_handler(None)
+
 
 class DelegatedSingletonTests(AsyncTestCase):
 
@@ -396,6 +427,36 @@ class ThreadLocalSingletonTests(AsyncTestCase):
 
         self.assertIs(instance1, instance2)
         self.assertIs(instance, instance)
+
+
+    def test_async_init_with_error(self):
+        # Disable default exception handling to prevent output
+        asyncio.get_event_loop().set_exception_handler(lambda loop, context: ...)
+
+        async def create_instance():
+            create_instance.counter += 1
+            raise RuntimeError()
+        create_instance.counter = 0
+
+        provider = providers.ThreadLocalSingleton(create_instance)
+
+        future = provider()
+        self.assertTrue(provider.is_async_mode_enabled())
+
+        with self.assertRaises(RuntimeError):
+            self._run(future)
+
+        self.assertEqual(create_instance.counter, 1)
+        self.assertTrue(provider.is_async_mode_enabled())
+
+        with self.assertRaises(RuntimeError):
+            self._run(provider())
+
+        self.assertEqual(create_instance.counter, 2)
+        self.assertTrue(provider.is_async_mode_enabled())
+
+        # Restore default exception handling
+        asyncio.get_event_loop().set_exception_handler(None)
 
 
 class DelegatedThreadLocalSingletonTests(AsyncTestCase):
