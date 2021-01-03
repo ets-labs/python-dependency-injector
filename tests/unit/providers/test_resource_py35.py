@@ -169,6 +169,15 @@ class ResourceTests(unittest.TestCase):
         self.assertEqual(_init.init_counter, 2)
         self.assertEqual(_init.shutdown_counter, 2)
 
+    def test_shutdown_of_not_initialized(self):
+        def _init():
+            yield
+
+        provider = providers.Resource(_init)
+
+        result = provider.shutdown()
+        self.assertIsNone(result)
+
     def test_initialized(self):
         provider = providers.Resource(init_fn)
         self.assertFalse(provider.initialized)
@@ -460,6 +469,16 @@ class AsyncResourceTest(AsyncTestCase):
         self._run(provider.shutdown())
         self.assertEqual(_init.init_counter, 2)
         self.assertEqual(_init.shutdown_counter, 2)
+
+    def test_shutdown_of_not_initialized(self):
+        async def _init():
+            yield
+
+        provider = providers.Resource(_init)
+        provider.enable_async_mode()
+
+        result = self._run(provider.shutdown())
+        self.assertIsNone(result)
 
     def test_concurrent_init(self):
         resource = object()
