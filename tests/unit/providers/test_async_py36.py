@@ -130,6 +130,22 @@ class FactoryTests(AsyncTestCase):
 
         self.assertIsNot(service1.client, service2.client)
 
+    def test_context_kwargs_injection(self):
+        resource2_extra = object()
+
+        container = Container()
+
+        client1 = self._run(container.client(resource2=resource2_extra))
+        client2 = self._run(container.client(resource2=resource2_extra))
+
+        self.assertIsInstance(client1, Client)
+        self.assertIs(client1.resource1, RESOURCE1)
+        self.assertIs(client1.resource2, resource2_extra)
+
+        self.assertIsInstance(client2, Client)
+        self.assertIs(client2.resource1, RESOURCE1)
+        self.assertIs(client2.resource2, resource2_extra)
+
     def test_args_kwargs_injection(self):
         class ContainerWithArgsAndKwArgs(containers.DeclarativeContainer):
             resource1 = providers.Resource(init_resource, providers.Object(RESOURCE1))
