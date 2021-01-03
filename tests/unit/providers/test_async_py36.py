@@ -707,3 +707,35 @@ class TestAsyncModeApi(unittest.TestCase):
         self.assertFalse(self.provider.is_async_mode_enabled())
         self.assertFalse(self.provider.is_async_mode_disabled())
         self.assertTrue(self.provider.is_async_mode_undefined())
+
+
+class AsyncTypingStubTests(AsyncTestCase):
+
+    def test_async_(self):
+        container = Container()
+
+        client1 = self._run(container.client.async_())
+        client2 = self._run(container.client.async_())
+
+        self.assertIsInstance(client1, Client)
+        self.assertIs(client1.resource1, RESOURCE1)
+        self.assertIs(client1.resource2, RESOURCE2)
+
+        self.assertIsInstance(client2, Client)
+        self.assertIs(client2.resource1, RESOURCE1)
+        self.assertIs(client2.resource2, RESOURCE2)
+
+        service1 = self._run(container.service.async_())
+        service2 = self._run(container.service.async_())
+
+        self.assertIsInstance(service1, Service)
+        self.assertIsInstance(service1.client, Client)
+        self.assertIs(service1.client.resource1, RESOURCE1)
+        self.assertIs(service1.client.resource2, RESOURCE2)
+
+        self.assertIsInstance(service2, Service)
+        self.assertIsInstance(service2.client, Client)
+        self.assertIs(service2.client.resource1, RESOURCE1)
+        self.assertIs(service2.client.resource2, RESOURCE2)
+
+        self.assertIsNot(service1.client, service2.client)

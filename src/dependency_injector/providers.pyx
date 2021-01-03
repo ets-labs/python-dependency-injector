@@ -277,6 +277,23 @@ cdef class Provider(object):
             self.__overridden = tuple()
             self.__last_overriding = None
 
+    def async_(self, *args, **kwargs):
+        """Return provided object asynchronously.
+
+        This method is a synonym of __call__().
+        It provides typing stubs for correct type checking with
+        `await` expression:
+
+        .. code-block:: python
+
+            database_provider: Provider[DatabaseConnection] = Resource(init_db_async)
+
+            async def main():
+                db: DatabaseConnection = await database_provider.async_()
+                ...
+        """
+        return self.__call__(*args, **kwargs)
+
     def delegate(self):
         """Return provider's delegate.
 
