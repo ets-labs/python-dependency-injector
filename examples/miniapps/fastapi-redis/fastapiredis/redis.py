@@ -10,4 +10,3 @@ async def init_redis_pool(host: str, password: str) -> AsyncIterator[Redis]:
     yield pool
     pool.close()
     await pool.wait_closed()
-
