@@ -157,6 +157,8 @@ Choose one of the following:
 - `Flask example <https://python-dependency-injector.ets-labs.org/examples/flask.html>`_
 - `Aiohttp example <https://python-dependency-injector.ets-labs.org/examples/aiohttp.html>`_
 - `Sanic example <https://python-dependency-injector.ets-labs.org/examples/sanic.html>`_
+- `FastAPI example <https://python-dependency-injector.ets-labs.org/examples/fastapi.html>`_
+- `FastAPI + Redis example <https://python-dependency-injector.ets-labs.org/examples/fastapi-redis.html>`_
 
 Tutorials
 ---------
