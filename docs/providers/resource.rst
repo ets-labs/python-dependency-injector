@@ -21,7 +21,7 @@ Resource provider
 Resource providers help to initialize and configure logging, event loop, thread or process pool, etc.
 
 Resource provider is similar to ``Singleton``. Resource initialization happens only once.
-You can do injections and use provided instance the same way like you do with any other provider.
+You can make injections and use provided instance the same way like you do with any other provider.
 
 .. code-block:: python
    :emphasize-lines: 12
@@ -40,7 +40,7 @@ You can do injections and use provided instance the same way like you do with an
            executor=thread_pool,
        )
 
-Container has an interface to initialize and shutdown all resources:
+Container has an interface to initialize and shutdown all resources at once:
 
 .. code-block:: python
 
@@ -48,7 +48,7 @@ Container has an interface to initialize and shutdown all resources:
    container.init_resources()
    container.shutdown_resources()
 
-You also can initialize and shutdown resources one-by-one using ``init()`` and
+You can also initialize and shutdown resources one-by-one using ``init()`` and
 ``shutdown()`` methods of the provider:
 
 .. code-block:: python
@@ -56,6 +56,10 @@ You also can initialize and shutdown resources one-by-one using ``init()`` and
    container = Container()
    container.thread_pool.init()
    container.thread_pool.shutdown()
+
+When you call ``.shutdown()`` method on a resource provider, it will remove the reference to the initialized resource,
+if any, and switch to uninitialized state. Some of resource initializer types support specifying custom
+resource shutdown.
 
 Resource provider supports 3 types of initializers:
 
@@ -97,7 +101,7 @@ you configure global resource:
            fname='logging.ini',
        )
 
-Function initializer does not support shutdown.
+Function initializer does not provide a way to specify custom resource shutdown.
 
 Generator initializer
 ---------------------
