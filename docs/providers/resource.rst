@@ -239,4 +239,116 @@ The example above produces next output:
    Shutdown service
    127.0.0.1 - - [29/Oct/2020 22:39:41] "GET / HTTP/1.1" 200 -
 
+Asynchronous initializers
+-------------------------
+
+When you write an asynchronous application, you might need to initialize resources asynchronously. Resource
+provider supports asynchronous initialization and shutdown.
+
+Asynchronous function initializer:
+
+.. code-block:: python
+
+   async def init_async_resource(argument1=..., argument2=...):
+       return await connect()
+
+
+   class Container(containers.DeclarativeContainer):
+
+       resource = providers.Resource(
+           init_resource,
+           argument1=...,
+           argument2=...,
+       )
+
+Asynchronous generator initializer:
+
+.. code-block:: python
+
+   async def init_async_resource(argument1=..., argument2=...):
+       connection = await connect()
+       yield connection
+       await connection.close()
+
+
+   class Container(containers.DeclarativeContainer):
+
+       resource = providers.Resource(
+           init_async_resource,
+           argument1=...,
+           argument2=...,
+       )
+
+Asynchronous subclass initializer:
+
+.. code-block:: python
+
+   from dependency_injector import resources
+
+
+   class AsyncConnection(resources.AsyncResource):
+
+       async def init(self, argument1=..., argument2=...):
+           yield await connect()
+
+       async def shutdown(self, connection):
+           await connection.close()
+
+
+   class Container(containers.DeclarativeContainer):
+
+       resource = providers.Resource(
+           AsyncConnection,
+           argument1=...,
+           argument2=...,
+       )
+
+When you use resource provider with asynchronous initializer you need to call its ``__call__()``,
+``init()``, and ``shutdown()`` methods asynchronously:
+
+.. code-block:: python
+
+   import asyncio
+
+
+   class Container(containers.DeclarativeContainer):
+
+       connection = providers.Resource(init_async_connection)
+
+
+   async def main():
+       container = Container()
+       connection = await container.connection()
+       connection = await container.connection.init()
+       connection = await container.connection.shutdown()
+
+
+   if __name__ == '__main__':
+       asyncio.run(main())
+
+Container ``init_resources()`` and ``shutdown_resources()`` methods should be used asynchronously if there is
+at least one asynchronous resource provider:
+
+.. code-block:: python
+
+   import asyncio
+
+
+   class Container(containers.DeclarativeContainer):
+
+       connection1 = providers.Resource(init_async_connection)
+
+       connection2 = providers.Resource(init_sync_connection)
+
+
+   async def main():
+       container = Container()
+       await container.init_resources()
+       await container.shutdown_resources()
+
+
+   if __name__ == '__main__':
+       asyncio.run(main())
+
+
 .. disqus::
