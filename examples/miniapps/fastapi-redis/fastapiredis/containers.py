@@ -1,4 +1,4 @@
-"""Container module."""
+"""Containers module."""
 
 from dependency_injector import containers, providers
 
