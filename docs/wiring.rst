@@ -189,6 +189,76 @@ You can use that in testing to re-create and re-wire a container before each tes
 
       module.fn()
 
+Asynchronous injections
+-----------------------
+
+Wiring feature supports asynchronous injections:
+
+.. code-block:: python
+
+   class Container(containers.DeclarativeContainer):
+
+       db = providers.Resource(init_async_db_client)
+
+       cache = providers.Resource(init_async_cache_client)
+
+
+   @inject
+   async def main(
+       db: Database = Provide[Container.db],
+       cache: Cache = Provide[Container.cache],
+   ):
+       ...
+
+When you call asynchronous function wiring prepares injections asynchronously.
+Here is what it does for previous example:
+
+.. code-block:: python
+
+    db, cache = await asyncio.gather(
+        container.db(),
+        container.cache(),
+    )
+
+    await main(db=db, cache=cache)
+
+You can also use ``Closing`` marker with the asynchronous ``Resource`` providers:
+
+.. code-block:: python
+
+   @inject
+   async def main(
+       db: Database = Closing[Provide[Container.db]],
+       cache: Cache = Closing[Provide[Container.cache]],
+   ):
+       ...
+
+Wiring does closing asynchronously:
+
+.. code-block:: python
+
+    db, cache = await asyncio.gather(
+        container.db(),
+        container.cache(),
+    )
+
+    await main(db=db, cache=cache)
+
+    await asyncio.gather(
+        container.db.shutdown(),
+        container.cache.shutdown(),
+    )
+
+See :ref:`Resources, wiring and per-function execution scope <resource-provider-wiring-closing>` for
+details on ``Closing`` marker.
+
+.. note::
+
+   Wiring does not not convert asynchronous injections to synchronous.
+
+   It handles asynchronous injections only for ``async def`` functions. Asynchronous injections into
+   synchronous ``def`` function still work, but you need to take care of awaitables by your own.
+
 Integration with other frameworks
 ---------------------------------
 
