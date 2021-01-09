@@ -167,21 +167,27 @@ You can use that in testing to re-create and re-wire a container before each tes
    avoid re-wiring between tests.
 
 .. note::
-   Python has a limitation on patching already imported individual members. To protect from errors
-   prefer an import of modules instead of individual members or make sure that imports happen
+   Python has a limitation on patching individually imported functions. To protect from errors
+   prefer importing modules to importing individual functions or make sure imports happen
    after the wiring:
 
    .. code-block:: python
 
-      from . import module
-
-      module.fn()
-
-      # instead of
+      # Potential error:
 
       from .module import fn
 
       fn()
+
+   Instead use next:
+
+   .. code-block:: python
+
+      # Always works:
+
+      from . import module
+
+      module.fn()
 
 Integration with other frameworks
 ---------------------------------
@@ -211,5 +217,6 @@ Take a look at other application examples:
 - :ref:`aiohttp-example`
 - :ref:`sanic-example`
 - :ref:`fastapi-example`
+- :ref:`fastapi-redis-example`
 
 .. disqus::
