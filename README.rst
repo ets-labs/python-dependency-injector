@@ -70,6 +70,8 @@ Key features of the ``Dependency Injector``:
 - **Wiring**. Injects dependencies into functions and methods. Helps integrating with
   other frameworks: Django, Flask, Aiohttp, Sanic, FastAPI, etc.
   See `Wiring <https://python-dependency-injector.ets-labs.org/wiring.html>`_.
+- **Asynchronous**. Supports asynchronous injections.
+  See `Asynchronous injections <https://python-dependency-injector.ets-labs.org/providers/async.html>`_.
 - **Typing**. Provides typing stubs, ``mypy``-friendly.
   See `Typing and mypy <https://python-dependency-injector.ets-labs.org/providers/typing_mypy.html>`_.
 - **Performance**. Fast. Written in ``Cython``.
@@ -225,4 +227,3 @@ Want to contribute?
 .. |tell| unicode:: U+1F4AC .. tell sign
 .. |fork| unicode:: U+1F500 .. fork sign
 .. |pull| unicode:: U+2B05 U+FE0F .. pull sign
-
