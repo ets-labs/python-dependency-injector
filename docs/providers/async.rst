@@ -10,3 +10,8 @@ Asynchronous injections
                  demonstrates how make asynchronous dependency injections in Python.
 
 Providers support asynchronous injections.
+
+.. literalinclude:: ../../examples/providers/async.py
+   :language: python
+   :emphasize-lines: 26-29
+   :lines: 3-
