@@ -16,7 +16,7 @@ Providers support asynchronous injections.
    :emphasize-lines: 26-29
    :lines: 3-
 
-If provider has any awaitable injections it turns into async mode. In async mode provider always returns awaitable.
+If provider has any awaitable injections it switches into async mode. In async mode provider always returns awaitable.
 This causes a cascade effect:
 
 .. code-block:: bash
