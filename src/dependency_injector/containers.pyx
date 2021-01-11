@@ -13,6 +13,7 @@ import six
 from .errors import Error
 from .providers cimport (
     Provider,
+    Object,
     Resource,
     deepcopy,
 )
@@ -70,6 +71,7 @@ class DynamicContainer(object):
         self.declarative_parent = None
         self.wired_to_modules = []
         self.wired_to_packages = []
+        self.__self__ = Object(self)
         super(DynamicContainer, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -102,7 +104,7 @@ class DynamicContainer(object):
 
         :rtype: None
         """
-        if isinstance(value, Provider):
+        if isinstance(value, Provider) and name != '__self__':
             _check_provider_type(self, value)
             self.providers[name] = value
         super(DynamicContainer, self).__setattr__(name, value)
@@ -282,6 +284,8 @@ class DeclarativeContainerMetaClass(type):
 
         cls = <type>type.__new__(mcs, class_name, bases, attributes)
 
+        cls.__self__ = Object(cls)
+
         for provider in six.itervalues(cls.providers):
             _check_provider_type(cls, provider)
 
@@ -301,7 +305,7 @@ class DeclarativeContainerMetaClass(type):
 
         :rtype: None
         """
-        if isinstance(value, Provider):
+        if isinstance(value, Provider) and name != '__self__':
             _check_provider_type(cls, value)
             cls.providers[name] = value
             cls.cls_providers[name] = value
@@ -379,6 +383,12 @@ class DeclarativeContainer(object):
     """Tuple of overriding containers.
 
     :type: tuple[:py:class:`DeclarativeContainer`]
+    """
+
+    __self__ = None
+    """Provider that provides current container.
+
+    :type: :py:class:`dependency_injector.providers.Provider`
     """
 
     def __new__(cls, **overriding_providers):
