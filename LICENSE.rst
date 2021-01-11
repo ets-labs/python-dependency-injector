@@ -1,4 +1,4 @@
-Copyright (c) 2020, ETS Labs
+Copyright (c) 2021, ETS Labs
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
