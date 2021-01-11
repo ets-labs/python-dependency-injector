@@ -500,7 +500,7 @@ class ClassGetItemMeta(GenericMeta):
 
 class _Marker(Generic[T], metaclass=ClassGetItemMeta):
 
-    def __init__(self, provider: Union[providers.Provider, Any]) -> None:
+    def __init__(self, provider: Union[providers.Provider, Container]) -> None:
         if _is_declarative_container(provider):
             provider = provider.__self__
         self.provider: providers.Provider = provider
