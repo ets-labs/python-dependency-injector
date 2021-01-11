@@ -3,6 +3,7 @@
 from __future__ import absolute_import
 
 import copy
+import functools
 import inspect
 import os
 import re
@@ -88,6 +89,11 @@ else:
             return parser
 
 
+cdef int ASYNC_MODE_UNDEFINED = 0
+cdef int ASYNC_MODE_ENABLED = 1
+cdef int ASYNC_MODE_DISABLED = 2
+
+
 cdef class Provider(object):
     """Base provider class.
 
@@ -148,6 +154,7 @@ cdef class Provider(object):
         """Initializer."""
         self.__overridden = tuple()
         self.__last_overriding = None
+        self.__async_mode = ASYNC_MODE_UNDEFINED
         super(Provider, self).__init__()
 
     def __call__(self, *args, **kwargs):
@@ -156,8 +163,24 @@ cdef class Provider(object):
         Callable interface implementation.
         """
         if self.__last_overriding is not None:
-            return self.__last_overriding(*args, **kwargs)
-        return self._provide(args, kwargs)
+            result = self.__last_overriding(*args, **kwargs)
+        else:
+            result = self._provide(args, kwargs)
+
+        if self.is_async_mode_disabled():
+            return result
+        elif self.is_async_mode_enabled():
+            if not __isawaitable(result):
+                future_result = asyncio.Future()
+                future_result.set_result(result)
+                return future_result
+            return result
+        elif self.is_async_mode_undefined():
+            if __isawaitable(result):
+                self.enable_async_mode()
+            else:
+                self.disable_async_mode()
+            return result
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
@@ -254,6 +277,23 @@ cdef class Provider(object):
             self.__overridden = tuple()
             self.__last_overriding = None
 
+    def async_(self, *args, **kwargs):
+        """Return provided object asynchronously.
+
+        This method is a synonym of __call__().
+        It provides typing stubs for correct type checking with
+        `await` expression:
+
+        .. code-block:: python
+
+            database_provider: Provider[DatabaseConnection] = Resource(init_db_async)
+
+            async def main():
+                db: DatabaseConnection = await database_provider.async_()
+                ...
+        """
+        return self.__call__(*args, **kwargs)
+
     def delegate(self):
         """Return provider's delegate.
 
@@ -278,6 +318,33 @@ cdef class Provider(object):
     def provided(self):
         """Return :py:class:`ProvidedInstance` provider."""
         return ProvidedInstance(self)
+
+    def enable_async_mode(self):
+        """Enable async mode."""
+        self.__async_mode = ASYNC_MODE_ENABLED
+
+    def disable_async_mode(self):
+        """Disable async mode."""
+        self.__async_mode = ASYNC_MODE_DISABLED
+
+    def reset_async_mode(self):
+        """Reset async mode.
+
+        Provider will automatically set the mode on the next call.
+        """
+        self.__async_mode = ASYNC_MODE_UNDEFINED
+
+    def is_async_mode_enabled(self):
+        """Check if async mode is enabled."""
+        return self.__async_mode == ASYNC_MODE_ENABLED
+
+    def is_async_mode_disabled(self):
+        """Check if async mode is disabled."""
+        return self.__async_mode == ASYNC_MODE_DISABLED
+
+    def is_async_mode_undefined(self):
+        """Check if async mode is undefined."""
+        return self.__async_mode == ASYNC_MODE_UNDEFINED
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Providing strategy implementation.
@@ -472,18 +539,38 @@ cdef class Dependency(Provider):
 
         :rtype: object
         """
-        cdef object instance
-
         if self.__last_overriding is None:
             raise Error('Dependency is not defined')
 
-        instance = self.__last_overriding(*args, **kwargs)
+        result = self.__last_overriding(*args, **kwargs)
 
-        if not isinstance(instance, self.instance_of):
-            raise Error('{0} is not an '.format(instance) +
-                        'instance of {0}'.format(self.instance_of))
 
-        return instance
+        if self.is_async_mode_disabled():
+            self._check_instance_type(result)
+            return result
+        elif self.is_async_mode_enabled():
+            if __isawaitable(result):
+                future_result = asyncio.Future()
+                result = asyncio.ensure_future(result)
+                result.add_done_callback(functools.partial(self._async_provide, future_result))
+                return future_result
+            else:
+                self._check_instance_type(result)
+                future_result = asyncio.Future()
+                future_result.set_result(result)
+                return future_result
+        elif self.is_async_mode_undefined():
+            if __isawaitable(result):
+                self.enable_async_mode()
+
+                future_result = asyncio.Future()
+                result = asyncio.ensure_future(result)
+                result.add_done_callback(functools.partial(self._async_provide, future_result))
+                return future_result
+            else:
+                self.disable_async_mode()
+                self._check_instance_type(result)
+                return result
 
     def __str__(self):
         """Return string representation of provider.
@@ -513,6 +600,19 @@ cdef class Dependency(Provider):
         :rtype: None
         """
         return self.override(provider)
+
+    def _async_provide(self, future_result, future):
+        instance = future.result()
+        try:
+            self._check_instance_type(instance)
+        except Error as exception:
+            future_result.set_exception(exception)
+        else:
+            future_result.set_result(instance)
+
+    def _check_instance_type(self, instance):
+        if not isinstance(instance, self.instance_of):
+            raise Error('{0} is not an instance of {1}'.format(instance, self.instance_of))
 
 
 cdef class ExternalDependency(Dependency):
@@ -904,7 +1004,7 @@ cdef class AbstractCallable(Callable):
         """
         if self.__last_overriding is None:
             raise Error('{0} must be overridden before calling'.format(self))
-        return self.__last_overriding(*args, **kwargs)
+        return super().__call__(*args, **kwargs)
 
     def override(self, provider):
         """Override provider with another provider.
@@ -1020,7 +1120,7 @@ cdef class AbstractCoroutine(Coroutine):
         """
         if self.__last_overriding is None:
             raise Error('{0} must be overridden before calling'.format(self))
-        return self.__last_overriding(*args, **kwargs)
+        return super().__call__(*args, **kwargs)
 
     def override(self, provider):
         """Override provider with another provider.
@@ -1790,7 +1890,7 @@ cdef class AbstractFactory(Factory):
         """
         if self.__last_overriding is None:
             raise Error('{0} must be overridden before calling'.format(self))
-        return self.__last_overriding(*args, **kwargs)
+        return super().__call__(*args, **kwargs)
 
     def override(self, provider):
         """Override provider with another provider.
@@ -1881,13 +1981,6 @@ cdef class FactoryAggregate(Provider):
 
         return copied
 
-    def __call__(self, factory_name, *args, **kwargs):
-        """Create new object using factory with provided name.
-
-        Callable interface implementation.
-        """
-        return self.__get_factory(factory_name)(*args, **kwargs)
-
     def __getattr__(self, factory_name):
         """Return aggregated factory."""
         return self.__get_factory(factory_name)
@@ -1914,6 +2007,19 @@ cdef class FactoryAggregate(Provider):
         """
         raise Error(
             '{0} providers could not be overridden'.format(self.__class__))
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        try:
+            factory_name = args[0]
+        except IndexError:
+            try:
+                factory_name = kwargs.pop('factory_name')
+            except KeyError:
+                raise TypeError('Factory missing 1 required positional argument: \'factory_name\'')
+        else:
+            args = args[1:]
+
+        return self.__get_factory(factory_name)(*args, **kwargs)
 
     cdef Factory __get_factory(self, str factory_name):
         if factory_name not in self.__factories:
@@ -2075,6 +2181,16 @@ cdef class BaseSingleton(Provider):
         """
         raise NotImplementedError()
 
+    def _async_init_instance(self, future_result, result):
+        try:
+            instance = result.result()
+        except Exception as exception:
+            self.__storage = None
+            future_result.set_exception(exception)
+        else:
+            self.__storage = instance
+            future_result.set_result(instance)
+
 
 cdef class Singleton(BaseSingleton):
     """Singleton provider returns same instance on every call.
@@ -2122,13 +2238,24 @@ cdef class Singleton(BaseSingleton):
 
         :rtype: None
         """
+        if __isawaitable(self.__storage):
+            asyncio.ensure_future(self.__storage).cancel()
         self.__storage = None
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
         if self.__storage is None:
-            self.__storage = __factory_call(self.__instantiator,
-                                            args, kwargs)
+            instance = __factory_call(self.__instantiator, args, kwargs)
+
+            if __isawaitable(instance):
+                future_result = asyncio.Future()
+                instance = asyncio.ensure_future(instance)
+                instance.add_done_callback(functools.partial(self._async_init_instance, future_result))
+                self.__storage = future_result
+                return future_result
+
+            self.__storage = instance
+
         return self.__storage
 
 
@@ -2179,18 +2306,30 @@ cdef class ThreadSafeSingleton(BaseSingleton):
         :rtype: None
         """
         with self.__storage_lock:
+            if __isawaitable(self.__storage):
+                asyncio.ensure_future(self.__storage).cancel()
             self.__storage = None
+
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
-        storage = self.__storage
-        if storage is None:
+        instance = self.__storage
+
+        if instance is None:
             with self.__storage_lock:
                 if self.__storage is None:
-                    self.__storage = __factory_call(self.__instantiator,
-                                                    args, kwargs)
-                storage = self.__storage
-        return storage
+                    instance = __factory_call(self.__instantiator, args, kwargs)
+
+                    if __isawaitable(instance):
+                        future_result = asyncio.Future()
+                        instance = asyncio.ensure_future(instance)
+                        instance.add_done_callback(functools.partial(self._async_init_instance, future_result))
+                        self.__storage = future_result
+                        return future_result
+
+                    self.__storage = instance
+
+        return instance
 
 
 cdef class DelegatedThreadSafeSingleton(ThreadSafeSingleton):
@@ -2248,6 +2387,8 @@ cdef class ThreadLocalSingleton(BaseSingleton):
 
         :rtype: None
         """
+        if __isawaitable(self.__storage.instance):
+            asyncio.ensure_future(self.__storage.instance).cancel()
         del self.__storage.instance
 
     cpdef object _provide(self, tuple args, dict kwargs):
@@ -2258,9 +2399,27 @@ cdef class ThreadLocalSingleton(BaseSingleton):
             instance = self.__storage.instance
         except AttributeError:
             instance = __factory_call(self.__instantiator, args, kwargs)
+
+            if __isawaitable(instance):
+                future_result = asyncio.Future()
+                instance = asyncio.ensure_future(instance)
+                instance.add_done_callback(functools.partial(self._async_init_instance, future_result))
+                self.__storage.instance = future_result
+                return future_result
+
             self.__storage.instance = instance
         finally:
             return instance
+
+    def _async_init_instance(self, future_result, result):
+        try:
+            instance = result.result()
+        except Exception as exception:
+            del self.__storage.instance
+            future_result.set_exception(exception)
+        else:
+            self.__storage.instance = instance
+            future_result.set_result(instance)
 
 
 cdef class DelegatedThreadLocalSingleton(ThreadLocalSingleton):
@@ -2302,7 +2461,7 @@ cdef class AbstractSingleton(BaseSingleton):
         """
         if self.__last_overriding is None:
             raise Error('{0} must be overridden before calling'.format(self))
-        return self.__last_overriding(*args, **kwargs)
+        return super().__call__(*args, **kwargs)
 
     def override(self, provider):
         """Override provider with another provider.
@@ -2705,17 +2864,29 @@ cdef class Resource(Provider):
     def shutdown(self):
         """Shutdown resource."""
         if not self.__initialized:
+            if self.is_async_mode_enabled():
+                result = asyncio.Future()
+                result.set_result(None)
+                return result
             return
 
         if self.__shutdowner:
             try:
-                self.__shutdowner(self.__resource)
+                shutdown = self.__shutdowner(self.__resource)
             except StopIteration:
                 pass
+            else:
+                if inspect.isawaitable(shutdown):
+                    return self._create_shutdown_future(shutdown)
 
         self.__resource = None
         self.__initialized = False
         self.__shutdowner = None
+
+        if self.is_async_mode_enabled():
+            result = asyncio.Future()
+            result.set_result(None)
+            return result
 
     cpdef object _provide(self, tuple args, dict kwargs):
         if self.__initialized:
@@ -2733,6 +2904,19 @@ cdef class Resource(Provider):
                 self.__kwargs_len,
             )
             self.__shutdowner = initializer.shutdown
+        elif self._is_async_resource_subclass(self.__initializer):
+            initializer = self.__initializer()
+            async_init = __call(
+                initializer.init,
+                args,
+                self.__args,
+                self.__args_len,
+                kwargs,
+                self.__kwargs,
+                self.__kwargs_len,
+            )
+            self.__initialized = True
+            return self._create_init_future(async_init, initializer.shutdown)
         elif inspect.isgeneratorfunction(self.__initializer):
             initializer = __call(
                 self.__initializer,
@@ -2745,6 +2929,30 @@ cdef class Resource(Provider):
             )
             self.__resource = next(initializer)
             self.__shutdowner = initializer.send
+        elif iscoroutinefunction(self.__initializer):
+            initializer = __call(
+                self.__initializer,
+                args,
+                self.__args,
+                self.__args_len,
+                kwargs,
+                self.__kwargs,
+                self.__kwargs_len,
+            )
+            self.__initialized = True
+            return self._create_init_future(initializer)
+        elif isasyncgenfunction(self.__initializer):
+            initializer = __call(
+                self.__initializer,
+                args,
+                self.__args,
+                self.__args_len,
+                kwargs,
+                self.__kwargs,
+                self.__kwargs_len,
+            )
+            self.__initialized = True
+            return self._create_init_future(initializer.__anext__(), initializer.asend)
         elif callable(self.__initializer):
             self.__resource = __call(
                 self.__initializer,
@@ -2761,6 +2969,45 @@ cdef class Resource(Provider):
         self.__initialized = True
         return self.__resource
 
+    def _create_init_future(self, future, shutdowner=None):
+        callback = self._async_init_callback
+        if shutdowner:
+            callback = functools.partial(callback, shutdowner=shutdowner)
+
+        future = asyncio.ensure_future(future)
+        future.add_done_callback(callback)
+        self.__resource = future
+
+        return future
+
+    def _async_init_callback(self, initializer, shutdowner=None):
+        try:
+            resource = initializer.result()
+        except Exception:
+            self.__initialized = False
+            raise
+        else:
+            self.__resource = resource
+            self.__shutdowner = shutdowner
+
+    def _create_shutdown_future(self, shutdown_future):
+        future = asyncio.Future()
+        shutdown_future = asyncio.ensure_future(shutdown_future)
+        shutdown_future.add_done_callback(functools.partial(self._async_shutdown_callback, future))
+        return future
+
+    def _async_shutdown_callback(self, future_result, shutdowner):
+        try:
+            shutdowner.result()
+        except StopAsyncIteration:
+            pass
+
+        self.__resource = None
+        self.__initialized = False
+        self.__shutdowner = None
+
+        future_result.set_result(None)
+
     @staticmethod
     def _is_resource_subclass(instance):
         if  sys.version_info < (3, 5):
@@ -2769,6 +3016,15 @@ cdef class Resource(Provider):
             return
         from . import resources
         return issubclass(instance, resources.Resource)
+
+    @staticmethod
+    def _is_async_resource_subclass(instance):
+        if  sys.version_info < (3, 5):
+            return False
+        if not isinstance(instance, CLASS_TYPES):
+            return
+        from . import resources
+        return issubclass(instance, resources.AsyncResource)
 
 
 cdef class Container(Provider):
@@ -3037,7 +3293,17 @@ cdef class AttributeGetter(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         provided = self.__provider(*args, **kwargs)
+        if __isawaitable(provided):
+            future_result = asyncio.Future()
+            provided = asyncio.ensure_future(provided)
+            provided.add_done_callback(functools.partial(self._async_provide, future_result))
+            return future_result
         return getattr(provided, self.__attribute)
+
+    def _async_provide(self, future_result, future):
+        provided = future.result()
+        result = getattr(provided, self.__attribute)
+        future_result.set_result(result)
 
 
 cdef class ItemGetter(Provider):
@@ -3087,7 +3353,17 @@ cdef class ItemGetter(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         provided = self.__provider(*args, **kwargs)
+        if __isawaitable(provided):
+            future_result = asyncio.Future()
+            provided = asyncio.ensure_future(provided)
+            provided.add_done_callback(functools.partial(self._async_provide, future_result))
+            return future_result
         return provided[self.__item]
+
+    def _async_provide(self, future_result, future):
+        provided = future.result()
+        result = provided[self.__item]
+        future_result.set_result(result)
 
 
 cdef class MethodCaller(Provider):
@@ -3169,6 +3445,11 @@ cdef class MethodCaller(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         call = self.__provider()
+        if __isawaitable(call):
+            future_result = asyncio.Future()
+            call = asyncio.ensure_future(call)
+            call.add_done_callback(functools.partial(self._async_provide, future_result, args, kwargs))
+            return future_result
         return __call(
             call,
             args,
@@ -3178,6 +3459,19 @@ cdef class MethodCaller(Provider):
             self.__kwargs,
             self.__kwargs_len,
         )
+
+    def _async_provide(self, future_result, args, kwargs, future):
+        call = future.result()
+        result = __call(
+            call,
+            args,
+            self.__args,
+            self.__args_len,
+            kwargs,
+            self.__kwargs,
+            self.__kwargs_len,
+        )
+        future_result.set_result(result)
 
 
 cdef class Injection(object):
@@ -3381,3 +3675,36 @@ def merge_dicts(dict1, dict2):
     result = dict1.copy()
     result.update(dict2)
     return result
+
+
+def isawaitable(obj):
+    """Check if object is a coroutine function.
+
+    Return False for any object in Python 3.4 or below.
+    """
+    try:
+        return inspect.isawaitable(obj)
+    except AttributeError:
+        return False
+
+
+def iscoroutinefunction(obj):
+    """Check if object is a coroutine function.
+
+    Return False for any object in Python 3.4 or below.
+    """
+    try:
+        return inspect.iscoroutinefunction(obj)
+    except AttributeError:
+        return False
+
+
+def isasyncgenfunction(obj):
+    """Check if object is an asynchronous generator function.
+
+    Return False for any object in Python 3.4 or below.
+    """
+    try:
+        return inspect.isasyncgenfunction(obj)
+    except AttributeError:
+        return False

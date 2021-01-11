@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+
+  example:
+    build: .
+    environment:
+      REDIS_HOST: "redis"
+      REDIS_PASSWORD: "password"
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./:/code"
+    depends_on:
+      - "redis"
+
+  redis:
+    image: redis
+    command: ["redis-server",  "--requirepass", "password"]
+    ports:
+      - "6379:6379"

@@ -7,6 +7,19 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.6.0
+-----
+- Add support of async injections for providers.
+- Add support of async injections for wiring.
+- Add support of async initializers for ``Resource`` provider.
+- Add ``FastAPI`` + ``Redis`` example.
+- Add ARM wheel builds.
+  See issue `#342 <https://github.com/ets-labs/python-dependency-injector/issues/342>`_ for details.
+- Fix a typo in `ext.flask` deprecation warning.
+  See PR `#345 <https://github.com/ets-labs/python-dependency-injector/pull/345>`_ for details.
+  Thanks to `Fotis Koutoupas <https://github.com/kootoopas>`_ for the fix.
+- Update copyright year.
+
 4.5.4
 -----
 - Fix manylinux wheels uploading issue.

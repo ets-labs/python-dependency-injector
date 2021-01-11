@@ -520,6 +520,24 @@ class FactoryAggregateTests(unittest.TestCase):
         self.assertEqual(object_b.init_arg3, 33)
         self.assertEqual(object_b.init_arg4, 44)
 
+    def test_call_factory_name_as_kwarg(self):
+        object_a = self.factory_aggregate(
+            factory_name='example_a',
+            init_arg1=1,
+            init_arg2=2,
+            init_arg3=3,
+            init_arg4=4,
+        )
+        self.assertIsInstance(object_a, self.ExampleA)
+        self.assertEqual(object_a.init_arg1, 1)
+        self.assertEqual(object_a.init_arg2, 2)
+        self.assertEqual(object_a.init_arg3, 3)
+        self.assertEqual(object_a.init_arg4, 4)
+
+    def test_call_no_factory_name(self):
+        with self.assertRaises(TypeError):
+            self.factory_aggregate()
+
     def test_call_no_such_provider(self):
         with self.assertRaises(errors.NoSuchProviderError):
             self.factory_aggregate('unknown')
