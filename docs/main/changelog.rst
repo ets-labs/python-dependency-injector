@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.6.0
+-----
 - Add support of async injections for providers.
 - Add support of async injections for wiring.
 - Add support of async initializers for ``Resource`` provider.
