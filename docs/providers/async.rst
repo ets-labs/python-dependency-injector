@@ -106,3 +106,5 @@ See also:
 - Wiring :ref:`async-injections-wiring`
 - Resource provider :ref:`resource-async-initializers`
 - :ref:`fastapi-redis-example`
+
+.. disqus::
