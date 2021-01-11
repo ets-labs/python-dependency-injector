@@ -29,3 +29,14 @@ class Resource(Generic[T], metaclass=ResourceMeta):
     @abc.abstractmethod
     def shutdown(self, resource: T) -> None:
         ...
+
+
+class AsyncResource(Generic[T], metaclass=ResourceMeta):
+
+    @abc.abstractmethod
+    async def init(self, *args, **kwargs) -> T:
+        ...
+
+    @abc.abstractmethod
+    async def shutdown(self, resource: T) -> None:
+        ...

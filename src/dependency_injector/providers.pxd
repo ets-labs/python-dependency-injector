@@ -1,5 +1,12 @@
 """Providers module."""
 
+try:
+    import asyncio
+except ImportError:
+    asyncio = None
+
+import inspect
+
 cimport cython
 
 
@@ -7,6 +14,7 @@ cimport cython
 cdef class Provider(object):
     cdef tuple __overridden
     cdef Provider __last_overriding
+    cdef int __async_mode
 
     cpdef object _provide(self, tuple args, dict kwargs)
     cpdef void _copy_overridings(self, Provider copied, dict memo)
@@ -134,10 +142,10 @@ cdef class FactoryAggregate(Provider):
 # Singleton providers
 cdef class BaseSingleton(Provider):
     cdef Factory __instantiator
+    cdef object __storage
 
 
 cdef class Singleton(BaseSingleton):
-    cdef object __storage
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
@@ -147,7 +155,6 @@ cdef class DelegatedSingleton(Singleton):
 
 
 cdef class ThreadSafeSingleton(BaseSingleton):
-    cdef object __storage
     cdef object __storage_lock
 
     cpdef object _provide(self, tuple args, dict kwargs)
@@ -158,7 +165,6 @@ cdef class DelegatedThreadSafeSingleton(ThreadSafeSingleton):
 
 
 cdef class ThreadLocalSingleton(BaseSingleton):
-    cdef object __storage
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
@@ -331,30 +337,38 @@ cdef inline tuple __separate_prefixed_kwargs(dict kwargs):
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-cdef inline tuple __provide_positional_args(
+cdef inline object __provide_positional_args(
         tuple args,
         tuple inj_args,
         int inj_args_len,
 ):
     cdef int index
-    cdef list positional_args
+    cdef list positional_args = []
+    cdef list awaitables = []
     cdef PositionalInjection injection
 
     if inj_args_len == 0:
         return args
 
-    positional_args = list()
     for index in range(inj_args_len):
         injection = <PositionalInjection>inj_args[index]
-        positional_args.append(__get_value(injection))
+        value = __get_value(injection)
+        positional_args.append(value)
+
+        if __isawaitable(value):
+            awaitables.append((index, value))
+
     positional_args.extend(args)
 
-    return tuple(positional_args)
+    if awaitables:
+        return __awaitable_args_kwargs_future(positional_args, awaitables)
+
+    return positional_args
 
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-cdef inline dict __provide_keyword_args(
+cdef inline object __provide_keyword_args(
         dict kwargs,
         tuple inj_kwargs,
         int inj_kwargs_len,
@@ -362,14 +376,18 @@ cdef inline dict __provide_keyword_args(
     cdef int index
     cdef object name
     cdef object value
-    cdef dict prefixed
+    cdef dict prefixed = {}
+    cdef list awaitables = []
     cdef NamedInjection kw_injection
 
     if len(kwargs) == 0:
         for index in range(inj_kwargs_len):
             kw_injection = <NamedInjection>inj_kwargs[index]
             name = __get_name(kw_injection)
-            kwargs[name] = __get_value(kw_injection)
+            value = __get_value(kw_injection)
+            kwargs[name] = value
+            if __isawaitable(value):
+                awaitables.append((name, value))
     else:
         kwargs, prefixed = __separate_prefixed_kwargs(kwargs)
 
@@ -387,23 +405,77 @@ cdef inline dict __provide_keyword_args(
                 value = __get_value(kw_injection)
 
             kwargs[name] = value
+            if __isawaitable(value):
+                awaitables.append((name, value))
+
+    if awaitables:
+        return __awaitable_args_kwargs_future(kwargs, awaitables)
 
     return kwargs
 
 
+cdef inline object __awaitable_args_kwargs_future(object args, list awaitables):
+    future_result = asyncio.Future()
+
+    args_future = asyncio.Future()
+    args_future.set_result((future_result, args, awaitables))
+
+    args_ready = asyncio.gather(args_future, *[value for _, value in awaitables])
+    args_ready.add_done_callback(__async_prepare_args_kwargs_callback)
+    asyncio.ensure_future(args_ready)
+
+    return future_result
+
+
+cdef inline void __async_prepare_args_kwargs_callback(object future):
+    (future_result, args, awaitables), *awaited = future.result()
+    for value, (key, _) in zip(awaited, awaitables):
+        args[key] = value
+    future_result.set_result(args)
+
+
 @cython.boundscheck(False)
 @cython.wraparound(False)
-cdef inline object __inject_attributes(
-        object instance,
-        tuple attributes,
-        int attributes_len,
-):
+cdef inline object __provide_attributes(tuple attributes, int attributes_len):
     cdef NamedInjection attr_injection
+    cdef dict attribute_injections = {}
+    cdef list awaitables = []
+
     for index in range(attributes_len):
         attr_injection = <NamedInjection>attributes[index]
-        setattr(instance,
-                __get_name(attr_injection),
-                __get_value(attr_injection))
+        name = __get_name(attr_injection)
+        value = __get_value(attr_injection)
+        attribute_injections[name] = value
+        if __isawaitable(value):
+            awaitables.append((name, value))
+
+    if awaitables:
+        return __awaitable_args_kwargs_future(attribute_injections, awaitables)
+
+    return attribute_injections
+
+
+cdef inline object __async_inject_attributes(future_instance, future_attributes):
+    future_result = asyncio.Future()
+
+    future = asyncio.Future()
+    future.set_result(future_result)
+
+    attributes_ready = asyncio.gather(future, future_instance, future_attributes)
+    attributes_ready.add_done_callback(__async_inject_attributes_callback)
+    asyncio.ensure_future(attributes_ready)
+
+    return future_result
+
+cdef inline void __async_inject_attributes_callback(future):
+    future_result, instance, attributes = future.result()
+    __inject_attributes(instance, attributes)
+    future_result.set_result(instance)
+
+
+cdef inline void __inject_attributes(object instance, dict attributes):
+    for name, value in attributes.items():
+        setattr(instance, name, value)
 
 
 cdef inline object __call(
@@ -411,25 +483,53 @@ cdef inline object __call(
         tuple context_args,
         tuple injection_args,
         int injection_args_len,
-        dict kwargs,
+        dict context_kwargs,
         tuple injection_kwargs,
         int injection_kwargs_len,
 ):
-    cdef tuple positional_args
-    cdef dict keyword_args
-
-    positional_args = __provide_positional_args(
+    args = __provide_positional_args(
         context_args,
         injection_args,
         injection_args_len,
     )
-    keyword_args = __provide_keyword_args(
-        kwargs,
+    kwargs = __provide_keyword_args(
+        context_kwargs,
         injection_kwargs,
         injection_kwargs_len,
     )
 
-    return call(*positional_args, **keyword_args)
+    args_awaitable = __isawaitable(args)
+    kwargs_awaitable = __isawaitable(kwargs)
+
+    if args_awaitable or kwargs_awaitable:
+        if not args_awaitable:
+            future = asyncio.Future()
+            future.set_result(args)
+            args = future
+
+        if not kwargs_awaitable:
+            future = asyncio.Future()
+            future.set_result(kwargs)
+            kwargs = future
+
+        future_result = asyncio.Future()
+
+        future = asyncio.Future()
+        future.set_result((future_result, call))
+
+        args_kwargs_ready = asyncio.gather(future, args, kwargs)
+        args_kwargs_ready.add_done_callback(__async_call_callback)
+        asyncio.ensure_future(args_kwargs_ready)
+
+        return future_result
+
+    return call(*args, **kwargs)
+
+
+cdef inline void __async_call_callback(object future):
+    (future_result, call), args, kwargs = future.result()
+    result = call(*args, **kwargs)
+    future_result.set_result(result)
 
 
 cdef inline object __callable_call(Callable self, tuple args, dict kwargs):
@@ -450,8 +550,40 @@ cdef inline object __factory_call(Factory self, tuple args, dict kwargs):
     instance = __callable_call(self.__instantiator, args, kwargs)
 
     if self.__attributes_len > 0:
-        __inject_attributes(instance,
-                            self.__attributes,
-                            self.__attributes_len)
+        attributes = __provide_attributes(self.__attributes, self.__attributes_len)
+
+        instance_awaitable = __isawaitable(instance)
+        attributes_awaitable = __isawaitable(attributes)
+
+        if instance_awaitable or attributes_awaitable:
+            if not instance_awaitable:
+                future = asyncio.Future()
+                future.set_result(instance)
+                instance = future
+
+            if not attributes_awaitable:
+                future = asyncio.Future()
+                future.set_result(attributes)
+                attributes = future
+
+            return __async_inject_attributes(instance, attributes)
+
+        __inject_attributes(instance, attributes)
 
     return instance
+
+
+cdef bint __has_isawaitable = False
+
+
+cdef inline bint __isawaitable(object instance):
+    global __has_isawaitable
+
+    if __has_isawaitable is True:
+        return inspect.isawaitable(instance)
+
+    if hasattr(inspect, 'isawaitable'):
+        __has_isawaitable = True
+        return inspect.isawaitable(instance)
+
+    return False

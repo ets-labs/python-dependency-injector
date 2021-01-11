@@ -19,5 +19,6 @@ Explore the examples to see the ``Dependency Injector`` in action.
     aiohttp
     sanic
     fastapi
+    fastapi-redis
 
 .. disqus::

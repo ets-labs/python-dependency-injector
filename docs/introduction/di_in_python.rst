@@ -287,6 +287,7 @@ Choose one of the following as a next step:
     - :ref:`aiohttp-example`
     - :ref:`sanic-example`
     - :ref:`fastapi-example`
+    - :ref:`fastapi-redis-example`
 - Pass the tutorials:
     - :ref:`flask-tutorial`
     - :ref:`aiohttp-tutorial`

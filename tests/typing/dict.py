@@ -35,3 +35,13 @@ provider5 = providers.Dict(
     a2=providers.Factory(object),
 )
 provided5: providers.ProvidedInstance = provider5.provided
+
+
+# Test 6: to check the return type with await
+provider6 = providers.Dict(
+    a1=providers.Factory(object),
+    a2=providers.Factory(object),
+)
+async def _async3() -> None:
+    var1: Dict[Any, Any] = await provider6()  # type: ignore
+    var2: Dict[Any, Any] = await provider6.async_()

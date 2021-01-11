@@ -1,6 +1,12 @@
 """Containers module."""
 
+import inspect
 import sys
+
+try:
+    import asyncio
+except ImportError:
+    asyncio = None
 
 import six
 
@@ -216,17 +222,33 @@ class DynamicContainer(object):
 
     def init_resources(self):
         """Initialize all container resources."""
+        futures = []
         for provider in self.providers.values():
             if not isinstance(provider, Resource):
                 continue
-            provider.init()
+
+            resource = provider.init()
+
+            if _isawaitable(resource):
+                futures.append(resource)
+
+        if futures:
+            return asyncio.gather(*futures)
 
     def shutdown_resources(self):
         """Shutdown all container resources."""
+        futures = []
         for provider in self.providers.values():
             if not isinstance(provider, Resource):
                 continue
-            provider.shutdown()
+
+            shutdown = provider.shutdown()
+
+            if _isawaitable(shutdown):
+                futures.append(shutdown)
+
+        if futures:
+            return asyncio.gather(*futures)
 
 
 class DeclarativeContainerMetaClass(type):
@@ -494,3 +516,10 @@ cpdef object _check_provider_type(object container, object provider):
     if not isinstance(provider, container.provider_type):
         raise Error('{0} can contain only {1} '
                     'instances'.format(container, container.provider_type))
+
+
+cpdef bint _isawaitable(object instance):
+    try:
+        return <bint> inspect.isawaitable(instance)
+    except AttributeError:
+        return <bint> False

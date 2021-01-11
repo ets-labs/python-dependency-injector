@@ -66,3 +66,9 @@ val9: Any = provider9('a')
 # Test 10: to check the explicit typing
 factory10: providers.Provider[Animal] = providers.Factory(Cat)
 animal10: Animal = factory10()
+
+# Test 11: to check the return type with await
+provider11 = providers.Factory(Cat)
+async def _async11() -> None:
+    animal1: Animal = await provider11(1, 2, 3, b='1', c=2, e=0.0)  # type: ignore
+    animal2: Animal = await provider11.async_(1, 2, 3, b='1', c=2, e=0.0)

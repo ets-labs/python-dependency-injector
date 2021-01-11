@@ -167,21 +167,105 @@ You can use that in testing to re-create and re-wire a container before each tes
    avoid re-wiring between tests.
 
 .. note::
-   Python has a limitation on patching already imported individual members. To protect from errors
-   prefer an import of modules instead of individual members or make sure that imports happen
+   Python has a limitation on patching individually imported functions. To protect from errors
+   prefer importing modules to importing individual functions or make sure imports happen
    after the wiring:
 
    .. code-block:: python
+
+      # Potential error:
+
+      from .module import fn
+
+      fn()
+
+   Instead use next:
+
+   .. code-block:: python
+
+      # Always works:
 
       from . import module
 
       module.fn()
 
-      # instead of
+.. _async-injections-wiring:
 
-      from .module import fn
+Asynchronous injections
+-----------------------
 
-      fn()
+Wiring feature supports asynchronous injections:
+
+.. code-block:: python
+
+   class Container(containers.DeclarativeContainer):
+
+       db = providers.Resource(init_async_db_client)
+
+       cache = providers.Resource(init_async_cache_client)
+
+
+   @inject
+   async def main(
+       db: Database = Provide[Container.db],
+       cache: Cache = Provide[Container.cache],
+   ):
+       ...
+
+When you call asynchronous function wiring prepares injections asynchronously.
+Here is what it does for previous example:
+
+.. code-block:: python
+
+    db, cache = await asyncio.gather(
+        container.db(),
+        container.cache(),
+    )
+
+    await main(db=db, cache=cache)
+
+You can also use ``Closing`` marker with the asynchronous ``Resource`` providers:
+
+.. code-block:: python
+
+   @inject
+   async def main(
+       db: Database = Closing[Provide[Container.db]],
+       cache: Cache = Closing[Provide[Container.cache]],
+   ):
+       ...
+
+Wiring does closing asynchronously:
+
+.. code-block:: python
+
+    db, cache = await asyncio.gather(
+        container.db(),
+        container.cache(),
+    )
+
+    await main(db=db, cache=cache)
+
+    await asyncio.gather(
+        container.db.shutdown(),
+        container.cache.shutdown(),
+    )
+
+See :ref:`Resources, wiring and per-function execution scope <resource-provider-wiring-closing>` for
+details on ``Closing`` marker.
+
+.. note::
+
+   Wiring does not not convert asynchronous injections to synchronous.
+
+   It handles asynchronous injections only for ``async def`` functions. Asynchronous injections into
+   synchronous ``def`` function still work, but you need to take care of awaitables by your own.
+
+See also:
+
+- Provider :ref:`async-injections`
+- Resource provider :ref:`resource-async-initializers`
+- :ref:`fastapi-redis-example`
 
 Integration with other frameworks
 ---------------------------------
@@ -211,5 +295,6 @@ Take a look at other application examples:
 - :ref:`aiohttp-example`
 - :ref:`sanic-example`
 - :ref:`fastapi-example`
+- :ref:`fastapi-redis-example`
 
 .. disqus::

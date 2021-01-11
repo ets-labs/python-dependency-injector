@@ -231,7 +231,3 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertEqual(_init1.shutdown_counter, 2)
         self.assertEqual(_init2.init_counter, 2)
         self.assertEqual(_init2.shutdown_counter, 2)
-
-
-if __name__ == '__main__':
-    unittest.main()

@@ -24,6 +24,7 @@ Key features of the ``Dependency Injector``:
 - **Containers**. Provides declarative and dynamic containers. See :ref:`containers`.
 - **Wiring**. Injects dependencies into functions and methods. Helps integrating with
   other frameworks: Django, Flask, Aiohttp, Sanic, FastAPI, etc. See :ref:`wiring`.
+- **Asynchronous**. Supports asynchronous injections. See :ref:`async-injections`.
 - **Typing**. Provides typing stubs, ``mypy``-friendly. See :ref:`provider-typing`.
 - **Performance**. Fast. Written in ``Cython``.
 - **Maturity**. Mature and production-ready. Well-tested, documented and supported.
