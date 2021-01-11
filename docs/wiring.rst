@@ -77,6 +77,13 @@ You can use configuration, provided instance and sub-container providers as you 
 You can compound wiring and ``Resource`` provider to implement per-function execution scope.
 See :ref:`Resources, wiring and per-function execution scope <resource-provider-wiring-closing>` for details.
 
+Also you can use ``Provide`` marker to inject a container.
+
+.. literalinclude:: ../examples/wiring/example_container.py
+   :language: python
+   :emphasize-lines: 16-19
+   :lines: 3-
+
 Wiring with modules and packages
 --------------------------------
 
