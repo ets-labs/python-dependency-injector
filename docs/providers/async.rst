@@ -100,3 +100,9 @@ To check the state of provider's async mode use:
 - ``Provider.is_async_mode_enabled()``
 - ``Provider.is_async_mode_disabled()``
 - ``Provider.is_async_mode_undefined()``
+
+See also:
+
+- Wiring :ref:`async-injections-wiring`
+- Resource provider :ref:`resource-async-initializers`
+- :ref:`fastapi-redis-example`

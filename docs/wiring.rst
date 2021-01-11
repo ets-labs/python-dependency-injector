@@ -189,6 +189,8 @@ You can use that in testing to re-create and re-wire a container before each tes
 
       module.fn()
 
+.. _async-injections-wiring:
+
 Asynchronous injections
 -----------------------
 
@@ -258,6 +260,12 @@ details on ``Closing`` marker.
 
    It handles asynchronous injections only for ``async def`` functions. Asynchronous injections into
    synchronous ``def`` function still work, but you need to take care of awaitables by your own.
+
+See also:
+
+- Provider :ref:`async-injections`
+- Resource provider :ref:`resource-async-initializers`
+- :ref:`fastapi-redis-example`
 
 Integration with other frameworks
 ---------------------------------

@@ -12,6 +12,12 @@ This example shows how to use ``Dependency Injector`` with `FastAPI <https://fas
 
 The source code is available on the `Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/fastapi-redis>`_.
 
+See also:
+
+- Provider :ref:`async-injections`
+- Resource provider :ref:`resource-async-initializers`
+- Wiring :ref:`async-injections-wiring`
+
 Application structure
 ---------------------
 
@@ -82,5 +88,11 @@ Sources
 -------
 
 The source code is available on the `Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/fastapi-redis>`_.
+
+See also:
+
+- Provider :ref:`async-injections`
+- Resource provider :ref:`resource-async-initializers`
+- Wiring :ref:`async-injections-wiring`
 
 .. disqus::

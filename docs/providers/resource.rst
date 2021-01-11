@@ -239,6 +239,8 @@ The example above produces next output:
    Shutdown service
    127.0.0.1 - - [29/Oct/2020 22:39:41] "GET / HTTP/1.1" 200 -
 
+.. _resource-async-initializers:
+
 Asynchronous initializers
 -------------------------
 
@@ -349,6 +351,12 @@ at least one asynchronous resource provider:
 
    if __name__ == '__main__':
        asyncio.run(main())
+
+See also:
+
+- Provider :ref:`async-injections`
+- Wiring :ref:`async-injections-wiring`
+- :ref:`fastapi-redis-example`
 
 
 .. disqus::
