@@ -239,6 +239,10 @@ class WiringTest(unittest.TestCase):
         service = module.test_class_decorator()
         self.assertIsInstance(service, Service)
 
+    def test_container(self):
+        service = module.test_container()
+        self.assertIsInstance(service, Service)
+
 
 class WiringAndFastAPITest(unittest.TestCase):
 

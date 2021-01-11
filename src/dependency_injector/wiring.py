@@ -18,6 +18,7 @@ from typing import (
     Generic,
     TypeVar,
     Type,
+    Union,
     cast,
 )
 
@@ -75,8 +76,8 @@ class ProvidersMap:
     def __init__(self, container):
         self._container = container
         self._map = self._create_providers_map(
-            current_providers=container.providers,
-            original_providers=container.declarative_parent.providers,
+            current_container=container,
+            original_container=container.declarative_parent,
         )
 
     def resolve_provider(
@@ -173,9 +174,15 @@ class ProvidersMap:
     @classmethod
     def _create_providers_map(
             cls,
-            current_providers: Dict[str, providers.Provider],
-            original_providers: Dict[str, providers.Provider],
+            current_container: Container,
+            original_container: Container,
     ) -> Dict[providers.Provider, providers.Provider]:
+        current_providers = current_container.providers
+        current_providers['__self__'] = current_container.__self__
+
+        original_providers = original_container.providers
+        original_providers['__self__'] = original_container.__self__
+
         providers_map = {}
         for provider_name, current_provider in current_providers.items():
             original_provider = original_providers[provider_name]
@@ -184,8 +191,8 @@ class ProvidersMap:
             if isinstance(current_provider, providers.Container) \
                     and isinstance(original_provider, providers.Container):
                 subcontainer_map = cls._create_providers_map(
-                    current_providers=current_provider.container.providers,
-                    original_providers=original_provider.container.providers,
+                    current_container=current_provider.container,
+                    original_container=original_provider.container,
                 )
                 providers_map.update(subcontainer_map)
 
@@ -479,6 +486,12 @@ def _is_declarative_container_instance(instance: Any) -> bool:
             and getattr(instance, 'declarative_parent', None) is not None)
 
 
+def _is_declarative_container(instance: Any) -> bool:
+    return (isinstance(instance, type)
+            and getattr(instance, '__IS_CONTAINER__', False) is True
+            and getattr(instance, 'declarative_parent', None) is None)
+
+
 class ClassGetItemMeta(GenericMeta):
     def __getitem__(cls, item):
         # Spike for Python 3.6
@@ -487,8 +500,10 @@ class ClassGetItemMeta(GenericMeta):
 
 class _Marker(Generic[T], metaclass=ClassGetItemMeta):
 
-    def __init__(self, provider: providers.Provider) -> None:
-        self.provider = provider
+    def __init__(self, provider: Union[providers.Provider, Any]) -> None:
+        if _is_declarative_container(provider):
+            provider = provider.__self__
+        self.provider: providers.Provider = provider
 
     def __class_getitem__(cls, item) -> T:
         return cls(item)

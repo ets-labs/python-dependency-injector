@@ -91,3 +91,7 @@ class ClassDecorator:
 @inject
 def test_class_decorator(service: Service = Provide[Container.service]):
     return service
+
+
+def test_container(container: Container = Provide[Container]):
+    return container.service()
