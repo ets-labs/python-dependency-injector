@@ -262,21 +262,26 @@ class DeclarativeContainerMetaClass(type):
         cdef tuple inherited_providers
         cdef type cls
 
-        containers = tuple((name, container)
-                           for name, container in six.iteritems(attributes)
-                           if is_container(container))
+        containers = tuple(
+            (name, container)
+            for name, container in six.iteritems(attributes)
+            if is_container(container)
+        )
 
         attributes['containers'] = dict(containers)
 
-        cls_providers = tuple((name, provider)
-                              for name, provider in six.iteritems(attributes)
-                              if isinstance(provider, Provider))
+        cls_providers = tuple(
+            (name, provider)
+            for name, provider in six.iteritems(attributes)
+            if isinstance(provider, Provider)
+        )
 
-        inherited_providers = tuple((name, provider)
-                                    for base in bases if is_container(
-                                        base) and base is not DynamicContainer
-                                    for name, provider in six.iteritems(
-                                        base.cls_providers))
+        inherited_providers = tuple(
+            (name, provider)
+            for base in bases
+            if is_container(base) and base is not DynamicContainer
+            for name, provider in six.iteritems(base.providers)
+        )
 
         attributes['cls_providers'] = dict(cls_providers)
         attributes['inherited_providers'] = dict(inherited_providers)

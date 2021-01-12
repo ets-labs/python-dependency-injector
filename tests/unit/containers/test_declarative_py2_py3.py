@@ -20,6 +20,11 @@ class ContainerB(ContainerA):
     p22 = providers.Provider()
 
 
+class ContainerC(ContainerB):
+    p31 = providers.Provider()
+    p32 = providers.Provider()
+
+
 class DeclarativeContainerTests(unittest.TestCase):
 
     def test_providers_attribute(self):
@@ -29,18 +34,31 @@ class DeclarativeContainerTests(unittest.TestCase):
                                                     p12=ContainerA.p12,
                                                     p21=ContainerB.p21,
                                                     p22=ContainerB.p22))
+        self.assertEqual(ContainerC.providers, dict(p11=ContainerA.p11,
+                                                    p12=ContainerA.p12,
+                                                    p21=ContainerB.p21,
+                                                    p22=ContainerB.p22,
+                                                    p31=ContainerC.p31,
+                                                    p32=ContainerC.p32))
 
     def test_cls_providers_attribute(self):
         self.assertEqual(ContainerA.cls_providers, dict(p11=ContainerA.p11,
                                                         p12=ContainerA.p12))
         self.assertEqual(ContainerB.cls_providers, dict(p21=ContainerB.p21,
                                                         p22=ContainerB.p22))
+        self.assertEqual(ContainerC.cls_providers, dict(p31=ContainerC.p31,
+                                                        p32=ContainerC.p32))
 
     def test_inherited_providers_attribute(self):
         self.assertEqual(ContainerA.inherited_providers, dict())
         self.assertEqual(ContainerB.inherited_providers,
                          dict(p11=ContainerA.p11,
                               p12=ContainerA.p12))
+        self.assertEqual(ContainerC.inherited_providers,
+                         dict(p11=ContainerA.p11,
+                              p12=ContainerA.p12,
+                              p21=ContainerB.p21,
+                              p22=ContainerB.p22))
 
     def test_set_get_del_providers(self):
         a_p13 = providers.Provider()
@@ -330,3 +348,17 @@ class DeclarativeContainerTests(unittest.TestCase):
         a = providers.Factory(A)
         assert isinstance(Services(a=a).c().a, A)  # ok
         Services(a=a).b().fa()
+
+    def test_init_with_grand_child_provider(self):
+        # Bug:
+        # https://github.com/ets-labs/python-dependency-injector/issues/350
+        provider = providers.Provider()
+        container = ContainerC(p11=provider)
+
+        self.assertIsInstance(container.p11, providers.Provider)
+        self.assertIsInstance(container.p12, providers.Provider)
+        self.assertIsInstance(container.p21, providers.Provider)
+        self.assertIsInstance(container.p22, providers.Provider)
+        self.assertIsInstance(container.p31, providers.Provider)
+        self.assertIsInstance(container.p32, providers.Provider)
+        self.assertIs(container.p11.last_overriding, provider)
