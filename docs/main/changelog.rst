@@ -7,10 +7,17 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.8.1
+-----
+- Fix declarative container multi-level inheritance issue.
+  See issue `#350 <https://github.com/ets-labs/python-dependency-injector/issues/350>`_.
+  Many thanks to `Shaun Cutts <https://github.com/shaunc>`_ for submitting the issue.
+
 4.8.0
 -----
 - Add support of overriding ``Container`` provider.
   See issue `#354 <https://github.com/ets-labs/python-dependency-injector/issues/354>`_.
+  Many thanks to `Shaun Cutts <https://github.com/shaunc>`_ for submitting the issue.
 
 4.7.0
 -----
