@@ -76,3 +76,21 @@ class ContainerTests(unittest.TestCase):
 
         with self.assertRaises(errors.Error):
             provider.override(providers.Object('foo'))
+
+    def test_lazy_overriding(self):
+        class D(containers.DeclarativeContainer):
+            foo = providers.Object("foo")
+
+        class A(containers.DeclarativeContainer):
+            d = providers.DependenciesContainer()
+            bar = providers.Callable(lambda f: f + "++", d.foo.provided)
+
+        class B(containers.DeclarativeContainer):
+            d = providers.DependenciesContainer()
+
+            a = providers.Container(A, d=d)
+
+        b = B(d=D())
+        result = b.a().bar()
+        self.assertEqual(result, 'foo++')
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/354
