@@ -15,6 +15,7 @@ from .providers cimport (
     Provider,
     Object,
     Resource,
+    Container as ContainerProvider,
     deepcopy,
 )
 
@@ -252,6 +253,13 @@ class DynamicContainer(object):
         if futures:
             return asyncio.gather(*futures)
 
+    def apply_container_providers_overridings(self):
+        """Apply container providers' overridings."""
+        for provider in self.providers.values():
+            if not isinstance(provider, ContainerProvider):
+                continue
+            provider.apply_overridings()
+
 
 class DeclarativeContainerMetaClass(type):
     """Declarative inversion of control container meta class."""
@@ -407,6 +415,7 @@ class DeclarativeContainer(object):
         container.declarative_parent = cls
         container.set_providers(**deepcopy(cls.providers))
         container.override_providers(**overriding_providers)
+        container.apply_container_providers_overridings()
         return container
 
     @classmethod

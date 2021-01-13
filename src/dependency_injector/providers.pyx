@@ -765,10 +765,7 @@ cdef class DependenciesContainer(Object):
     cpdef object _override_providers(self, object container):
         """Override providers with providers from provided container."""
         for name, dependency_provider in container.providers.items():
-            provider = self.__providers.get(name)
-
-            if not provider:
-                continue
+            provider = getattr(self, name)
 
             if provider.last_overriding is dependency_provider:
                 continue
@@ -3041,7 +3038,6 @@ cdef class Container(Provider):
 
         if container is None:
             container = container_cls()
-            container.override_providers(**overriding_providers)
         self.__container = container
 
         super(Container, self).__init__()
@@ -3082,8 +3078,15 @@ cdef class Container(Provider):
         if not hasattr(provider, 'providers'):
             raise Error('Container provider {0} can be overridden only by providers container'.format(self))
 
-        self.__container.override_providers = provider.providers
+        self.__container.override_providers(**provider.providers)
         super().override(provider)
+
+    def apply_overridings(self):
+        """Apply container overriding.
+
+        This method should not be called directly. It is called on
+        declarative container initialization."""
+        self.__container.override_providers(**self.__overriding_providers)
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
