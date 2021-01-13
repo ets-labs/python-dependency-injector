@@ -3082,7 +3082,7 @@ cdef class Container(Provider):
         if not hasattr(provider, 'providers'):
             raise Error('Container provider {0} can be overridden only by providers container'.format(self))
 
-        self.__container.override_providers = provider.providers
+        self.__container.override_providers(**provider.providers)
         super().override(provider)
 
     cpdef object _provide(self, tuple args, dict kwargs):

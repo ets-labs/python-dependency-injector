@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Hotfix for version ``4.8.0``: fix side effect in ``Container`` provider overriding.
+
 4.8.1
 -----
 - Fix declarative container multi-level inheritance issue.
