@@ -1,3 +1,5 @@
+from typing import Dict
+
 from dependency_injector import containers, providers
 
 
@@ -16,3 +18,7 @@ container3.override_providers(a=providers.Provider())
 # Test 4: to check set_providers()
 container4 = containers.DynamicContainer()
 container4.set_providers(a=providers.Provider())
+
+# Test 5: to check .dependencies attribute
+container5 = containers.DynamicContainer()
+dependencies: Dict[str, providers.Provider] = container5.dependencies

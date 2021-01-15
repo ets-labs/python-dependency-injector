@@ -60,6 +60,32 @@ class DeclarativeContainerTests(unittest.TestCase):
                               p21=ContainerB.p21,
                               p22=ContainerB.p22))
 
+    def test_dependencies_attribute(self):
+        class ContainerD(ContainerC):
+            p41 = providers.Dependency()
+            p42 = providers.DependenciesContainer()
+
+        class ContainerE(ContainerD):
+            p51 = providers.Dependency()
+            p52 = providers.DependenciesContainer()
+
+        self.assertEqual(
+            ContainerD.dependencies,
+            {
+                'p41': ContainerD.p41,
+                'p42': ContainerD.p42,
+            },
+        )
+        self.assertEqual(
+            ContainerE.dependencies,
+            {
+                'p41': ContainerD.p41,
+                'p42': ContainerD.p42,
+                'p51': ContainerE.p51,
+                'p52': ContainerE.p52,
+            },
+        )
+
     def test_set_get_del_providers(self):
         a_p13 = providers.Provider()
         b_p23 = providers.Provider()

@@ -24,6 +24,7 @@ C_Overriding = TypeVar('C_Overriding', bound='DeclarativeContainer')
 class Container:
     provider_type: Type[Provider] = Provider
     providers: Dict[str, Provider]
+    dependencies: Dict[str, Provider]
     overridden: Tuple[Provider]
     __self__: Provider
     def __init__(self) -> None: ...

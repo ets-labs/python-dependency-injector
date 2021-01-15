@@ -15,6 +15,8 @@ from .providers cimport (
     Provider,
     Object,
     Resource,
+    Dependency,
+    DependenciesContainer,
     Container as ContainerProvider,
     deepcopy,
 )
@@ -124,6 +126,22 @@ class DynamicContainer(object):
         if name in self.providers:
             del self.providers[name]
         super(DynamicContainer, self).__delattr__(name)
+
+    @property
+    def dependencies(self):
+        """Return dependency providers dictionary.
+
+        Dependency providers can be both of :py:class:`dependency_injector.providers.Dependency` and
+        :py:class:`dependency_injector.providers.DependenciesContainer`.
+
+        :rtype:
+            dict[str, :py:class:`dependency_injector.providers.Provider`]
+        """
+        return {
+            name: provider
+            for name, provider in self.providers.items()
+            if isinstance(provider, (Dependency, DependenciesContainer))
+        }
 
     def set_providers(self, **providers):
         """Set container providers.
@@ -339,6 +357,22 @@ class DeclarativeContainerMetaClass(type):
             del cls.providers[name]
             del cls.cls_providers[name]
         super(DeclarativeContainerMetaClass, cls).__delattr__(name)
+
+    @property
+    def dependencies(cls):
+        """Return dependency providers dictionary.
+
+        Dependency providers can be both of :py:class:`dependency_injector.providers.Dependency` and
+        :py:class:`dependency_injector.providers.DependenciesContainer`.
+
+        :rtype:
+            dict[str, :py:class:`dependency_injector.providers.Provider`]
+        """
+        return {
+            name: provider
+            for name, provider in cls.providers.items()
+            if isinstance(provider, (Dependency, DependenciesContainer))
+        }
 
 
 @six.add_metaclass(DeclarativeContainerMetaClass)
