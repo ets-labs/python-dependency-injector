@@ -1462,6 +1462,9 @@ cdef class Configuration(Object):
         keys = selector.split('.')
         value = self.__call__()
 
+        if value is None:
+            return None
+
         while len(keys) > 0:
             key = keys.pop(0)
             value = value.get(key)
@@ -1507,8 +1510,6 @@ cdef class Configuration(Object):
         :return: Overriding context.
         :rtype: :py:class:`OverridingContext`
         """
-        if provider is None:
-            provider = {}
         context = super().override(provider)
         self.reset_cache()
         return context
