@@ -1507,6 +1507,8 @@ cdef class Configuration(Object):
         :return: Overriding context.
         :rtype: :py:class:`OverridingContext`
         """
+        if provider is None:
+            provider = {}
         context = super().override(provider)
         self.reset_cache()
         return context
