@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.9.1
+-----
+- Fix a bug in the ``Configuration`` provider to correctly handle undefined values.
+  See issue `#358 <https://github.com/ets-labs/python-dependency-injector/issues/358>`_.
+  Many thanks to `Stefano Frazzetto <https://github.com/StefanoFrazzetto>`_ for reporting the issue.
+
 4.9.0
 -----
 - Add ``.dependencies`` attribute to the ``DeclarativeContainer`` and ``DynamicContainer``.
