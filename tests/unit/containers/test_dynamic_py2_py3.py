@@ -24,6 +24,12 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertIsNot(container_a1.p12, container_a2.p12)
         self.assertNotEqual(container_a1.providers, container_a2.providers)
 
+    def test_dependencies_attribute(self):
+        container = ContainerA()
+        container.a1 = providers.Dependency()
+        container.a2 = providers.DependenciesContainer()
+        self.assertEqual(container.dependencies, {'a1': container.a1, 'a2': container.a2})
+
     def test_set_get_del_providers(self):
         p13 = providers.Provider()
 

@@ -1,3 +1,5 @@
+from typing import Dict
+
 from dependency_injector import containers, providers
 
 
@@ -38,3 +40,11 @@ class Container4(containers.DeclarativeContainer):
 
 container4 = Container4()
 container4.override(Container4())
+
+
+# Test 5: to check .dependencies attribute
+class Container5(containers.DeclarativeContainer):
+    provider = providers.Factory(int)
+
+
+dependencies: Dict[str, providers.Provider] = Container5.dependencies
