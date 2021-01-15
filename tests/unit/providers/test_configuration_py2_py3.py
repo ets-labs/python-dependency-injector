@@ -185,6 +185,13 @@ class ConfigTests(unittest.TestCase):
         with self.assertRaises(AttributeError):
             a.__name__
 
+    def test_missing_key(self):
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/358
+        self.config.override(None)
+        value = self.config.key()
+
+        self.assertIsNone(value)
+
     def test_deepcopy(self):
         provider = providers.Configuration('config')
         provider_copy = providers.deepcopy(provider)
