@@ -1262,6 +1262,9 @@ cdef class ConfigurationOption(Provider):
     def required(self):
         return self.__class__(self.__name, self.__root_ref(), required=True)
 
+    def is_required(self):
+        return self.__required
+
     def override(self, value):
         if isinstance(value, Provider):
             raise Error('Configuration option can only be overridden by a value')

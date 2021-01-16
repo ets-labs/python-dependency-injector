@@ -2,6 +2,7 @@ from decimal import Decimal
 import unittest
 
 from dependency_injector.wiring import wire, Provide, Closing
+from dependency_injector import errors
 
 # Runtime import to avoid syntax errors in samples on Python < 3.5
 import os
@@ -126,6 +127,11 @@ class WiringTest(unittest.TestCase):
         self.assertEqual(value_required_int, 10)
         self.assertEqual(value_required_str, '10')
         self.assertEqual(value_required_decimal, Decimal(10))
+
+    def test_configuration_option_required_undefined(self):
+        self.container.config.reset_override()
+        with self.assertRaisesRegex(errors.Error, 'Undefined configuration option "config.a.b.c"'):
+            module.test_config_value_required_undefined()
 
     def test_provide_provider(self):
         service = module.test_provide_provider()

@@ -63,6 +63,13 @@ def test_config_value(
 
 
 @inject
+def test_config_value_required_undefined(
+        value_required: int = Provide[Container.config.a.b.c.required()],
+):
+    return value_required
+
+
+@inject
 def test_provide_provider(service_provider: Callable[..., Service] = Provider[Container.service.provider]):
     service = service_provider()
     return service
