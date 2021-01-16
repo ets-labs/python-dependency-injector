@@ -21,3 +21,7 @@ config3 = providers.Configuration()
 int3: providers.Callable[int] = config3.option.as_int()
 float3: providers.Callable[float] = config3.option.as_float()
 int3_custom: providers.Callable[int] = config3.option.as_(int)
+
+# Test 4: to check required() method
+config4 = providers.Configuration()
+option4: providers.ConfigurationOption = config4.option.required()

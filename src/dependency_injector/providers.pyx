@@ -1172,10 +1172,11 @@ cdef class ConfigurationOption(Provider):
 
     UNDEFINED = object()
 
-    def __init__(self, name, root):
+    def __init__(self, name, root, required=False):
         self.__name = name
         self.__root_ref = weakref.ref(root)
         self.__children = {}
+        self.__required = required
         self.__cache = self.UNDEFINED
         super().__init__()
 
@@ -1193,7 +1194,7 @@ cdef class ConfigurationOption(Provider):
         if copied_root is None:
             copied_root = deepcopy(root, memo)
 
-        copied = self.__class__(copied_name, copied_root)
+        copied = self.__class__(copied_name, copied_root, self.__required)
         copied.__children = deepcopy(self.__children, memo)
 
         return copied
@@ -1229,7 +1230,7 @@ cdef class ConfigurationOption(Provider):
             return self.__cache
 
         root = self.__root_ref()
-        value = root.get(self._get_self_name())
+        value = root.get(self._get_self_name(), self.__required)
         self.__cache = value
         return value
 
@@ -1257,6 +1258,12 @@ cdef class ConfigurationOption(Provider):
 
     def as_(self, callback, *args, **kwargs):
         return TypedConfigurationOption(callback, self, *args, **kwargs)
+
+    def required(self):
+        return self.__class__(self.__name, self.__root_ref(), required=True)
+
+    def is_required(self):
+        return self.__required
 
     def override(self, value):
         if isinstance(value, Provider):
@@ -1396,9 +1403,11 @@ cdef class Configuration(Object):
     """
 
     DEFAULT_NAME = 'config'
+    UNDEFINED = object()
 
-    def __init__(self, name=DEFAULT_NAME, default=None):
+    def __init__(self, name=DEFAULT_NAME, default=None, strict=False):
         self.__name = name
+        self.__strict = strict
 
         value = {}
         if default is not None:
@@ -1416,7 +1425,7 @@ cdef class Configuration(Object):
         if copied is not None:
             return copied
 
-        copied = self.__class__(self.__name, self.__provides)
+        copied = self.__class__(self.__name, self.__provides, self.__strict)
         memo[id(self)] = copied
 
         copied.__children = deepcopy(self.__children, memo)
@@ -1450,11 +1459,14 @@ cdef class Configuration(Object):
     def get_name(self):
         return self.__name
 
-    def get(self, selector):
+    def get(self, selector, required=False):
         """Return configuration option.
 
         :param selector: Selector string, e.g. "option1.option2"
         :type selector: str
+
+        :param required: Required flag, raise error if required option is missing
+        :type required: bool
 
         :return: Option value.
         :rtype: Any
@@ -1467,9 +1479,12 @@ cdef class Configuration(Object):
 
         while len(keys) > 0:
             key = keys.pop(0)
-            value = value.get(key)
-            if value is None:
-                break
+            value = value.get(key, self.UNDEFINED)
+
+            if value is self.UNDEFINED:
+                if self.__strict or required:
+                    raise Error('Undefined configuration option "{0}.{1}"'.format(self.__name, selector))
+                return None
 
         return value
 

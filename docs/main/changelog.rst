@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.10.0
+------
+- Add ``strict`` mode and ``required`` modifier for ``Configuration`` provider.
+  See issue `#341 <https://github.com/ets-labs/python-dependency-injector/issues/341>`_.
+  Thanks `ms-lolo <https://github.com/ms-lolo>`_ for the feature request.
+
 4.9.1
 -----
 - Fix a bug in the ``Configuration`` provider to correctly handle undefined values.
