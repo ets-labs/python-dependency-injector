@@ -157,6 +157,9 @@ class ProvidersMap:
             else:
                 new = getattr(new, segment)
 
+        if original.is_required():
+            new = new.required()
+
         if as_:
             new = new.as_(as_)
 
