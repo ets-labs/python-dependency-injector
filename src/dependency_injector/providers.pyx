@@ -1396,9 +1396,11 @@ cdef class Configuration(Object):
     """
 
     DEFAULT_NAME = 'config'
+    UNDEFINED = object()
 
-    def __init__(self, name=DEFAULT_NAME, default=None):
+    def __init__(self, name=DEFAULT_NAME, default=None, strict=False):
         self.__name = name
+        self.__strict = strict
 
         value = {}
         if default is not None:
@@ -1416,7 +1418,7 @@ cdef class Configuration(Object):
         if copied is not None:
             return copied
 
-        copied = self.__class__(self.__name, self.__provides)
+        copied = self.__class__(self.__name, self.__provides, self.__strict)
         memo[id(self)] = copied
 
         copied.__children = deepcopy(self.__children, memo)
@@ -1467,9 +1469,12 @@ cdef class Configuration(Object):
 
         while len(keys) > 0:
             key = keys.pop(0)
-            value = value.get(key)
-            if value is None:
-                break
+            value = value.get(key, self.UNDEFINED)
+
+            if value is self.UNDEFINED:
+                if self.__strict:
+                    raise Error('Undefined configuration option "{0}.{1}"'.format(self.__name, selector))
+                return None
 
         return value
 

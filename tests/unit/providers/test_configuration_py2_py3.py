@@ -176,6 +176,11 @@ class ConfigTests(unittest.TestCase):
     def test_value_of_undefined_option(self):
         self.assertIsNone(self.config.a())
 
+    def test_value_of_undefined_option_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaisesRegex(errors.Error, 'Undefined configuration option "config.a"'):
+            self.config.a()
+
     def test_getting_of_special_attributes(self):
         with self.assertRaises(AttributeError):
             self.config.__name__

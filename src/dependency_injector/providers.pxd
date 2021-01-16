@@ -107,6 +107,7 @@ cdef class TypedConfigurationOption(Callable):
 
 cdef class Configuration(Object):
     cdef str __name
+    cdef bint __strict
     cdef dict __children
     cdef object __weakref__
 
