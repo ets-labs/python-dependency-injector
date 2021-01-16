@@ -143,6 +143,28 @@ With the ``.as_(callback, *args, **kwargs)`` you can specify a function that wil
 before the injection. The value from the config will be passed as a first argument. The returned
 value will be injected. Parameters ``*args`` and ``**kwargs`` are handled as any other injections.
 
+Strict mode and required options
+--------------------------------
+
+You can use configuration provider in strict mode. In strict mode configuration provider raises an error
+on access to any undefined option.
+
+.. literalinclude:: ../../examples/providers/configuration/configuration_strict.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 12
+
+You can also use ``.required()`` option modifier when making an injection.
+
+.. literalinclude:: ../../examples/providers/configuration/configuration_required.py
+   :language: python
+   :lines: 11-20
+   :emphasize-lines: 8-9
+
+.. note::
+
+   Modifier ``.required()`` should be specified before type modifier ``.as_*()``.
+
 Injecting invariants
 --------------------
 
