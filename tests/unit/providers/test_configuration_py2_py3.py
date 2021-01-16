@@ -105,6 +105,14 @@ class ConfigTests(unittest.TestCase):
         with self.assertRaisesRegex(errors.Error, 'Undefined configuration option "config.a"'):
             provider()
 
+    def test_required_defined_none(self):
+        provider = providers.Callable(
+            lambda value: value,
+            self.config.a.required(),
+        )
+        self.config.from_dict({'a': None})
+        self.assertIsNone(provider())
+
     def test_required_no_side_effect(self):
         _ = providers.Callable(
             lambda value: value,
@@ -205,6 +213,11 @@ class ConfigTests(unittest.TestCase):
         self.config = providers.Configuration(strict=True)
         with self.assertRaisesRegex(errors.Error, 'Undefined configuration option "config.a"'):
             self.config.a()
+
+    def test_value_of_defined_none_option_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        self.config.from_dict({'a': None})
+        self.assertIsNone(self.config.a())
 
     def test_getting_of_special_attributes(self):
         with self.assertRaises(AttributeError):
