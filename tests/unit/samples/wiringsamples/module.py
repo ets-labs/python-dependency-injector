@@ -43,11 +43,23 @@ def test_function_provider(service_provider: Callable[..., Service] = Provider[C
 
 @inject
 def test_config_value(
-        some_value_int: int = Provide[Container.config.a.b.c.as_int()],
-        some_value_str: str = Provide[Container.config.a.b.c.as_(str)],
-        some_value_decimal: Decimal = Provide[Container.config.a.b.c.as_(Decimal)],
+        value_int: int = Provide[Container.config.a.b.c.as_int()],
+        value_str: str = Provide[Container.config.a.b.c.as_(str)],
+        value_decimal: Decimal = Provide[Container.config.a.b.c.as_(Decimal)],
+        value_required: str = Provide[Container.config.a.b.c.required()],
+        value_required_int: int = Provide[Container.config.a.b.c.required().as_int()],
+        value_required_str: str = Provide[Container.config.a.b.c.required().as_(str)],
+        value_required_decimal: str = Provide[Container.config.a.b.c.required().as_(Decimal)],
 ):
-    return some_value_int, some_value_str, some_value_decimal
+    return (
+        value_int,
+        value_str,
+        value_decimal,
+        value_required,
+        value_required_int,
+        value_required_str,
+        value_required_decimal,
+    )
 
 
 @inject

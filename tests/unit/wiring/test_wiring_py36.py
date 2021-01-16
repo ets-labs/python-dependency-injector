@@ -109,10 +109,23 @@ class WiringTest(unittest.TestCase):
         self.assertIs(service, test_service)
 
     def test_configuration_option(self):
-        int_value, str_value, decimal_value = module.test_config_value()
-        self.assertEqual(int_value, 10)
-        self.assertEqual(str_value, '10')
-        self.assertEqual(decimal_value, Decimal(10))
+        (
+            value_int,
+            value_str,
+            value_decimal,
+            value_required,
+            value_required_int,
+            value_required_str,
+            value_required_decimal,
+        ) = module.test_config_value()
+
+        self.assertEqual(value_int, 10)
+        self.assertEqual(value_str, '10')
+        self.assertEqual(value_decimal, Decimal(10))
+        self.assertEqual(value_required, 10)
+        self.assertEqual(value_required_int, 10)
+        self.assertEqual(value_required_str, '10')
+        self.assertEqual(value_required_decimal, Decimal(10))
 
     def test_provide_provider(self):
         service = module.test_provide_provider()
