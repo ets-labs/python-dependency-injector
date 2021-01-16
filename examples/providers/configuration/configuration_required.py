@@ -1,4 +1,4 @@
-"""`Configuration` provider strict mode example."""
+"""`Configuration` provider required modifier example."""
 
 from dependency_injector import containers, providers, errors
 
