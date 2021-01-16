@@ -98,6 +98,7 @@ cdef class ConfigurationOption(Provider):
     cdef tuple __name
     cdef object __root_ref
     cdef dict __children
+    cdef bint __required
     cdef object __cache
 
 

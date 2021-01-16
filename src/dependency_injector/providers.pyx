@@ -1172,10 +1172,11 @@ cdef class ConfigurationOption(Provider):
 
     UNDEFINED = object()
 
-    def __init__(self, name, root):
+    def __init__(self, name, root, required=False):
         self.__name = name
         self.__root_ref = weakref.ref(root)
         self.__children = {}
+        self.__required = required
         self.__cache = self.UNDEFINED
         super().__init__()
 
@@ -1193,7 +1194,7 @@ cdef class ConfigurationOption(Provider):
         if copied_root is None:
             copied_root = deepcopy(root, memo)
 
-        copied = self.__class__(copied_name, copied_root)
+        copied = self.__class__(copied_name, copied_root, self.__required)
         copied.__children = deepcopy(self.__children, memo)
 
         return copied
@@ -1229,7 +1230,7 @@ cdef class ConfigurationOption(Provider):
             return self.__cache
 
         root = self.__root_ref()
-        value = root.get(self._get_self_name())
+        value = root.get(self._get_self_name(), self.__required)
         self.__cache = value
         return value
 
@@ -1257,6 +1258,9 @@ cdef class ConfigurationOption(Provider):
 
     def as_(self, callback, *args, **kwargs):
         return TypedConfigurationOption(callback, self, *args, **kwargs)
+
+    def required(self):
+        return self.__class__(self.__name, self.__root_ref(), required=True)
 
     def override(self, value):
         if isinstance(value, Provider):
@@ -1452,11 +1456,14 @@ cdef class Configuration(Object):
     def get_name(self):
         return self.__name
 
-    def get(self, selector):
+    def get(self, selector, required=False):
         """Return configuration option.
 
         :param selector: Selector string, e.g. "option1.option2"
         :type selector: str
+
+        :param required: Required flag, raise error if required option is missing
+        :type required: bool
 
         :return: Option value.
         :rtype: Any
@@ -1472,7 +1479,7 @@ cdef class Configuration(Object):
             value = value.get(key, self.UNDEFINED)
 
             if value is self.UNDEFINED:
-                if self.__strict:
+                if self.__strict or required:
                     raise Error('Undefined configuration option "{0}.{1}"'.format(self.__name, selector))
                 return None
 

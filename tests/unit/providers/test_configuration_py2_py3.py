@@ -97,6 +97,31 @@ class ConfigTests(unittest.TestCase):
 
         self.assertEqual(value, decimal.Decimal('123.123'))
 
+    def test_required(self):
+        provider = providers.Callable(
+            lambda value: value,
+            self.config.a.required(),
+        )
+        with self.assertRaisesRegex(errors.Error, 'Undefined configuration option "config.a"'):
+            provider()
+
+    def test_required_no_side_effect(self):
+        _ = providers.Callable(
+            lambda value: value,
+            self.config.a.required(),
+        )
+        self.assertIsNone(self.config.a())
+
+    def test_required_as_(self):
+        provider = providers.List(
+            self.config.int_test.required().as_int(),
+            self.config.float_test.required().as_float(),
+            self.config._as_test.required().as_(decimal.Decimal),
+        )
+        self.config.from_dict({'int_test': '1', 'float_test': '2.0', '_as_test': '3.0'})
+
+        self.assertEqual(provider(), [1, 2.0, decimal.Decimal('3.0')])
+
     def test_providers_value_override(self):
         a = self.config.a
         ab = self.config.a.b
