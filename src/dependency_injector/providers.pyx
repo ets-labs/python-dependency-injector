@@ -1471,12 +1471,14 @@ cdef class Configuration(Object):
         :return: Option value.
         :rtype: Any
         """
-        keys = selector.split('.')
         value = self.__call__()
 
         if value is None:
+            if self.__strict or required:
+                raise Error('Undefined configuration option "{0}.{1}"'.format(self.__name, selector))
             return None
 
+        keys = selector.split('.')
         while len(keys) > 0:
             key = keys.pop(0)
             value = value.get(key, self.UNDEFINED)
@@ -1500,9 +1502,9 @@ cdef class Configuration(Object):
         :return: Overriding context.
         :rtype: :py:class:`OverridingContext`
         """
-        keys = selector.split('.')
         original_value = current_value = deepcopy(self.__call__())
 
+        keys = selector.split('.')
         while len(keys) > 0:
             key = keys.pop(0)
             if len(keys) == 0:
@@ -2967,7 +2969,7 @@ cdef class Resource(Provider):
                 self.__kwargs_len,
             )
             self.__initialized = True
-            return self._create_init_future(initializer.__anext__(), initializer.asend)
+            return self._create_async_gen_init_future(initializer)
         elif callable(self.__initializer):
             self.__resource = __call(
                 self.__initializer,
@@ -2995,6 +2997,18 @@ cdef class Resource(Provider):
 
         return future
 
+    def _create_async_gen_init_future(self, initializer):
+        if inspect.isasyncgen(initializer):
+            return self._create_init_future(initializer.__anext__(), initializer.asend)
+
+        future = asyncio.Future()
+
+        create_initializer = asyncio.ensure_future(initializer)
+        create_initializer.add_done_callback(functools.partial(self._async_create_gen_callback, future))
+        self.__resource = future
+
+        return future
+
     def _async_init_callback(self, initializer, shutdowner=None):
         try:
             resource = initializer.result()
@@ -3004,6 +3018,14 @@ cdef class Resource(Provider):
         else:
             self.__resource = resource
             self.__shutdowner = shutdowner
+
+    def _async_create_gen_callback(self, future, initializer_future):
+        initializer = initializer_future.result()
+        init_future = self._create_init_future(initializer.__anext__(), initializer.asend)
+        init_future.add_done_callback(functools.partial(self._async_trigger_result, future))
+
+    def _async_trigger_result(self, future, future_result):
+        future.set_result(future_result.result())
 
     def _create_shutdown_future(self, shutdown_future):
         future = asyncio.Future()

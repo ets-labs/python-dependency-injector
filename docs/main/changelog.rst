@@ -7,6 +7,20 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Fix a bug in the ``Configuration`` provider: strict mode didn't work when provider
+  is overridden by ``None``.
+  See issue: `#358#issuecomment-761607432 <https://github.com/ets-labs/python-dependency-injector/issues/358#issuecomment-761607432>`_.
+  Many thanks to `Stefano Frazzetto <https://github.com/StefanoFrazzetto>`_ for reporting the issue.
+
+4.10.2
+------
+- Fix a bug in ``Resource`` that cause failure when async resource depends on
+  another async resource.
+  See issue `#361 <https://github.com/ets-labs/python-dependency-injector/issues/361>`_.
+  Thanks `@kolypto <https://github.com/kolypto>`_ for the bug report.
+
 4.10.1
 ------
 - Fix a Python 3.9 specific bug in ``wiring`` module: introspection doesn't work for

@@ -461,6 +461,43 @@ class AsyncResourceTest(AsyncTestCase):
         self.assertFalse(provider.initialized)
         self.assertTrue(provider.is_async_mode_enabled())
 
+    def test_init_with_dependency_to_other_resource(self):
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/361
+        async def init_db_connection(db_url: str):
+            await asyncio.sleep(0.001)
+            yield {'connection': 'ok', 'url': db_url}
+
+        async def init_user_session(db):
+            await asyncio.sleep(0.001)
+            yield {'session': 'ok', 'db': db}
+
+        class Container(containers.DeclarativeContainer):
+            config = providers.Configuration()
+
+            db_connection = providers.Resource(
+                init_db_connection,
+                db_url=config.db_url,
+            )
+
+            user_session = providers.Resource(
+                init_user_session,
+                db=db_connection
+            )
+
+        async def main():
+            container = Container(config={'db_url': 'postgres://...'})
+            try:
+                return await container.user_session()
+            finally:
+                await container.shutdown_resources()
+
+        result = self._run(main())
+
+        self.assertEqual(
+            result,
+            {'session': 'ok', 'db': {'connection': 'ok', 'url': 'postgres://...'}},
+        )
+
     def test_init_and_shutdown_methods(self):
         async def _init():
             await asyncio.sleep(0.001)
