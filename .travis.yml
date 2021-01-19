@@ -3,7 +3,7 @@ dist: xenial
 language: python
 jobs:
   include:
-    - python: 3.8
+    - python: 3.9
       env: TOXENV=coveralls DEPENDENCY_INJECTOR_DEBUG_MODE=1
       install:
         - pip install tox

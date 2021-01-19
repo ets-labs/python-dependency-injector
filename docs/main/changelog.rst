@@ -7,6 +7,15 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.10.1
+------
+- Fix a Python 3.9 specific bug in ``wiring`` module: introspection doesn't work for
+  builtin ``types.GenericAlias``. This resulted in wiring failure for modules
+  importing ``queue.Queue``.
+  See issue `#362 <https://github.com/ets-labs/python-dependency-injector/issues/362>`_.
+  Thanks `@ventaquil <https://github.com/ventaquil>`_ for the bug report.
+- Switch Coveralls reporting Travis Job to run on Python 3.9.
+
 4.10.0
 ------
 - Add ``strict`` mode and ``required`` modifier for ``Configuration`` provider.
