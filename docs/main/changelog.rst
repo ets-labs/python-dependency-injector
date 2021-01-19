@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.10.2
+------
 - Fix a bug in ``Resource`` that cause failure when async resource depends on
   another async resource.
   See issue `#361 <https://github.com/ets-labs/python-dependency-injector/issues/361>`_.
