@@ -263,6 +263,21 @@ class WiringTest(unittest.TestCase):
         self.assertIsInstance(service, Service)
 
 
+class WiringAndQueue(unittest.TestCase):
+
+    def test_wire_queue(self) -> None:
+        from wiringsamples import queuemodule
+        container = Container()
+        self.addCleanup(container.unwire)
+
+        # Should not raise exception
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/362
+        try:
+            container.wire(modules=[queuemodule])
+        except:
+            raise
+
+
 class WiringAndFastAPITest(unittest.TestCase):
 
     container: Container

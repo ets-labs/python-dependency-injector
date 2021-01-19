@@ -28,6 +28,12 @@ else:
     class GenericMeta(type):
         ...
 
+# Hotfix, see: https://github.com/ets-labs/python-dependency-injector/issues/362
+if sys.version_info >= (3, 9):
+    from types import GenericAlias
+else:
+    GenericAlias = None
+
 
 try:
     from fastapi.params import Depends as FastAPIDepends
@@ -333,6 +339,10 @@ def _unpatch(
 def _fetch_reference_injections(
         fn: Callable[..., Any],
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    # # Hotfix, see: https://github.com/ets-labs/python-dependency-injector/issues/362
+    if GenericAlias and fn is GenericAlias:
+        fn = fn.__init__
+
     signature = inspect.signature(fn)
 
     injections = {}
