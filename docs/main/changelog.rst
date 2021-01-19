@@ -14,6 +14,7 @@ Development version
   importing ``queue.Queue``.
   See issue `#362 <https://github.com/ets-labs/python-dependency-injector/issues/362>`_.
   Thanks `@ventaquil <https://github.com/ventaquil>`_ for the bug report.
+- Switch Coveralls reporting Travis Job to run on Python 3.9.
 
 4.10.0
 ------
