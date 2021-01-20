@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.10.3
+------
 - Fix a bug in the ``Configuration`` provider: strict mode didn't work when provider
   is overridden by ``None``.
   See issue: `#358#issuecomment-761607432 <https://github.com/ets-labs/python-dependency-injector/issues/358#issuecomment-761607432>`_.
