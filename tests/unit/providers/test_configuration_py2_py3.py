@@ -214,6 +214,12 @@ class ConfigTests(unittest.TestCase):
         with self.assertRaisesRegex(errors.Error, 'Undefined configuration option "config.a"'):
             self.config.a()
 
+    def test_value_of_undefined_option_with_root_none_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        self.config.override(None)
+        with self.assertRaisesRegex(errors.Error, 'Undefined configuration option "config.a"'):
+            self.config.a()
+
     def test_value_of_defined_none_option_in_strict_mode(self):
         self.config = providers.Configuration(strict=True)
         self.config.from_dict({'a': None})

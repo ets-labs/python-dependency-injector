@@ -1471,12 +1471,14 @@ cdef class Configuration(Object):
         :return: Option value.
         :rtype: Any
         """
-        keys = selector.split('.')
         value = self.__call__()
 
         if value is None:
+            if self.__strict or required:
+                raise Error('Undefined configuration option "{0}.{1}"'.format(self.__name, selector))
             return None
 
+        keys = selector.split('.')
         while len(keys) > 0:
             key = keys.pop(0)
             value = value.get(key, self.UNDEFINED)
@@ -1500,9 +1502,9 @@ cdef class Configuration(Object):
         :return: Overriding context.
         :rtype: :py:class:`OverridingContext`
         """
-        keys = selector.split('.')
         original_value = current_value = deepcopy(self.__call__())
 
+        keys = selector.split('.')
         while len(keys) > 0:
             key = keys.pop(0)
             if len(keys) == 0:
