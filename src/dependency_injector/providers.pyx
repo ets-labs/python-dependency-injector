@@ -1336,7 +1336,7 @@ cdef class ConfigurationOption(Provider):
 
         try:
             with open(filepath) as opened_file:
-                config = yaml.load(opened_file, yaml.Loader)
+                config = yaml.load(opened_file, yaml.SafeLoader)
         except IOError:
             return
 
