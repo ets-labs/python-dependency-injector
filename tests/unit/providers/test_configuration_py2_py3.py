@@ -9,6 +9,10 @@ import tempfile
 import unittest2 as unittest
 
 from dependency_injector import containers, providers, errors
+try:
+    import yaml
+except ImportError:
+    yaml = None
 
 
 class ConfigTests(unittest.TestCase):
@@ -580,6 +584,51 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
         )
         self.assertEqual(self.config.section1(), {'value1': 'test-value'})
         self.assertEqual(self.config.section1.value1(), 'test-value')
+
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
+    def test_option_env_variable_interpolation(self):
+        self.config.option.from_yaml(self.config_file)
+
+        self.assertEqual(
+            self.config.option(),
+            {
+                'section1': {
+                    'value1': 'test-value',
+                },
+            },
+        )
+        self.assertEqual(self.config.option.section1(), {'value1': 'test-value'})
+        self.assertEqual(self.config.option.section1.value1(), 'test-value')
+
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
+    def test_env_variable_interpolation_custom_loader(self):
+        self.config.from_yaml(self.config_file, loader=yaml.UnsafeLoader)
+
+        self.assertEqual(
+            self.config(),
+            {
+                'section1': {
+                    'value1': 'test-value',
+                },
+            },
+        )
+        self.assertEqual(self.config.section1(), {'value1': 'test-value'})
+        self.assertEqual(self.config.section1.value1(), 'test-value')
+
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
+    def test_option_env_variable_interpolation_custom_loader(self):
+        self.config.option.from_yaml(self.config_file, loader=yaml.UnsafeLoader)
+
+        self.assertEqual(
+            self.config.option(),
+            {
+                'section1': {
+                    'value1': 'test-value',
+                },
+            },
+        )
+        self.assertEqual(self.config.option.section1(), {'value1': 'test-value'})
+        self.assertEqual(self.config.option.section1.value1(), 'test-value')
 
 
 class ConfigFromDict(unittest.TestCase):
