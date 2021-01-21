@@ -5,6 +5,7 @@ try:
 except ImportError:
     asyncio = None
 
+import functools
 import inspect
 
 cimport cython
@@ -531,7 +532,17 @@ cdef inline object __call(
 cdef inline void __async_call_callback(object future):
     (future_result, call), args, kwargs = future.result()
     result = call(*args, **kwargs)
+
+    if __isawaitable(result):
+        result = asyncio.ensure_future(result)
+        result.add_done_callback(functools.partial(__async_result_callback, future_result))
+        return
+
     future_result.set_result(result)
+
+
+cdef inline object __async_result_callback(object future_result, object future):
+    future_result.set_result(future.result())
 
 
 cdef inline object __callable_call(Callable self, tuple args, dict kwargs):

@@ -816,3 +816,24 @@ class AsyncTypingStubTests(AsyncTestCase):
         self.assertIs(service2.client.resource2, RESOURCE2)
 
         self.assertIsNot(service1.client, service2.client)
+
+
+class AsyncProvidersWithAsyncDependenciesTests(AsyncTestCase):
+
+    def test_injections(self):
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/368
+        async def async_db_provider():
+            return {'db': 'ok'}
+
+        async def async_service(db=None):
+            return {'service': 'ok', 'db': db}
+
+        class Container(containers.DeclarativeContainer):
+
+            db = providers.Factory(async_db_provider)
+            service = providers.Singleton(async_service, db=db)
+
+        container = Container()
+        service = self._run(container.service())
+
+        self.assertEquals(service, {'service': 'ok', 'db': {'db': 'ok'}})
