@@ -21,6 +21,10 @@ Configuration provider
 
 It implements the principle "use first, define later".
 
+.. contents::
+   :local:
+   :backlinks: none
+
 Loading from an INI file
 ------------------------
 
@@ -57,9 +61,19 @@ where ``examples/providers/configuration/config.yml`` is:
 .. literalinclude:: ../../examples/providers/configuration/config.yml
    :language: ini
 
-:py:meth:`Configuration.from_yaml` method supports environment variables interpolation. Use
-``${ENV_NAME}`` format in the configuration file to substitute value of the environment
-variable ``ENV_NAME``.
+:py:meth:`Configuration.from_yaml` method uses custom version of ``yaml.SafeLoader``.
+
+The loader supports environment variables interpolation. Use ``${ENV_NAME}`` format
+in the configuration file to substitute value of the environment variable ``ENV_NAME``.
+
+You can also specify a YAML loader as an argument:
+
+.. code-block:: python
+
+   import yaml
+
+
+   container.config.from_yaml('config.yml', loader=yaml.UnsafeLoader)
 
 .. note::
 
