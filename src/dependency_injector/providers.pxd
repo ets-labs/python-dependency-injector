@@ -420,18 +420,27 @@ cdef inline object __provide_keyword_args(
 cdef inline object __awaitable_args_kwargs_future(object args, list awaitables):
     future_result = asyncio.Future()
 
-    args_future = asyncio.Future()
-    args_future.set_result((future_result, args, awaitables))
-
-    args_ready = asyncio.gather(args_future, *[value for _, value in awaitables])
-    args_ready.add_done_callback(__async_prepare_args_kwargs_callback)
+    args_ready = asyncio.gather(*[value for _, value in awaitables])
+    args_ready.add_done_callback(
+        functools.partial(
+            __async_prepare_args_kwargs_callback,
+            future_result,
+            args,
+            awaitables,
+        ),
+    )
     asyncio.ensure_future(args_ready)
 
     return future_result
 
 
-cdef inline void __async_prepare_args_kwargs_callback(object future):
-    (future_result, args, awaitables), *awaited = future.result()
+cdef inline void __async_prepare_args_kwargs_callback(
+        object future_result,
+        object args,
+        object awaitables,
+        object future,
+):
+    awaited = future.result()
     for value, (key, _) in zip(awaited, awaitables):
         args[key] = value
     future_result.set_result(args)
@@ -461,17 +470,20 @@ cdef inline object __provide_attributes(tuple attributes, int attributes_len):
 cdef inline object __async_inject_attributes(future_instance, future_attributes):
     future_result = asyncio.Future()
 
-    future = asyncio.Future()
-    future.set_result(future_result)
-
-    attributes_ready = asyncio.gather(future, future_instance, future_attributes)
-    attributes_ready.add_done_callback(__async_inject_attributes_callback)
+    attributes_ready = asyncio.gather(future_instance, future_attributes)
+    attributes_ready.add_done_callback(
+        functools.partial(
+            __async_inject_attributes_callback,
+            future_result,
+        ),
+    )
     asyncio.ensure_future(attributes_ready)
 
     return future_result
 
-cdef inline void __async_inject_attributes_callback(future):
-    future_result, instance, attributes = future.result()
+
+cdef inline void __async_inject_attributes_callback(object future_result, object future):
+    instance, attributes = future.result()
     __inject_attributes(instance, attributes)
     future_result.set_result(instance)
 
@@ -517,11 +529,14 @@ cdef inline object __call(
 
         future_result = asyncio.Future()
 
-        future = asyncio.Future()
-        future.set_result((future_result, call))
-
-        args_kwargs_ready = asyncio.gather(future, args, kwargs)
-        args_kwargs_ready.add_done_callback(__async_call_callback)
+        args_kwargs_ready = asyncio.gather(args, kwargs)
+        args_kwargs_ready.add_done_callback(
+            functools.partial(
+                __async_call_callback,
+                future_result,
+                call,
+            ),
+        )
         asyncio.ensure_future(args_kwargs_ready)
 
         return future_result
@@ -529,8 +544,8 @@ cdef inline object __call(
     return call(*args, **kwargs)
 
 
-cdef inline void __async_call_callback(object future):
-    (future_result, call), args, kwargs = future.result()
+cdef inline void __async_call_callback(object future_result, object call, object future):
+    args, kwargs = future.result()
     result = call(*args, **kwargs)
 
     if __isawaitable(result):

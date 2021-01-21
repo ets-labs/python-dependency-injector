@@ -12,6 +12,7 @@ follows `Semantic versioning`_
 - Fix a bug with asynchronous injections: async providers do not work with async dependencies.
   See issue: `#368 <https://github.com/ets-labs/python-dependency-injector/issues/368>`_.
   Thanks `@kolypto <https://github.com/kolypto>`_ for the bug report.
+- Refactor asynchronous injections.
 
 4.10.3
 ------
