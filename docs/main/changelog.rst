@@ -9,6 +9,10 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Add ``loader`` argument to the configuration provider ``Configuration.from_yaml(..., loader=...)`` to override the
+  default YAML loader.
+- Make security improvement: change default YAML loader to the custom ``yaml.SafeLoader`` with a support
+  of environment variables interpolation.
 - Fix a bug with asynchronous injections: async providers do not work with async dependencies.
   See issue: `#368 <https://github.com/ets-labs/python-dependency-injector/issues/368>`_.
   Thanks `@kolypto <https://github.com/kolypto>`_ for the bug report.

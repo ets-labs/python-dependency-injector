@@ -89,6 +89,41 @@ else:
             return parser
 
 
+if yaml:
+    class YamlLoader(yaml.SafeLoader):
+        """Custom YAML loader.
+
+        Inherits ``yaml.SafeLoader`` and add environment variables interpolation.
+        """
+
+        tag = '!!str'
+        pattern = re.compile('.*?\${(\w+)}.*?')
+
+        @classmethod
+        def constructor_env_variables(cls, loader, node):
+            value = loader.construct_scalar(node)
+            match = cls.pattern.findall(value)
+            if match:
+                full_value = value
+                for group in match:
+                    full_value = full_value.replace(
+                        f'${{{group}}}', os.environ.get(group, group)
+                    )
+                return full_value
+            return value
+
+    # TODO: use SafeLoader without env interpolation by default in version 5.*
+    YamlLoader.add_implicit_resolver(YamlLoader.tag, YamlLoader.pattern, None)
+    YamlLoader.add_constructor(YamlLoader.tag, YamlLoader.constructor_env_variables)
+else:
+    class YamlLoader:
+        """Custom YAML loader.
+
+        Inherits ``yaml.SafeLoader`` and add environment variables interpolation.
+        """
+
+
+
 cdef int ASYNC_MODE_UNDEFINED = 0
 cdef int ASYNC_MODE_ENABLED = 1
 cdef int ASYNC_MODE_DISABLED = 2
@@ -1317,13 +1352,16 @@ cdef class ConfigurationOption(Provider):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    def from_yaml(self, filepath):
+    def from_yaml(self, filepath, loader=None):
         """Load configuration from the yaml file.
 
         Loaded configuration is merged recursively over existing configuration.
 
         :param filepath: Path to the configuration file.
         :type filepath: str
+
+        :param loader: YAML loader, :py:class:`YamlLoader` is used if not specified.
+        :type loader: ``yaml.Loader``
 
         :rtype: None
         """
@@ -1334,9 +1372,13 @@ cdef class ConfigurationOption(Provider):
                 '"pip install dependency-injector[yaml]"'
             )
 
+
+        if loader is None:
+            loader = YamlLoader
+
         try:
             with open(filepath) as opened_file:
-                config = yaml.load(opened_file, yaml.Loader)
+                config = yaml.load(opened_file, loader)
         except IOError:
             return
 
@@ -1593,13 +1635,16 @@ cdef class Configuration(Object):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    def from_yaml(self, filepath):
+    def from_yaml(self, filepath, loader=None):
         """Load configuration from the yaml file.
 
         Loaded configuration is merged recursively over existing configuration.
 
         :param filepath: Path to the configuration file.
         :type filepath: str
+
+        :param loader: YAML loader, :py:class:`YamlLoader` is used if not specified.
+        :type loader: ``yaml.Loader``
 
         :rtype: None
         """
@@ -1610,9 +1655,12 @@ cdef class Configuration(Object):
                 '"pip install dependency-injector[yaml]"'
             )
 
+        if loader is None:
+            loader = YamlLoader
+
         try:
             with open(filepath) as opened_file:
-                config = yaml.load(opened_file, yaml.Loader)
+                config = yaml.load(opened_file, loader)
         except IOError:
             return
 
