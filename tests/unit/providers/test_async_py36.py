@@ -236,6 +236,51 @@ class FactoryTests(AsyncTestCase):
 
         self.assertIsNot(service1.client, service2.client)
 
+    def test_async_instance_and_sync_attributes_injection(self):
+        class ContainerWithAttributes(containers.DeclarativeContainer):
+            resource1 = providers.Resource(init_resource, providers.Object(RESOURCE1))
+
+            client = providers.Factory(
+                Client,
+                resource1,
+                resource2=None,
+            )
+            client.add_attributes(resource2=providers.Object(RESOURCE2))
+
+            service = providers.Factory(
+                Service,
+                client=None,
+            )
+            service.add_attributes(client=client)
+
+        container = ContainerWithAttributes()
+
+        client1 = self._run(container.client())
+        client2 = self._run(container.client())
+
+        self.assertIsInstance(client1, Client)
+        self.assertIs(client1.resource1, RESOURCE1)
+        self.assertIs(client1.resource2, RESOURCE2)
+
+        self.assertIsInstance(client2, Client)
+        self.assertIs(client2.resource1, RESOURCE1)
+        self.assertIs(client2.resource2, RESOURCE2)
+
+        service1 = self._run(container.service())
+        service2 = self._run(container.service())
+
+        self.assertIsInstance(service1, Service)
+        self.assertIsInstance(service1.client, Client)
+        self.assertIs(service1.client.resource1, RESOURCE1)
+        self.assertIs(service1.client.resource2, RESOURCE2)
+
+        self.assertIsInstance(service2, Service)
+        self.assertIsInstance(service2.client, Client)
+        self.assertIs(service2.client.resource1, RESOURCE1)
+        self.assertIs(service2.client.resource2, RESOURCE2)
+
+        self.assertIsNot(service1.client, service2.client)
+
 
 class FactoryAggregateTests(AsyncTestCase):
 

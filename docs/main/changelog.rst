@@ -13,6 +13,7 @@ follows `Semantic versioning`_
   See issue: `#368 <https://github.com/ets-labs/python-dependency-injector/issues/368>`_.
   Thanks `@kolypto <https://github.com/kolypto>`_ for the bug report.
 - Refactor asynchronous injections.
+- Add extra tests for asynchronous injections.
 
 4.10.3
 ------
