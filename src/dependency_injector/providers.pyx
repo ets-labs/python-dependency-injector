@@ -65,21 +65,18 @@ if sys.version_info[0] == 3:
 
     def _parse_ini_file(filepath):
         parser = iniconfigparser.ConfigParser(interpolation=EnvInterpolation())
-        parser.read(filepath)
+        with open(filepath) as config_file:
+            parser.read_file(config_file)
         return parser
 else:
     import StringIO
 
     def _parse_ini_file(filepath):
         parser = iniconfigparser.ConfigParser()
-        try:
-            with open(filepath) as config_file:
-                config_string = os.path.expandvars(config_file.read())
-        except IOError:
-            return parser
-        else:
-            parser.readfp(StringIO.StringIO(config_string))
-            return parser
+        with open(filepath) as config_file:
+            config_string = os.path.expandvars(config_file.read())
+        parser.readfp(StringIO.StringIO(config_string))
+        return parser
 
 
 if yaml:
@@ -1325,7 +1322,13 @@ cdef class ConfigurationOption(Provider):
 
         :rtype: None
         """
-        parser = _parse_ini_file(filepath)
+        try:
+            parser = _parse_ini_file(filepath)
+        except IOError as exception:
+            if self._is_strict_mode_enabled() and exception.errno in (errno.ENOENT, errno.EISDIR):
+                exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
+                raise
+            return
 
         config = {}
         for section in parser.sections():
@@ -1349,8 +1352,6 @@ cdef class ConfigurationOption(Provider):
 
         :rtype: None
         """
-        cdef Configuration root
-
         if yaml is None:
             raise Error(
                 'Unable to load yaml configuration - PyYAML is not installed. '
@@ -1366,15 +1367,9 @@ cdef class ConfigurationOption(Provider):
             with open(filepath) as opened_file:
                 config = yaml.load(opened_file, loader)
         except IOError as exception:
-            root = self.__root_ref()
-
-            if not root:
-                return
-
-            if root.__strict and exception.errno in (errno.ENOENT, errno.EISDIR):
+            if self._is_strict_mode_enabled() and exception.errno in (errno.ENOENT, errno.EISDIR):
                 exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
                 raise
-
             return
 
         current_config = self.__call__()
@@ -1410,6 +1405,15 @@ cdef class ConfigurationOption(Provider):
         """
         value = os.getenv(name, default)
         self.override(value)
+
+    def _is_strict_mode_enabled(self):
+        cdef Configuration root
+
+        root = self.__root_ref()
+        if not root:
+            return False
+
+        return root.__strict
 
 
 cdef class TypedConfigurationOption(Callable):
@@ -1619,7 +1623,13 @@ cdef class Configuration(Object):
 
         :rtype: None
         """
-        parser = _parse_ini_file(filepath)
+        try:
+            parser = _parse_ini_file(filepath)
+        except IOError as exception:
+            if self.__strict and exception.errno in (errno.ENOENT, errno.EISDIR):
+                exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
+                raise
+            return
 
         config = {}
         for section in parser.sections():

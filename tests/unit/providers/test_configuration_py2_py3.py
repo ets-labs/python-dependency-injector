@@ -426,6 +426,24 @@ class ConfigFromIniTests(unittest.TestCase):
         self.assertEqual(self.config.section3(), {'value3': '3'})
         self.assertEqual(self.config.section3.value3(), '3')
 
+    def test_file_does_not_exist(self):
+        self.config.from_ini('./does_not_exist.ini')
+        self.assertEqual(self.config(), {})
+
+    def test_file_does_not_exist_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(IOError):
+            self.config.from_ini('./does_not_exist.ini')
+
+    def test_option_file_does_not_exist(self):
+        self.config.option.from_ini('does_not_exist.ini')
+        self.assertIsNone(self.config.option.undefined())
+
+    def test_option_file_does_not_exist_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(IOError):
+            self.config.option.from_ini('./does_not_exist.ini')
+
 
 class ConfigFromIniWithEnvInterpolationTests(unittest.TestCase):
 
@@ -535,7 +553,7 @@ class ConfigFromYamlTests(unittest.TestCase):
 
     def test_file_does_not_exist_strict_mode(self):
         self.config = providers.Configuration(strict=True)
-        with self.assertRaises(OSError):
+        with self.assertRaises(IOError):
             self.config.from_yaml('./does_not_exist.yml')
 
     def test_option_file_does_not_exist(self):
@@ -544,7 +562,7 @@ class ConfigFromYamlTests(unittest.TestCase):
 
     def test_option_file_does_not_exist_strict_mode(self):
         self.config = providers.Configuration(strict=True)
-        with self.assertRaises(OSError):
+        with self.assertRaises(IOError):
             self.config.option.from_yaml('./does_not_exist.yml')
 
     def test_no_yaml_installed(self):
