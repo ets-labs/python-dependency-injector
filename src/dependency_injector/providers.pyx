@@ -3,6 +3,7 @@
 from __future__ import absolute_import
 
 import copy
+import errno
 import functools
 import inspect
 import os
@@ -1365,6 +1366,8 @@ cdef class ConfigurationOption(Provider):
 
         :rtype: None
         """
+        cdef Configuration root
+
         if yaml is None:
             raise Error(
                 'Unable to load yaml configuration - PyYAML is not installed. '
@@ -1379,7 +1382,16 @@ cdef class ConfigurationOption(Provider):
         try:
             with open(filepath) as opened_file:
                 config = yaml.load(opened_file, loader)
-        except IOError:
+        except IOError as exception:
+            root = self.__root_ref()
+
+            if not root:
+                return
+
+            if root.__strict and exception.errno in (errno.ENOENT, errno.EISDIR):
+                exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
+                raise
+
             return
 
         current_config = self.__call__()
@@ -1661,7 +1673,10 @@ cdef class Configuration(Object):
         try:
             with open(filepath) as opened_file:
                 config = yaml.load(opened_file, loader)
-        except IOError:
+        except IOError as exception:
+            if self.__strict and exception.errno in (errno.ENOENT, errno.EISDIR):
+                exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
+                raise
             return
 
         current_config = self.__call__()

@@ -529,6 +529,24 @@ class ConfigFromYamlTests(unittest.TestCase):
         self.assertEqual(self.config.section3(), {'value3': 3})
         self.assertEqual(self.config.section3.value3(), 3)
 
+    def test_file_does_not_exist(self):
+        self.config.from_yaml('./does_not_exist.yml')
+        self.assertEqual(self.config(), {})
+
+    def test_file_does_not_exist_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(OSError):
+            self.config.from_yaml('./does_not_exist.yml')
+
+    def test_option_file_does_not_exist(self):
+        self.config.option.from_yaml('./does_not_exist.yml')
+        self.assertIsNone(self.config.option())
+
+    def test_option_file_does_not_exist_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(OSError):
+            self.config.option.from_yaml('./does_not_exist.yml')
+
     def test_no_yaml_installed(self):
         @contextlib.contextmanager
         def no_yaml_module():
