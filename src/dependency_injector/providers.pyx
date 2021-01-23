@@ -54,14 +54,6 @@ else:  # pragma: no cover
                                     copy.deepcopy(obj.im_self, memo),
                                     obj.im_class)
 
-if yaml:
-    yaml_env_marker_pattern = re.compile(r'\$\{([^}^{]+)\}')
-    def yaml_env_marker_constructor(_, node):
-        """"Replace environment variable marker with its value."""
-        return os.path.expandvars(node.value)
-
-    yaml.add_implicit_resolver('!path', yaml_env_marker_pattern)
-    yaml.add_constructor('!path', yaml_env_marker_constructor)
 
 if sys.version_info[0] == 3:
     class EnvInterpolation(iniconfigparser.BasicInterpolation):
@@ -91,38 +83,29 @@ else:
 
 
 if yaml:
+    # TODO: use SafeLoader without env interpolation by default in version 5.*
+    yaml_env_marker_pattern = re.compile(r'\$\{([^}^{]+)\}')
+    def yaml_env_marker_constructor(_, node):
+        """"Replace environment variable marker with its value."""
+        return os.path.expandvars(node.value)
+
+    yaml.add_implicit_resolver('!path', yaml_env_marker_pattern)
+    yaml.add_constructor('!path', yaml_env_marker_constructor)
+
     class YamlLoader(yaml.SafeLoader):
         """Custom YAML loader.
 
         Inherits ``yaml.SafeLoader`` and add environment variables interpolation.
         """
 
-        tag = '!!str'
-        pattern = re.compile('.*?\${(\w+)}.*?')
-
-        @classmethod
-        def constructor_env_variables(cls, loader, node):
-            value = loader.construct_scalar(node)
-            match = cls.pattern.findall(value)
-            if match:
-                full_value = value
-                for group in match:
-                    full_value = full_value.replace(
-                        f'${{{group}}}', os.environ.get(group, group)
-                    )
-                return full_value
-            return value
-
-    # TODO: use SafeLoader without env interpolation by default in version 5.*
-    YamlLoader.add_implicit_resolver(YamlLoader.tag, YamlLoader.pattern, None)
-    YamlLoader.add_constructor(YamlLoader.tag, YamlLoader.constructor_env_variables)
+    YamlLoader.add_implicit_resolver('!path', yaml_env_marker_pattern, None)
+    YamlLoader.add_constructor('!path', yaml_env_marker_constructor)
 else:
     class YamlLoader:
         """Custom YAML loader.
 
         Inherits ``yaml.SafeLoader`` and add environment variables interpolation.
         """
-
 
 
 cdef int ASYNC_MODE_UNDEFINED = 0
