@@ -1727,7 +1727,7 @@ cdef class Configuration(Object):
         :param options: Configuration options.
         :type options: dict
 
-        :param required: When required is True, raise an exception if file does not exist.
+        :param required: When required is True, raise an exception if dictionary is empty.
         :type required: bool
 
         :rtype: None
