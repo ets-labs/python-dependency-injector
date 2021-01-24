@@ -1339,13 +1339,16 @@ cdef class ConfigurationOption(Provider):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    def from_yaml(self, filepath, loader=None):
+    def from_yaml(self, filepath, required=UNDEFINED, loader=None):
         """Load configuration from the yaml file.
 
         Loaded configuration is merged recursively over existing configuration.
 
         :param filepath: Path to the configuration file.
         :type filepath: str
+
+        :param required: When required is True, raise an exception if file does not exist.
+        :type required: bool
 
         :param loader: YAML loader, :py:class:`YamlLoader` is used if not specified.
         :type loader: ``yaml.Loader``
@@ -1367,7 +1370,9 @@ cdef class ConfigurationOption(Provider):
             with open(filepath) as opened_file:
                 config = yaml.load(opened_file, loader)
         except IOError as exception:
-            if self._is_strict_mode_enabled() and exception.errno in (errno.ENOENT, errno.EISDIR):
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True) \
+                    and exception.errno in (errno.ENOENT, errno.EISDIR):
                 exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
                 raise
             return
@@ -1648,13 +1653,16 @@ cdef class Configuration(Object):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    def from_yaml(self, filepath, loader=None):
+    def from_yaml(self, filepath, required=UNDEFINED, loader=None):
         """Load configuration from the yaml file.
 
         Loaded configuration is merged recursively over existing configuration.
 
         :param filepath: Path to the configuration file.
         :type filepath: str
+
+        :param required: When required is True, raise an exception if file does not exist.
+        :type required: bool
 
         :param loader: YAML loader, :py:class:`YamlLoader` is used if not specified.
         :type loader: ``yaml.Loader``
@@ -1675,7 +1683,9 @@ cdef class Configuration(Object):
             with open(filepath) as opened_file:
                 config = yaml.load(opened_file, loader)
         except IOError as exception:
-            if self._is_strict_mode_enabled() and exception.errno in (errno.ENOENT, errno.EISDIR):
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True) \
+                    and exception.errno in (errno.ENOENT, errno.EISDIR):
                 exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
                 raise
             return
