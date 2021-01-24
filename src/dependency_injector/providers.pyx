@@ -1387,6 +1387,9 @@ cdef class ConfigurationOption(Provider):
 
         :rtype: None
         """
+        if self._is_strict_mode_enabled() and not options:
+            raise ValueError('Can not use empty dictionary')
+
         current_config = self.__call__()
         if not current_config:
             current_config = {}
@@ -1520,7 +1523,7 @@ cdef class Configuration(Object):
         value = self.__call__()
 
         if value is None:
-            if self.__strict or required:
+            if self._is_strict_mode_enabled() or required:
                 raise Error('Undefined configuration option "{0}.{1}"'.format(self.__name, selector))
             return None
 
@@ -1530,7 +1533,7 @@ cdef class Configuration(Object):
             value = value.get(key, UNDEFINED)
 
             if value is UNDEFINED:
-                if self.__strict or required:
+                if self._is_strict_mode_enabled() or required:
                     raise Error('Undefined configuration option "{0}.{1}"'.format(self.__name, selector))
                 return None
 
@@ -1631,7 +1634,7 @@ cdef class Configuration(Object):
         try:
             parser = _parse_ini_file(filepath)
         except IOError as exception:
-            if self.__strict and exception.errno in (errno.ENOENT, errno.EISDIR):
+            if self._is_strict_mode_enabled() and exception.errno in (errno.ENOENT, errno.EISDIR):
                 exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
                 raise
             return
@@ -1672,7 +1675,7 @@ cdef class Configuration(Object):
             with open(filepath) as opened_file:
                 config = yaml.load(opened_file, loader)
         except IOError as exception:
-            if self.__strict and exception.errno in (errno.ENOENT, errno.EISDIR):
+            if self._is_strict_mode_enabled() and exception.errno in (errno.ENOENT, errno.EISDIR):
                 exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
                 raise
             return
@@ -1692,6 +1695,9 @@ cdef class Configuration(Object):
 
         :rtype: None
         """
+        if self._is_strict_mode_enabled() and not options:
+            raise ValueError('Can not use empty dictionary')
+
         current_config = self.__call__()
         if not current_config:
             current_config = {}
@@ -1711,11 +1717,14 @@ cdef class Configuration(Object):
         value = os.environ.get(name, default)
 
         if value is UNDEFINED:
-            if self.__strict:
+            if self._is_strict_mode_enabled():
                 raise ValueError('Environment variable "{0}" is undefined'.format(name))
             value = None
 
         self.override(value)
+
+    def _is_strict_mode_enabled(self):
+        return self.__strict
 
 
 cdef class Factory(Provider):

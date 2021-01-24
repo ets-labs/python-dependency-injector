@@ -699,6 +699,24 @@ class ConfigFromDict(unittest.TestCase):
         self.assertEqual(self.config.section2(), {'value2': '2'})
         self.assertEqual(self.config.section2.value2(), '2')
 
+    def test_empty_dict(self):
+        self.config.from_dict({})
+        self.assertEqual(self.config(), {})
+
+    def test_option_empty_dict(self):
+        self.config.option.from_dict({})
+        self.assertEqual(self.config.option(), {})
+
+    def test_empty_dict_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(ValueError):
+            self.config.from_dict({})
+
+    def test_option_empty_dict_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(ValueError):
+            self.config.option.from_dict({})
+
     def test_merge(self):
         self.config.from_dict(self.config_options_1)
         self.config.from_dict(self.config_options_2)
