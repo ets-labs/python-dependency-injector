@@ -1415,7 +1415,7 @@ cdef class ConfigurationOption(Provider):
 
         self.override(merge_dicts(current_config, options))
 
-    def from_env(self, name, default=UNDEFINED):
+    def from_env(self, name, default=UNDEFINED, required=UNDEFINED):
         """Load configuration value from the environment variable.
 
         :param name: Name of the environment variable.
@@ -1424,12 +1424,16 @@ cdef class ConfigurationOption(Provider):
         :param default: Default value that is used if environment variable does not exist.
         :type default: object
 
+        :param required: When required is True, raise an exception if environment variable is undefined.
+        :type required: bool
+
         :rtype: None
         """
         value = os.environ.get(name, default)
 
         if value is UNDEFINED:
-            if self._is_strict_mode_enabled():
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True):
                 raise ValueError('Environment variable "{0}" is undefined'.format(name))
             value = None
 
@@ -1738,7 +1742,7 @@ cdef class Configuration(Object):
             current_config = {}
         self.override(merge_dicts(current_config, options))
 
-    def from_env(self, name, default=UNDEFINED):
+    def from_env(self, name, default=UNDEFINED, required=UNDEFINED):
         """Load configuration value from the environment variable.
 
         :param name: Name of the environment variable.
@@ -1747,12 +1751,16 @@ cdef class Configuration(Object):
         :param default: Default value that is used if environment variable does not exist.
         :type default: object
 
+        :param required: When required is True, raise an exception if environment variable is undefined.
+        :type required: bool
+
         :rtype: None
         """
         value = os.environ.get(name, default)
 
         if value is UNDEFINED:
-            if self._is_strict_mode_enabled():
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True):
                 raise ValueError('Environment variable "{0}" is undefined'.format(name))
             value = None
 

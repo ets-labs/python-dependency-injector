@@ -816,9 +816,24 @@ class ConfigFromEnvTests(unittest.TestCase):
         self.config.from_env('CONFIG_TEST_ENV')
         self.assertEqual(self.config(), 'test-value')
 
+    def test_with_children(self):
+        self.config.section1.value1.from_env('CONFIG_TEST_ENV')
+
+        self.assertEqual(self.config(), {'section1': {'value1': 'test-value'}})
+        self.assertEqual(self.config.section1(), {'value1': 'test-value'})
+        self.assertEqual(self.config.section1.value1(), 'test-value')
+
     def test_default(self):
         self.config.from_env('UNDEFINED_ENV', 'default-value')
         self.assertEqual(self.config(), 'default-value')
+
+    def test_default_none(self):
+        self.config.from_env('UNDEFINED_ENV')
+        self.assertIsNone(self.config())
+
+    def test_option_default_none(self):
+        self.config.option.from_env('UNDEFINED_ENV')
+        self.assertIsNone(self.config.option())
 
     def test_undefined_in_strict_mode(self):
         self.config = providers.Configuration(strict=True)
@@ -840,17 +855,38 @@ class ConfigFromEnvTests(unittest.TestCase):
         self.config.option.from_env('UNDEFINED_ENV', 'default-value')
         self.assertEqual(self.config.option(), 'default-value')
 
-    def test_default_none(self):
-        self.config.from_env('UNDEFINED_ENV')
+    def test_required_undefined(self):
+        with self.assertRaises(ValueError):
+            self.config.from_env('UNDEFINED_ENV', required=True)
+
+    def test_required_undefined_with_default(self):
+        self.config.from_env('UNDEFINED_ENV', default='default-value', required=True)
+        self.assertEqual(self.config(), 'default-value')
+
+    def test_option_required_undefined(self):
+        with self.assertRaises(ValueError):
+            self.config.option.from_env('UNDEFINED_ENV', required=True)
+
+    def test_option_required_undefined_with_default(self):
+        self.config.option.from_env('UNDEFINED_ENV', default='default-value', required=True)
+        self.assertEqual(self.config.option(), 'default-value')
+
+    def test_not_required_undefined_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        self.config.from_env('UNDEFINED_ENV', required=False)
         self.assertIsNone(self.config())
 
-    def test_option_default_none(self):
-        self.config.option.from_env('UNDEFINED_ENV')
+    def test_option_not_required_undefined_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        self.config.option.from_env('UNDEFINED_ENV', required=False)
         self.assertIsNone(self.config.option())
 
-    def test_with_children(self):
-        self.config.section1.value1.from_env('CONFIG_TEST_ENV')
+    def test_not_required_undefined_with_default_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        self.config.from_env('UNDEFINED_ENV', default='default-value', required=False)
+        self.assertEqual(self.config(), 'default-value')
 
-        self.assertEqual(self.config(), {'section1': {'value1': 'test-value'}})
-        self.assertEqual(self.config.section1(), {'value1': 'test-value'})
-        self.assertEqual(self.config.section1.value1(), 'test-value')
+    def test_option_not_required_undefined_with_default_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        self.config.option.from_env('UNDEFINED_ENV', default='default-value', required=False)
+        self.assertEqual(self.config.option(), 'default-value')
