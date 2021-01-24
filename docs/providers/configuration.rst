@@ -127,6 +127,43 @@ where ``examples/providers/configuration/config.local.yml`` is:
 .. literalinclude:: ../../examples/providers/configuration/config.local.yml
    :language: ini
 
+Mandatory and optional sources
+------------------------------
+
+By default, methods ``.from_yaml()`` and ``.from_ini()`` ignore errors if configuration file does not exist.
+You can use this to specify optional configuration files.
+
+If configuration file is mandatory, use ``required`` argument. Configuration provider will raise an error
+if required file does not exist.
+
+You can also use ``required`` argument when loading configuration from dictionaries and environment variables.
+
+Mandatory YAML file:
+
+.. code-block:: python
+
+   container.config.from_yaml('config.yaml', required=True)
+
+Mandatory INI file:
+
+.. code-block:: python
+
+   container.config.from_ini('config.ini', required=True)
+
+Mandatory dictionary:
+
+.. code-block:: python
+
+   container.config.from_dict(config_dict, required=True)
+
+Mandatory environment variable:
+
+.. code-block:: python
+
+   container.config.api_key.from_env('API_KEY', required=True)
+
+See also: :ref:`configuration-strict-mode`.
+
 Specifying the value type
 -------------------------
 
@@ -157,6 +194,8 @@ With the ``.as_(callback, *args, **kwargs)`` you can specify a function that wil
 before the injection. The value from the config will be passed as a first argument. The returned
 value will be injected. Parameters ``*args`` and ``**kwargs`` are handled as any other injections.
 
+.. _configuration-strict-mode:
+
 Strict mode and required options
 --------------------------------
 
@@ -183,12 +222,12 @@ configuration data is undefined:
        container = Container()
 
        try:
-           container.config.from_yaml('./does-not_exist.yml')  # raise exception
+           container.config.from_yaml('does-not_exist.yml')  # raise exception
        except FileNotFoundError:
            ...
 
        try:
-           container.config.from_ini('./does-not_exist.ini')  # raise exception
+           container.config.from_ini('does-not_exist.ini')  # raise exception
        except FileNotFoundError:
            ...
 
@@ -201,6 +240,21 @@ configuration data is undefined:
            container.config.from_dict({})  # raise exception
        except ValueError:
            ...
+
+You can override ``.from_*()`` methods behaviour in strict mode using ``required`` argument:
+
+.. code-block:: python
+
+   class Container(containers.DeclarativeContainer):
+
+       config = providers.Configuration(strict=True)
+
+
+   if __name__ == '__main__':
+       container = Container()
+
+       container.config.from_yaml('config.yml')
+       container.config.from_yaml('config.local.yml', required=False)
 
 You can also use ``.required()`` option modifier when making an injection. It does not require to switch
 configuration provider to strict mode.
