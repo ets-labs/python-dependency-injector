@@ -1312,7 +1312,7 @@ cdef class ConfigurationOption(Provider):
         """
         self.override(value)
 
-    def from_ini(self, filepath):
+    def from_ini(self, filepath, required=UNDEFINED):
         """Load configuration from the ini file.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -1320,12 +1320,17 @@ cdef class ConfigurationOption(Provider):
         :param filepath: Path to the configuration file.
         :type filepath: str
 
+        :param required: When required is True, raise an exception if file does not exist.
+        :type required: bool
+
         :rtype: None
         """
         try:
             parser = _parse_ini_file(filepath)
         except IOError as exception:
-            if self._is_strict_mode_enabled() and exception.errno in (errno.ENOENT, errno.EISDIR):
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True) \
+                    and exception.errno in (errno.ENOENT, errno.EISDIR):
                 exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
                 raise
             return
@@ -1626,7 +1631,7 @@ cdef class Configuration(Object):
         """
         self.override(value)
 
-    def from_ini(self, filepath):
+    def from_ini(self, filepath, required=UNDEFINED):
         """Load configuration from the ini file.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -1634,12 +1639,17 @@ cdef class Configuration(Object):
         :param filepath: Path to the configuration file.
         :type filepath: str
 
+        :param required: When required is True, raise an exception if file does not exist.
+        :type required: bool
+
         :rtype: None
         """
         try:
             parser = _parse_ini_file(filepath)
         except IOError as exception:
-            if self._is_strict_mode_enabled() and exception.errno in (errno.ENOENT, errno.EISDIR):
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True) \
+                    and exception.errno in (errno.ENOENT, errno.EISDIR):
                 exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
                 raise
             return
