@@ -105,6 +105,8 @@ else:
         """
 
 
+UNDEFINED = object()
+
 cdef int ASYNC_MODE_UNDEFINED = 0
 cdef int ASYNC_MODE_ENABLED = 1
 cdef int ASYNC_MODE_DISABLED = 2
@@ -1186,14 +1188,12 @@ cdef class ConfigurationOption(Provider):
     :py:class:`Configuration` provider.
     """
 
-    UNDEFINED = object()
-
     def __init__(self, name, root, required=False):
         self.__name = name
         self.__root_ref = weakref.ref(root)
         self.__children = {}
         self.__required = required
-        self.__cache = self.UNDEFINED
+        self.__cache = UNDEFINED
         super().__init__()
 
     def __deepcopy__(self, memo):
@@ -1242,7 +1242,7 @@ cdef class ConfigurationOption(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return new instance."""
-        if self.__cache is not self.UNDEFINED:
+        if self.__cache is not UNDEFINED:
             return self.__cache
 
         root = self.__root_ref()
@@ -1294,7 +1294,7 @@ cdef class ConfigurationOption(Provider):
         raise Error('Configuration option does not support this method')
 
     def reset_cache(self):
-        self.__cache = self.UNDEFINED
+        self.__cache = UNDEFINED
         for child in self.__children.values():
             child.reset_cache()
 
@@ -1444,7 +1444,6 @@ cdef class Configuration(Object):
     """
 
     DEFAULT_NAME = 'config'
-    UNDEFINED = object()
 
     def __init__(self, name=DEFAULT_NAME, default=None, strict=False):
         self.__name = name
@@ -1522,9 +1521,9 @@ cdef class Configuration(Object):
         keys = selector.split('.')
         while len(keys) > 0:
             key = keys.pop(0)
-            value = value.get(key, self.UNDEFINED)
+            value = value.get(key, UNDEFINED)
 
-            if value is self.UNDEFINED:
+            if value is UNDEFINED:
                 if self.__strict or required:
                     raise Error('Undefined configuration option "{0}.{1}"'.format(self.__name, selector))
                 return None
