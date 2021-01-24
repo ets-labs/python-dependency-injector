@@ -168,7 +168,42 @@ on access to any undefined option.
    :lines: 3-
    :emphasize-lines: 12
 
-You can also use ``.required()`` option modifier when making an injection.
+Methods ``.from_*()`` in strict mode raise an exception if configuration file does not exist or
+configuration data is undefined:
+
+.. code-block:: python
+   :emphasize-lines: 10,15,20,25
+
+   class Container(containers.DeclarativeContainer):
+
+       config = providers.Configuration(strict=True)
+
+
+   if __name__ == '__main__':
+       container = Container()
+
+       try:
+           container.config.from_yaml('./does-not_exist.yml')  # raise exception
+       except FileNotFoundError:
+           ...
+
+       try:
+           container.config.from_ini('./does-not_exist.ini')  # raise exception
+       except FileNotFoundError:
+           ...
+
+       try:
+           container.config.from_env('UNDEFINED_ENV_VAR')  # raise exception
+       except ValueError:
+           ...
+
+       try:
+           container.config.from_dict({})  # raise exception
+       except ValueError:
+           ...
+
+You can also use ``.required()`` option modifier when making an injection. It does not require to switch
+configuration provider to strict mode.
 
 .. literalinclude:: ../../examples/providers/configuration/configuration_required.py
    :language: python

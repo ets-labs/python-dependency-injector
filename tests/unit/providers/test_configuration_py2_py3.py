@@ -426,6 +426,24 @@ class ConfigFromIniTests(unittest.TestCase):
         self.assertEqual(self.config.section3(), {'value3': '3'})
         self.assertEqual(self.config.section3.value3(), '3')
 
+    def test_file_does_not_exist(self):
+        self.config.from_ini('./does_not_exist.ini')
+        self.assertEqual(self.config(), {})
+
+    def test_file_does_not_exist_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(IOError):
+            self.config.from_ini('./does_not_exist.ini')
+
+    def test_option_file_does_not_exist(self):
+        self.config.option.from_ini('does_not_exist.ini')
+        self.assertIsNone(self.config.option.undefined())
+
+    def test_option_file_does_not_exist_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(IOError):
+            self.config.option.from_ini('./does_not_exist.ini')
+
 
 class ConfigFromIniWithEnvInterpolationTests(unittest.TestCase):
 
@@ -528,6 +546,24 @@ class ConfigFromYamlTests(unittest.TestCase):
         self.assertEqual(self.config.section2.value2(), 2)
         self.assertEqual(self.config.section3(), {'value3': 3})
         self.assertEqual(self.config.section3.value3(), 3)
+
+    def test_file_does_not_exist(self):
+        self.config.from_yaml('./does_not_exist.yml')
+        self.assertEqual(self.config(), {})
+
+    def test_file_does_not_exist_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(IOError):
+            self.config.from_yaml('./does_not_exist.yml')
+
+    def test_option_file_does_not_exist(self):
+        self.config.option.from_yaml('./does_not_exist.yml')
+        self.assertIsNone(self.config.option())
+
+    def test_option_file_does_not_exist_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(IOError):
+            self.config.option.from_yaml('./does_not_exist.yml')
 
     def test_no_yaml_installed(self):
         @contextlib.contextmanager
@@ -663,6 +699,24 @@ class ConfigFromDict(unittest.TestCase):
         self.assertEqual(self.config.section2(), {'value2': '2'})
         self.assertEqual(self.config.section2.value2(), '2')
 
+    def test_empty_dict(self):
+        self.config.from_dict({})
+        self.assertEqual(self.config(), {})
+
+    def test_option_empty_dict(self):
+        self.config.option.from_dict({})
+        self.assertEqual(self.config.option(), {})
+
+    def test_empty_dict_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(ValueError):
+            self.config.from_dict({})
+
+    def test_option_empty_dict_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(ValueError):
+            self.config.option.from_dict({})
+
     def test_merge(self):
         self.config.from_dict(self.config_options_1)
         self.config.from_dict(self.config_options_2)
@@ -708,6 +762,34 @@ class ConfigFromEnvTests(unittest.TestCase):
     def test_default(self):
         self.config.from_env('UNDEFINED_ENV', 'default-value')
         self.assertEqual(self.config(), 'default-value')
+
+    def test_undefined_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(ValueError):
+            self.config.from_env('UNDEFINED_ENV')
+
+    def test_option_undefined_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(ValueError):
+            self.config.option.from_env('UNDEFINED_ENV')
+
+    def test_undefined_in_strict_mode_with_default(self):
+        self.config = providers.Configuration(strict=True)
+        self.config.from_env('UNDEFINED_ENV', 'default-value')
+        self.assertEqual(self.config(), 'default-value')
+
+    def test_option_undefined_in_strict_mode_with_default(self):
+        self.config = providers.Configuration(strict=True)
+        self.config.option.from_env('UNDEFINED_ENV', 'default-value')
+        self.assertEqual(self.config.option(), 'default-value')
+
+    def test_default_none(self):
+        self.config.from_env('UNDEFINED_ENV')
+        self.assertIsNone(self.config())
+
+    def test_option_default_none(self):
+        self.config.option.from_env('UNDEFINED_ENV')
+        self.assertIsNone(self.config.option())
 
     def test_with_children(self):
         self.config.section1.value1.from_env('CONFIG_TEST_ENV')
