@@ -399,6 +399,16 @@ class ConfigFromIniTests(unittest.TestCase):
         self.assertEqual(self.config.section2(), {'value2': '2'})
         self.assertEqual(self.config.section2.value2(), '2')
 
+    def test_option(self):
+        self.config.option.from_ini(self.config_file_1)
+
+        self.assertEqual(self.config(), {'option': {'section1': {'value1': '1'}, 'section2': {'value2': '2'}}})
+        self.assertEqual(self.config.option(), {'section1': {'value1': '1'}, 'section2': {'value2': '2'}})
+        self.assertEqual(self.config.option.section1(), {'value1': '1'})
+        self.assertEqual(self.config.option.section1.value1(), '1')
+        self.assertEqual(self.config.option.section2(), {'value2': '2'})
+        self.assertEqual(self.config.option.section2.value2(), '2')
+
     def test_merge(self):
         self.config.from_ini(self.config_file_1)
         self.config.from_ini(self.config_file_2)
