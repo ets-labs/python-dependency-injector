@@ -1387,7 +1387,7 @@ cdef class ConfigurationOption(Provider):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    def from_dict(self, options):
+    def from_dict(self, options, required=UNDEFINED):
         """Load configuration from the dictionary.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -1395,14 +1395,24 @@ cdef class ConfigurationOption(Provider):
         :param options: Configuration options.
         :type options: dict
 
+        :param required: When required is True, raise an exception if dictionary is empty.
+        :type required: bool
+
         :rtype: None
         """
-        if self._is_strict_mode_enabled() and not options:
+        if required is not False \
+                and (self._is_strict_mode_enabled() or required is True) \
+                and not options:
             raise ValueError('Can not use empty dictionary')
 
-        current_config = self.__call__()
-        if not current_config:
+        try:
+            current_config = self.__call__()
+        except Error:
             current_config = {}
+        else:
+            if not current_config:
+                current_config = {}
+
         self.override(merge_dicts(current_config, options))
 
     def from_env(self, name, default=UNDEFINED):
@@ -1705,7 +1715,7 @@ cdef class Configuration(Object):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    def from_dict(self, options):
+    def from_dict(self, options, required=UNDEFINED):
         """Load configuration from the dictionary.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -1713,9 +1723,14 @@ cdef class Configuration(Object):
         :param options: Configuration options.
         :type options: dict
 
+        :param required: When required is True, raise an exception if file does not exist.
+        :type required: bool
+
         :rtype: None
         """
-        if self._is_strict_mode_enabled() and not options:
+        if required is not False \
+                and (self._is_strict_mode_enabled() or required is True) \
+                and not options:
             raise ValueError('Can not use empty dictionary')
 
         current_config = self.__call__()

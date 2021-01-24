@@ -737,24 +737,6 @@ class ConfigFromDict(unittest.TestCase):
         self.assertEqual(self.config.section2(), {'value2': '2'})
         self.assertEqual(self.config.section2.value2(), '2')
 
-    def test_empty_dict(self):
-        self.config.from_dict({})
-        self.assertEqual(self.config(), {})
-
-    def test_option_empty_dict(self):
-        self.config.option.from_dict({})
-        self.assertEqual(self.config.option(), {})
-
-    def test_empty_dict_in_strict_mode(self):
-        self.config = providers.Configuration(strict=True)
-        with self.assertRaises(ValueError):
-            self.config.from_dict({})
-
-    def test_option_empty_dict_in_strict_mode(self):
-        self.config = providers.Configuration(strict=True)
-        with self.assertRaises(ValueError):
-            self.config.option.from_dict({})
-
     def test_merge(self):
         self.config.from_dict(self.config_options_1)
         self.config.from_dict(self.config_options_2)
@@ -781,6 +763,43 @@ class ConfigFromDict(unittest.TestCase):
         self.assertEqual(self.config.section2.value2(), '2')
         self.assertEqual(self.config.section3(), {'value3': '3'})
         self.assertEqual(self.config.section3.value3(), '3')
+
+    def test_empty_dict(self):
+        self.config.from_dict({})
+        self.assertEqual(self.config(), {})
+
+    def test_option_empty_dict(self):
+        self.config.option.from_dict({})
+        self.assertEqual(self.config.option(), {})
+
+    def test_empty_dict_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(ValueError):
+            self.config.from_dict({})
+
+    def test_option_empty_dict_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(ValueError):
+            self.config.option.from_dict({})
+
+    def test_required_empty_dict(self):
+        with self.assertRaises(ValueError):
+            self.config.from_dict({}, required=True)
+
+    def test_required_option_empty_dict(self):
+        with self.assertRaises(ValueError):
+            self.config.option.from_dict({}, required=True)
+
+    def test_not_required_empty_dict_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        self.config.from_dict({}, required=False)
+        self.assertEqual(self.config(), {})
+
+    def test_not_required_option_empty_dict_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        self.config.option.from_dict({}, required=False)
+        self.assertEqual(self.config.option(), {})
+        self.assertEqual(self.config(), {'option': {}})
 
 
 class ConfigFromEnvTests(unittest.TestCase):
