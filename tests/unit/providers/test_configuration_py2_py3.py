@@ -745,6 +745,34 @@ class ConfigFromEnvTests(unittest.TestCase):
         self.config.from_env('UNDEFINED_ENV', 'default-value')
         self.assertEqual(self.config(), 'default-value')
 
+    def test_undefined_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(ValueError):
+            self.config.from_env('UNDEFINED_ENV')
+
+    def test_option_undefined_in_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(ValueError):
+            self.config.option.from_env('UNDEFINED_ENV')
+
+    def test_undefined_in_strict_mode_with_default(self):
+        self.config = providers.Configuration(strict=True)
+        self.config.from_env('UNDEFINED_ENV', 'default-value')
+        self.assertEqual(self.config(), 'default-value')
+
+    def test_option_undefined_in_strict_mode_with_default(self):
+        self.config = providers.Configuration(strict=True)
+        self.config.option.from_env('UNDEFINED_ENV', 'default-value')
+        self.assertEqual(self.config.option(), 'default-value')
+
+    def test_default_none(self):
+        self.config.from_env('UNDEFINED_ENV')
+        self.assertIsNone(self.config())
+
+    def test_option_default_none(self):
+        self.config.option.from_env('UNDEFINED_ENV')
+        self.assertIsNone(self.config.option())
+
     def test_with_children(self):
         self.config.section1.value1.from_env('CONFIG_TEST_ENV')
 

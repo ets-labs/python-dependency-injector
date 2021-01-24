@@ -1392,18 +1392,24 @@ cdef class ConfigurationOption(Provider):
             current_config = {}
         self.override(merge_dicts(current_config, options))
 
-    def from_env(self, name, default=None):
+    def from_env(self, name, default=UNDEFINED):
         """Load configuration value from the environment variable.
 
         :param name: Name of the environment variable.
         :type name: str
 
         :param default: Default value that is used if environment variable does not exist.
-        :type default: str
+        :type default: object
 
         :rtype: None
         """
-        value = os.getenv(name, default)
+        value = os.environ.get(name, default)
+
+        if value is UNDEFINED:
+            if self._is_strict_mode_enabled():
+                raise ValueError('Environment variable "{0}" is undefined'.format(name))
+            value = None
+
         self.override(value)
 
     def _is_strict_mode_enabled(self):
@@ -1691,18 +1697,24 @@ cdef class Configuration(Object):
             current_config = {}
         self.override(merge_dicts(current_config, options))
 
-    def from_env(self, name, default=None):
+    def from_env(self, name, default=UNDEFINED):
         """Load configuration value from the environment variable.
 
         :param name: Name of the environment variable.
         :type name: str
 
         :param default: Default value that is used if environment variable does not exist.
-        :type default: str
+        :type default: object
 
         :rtype: None
         """
-        value = os.getenv(name, default)
+        value = os.environ.get(name, default)
+
+        if value is UNDEFINED:
+            if self.__strict:
+                raise ValueError('Environment variable "{0}" is undefined'.format(name))
+            value = None
+
         self.override(value)
 
 
