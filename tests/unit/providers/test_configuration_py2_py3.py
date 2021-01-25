@@ -576,37 +576,45 @@ class ConfigFromYamlTests(unittest.TestCase):
         self.assertEqual(self.config.section3(), {'value3': 3})
         self.assertEqual(self.config.section3.value3(), 3)
 
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test_file_does_not_exist(self):
         self.config.from_yaml('./does_not_exist.yml')
         self.assertEqual(self.config(), {})
 
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test_file_does_not_exist_strict_mode(self):
         self.config = providers.Configuration(strict=True)
         with self.assertRaises(IOError):
             self.config.from_yaml('./does_not_exist.yml')
 
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test_option_file_does_not_exist(self):
         self.config.option.from_yaml('./does_not_exist.yml')
         self.assertIsNone(self.config.option())
 
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test_option_file_does_not_exist_strict_mode(self):
         self.config = providers.Configuration(strict=True)
         with self.assertRaises(IOError):
             self.config.option.from_yaml('./does_not_exist.yml')
 
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test_required_file_does_not_exist(self):
         with self.assertRaises(IOError):
             self.config.from_yaml('./does_not_exist.yml', required=True)
 
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test_required_option_file_does_not_exist(self):
         with self.assertRaises(IOError):
             self.config.option.from_yaml('./does_not_exist.yml', required=True)
 
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test_not_required_file_does_not_exist_strict_mode(self):
         self.config = providers.Configuration(strict=True)
         self.config.from_yaml('./does_not_exist.yml', required=False)
         self.assertEqual(self.config(), {})
 
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test_not_required_option_file_does_not_exist_strict_mode(self):
         self.config = providers.Configuration(strict=True)
         self.config.option.from_yaml('./does_not_exist.yml', required=False)
