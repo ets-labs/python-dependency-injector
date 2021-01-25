@@ -33,14 +33,13 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - run: |
-          pip install tox
-          pip install cython
-          make cythonize
-          tox
+      - run: pip install tox
+      - run: pip install cython
+      - run: make cythonize
+        env:
+          DEPENDENCY_INJECTOR_DEBUG_MODE: 1
+      - run: tox
         env:
           TOXENV: coveralls
-          DEPENDENCY_INJECTOR_DEBUG_MODE: 1
           COVERALLS_GIT_BRANCH: ${{ steps.branch-name.outputs.branch }}
-          COVERALLS_REPO_TOKEN: Z5o1TZn8rMX4J3Ak4CTBiilJGkFbtzKxj
-
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
