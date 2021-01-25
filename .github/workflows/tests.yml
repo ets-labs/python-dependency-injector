@@ -36,4 +36,4 @@ jobs:
         env:
           TOXENV: coveralls
           DEPENDENCY_INJECTOR_DEBUG_MODE: 1
-          COVERALLS_REPO_TOKEN: ${{ COVERALLS_REPO_TOKEN }}
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
