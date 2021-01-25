@@ -21,7 +21,7 @@ jobs:
           TOXENV: ${{ matrix.python-version }}
 
   test-coverage:
-    name: Run tests with coverage and report results to Coveralls.io
+    name: Run tests with coverage
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
