@@ -25,6 +25,7 @@ jobs:
     name: Run tests with coverage
     runs-on: ubuntu-latest
     steps:
+      - uses: nelonoel/branch-name@v1.0.1
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
@@ -37,5 +38,5 @@ jobs:
         env:
           TOXENV: coveralls
           DEPENDENCY_INJECTOR_DEBUG_MODE: 1
-          COVERALLS_GIT_BRANCH: ${{ github.ref }}
+          COVERALLS_GIT_BRANCH: ${{ BRANCH_NAME }}
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
