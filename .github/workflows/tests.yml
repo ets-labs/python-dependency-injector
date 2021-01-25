@@ -25,7 +25,10 @@ jobs:
     name: Run tests with coverage
     runs-on: ubuntu-latest
     steps:
-      - uses: nelonoel/branch-name@v1.0.1
+      - name: Get the current branch name
+        shell: bash
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+        id: branch-name
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
@@ -38,5 +41,6 @@ jobs:
         env:
           TOXENV: coveralls
           DEPENDENCY_INJECTOR_DEBUG_MODE: 1
-          COVERALLS_GIT_BRANCH: ${{ BRANCH_NAME }}
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+          COVERALLS_GIT_BRANCH: ${{ steps.branch-name.outputs.branch }}
+          COVERALLS_REPO_TOKEN: Z5o1TZn8rMX4J3Ak4CTBiilJGkFbtzKxj
+
