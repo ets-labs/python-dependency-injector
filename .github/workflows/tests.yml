@@ -25,7 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DEPENDENCY_INJECTOR_DEBUG_MODE: 1
-      COVERALLS_GIT_BRANCH: ${{ steps.branch-name.outputs.branch }}
       COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
     steps:
       - name: Get the current branch name
@@ -41,6 +40,7 @@ jobs:
       - run: tox
         env:
           TOXENV: coveralls
+          COVERALLS_GIT_BRANCH: ${{ steps.branch-name.outputs.branch }}
 
   mypy:
     name: Run mypy
