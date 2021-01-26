@@ -39,6 +39,10 @@ jobs:
         with:
           python-version: 3.9
       - run: pip install cibuildwheel==1.8.0
+      - name: Install Visual C++ for Python 2.7 on Windows
+        if: runner.os == 'Windows'
+        run: |
+          choco install vcpython27 -f -y
       - run: cibuildwheel --output-dir wheelhouse
       - uses: actions/upload-artifact@v2
         with:
