@@ -3,7 +3,7 @@ name: Tests and linters
 on:
   push:
     tags:
-      - *
+      - '*'
 
 jobs:
 
