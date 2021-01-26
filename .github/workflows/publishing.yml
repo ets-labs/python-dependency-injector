@@ -1,4 +1,4 @@
-name: Publishing
+name: Building and publishing
 
 on:
   push:
@@ -41,9 +41,28 @@ jobs:
         with:
           path: ./wheelhouse/*.whl
 
+  build-wheels-linux-custom-archs:
+    name: Build wheels
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [aarch64]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - run: pip install cibuildwheel==1.8.0
+      - run: cibuildwheel --archs  ${{ matrix.archs }} --output-dir wheelhouse
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./wheelhouse/*.whl
+
   upload-to-pypi:
     name: Publish on PyPI
-    needs: [build-sdist, build-wheels]
+    needs: [build-sdist, build-wheels, build-wheels-linux-custom-archs]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v2
