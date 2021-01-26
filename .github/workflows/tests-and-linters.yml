@@ -1,10 +1,10 @@
-name: Tests
+name: Tests and linters
 
 on: [push, workflow_dispatch]
 
 jobs:
 
-  test-with-versions:
+  test-on-different-versions:
     name: Run tests
     runs-on: ubuntu-latest
     strategy:
