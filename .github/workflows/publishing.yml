@@ -21,7 +21,7 @@ jobs:
           path: ./dist/*
 
   build-wheels:
-    name: Build Linux wheels (x64)
+    name: Build wheels
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
