@@ -42,9 +42,12 @@ jobs:
           TOXENV: coveralls
           COVERALLS_GIT_BRANCH: ${{ steps.branch-name.outputs.branch }}
 
-  mypy:
-    name: Run mypy
+  linters:
+    name: Run linters
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        toxenv: [flake8, pydocstyle, mypy, pylint]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -53,4 +56,4 @@ jobs:
       - run: pip install tox
       - run: tox
         env:
-          TOXENV: mypy
+          TOXENV: ${{ matrix.toxenv }}
