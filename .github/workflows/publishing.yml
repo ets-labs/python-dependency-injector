@@ -1,0 +1,23 @@
+name: Tests and linters
+
+on:
+  push:
+    tags:
+      - *
+
+jobs:
+
+  publish-source:
+    name: Publish source tarball
+    runs-on: ubuntu-latest
+    env:
+      TWINE_USERNAME: __token__
+      TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - run: python setup.py sdist
+      - run: pip install twine
+      - run: twine upload dist/*
