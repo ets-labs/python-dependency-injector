@@ -20,4 +20,4 @@ jobs:
           python-version: 3.9
       - run: python setup.py sdist
       - run: pip install twine
-      - run: twine upload dist/*
+      - run: twine upload --repository testpypi dist/*
