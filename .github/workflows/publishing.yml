@@ -23,9 +23,12 @@ jobs:
       - run: pip install twine
       - run: twine upload dist/*
 
-  publish-linux-wheels-x64:
+  publish-wheels:
     name: Publish Linux wheels (x64)
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
     env:
       TWINE_USERNAME: __token__
       TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
@@ -35,7 +38,18 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.9
-      - run: pip install cibuildwheel==1.6.3
+      - run: pip install cibuildwheel==1.8.0
       - run: cibuildwheel --output-dir wheelhouse
-      - run: pip install twine
-      - run: twine upload wheelhouse/*.whl
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./wheelhouse/*.whl
+
+#      - services: docker
+#        arch: arm64
+#        if: tag IS present
+#        env: TWINE_USERNAME=__token__
+#        install: python3 -m pip install cibuildwheel==1.6.3
+#        script: python3 -m cibuildwheel --output-dir wheelhouse
+#        after_success:
+#          - python3 -m pip install --upgrade --upgrade-strategy eager twine
+#          - python3 -m twine upload wheelhouse/*.whl
