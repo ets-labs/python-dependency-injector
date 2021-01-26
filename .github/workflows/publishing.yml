@@ -7,32 +7,25 @@ on:
 
 jobs:
 
-  publish-source:
-    name: Publish source tarball
+  build-sdist:
+    name: Build source tarball
     runs-on: ubuntu-latest
-    env:
-      TWINE_USERNAME: __token__
-      TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
-      TWINE_REPOSITORY: testpypi
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
           python-version: 3.9
       - run: python setup.py sdist
-      - run: pip install twine
-      - run: twine upload dist/*
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./dist/*
 
-  publish-wheels:
-    name: Publish Linux wheels (x64)
+  build-wheels:
+    name: Build Linux wheels (x64)
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-    env:
-      TWINE_USERNAME: __token__
-      TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
-      TWINE_REPOSITORY: testpypi
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
@@ -47,6 +40,21 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           path: ./wheelhouse/*.whl
+
+  upload-to-pypi:
+    name: Publish on PyPI
+    needs: [build-sdist, build-wheels]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: artifact
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/
 
 #      - services: docker
 #        arch: arm64
