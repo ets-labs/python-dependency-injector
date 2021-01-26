@@ -42,7 +42,7 @@ jobs:
           path: ./wheelhouse/*.whl
 
   build-wheels-linux-custom-archs:
-    name: Build wheels
+    name: Build wheels Linux custom archs
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -55,7 +55,7 @@ jobs:
         with:
           python-version: 3.9
       - run: pip install cibuildwheel==1.8.0
-      - run: cibuildwheel --archs  ${{ matrix.archs }} --output-dir wheelhouse
+      - run: cibuildwheel --archs ${{ matrix.arch }} --output-dir wheelhouse
       - uses: actions/upload-artifact@v2
         with:
           path: ./wheelhouse/*.whl
