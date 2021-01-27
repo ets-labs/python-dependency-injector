@@ -26,7 +26,12 @@ jobs:
     env:
       DEPENDENCY_INJECTOR_DEBUG_MODE: 1
       COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Get the current branch name
+        shell: bash
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+        id: branch-name
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
@@ -36,9 +41,7 @@ jobs:
       - run: tox
         env:
           TOXENV: coveralls
-      - uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_GIT_BRANCH: ${{ steps.branch-name.outputs.branch }}
 
   linters:
     name: Run linters
