@@ -73,12 +73,9 @@ jobs:
           path: ./wheelhouse/*.whl
 
   build-wheels-linux-custom-archs:
-    name: Build wheels Linux custom archs
+    name: Build wheels (linux-aarch64)
     needs: [tests, linters]
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        arch: [aarch64]
     steps:
       - uses: actions/checkout@v2
       - name: Set up QEMU
@@ -87,7 +84,7 @@ jobs:
         with:
           python-version: 3.9
       - run: pip install cibuildwheel==1.8.0
-      - run: cibuildwheel --archs ${{ matrix.arch }} --output-dir wheelhouse
+      - run: cibuildwheel --archs aarch64 --output-dir wheelhouse
       - uses: actions/upload-artifact@v2
         with:
           path: ./wheelhouse/*.whl
