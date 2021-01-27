@@ -296,6 +296,26 @@ class DeclarativeContainerTests(unittest.TestCase):
         self.assertEqual(_Container1.p13(), 11)
         self.assertEqual(_Container2.p13(), 22)
 
+    def test_copy_with_replacing_subcontainer_providers(self):
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/374
+        class X(containers.DeclarativeContainer):
+            foo = providers.Dependency(instance_of=str)
+
+        def build_x():
+            return X(foo='1')
+
+        class A(containers.DeclarativeContainer):
+            x = providers.DependenciesContainer(**X.providers)
+            y = x.foo
+
+        @containers.copy(A)
+        class B1(A):
+            x = providers.Container(build_x)
+
+        b1 = B1()
+
+        self.assertEqual(b1.y(), '1')
+
     def test_containers_attribute(self):
         class Container(containers.DeclarativeContainer):
             class Container1(containers.DeclarativeContainer):
