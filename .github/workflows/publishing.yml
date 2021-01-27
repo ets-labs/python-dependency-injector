@@ -1,0 +1,127 @@
+name: Publishing
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+
+  tests:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - run: pip install tox
+      - run: tox
+        env:
+          TOXENV: 3.9
+
+  linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        toxenv: [flake8, pydocstyle, mypy, pylint]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - run: pip install tox
+      - run: tox
+        env:
+          TOXENV: ${{ matrix.toxenv }}
+
+  build-sdist:
+    name: Build source tarball
+    needs: [tests, linters]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - run: python setup.py sdist
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./dist/*
+
+  build-wheels:
+    name: Build wheels
+    needs: [tests, linters]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - run: pip install cibuildwheel==1.8.0
+      - name: Install Visual C++ for Python 2.7 on Windows
+        if: runner.os == 'Windows'
+        run: |
+          choco install vcpython27 -f -y
+      - run: cibuildwheel --output-dir wheelhouse
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./wheelhouse/*.whl
+
+  build-wheels-linux-aarch64:
+    name: Build wheels (ubuntu-latest-aarch64)
+    needs: [tests, linters]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - run: pip install cibuildwheel==1.8.0
+      - run: cibuildwheel --archs aarch64 --output-dir wheelhouse
+      - uses: actions/upload-artifact@v2
+        with:
+          path: ./wheelhouse/*.whl
+
+  publish:
+    name: Publish on PyPI
+    needs: [build-sdist, build-wheels, build-wheels-linux-aarch64]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: artifact
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@master
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/
+
+  publish-docs:
+    name: Publish docs
+    needs: [publish]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - run: pip install -r requirements-doc.txt
+      - run: pip install awscli
+      - run: pip install -e .
+      - run: (cd docs && make clean html)
+      - run: |
+          aws s3 sync docs/_build/html s3://python-dependency-injector-docs --delete
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --path "/*" > /dev/null
+          echo "Cache invalidation triggered"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
