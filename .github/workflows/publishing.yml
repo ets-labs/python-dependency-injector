@@ -1,4 +1,4 @@
-name: Building and publishing
+name: Publishing
 
 on:
   push:
@@ -92,7 +92,7 @@ jobs:
         with:
           path: ./wheelhouse/*.whl
 
-  upload-to-pypi:
+  publish:
     name: Publish on PyPI
     needs: [build-sdist, build-wheels, build-wheels-linux-custom-archs]
     runs-on: ubuntu-latest
@@ -106,3 +106,25 @@ jobs:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
           repository_url: https://test.pypi.org/legacy/
+
+  publish-docs:
+    name: Publish docs
+    needs: [publish]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - run: pip install -r requirements-doc.txt
+      - run: pip install awscli
+      - run: pip install -e .
+      - run: (cd docs && make clean html)
+      - run: |
+          aws s3 sync docs/_build/html s3://python-dependency-injector-docs --delete
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --path "/*" > /dev/null
+          echo "Cache invalidation triggered"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
