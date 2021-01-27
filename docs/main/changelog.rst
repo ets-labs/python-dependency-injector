@@ -7,6 +7,27 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.11.0
+------
+- Add ``loader`` argument to the configuration provider ``Configuration.from_yaml(..., loader=...)``
+  to override the default YAML loader.
+  Many thanks to `Stefano Frazzetto <https://github.com/StefanoFrazzetto>`_ for suggesting an improvement.
+- Make security improvement: change default YAML loader to the custom ``yaml.SafeLoader`` with a support
+  of environment variables interpolation.
+  Many thanks to `Stefano Frazzetto <https://github.com/StefanoFrazzetto>`_ for suggesting an improvement.
+- Update configuration provider ``.from_*()`` methods to raise an exception in strict mode if
+  configuration file does not exist or configuration data is undefined.
+  Many thanks to `Stefano Frazzetto <https://github.com/StefanoFrazzetto>`_ for suggesting an improvement.
+- Add ``required`` argument to the configuration provider ``.from_*()`` methods to specify
+  mandatory configuration sources.
+  Many thanks to `Stefano Frazzetto <https://github.com/StefanoFrazzetto>`_ for suggesting an improvement.
+- Fix a bug with asynchronous injections: async providers do not work with async dependencies.
+  See issue: `#368 <https://github.com/ets-labs/python-dependency-injector/issues/368>`_.
+  Thanks `@kolypto <https://github.com/kolypto>`_ for the bug report.
+- Refactor asynchronous injections.
+- Add extra tests for asynchronous injections.
+- Migrate CI to Github Actions.
+
 4.10.3
 ------
 - Fix a bug in the ``Configuration`` provider: strict mode didn't work when provider

@@ -236,6 +236,51 @@ class FactoryTests(AsyncTestCase):
 
         self.assertIsNot(service1.client, service2.client)
 
+    def test_async_instance_and_sync_attributes_injection(self):
+        class ContainerWithAttributes(containers.DeclarativeContainer):
+            resource1 = providers.Resource(init_resource, providers.Object(RESOURCE1))
+
+            client = providers.Factory(
+                Client,
+                resource1,
+                resource2=None,
+            )
+            client.add_attributes(resource2=providers.Object(RESOURCE2))
+
+            service = providers.Factory(
+                Service,
+                client=None,
+            )
+            service.add_attributes(client=client)
+
+        container = ContainerWithAttributes()
+
+        client1 = self._run(container.client())
+        client2 = self._run(container.client())
+
+        self.assertIsInstance(client1, Client)
+        self.assertIs(client1.resource1, RESOURCE1)
+        self.assertIs(client1.resource2, RESOURCE2)
+
+        self.assertIsInstance(client2, Client)
+        self.assertIs(client2.resource1, RESOURCE1)
+        self.assertIs(client2.resource2, RESOURCE2)
+
+        service1 = self._run(container.service())
+        service2 = self._run(container.service())
+
+        self.assertIsInstance(service1, Service)
+        self.assertIsInstance(service1.client, Client)
+        self.assertIs(service1.client.resource1, RESOURCE1)
+        self.assertIs(service1.client.resource2, RESOURCE2)
+
+        self.assertIsInstance(service2, Service)
+        self.assertIsInstance(service2.client, Client)
+        self.assertIs(service2.client.resource1, RESOURCE1)
+        self.assertIs(service2.client.resource2, RESOURCE2)
+
+        self.assertIsNot(service1.client, service2.client)
+
 
 class FactoryAggregateTests(AsyncTestCase):
 
@@ -816,3 +861,24 @@ class AsyncTypingStubTests(AsyncTestCase):
         self.assertIs(service2.client.resource2, RESOURCE2)
 
         self.assertIsNot(service1.client, service2.client)
+
+
+class AsyncProvidersWithAsyncDependenciesTests(AsyncTestCase):
+
+    def test_injections(self):
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/368
+        async def async_db_provider():
+            return {'db': 'ok'}
+
+        async def async_service(db=None):
+            return {'service': 'ok', 'db': db}
+
+        class Container(containers.DeclarativeContainer):
+
+            db = providers.Factory(async_db_provider)
+            service = providers.Singleton(async_service, db=db)
+
+        container = Container()
+        service = self._run(container.service())
+
+        self.assertEquals(service, {'service': 'ok', 'db': {'db': 'ok'}})

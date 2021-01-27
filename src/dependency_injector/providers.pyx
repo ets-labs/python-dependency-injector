@@ -3,6 +3,7 @@
 from __future__ import absolute_import
 
 import copy
+import errno
 import functools
 import inspect
 import os
@@ -53,14 +54,6 @@ else:  # pragma: no cover
                                     copy.deepcopy(obj.im_self, memo),
                                     obj.im_class)
 
-if yaml:
-    yaml_env_marker_pattern = re.compile(r'\$\{([^}^{]+)\}')
-    def yaml_env_marker_constructor(_, node):
-        """"Replace environment variable marker with its value."""
-        return os.path.expandvars(node.value)
-
-    yaml.add_implicit_resolver('!path', yaml_env_marker_pattern)
-    yaml.add_constructor('!path', yaml_env_marker_constructor)
 
 if sys.version_info[0] == 3:
     class EnvInterpolation(iniconfigparser.BasicInterpolation):
@@ -72,22 +65,47 @@ if sys.version_info[0] == 3:
 
     def _parse_ini_file(filepath):
         parser = iniconfigparser.ConfigParser(interpolation=EnvInterpolation())
-        parser.read(filepath)
+        with open(filepath) as config_file:
+            parser.read_file(config_file)
         return parser
 else:
     import StringIO
 
     def _parse_ini_file(filepath):
         parser = iniconfigparser.ConfigParser()
-        try:
-            with open(filepath) as config_file:
-                config_string = os.path.expandvars(config_file.read())
-        except IOError:
-            return parser
-        else:
-            parser.readfp(StringIO.StringIO(config_string))
-            return parser
+        with open(filepath) as config_file:
+            config_string = os.path.expandvars(config_file.read())
+        parser.readfp(StringIO.StringIO(config_string))
+        return parser
 
+
+if yaml:
+    # TODO: use SafeLoader without env interpolation by default in version 5.*
+    yaml_env_marker_pattern = re.compile(r'\$\{([^}^{]+)\}')
+    def yaml_env_marker_constructor(_, node):
+        """"Replace environment variable marker with its value."""
+        return os.path.expandvars(node.value)
+
+    yaml.add_implicit_resolver('!path', yaml_env_marker_pattern)
+    yaml.add_constructor('!path', yaml_env_marker_constructor)
+
+    class YamlLoader(yaml.SafeLoader):
+        """Custom YAML loader.
+
+        Inherits ``yaml.SafeLoader`` and add environment variables interpolation.
+        """
+
+    YamlLoader.add_implicit_resolver('!path', yaml_env_marker_pattern, None)
+    YamlLoader.add_constructor('!path', yaml_env_marker_constructor)
+else:
+    class YamlLoader:
+        """Custom YAML loader.
+
+        Inherits ``yaml.SafeLoader`` and add environment variables interpolation.
+        """
+
+
+UNDEFINED = object()
 
 cdef int ASYNC_MODE_UNDEFINED = 0
 cdef int ASYNC_MODE_ENABLED = 1
@@ -1170,14 +1188,12 @@ cdef class ConfigurationOption(Provider):
     :py:class:`Configuration` provider.
     """
 
-    UNDEFINED = object()
-
     def __init__(self, name, root, required=False):
         self.__name = name
         self.__root_ref = weakref.ref(root)
         self.__children = {}
         self.__required = required
-        self.__cache = self.UNDEFINED
+        self.__cache = UNDEFINED
         super().__init__()
 
     def __deepcopy__(self, memo):
@@ -1226,7 +1242,7 @@ cdef class ConfigurationOption(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return new instance."""
-        if self.__cache is not self.UNDEFINED:
+        if self.__cache is not UNDEFINED:
             return self.__cache
 
         root = self.__root_ref()
@@ -1278,7 +1294,7 @@ cdef class ConfigurationOption(Provider):
         raise Error('Configuration option does not support this method')
 
     def reset_cache(self):
-        self.__cache = self.UNDEFINED
+        self.__cache = UNDEFINED
         for child in self.__children.values():
             child.reset_cache()
 
@@ -1296,7 +1312,7 @@ cdef class ConfigurationOption(Provider):
         """
         self.override(value)
 
-    def from_ini(self, filepath):
+    def from_ini(self, filepath, required=UNDEFINED):
         """Load configuration from the ini file.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -1304,9 +1320,20 @@ cdef class ConfigurationOption(Provider):
         :param filepath: Path to the configuration file.
         :type filepath: str
 
+        :param required: When required is True, raise an exception if file does not exist.
+        :type required: bool
+
         :rtype: None
         """
-        parser = _parse_ini_file(filepath)
+        try:
+            parser = _parse_ini_file(filepath)
+        except IOError as exception:
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True) \
+                    and exception.errno in (errno.ENOENT, errno.EISDIR):
+                exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
+                raise
+            return
 
         config = {}
         for section in parser.sections():
@@ -1317,13 +1344,19 @@ cdef class ConfigurationOption(Provider):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    def from_yaml(self, filepath):
+    def from_yaml(self, filepath, required=UNDEFINED, loader=None):
         """Load configuration from the yaml file.
 
         Loaded configuration is merged recursively over existing configuration.
 
         :param filepath: Path to the configuration file.
         :type filepath: str
+
+        :param required: When required is True, raise an exception if file does not exist.
+        :type required: bool
+
+        :param loader: YAML loader, :py:class:`YamlLoader` is used if not specified.
+        :type loader: ``yaml.Loader``
 
         :rtype: None
         """
@@ -1334,10 +1367,19 @@ cdef class ConfigurationOption(Provider):
                 '"pip install dependency-injector[yaml]"'
             )
 
+
+        if loader is None:
+            loader = YamlLoader
+
         try:
             with open(filepath) as opened_file:
-                config = yaml.load(opened_file, yaml.Loader)
-        except IOError:
+                config = yaml.load(opened_file, loader)
+        except IOError as exception:
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True) \
+                    and exception.errno in (errno.ENOENT, errno.EISDIR):
+                exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
+                raise
             return
 
         current_config = self.__call__()
@@ -1345,7 +1387,7 @@ cdef class ConfigurationOption(Provider):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    def from_dict(self, options):
+    def from_dict(self, options, required=UNDEFINED):
         """Load configuration from the dictionary.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -1353,26 +1395,58 @@ cdef class ConfigurationOption(Provider):
         :param options: Configuration options.
         :type options: dict
 
+        :param required: When required is True, raise an exception if dictionary is empty.
+        :type required: bool
+
         :rtype: None
         """
-        current_config = self.__call__()
-        if not current_config:
+        if required is not False \
+                and (self._is_strict_mode_enabled() or required is True) \
+                and not options:
+            raise ValueError('Can not use empty dictionary')
+
+        try:
+            current_config = self.__call__()
+        except Error:
             current_config = {}
+        else:
+            if not current_config:
+                current_config = {}
+
         self.override(merge_dicts(current_config, options))
 
-    def from_env(self, name, default=None):
+    def from_env(self, name, default=UNDEFINED, required=UNDEFINED):
         """Load configuration value from the environment variable.
 
         :param name: Name of the environment variable.
         :type name: str
 
         :param default: Default value that is used if environment variable does not exist.
-        :type default: str
+        :type default: object
+
+        :param required: When required is True, raise an exception if environment variable is undefined.
+        :type required: bool
 
         :rtype: None
         """
-        value = os.getenv(name, default)
+        value = os.environ.get(name, default)
+
+        if value is UNDEFINED:
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True):
+                raise ValueError('Environment variable "{0}" is undefined'.format(name))
+            value = None
+
         self.override(value)
+
+    def _is_strict_mode_enabled(self):
+        cdef Configuration root
+
+        root = self.__root_ref()
+        if not root:
+            return False
+
+        return root.__strict
 
 
 cdef class TypedConfigurationOption(Callable):
@@ -1403,7 +1477,6 @@ cdef class Configuration(Object):
     """
 
     DEFAULT_NAME = 'config'
-    UNDEFINED = object()
 
     def __init__(self, name=DEFAULT_NAME, default=None, strict=False):
         self.__name = name
@@ -1474,17 +1547,17 @@ cdef class Configuration(Object):
         value = self.__call__()
 
         if value is None:
-            if self.__strict or required:
+            if self._is_strict_mode_enabled() or required:
                 raise Error('Undefined configuration option "{0}.{1}"'.format(self.__name, selector))
             return None
 
         keys = selector.split('.')
         while len(keys) > 0:
             key = keys.pop(0)
-            value = value.get(key, self.UNDEFINED)
+            value = value.get(key, UNDEFINED)
 
-            if value is self.UNDEFINED:
-                if self.__strict or required:
+            if value is UNDEFINED:
+                if self._is_strict_mode_enabled() or required:
                     raise Error('Undefined configuration option "{0}.{1}"'.format(self.__name, selector))
                 return None
 
@@ -1572,7 +1645,7 @@ cdef class Configuration(Object):
         """
         self.override(value)
 
-    def from_ini(self, filepath):
+    def from_ini(self, filepath, required=UNDEFINED):
         """Load configuration from the ini file.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -1580,9 +1653,20 @@ cdef class Configuration(Object):
         :param filepath: Path to the configuration file.
         :type filepath: str
 
+        :param required: When required is True, raise an exception if file does not exist.
+        :type required: bool
+
         :rtype: None
         """
-        parser = _parse_ini_file(filepath)
+        try:
+            parser = _parse_ini_file(filepath)
+        except IOError as exception:
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True) \
+                    and exception.errno in (errno.ENOENT, errno.EISDIR):
+                exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
+                raise
+            return
 
         config = {}
         for section in parser.sections():
@@ -1593,13 +1677,19 @@ cdef class Configuration(Object):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    def from_yaml(self, filepath):
+    def from_yaml(self, filepath, required=UNDEFINED, loader=None):
         """Load configuration from the yaml file.
 
         Loaded configuration is merged recursively over existing configuration.
 
         :param filepath: Path to the configuration file.
         :type filepath: str
+
+        :param required: When required is True, raise an exception if file does not exist.
+        :type required: bool
+
+        :param loader: YAML loader, :py:class:`YamlLoader` is used if not specified.
+        :type loader: ``yaml.Loader``
 
         :rtype: None
         """
@@ -1610,10 +1700,18 @@ cdef class Configuration(Object):
                 '"pip install dependency-injector[yaml]"'
             )
 
+        if loader is None:
+            loader = YamlLoader
+
         try:
             with open(filepath) as opened_file:
-                config = yaml.load(opened_file, yaml.Loader)
-        except IOError:
+                config = yaml.load(opened_file, loader)
+        except IOError as exception:
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True) \
+                    and exception.errno in (errno.ENOENT, errno.EISDIR):
+                exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
+                raise
             return
 
         current_config = self.__call__()
@@ -1621,7 +1719,7 @@ cdef class Configuration(Object):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    def from_dict(self, options):
+    def from_dict(self, options, required=UNDEFINED):
         """Load configuration from the dictionary.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -1629,26 +1727,47 @@ cdef class Configuration(Object):
         :param options: Configuration options.
         :type options: dict
 
+        :param required: When required is True, raise an exception if dictionary is empty.
+        :type required: bool
+
         :rtype: None
         """
+        if required is not False \
+                and (self._is_strict_mode_enabled() or required is True) \
+                and not options:
+            raise ValueError('Can not use empty dictionary')
+
         current_config = self.__call__()
         if not current_config:
             current_config = {}
         self.override(merge_dicts(current_config, options))
 
-    def from_env(self, name, default=None):
+    def from_env(self, name, default=UNDEFINED, required=UNDEFINED):
         """Load configuration value from the environment variable.
 
         :param name: Name of the environment variable.
         :type name: str
 
         :param default: Default value that is used if environment variable does not exist.
-        :type default: str
+        :type default: object
+
+        :param required: When required is True, raise an exception if environment variable is undefined.
+        :type required: bool
 
         :rtype: None
         """
-        value = os.getenv(name, default)
+        value = os.environ.get(name, default)
+
+        if value is UNDEFINED:
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True):
+                raise ValueError('Environment variable "{0}" is undefined'.format(name))
+            value = None
+
         self.override(value)
+
+    def _is_strict_mode_enabled(self):
+        return self.__strict
 
 
 cdef class Factory(Provider):

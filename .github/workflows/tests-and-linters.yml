@@ -1,0 +1,55 @@
+name: Tests and linters
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+
+  test-on-different-versions:
+    name: Run tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [2.7, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, pypy2, pypy3]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install tox
+      - run: tox
+        env:
+          TOXENV: ${{ matrix.python-version }}
+
+  test-coverage:
+    name: Run tests with coverage
+    runs-on: ubuntu-latest
+    env:
+      DEPENDENCY_INJECTOR_DEBUG_MODE: 1
+      COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - run: pip install tox cython
+      - run: make cythonize
+      - run: tox
+        env:
+          TOXENV: coveralls
+
+  linters:
+    name: Run linters
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        toxenv: [flake8, pydocstyle, mypy, pylint]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      - run: pip install tox
+      - run: tox
+        env:
+          TOXENV: ${{ matrix.toxenv }}

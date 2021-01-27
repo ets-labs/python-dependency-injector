@@ -35,8 +35,8 @@
    :target: https://pypi.org/project/dependency-injector/
    :alt: Wheel
 
-.. image:: https://api.travis-ci.com/ets-labs/python-dependency-injector.svg?branch=master
-   :target: https://travis-ci.com/github/ets-labs/python-dependency-injector
+.. image:: https://img.shields.io/github/workflow/status/ets-labs/python-dependency-injector/Tests%20and%20linters/master
+   :target: https://github.com/ets-labs/python-dependency-injector/actions
    :alt: Build Status
 
 .. image:: https://coveralls.io/repos/github/ets-labs/python-dependency-injector/badge.svg?branch=master
