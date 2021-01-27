@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.11.1
+------
+- Fix a bug in ``@containers.copy`` to improve replacing of subcontainer providers.
+  See issue `#378 <https://github.com/ets-labs/python-dependency-injector/issues/378>`_.
+  Many thanks to `Shaun Cutts <https://github.com/shaunc>`_ for reporting the issue.
+
 4.11.0
 ------
 - Add ``loader`` argument to the configuration provider ``Configuration.from_yaml(..., loader=...)``
