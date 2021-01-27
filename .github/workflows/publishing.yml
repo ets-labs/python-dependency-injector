@@ -72,8 +72,8 @@ jobs:
         with:
           path: ./wheelhouse/*.whl
 
-  build-wheels-linux-custom-archs:
-    name: Build wheels (linux-aarch64)
+  build-wheels-linux-aarch64:
+    name: Build wheels (ubuntu-latest-aarch64)
     needs: [tests, linters]
     runs-on: ubuntu-latest
     steps:
@@ -91,7 +91,7 @@ jobs:
 
   publish:
     name: Publish on PyPI
-    needs: [build-sdist, build-wheels, build-wheels-linux-custom-archs]
+    needs: [build-sdist, build-wheels, build-wheels-linux-aarch64]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v2
