@@ -541,15 +541,24 @@ def copy(object container):
     :return: Declarative container's copying decorator.
     :rtype: callable(:py:class:`DeclarativeContainer`)
     """
-    def _decorator(copied_container):
-        cdef dict memo = dict()
-        for name, provider in six.iteritems(copied_container.cls_providers):
+    def _get_providers_memo(from_providers, source_providers):
+        memo = dict()
+
+        for name, provider in from_providers.items():
             try:
-                source_provider = getattr(container, name)
-            except AttributeError:
-                pass
+                source_provider = source_providers[name]
+            except KeyError:
+                ...
             else:
                 memo[id(source_provider)] = provider
+
+                if hasattr(provider, 'providers') and hasattr(source_provider, 'providers'):
+                    sub_memo = _get_providers_memo(provider.providers, source_provider.providers)
+                    memo.update(sub_memo)
+        return memo
+
+    def _decorator(copied_container):
+        memo = _get_providers_memo(copied_container.cls_providers, container.providers)
 
         providers_copy = deepcopy(container.providers, memo)
         for name, provider in six.iteritems(providers_copy):
