@@ -28,10 +28,14 @@ jobs:
       COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Get the current branch name
+      - name: Get branch name (merge)
+        if: github.event_name != 'pull_request'
         shell: bash
-        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
-        id: branch-name
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
+      - name: Get branch name (pull request)
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: echo "BRANCH_NAME=$(echo ${GITHUB_HEAD_REF} | tr / -)" >> $GITHUB_ENV
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
@@ -41,7 +45,7 @@ jobs:
       - run: tox
         env:
           TOXENV: coveralls
-          COVERALLS_GIT_BRANCH: ${{ steps.branch-name.outputs.branch }}
+          COVERALLS_GIT_BRANCH: ${{ env.BRANCH_NAME }}
 
   linters:
     name: Run linters
