@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.11.0
+------
 - Add ``loader`` argument to the configuration provider ``Configuration.from_yaml(..., loader=...)``
   to override the default YAML loader.
   Many thanks to `Stefano Frazzetto <https://github.com/StefanoFrazzetto>`_ for suggesting an improvement.
@@ -26,6 +26,7 @@ Development version
   Thanks `@kolypto <https://github.com/kolypto>`_ for the bug report.
 - Refactor asynchronous injections.
 - Add extra tests for asynchronous injections.
+- Migrate CI to Github Actions.
 
 4.10.3
 ------
