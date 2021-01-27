@@ -3199,6 +3199,8 @@ cdef class Container(Provider):
             container = container_cls()
         self.__container = container
 
+        self.apply_overridings()
+
         super(Container, self).__init__()
 
     def __deepcopy__(self, memo):

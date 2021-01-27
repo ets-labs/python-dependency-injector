@@ -54,6 +54,7 @@ class ContainerTests(unittest.TestCase):
         self.assertEqual(application.dict_factory(), {'value': TEST_VALUE_2})
 
     def test_override(self):
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/354
         class D(containers.DeclarativeContainer):
             foo = providers.Object('foo')
 
@@ -69,7 +70,63 @@ class ContainerTests(unittest.TestCase):
         b = B(d=D())
         result = b.a().bar()
         self.assertEqual(result, 'foo++')
-        # See: https://github.com/ets-labs/python-dependency-injector/issues/354
+
+    def test_override_not_root_provider(self):
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/379
+        class NestedContainer(containers.DeclarativeContainer):
+            settings = providers.Configuration()
+
+            print_settings = providers.Callable(
+                lambda s: s,
+                settings,
+            )
+
+        class TestContainer(containers.DeclarativeContainer):
+            settings = providers.Configuration()
+
+            root_container = providers.Container(
+                NestedContainer,
+                settings=settings,
+            )
+
+            not_root_container = providers.Selector(
+                settings.container,
+                using_factory=providers.Factory(
+                    NestedContainer,
+                    settings=settings,
+                ),
+                using_container=providers.Container(
+                    NestedContainer,
+                    settings=settings,
+                )
+            )
+
+        container_using_factory = TestContainer(settings=dict(
+            container='using_factory',
+            foo='bar'
+        ))
+        self.assertEqual(
+            container_using_factory.root_container().print_settings(),
+            {'container': 'using_factory', 'foo': 'bar'},
+        )
+        self.assertEqual(
+            container_using_factory.not_root_container().print_settings(),
+            {'container': 'using_factory', 'foo': 'bar'},
+        )
+
+
+        container_using_container = TestContainer(settings=dict(
+            container='using_container',
+            foo='bar'
+        ))
+        self.assertEqual(
+            container_using_container.root_container().print_settings(),
+            {'container': 'using_container', 'foo': 'bar'},
+        )
+        self.assertEqual(
+            container_using_container.not_root_container().print_settings(),
+            {'container': 'using_container', 'foo': 'bar'},
+        )
 
     def test_override_by_not_a_container(self):
         provider = providers.Container(TestCore)

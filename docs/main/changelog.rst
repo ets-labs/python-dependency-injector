@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Fix a bug in ``providers.Container`` when it's declared not at class root level.
+  See issue `#379 <https://github.com/ets-labs/python-dependency-injector/issues/379>`_.
+  Many thanks to `@approxit <https://github.com/approxit>`_ for reporting the issue.
+
 4.11.1
 ------
 - Fix a bug in ``@containers.copy`` to improve replacing of subcontainer providers.
