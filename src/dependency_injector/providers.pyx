@@ -1188,9 +1188,9 @@ cdef class ConfigurationOption(Provider):
     :py:class:`Configuration` provider.
     """
 
-    def __init__(self, name, root, required=False):
+    def __init__(self, name, Configuration root, required=False):
         self.__name = name
-        self.__root_ref = weakref.ref(root)
+        self.__root = root
         self.__children = {}
         self.__required = required
         self.__cache = UNDEFINED
@@ -1204,11 +1204,7 @@ cdef class ConfigurationOption(Provider):
             return copied
 
         copied_name = deepcopy(self.__name, memo)
-
-        root = self.__root_ref()
-        copied_root = memo.get(id(root))
-        if copied_root is None:
-            copied_root = deepcopy(root, memo)
+        copied_root = deepcopy(self.__root, memo)
 
         copied = self.__class__(copied_name, copied_root, self.__required)
         copied.__children = deepcopy(self.__children, memo)
@@ -1228,7 +1224,7 @@ cdef class ConfigurationOption(Provider):
         child = self.__children.get(item)
         if child is None:
             child_name = self.__name + (item,)
-            child = ConfigurationOption(child_name, self.__root_ref())
+            child = ConfigurationOption(child_name, self.__root)
             self.__children[item] = child
         return child
 
@@ -1236,7 +1232,7 @@ cdef class ConfigurationOption(Provider):
         child = self.__children.get(item)
         if child is None:
             child_name = self.__name + (item,)
-            child = ConfigurationOption(child_name, self.__root_ref())
+            child = ConfigurationOption(child_name, self.__root)
             self.__children[item] = child
         return child
 
@@ -1245,8 +1241,7 @@ cdef class ConfigurationOption(Provider):
         if self.__cache is not UNDEFINED:
             return self.__cache
 
-        root = self.__root_ref()
-        value = root.get(self._get_self_name(), self.__required)
+        value = self.__root.get(self._get_self_name(), self.__required)
         self.__cache = value
         return value
 
@@ -1257,11 +1252,10 @@ cdef class ConfigurationOption(Provider):
 
     @property
     def root(self):
-        return self.__root_ref()
+        return self.__root
 
     def get_name(self):
-        root = self.__root_ref()
-        return '.'.join((root.get_name(), self._get_self_name()))
+        return '.'.join((self.__root.get_name(), self._get_self_name()))
 
     def get_name_segments(self):
         return self.__name
@@ -1276,7 +1270,7 @@ cdef class ConfigurationOption(Provider):
         return TypedConfigurationOption(callback, self, *args, **kwargs)
 
     def required(self):
-        return self.__class__(self.__name, self.__root_ref(), required=True)
+        return self.__class__(self.__name, self.__root, required=True)
 
     def is_required(self):
         return self.__required
@@ -1284,8 +1278,7 @@ cdef class ConfigurationOption(Provider):
     def override(self, value):
         if isinstance(value, Provider):
             raise Error('Configuration option can only be overridden by a value')
-        root = self.__root_ref()
-        return root.set(self._get_self_name(), value)
+        return self.__root.set(self._get_self_name(), value)
 
     def reset_last_overriding(self):
         raise Error('Configuration option does not support this method')
@@ -1440,13 +1433,7 @@ cdef class ConfigurationOption(Provider):
         self.override(value)
 
     def _is_strict_mode_enabled(self):
-        cdef Configuration root
-
-        root = self.__root_ref()
-        if not root:
-            return False
-
-        return root.__strict
+        return self.__root.__strict
 
 
 cdef class TypedConfigurationOption(Callable):
