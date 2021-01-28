@@ -1087,12 +1087,12 @@ struct __pyx_obj_19dependency_injector_9providers_CoroutineDelegate {
  * # Configuration providers
  * cdef class ConfigurationOption(Provider):             # <<<<<<<<<<<<<<
  *     cdef tuple __name
- *     cdef object __root_ref
+ *     cdef Configuration __root
  */
 struct __pyx_obj_19dependency_injector_9providers_ConfigurationOption {
   struct __pyx_obj_19dependency_injector_9providers_Provider __pyx_base;
   PyObject *__pyx___name;
-  PyObject *__pyx___root_ref;
+  struct __pyx_obj_19dependency_injector_9providers_Configuration *__pyx___root;
   PyObject *__pyx___children;
   int __pyx___required;
   PyObject *__pyx___cache;
@@ -1808,7 +1808,7 @@ static struct __pyx_vtabstruct_19dependency_injector_9providers_CoroutineDelegat
  * # Configuration providers
  * cdef class ConfigurationOption(Provider):             # <<<<<<<<<<<<<<
  *     cdef tuple __name
- *     cdef object __root_ref
+ *     cdef Configuration __root
  */
 
 struct __pyx_vtabstruct_19dependency_injector_9providers_ConfigurationOption {

@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.11.3
+------
+- Replace weakrefs with normal refs in ``ConfigurationOption`` to support
+  ``Container().provider()`` use case. Test that it does not introduce a memory leak.
+  See issue: `#358#issuecomment-764482059 <https://github.com/ets-labs/python-dependency-injector/issues/358#issuecomment-764482059>`_.
+  Many thanks to `@Minitour <https://github.com/Minitour>`_ for reporting the issue.
+
 4.11.2
 ------
 - Fix a bug in ``providers.Container`` when it's declared not at class root level.
