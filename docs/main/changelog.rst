@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.13.2
+------
+- Fix PyCharm typing warning "Expected type 'Optional[Iterable[ModuleType]]',
+  got 'List[module.py]' instead" in ``container.wire()`` method.
+
 4.13.1
 ------
 - Fix declarative container metaclass bug: parent container providers replaced child container providers.
