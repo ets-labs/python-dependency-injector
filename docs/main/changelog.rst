@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.13.0
+------
+- Add ``default`` argument to the dependency provider: ``Dependency(..., default=...)``.
+  See issue: `#336 <https://github.com/ets-labs/python-dependency-injector/issues/336>`_.
+  Many thanks to `Shaun Cutts <https://github.com/shaunc>`_ for providing the use case.
+
 4.12.0
 ------
 - Add wiring import hook that auto-wires dynamically imported modules.
