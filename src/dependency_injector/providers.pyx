@@ -12,7 +12,6 @@ import sys
 import types
 import threading
 import warnings
-import weakref
 
 try:
     import asyncio
@@ -525,7 +524,7 @@ cdef class Dependency(Provider):
         :type: type
    """
 
-    def __init__(self, object instance_of=object):
+    def __init__(self, object instance_of=object, default=UNDEFINED):
         """Initializer."""
         if not isinstance(instance_of, CLASS_TYPES):
             raise TypeError(
@@ -534,8 +533,12 @@ cdef class Dependency(Provider):
                     instance_of,
                 )
             )
-
         self.__instance_of = instance_of
+
+        if default is not UNDEFINED and not isinstance(default, Provider):
+            default = Object(default)
+        self.__default = default
+
         super(Dependency, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -544,7 +547,8 @@ cdef class Dependency(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(self.__instance_of)
+        copied_default = deepcopy(self.__default, memo) if self.__default is not UNDEFINED else UNDEFINED
+        copied = self.__class__(self.__instance_of, copied_default)
 
         self._copy_overridings(copied, memo)
 
@@ -557,11 +561,12 @@ cdef class Dependency(Provider):
 
         :rtype: object
         """
-        if self.__last_overriding is None:
+        if self.__last_overriding:
+            result = self.__last_overriding(*args, **kwargs)
+        elif not self.__last_overriding and self.__default is not UNDEFINED:
+            result = self.__default(*args, **kwargs)
+        else:
             raise Error('Dependency is not defined')
-
-        result = self.__last_overriding(*args, **kwargs)
-
 
         if self.is_async_mode_disabled():
             self._check_instance_type(result)
@@ -608,6 +613,11 @@ cdef class Dependency(Provider):
     def instance_of(self):
         """Return class of required dependency."""
         return self.__instance_of
+
+    @property
+    def default(self):
+        """Return default provider."""
+        return self.__default
 
     def provided_by(self, provider):
         """Set external dependency provider.
