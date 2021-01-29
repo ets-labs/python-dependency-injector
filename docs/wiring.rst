@@ -18,6 +18,10 @@ To use wiring you need:
    :language: python
    :lines: 3-
 
+.. contents::
+   :local:
+   :backlinks: none
+
 Markers
 -------
 
@@ -273,6 +277,35 @@ See also:
 - Provider :ref:`async-injections`
 - Resource provider :ref:`resource-async-initializers`
 - :ref:`fastapi-redis-example`
+
+Wiring of dynamically imported modules
+--------------------------------------
+
+You can install an import hook that automatically wires containers to the imported modules.
+This is useful when you import modules dynamically.
+
+.. code-block:: python
+
+   import importlib
+
+   from dependency_injector.wiring import register_loader_containers
+
+   from .containers import Container
+
+
+   if __name__ == '__main__':
+       container = Container()
+       register_loader_containers(container)  # <--- installs import hook
+
+       module = importlib.import_module('package.module')
+       module.foo()
+
+You can register multiple containers in the import hook. For doing this call register function
+with multiple containers ``register_loader_containers(container1, container2, ...)``
+or with a single container ``register_loader_containers(container)`` multiple times.
+
+To unregister a container use ``unregister_loader_containers(container)``.
+Wiring module will uninstall the import hook when unregister last container.
 
 Integration with other frameworks
 ---------------------------------
