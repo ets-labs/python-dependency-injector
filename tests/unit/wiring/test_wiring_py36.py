@@ -1,7 +1,15 @@
+import contextlib
 from decimal import Decimal
+import importlib
 import unittest
 
-from dependency_injector.wiring import wire, Provide, Closing
+from dependency_injector.wiring import (
+    wire,
+    Provide,
+    Closing,
+    register_loader_containers,
+    unregister_loader_containers,
+)
 from dependency_injector import errors
 
 # Runtime import to avoid syntax errors in samples on Python < 3.5
@@ -367,3 +375,29 @@ class WiringAsyncInjectionsTest(AsyncTestCase):
         self.assertIs(resource2, asyncinjections.resource2)
         self.assertEqual(asyncinjections.resource2.init_counter, 2)
         self.assertEqual(asyncinjections.resource2.shutdown_counter, 2)
+
+
+class AutoLoaderTest(unittest.TestCase):
+
+    container: Container
+
+    def setUp(self) -> None:
+        self.container = Container(config={'a': {'b': {'c': 10}}})
+        importlib.reload(module)
+
+    def tearDown(self) -> None:
+        with contextlib.suppress(ValueError):
+            unregister_loader_containers(self.container)
+
+        self.container.unwire()
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        importlib.reload(module)
+
+    def test_register_container(self):
+        register_loader_containers(self.container)
+        importlib.reload(module)
+
+        service = module.test_function()
+        self.assertIsInstance(service, Service)
