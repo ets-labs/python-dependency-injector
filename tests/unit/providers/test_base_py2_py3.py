@@ -271,6 +271,25 @@ class DependencyTests(unittest.TestCase):
     def test_provided_instance_provider(self):
         self.assertIsInstance(self.provider.provided, providers.ProvidedInstance)
 
+    def test_default(self):
+        provider = providers.Dependency(instance_of=dict, default={'foo': 'bar'})
+        self.assertEqual(provider(), {'foo': 'bar'})
+
+    def test_default_attribute(self):
+        provider = providers.Dependency(instance_of=dict, default={'foo': 'bar'})
+        self.assertEqual(provider.default(), {'foo': 'bar'})
+
+    def test_default_provider(self):
+        provider = providers.Dependency(instance_of=dict, default=providers.Factory(dict, foo='bar'))
+        self.assertEqual(provider.default(), {'foo': 'bar'})
+
+    def test_default_attribute_provider(self):
+        default = providers.Factory(dict, foo='bar')
+        provider = providers.Dependency(instance_of=dict, default=default)
+
+        self.assertEqual(provider.default(), {'foo': 'bar'})
+        self.assertIs(provider.default, default)
+
     def test_call_overridden(self):
         self.provider.provided_by(providers.Factory(list))
         self.assertIsInstance(self.provider(), list)
@@ -313,6 +332,62 @@ class DependencyTests(unittest.TestCase):
 
         self.assertIsNot(overriding_provider, overriding_provider_copy)
         self.assertIsInstance(overriding_provider_copy, providers.Provider)
+
+    def test_deep_copy_default_object(self):
+        default = {'foo': 'bar'}
+        provider = providers.Dependency(dict, default=default)
+
+        provider_copy = providers.deepcopy(provider)
+
+        self.assertIs(provider_copy(), default)
+        self.assertIs(provider_copy.default(), default)
+
+    def test_deep_copy_default_provider(self):
+        bar = object()
+        default = providers.Factory(dict, foo=providers.Object(bar))
+        provider = providers.Dependency(dict, default=default)
+
+        provider_copy = providers.deepcopy(provider)
+
+        self.assertEqual(provider_copy(), {'foo': bar})
+        self.assertEqual(provider_copy.default(), {'foo': bar})
+        self.assertIs(provider_copy()['foo'], bar)
+
+    def test_with_container_default_object(self):
+        default = {'foo': 'bar'}
+
+        class Container(containers.DeclarativeContainer):
+            provider = providers.Dependency(dict, default=default)
+
+        container = Container()
+
+        self.assertIs(container.provider(), default)
+        self.assertIs(container.provider.default(), default)
+
+    def test_with_container_default_provider(self):
+        bar = object()
+
+        class Container(containers.DeclarativeContainer):
+            provider = providers.Dependency(dict, default=providers.Factory(dict, foo=providers.Object(bar)))
+
+        container = Container()
+
+        self.assertEqual(container.provider(), {'foo': bar})
+        self.assertEqual(container.provider.default(), {'foo': bar})
+        self.assertIs(container.provider()['foo'], bar)
+
+    def test_with_container_default_provider_with_overriding(self):
+        bar = object()
+        baz = object()
+
+        class Container(containers.DeclarativeContainer):
+            provider = providers.Dependency(dict, default=providers.Factory(dict, foo=providers.Object(bar)))
+
+        container = Container(provider=providers.Factory(dict, foo=providers.Object(baz)))
+
+        self.assertEqual(container.provider(), {'foo': baz})
+        self.assertEqual(container.provider.default(), {'foo': bar})
+        self.assertIs(container.provider()['foo'], baz)
 
     def test_repr(self):
         self.assertEqual(repr(self.provider),
