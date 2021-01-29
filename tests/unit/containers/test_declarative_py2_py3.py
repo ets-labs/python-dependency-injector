@@ -41,6 +41,29 @@ class DeclarativeContainerTests(unittest.TestCase):
                                                     p31=ContainerC.p31,
                                                     p32=ContainerC.p32))
 
+    def test_providers_attribute_with_redefinition(self):
+        p1 = providers.Provider()
+        p2 = providers.Provider()
+
+        class ContainerA2(ContainerA):
+            p11 = p1
+            p12 = p2
+
+        self.assertEqual(
+            ContainerA.providers,
+            {
+                'p11': ContainerA.p11,
+                'p12': ContainerA.p12,
+            },
+        )
+        self.assertEqual(
+            ContainerA2.providers,
+            {
+                'p11': p1,
+                'p12': p2,
+            },
+        )
+
     def test_cls_providers_attribute(self):
         self.assertEqual(ContainerA.cls_providers, dict(p11=ContainerA.p11,
                                                         p12=ContainerA.p12))
