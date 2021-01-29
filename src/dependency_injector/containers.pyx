@@ -284,34 +284,33 @@ class DeclarativeContainerMetaClass(type):
 
     def __new__(type mcs, str class_name, tuple bases, dict attributes):
         """Declarative container class factory."""
-        cdef tuple cls_providers
-        cdef tuple inherited_providers
-        cdef type cls
-
-        containers = tuple(
-            (name, container)
+        containers = {
+            name: container
             for name, container in six.iteritems(attributes)
             if is_container(container)
-        )
+        }
 
-        attributes['containers'] = dict(containers)
-
-        cls_providers = tuple(
-            (name, provider)
+        cls_providers = {
+            name: provider
             for name, provider in six.iteritems(attributes)
             if isinstance(provider, Provider)
-        )
+        }
 
-        inherited_providers = tuple(
-            (name, provider)
+        inherited_providers = {
+            name: provider
             for base in bases
             if is_container(base) and base is not DynamicContainer
             for name, provider in six.iteritems(base.providers)
-        )
+        }
 
-        attributes['cls_providers'] = dict(cls_providers)
-        attributes['inherited_providers'] = dict(inherited_providers)
-        attributes['providers'] = dict(cls_providers + inherited_providers)
+        providers = {}
+        providers.update(inherited_providers)
+        providers.update(cls_providers)
+
+        attributes['containers'] = containers
+        attributes['inherited_providers'] = inherited_providers
+        attributes['cls_providers'] = cls_providers
+        attributes['providers'] = providers
 
         cls = <type>type.__new__(mcs, class_name, bases, attributes)
 

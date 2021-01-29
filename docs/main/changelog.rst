@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.13.1
+------
+- Fix declarative container metaclass bug: parent container providers replaced child container providers.
+  See issue: `#367 <https://github.com/ets-labs/python-dependency-injector/issues/367>`_.
+  Many thanks to `Shaun Cutts <https://github.com/shaunc>`_ for finding and report the issue.
+
 4.13.0
 ------
 - Add ``default`` argument to the dependency provider: ``Dependency(..., default=...)``.
