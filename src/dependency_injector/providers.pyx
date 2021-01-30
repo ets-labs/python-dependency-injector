@@ -1484,7 +1484,9 @@ cdef class ConfigurationOption(Provider):
     @property
     def providers_traversal(self):
         """Return providers traversal generator."""
-        # TODO: revise
+        yield from filter(is_provider, self.__name)
+        yield from [self.__root]
+        yield from self.__children.values()
         yield from super().providers_traversal
 
     def _is_strict_mode_enabled(self):
@@ -1807,6 +1809,12 @@ cdef class Configuration(Object):
             value = None
 
         self.override(value)
+
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield from self.__children.values()
+        yield from super().providers_traversal
 
     def _is_strict_mode_enabled(self):
         return self.__strict
@@ -2195,6 +2203,12 @@ cdef class FactoryAggregate(Provider):
         raise Error(
             '{0} providers could not be overridden'.format(self.__class__))
 
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield from self.__factories.values()
+        yield from super().providers_traversal
+
     cpdef object _provide(self, tuple args, dict kwargs):
         try:
             factory_name = args[0]
@@ -2367,6 +2381,12 @@ cdef class BaseSingleton(Provider):
         :rtype: None
         """
         raise NotImplementedError()
+
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield self.__instantiator
+        yield from super().providers_traversal
 
     def _async_init_instance(self, future_result, result):
         try:
@@ -2795,6 +2815,12 @@ cdef class List(Provider):
         self.__args_len = len(self.__args)
         return self
 
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield from filter(is_provider, self.args)
+        yield from super().providers_traversal
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable's call."""
         return list(__provide_positional_args(args, self.__args, self.__args_len))
@@ -2906,6 +2932,12 @@ cdef class Dict(Provider):
         self.__kwargs = tuple()
         self.__kwargs_len = len(self.__kwargs)
         return self
+
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield from filter(is_provider, self.kwargs.values())
+        yield from super().providers_traversal
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable's call."""
@@ -3074,6 +3106,14 @@ cdef class Resource(Provider):
             result = asyncio.Future()
             result.set_result(None)
             return result
+
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield from filter(is_provider, [self.__initializer])
+        yield from filter(is_provider, self.args)
+        yield from filter(is_provider, self.kwargs.values())
+        yield from super().providers_traversal
 
     cpdef object _provide(self, tuple args, dict kwargs):
         if self.__initialized:
@@ -3300,6 +3340,12 @@ cdef class Container(Provider):
         declarative container initialization."""
         self.__container.override_providers(**self.__overriding_providers)
 
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield from self.providers.values()
+        yield from super().providers_traversal
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
         return self.__container
@@ -3389,6 +3435,13 @@ cdef class Selector(Provider):
         """Return providers."""
         return dict(self.__providers)
 
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield from filter(is_provider, [self.__selector])
+        yield from self.providers.values()
+        yield from super().providers_traversal
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
         selector_value = self.__selector()
@@ -3465,6 +3518,12 @@ cdef class ProvidedInstance(Provider):
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
 
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield self.__provider
+        yield from super().providers_traversal
+
     cpdef object _provide(self, tuple args, dict kwargs):
         return self.__provider(*args, **kwargs)
 
@@ -3513,6 +3572,12 @@ cdef class AttributeGetter(Provider):
 
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
+
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield self.__provider
+        yield from super().providers_traversal
 
     cpdef object _provide(self, tuple args, dict kwargs):
         provided = self.__provider(*args, **kwargs)
@@ -3573,6 +3638,12 @@ cdef class ItemGetter(Provider):
 
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
+
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield self.__provider
+        yield from super().providers_traversal
 
     cpdef object _provide(self, tuple args, dict kwargs):
         provided = self.__provider(*args, **kwargs)
@@ -3665,6 +3736,14 @@ cdef class MethodCaller(Provider):
 
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
+
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield self.__provider
+        yield from filter(is_provider, self.args)
+        yield from filter(is_provider, self.kwargs.values())
+        yield from super().providers_traversal
 
     cpdef object _provide(self, tuple args, dict kwargs):
         call = self.__provider()
