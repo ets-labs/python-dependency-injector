@@ -370,7 +370,7 @@ cdef class Provider(object):
 
     def traverse(self, types=None):
         """Return providers traversal generator."""
-        return traverse(*self.related)
+        return traverse(*self.related, types=types)
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Providing strategy implementation.
