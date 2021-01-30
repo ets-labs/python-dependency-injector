@@ -363,6 +363,11 @@ cdef class Provider(object):
         """Check if async mode is undefined."""
         return self.__async_mode == ASYNC_MODE_UNDEFINED
 
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield from self.overridden
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Providing strategy implementation.
 
@@ -422,6 +427,13 @@ cdef class Object(Provider):
         :rtype: str
         """
         return self.__str__()
+
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        if isinstance(self.__provides, Provider):
+            yield self.__provides
+        yield from super().providers_traversal
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return provided instance.
@@ -486,6 +498,12 @@ cdef class Delegate(Provider):
     def provides(self):
         """Return provider."""
         return self.__provides
+
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield self.__provides
+        yield from super().providers_traversal
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return provided instance.
@@ -618,6 +636,13 @@ cdef class Dependency(Provider):
     def default(self):
         """Return default provider."""
         return self.__default
+
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        if self.__default is not UNDEFINED:
+            yield self.__default
+        yield from super().providers_traversal
 
     def provided_by(self, provider):
         """Set external dependency provider.
@@ -789,6 +814,12 @@ cdef class DependenciesContainer(Object):
         for child in self.__providers.values():
             child.reset_override()
         super(DependenciesContainer, self).reset_override()
+
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield from self.providers.values()
+        yield from super().providers_traversal
 
     cpdef object _override_providers(self, object container):
         """Override providers with providers from provided container."""
@@ -997,6 +1028,14 @@ cdef class Callable(Provider):
         self.__kwargs = tuple()
         self.__kwargs_len = len(self.__kwargs)
         return self
+
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield from filter(is_provider, [self.provides])
+        yield from filter(is_provider, self.args)
+        yield from filter(is_provider, self.kwargs.values())
+        yield from super().providers_traversal
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable's call."""
@@ -1441,6 +1480,12 @@ cdef class ConfigurationOption(Provider):
             value = None
 
         self.override(value)
+
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        # TODO: revise
+        yield from super().providers_traversal
 
     def _is_strict_mode_enabled(self):
         return self.__root.__strict
@@ -1978,6 +2023,15 @@ cdef class Factory(Provider):
         self.__attributes = tuple()
         self.__attributes_len = len(self.__attributes)
         return self
+
+    @property
+    def providers_traversal(self):
+        """Return providers traversal generator."""
+        yield from filter(is_provider, [self.provides])
+        yield from filter(is_provider, self.args)
+        yield from filter(is_provider, self.kwargs.values())
+        yield from filter(is_provider, self.attributes.values())
+        yield from super().providers_traversal
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return new instance."""
@@ -3844,6 +3898,29 @@ def merge_dicts(dict1, dict2):
     result = dict1.copy()
     result.update(dict2)
     return result
+
+
+def traverse(*providers, types=None):
+    """Return providers traversal generator."""
+    visited = set()
+    to_visit = set(providers)
+
+    if types:
+        types = tuple(types)
+
+    while len(to_visit) > 0:
+        visiting = to_visit.pop()
+        visited.add(visiting)
+
+        for child in visiting.providers_traversal:
+            if child in visited:
+                continue
+            to_visit.add(child)
+
+        if types and not isinstance(visiting, types):
+            continue
+
+        yield visiting
 
 
 def isawaitable(obj):

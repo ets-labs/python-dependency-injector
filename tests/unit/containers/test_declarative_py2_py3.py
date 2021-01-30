@@ -431,3 +431,90 @@ class DeclarativeContainerTests(unittest.TestCase):
         self.assertIsInstance(container.p31, providers.Provider)
         self.assertIsInstance(container.p32, providers.Provider)
         self.assertIs(container.p11.last_overriding, provider)
+
+
+class ProvidersTraversalTests(unittest.TestCase):
+
+    def test_nested_providers(self):
+        class Container(containers.DeclarativeContainer):
+            obj_factory = providers.DelegatedFactory(
+                dict,
+                foo=providers.Resource(
+                    dict,
+                    foo='bar'
+                ),
+                bar=providers.Resource(
+                    dict,
+                    foo='bar'
+                )
+            )
+
+        container = Container()
+        all_providers = list(container.traverse_providers())
+
+        self.assertIn(container.obj_factory, all_providers)
+        self.assertIn(container.obj_factory.kwargs['foo'], all_providers)
+        self.assertIn(container.obj_factory.kwargs['bar'], all_providers)
+        self.assertEqual(len(all_providers), 3)
+
+    def test_nested_providers_class(self):
+        class Container(containers.DeclarativeContainer):
+            obj_factory = providers.DelegatedFactory(
+                dict,
+                foo=providers.Resource(
+                    dict,
+                    foo='bar'
+                ),
+                bar=providers.Resource(
+                    dict,
+                    foo='bar'
+                )
+            )
+
+        all_providers = list(Container.traverse_providers())
+
+        self.assertIn(Container.obj_factory, all_providers)
+        self.assertIn(Container.obj_factory.kwargs['foo'], all_providers)
+        self.assertIn(Container.obj_factory.kwargs['bar'], all_providers)
+        self.assertEqual(len(all_providers), 3)
+
+    def test_nested_providers_with_filtering(self):
+        class Container(containers.DeclarativeContainer):
+            obj_factory = providers.DelegatedFactory(
+                dict,
+                foo=providers.Resource(
+                    dict,
+                    foo='bar'
+                ),
+                bar=providers.Resource(
+                    dict,
+                    foo='bar'
+                )
+            )
+
+        container = Container()
+        all_providers = list(container.traverse_providers(types=[providers.Resource]))
+
+        self.assertIn(container.obj_factory.kwargs['foo'], all_providers)
+        self.assertIn(container.obj_factory.kwargs['bar'], all_providers)
+        self.assertEqual(len(all_providers), 2)
+
+    def test_nested_providers_class_with_filtering(self):
+        class Container(containers.DeclarativeContainer):
+            obj_factory = providers.DelegatedFactory(
+                dict,
+                foo=providers.Resource(
+                    dict,
+                    foo='bar'
+                ),
+                bar=providers.Resource(
+                    dict,
+                    foo='bar'
+                )
+            )
+
+        all_providers = list(Container.traverse_providers(types=[providers.Resource]))
+
+        self.assertIn(Container.obj_factory.kwargs['foo'], all_providers)
+        self.assertIn(Container.obj_factory.kwargs['bar'], all_providers)
+        self.assertEqual(len(all_providers), 2)

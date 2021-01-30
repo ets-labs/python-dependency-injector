@@ -13,6 +13,7 @@ from typing import (
     Dict as _Dict,
     Optional,
     Union,
+    Sequence,
     Coroutine as _Coroutine,
     Iterator as _Iterator,
     AsyncIterator as _AsyncIterator,
@@ -68,6 +69,8 @@ class Provider(Generic[T]):
     def is_async_mode_enabled(self) -> bool: ...
     def is_async_mode_disabled(self) -> bool: ...
     def is_async_mode_undefined(self) -> bool: ...
+    @property
+    def providers_traversal(self) -> _Iterator[Provider]: ...
     def _copy_overridings(self, copied: Provider, memo: Optional[_Dict[Any, Any]]) -> None: ...
 
 
@@ -380,6 +383,9 @@ def deepcopy(instance: Any, memo: Optional[_Dict[Any, Any]] = None): Any: ...
 
 
 def merge_dicts(dict1: _Dict[Any, Any], dict2: _Dict[Any, Any]) -> _Dict[Any, Any]: ...
+
+
+def traverse(*providers: Provider, types: Optional[Sequence[Type]]=None) -> _Iterator[Provider]: ...
 
 
 if yaml:

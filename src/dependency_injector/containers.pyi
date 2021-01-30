@@ -7,9 +7,12 @@ from typing import (
     Union,
     ClassVar,
     Callable as _Callable,
+    Sequence,
     Iterable,
+    Iterator,
     TypeVar,
     Awaitable,
+    overload,
 )
 
 from .providers import Provider
@@ -40,6 +43,12 @@ class Container:
     def unwire(self) -> None: ...
     def init_resources(self) -> Optional[Awaitable]: ...
     def shutdown_resources(self) -> Optional[Awaitable]: ...
+
+    @overload
+    def traverse_providers(self, types: Optional[Sequence[Type]] = None) -> Iterator[Provider]: ...
+    @classmethod
+    @overload
+    def traverse_providers(cls, types: Optional[Sequence[Type]] = None) -> Iterator[Provider]: ...
 
 
 class DynamicContainer(Container): ...
