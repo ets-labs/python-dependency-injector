@@ -727,3 +727,28 @@ class SelectorTests(unittest.TestCase):
         self.assertIn(provider1, all_providers)
         self.assertIn(provider2, all_providers)
         self.assertIn(selector1, all_providers)
+
+
+class ProvidedInstanceTests(unittest.TestCase):
+
+    def test_traverse(self):
+        provider1 = providers.Provider()
+        provider = provider1.provided
+
+        all_providers = list(provider.traverse())
+
+        self.assertEqual(len(all_providers), 1)
+        self.assertIn(provider1, all_providers)
+
+    def test_traverse_overridden(self):
+        provider1 = providers.Provider()
+        provider2 = providers.Provider()
+
+        provider = provider1.provided
+        provider.override(provider2)
+
+        all_providers = list(provider.traverse())
+
+        self.assertEqual(len(all_providers), 2)
+        self.assertIn(provider1, all_providers)
+        self.assertIn(provider2, all_providers)
