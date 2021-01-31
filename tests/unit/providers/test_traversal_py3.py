@@ -781,3 +781,32 @@ class AttributeGetterTests(unittest.TestCase):
         self.assertIn(provider1, all_providers)
         self.assertIn(provider2, all_providers)
         self.assertIn(provided, all_providers)
+
+
+class ItemGetterTests(unittest.TestCase):
+
+    def test_traverse(self):
+        provider1 = providers.Provider()
+        provided = provider1.provided
+        provider = provided['item']
+
+        all_providers = list(provider.traverse())
+
+        self.assertEqual(len(all_providers), 2)
+        self.assertIn(provider1, all_providers)
+        self.assertIn(provided, all_providers)
+
+    def test_traverse_overridden(self):
+        provider1 = providers.Provider()
+        provided = provider1.provided
+        provider2 = providers.Provider()
+
+        provider = provided['item']
+        provider.override(provider2)
+
+        all_providers = list(provider.traverse())
+
+        self.assertEqual(len(all_providers), 3)
+        self.assertIn(provider1, all_providers)
+        self.assertIn(provider2, all_providers)
+        self.assertIn(provided, all_providers)
