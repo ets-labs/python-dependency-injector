@@ -428,3 +428,17 @@ class FactoryTests(unittest.TestCase):
         self.assertIn(provider1, all_providers)
         self.assertIn(provider2, all_providers)
         self.assertIn(provider3, all_providers)
+
+
+class FactoryAggregateTests(unittest.TestCase):
+
+    def test_traverse(self):
+        factory1 = providers.Factory(dict)
+        factory2 = providers.Factory(list)
+        provider = providers.FactoryAggregate(factory1=factory1, factory2=factory2)
+
+        all_providers = list(provider.traverse())
+
+        self.assertEqual(len(all_providers), 2)
+        self.assertIn(factory1, all_providers)
+        self.assertIn(factory2, all_providers)
