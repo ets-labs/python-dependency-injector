@@ -134,7 +134,7 @@ class DynamicContainer(object):
             if isinstance(provider, (providers.Dependency, providers.DependenciesContainer))
         }
 
-    def traverse_providers(self, types=None):
+    def traverse(self, types=None):
         """Return providers traversal generator."""
         yield from providers.traverse(*self.providers.values(), types=types)
 
@@ -368,7 +368,7 @@ class DeclarativeContainerMetaClass(type):
             if isinstance(provider, (providers.Dependency, providers.DependenciesContainer))
         }
 
-    def traverse_providers(cls, types=None):
+    def traverse(cls, types=None):
         """Return providers traversal generator."""
         yield from providers.traverse(*cls.providers.values(), types=types)
 

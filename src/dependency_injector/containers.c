@@ -817,19 +817,19 @@ static const char *__pyx_f[] = {
 };
 
 /*--- Type declarations ---*/
-struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers;
-struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers;
+struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse;
+struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse;
 struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_2_override;
 struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_3_copy;
 
 /* "dependency_injector/containers.pyx":137
  *         }
  * 
- *     def traverse_providers(self, types=None):             # <<<<<<<<<<<<<<
+ *     def traverse(self, types=None):             # <<<<<<<<<<<<<<
  *         """Return providers traversal generator."""
  *         yield from providers.traverse(*self.providers.values(), types=types)
  */
-struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers {
+struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse {
   PyObject_HEAD
   PyObject *__pyx_v_self;
   PyObject *__pyx_v_types;
@@ -839,11 +839,11 @@ struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse
 /* "dependency_injector/containers.pyx":371
  *         }
  * 
- *     def traverse_providers(cls, types=None):             # <<<<<<<<<<<<<<
+ *     def traverse(cls, types=None):             # <<<<<<<<<<<<<<
  *         """Return providers traversal generator."""
  *         yield from providers.traverse(*cls.providers.values(), types=types)
  */
-struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers {
+struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse {
   PyObject_HEAD
   PyObject *__pyx_v_cls;
   PyObject *__pyx_v_types;
@@ -1531,8 +1531,8 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
 /* Module declarations from 'dependency_injector.containers' */
-static PyTypeObject *__pyx_ptype_19dependency_injector_10containers___pyx_scope_struct__traverse_providers = 0;
-static PyTypeObject *__pyx_ptype_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers = 0;
+static PyTypeObject *__pyx_ptype_19dependency_injector_10containers___pyx_scope_struct__traverse = 0;
+static PyTypeObject *__pyx_ptype_19dependency_injector_10containers___pyx_scope_struct_1_traverse = 0;
 static PyTypeObject *__pyx_ptype_19dependency_injector_10containers___pyx_scope_struct_2_override = 0;
 static PyTypeObject *__pyx_ptype_19dependency_injector_10containers___pyx_scope_struct_3_copy = 0;
 static int __pyx_f_19dependency_injector_10containers_is_container(PyObject *, int __pyx_skip_dispatch); /*proto*/
@@ -1665,7 +1665,6 @@ static const char __pyx_k_declarative_parent[] = "declarative_parent";
 static const char __pyx_k_get_providers_memo[] = "_get_providers_memo";
 static const char __pyx_k_override_providers[] = "override_providers";
 static const char __pyx_k_shutdown_resources[] = "shutdown_resources";
-static const char __pyx_k_traverse_providers[] = "traverse_providers";
 static const char __pyx_k_NotImplementedError[] = "NotImplementedError";
 static const char __pyx_k_inherited_providers[] = "inherited_providers";
 static const char __pyx_k_overriding_provider[] = "overriding_provider";
@@ -1681,6 +1680,7 @@ static const char __pyx_k_copy_locals__decorator[] = "copy.<locals>._decorator";
 static const char __pyx_k_DynamicContainer___init[] = "DynamicContainer.__init__";
 static const char __pyx_k_DynamicContainer_unwire[] = "DynamicContainer.unwire";
 static const char __pyx_k_DynamicContainer_override[] = "DynamicContainer.override";
+static const char __pyx_k_DynamicContainer_traverse[] = "DynamicContainer.traverse";
 static const char __pyx_k_DeclarativeContainer___new[] = "DeclarativeContainer.__new__";
 static const char __pyx_k_DynamicContainer___delattr[] = "DynamicContainer.__delattr__";
 static const char __pyx_k_DynamicContainer___setattr[] = "DynamicContainer.__setattr__";
@@ -1702,7 +1702,7 @@ static const char __pyx_k_DynamicContainer_reset_override[] = "DynamicContainer.
 static const char __pyx_k_copy_locals__get_providers_memo[] = "copy.<locals>._get_providers_memo";
 static const char __pyx_k_Container_0_could_not_be_overrid[] = "Container {0} could not be overridden with itself";
 static const char __pyx_k_DeclarativeContainerMetaClass_de[] = "DeclarativeContainerMetaClass.dependencies";
-static const char __pyx_k_DeclarativeContainerMetaClass_tr[] = "DeclarativeContainerMetaClass.traverse_providers";
+static const char __pyx_k_DeclarativeContainerMetaClass_tr[] = "DeclarativeContainerMetaClass.traverse";
 static const char __pyx_k_DeclarativeContainer_reset_overr[] = "DeclarativeContainer.reset_override";
 static const char __pyx_k_DeclarativeContainer_resolve_pro[] = "DeclarativeContainer.resolve_provider_name";
 static const char __pyx_k_Declarative_inversion_of_control[] = "Declarative inversion of control container meta class.";
@@ -1710,7 +1710,6 @@ static const char __pyx_k_DynamicContainer_apply_container[] = "DynamicContainer
 static const char __pyx_k_DynamicContainer_override_provid[] = "DynamicContainer.override_providers";
 static const char __pyx_k_DynamicContainer_reset_last_over[] = "DynamicContainer.reset_last_overriding";
 static const char __pyx_k_DynamicContainer_shutdown_resour[] = "DynamicContainer.shutdown_resources";
-static const char __pyx_k_DynamicContainer_traverse_provid[] = "DynamicContainer.traverse_providers";
 static const char __pyx_k_Dynamic_inversion_of_control_con[] = "Dynamic inversion of control container.\n\n    .. code-block:: python\n\n        services = DynamicContainer()\n        services.auth = providers.Factory(AuthService)\n        services.users = providers.Factory(UsersService,\n                                           auth_service=services.auth)\n\n    .. py:attribute:: providers\n\n        Read-only dictionary of all providers.\n\n        :type: dict[str, :py:class:`dependency_injector.providers.Provider`]\n\n    .. py:attribute:: overridden\n\n        Tuple of overriding containers.\n\n        :type: tuple[:py:class:`DynamicContainer`]\n\n    .. py:attribute:: provider_type\n\n        Type of providers that could be placed in container.\n\n        :type: type\n    ";
 static const char __pyx_k_Wiring_requires_Python_3_6_or_ab[] = "Wiring requires Python 3.6 or above";
 static const char __pyx_k_apply_container_providers_overri[] = "apply_container_providers_overridings";
@@ -1753,7 +1752,7 @@ static PyObject *__pyx_n_s_DynamicContainer_reset_last_over;
 static PyObject *__pyx_n_s_DynamicContainer_reset_override;
 static PyObject *__pyx_n_s_DynamicContainer_set_providers;
 static PyObject *__pyx_n_s_DynamicContainer_shutdown_resour;
-static PyObject *__pyx_n_s_DynamicContainer_traverse_provid;
+static PyObject *__pyx_n_s_DynamicContainer_traverse;
 static PyObject *__pyx_n_s_DynamicContainer_unwire;
 static PyObject *__pyx_n_s_DynamicContainer_wire;
 static PyObject *__pyx_kp_s_Dynamic_inversion_of_control_con;
@@ -1871,7 +1870,6 @@ static PyObject *__pyx_n_s_sys;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_throw;
 static PyObject *__pyx_n_s_traverse;
-static PyObject *__pyx_n_s_traverse_providers;
 static PyObject *__pyx_n_s_types;
 static PyObject *__pyx_n_s_unwire;
 static PyObject *__pyx_n_s_update;
@@ -1889,7 +1887,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_4__setattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_name, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_6__delattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_name); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_8dependencies(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_10traverse_providers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_types); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_10traverse(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_types); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_13set_providers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_providers); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_15override(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_overriding); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_17override_providers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_overriding_providers); /* proto */
@@ -1904,7 +1902,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
 static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContainerMetaClass_2__setattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls, PyObject *__pyx_v_name, PyObject *__pyx_v_value); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContainerMetaClass_4__delattr__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls, PyObject *__pyx_v_name); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContainerMetaClass_6dependencies(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContainerMetaClass_8traverse_providers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls, PyObject *__pyx_v_types); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContainerMetaClass_8traverse(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls, PyObject *__pyx_v_types); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContainer___new__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls, PyObject *__pyx_v_overriding_providers); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContainer_2override(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls, PyObject *__pyx_v_overriding); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContainer_4reset_last_overriding(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls); /* proto */
@@ -1918,8 +1916,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_6copy(CYTHON_UNUSED
 static PyObject *__pyx_pf_19dependency_injector_10containers_8is_container(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_instance); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_10_check_provider_type(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_container, PyObject *__pyx_v_provider); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_12_isawaitable(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_instance); /* proto */
-static PyObject *__pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct__traverse_providers(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static PyObject *__pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct__traverse(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct_1_traverse(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct_2_override(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct_3_copy(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_update = {0, &__pyx_n_s_update, 0, 0, 0};
@@ -3573,16 +3571,16 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_16DynamicContainer_
 /* "dependency_injector/containers.pyx":137
  *         }
  * 
- *     def traverse_providers(self, types=None):             # <<<<<<<<<<<<<<
+ *     def traverse(self, types=None):             # <<<<<<<<<<<<<<
  *         """Return providers traversal generator."""
  *         yield from providers.traverse(*self.providers.values(), types=types)
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_11traverse_providers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_10traverse_providers[] = "Return providers traversal generator.";
-static PyMethodDef __pyx_mdef_19dependency_injector_10containers_16DynamicContainer_11traverse_providers = {"traverse_providers", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_10containers_16DynamicContainer_11traverse_providers, METH_VARARGS|METH_KEYWORDS, __pyx_doc_19dependency_injector_10containers_16DynamicContainer_10traverse_providers};
-static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_11traverse_providers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_11traverse(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_10traverse[] = "Return providers traversal generator.";
+static PyMethodDef __pyx_mdef_19dependency_injector_10containers_16DynamicContainer_11traverse = {"traverse", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_10containers_16DynamicContainer_11traverse, METH_VARARGS|METH_KEYWORDS, __pyx_doc_19dependency_injector_10containers_16DynamicContainer_10traverse};
+static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_11traverse(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_types = 0;
   int __pyx_lineno = 0;
@@ -3590,7 +3588,7 @@ static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("traverse_providers (wrapper)", 0);
+  __Pyx_RefNannySetupContext("traverse (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self_2,&__pyx_n_s_types,0};
     PyObject* values[2] = {0,0};
@@ -3619,7 +3617,7 @@ static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "traverse_providers") < 0)) __PYX_ERR(0, 137, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "traverse") < 0)) __PYX_ERR(0, 137, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -3635,30 +3633,30 @@ static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("traverse_providers", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 137, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("traverse", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 137, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("dependency_injector.containers.DynamicContainer.traverse_providers", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("dependency_injector.containers.DynamicContainer.traverse", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_10containers_16DynamicContainer_10traverse_providers(__pyx_self, __pyx_v_self, __pyx_v_types);
+  __pyx_r = __pyx_pf_19dependency_injector_10containers_16DynamicContainer_10traverse(__pyx_self, __pyx_v_self, __pyx_v_types);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_10traverse_providers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_types) {
-  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers *__pyx_cur_scope;
+static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_10traverse(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_types) {
+  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse *__pyx_cur_scope;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("traverse_providers", 0);
-  __pyx_cur_scope = (struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers *)__pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct__traverse_providers(__pyx_ptype_19dependency_injector_10containers___pyx_scope_struct__traverse_providers, __pyx_empty_tuple, NULL);
+  __Pyx_RefNannySetupContext("traverse", 0);
+  __pyx_cur_scope = (struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse *)__pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct__traverse(__pyx_ptype_19dependency_injector_10containers___pyx_scope_struct__traverse, __pyx_empty_tuple, NULL);
   if (unlikely(!__pyx_cur_scope)) {
-    __pyx_cur_scope = ((struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers *)Py_None);
+    __pyx_cur_scope = ((struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse *)Py_None);
     __Pyx_INCREF(Py_None);
     __PYX_ERR(0, 137, __pyx_L1_error)
   } else {
@@ -3671,7 +3669,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_types);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_types);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_19dependency_injector_10containers_16DynamicContainer_12generator, __pyx_codeobj__2, (PyObject *) __pyx_cur_scope, __pyx_n_s_traverse_providers, __pyx_n_s_DynamicContainer_traverse_provid, __pyx_n_s_dependency_injector_containers); if (unlikely(!gen)) __PYX_ERR(0, 137, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_19dependency_injector_10containers_16DynamicContainer_12generator, __pyx_codeobj__2, (PyObject *) __pyx_cur_scope, __pyx_n_s_traverse, __pyx_n_s_DynamicContainer_traverse, __pyx_n_s_dependency_injector_containers); if (unlikely(!gen)) __PYX_ERR(0, 137, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -3679,7 +3677,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("dependency_injector.containers.DynamicContainer.traverse_providers", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("dependency_injector.containers.DynamicContainer.traverse", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_DECREF(((PyObject *)__pyx_cur_scope));
   __Pyx_XGIVEREF(__pyx_r);
@@ -3689,7 +3687,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 
 static PyObject *__pyx_gb_19dependency_injector_10containers_16DynamicContainer_12generator(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value) /* generator body */
 {
-  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers *__pyx_cur_scope = ((struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers *)__pyx_generator->closure);
+  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse *__pyx_cur_scope = ((struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse *)__pyx_generator->closure);
   PyObject *__pyx_r = NULL;
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -3699,7 +3697,7 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_16DynamicContainer_
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("traverse_providers", 0);
+  __Pyx_RefNannySetupContext("traverse", 0);
   switch (__pyx_generator->resume_label) {
     case 0: goto __pyx_L3_first_run;
     case 1: goto __pyx_L4_resume_from_yield_from;
@@ -3711,7 +3709,7 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_16DynamicContainer_
   if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 137, __pyx_L1_error)
 
   /* "dependency_injector/containers.pyx":139
- *     def traverse_providers(self, types=None):
+ *     def traverse(self, types=None):
  *         """Return providers traversal generator."""
  *         yield from providers.traverse(*self.providers.values(), types=types)             # <<<<<<<<<<<<<<
  * 
@@ -3777,7 +3775,7 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_16DynamicContainer_
   /* "dependency_injector/containers.pyx":137
  *         }
  * 
- *     def traverse_providers(self, types=None):             # <<<<<<<<<<<<<<
+ *     def traverse(self, types=None):             # <<<<<<<<<<<<<<
  *         """Return providers traversal generator."""
  *         yield from providers.traverse(*self.providers.values(), types=types)
  */
@@ -3790,7 +3788,7 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_16DynamicContainer_
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("traverse_providers", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("traverse", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_r); __pyx_r = 0;
   #if !CYTHON_USE_EXC_INFO_STACK
@@ -8288,16 +8286,16 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_29DeclarativeContai
 /* "dependency_injector/containers.pyx":371
  *         }
  * 
- *     def traverse_providers(cls, types=None):             # <<<<<<<<<<<<<<
+ *     def traverse(cls, types=None):             # <<<<<<<<<<<<<<
  *         """Return providers traversal generator."""
  *         yield from providers.traverse(*cls.providers.values(), types=types)
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_9traverse_providers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_8traverse_providers[] = "Return providers traversal generator.";
-static PyMethodDef __pyx_mdef_19dependency_injector_10containers_29DeclarativeContainerMetaClass_9traverse_providers = {"traverse_providers", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_9traverse_providers, METH_VARARGS|METH_KEYWORDS, __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_8traverse_providers};
-static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_9traverse_providers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_9traverse(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_8traverse[] = "Return providers traversal generator.";
+static PyMethodDef __pyx_mdef_19dependency_injector_10containers_29DeclarativeContainerMetaClass_9traverse = {"traverse", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_9traverse, METH_VARARGS|METH_KEYWORDS, __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_8traverse};
+static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_9traverse(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_cls = 0;
   PyObject *__pyx_v_types = 0;
   int __pyx_lineno = 0;
@@ -8305,7 +8303,7 @@ static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContai
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("traverse_providers (wrapper)", 0);
+  __Pyx_RefNannySetupContext("traverse (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_cls,&__pyx_n_s_types,0};
     PyObject* values[2] = {0,0};
@@ -8334,7 +8332,7 @@ static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContai
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "traverse_providers") < 0)) __PYX_ERR(0, 371, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "traverse") < 0)) __PYX_ERR(0, 371, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -8350,30 +8348,30 @@ static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContai
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("traverse_providers", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 371, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("traverse", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 371, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("dependency_injector.containers.DeclarativeContainerMetaClass.traverse_providers", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("dependency_injector.containers.DeclarativeContainerMetaClass.traverse", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_19dependency_injector_10containers_29DeclarativeContainerMetaClass_8traverse_providers(__pyx_self, __pyx_v_cls, __pyx_v_types);
+  __pyx_r = __pyx_pf_19dependency_injector_10containers_29DeclarativeContainerMetaClass_8traverse(__pyx_self, __pyx_v_cls, __pyx_v_types);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContainerMetaClass_8traverse_providers(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls, PyObject *__pyx_v_types) {
-  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers *__pyx_cur_scope;
+static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContainerMetaClass_8traverse(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls, PyObject *__pyx_v_types) {
+  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse *__pyx_cur_scope;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("traverse_providers", 0);
-  __pyx_cur_scope = (struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers *)__pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers(__pyx_ptype_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers, __pyx_empty_tuple, NULL);
+  __Pyx_RefNannySetupContext("traverse", 0);
+  __pyx_cur_scope = (struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse *)__pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct_1_traverse(__pyx_ptype_19dependency_injector_10containers___pyx_scope_struct_1_traverse, __pyx_empty_tuple, NULL);
   if (unlikely(!__pyx_cur_scope)) {
-    __pyx_cur_scope = ((struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers *)Py_None);
+    __pyx_cur_scope = ((struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse *)Py_None);
     __Pyx_INCREF(Py_None);
     __PYX_ERR(0, 371, __pyx_L1_error)
   } else {
@@ -8386,7 +8384,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_types);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_types);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_19dependency_injector_10containers_29DeclarativeContainerMetaClass_10generator1, __pyx_codeobj__4, (PyObject *) __pyx_cur_scope, __pyx_n_s_traverse_providers, __pyx_n_s_DeclarativeContainerMetaClass_tr, __pyx_n_s_dependency_injector_containers); if (unlikely(!gen)) __PYX_ERR(0, 371, __pyx_L1_error)
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_19dependency_injector_10containers_29DeclarativeContainerMetaClass_10generator1, __pyx_codeobj__4, (PyObject *) __pyx_cur_scope, __pyx_n_s_traverse, __pyx_n_s_DeclarativeContainerMetaClass_tr, __pyx_n_s_dependency_injector_containers); if (unlikely(!gen)) __PYX_ERR(0, 371, __pyx_L1_error)
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -8394,7 +8392,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("dependency_injector.containers.DeclarativeContainerMetaClass.traverse_providers", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("dependency_injector.containers.DeclarativeContainerMetaClass.traverse", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_DECREF(((PyObject *)__pyx_cur_scope));
   __Pyx_XGIVEREF(__pyx_r);
@@ -8404,7 +8402,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
 
 static PyObject *__pyx_gb_19dependency_injector_10containers_29DeclarativeContainerMetaClass_10generator1(__pyx_CoroutineObject *__pyx_generator, CYTHON_UNUSED PyThreadState *__pyx_tstate, PyObject *__pyx_sent_value) /* generator body */
 {
-  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers *__pyx_cur_scope = ((struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers *)__pyx_generator->closure);
+  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse *__pyx_cur_scope = ((struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse *)__pyx_generator->closure);
   PyObject *__pyx_r = NULL;
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -8414,7 +8412,7 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_29DeclarativeContai
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("traverse_providers", 0);
+  __Pyx_RefNannySetupContext("traverse", 0);
   switch (__pyx_generator->resume_label) {
     case 0: goto __pyx_L3_first_run;
     case 1: goto __pyx_L4_resume_from_yield_from;
@@ -8426,7 +8424,7 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_29DeclarativeContai
   if (unlikely(!__pyx_sent_value)) __PYX_ERR(0, 371, __pyx_L1_error)
 
   /* "dependency_injector/containers.pyx":373
- *     def traverse_providers(cls, types=None):
+ *     def traverse(cls, types=None):
  *         """Return providers traversal generator."""
  *         yield from providers.traverse(*cls.providers.values(), types=types)             # <<<<<<<<<<<<<<
  * 
@@ -8492,7 +8490,7 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_29DeclarativeContai
   /* "dependency_injector/containers.pyx":371
  *         }
  * 
- *     def traverse_providers(cls, types=None):             # <<<<<<<<<<<<<<
+ *     def traverse(cls, types=None):             # <<<<<<<<<<<<<<
  *         """Return providers traversal generator."""
  *         yield from providers.traverse(*cls.providers.values(), types=types)
  */
@@ -8505,7 +8503,7 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_29DeclarativeContai
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("traverse_providers", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("traverse", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_r); __pyx_r = 0;
   #if !CYTHON_USE_EXC_INFO_STACK
@@ -11577,14 +11575,14 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_12_isawaitable(CYTH
   return __pyx_r;
 }
 
-static struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers *__pyx_freelist_19dependency_injector_10containers___pyx_scope_struct__traverse_providers[8];
-static int __pyx_freecount_19dependency_injector_10containers___pyx_scope_struct__traverse_providers = 0;
+static struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse *__pyx_freelist_19dependency_injector_10containers___pyx_scope_struct__traverse[8];
+static int __pyx_freecount_19dependency_injector_10containers___pyx_scope_struct__traverse = 0;
 
-static PyObject *__pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct__traverse_providers(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+static PyObject *__pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct__traverse(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
   PyObject *o;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely((__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct__traverse_providers > 0) & (t->tp_basicsize == sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers)))) {
-    o = (PyObject*)__pyx_freelist_19dependency_injector_10containers___pyx_scope_struct__traverse_providers[--__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct__traverse_providers];
-    memset(o, 0, sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers));
+  if (CYTHON_COMPILING_IN_CPYTHON && likely((__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct__traverse > 0) & (t->tp_basicsize == sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse)))) {
+    o = (PyObject*)__pyx_freelist_19dependency_injector_10containers___pyx_scope_struct__traverse[--__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct__traverse];
+    memset(o, 0, sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse));
     (void) PyObject_INIT(o, t);
     PyObject_GC_Track(o);
   } else {
@@ -11594,21 +11592,21 @@ static PyObject *__pyx_tp_new_19dependency_injector_10containers___pyx_scope_str
   return o;
 }
 
-static void __pyx_tp_dealloc_19dependency_injector_10containers___pyx_scope_struct__traverse_providers(PyObject *o) {
-  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers *p = (struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers *)o;
+static void __pyx_tp_dealloc_19dependency_injector_10containers___pyx_scope_struct__traverse(PyObject *o) {
+  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse *p = (struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse *)o;
   PyObject_GC_UnTrack(o);
   Py_CLEAR(p->__pyx_v_self);
   Py_CLEAR(p->__pyx_v_types);
-  if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct__traverse_providers < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers)))) {
-    __pyx_freelist_19dependency_injector_10containers___pyx_scope_struct__traverse_providers[__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct__traverse_providers++] = ((struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers *)o);
+  if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct__traverse < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse)))) {
+    __pyx_freelist_19dependency_injector_10containers___pyx_scope_struct__traverse[__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct__traverse++] = ((struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse *)o);
   } else {
     (*Py_TYPE(o)->tp_free)(o);
   }
 }
 
-static int __pyx_tp_traverse_19dependency_injector_10containers___pyx_scope_struct__traverse_providers(PyObject *o, visitproc v, void *a) {
+static int __pyx_tp_traverse_19dependency_injector_10containers___pyx_scope_struct__traverse(PyObject *o, visitproc v, void *a) {
   int e;
-  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers *p = (struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers *)o;
+  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse *p = (struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse *)o;
   if (p->__pyx_v_self) {
     e = (*v)(p->__pyx_v_self, a); if (e) return e;
   }
@@ -11618,12 +11616,12 @@ static int __pyx_tp_traverse_19dependency_injector_10containers___pyx_scope_stru
   return 0;
 }
 
-static PyTypeObject __pyx_type_19dependency_injector_10containers___pyx_scope_struct__traverse_providers = {
+static PyTypeObject __pyx_type_19dependency_injector_10containers___pyx_scope_struct__traverse = {
   PyVarObject_HEAD_INIT(0, 0)
-  "dependency_injector.containers.__pyx_scope_struct__traverse_providers", /*tp_name*/
-  sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse_providers), /*tp_basicsize*/
+  "dependency_injector.containers.__pyx_scope_struct__traverse", /*tp_name*/
+  sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct__traverse), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_19dependency_injector_10containers___pyx_scope_struct__traverse_providers, /*tp_dealloc*/
+  __pyx_tp_dealloc_19dependency_injector_10containers___pyx_scope_struct__traverse, /*tp_dealloc*/
   #if PY_VERSION_HEX < 0x030800b4
   0, /*tp_print*/
   #endif
@@ -11650,7 +11648,7 @@ static PyTypeObject __pyx_type_19dependency_injector_10containers___pyx_scope_st
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
   0, /*tp_doc*/
-  __pyx_tp_traverse_19dependency_injector_10containers___pyx_scope_struct__traverse_providers, /*tp_traverse*/
+  __pyx_tp_traverse_19dependency_injector_10containers___pyx_scope_struct__traverse, /*tp_traverse*/
   0, /*tp_clear*/
   0, /*tp_richcompare*/
   0, /*tp_weaklistoffset*/
@@ -11666,7 +11664,7 @@ static PyTypeObject __pyx_type_19dependency_injector_10containers___pyx_scope_st
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct__traverse_providers, /*tp_new*/
+  __pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct__traverse, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -11687,14 +11685,14 @@ static PyTypeObject __pyx_type_19dependency_injector_10containers___pyx_scope_st
   #endif
 };
 
-static struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers *__pyx_freelist_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers[8];
-static int __pyx_freecount_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers = 0;
+static struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse *__pyx_freelist_19dependency_injector_10containers___pyx_scope_struct_1_traverse[8];
+static int __pyx_freecount_19dependency_injector_10containers___pyx_scope_struct_1_traverse = 0;
 
-static PyObject *__pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+static PyObject *__pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct_1_traverse(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
   PyObject *o;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely((__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers > 0) & (t->tp_basicsize == sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers)))) {
-    o = (PyObject*)__pyx_freelist_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers[--__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers];
-    memset(o, 0, sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers));
+  if (CYTHON_COMPILING_IN_CPYTHON && likely((__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct_1_traverse > 0) & (t->tp_basicsize == sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse)))) {
+    o = (PyObject*)__pyx_freelist_19dependency_injector_10containers___pyx_scope_struct_1_traverse[--__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct_1_traverse];
+    memset(o, 0, sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse));
     (void) PyObject_INIT(o, t);
     PyObject_GC_Track(o);
   } else {
@@ -11704,21 +11702,21 @@ static PyObject *__pyx_tp_new_19dependency_injector_10containers___pyx_scope_str
   return o;
 }
 
-static void __pyx_tp_dealloc_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers(PyObject *o) {
-  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers *p = (struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers *)o;
+static void __pyx_tp_dealloc_19dependency_injector_10containers___pyx_scope_struct_1_traverse(PyObject *o) {
+  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse *p = (struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse *)o;
   PyObject_GC_UnTrack(o);
   Py_CLEAR(p->__pyx_v_cls);
   Py_CLEAR(p->__pyx_v_types);
-  if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers)))) {
-    __pyx_freelist_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers[__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers++] = ((struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers *)o);
+  if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct_1_traverse < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse)))) {
+    __pyx_freelist_19dependency_injector_10containers___pyx_scope_struct_1_traverse[__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct_1_traverse++] = ((struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse *)o);
   } else {
     (*Py_TYPE(o)->tp_free)(o);
   }
 }
 
-static int __pyx_tp_traverse_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers(PyObject *o, visitproc v, void *a) {
+static int __pyx_tp_traverse_19dependency_injector_10containers___pyx_scope_struct_1_traverse(PyObject *o, visitproc v, void *a) {
   int e;
-  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers *p = (struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers *)o;
+  struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse *p = (struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse *)o;
   if (p->__pyx_v_cls) {
     e = (*v)(p->__pyx_v_cls, a); if (e) return e;
   }
@@ -11728,12 +11726,12 @@ static int __pyx_tp_traverse_19dependency_injector_10containers___pyx_scope_stru
   return 0;
 }
 
-static PyTypeObject __pyx_type_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers = {
+static PyTypeObject __pyx_type_19dependency_injector_10containers___pyx_scope_struct_1_traverse = {
   PyVarObject_HEAD_INIT(0, 0)
-  "dependency_injector.containers.__pyx_scope_struct_1_traverse_providers", /*tp_name*/
-  sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers), /*tp_basicsize*/
+  "dependency_injector.containers.__pyx_scope_struct_1_traverse", /*tp_name*/
+  sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_1_traverse), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers, /*tp_dealloc*/
+  __pyx_tp_dealloc_19dependency_injector_10containers___pyx_scope_struct_1_traverse, /*tp_dealloc*/
   #if PY_VERSION_HEX < 0x030800b4
   0, /*tp_print*/
   #endif
@@ -11760,7 +11758,7 @@ static PyTypeObject __pyx_type_19dependency_injector_10containers___pyx_scope_st
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
   0, /*tp_doc*/
-  __pyx_tp_traverse_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers, /*tp_traverse*/
+  __pyx_tp_traverse_19dependency_injector_10containers___pyx_scope_struct_1_traverse, /*tp_traverse*/
   0, /*tp_clear*/
   0, /*tp_richcompare*/
   0, /*tp_weaklistoffset*/
@@ -11776,7 +11774,7 @@ static PyTypeObject __pyx_type_19dependency_injector_10containers___pyx_scope_st
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers, /*tp_new*/
+  __pyx_tp_new_19dependency_injector_10containers___pyx_scope_struct_1_traverse, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -12119,7 +12117,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_DynamicContainer_reset_override, __pyx_k_DynamicContainer_reset_override, sizeof(__pyx_k_DynamicContainer_reset_override), 0, 0, 1, 1},
   {&__pyx_n_s_DynamicContainer_set_providers, __pyx_k_DynamicContainer_set_providers, sizeof(__pyx_k_DynamicContainer_set_providers), 0, 0, 1, 1},
   {&__pyx_n_s_DynamicContainer_shutdown_resour, __pyx_k_DynamicContainer_shutdown_resour, sizeof(__pyx_k_DynamicContainer_shutdown_resour), 0, 0, 1, 1},
-  {&__pyx_n_s_DynamicContainer_traverse_provid, __pyx_k_DynamicContainer_traverse_provid, sizeof(__pyx_k_DynamicContainer_traverse_provid), 0, 0, 1, 1},
+  {&__pyx_n_s_DynamicContainer_traverse, __pyx_k_DynamicContainer_traverse, sizeof(__pyx_k_DynamicContainer_traverse), 0, 0, 1, 1},
   {&__pyx_n_s_DynamicContainer_unwire, __pyx_k_DynamicContainer_unwire, sizeof(__pyx_k_DynamicContainer_unwire), 0, 0, 1, 1},
   {&__pyx_n_s_DynamicContainer_wire, __pyx_k_DynamicContainer_wire, sizeof(__pyx_k_DynamicContainer_wire), 0, 0, 1, 1},
   {&__pyx_kp_s_Dynamic_inversion_of_control_con, __pyx_k_Dynamic_inversion_of_control_con, sizeof(__pyx_k_Dynamic_inversion_of_control_con), 0, 0, 1, 0},
@@ -12237,7 +12235,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
   {&__pyx_n_s_traverse, __pyx_k_traverse, sizeof(__pyx_k_traverse), 0, 0, 1, 1},
-  {&__pyx_n_s_traverse_providers, __pyx_k_traverse_providers, sizeof(__pyx_k_traverse_providers), 0, 0, 1, 1},
   {&__pyx_n_s_types, __pyx_k_types, sizeof(__pyx_k_types), 0, 0, 1, 1},
   {&__pyx_n_s_unwire, __pyx_k_unwire, sizeof(__pyx_k_unwire), 0, 0, 1, 1},
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
@@ -12438,14 +12435,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "dependency_injector/containers.pyx":137
  *         }
  * 
- *     def traverse_providers(self, types=None):             # <<<<<<<<<<<<<<
+ *     def traverse(self, types=None):             # <<<<<<<<<<<<<<
  *         """Return providers traversal generator."""
  *         yield from providers.traverse(*self.providers.values(), types=types)
  */
   __pyx_tuple__29 = PyTuple_Pack(2, __pyx_n_s_self_2, __pyx_n_s_types); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(0, 137, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__29);
   __Pyx_GIVEREF(__pyx_tuple__29);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector_containe, __pyx_n_s_traverse_providers, 137, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__29, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector_containe, __pyx_n_s_traverse, 137, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 137, __pyx_L1_error)
   __pyx_tuple__30 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(0, 137, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__30);
   __Pyx_GIVEREF(__pyx_tuple__30);
@@ -12624,14 +12621,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "dependency_injector/containers.pyx":371
  *         }
  * 
- *     def traverse_providers(cls, types=None):             # <<<<<<<<<<<<<<
+ *     def traverse(cls, types=None):             # <<<<<<<<<<<<<<
  *         """Return providers traversal generator."""
  *         yield from providers.traverse(*cls.providers.values(), types=types)
  */
   __pyx_tuple__60 = PyTuple_Pack(2, __pyx_n_s_cls, __pyx_n_s_types); if (unlikely(!__pyx_tuple__60)) __PYX_ERR(0, 371, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__60);
   __Pyx_GIVEREF(__pyx_tuple__60);
-  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__60, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector_containe, __pyx_n_s_traverse_providers, 371, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__60, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector_containe, __pyx_n_s_traverse, 371, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 371, __pyx_L1_error)
   __pyx_tuple__61 = PyTuple_Pack(1, ((PyObject *)Py_None)); if (unlikely(!__pyx_tuple__61)) __PYX_ERR(0, 371, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__61);
   __Pyx_GIVEREF(__pyx_tuple__61);
@@ -12797,22 +12794,22 @@ static int __Pyx_modinit_type_init_code(void) {
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__Pyx_modinit_type_init_code", 0);
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_19dependency_injector_10containers___pyx_scope_struct__traverse_providers) < 0) __PYX_ERR(0, 137, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_19dependency_injector_10containers___pyx_scope_struct__traverse) < 0) __PYX_ERR(0, 137, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_19dependency_injector_10containers___pyx_scope_struct__traverse_providers.tp_print = 0;
+  __pyx_type_19dependency_injector_10containers___pyx_scope_struct__traverse.tp_print = 0;
   #endif
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19dependency_injector_10containers___pyx_scope_struct__traverse_providers.tp_dictoffset && __pyx_type_19dependency_injector_10containers___pyx_scope_struct__traverse_providers.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_19dependency_injector_10containers___pyx_scope_struct__traverse_providers.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19dependency_injector_10containers___pyx_scope_struct__traverse.tp_dictoffset && __pyx_type_19dependency_injector_10containers___pyx_scope_struct__traverse.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_19dependency_injector_10containers___pyx_scope_struct__traverse.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  __pyx_ptype_19dependency_injector_10containers___pyx_scope_struct__traverse_providers = &__pyx_type_19dependency_injector_10containers___pyx_scope_struct__traverse_providers;
-  if (PyType_Ready(&__pyx_type_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers) < 0) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_ptype_19dependency_injector_10containers___pyx_scope_struct__traverse = &__pyx_type_19dependency_injector_10containers___pyx_scope_struct__traverse;
+  if (PyType_Ready(&__pyx_type_19dependency_injector_10containers___pyx_scope_struct_1_traverse) < 0) __PYX_ERR(0, 371, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
-  __pyx_type_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers.tp_print = 0;
+  __pyx_type_19dependency_injector_10containers___pyx_scope_struct_1_traverse.tp_print = 0;
   #endif
-  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers.tp_dictoffset && __pyx_type_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers.tp_getattro == PyObject_GenericGetAttr)) {
-    __pyx_type_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
+  if ((CYTHON_USE_TYPE_SLOTS && CYTHON_USE_PYTYPE_LOOKUP) && likely(!__pyx_type_19dependency_injector_10containers___pyx_scope_struct_1_traverse.tp_dictoffset && __pyx_type_19dependency_injector_10containers___pyx_scope_struct_1_traverse.tp_getattro == PyObject_GenericGetAttr)) {
+    __pyx_type_19dependency_injector_10containers___pyx_scope_struct_1_traverse.tp_getattro = __Pyx_PyObject_GenericGetAttrNoDict;
   }
-  __pyx_ptype_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers = &__pyx_type_19dependency_injector_10containers___pyx_scope_struct_1_traverse_providers;
+  __pyx_ptype_19dependency_injector_10containers___pyx_scope_struct_1_traverse = &__pyx_type_19dependency_injector_10containers___pyx_scope_struct_1_traverse;
   if (PyType_Ready(&__pyx_type_19dependency_injector_10containers___pyx_scope_struct_2_override) < 0) __PYX_ERR(0, 512, __pyx_L1_error)
   #if PY_VERSION_HEX < 0x030800B1
   __pyx_type_19dependency_injector_10containers___pyx_scope_struct_2_override.tp_print = 0;
@@ -13412,14 +13409,14 @@ if (!__Pyx_RefNanny) {
   /* "dependency_injector/containers.pyx":137
  *         }
  * 
- *     def traverse_providers(self, types=None):             # <<<<<<<<<<<<<<
+ *     def traverse(self, types=None):             # <<<<<<<<<<<<<<
  *         """Return providers traversal generator."""
  *         yield from providers.traverse(*self.providers.values(), types=types)
  */
-  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_19dependency_injector_10containers_16DynamicContainer_11traverse_providers, 0, __pyx_n_s_DynamicContainer_traverse_provid, NULL, __pyx_n_s_dependency_injector_containers, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_CyFunction_New(&__pyx_mdef_19dependency_injector_10containers_16DynamicContainer_11traverse, 0, __pyx_n_s_DynamicContainer_traverse, NULL, __pyx_n_s_dependency_injector_containers, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 137, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_9, __pyx_tuple__30);
-  if (__Pyx_SetNameInClass(__pyx_t_7, __pyx_n_s_traverse_providers, __pyx_t_9) < 0) __PYX_ERR(0, 137, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_7, __pyx_n_s_traverse, __pyx_t_9) < 0) __PYX_ERR(0, 137, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
   /* "dependency_injector/containers.pyx":141
@@ -13636,14 +13633,14 @@ if (!__Pyx_RefNanny) {
   /* "dependency_injector/containers.pyx":371
  *         }
  * 
- *     def traverse_providers(cls, types=None):             # <<<<<<<<<<<<<<
+ *     def traverse(cls, types=None):             # <<<<<<<<<<<<<<
  *         """Return providers traversal generator."""
  *         yield from providers.traverse(*cls.providers.values(), types=types)
  */
-  __pyx_t_10 = __Pyx_CyFunction_New(&__pyx_mdef_19dependency_injector_10containers_29DeclarativeContainerMetaClass_9traverse_providers, 0, __pyx_n_s_DeclarativeContainerMetaClass_tr, NULL, __pyx_n_s_dependency_injector_containers, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 371, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_CyFunction_New(&__pyx_mdef_19dependency_injector_10containers_29DeclarativeContainerMetaClass_9traverse, 0, __pyx_n_s_DeclarativeContainerMetaClass_tr, NULL, __pyx_n_s_dependency_injector_containers, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 371, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_10, __pyx_tuple__61);
-  if (__Pyx_SetNameInClass(__pyx_t_9, __pyx_n_s_traverse_providers, __pyx_t_10) < 0) __PYX_ERR(0, 371, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_9, __pyx_n_s_traverse, __pyx_t_10) < 0) __PYX_ERR(0, 371, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
   /* "dependency_injector/containers.pyx":277
