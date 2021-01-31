@@ -301,6 +301,59 @@ class CallableTests(unittest.TestCase):
         self.assertIn(provider3, all_providers)
 
 
-class ConfigurationOptionTests(unittest.TestCase):
-    # TODO: add tests
-    ...
+class ConfigurationTests(unittest.TestCase):
+
+    def test_traverse(self):
+        config = providers.Configuration(default={'option1': {'option2': 'option2'}})
+        option1 = config.option1
+        option2 = config.option1.option2
+        option3 = config.option1[config.option1.option2]
+
+        all_providers = list(config.traverse())
+
+        self.assertEqual(len(all_providers), 3)
+        self.assertIn(option1, all_providers)
+        self.assertIn(option2, all_providers)
+        self.assertIn(option3, all_providers)
+
+    def test_traverse_typed(self):
+        config = providers.Configuration()
+        option = config.option
+        typed_option = config.option.as_int()
+
+        all_providers = list(typed_option.traverse())
+
+        self.assertEqual(len(all_providers), 1)
+        self.assertIn(option, all_providers)
+
+    def test_traverse_overridden(self):
+        options = {'option1': {'option2': 'option2'}}
+        config = providers.Configuration()
+        config.from_dict(options)
+
+        all_providers = list(config.traverse())
+
+        self.assertEqual(len(all_providers), 1)
+        overridden, = all_providers
+        self.assertEqual(overridden(), options)
+        self.assertIs(overridden, config.last_overriding)
+
+    def test_traverse_overridden_option_1(self):
+        options = {'option2': 'option2'}
+        config = providers.Configuration()
+        config.option1.from_dict(options)
+
+        all_providers = list(config.traverse())
+
+        self.assertEqual(len(all_providers), 2)
+        self.assertIn(config.option1, all_providers)
+        self.assertIn(config.last_overriding, all_providers)
+
+    def test_traverse_overridden_option_2(self):
+        options = {'option2': 'option2'}
+        config = providers.Configuration()
+        config.option1.from_dict(options)
+
+        all_providers = list(config.option1.traverse())
+
+        self.assertEqual(len(all_providers), 0)

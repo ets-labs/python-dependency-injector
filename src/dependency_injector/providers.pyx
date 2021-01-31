@@ -1489,7 +1489,6 @@ cdef class ConfigurationOption(Provider):
     def related(self):
         """Return related providers generator."""
         yield from filter(is_provider, self.__name)
-        yield from [self.__root]
         yield from self.__children.values()
         yield from super().related
 
