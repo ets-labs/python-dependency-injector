@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Add ``.provides`` attribute to ``Singleton`` and its subclasses.
+  It's a consistency change to make ``Singleton`` match ``Callable``
+  and ``Factory`` interfaces.
+
 4.13.2
 ------
 - Fix PyCharm typing warning "Expected type 'Optional[Iterable[ModuleType]]',

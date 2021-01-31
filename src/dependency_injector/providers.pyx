@@ -2283,7 +2283,12 @@ cdef class BaseSingleton(Provider):
     @property
     def cls(self):
         """Return provided type."""
-        return self.__instantiator.cls
+        return self.provides
+
+    @property
+    def provides(self):
+        """Return provided type."""
+        return self.__instantiator.provides
 
     @property
     def args(self):
@@ -2388,7 +2393,7 @@ cdef class BaseSingleton(Provider):
     @property
     def related(self):
         """Return related providers generator."""
-        yield from filter(is_provider, [self.__instantiator.provs])
+        yield from filter(is_provider, [self.__instantiator.provides])
         yield from filter(is_provider, self.args)
         yield from filter(is_provider, self.kwargs.values())
         yield from filter(is_provider, self.attributes.values())
