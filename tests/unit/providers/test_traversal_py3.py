@@ -810,3 +810,66 @@ class ItemGetterTests(unittest.TestCase):
         self.assertIn(provider1, all_providers)
         self.assertIn(provider2, all_providers)
         self.assertIn(provided, all_providers)
+
+
+class MethodCallerTests(unittest.TestCase):
+
+    def test_traverse(self):
+        provider1 = providers.Provider()
+        provided = provider1.provided
+        method = provided.method
+        provider = method.call()
+
+        all_providers = list(provider.traverse())
+
+        self.assertEqual(len(all_providers), 3)
+        self.assertIn(provider1, all_providers)
+        self.assertIn(provided, all_providers)
+        self.assertIn(method, all_providers)
+
+    def test_traverse_args(self):
+        provider1 = providers.Provider()
+        provided = provider1.provided
+        method = provided.method
+        provider2 = providers.Provider()
+        provider = method.call('foo', provider2)
+
+        all_providers = list(provider.traverse())
+
+        self.assertEqual(len(all_providers), 4)
+        self.assertIn(provider1, all_providers)
+        self.assertIn(provider2, all_providers)
+        self.assertIn(provided, all_providers)
+        self.assertIn(method, all_providers)
+
+    def test_traverse_kwargs(self):
+        provider1 = providers.Provider()
+        provided = provider1.provided
+        method = provided.method
+        provider2 = providers.Provider()
+        provider = method.call(foo='foo', bar=provider2)
+
+        all_providers = list(provider.traverse())
+
+        self.assertEqual(len(all_providers), 4)
+        self.assertIn(provider1, all_providers)
+        self.assertIn(provider2, all_providers)
+        self.assertIn(provided, all_providers)
+        self.assertIn(method, all_providers)
+
+    def test_traverse_overridden(self):
+        provider1 = providers.Provider()
+        provided = provider1.provided
+        method = provided.method
+        provider2 = providers.Provider()
+
+        provider = method.call()
+        provider.override(provider2)
+
+        all_providers = list(provider.traverse())
+
+        self.assertEqual(len(all_providers), 4)
+        self.assertIn(provider1, all_providers)
+        self.assertIn(provider2, all_providers)
+        self.assertIn(provided, all_providers)
+        self.assertIn(method, all_providers)
