@@ -337,9 +337,9 @@ class ResourceTests(unittest.TestCase):
 
         self.assertEqual(
             repr(provider),
-            'Resource({0}, initialized={1})'.format(
-                init_fn,
-                provider.initialized,
+            '<dependency_injector.providers.Resource({0}) at {1}>'.format(
+                repr(init_fn),
+                hex(id(provider)),
             )
         )
 

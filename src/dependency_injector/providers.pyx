@@ -363,6 +363,15 @@ cdef class Provider(object):
         """Check if async mode is undefined."""
         return self.__async_mode == ASYNC_MODE_UNDEFINED
 
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from self.overridden
+
+    def traverse(self, types=None):
+        """Return providers traversal generator."""
+        return traverse(*self.related, types=types)
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Providing strategy implementation.
 
@@ -422,6 +431,13 @@ cdef class Object(Provider):
         :rtype: str
         """
         return self.__str__()
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        if isinstance(self.__provides, Provider):
+            yield self.__provides
+        yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return provided instance.
@@ -486,6 +502,12 @@ cdef class Delegate(Provider):
     def provides(self):
         """Return provider."""
         return self.__provides
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield self.__provides
+        yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return provided instance.
@@ -618,6 +640,13 @@ cdef class Dependency(Provider):
     def default(self):
         """Return default provider."""
         return self.__default
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        if self.__default is not UNDEFINED:
+            yield self.__default
+        yield from super().related
 
     def provided_by(self, provider):
         """Set external dependency provider.
@@ -789,6 +818,12 @@ cdef class DependenciesContainer(Object):
         for child in self.__providers.values():
             child.reset_override()
         super(DependenciesContainer, self).reset_override()
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from self.providers.values()
+        yield from super().related
 
     cpdef object _override_providers(self, object container):
         """Override providers with providers from provided container."""
@@ -997,6 +1032,14 @@ cdef class Callable(Provider):
         self.__kwargs = tuple()
         self.__kwargs_len = len(self.__kwargs)
         return self
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from filter(is_provider, [self.provides])
+        yield from filter(is_provider, self.args)
+        yield from filter(is_provider, self.kwargs.values())
+        yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable's call."""
@@ -1442,6 +1485,13 @@ cdef class ConfigurationOption(Provider):
 
         self.override(value)
 
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from filter(is_provider, self.__name)
+        yield from self.__children.values()
+        yield from super().related
+
     def _is_strict_mode_enabled(self):
         return self.__root.__strict
 
@@ -1763,6 +1813,12 @@ cdef class Configuration(Object):
 
         self.override(value)
 
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from self.__children.values()
+        yield from super().related
+
     def _is_strict_mode_enabled(self):
         return self.__strict
 
@@ -1979,6 +2035,15 @@ cdef class Factory(Provider):
         self.__attributes_len = len(self.__attributes)
         return self
 
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from filter(is_provider, [self.provides])
+        yield from filter(is_provider, self.args)
+        yield from filter(is_provider, self.kwargs.values())
+        yield from filter(is_provider, self.attributes.values())
+        yield from super().related
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return new instance."""
         return __factory_call(self, args, kwargs)
@@ -2141,6 +2206,12 @@ cdef class FactoryAggregate(Provider):
         raise Error(
             '{0} providers could not be overridden'.format(self.__class__))
 
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from self.__factories.values()
+        yield from super().related
+
     cpdef object _provide(self, tuple args, dict kwargs):
         try:
             factory_name = args[0]
@@ -2212,7 +2283,12 @@ cdef class BaseSingleton(Provider):
     @property
     def cls(self):
         """Return provided type."""
-        return self.__instantiator.cls
+        return self.provides
+
+    @property
+    def provides(self):
+        """Return provided type."""
+        return self.__instantiator.provides
 
     @property
     def args(self):
@@ -2313,6 +2389,15 @@ cdef class BaseSingleton(Provider):
         :rtype: None
         """
         raise NotImplementedError()
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from filter(is_provider, [self.__instantiator.provides])
+        yield from filter(is_provider, self.args)
+        yield from filter(is_provider, self.kwargs.values())
+        yield from filter(is_provider, self.attributes.values())
+        yield from super().related
 
     def _async_init_instance(self, future_result, result):
         try:
@@ -2741,6 +2826,12 @@ cdef class List(Provider):
         self.__args_len = len(self.__args)
         return self
 
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from filter(is_provider, self.args)
+        yield from super().related
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable's call."""
         return list(__provide_positional_args(args, self.__args, self.__args_len))
@@ -2853,6 +2944,12 @@ cdef class Dict(Provider):
         self.__kwargs_len = len(self.__kwargs)
         return self
 
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from filter(is_provider, self.kwargs.values())
+        yield from super().related
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable's call."""
         return __provide_keyword_args(kwargs, self.__kwargs, self.__kwargs_len)
@@ -2895,11 +2992,17 @@ cdef class Resource(Provider):
 
         return copied
 
-    def __repr__(self):
-        return (
-            f'{self.__class__.__name__}({self.__initializer}, '
-            f'initialized={self.__initialized})'
-        )
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.__initializer)
+
+    @property
+    def initializer(self):
+        """Return initializer."""
+        return self.__initializer
 
     @property
     def args(self):
@@ -3020,6 +3123,14 @@ cdef class Resource(Provider):
             result = asyncio.Future()
             result.set_result(None)
             return result
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from filter(is_provider, [self.__initializer])
+        yield from filter(is_provider, self.args)
+        yield from filter(is_provider, self.kwargs.values())
+        yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
         if self.__initialized:
@@ -3246,6 +3357,12 @@ cdef class Container(Provider):
         declarative container initialization."""
         self.__container.override_providers(**self.__overriding_providers)
 
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from self.providers.values()
+        yield from super().related
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
         return self.__container
@@ -3335,6 +3452,13 @@ cdef class Selector(Provider):
         """Return providers."""
         return dict(self.__providers)
 
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from filter(is_provider, [self.__selector])
+        yield from self.providers.values()
+        yield from super().related
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
         selector_value = self.__selector()
@@ -3411,6 +3535,12 @@ cdef class ProvidedInstance(Provider):
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
 
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield self.__provider
+        yield from super().related
+
     cpdef object _provide(self, tuple args, dict kwargs):
         return self.__provider(*args, **kwargs)
 
@@ -3459,6 +3589,12 @@ cdef class AttributeGetter(Provider):
 
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield self.__provider
+        yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
         provided = self.__provider(*args, **kwargs)
@@ -3519,6 +3655,12 @@ cdef class ItemGetter(Provider):
 
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield self.__provider
+        yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
         provided = self.__provider(*args, **kwargs)
@@ -3611,6 +3753,14 @@ cdef class MethodCaller(Provider):
 
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield self.__provider
+        yield from filter(is_provider, self.args)
+        yield from filter(is_provider, self.kwargs.values())
+        yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
         call = self.__provider()
@@ -3844,6 +3994,29 @@ def merge_dicts(dict1, dict2):
     result = dict1.copy()
     result.update(dict2)
     return result
+
+
+def traverse(*providers, types=None):
+    """Return providers traversal generator."""
+    visited = set()
+    to_visit = set(providers)
+
+    if types:
+        types = tuple(types)
+
+    while len(to_visit) > 0:
+        visiting = to_visit.pop()
+        visited.add(visiting)
+
+        for child in visiting.related:
+            if child in visited:
+                continue
+            to_visit.add(child)
+
+        if types and not isinstance(visiting, types):
+            continue
+
+        yield visiting
 
 
 def isawaitable(obj):

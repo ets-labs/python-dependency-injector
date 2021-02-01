@@ -10,16 +10,7 @@ except ImportError:
 
 import six
 
-from .errors import Error
-from .providers cimport (
-    Provider,
-    Object,
-    Resource,
-    Dependency,
-    DependenciesContainer,
-    Container as ContainerProvider,
-    deepcopy,
-)
+from . import providers, errors
 
 
 if sys.version_info[:2] >= (3, 6):
@@ -68,13 +59,13 @@ class DynamicContainer(object):
 
         :rtype: None
         """
-        self.provider_type = Provider
+        self.provider_type = providers.Provider
         self.providers = {}
         self.overridden = tuple()
         self.declarative_parent = None
         self.wired_to_modules = []
         self.wired_to_packages = []
-        self.__self__ = Object(self)
+        self.__self__ = providers.Object(self)
         super(DynamicContainer, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -84,11 +75,11 @@ class DynamicContainer(object):
             return copied
 
         copied = self.__class__()
-        copied.provider_type = Provider
-        copied.overridden = deepcopy(self.overridden, memo)
+        copied.provider_type = providers.Provider
+        copied.overridden = providers.deepcopy(self.overridden, memo)
         copied.declarative_parent = self.declarative_parent
 
-        for name, provider in deepcopy(self.providers, memo).items():
+        for name, provider in providers.deepcopy(self.providers, memo).items():
             setattr(copied, name, provider)
 
         return copied
@@ -107,7 +98,7 @@ class DynamicContainer(object):
 
         :rtype: None
         """
-        if isinstance(value, Provider) and name != '__self__':
+        if isinstance(value, providers.Provider) and name != '__self__':
             _check_provider_type(self, value)
             self.providers[name] = value
         super(DynamicContainer, self).__setattr__(name, value)
@@ -140,8 +131,12 @@ class DynamicContainer(object):
         return {
             name: provider
             for name, provider in self.providers.items()
-            if isinstance(provider, (Dependency, DependenciesContainer))
+            if isinstance(provider, (providers.Dependency, providers.DependenciesContainer))
         }
+
+    def traverse(self, types=None):
+        """Return providers traversal generator."""
+        yield from providers.traverse(*self.providers.values(), types=types)
 
     def set_providers(self, **providers):
         """Set container providers.
@@ -167,8 +162,8 @@ class DynamicContainer(object):
         :rtype: None
         """
         if overriding is self:
-            raise Error('Container {0} could not be overridden '
-                        'with itself'.format(self))
+            raise errors.Error('Container {0} could not be overridden '
+                               'with itself'.format(self))
 
         self.overridden += (overriding,)
 
@@ -197,7 +192,7 @@ class DynamicContainer(object):
         :rtype: None
         """
         if not self.overridden:
-            raise Error('Container {0} is not overridden'.format(self))
+            raise errors.Error('Container {0} is not overridden'.format(self))
 
         self.overridden = self.overridden[:-1]
 
@@ -244,10 +239,8 @@ class DynamicContainer(object):
     def init_resources(self):
         """Initialize all container resources."""
         futures = []
-        for provider in self.providers.values():
-            if not isinstance(provider, Resource):
-                continue
 
+        for provider in self.traverse(types=[providers.Resource]):
             resource = provider.init()
 
             if _isawaitable(resource):
@@ -259,10 +252,8 @@ class DynamicContainer(object):
     def shutdown_resources(self):
         """Shutdown all container resources."""
         futures = []
-        for provider in self.providers.values():
-            if not isinstance(provider, Resource):
-                continue
 
+        for provider in self.traverse(types=[providers.Resource]):
             shutdown = provider.shutdown()
 
             if _isawaitable(shutdown):
@@ -274,7 +265,7 @@ class DynamicContainer(object):
     def apply_container_providers_overridings(self):
         """Apply container providers' overridings."""
         for provider in self.providers.values():
-            if not isinstance(provider, ContainerProvider):
+            if not isinstance(provider, providers.Container):
                 continue
             provider.apply_overridings()
 
@@ -293,7 +284,7 @@ class DeclarativeContainerMetaClass(type):
         cls_providers = {
             name: provider
             for name, provider in six.iteritems(attributes)
-            if isinstance(provider, Provider)
+            if isinstance(provider, providers.Provider)
         }
 
         inherited_providers = {
@@ -303,18 +294,18 @@ class DeclarativeContainerMetaClass(type):
             for name, provider in six.iteritems(base.providers)
         }
 
-        providers = {}
-        providers.update(inherited_providers)
-        providers.update(cls_providers)
+        all_providers = {}
+        all_providers.update(inherited_providers)
+        all_providers.update(cls_providers)
 
         attributes['containers'] = containers
         attributes['inherited_providers'] = inherited_providers
         attributes['cls_providers'] = cls_providers
-        attributes['providers'] = providers
+        attributes['providers'] = all_providers
 
         cls = <type>type.__new__(mcs, class_name, bases, attributes)
 
-        cls.__self__ = Object(cls)
+        cls.__self__ = providers.Object(cls)
 
         for provider in six.itervalues(cls.providers):
             _check_provider_type(cls, provider)
@@ -335,7 +326,7 @@ class DeclarativeContainerMetaClass(type):
 
         :rtype: None
         """
-        if isinstance(value, Provider) and name != '__self__':
+        if isinstance(value, providers.Provider) and name != '__self__':
             _check_provider_type(cls, value)
             cls.providers[name] = value
             cls.cls_providers[name] = value
@@ -370,8 +361,12 @@ class DeclarativeContainerMetaClass(type):
         return {
             name: provider
             for name, provider in cls.providers.items()
-            if isinstance(provider, (Dependency, DependenciesContainer))
+            if isinstance(provider, (providers.Dependency, providers.DependenciesContainer))
         }
+
+    def traverse(cls, types=None):
+        """Return providers traversal generator."""
+        yield from providers.traverse(*cls.providers.values(), types=types)
 
 
 @six.add_metaclass(DeclarativeContainerMetaClass)
@@ -388,7 +383,7 @@ class DeclarativeContainer(object):
 
     __IS_CONTAINER__ = True
 
-    provider_type = Provider
+    provider_type = providers.Provider
     """Type of providers that could be placed in container.
 
     :type: type
@@ -446,7 +441,7 @@ class DeclarativeContainer(object):
         container = cls.instance_type()
         container.provider_type = cls.provider_type
         container.declarative_parent = cls
-        container.set_providers(**deepcopy(cls.providers))
+        container.set_providers(**providers.deepcopy(cls.providers))
         container.override_providers(**overriding_providers)
         container.apply_container_providers_overridings()
         return container
@@ -464,8 +459,8 @@ class DeclarativeContainer(object):
         :rtype: None
         """
         if issubclass(cls, overriding):
-            raise Error('Container {0} could not be overridden '
-                        'with itself or its subclasses'.format(cls))
+            raise errors.Error('Container {0} could not be overridden '
+                               'with itself or its subclasses'.format(cls))
 
         cls.overridden += (overriding,)
 
@@ -482,7 +477,7 @@ class DeclarativeContainer(object):
         :rtype: None
         """
         if not cls.overridden:
-            raise Error('Container {0} is not overridden'.format(cls))
+            raise errors.Error('Container {0} is not overridden'.format(cls))
 
         cls.overridden = cls.overridden[:-1]
 
@@ -559,7 +554,7 @@ def copy(object container):
     def _decorator(copied_container):
         memo = _get_providers_memo(copied_container.cls_providers, container.providers)
 
-        providers_copy = deepcopy(container.providers, memo)
+        providers_copy = providers.deepcopy(container.providers, memo)
         for name, provider in six.iteritems(providers_copy):
             setattr(copied_container, name, provider)
 
@@ -580,8 +575,8 @@ cpdef bint is_container(object instance):
 
 cpdef object _check_provider_type(object container, object provider):
     if not isinstance(provider, container.provider_type):
-        raise Error('{0} can contain only {1} '
-                    'instances'.format(container, container.provider_type))
+        raise errors.Error('{0} can contain only {1} '
+                           'instances'.format(container, container.provider_type))
 
 
 cpdef bint _isawaitable(object instance):

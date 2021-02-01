@@ -7,6 +7,19 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.14.0
+------
+- Add container providers traversal.
+- Fix an issue with ``container.init_resource()`` and ``container.shutdown_resource()`` ignoring
+  nested resources that are not present on the root level.
+  See issue: `#380 <https://github.com/ets-labs/python-dependency-injector/issues/380>`_.
+  Thanks to `@approxit <https://github.com/approxit>`_ for finding and reporting the issue.
+- Add ``.provides`` attribute to ``Singleton`` and its subclasses.
+  It's a consistency change to make ``Singleton`` match ``Callable``
+  and ``Factory`` interfaces.
+- Add ``.initializer`` attribute to ``Resource`` provider.
+- Update string representation of ``Resource`` provider.
+
 4.13.2
 ------
 - Fix PyCharm typing warning "Expected type 'Optional[Iterable[ModuleType]]',

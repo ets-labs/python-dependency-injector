@@ -23,3 +23,4 @@ Containers module API docs - :py:mod:`dependency_injector.containers`.
     dynamic
     specialization
     overriding
+    traversal
