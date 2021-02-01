@@ -4006,7 +4006,6 @@ def traverse(*providers, types=None):
 
     while len(to_visit) > 0:
         visiting = to_visit.pop()
-
         visited.add(visiting)
 
         for child in visiting.related:
