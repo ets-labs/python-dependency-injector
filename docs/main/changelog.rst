@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.14.0
+------
 - Add container providers traversal.
 - Fix an issue with ``container.init_resource()`` and ``container.shutdown_resource()`` ignoring
   nested resources that are not present on the root level.
