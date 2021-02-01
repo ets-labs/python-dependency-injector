@@ -431,4 +431,3 @@ class DeclarativeContainerTests(unittest.TestCase):
         self.assertIsInstance(container.p31, providers.Provider)
         self.assertIsInstance(container.p32, providers.Provider)
         self.assertIs(container.p11.last_overriding, provider)
-
