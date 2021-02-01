@@ -3000,6 +3000,11 @@ cdef class Resource(Provider):
         return represent_provider(provider=self, provides=self.__initializer)
 
     @property
+    def initializer(self):
+        """Return initializer."""
+        return self.__initializer
+
+    @property
     def args(self):
         """Return positional argument injections."""
         cdef int index
