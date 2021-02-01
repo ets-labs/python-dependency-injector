@@ -10,6 +10,10 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Add container providers traversal.
+- Fix an issue with ``container.init_resource()`` and ``container.shutdown_resource()`` ignoring
+  nested resources that are not present on the root level.
+  See issue: `#380 <https://github.com/ets-labs/python-dependency-injector/issues/380>`_.
+  Thanks to `@approxit <https://github.com/approxit>`_ for finding and reporting the issue.
 - Add ``.provides`` attribute to ``Singleton`` and its subclasses.
   It's a consistency change to make ``Singleton`` match ``Callable``
   and ``Factory`` interfaces.

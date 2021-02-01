@@ -239,10 +239,8 @@ class DynamicContainer(object):
     def init_resources(self):
         """Initialize all container resources."""
         futures = []
-        for provider in self.providers.values():
-            if not isinstance(provider, providers.Resource):
-                continue
 
+        for provider in self.traverse(types=[providers.Resource]):
             resource = provider.init()
 
             if _isawaitable(resource):
@@ -254,10 +252,8 @@ class DynamicContainer(object):
     def shutdown_resources(self):
         """Shutdown all container resources."""
         futures = []
-        for provider in self.providers.values():
-            if not isinstance(provider, providers.Resource):
-                continue
 
+        for provider in self.traverse(types=[providers.Resource]):
             shutdown = provider.shutdown()
 
             if _isawaitable(shutdown):
