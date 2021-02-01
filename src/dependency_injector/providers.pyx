@@ -2992,11 +2992,12 @@ cdef class Resource(Provider):
 
         return copied
 
-    def __repr__(self):
-        return (
-            f'{self.__class__.__name__}({self.__initializer}, '
-            f'initialized={self.__initialized})'
-        )
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.__initializer)
 
     @property
     def args(self):

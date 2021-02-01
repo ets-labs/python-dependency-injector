@@ -12,6 +12,7 @@ Development version
 - Add ``.provides`` attribute to ``Singleton`` and its subclasses.
   It's a consistency change to make ``Singleton`` match ``Callable``
   and ``Factory`` interfaces.
+- Update string representation of ``Resource`` provider.
 
 4.13.2
 ------
