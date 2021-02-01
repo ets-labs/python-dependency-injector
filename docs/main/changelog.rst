@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Add container providers traversal.
 - Add ``.provides`` attribute to ``Singleton`` and its subclasses.
   It's a consistency change to make ``Singleton`` match ``Callable``
   and ``Factory`` interfaces.
