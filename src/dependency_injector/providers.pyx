@@ -1460,6 +1460,12 @@ cdef class ConfigurationOption(Provider):
                 '"pip install dependency-injector[pydantic]"'
             )
 
+        if isinstance(settings, CLASS_TYPES) and issubclass(settings, pydantic.BaseSettings):
+            raise Error(
+                'Got settings class, but expect instance: '
+                'instead "{0}" use "{0}()"'.format(settings.__name__)
+            )
+
         if not isinstance(settings, pydantic.BaseSettings):
             raise Error(
                 'Unable to recognize settings instance, expect "pydantic.BaseSettings", '
@@ -1822,6 +1828,12 @@ cdef class Configuration(Object):
                 'Unable to load pydantic configuration - pydantic is not installed. '
                 'Install pydantic or install Dependency Injector with pydantic extras: '
                 '"pip install dependency-injector[pydantic]"'
+            )
+
+        if isinstance(settings, CLASS_TYPES) and issubclass(settings, pydantic.BaseSettings):
+            raise Error(
+                'Got settings class, but expect instance: '
+                'instead "{0}" use "{0}()"'.format(settings.__name__)
             )
 
         if not isinstance(settings, pydantic.BaseSettings):

@@ -754,7 +754,7 @@ class ConfigFromPydanticTests(unittest.TestCase):
 
         class Settings2(pydantic.BaseSettings):
             section1 = Section21()
-            section2 = Section3()
+            section3 = Section3()
 
         self.Settings2 = Settings2
 
@@ -767,78 +767,109 @@ class ConfigFromPydanticTests(unittest.TestCase):
         self.assertEqual(self.config.section2(), {'value2': 2})
         self.assertEqual(self.config.section2.value2(), 2)
 
-    # @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
-    # def test_merge(self):
-    #     self.config.from_yaml(self.config_file_1)
-    #     self.config.from_yaml(self.config_file_2)
-    #
-    #     self.assertEqual(
-    #         self.config(),
-    #         {
-    #             'section1': {
-    #                 'value1': 11,
-    #                 'value11': 11,
-    #             },
-    #             'section2': {
-    #                 'value2': 2,
-    #             },
-    #             'section3': {
-    #                 'value3': 3,
-    #             },
-    #         },
-    #     )
-    #     self.assertEqual(self.config.section1(), {'value1': 11, 'value11': 11})
-    #     self.assertEqual(self.config.section1.value1(), 11)
-    #     self.assertEqual(self.config.section1.value11(), 11)
-    #     self.assertEqual(self.config.section2(), {'value2': 2})
-    #     self.assertEqual(self.config.section2.value2(), 2)
-    #     self.assertEqual(self.config.section3(), {'value3': 3})
-    #     self.assertEqual(self.config.section3.value3(), 3)
-    #
-    # @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
-    # def test_file_does_not_exist(self):
-    #     self.config.from_yaml('./does_not_exist.yml')
-    #     self.assertEqual(self.config(), {})
-    #
-    # @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
-    # def test_file_does_not_exist_strict_mode(self):
-    #     self.config = providers.Configuration(strict=True)
-    #     with self.assertRaises(IOError):
-    #         self.config.from_yaml('./does_not_exist.yml')
-    #
-    # @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
-    # def test_option_file_does_not_exist(self):
-    #     self.config.option.from_yaml('./does_not_exist.yml')
-    #     self.assertIsNone(self.config.option())
-    #
-    # @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
-    # def test_option_file_does_not_exist_strict_mode(self):
-    #     self.config = providers.Configuration(strict=True)
-    #     with self.assertRaises(IOError):
-    #         self.config.option.from_yaml('./does_not_exist.yml')
-    #
-    # @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
-    # def test_required_file_does_not_exist(self):
-    #     with self.assertRaises(IOError):
-    #         self.config.from_yaml('./does_not_exist.yml', required=True)
-    #
-    # @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
-    # def test_required_option_file_does_not_exist(self):
-    #     with self.assertRaises(IOError):
-    #         self.config.option.from_yaml('./does_not_exist.yml', required=True)
-    #
-    # @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
-    # def test_not_required_file_does_not_exist_strict_mode(self):
-    #     self.config = providers.Configuration(strict=True)
-    #     self.config.from_yaml('./does_not_exist.yml', required=False)
-    #     self.assertEqual(self.config(), {})
-    #
-    # @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
-    # def test_not_required_option_file_does_not_exist_strict_mode(self):
-    #     self.config = providers.Configuration(strict=True)
-    #     self.config.option.from_yaml('./does_not_exist.yml', required=False)
-    #     with self.assertRaises(errors.Error):
-    #         self.config.option()
+    def test_merge(self):
+        self.config.from_pydantic(self.Settings1())
+        self.config.from_pydantic(self.Settings2())
+
+        self.assertEqual(
+            self.config(),
+            {
+                'section1': {
+                    'value1': 11,
+                    'value11': 11,
+                },
+                'section2': {
+                    'value2': 2,
+                },
+                'section3': {
+                    'value3': 3,
+                },
+            },
+        )
+        self.assertEqual(self.config.section1(), {'value1': 11, 'value11': 11})
+        self.assertEqual(self.config.section1.value1(), 11)
+        self.assertEqual(self.config.section1.value11(), 11)
+        self.assertEqual(self.config.section2(), {'value2': 2})
+        self.assertEqual(self.config.section2.value2(), 2)
+        self.assertEqual(self.config.section3(), {'value3': 3})
+        self.assertEqual(self.config.section3.value3(), 3)
+
+    def test_empty_settings(self):
+        self.config.from_pydantic(pydantic.BaseSettings())
+        self.assertEqual(self.config(), {})
+
+    def test_empty_settings_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(ValueError):
+            self.config.from_pydantic(pydantic.BaseSettings())
+
+    def test_option_empty_settings(self):
+        self.config.option.from_pydantic(pydantic.BaseSettings())
+        self.assertEqual(self.config.option(), {})
+
+    def test_option_empty_settings_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        with self.assertRaises(ValueError):
+            self.config.option.from_pydantic(pydantic.BaseSettings())
+
+    def test_required_empty_settings(self):
+        with self.assertRaises(ValueError):
+            self.config.from_pydantic(pydantic.BaseSettings(), required=True)
+
+    def test_required_option_empty_settings(self):
+        with self.assertRaises(ValueError):
+            self.config.option.from_pydantic(pydantic.BaseSettings(), required=True)
+
+    def test_not_required_empty_settings_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        self.config.from_pydantic(pydantic.BaseSettings(), required=False)
+        self.assertEqual(self.config(), {})
+
+    def test_not_required_option_empty_settings_strict_mode(self):
+        self.config = providers.Configuration(strict=True)
+        self.config.option.from_pydantic(pydantic.BaseSettings(), required=False)
+        self.assertEqual(self.config.option(), {})
+        self.assertEqual(self.config(), {'option': {}})
+
+    def test_not_instance_of_settings(self):
+        with self.assertRaises(errors.Error) as error:
+            self.config.from_pydantic({})
+
+        self.assertEqual(
+            error.exception.args[0],
+            'Unable to recognize settings instance, expect "pydantic.BaseSettings", '
+            'got {0} instead'.format({})
+        )
+
+    def test_option_not_instance_of_settings(self):
+        with self.assertRaises(errors.Error) as error:
+            self.config.option.from_pydantic({})
+
+        self.assertEqual(
+            error.exception.args[0],
+            'Unable to recognize settings instance, expect "pydantic.BaseSettings", '
+            'got {0} instead'.format({})
+        )
+
+    def test_subclass_instead_of_instance(self):
+        with self.assertRaises(errors.Error) as error:
+            self.config.from_pydantic(self.Settings1)
+
+        self.assertEqual(
+            error.exception.args[0],
+            'Got settings class, but expect instance: '
+            'instead "Settings1" use "Settings1()"'
+        )
+
+    def test_option_subclass_instead_of_instance(self):
+        with self.assertRaises(errors.Error) as error:
+            self.config.option.from_pydantic(self.Settings1)
+
+        self.assertEqual(
+            error.exception.args[0],
+            'Got settings class, but expect instance: '
+            'instead "Settings1" use "Settings1()"'
+        )
 
     def test_no_pydantic_installed(self):
         @contextlib.contextmanager
@@ -853,6 +884,27 @@ class ConfigFromPydanticTests(unittest.TestCase):
         with no_pydantic_module():
             with self.assertRaises(errors.Error) as error:
                 self.config.from_pydantic(self.Settings1())
+
+        self.assertEqual(
+            error.exception.args[0],
+            'Unable to load pydantic configuration - pydantic is not installed. '
+            'Install pydantic or install Dependency Injector with pydantic extras: '
+            '"pip install dependency-injector[pydantic]"',
+        )
+
+    def test_option_no_pydantic_installed(self):
+        @contextlib.contextmanager
+        def no_pydantic_module():
+            pydantic = providers.pydantic
+            providers.pydantic = None
+
+            yield
+
+            providers.pydantic = pydantic
+
+        with no_pydantic_module():
+            with self.assertRaises(errors.Error) as error:
+                self.config.option.from_pydantic(self.Settings1())
 
         self.assertEqual(
             error.exception.args[0],
