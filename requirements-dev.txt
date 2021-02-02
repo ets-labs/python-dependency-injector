@@ -10,5 +10,6 @@ mypy
 pyyaml
 httpx
 fastapi
+pydantic
 
 -r requirements-ext.txt
