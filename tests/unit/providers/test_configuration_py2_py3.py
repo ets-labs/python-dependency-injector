@@ -647,6 +647,27 @@ class ConfigFromYamlTests(unittest.TestCase):
             '"pip install dependency-injector[yaml]"',
         )
 
+    def test_option_no_yaml_installed(self):
+        @contextlib.contextmanager
+        def no_yaml_module():
+            yaml = providers.yaml
+            providers.yaml = None
+
+            yield
+
+            providers.yaml = yaml
+
+        with no_yaml_module():
+            with self.assertRaises(errors.Error) as error:
+                self.config.option.from_yaml(self.config_file_1)
+
+        self.assertEqual(
+            error.exception.args[0],
+            'Unable to load yaml configuration - PyYAML is not installed. '
+            'Install PyYAML or install Dependency Injector with yaml extras: '
+            '"pip install dependency-injector[yaml]"',
+        )
+
 
 class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
 
