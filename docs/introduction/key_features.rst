@@ -16,8 +16,8 @@ Key features of the ``Dependency Injector``:
 - **Overriding**. Can override any provider by another provider on the fly. This helps in testing
   and configuring dev / stage environment to replace API clients with stubs etc. See
   :ref:`provider-overriding`.
-- **Configuration**. Reads configuration from ``yaml`` & ``ini`` files, environment variables
-  and dictionaries. See :ref:`configuration-provider`.
+- **Configuration**. Reads configuration from ``yaml`` & ``ini`` files, ``pydantic`` settings,
+  environment variables, and dictionaries. See :ref:`configuration-provider`.
 - **Resources**. Helps with initialization and configuring of logging, event loop, thread
   or process pool, etc. Can be used for per-function execution scope in tandem with wiring.
   See :ref:`resource-provider`.
