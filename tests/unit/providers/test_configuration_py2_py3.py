@@ -790,6 +790,14 @@ class ConfigFromPydanticTests(unittest.TestCase):
         self.assertEqual(self.config.section2.value2(), 2)
 
     @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
+    def test_kwarg(self):
+        self.config.from_pydantic(self.Settings1(), exclude={'section2'})
+
+        self.assertEqual(self.config(), {'section1': {'value1': 1}})
+        self.assertEqual(self.config.section1(), {'value1': 1})
+        self.assertEqual(self.config.section1.value1(), 1)
+
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_merge(self):
         self.config.from_pydantic(self.Settings1())
         self.config.from_pydantic(self.Settings2())
