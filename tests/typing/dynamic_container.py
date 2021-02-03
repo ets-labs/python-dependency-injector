@@ -22,3 +22,6 @@ container4.set_providers(a=providers.Provider())
 # Test 5: to check .dependencies attribute
 container5 = containers.DynamicContainer()
 dependencies: Dict[str, providers.Provider] = container5.dependencies
+
+# Test 6: to check base class
+container6: containers.Container = containers.DynamicContainer()
