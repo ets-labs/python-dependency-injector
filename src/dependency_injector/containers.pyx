@@ -23,7 +23,11 @@ else:
         raise NotImplementedError('Wiring requires Python 3.6 or above')
 
 
-class DynamicContainer(object):
+class Container(object):
+    """Abstract container."""
+
+
+class DynamicContainer(Container):
     """Dynamic inversion of control container.
 
     .. code-block:: python
@@ -370,7 +374,7 @@ class DeclarativeContainerMetaClass(type):
 
 
 @six.add_metaclass(DeclarativeContainerMetaClass)
-class DeclarativeContainer(object):
+class DeclarativeContainer(Container):
     """Declarative inversion of control container.
 
     .. code-block:: python

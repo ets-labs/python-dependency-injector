@@ -48,3 +48,11 @@ class Container5(containers.DeclarativeContainer):
 
 
 dependencies: Dict[str, providers.Provider] = Container5.dependencies
+
+
+# Test 6: to check base class
+class Container6(containers.DeclarativeContainer):
+    provider = providers.Factory(int)
+
+
+container6: containers.Container = Container6()
