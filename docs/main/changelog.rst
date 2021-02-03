@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.16.0
+------
 - Add container base class ``containers.Container``. ``DynamicContainer``
   and ``DeclarativeContainer`` become subclasses of the ``Container``.
   See issue: `#386 <https://github.com/ets-labs/python-dependency-injector/issues/386>`_.
