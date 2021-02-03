@@ -5,10 +5,11 @@ Configuration provider
 
 .. meta::
    :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Configuration,Injection,
-              Option,Ini,Json,Yaml,Dict,Environment Variable,Load,Read,Get
+              Option,Ini,Json,Yaml,Pydantic,Dict,Environment Variable,Load,Read,Get
    :description: Configuration provides configuration options to the other providers. This page
                  demonstrates how to use Configuration provider to inject the dependencies, load
-                 a configuration from an ini or yaml file, dictionary or an environment variable.
+                 a configuration from an ini or yaml file, a dictionary, an environment variable,
+                 or a pydantic settings object.
 
 .. currentmodule:: dependency_injector.providers
 
@@ -86,6 +87,38 @@ You can also specify a YAML loader as an argument:
    or install ``PyYAML`` directly::
 
       pip install pyyaml
+
+   *Don't forget to mirror the changes in the requirements file.*
+
+Loading from a Pydantic settings
+--------------------------------
+
+``Configuration`` provider can load configuration from a ``pydantic`` settings object using the
+:py:meth:`Configuration.from_pydantic` method:
+
+.. literalinclude:: ../../examples/providers/configuration/configuration_pydantic.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 31
+
+To get the data from pydantic settings ``Configuration`` provider calls ``Settings.dict()`` method.
+If you need to pass an argument to this call, use ``.from_pydantic()`` keyword arguments.
+
+.. code-block:: python
+
+   container.config.from_pydantic(Settings(), exclude={'optional'})
+
+.. note::
+
+   ``Dependency Injector`` doesn't install ``pydantic`` by default.
+
+   You can install the ``Dependency Injector`` with an extra dependency::
+
+      pip install dependency-injector[pydantic]
+
+   or install ``pydantic`` directly::
+
+      pip install pydantic
 
    *Don't forget to mirror the changes in the requirements file.*
 
@@ -211,7 +244,7 @@ Methods ``.from_*()`` in strict mode raise an exception if configuration file do
 configuration data is undefined:
 
 .. code-block:: python
-   :emphasize-lines: 10,15,20,25
+   :emphasize-lines: 10,15,20,25,30
 
    class Container(containers.DeclarativeContainer):
 
@@ -229,6 +262,11 @@ configuration data is undefined:
        try:
            container.config.from_ini('does-not_exist.ini')  # raise exception
        except FileNotFoundError:
+           ...
+
+       try:
+           container.config.from_pydantic(EmptySettings())  # raise exception
+       except ValueError:
            ...
 
        try:
