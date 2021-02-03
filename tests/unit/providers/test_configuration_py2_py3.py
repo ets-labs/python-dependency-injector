@@ -779,6 +779,7 @@ class ConfigFromPydanticTests(unittest.TestCase):
 
         self.Settings2 = Settings2
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test(self):
         self.config.from_pydantic(self.Settings1())
 
@@ -788,6 +789,7 @@ class ConfigFromPydanticTests(unittest.TestCase):
         self.assertEqual(self.config.section2(), {'value2': 2})
         self.assertEqual(self.config.section2.value2(), 2)
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_merge(self):
         self.config.from_pydantic(self.Settings1())
         self.config.from_pydantic(self.Settings2())
@@ -815,43 +817,52 @@ class ConfigFromPydanticTests(unittest.TestCase):
         self.assertEqual(self.config.section3(), {'value3': 3})
         self.assertEqual(self.config.section3.value3(), 3)
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_empty_settings(self):
         self.config.from_pydantic(pydantic.BaseSettings())
         self.assertEqual(self.config(), {})
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_empty_settings_strict_mode(self):
         self.config = providers.Configuration(strict=True)
         with self.assertRaises(ValueError):
             self.config.from_pydantic(pydantic.BaseSettings())
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_option_empty_settings(self):
         self.config.option.from_pydantic(pydantic.BaseSettings())
         self.assertEqual(self.config.option(), {})
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_option_empty_settings_strict_mode(self):
         self.config = providers.Configuration(strict=True)
         with self.assertRaises(ValueError):
             self.config.option.from_pydantic(pydantic.BaseSettings())
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_required_empty_settings(self):
         with self.assertRaises(ValueError):
             self.config.from_pydantic(pydantic.BaseSettings(), required=True)
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_required_option_empty_settings(self):
         with self.assertRaises(ValueError):
             self.config.option.from_pydantic(pydantic.BaseSettings(), required=True)
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_not_required_empty_settings_strict_mode(self):
         self.config = providers.Configuration(strict=True)
         self.config.from_pydantic(pydantic.BaseSettings(), required=False)
         self.assertEqual(self.config(), {})
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_not_required_option_empty_settings_strict_mode(self):
         self.config = providers.Configuration(strict=True)
         self.config.option.from_pydantic(pydantic.BaseSettings(), required=False)
         self.assertEqual(self.config.option(), {})
         self.assertEqual(self.config(), {'option': {}})
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_not_instance_of_settings(self):
         with self.assertRaises(errors.Error) as error:
             self.config.from_pydantic({})
@@ -862,6 +873,7 @@ class ConfigFromPydanticTests(unittest.TestCase):
             'got {0} instead'.format({})
         )
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_option_not_instance_of_settings(self):
         with self.assertRaises(errors.Error) as error:
             self.config.option.from_pydantic({})
@@ -872,6 +884,7 @@ class ConfigFromPydanticTests(unittest.TestCase):
             'got {0} instead'.format({})
         )
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_subclass_instead_of_instance(self):
         with self.assertRaises(errors.Error) as error:
             self.config.from_pydantic(self.Settings1)
@@ -882,6 +895,7 @@ class ConfigFromPydanticTests(unittest.TestCase):
             'instead "Settings1" use "Settings1()"'
         )
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_option_subclass_instead_of_instance(self):
         with self.assertRaises(errors.Error) as error:
             self.config.option.from_pydantic(self.Settings1)
@@ -892,6 +906,7 @@ class ConfigFromPydanticTests(unittest.TestCase):
             'instead "Settings1" use "Settings1()"'
         )
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_no_pydantic_installed(self):
         @contextlib.contextmanager
         def no_pydantic_module():
@@ -913,6 +928,7 @@ class ConfigFromPydanticTests(unittest.TestCase):
             '"pip install dependency-injector[pydantic]"',
         )
 
+    @unittest.skipIf(sys.version_info[:2] < (3, 6), 'Pydantic supports Python 3.6+')
     def test_option_no_pydantic_installed(self):
         @contextlib.contextmanager
         def no_pydantic_module():
