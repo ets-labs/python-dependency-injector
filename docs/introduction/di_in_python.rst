@@ -288,6 +288,7 @@ Choose one of the following as a next step:
     - :ref:`sanic-example`
     - :ref:`fastapi-example`
     - :ref:`fastapi-redis-example`
+    - :ref:`fastapi-sqlalchemy-example`
 - Pass the tutorials:
     - :ref:`flask-tutorial`
     - :ref:`aiohttp-tutorial`

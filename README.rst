@@ -161,6 +161,7 @@ Choose one of the following:
 - `Sanic example <https://python-dependency-injector.ets-labs.org/examples/sanic.html>`_
 - `FastAPI example <https://python-dependency-injector.ets-labs.org/examples/fastapi.html>`_
 - `FastAPI + Redis example <https://python-dependency-injector.ets-labs.org/examples/fastapi-redis.html>`_
+- `FastAPI + SQLAlchemy example <https://python-dependency-injector.ets-labs.org/examples/fastapi-sqlalchemy.html>`_
 
 Tutorials
 ---------

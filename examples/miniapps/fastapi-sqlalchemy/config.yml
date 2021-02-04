@@ -1,0 +1,2 @@
+db:
+  url: "sqlite:///./webapp.db"
