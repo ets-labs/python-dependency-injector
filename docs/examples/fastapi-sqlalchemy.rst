@@ -1,4 +1,4 @@
-.. _fastapi-redis-example:
+.. _fastapi-sqlalchemy-example:
 
 FastAPI + SQLAlchemy example
 ============================

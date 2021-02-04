@@ -336,5 +336,6 @@ Take a look at other application examples:
 - :ref:`sanic-example`
 - :ref:`fastapi-example`
 - :ref:`fastapi-redis-example`
+- :ref:`fastapi-sqlalchemy-example`
 
 .. disqus::
