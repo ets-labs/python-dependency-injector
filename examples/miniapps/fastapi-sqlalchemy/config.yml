@@ -1,2 +1,2 @@
 db:
-  url: "sqlite:///./sql_app.db"
+  url: "sqlite:///./webapp.db"
