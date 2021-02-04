@@ -22,13 +22,12 @@ def get_list(
 @inject
 def get_by_id(
         user_id: int,
-        response: Response,
         user_service: UserService = Depends(Provide[Container.user_service]),
 ):
     try:
         return user_service.get_user_by_id(user_id)
     except NotFoundError:
-        response.status_code = status.HTTP_404_NOT_FOUND
+        return Response(status_code=status.HTTP_404_NOT_FOUND)
 
 
 @router.post('/users', status_code=status.HTTP_201_CREATED)
@@ -43,13 +42,14 @@ def add(
 @inject
 def remove(
         user_id: int,
-        response: Response,
         user_service: UserService = Depends(Provide[Container.user_service]),
 ):
     try:
         user_service.delete_user_by_id(user_id)
     except NotFoundError:
-        response.status_code = status.HTTP_404_NOT_FOUND
+        return Response(status_code=status.HTTP_404_NOT_FOUND)
+    else:
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
 
 
 @router.get('/status')
