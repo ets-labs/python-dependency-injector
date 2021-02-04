@@ -3,3 +3,6 @@ fastapi
 uvicorn
 pyyaml
 sqlalchemy
+pytest
+requests
+pytest-cov
