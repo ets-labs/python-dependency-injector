@@ -1,0 +1,5 @@
+dependency-injector
+fastapi
+uvicorn
+pyyaml
+sqlalchemy
