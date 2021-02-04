@@ -1,7 +1,7 @@
 FastAPI + Dependency Injector Example
 =====================================
 
-This is an `FastAPI <https://fastapi.tiangolo.com/>`_ +
+This is a `FastAPI <https://fastapi.tiangolo.com/>`_ +
 `Dependency Injector <https://python-dependency-injector.ets-labs.org/>`_ example application.
 
 The example application is a REST API that searches for funny GIFs on the `Giphy <https://giphy.com/>`_.
