@@ -20,5 +20,6 @@ Explore the examples to see the ``Dependency Injector`` in action.
     sanic
     fastapi
     fastapi-redis
+    fastapi-sqlalchemy
 
 .. disqus::
