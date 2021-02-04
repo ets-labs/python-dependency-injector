@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.17.0
+------
 - Add ``FastAPI`` + ``SQLAlchemy`` example.
   Thanks to `@ShvetsovYura <https://github.com/ShvetsovYura>`_ for providing initial example:
   `FastAPI_DI_SqlAlchemy <https://github.com/ShvetsovYura/FastAPI_DI_SqlAlchemy>`_.
