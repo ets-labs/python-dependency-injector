@@ -36,6 +36,7 @@ from . import resources
 
 Injection = Any
 T = TypeVar('T')
+TT = TypeVar('TT')
 
 
 class OverridingContext:
@@ -76,7 +77,7 @@ class Provider(Generic[T]):
     def is_async_mode_undefined(self) -> bool: ...
     @property
     def related(self) -> _Iterator[Provider]: ...
-    def traverse(self, types: Optional[_Iterable[Type]] = None) -> _Iterator[Provider]: ...
+    def traverse(self, types: Optional[_Iterable[TT]] = None) -> _Iterator[TT]: ...
     def _copy_overridings(self, copied: Provider, memo: Optional[_Dict[Any, Any]]) -> None: ...
 
 
