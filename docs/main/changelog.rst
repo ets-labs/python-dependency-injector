@@ -13,6 +13,7 @@ Development version
 - Fix ``container.reset_singleton()`` to reset all provider types, not only ``Singleton``.
 - Improve ``container.traverse(types=[...])`` and ``provider.traverse(types=[...])`` typing stubs
   to return ``types`` -typed iterator.
+- Update docs on creating custom providers with a requirement to specify ``.related`` property.
 
 4.18.0
 ------
