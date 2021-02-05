@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Add ``container.reset_singleton()`` method to reset container singletons.
 - Refactor ``container.apply_container_providers_overridings()`` to use ``container.traverse()``.
   This enables deep lazy initialization of ``Container`` providers.
 - Add tests for ``Selector`` provider.
