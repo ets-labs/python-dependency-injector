@@ -6,7 +6,7 @@ import sys
 
 import unittest2 as unittest
 
-from dependency_injector import providers
+from dependency_injector import providers, errors
 
 
 class SelectorTests(unittest.TestCase):
@@ -32,6 +32,28 @@ class SelectorTests(unittest.TestCase):
 
         with self.selector.override('two'):
             self.assertEqual(provider(), 2)
+
+    def test_call_undefined_provider(self):
+        provider = providers.Selector(
+            self.selector,
+            one=providers.Object(1),
+            two=providers.Object(2),
+        )
+
+        with self.selector.override('three'):
+            with self.assertRaises(errors.Error):
+                provider()
+
+    def test_call_selector_is_none(self):
+        provider = providers.Selector(
+            self.selector,
+            one=providers.Object(1),
+            two=providers.Object(2),
+        )
+
+        with self.selector.override(None):
+            with self.assertRaises(errors.Error):
+                provider()
 
     def test_call_any_callable(self):
         provider = providers.Selector(
@@ -70,6 +92,19 @@ class SelectorTests(unittest.TestCase):
         self.assertIs(provider.one, provider_one)
         self.assertIs(provider.two, provider_two)
 
+    def test_getattr_attribute_error(self):
+        provider_one = providers.Object(1)
+        provider_two = providers.Object(2)
+
+        provider = providers.Selector(
+            self.selector,
+            one=provider_one,
+            two=provider_two,
+        )
+
+        with self.assertRaises(AttributeError):
+            _ = provider.provider_three
+
     def test_call_overridden(self):
         provider = providers.Selector(self.selector, sample=providers.Object(1))
         overriding_provider1 = providers.Selector(self.selector, sample=providers.Object(2))
@@ -80,6 +115,18 @@ class SelectorTests(unittest.TestCase):
 
         with self.selector.override('sample'):
             self.assertEqual(provider(), 3)
+
+    def test_providers_attribute(self):
+        provider_one = providers.Object(1)
+        provider_two = providers.Object(2)
+
+        provider = providers.Selector(
+            self.selector,
+            one=provider_one,
+            two=provider_two,
+        )
+
+        self.assertEqual(provider.providers, {'one': provider_one, 'two': provider_two})
 
     def test_deepcopy(self):
         provider = providers.Selector(self.selector)
