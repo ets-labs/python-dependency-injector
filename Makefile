@@ -52,7 +52,7 @@ test-py2: build
 	coverage report --rcfile=./.coveragerc
 	coverage html --rcfile=./.coveragerc
 
-test-py3: build
+test: build
 	# Unit tests with coverage report
 	coverage erase
 	coverage run --rcfile=./.coveragerc -m unittest2 discover -s tests/unit/ -p test_*py3*.py
