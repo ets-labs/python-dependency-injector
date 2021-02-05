@@ -2468,6 +2468,15 @@ cdef class BaseSingleton(Provider):
         """
         raise NotImplementedError()
 
+    def full_reset(self):
+        """Reset cached instance in current and all underlying singletons, if any.
+
+        :rtype: None
+        """
+        self.reset()
+        for provider in self.traverse(types=[BaseSingleton]):
+            provider.reset()
+
     @property
     def related(self):
         """Return related providers generator."""
