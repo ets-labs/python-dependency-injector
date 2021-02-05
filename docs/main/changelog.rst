@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Add ``singleton.full_reset()`` method to reset all underlying singleton providers.
 - Fix ``container.reset_singleton()`` to reset all provider types, not only ``Singleton``.
 - Improve ``container.traverse(types=[...])`` and ``provider.traverse(types=[...])`` typing stubs
   to return ``types`` -typed iterator.
