@@ -7,6 +7,15 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.18.0
+------
+- Add ``container.reset_singleton()`` method to reset container singletons.
+- Refactor ``container.apply_container_providers_overridings()`` to use ``container.traverse()``.
+  This enables deep lazy initialization of ``Container`` providers.
+- Add tests for ``Selector`` provider.
+- Add tests for ``ProvidedInstance`` and ``MethodCaller`` providers.
+- Update Makefile to make Python 3 tests to be a default test command: ``make test``.
+
 4.17.0
 ------
 - Add ``FastAPI`` + ``SQLAlchemy`` example.

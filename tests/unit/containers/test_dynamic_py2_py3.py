@@ -140,7 +140,7 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         with self.assertRaises(AttributeError):
             container_a.override_providers(unknown=providers.Provider())
 
-    def test_reset_last_overridding(self):
+    def test_reset_last_overriding(self):
         class _Container(containers.DeclarativeContainer):
             p11 = providers.Provider()
 
@@ -164,7 +164,7 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertEqual(container.p11.overridden,
                          (overriding_container1.p11,))
 
-    def test_reset_last_overridding_when_not_overridden(self):
+    def test_reset_last_overriding_when_not_overridden(self):
         container = ContainerA()
 
         with self.assertRaises(errors.Error):
@@ -287,3 +287,51 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertEqual(_init1.shutdown_counter, 2)
         self.assertEqual(_init2.init_counter, 2)
         self.assertEqual(_init2.shutdown_counter, 2)
+
+    def test_reset_singletons(self):
+        class SubSubContainer(containers.DeclarativeContainer):
+            singleton = providers.Singleton(object)
+
+        class SubContainer(containers.DeclarativeContainer):
+            singleton = providers.Singleton(object)
+            sub_sub_container = providers.Container(SubSubContainer)
+
+        class Container(containers.DeclarativeContainer):
+            singleton = providers.Singleton(object)
+            sub_container = providers.Container(SubContainer)
+
+        container = Container()
+
+        obj11 = container.singleton()
+        obj12 = container.sub_container().singleton()
+        obj13 = container.sub_container().sub_sub_container().singleton()
+
+        obj21 = container.singleton()
+        obj22 = container.sub_container().singleton()
+        obj23 = container.sub_container().sub_sub_container().singleton()
+
+        self.assertIs(obj11, obj21)
+        self.assertIs(obj12, obj22)
+        self.assertIs(obj13, obj23)
+
+        container.reset_singletons()
+
+        obj31 = container.singleton()
+        obj32 = container.sub_container().singleton()
+        obj33 = container.sub_container().sub_sub_container().singleton()
+
+        obj41 = container.singleton()
+        obj42 = container.sub_container().singleton()
+        obj43 = container.sub_container().sub_sub_container().singleton()
+
+        self.assertIsNot(obj11, obj31)
+        self.assertIsNot(obj12, obj32)
+        self.assertIsNot(obj13, obj33)
+
+        self.assertIsNot(obj21, obj31)
+        self.assertIsNot(obj22, obj32)
+        self.assertIsNot(obj23, obj33)
+
+        self.assertIs(obj31, obj41)
+        self.assertIs(obj32, obj42)
+        self.assertIs(obj33, obj43)

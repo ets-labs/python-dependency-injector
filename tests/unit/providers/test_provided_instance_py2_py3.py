@@ -10,11 +10,19 @@ class Service:
         self.value = value
         self.values = [self.value]
 
-    def get_value(self):
+    def __call__(self):
         return self.value
 
     def __getitem__(self, item):
         return self.values[item]
+
+    def get_value(self):
+        return self.value
+
+    def get_closure(self):
+        def closure():
+            return self.value
+        return closure
 
 
 class Client:
@@ -45,6 +53,15 @@ class Container(containers.DeclarativeContainer):
         Client,
         value=service.provided.get_value.call(),
     )
+    client_method_closure_call = providers.Factory(
+        Client,
+        value=service.provided.get_closure.call().call(),
+    )
+
+    client_provided_call = providers.Factory(
+        Client,
+        value=service.provided.call(),
+    )
 
 
 class ProvidedInstanceTests(unittest.TestCase):
@@ -69,6 +86,14 @@ class ProvidedInstanceTests(unittest.TestCase):
 
     def test_method_call(self):
         client = self.container.client_method_call()
+        self.assertEqual(client.value, 'foo')
+
+    def test_method_closure_call(self):
+        client = self.container.client_method_closure_call()
+        self.assertEqual(client.value, 'foo')
+
+    def test_provided_call(self):
+        client = self.container.client_provided_call()
         self.assertEqual(client.value, 'foo')
 
     def test_call_overridden(self):
