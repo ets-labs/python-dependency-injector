@@ -140,7 +140,7 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         with self.assertRaises(AttributeError):
             container_a.override_providers(unknown=providers.Provider())
 
-    def test_reset_last_overridding(self):
+    def test_reset_last_overriding(self):
         class _Container(containers.DeclarativeContainer):
             p11 = providers.Provider()
 
@@ -164,7 +164,7 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertEqual(container.p11.overridden,
                          (overriding_container1.p11,))
 
-    def test_reset_last_overridding_when_not_overridden(self):
+    def test_reset_last_overriding_when_not_overridden(self):
         container = ContainerA()
 
         with self.assertRaises(errors.Error):
