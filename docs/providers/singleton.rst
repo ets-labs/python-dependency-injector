@@ -54,6 +54,14 @@ provider.
    Resetting of the memorized object clears the reference to it. Further object's lifecycle is
    managed by the garbage collector.
 
+Method ``.reset()`` resets only current provider. To reset all dependent singleton providers
+call ``.full_reset()`` method.
+
+.. literalinclude:: ../../examples/providers/singleton_full_resetting.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 25
+
 Using singleton with multiple threads
 -------------------------------------
 
