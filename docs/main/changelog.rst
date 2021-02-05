@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.18.0
+------
 - Add ``container.reset_singleton()`` method to reset container singletons.
 - Refactor ``container.apply_container_providers_overridings()`` to use ``container.traverse()``.
   This enables deep lazy initialization of ``Container`` providers.
