@@ -271,6 +271,11 @@ class DynamicContainer(Container):
         for provider in self.traverse(types=[providers.Container]):
             provider.apply_overridings()
 
+    def reset_singletons(self):
+        """Reset all container singletons."""
+        for provider in self.traverse(types=[providers.Singleton]):
+            provider.reset()
+
 
 class DeclarativeContainerMetaClass(type):
     """Declarative inversion of control container meta class."""
