@@ -20,8 +20,11 @@ To create a custom provider you need to follow these rules:
    from the ``providers`` module. After the a new provider object is created use
    ``Provider._copy_overriding()`` method to copy all overriding providers. See the example
    below.
-4. If the new provider has a ``__init__()`` method, it should call the parent
+4. If new provider has a ``__init__()`` method, it should call the parent
    ``Provider.__init__()``.
+5. If new provider stores any other providers, these providers should be listed in
+   ``.related`` property. Property ``.related`` also should yield providers from parent
+   ``.related`` property.
 
 .. literalinclude:: ../../examples/providers/custom_factory.py
    :language: python

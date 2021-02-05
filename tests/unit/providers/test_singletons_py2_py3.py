@@ -355,6 +355,37 @@ class _BaseSingletonTestCase(object):
 
         self.assertIsNot(instance1, instance2)
 
+    def test_reset_with_singleton(self):
+        dependent_singleton = providers.Singleton(object)
+        provider = self.singleton_cls(dict, dependency=dependent_singleton)
+
+        dependent_instance = dependent_singleton()
+        instance1 = provider()
+        self.assertIs(instance1['dependency'], dependent_instance)
+
+        provider.reset()
+
+        instance2 = provider()
+        self.assertIs(instance1['dependency'], dependent_instance)
+
+        self.assertIsNot(instance1, instance2)
+
+    def test_full_reset(self):
+        dependent_singleton = providers.Singleton(object)
+        provider = self.singleton_cls(dict, dependency=dependent_singleton)
+
+        dependent_instance1 = dependent_singleton()
+        instance1 = provider()
+        self.assertIs(instance1['dependency'], dependent_instance1)
+
+        provider.full_reset()
+
+        dependent_instance2 = dependent_singleton()
+        instance2 = provider()
+        self.assertIsNot(instance2['dependency'], dependent_instance1)
+        self.assertIsNot(dependent_instance1, dependent_instance2)
+        self.assertIsNot(instance1, instance2)
+
 
 class SingletonTests(_BaseSingletonTestCase, unittest.TestCase):
 

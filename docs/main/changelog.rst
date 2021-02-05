@@ -7,6 +7,14 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.19.0
+------
+- Add ``singleton.full_reset()`` method to reset all underlying singleton providers.
+- Fix ``container.reset_singleton()`` to reset all provider types, not only ``Singleton``.
+- Improve ``container.traverse(types=[...])`` and ``provider.traverse(types=[...])`` typing stubs
+  to return ``types`` -typed iterator.
+- Update docs on creating custom providers with a requirement to specify ``.related`` property.
+
 4.18.0
 ------
 - Add ``container.reset_singleton()`` method to reset container singletons.

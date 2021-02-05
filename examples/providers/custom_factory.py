@@ -25,6 +25,12 @@ class CustomFactory(providers.Provider):
 
         return copied
 
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from [self._factory]
+        yield from super().related
+
     def _provide(self, args, kwargs):
         return self._factory(*args, **kwargs)
 
