@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Add tests for ``Selector`` provider.
+- Add tests for ``ProvidedInstance`` and ``MethodCaller`` providers.
 - Update Makefile to make Python 3 tests to be a default test command: ``make test``.
 
 4.17.0
