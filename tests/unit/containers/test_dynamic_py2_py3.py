@@ -288,7 +288,7 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertEqual(_init2.init_counter, 2)
         self.assertEqual(_init2.shutdown_counter, 2)
 
-    def reset_singletons(self):
+    def test_reset_singletons(self):
         class SubSubContainer(containers.DeclarativeContainer):
             singleton = providers.Singleton(object)
 
