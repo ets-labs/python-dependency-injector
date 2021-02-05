@@ -272,8 +272,8 @@ class DynamicContainer(Container):
             provider.apply_overridings()
 
     def reset_singletons(self):
-        """Reset all container singletons."""
-        for provider in self.traverse(types=[providers.Singleton]):
+        """Reset container singletons."""
+        for provider in self.traverse(types=[providers.BaseSingleton]):
             provider.reset()
 
 

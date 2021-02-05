@@ -1620,7 +1620,6 @@ static const char __pyx_k_shutdown[] = "shutdown";
 static const char __pyx_k_sub_memo[] = "sub_memo";
 static const char __pyx_k_traverse[] = "traverse";
 static const char __pyx_k_Container[] = "Container";
-static const char __pyx_k_Singleton[] = "Singleton";
 static const char __pyx_k_container[] = "container";
 static const char __pyx_k_decorator[] = "_decorator";
 static const char __pyx_k_iteritems[] = "iteritems";
@@ -1639,6 +1638,7 @@ static const char __pyx_k_isawaitable[] = "isawaitable";
 static const char __pyx_k_IS_CONTAINER[] = "__IS_CONTAINER__";
 static const char __pyx_k_dependencies[] = "dependencies";
 static const char __pyx_k_version_info[] = "version_info";
+static const char __pyx_k_BaseSingleton[] = "BaseSingleton";
 static const char __pyx_k_add_metaclass[] = "add_metaclass";
 static const char __pyx_k_all_providers[] = "all_providers";
 static const char __pyx_k_asyncio_tasks[] = "asyncio.tasks";
@@ -1724,6 +1724,7 @@ static const char __pyx_k_Declarative_inversion_of_control_2[] = "Declarative in
 static PyObject *__pyx_kp_s_0_can_contain_only_1_instances;
 static PyObject *__pyx_kp_s_Abstract_container;
 static PyObject *__pyx_n_s_AttributeError;
+static PyObject *__pyx_n_s_BaseSingleton;
 static PyObject *__pyx_n_s_Container;
 static PyObject *__pyx_kp_s_Container_0_could_not_be_overrid;
 static PyObject *__pyx_kp_s_Container_0_could_not_be_overrid_2;
@@ -1771,7 +1772,6 @@ static PyObject *__pyx_n_s_NotImplementedError;
 static PyObject *__pyx_n_s_Object;
 static PyObject *__pyx_n_s_Provider;
 static PyObject *__pyx_n_s_Resource;
-static PyObject *__pyx_n_s_Singleton;
 static PyObject *__pyx_kp_s_Wiring_requires_Python_3_6_or_ab;
 static PyObject *__pyx_n_s__11;
 static PyObject *__pyx_n_s_add_metaclass;
@@ -6370,13 +6370,13 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *             provider.apply_overridings()
  * 
  *     def reset_singletons(self):             # <<<<<<<<<<<<<<
- *         """Reset all container singletons."""
- *         for provider in self.traverse(types=[providers.Singleton]):
+ *         """Reset container singletons."""
+ *         for provider in self.traverse(types=[providers.BaseSingleton]):
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_34reset_singletons(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_33reset_singletons[] = "Reset all container singletons.";
+static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_33reset_singletons[] = "Reset container singletons.";
 static PyMethodDef __pyx_mdef_19dependency_injector_10containers_16DynamicContainer_34reset_singletons = {"reset_singletons", (PyCFunction)__pyx_pw_19dependency_injector_10containers_16DynamicContainer_34reset_singletons, METH_O, __pyx_doc_19dependency_injector_10containers_16DynamicContainer_33reset_singletons};
 static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_34reset_singletons(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
@@ -6406,8 +6406,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 
   /* "dependency_injector/containers.pyx":276
  *     def reset_singletons(self):
- *         """Reset all container singletons."""
- *         for provider in self.traverse(types=[providers.Singleton]):             # <<<<<<<<<<<<<<
+ *         """Reset container singletons."""
+ *         for provider in self.traverse(types=[providers.BaseSingleton]):             # <<<<<<<<<<<<<<
  *             provider.reset()
  * 
  */
@@ -6417,7 +6417,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_providers); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 276, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_Singleton); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 276, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_BaseSingleton); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 276, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 276, __pyx_L1_error)
@@ -6475,8 +6475,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
     __pyx_t_3 = 0;
 
     /* "dependency_injector/containers.pyx":277
- *         """Reset all container singletons."""
- *         for provider in self.traverse(types=[providers.Singleton]):
+ *         """Reset container singletons."""
+ *         for provider in self.traverse(types=[providers.BaseSingleton]):
  *             provider.reset()             # <<<<<<<<<<<<<<
  * 
  * 
@@ -6502,8 +6502,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 
     /* "dependency_injector/containers.pyx":276
  *     def reset_singletons(self):
- *         """Reset all container singletons."""
- *         for provider in self.traverse(types=[providers.Singleton]):             # <<<<<<<<<<<<<<
+ *         """Reset container singletons."""
+ *         for provider in self.traverse(types=[providers.BaseSingleton]):             # <<<<<<<<<<<<<<
  *             provider.reset()
  * 
  */
@@ -6514,8 +6514,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *             provider.apply_overridings()
  * 
  *     def reset_singletons(self):             # <<<<<<<<<<<<<<
- *         """Reset all container singletons."""
- *         for provider in self.traverse(types=[providers.Singleton]):
+ *         """Reset container singletons."""
+ *         for provider in self.traverse(types=[providers.BaseSingleton]):
  */
 
   /* function exit code */
@@ -12153,6 +12153,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_0_can_contain_only_1_instances, __pyx_k_0_can_contain_only_1_instances, sizeof(__pyx_k_0_can_contain_only_1_instances), 0, 0, 1, 0},
   {&__pyx_kp_s_Abstract_container, __pyx_k_Abstract_container, sizeof(__pyx_k_Abstract_container), 0, 0, 1, 0},
   {&__pyx_n_s_AttributeError, __pyx_k_AttributeError, sizeof(__pyx_k_AttributeError), 0, 0, 1, 1},
+  {&__pyx_n_s_BaseSingleton, __pyx_k_BaseSingleton, sizeof(__pyx_k_BaseSingleton), 0, 0, 1, 1},
   {&__pyx_n_s_Container, __pyx_k_Container, sizeof(__pyx_k_Container), 0, 0, 1, 1},
   {&__pyx_kp_s_Container_0_could_not_be_overrid, __pyx_k_Container_0_could_not_be_overrid, sizeof(__pyx_k_Container_0_could_not_be_overrid), 0, 0, 1, 0},
   {&__pyx_kp_s_Container_0_could_not_be_overrid_2, __pyx_k_Container_0_could_not_be_overrid_2, sizeof(__pyx_k_Container_0_could_not_be_overrid_2), 0, 0, 1, 0},
@@ -12200,7 +12201,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Object, __pyx_k_Object, sizeof(__pyx_k_Object), 0, 0, 1, 1},
   {&__pyx_n_s_Provider, __pyx_k_Provider, sizeof(__pyx_k_Provider), 0, 0, 1, 1},
   {&__pyx_n_s_Resource, __pyx_k_Resource, sizeof(__pyx_k_Resource), 0, 0, 1, 1},
-  {&__pyx_n_s_Singleton, __pyx_k_Singleton, sizeof(__pyx_k_Singleton), 0, 0, 1, 1},
   {&__pyx_kp_s_Wiring_requires_Python_3_6_or_ab, __pyx_k_Wiring_requires_Python_3_6_or_ab, sizeof(__pyx_k_Wiring_requires_Python_3_6_or_ab), 0, 0, 1, 0},
   {&__pyx_n_s__11, __pyx_k__11, sizeof(__pyx_k__11), 0, 0, 1, 1},
   {&__pyx_n_s_add_metaclass, __pyx_k_add_metaclass, sizeof(__pyx_k_add_metaclass), 0, 0, 1, 1},
@@ -12648,8 +12648,8 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *             provider.apply_overridings()
  * 
  *     def reset_singletons(self):             # <<<<<<<<<<<<<<
- *         """Reset all container singletons."""
- *         for provider in self.traverse(types=[providers.Singleton]):
+ *         """Reset container singletons."""
+ *         for provider in self.traverse(types=[providers.BaseSingleton]):
  */
   __pyx_tuple__52 = PyTuple_Pack(2, __pyx_n_s_self_2, __pyx_n_s_provider); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(0, 274, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__52);
@@ -13645,8 +13645,8 @@ if (!__Pyx_RefNanny) {
  *             provider.apply_overridings()
  * 
  *     def reset_singletons(self):             # <<<<<<<<<<<<<<
- *         """Reset all container singletons."""
- *         for provider in self.traverse(types=[providers.Singleton]):
+ *         """Reset container singletons."""
+ *         for provider in self.traverse(types=[providers.BaseSingleton]):
  */
   __pyx_t_10 = __Pyx_CyFunction_New(&__pyx_mdef_19dependency_injector_10containers_16DynamicContainer_34reset_singletons, 0, __pyx_n_s_DynamicContainer_reset_singleton, NULL, __pyx_n_s_dependency_injector_containers, __pyx_d, ((PyObject *)__pyx_codeobj__53)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 274, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
