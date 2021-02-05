@@ -268,9 +268,7 @@ class DynamicContainer(Container):
 
     def apply_container_providers_overridings(self):
         """Apply container providers' overridings."""
-        for provider in self.providers.values():
-            if not isinstance(provider, providers.Container):
-                continue
+        for provider in self.traverse(types=[providers.Container]):
             provider.apply_overridings()
 
 

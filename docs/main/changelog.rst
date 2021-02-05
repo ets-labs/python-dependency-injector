@@ -9,6 +9,8 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Refactor ``container.apply_container_providers_overridings()`` to use ``container.traverse()``.
+  This enables deep lazy initialization of ``Container`` providers.
 - Add tests for ``Selector`` provider.
 - Add tests for ``ProvidedInstance`` and ``MethodCaller`` providers.
 - Update Makefile to make Python 3 tests to be a default test command: ``make test``.
