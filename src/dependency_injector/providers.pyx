@@ -505,11 +505,6 @@ cdef class Self(Provider):
     def alt_names(self):
         return self.__alt_names
 
-    @property
-    def related(self):
-        """Return related providers generator."""
-        yield from super().related
-
     cpdef object _provide(self, tuple args, dict kwargs):
         return self.__container
 
