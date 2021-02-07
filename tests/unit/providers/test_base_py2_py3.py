@@ -218,6 +218,68 @@ class ObjectProviderTests(unittest.TestCase):
                              hex(id(provider))))
 
 
+class SelfProviderTests(unittest.TestCase):
+
+    def test_is_provider(self):
+        self.assertTrue(providers.is_provider(providers.Self()))
+
+    def test_call_object_provider(self):
+        container = containers.DeclarativeContainer()
+        self.assertIs(providers.Self(container)(), container)
+
+    def test_set_container(self):
+        container = containers.DeclarativeContainer()
+        provider = providers.Self()
+        provider.set_container(container)
+        self.assertIs(provider(), container)
+
+    def test_set_alt_names(self):
+        provider = providers.Self()
+        provider.set_alt_names({'foo', 'bar', 'baz'})
+        self.assertEqual(set(provider.alt_names), {'foo', 'bar', 'baz'})
+
+    def test_deepcopy(self):
+        provider = providers.Self()
+
+        provider_copy = providers.deepcopy(provider)
+
+        self.assertIsNot(provider, provider_copy)
+        self.assertIsInstance(provider, providers.Self)
+
+    def test_deepcopy_from_memo(self):
+        provider = providers.Self()
+        provider_copy_memo = providers.Provider()
+
+        provider_copy = providers.deepcopy(
+            provider, memo={id(provider): provider_copy_memo})
+
+        self.assertIs(provider_copy, provider_copy_memo)
+
+    def test_deepcopy_overridden(self):
+        provider = providers.Self()
+        overriding_provider = providers.Provider()
+
+        provider.override(overriding_provider)
+
+        provider_copy = providers.deepcopy(provider)
+        overriding_provider_copy = provider_copy.overridden[0]
+
+        self.assertIsNot(provider, provider_copy)
+        self.assertIsInstance(provider, providers.Self)
+
+        self.assertIsNot(overriding_provider, overriding_provider_copy)
+        self.assertIsInstance(overriding_provider_copy, providers.Provider)
+
+    def test_repr(self):
+        container = containers.DeclarativeContainer()
+        provider = providers.Self(container)
+        self.assertEqual(repr(provider),
+                         '<dependency_injector.providers.'
+                         'Self({0}) at {1}>'.format(
+                             repr(container),
+                             hex(id(provider))))
+
+
 class DelegateTests(unittest.TestCase):
 
     def setUp(self):
