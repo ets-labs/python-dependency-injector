@@ -335,3 +335,94 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertIs(obj31, obj41)
         self.assertIs(obj32, obj42)
         self.assertIs(obj33, obj43)
+
+
+class SelfTests(unittest.TestCase):
+
+    def test_self(self):
+        def call_bar(container):
+            return container.bar()
+
+        class Container(containers.DeclarativeContainer):
+            __self__ = providers.Self()
+            foo = providers.Callable(call_bar, __self__)
+            bar = providers.Object('hello')
+
+        container = Container()
+
+        self.assertIs(container.foo(), 'hello')
+
+    def test_self_attribute_implicit(self):
+        class Container(containers.DeclarativeContainer):
+            ...
+
+        container = Container()
+
+        self.assertIs(container.__self__(), container)
+
+    def test_self_attribute_explicit(self):
+        class Container(containers.DeclarativeContainer):
+            __self__ = providers.Self()
+
+        container = Container()
+
+        self.assertIs(container.__self__(), container)
+
+    def test_single_self(self):
+        with self.assertRaises(errors.Error):
+            class Container(containers.DeclarativeContainer):
+                self1 = providers.Self()
+                self2 = providers.Self()
+
+    def test_self_attribute_alt_name_implicit(self):
+        class Container(containers.DeclarativeContainer):
+            foo = providers.Self()
+
+        container = Container()
+
+        self.assertIs(container.__self__, container.foo)
+        self.assertEqual(set(container.__self__.alt_names), {'foo'})
+
+    def test_self_attribute_alt_name_explicit_1(self):
+        class Container(containers.DeclarativeContainer):
+            __self__ = providers.Self()
+            foo = __self__
+            bar = __self__
+
+        container = Container()
+
+        self.assertIs(container.__self__, container.foo)
+        self.assertIs(container.__self__, container.bar)
+        self.assertEqual(set(container.__self__.alt_names), {'foo', 'bar'})
+
+    def test_self_attribute_alt_name_explicit_2(self):
+        class Container(containers.DeclarativeContainer):
+            foo = providers.Self()
+            bar = foo
+
+        container = Container()
+
+        self.assertIs(container.__self__, container.foo)
+        self.assertIs(container.__self__, container.bar)
+        self.assertEqual(set(container.__self__.alt_names), {'foo', 'bar'})
+
+    def test_providers_attribute_1(self):
+        class Container(containers.DeclarativeContainer):
+            __self__ = providers.Self()
+            foo = __self__
+            bar = __self__
+
+        container = Container()
+
+        self.assertEqual(container.providers, {})
+        self.assertEqual(Container.providers, {})
+
+    def test_providers_attribute_2(self):
+        class Container(containers.DeclarativeContainer):
+            foo = providers.Self()
+            bar = foo
+
+        container = Container()
+
+        self.assertEqual(container.providers, {})
+        self.assertEqual(Container.providers, {})

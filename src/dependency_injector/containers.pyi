@@ -15,7 +15,7 @@ from typing import (
     overload,
 )
 
-from .providers import Provider
+from .providers import Provider, Self
 
 
 C_Base = TypeVar('C_Base', bound='Container')
@@ -29,7 +29,7 @@ class Container:
     providers: Dict[str, Provider]
     dependencies: Dict[str, Provider]
     overridden: Tuple[Provider]
-    __self__: Provider
+    __self__: Self
     def __init__(self) -> None: ...
     def __deepcopy__(self, memo: Optional[Dict[str, Any]]) -> Provider: ...
     def __setattr__(self, name: str, value: Union[Provider, Any]) -> None: ...
