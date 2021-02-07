@@ -69,7 +69,7 @@ class DynamicContainer(Container):
         self.declarative_parent = None
         self.wired_to_modules = []
         self.wired_to_packages = []
-        self.__self__ = providers.Object(self)
+        self.__self__ = providers.Self(self)
         super(DynamicContainer, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -102,7 +102,7 @@ class DynamicContainer(Container):
 
         :rtype: None
         """
-        if isinstance(value, providers.Provider) and name != '__self__':
+        if isinstance(value, providers.Provider) and not isinstance(value, providers.Self):
             _check_provider_type(self, value)
             self.providers[name] = value
         super(DynamicContainer, self).__setattr__(name, value)
@@ -153,6 +153,19 @@ class DynamicContainer(Container):
         """
         for name, provider in six.iteritems(providers):
             setattr(self, name, provider)
+
+    def set_provider(self, name, provider):
+        """Set container provider.
+
+        :param name: Provider name
+        :type name: str
+
+        :param provider: Provider
+        :type provider: :py:class:`dependency_injector.providers.Provider`
+
+        :rtype: None
+        """
+        setattr(self, name, provider)
 
     def override(self, object overriding):
         """Override current container by overriding container.
@@ -282,6 +295,10 @@ class DeclarativeContainerMetaClass(type):
 
     def __new__(type mcs, str class_name, tuple bases, dict attributes):
         """Declarative container class factory."""
+        self = mcs.__fetch_self(attributes)
+        if self is None:
+            self = providers.Self()
+
         containers = {
             name: container
             for name, container in six.iteritems(attributes)
@@ -291,7 +308,7 @@ class DeclarativeContainerMetaClass(type):
         cls_providers = {
             name: provider
             for name, provider in six.iteritems(attributes)
-            if isinstance(provider, providers.Provider)
+            if isinstance(provider, providers.Provider) and not isinstance(provider, providers.Self)
         }
 
         inherited_providers = {
@@ -312,7 +329,8 @@ class DeclarativeContainerMetaClass(type):
 
         cls = <type>type.__new__(mcs, class_name, bases, attributes)
 
-        cls.__self__ = providers.Object(cls)
+        self.set_container(cls)
+        cls.__self__ = self
 
         for provider in six.itervalues(cls.providers):
             _check_provider_type(cls, provider)
@@ -374,6 +392,28 @@ class DeclarativeContainerMetaClass(type):
     def traverse(cls, types=None):
         """Return providers traversal generator."""
         yield from providers.traverse(*cls.providers.values(), types=types)
+
+    @staticmethod
+    def __fetch_self(attributes):
+        self = None
+        alt_names = []
+
+        for name, value in attributes.items():
+            if not isinstance(value, providers.Self):
+                continue
+
+            if self is not None and value is not self:
+                raise errors.Error('Container can have only one "Self" provider')
+
+            if name != '__self__':
+                alt_names.append(name)
+
+            self = value
+
+        if self:
+            self.set_alt_names(alt_names)
+
+        return self
 
 
 @six.add_metaclass(DeclarativeContainerMetaClass)
@@ -448,9 +488,21 @@ class DeclarativeContainer(Container):
         container = cls.instance_type()
         container.provider_type = cls.provider_type
         container.declarative_parent = cls
-        container.set_providers(**providers.deepcopy(cls.providers))
+
+        copied_providers = providers.deepcopy({ **cls.providers, **{'@@self@@': cls.__self__}})
+        copied_self = copied_providers.pop('@@self@@')
+        copied_self.set_container(container)
+
+        container.__self__ = copied_self
+        for name in copied_self.alt_names:
+            container.set_provider(name, copied_self)
+
+        for name, provider in copied_providers.items():
+            container.set_provider(name, provider)
+
         container.override_providers(**overriding_providers)
         container.apply_container_providers_overridings()
+
         return container
 
     @classmethod

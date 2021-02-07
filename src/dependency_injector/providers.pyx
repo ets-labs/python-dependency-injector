@@ -458,6 +458,62 @@ cdef class Object(Provider):
         return self.__provides
 
 
+cdef class Self(Provider):
+    """Self provider returns own container."""
+
+    def __init__(self, container=None):
+        """Initialize provider."""
+        self.__container = container
+        self.__alt_names = tuple()
+        super().__init__()
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = self.__class__()
+        copied.set_container(deepcopy(self.__container, memo))
+        copied.set_alt_names(self.__alt_names)
+
+        self._copy_overridings(copied, memo)
+
+        return copied
+
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.__container)
+
+    def __repr__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return self.__str__()
+
+    def set_container(self, container):
+        self.__container = container
+
+    def set_alt_names(self, alt_names):
+        self.__alt_names = tuple(set(alt_names))
+
+    @property
+    def alt_names(self):
+        return self.__alt_names
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from super().related
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        return self.__container
+
+
 cdef class Delegate(Provider):
     """Delegate provider returns provider "as is".
 

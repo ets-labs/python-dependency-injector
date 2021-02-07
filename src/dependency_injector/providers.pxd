@@ -27,6 +27,11 @@ cdef class Object(Provider):
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
+cdef class Self(Provider):
+    cdef object __container
+    cdef tuple __alt_names
+
+
 cdef class Delegate(Provider):
     cdef object __provides
 
