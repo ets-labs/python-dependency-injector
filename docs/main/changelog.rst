@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Add container "self" injections.
+  See issue: `#364 <https://github.com/ets-labs/python-dependency-injector/issues/364>`_.
+  Thanks to `@shaunc <https://github.com/shaunc>`_ for suggesting the feature.
+
 4.19.0
 ------
 - Add ``singleton.full_reset()`` method to reset all underlying singleton providers.
