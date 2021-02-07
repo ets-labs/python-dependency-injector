@@ -354,7 +354,7 @@ class SelfTests(unittest.TestCase):
 
     def test_self_attribute_implicit(self):
         class Container(containers.DeclarativeContainer):
-            ...
+            pass
 
         container = Container()
 
