@@ -335,3 +335,204 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertIs(obj31, obj41)
         self.assertIs(obj32, obj42)
         self.assertIs(obj33, obj43)
+
+
+class SelfTests(unittest.TestCase):
+
+    def test_self(self):
+        def call_bar(container):
+            return container.bar()
+
+        class Container(containers.DeclarativeContainer):
+            __self__ = providers.Self()
+            foo = providers.Callable(call_bar, __self__)
+            bar = providers.Object('hello')
+
+        container = Container()
+
+        self.assertIs(container.foo(), 'hello')
+
+    def test_self_attribute_implicit(self):
+        class Container(containers.DeclarativeContainer):
+            pass
+
+        container = Container()
+
+        self.assertIs(container.__self__(), container)
+
+    def test_self_attribute_explicit(self):
+        class Container(containers.DeclarativeContainer):
+            __self__ = providers.Self()
+
+        container = Container()
+
+        self.assertIs(container.__self__(), container)
+
+    def test_single_self(self):
+        with self.assertRaises(errors.Error):
+            class Container(containers.DeclarativeContainer):
+                self1 = providers.Self()
+                self2 = providers.Self()
+
+    def test_self_attribute_alt_name_implicit(self):
+        class Container(containers.DeclarativeContainer):
+            foo = providers.Self()
+
+        container = Container()
+
+        self.assertIs(container.__self__, container.foo)
+        self.assertEqual(set(container.__self__.alt_names), {'foo'})
+
+    def test_self_attribute_alt_name_explicit_1(self):
+        class Container(containers.DeclarativeContainer):
+            __self__ = providers.Self()
+            foo = __self__
+            bar = __self__
+
+        container = Container()
+
+        self.assertIs(container.__self__, container.foo)
+        self.assertIs(container.__self__, container.bar)
+        self.assertEqual(set(container.__self__.alt_names), {'foo', 'bar'})
+
+    def test_self_attribute_alt_name_explicit_2(self):
+        class Container(containers.DeclarativeContainer):
+            foo = providers.Self()
+            bar = foo
+
+        container = Container()
+
+        self.assertIs(container.__self__, container.foo)
+        self.assertIs(container.__self__, container.bar)
+        self.assertEqual(set(container.__self__.alt_names), {'foo', 'bar'})
+
+    def test_providers_attribute_1(self):
+        class Container(containers.DeclarativeContainer):
+            __self__ = providers.Self()
+            foo = __self__
+            bar = __self__
+
+        container = Container()
+
+        self.assertEqual(container.providers, {})
+        self.assertEqual(Container.providers, {})
+
+    def test_providers_attribute_2(self):
+        class Container(containers.DeclarativeContainer):
+            foo = providers.Self()
+            bar = foo
+
+        container = Container()
+
+        self.assertEqual(container.providers, {})
+        self.assertEqual(Container.providers, {})
+
+    def test_container_multiple_instances(self):
+        class Container(containers.DeclarativeContainer):
+            __self__ = providers.Self()
+
+        container1 = Container()
+        container2 = Container()
+
+        self.assertIsNot(container1, container2)
+        self.assertIs(container1.__self__(), container1)
+        self.assertIs(container2.__self__(), container2)
+
+    def test_deepcopy(self):
+        def call_bar(container):
+            return container.bar()
+
+        class Container(containers.DeclarativeContainer):
+            __self__ = providers.Self()
+            foo = providers.Callable(call_bar, __self__)
+            bar = providers.Object('hello')
+
+        container1 = Container()
+        container2 = providers.deepcopy(container1)
+        container1.bar.override('bye')
+
+        self.assertIs(container1.foo(), 'bye')
+        self.assertIs(container2.foo(), 'hello')
+
+    def test_deepcopy_alt_names_1(self):
+        class Container(containers.DeclarativeContainer):
+            __self__ = providers.Self()
+            foo = __self__
+            bar = foo
+
+        container1 = Container()
+        container2 = providers.deepcopy(container1)
+
+        self.assertIs(container2.__self__(), container2)
+        self.assertIs(container2.foo(), container2)
+        self.assertIs(container2.bar(), container2)
+
+    def test_deepcopy_alt_names_2(self):
+        class Container(containers.DeclarativeContainer):
+            self = providers.Self()
+
+        container1 = Container()
+        container2 = providers.deepcopy(container1)
+
+        self.assertIs(container2.__self__(), container2)
+        self.assertIs(container2.self(), container2)
+
+    def test_deepcopy_no_self_dependencies(self):
+        class Container(containers.DeclarativeContainer):
+            __self__ = providers.Self()
+
+        container1 = Container()
+        container2 = providers.deepcopy(container1)
+
+        self.assertIsNot(container1, container2)
+        self.assertIsNot(container1.__self__, container2.__self__)
+        self.assertIs(container1.__self__(), container1)
+        self.assertIs(container2.__self__(), container2)
+
+    def test_with_container_provider(self):
+        def call_bar(container):
+            return container.bar()
+
+        class SubContainer(containers.DeclarativeContainer):
+            __self__ = providers.Self()
+            foo = providers.Callable(call_bar, __self__)
+            bar = providers.Object('hello')
+
+        class Container(containers.DeclarativeContainer):
+            sub_container = providers.Container(SubContainer)
+
+            baz = providers.Callable(lambda value: value, sub_container.foo)
+
+        container = Container()
+
+        self.assertIs(container.baz(), 'hello')
+
+    def test_with_container_provider_overriding(self):
+        def call_bar(container):
+            return container.bar()
+
+        class SubContainer(containers.DeclarativeContainer):
+            __self__ = providers.Self()
+            foo = providers.Callable(call_bar, __self__)
+            bar = providers.Object('hello')
+
+        class Container(containers.DeclarativeContainer):
+            sub_container = providers.Container(SubContainer, bar='bye')
+
+            baz = providers.Callable(lambda value: value, sub_container.foo)
+
+        container = Container()
+
+        self.assertIs(container.baz(), 'bye')
+
+    def test_with_container_provider_self(self):
+        class SubContainer(containers.DeclarativeContainer):
+            __self__ = providers.Self()
+
+        class Container(containers.DeclarativeContainer):
+            sub_container = providers.Container(SubContainer)
+
+        container = Container()
+
+        self.assertIs(container.__self__(), container)
+        self.assertIs(container.sub_container().__self__(), container.sub_container())
