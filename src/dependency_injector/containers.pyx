@@ -560,15 +560,6 @@ class DeclarativeContainer(Container):
         for provider in six.itervalues(cls.providers):
             provider.reset_override()
 
-    @classmethod
-    def resolve_provider_name(cls, provider_to_resolve):
-        """Try to resolve provider name by its instance."""
-        for provider_name, container_provider in cls.providers.items():
-            if container_provider is provider_to_resolve:
-                return provider_name
-        else:
-            return None
-
 
 def override(object container):
     """:py:class:`DeclarativeContainer` overriding decorator.
