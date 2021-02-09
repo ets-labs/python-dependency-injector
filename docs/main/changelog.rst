@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.20.2
+------
+- Move docs on container "self" injections to "Providers" section.
+
 4.20.1
 ------
 - Refactor containers module.
