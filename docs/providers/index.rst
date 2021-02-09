@@ -50,6 +50,7 @@ Providers module API docs - :py:mod:`dependency_injector.providers`
     dependency
     overriding
     provided_instance
+    inject_self
     custom
     async
     typing_mypy

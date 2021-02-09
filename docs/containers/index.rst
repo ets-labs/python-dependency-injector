@@ -22,7 +22,6 @@ Containers module API docs - :py:mod:`dependency_injector.containers`.
     declarative
     dynamic
     specialization
-    inject_self
     overriding
     reset_singletons
     traversal
