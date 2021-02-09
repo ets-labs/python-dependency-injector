@@ -110,7 +110,12 @@ class DynamicContainer(Container):
         """
         if isinstance(value, providers.Provider) and not isinstance(value, providers.Self):
             _check_provider_type(self, value)
+
             self.providers[name] = value
+
+            if isinstance(value, providers.Dependency):
+                value.set_parent(self)
+
         super(DynamicContainer, self).__setattr__(name, value)
 
     def __delattr__(self, str name):
@@ -295,6 +300,15 @@ class DynamicContainer(Container):
         for provider in self.traverse(types=[providers.BaseSingleton]):
             provider.reset()
 
+    def resolve_provider_name(self, provider):
+        """Try to resolve provider name."""
+        # TODO: add tests
+        for provider_name, container_provider in self.providers.items():
+            if container_provider is provider:
+                return provider_name
+        else:
+            raise errors.Error(f'Can not resolve name for provider "{provider}"')
+
 
 class DeclarativeContainerMetaClass(type):
     """Declarative inversion of control container meta class."""
@@ -316,6 +330,8 @@ class DeclarativeContainerMetaClass(type):
             for name, provider in six.iteritems(attributes)
             if isinstance(provider, providers.Provider) and not isinstance(provider, providers.Self)
         }
+
+        # TODO: set dependencies parent
 
         inherited_providers = {
             name: provider
@@ -361,6 +377,7 @@ class DeclarativeContainerMetaClass(type):
             _check_provider_type(cls, value)
             cls.providers[name] = value
             cls.cls_providers[name] = value
+            # TODO: set dependencies parent
         super(DeclarativeContainerMetaClass, cls).__setattr__(name, value)
 
     def __delattr__(cls, str name):

@@ -617,6 +617,8 @@ cdef class Dependency(Provider):
             default = Object(default)
         self.__default = default
 
+        self.__parent = None
+
         super(Dependency, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -625,8 +627,20 @@ cdef class Dependency(Provider):
         if copied is not None:
             return copied
 
-        copied_default = deepcopy(self.__default, memo) if self.__default is not UNDEFINED else UNDEFINED
+        copied_default = (
+            deepcopy(self.__default, memo)
+            if self.__default is not UNDEFINED
+            else UNDEFINED
+        )
+        copied_parent = (
+            deepcopy(self.__parent, memo)
+            if is_provider(self.parent) or is_container_instance(self.parent)
+            else self.parent
+        )
+
         copied = self.__class__(self.__instance_of, copied_default)
+        # TODO: introduce .set_default() for consistency
+        copied.set_parent(copied_parent)
 
         self._copy_overridings(copied, memo)
 
@@ -644,7 +658,7 @@ cdef class Dependency(Provider):
         elif not self.__last_overriding and self.__default is not UNDEFINED:
             result = self.__default(*args, **kwargs)
         else:
-            raise Error('Dependency is not defined')
+            self._raise_undefined_error()
 
         if self.is_async_mode_disabled():
             self._check_instance_type(result)
@@ -698,6 +712,15 @@ cdef class Dependency(Provider):
         return self.__default
 
     @property
+    def parent(self):
+        """Return parent."""
+        return self.__parent
+
+    def set_parent(self, parent):
+        """Set parent."""
+        self.__parent = parent
+
+    @property
     def related(self):
         """Return related providers generator."""
         if self.__default is not UNDEFINED:
@@ -726,6 +749,14 @@ cdef class Dependency(Provider):
     def _check_instance_type(self, instance):
         if not isinstance(instance, self.instance_of):
             raise Error('{0} is not an instance of {1}'.format(instance, self.instance_of))
+
+    def _raise_undefined_error(self):
+        if is_container_instance(self.parent) and self.parent.declarative_parent is not None:
+            name_in_container = self.parent.resolve_provider_name(self)
+            name = f'{self.parent.declarative_parent.__name__}.{name_in_container}'
+            raise Error(f'Dependency "{name}" is not defined')
+
+        raise Error('Dependency is not defined')
 
 
 cdef class ExternalDependency(Dependency):
@@ -4093,6 +4124,30 @@ cpdef str represent_provider(object provider, object provides):
         address=hex(id(provider)))
 
 
+cpdef bint is_container_instance(object instance):
+    """Check if instance is container instance.
+
+    :param instance: Instance to be checked.
+    :type instance: object
+
+    :rtype: bool
+    """
+    return (not isinstance(instance, CLASS_TYPES) and
+            getattr(instance, '__IS_CONTAINER__', False) is True)
+
+
+cpdef bint is_container_class(object instance):
+    """Check if instance is container class.
+
+    :param instance: Instance to be checked.
+    :type instance: object
+
+    :rtype: bool
+    """
+    return (isinstance(instance, CLASS_TYPES) and
+            getattr(instance, '__IS_CONTAINER__', False) is True)
+
+
 cpdef object deepcopy(object instance, dict memo=None):
     """Return full copy of provider or container with providers."""
     if memo is None:
@@ -4101,6 +4156,7 @@ cpdef object deepcopy(object instance, dict memo=None):
     __add_sys_streams(memo)
 
     return copy.deepcopy(instance, memo)
+
 
 def __add_sys_streams(memo):
     """Add system streams to memo dictionary.

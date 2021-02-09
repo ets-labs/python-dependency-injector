@@ -35,6 +35,7 @@ from . import resources
 
 
 Injection = Any
+ProviderParent = Union['Provider', Any]
 T = TypeVar('T')
 TT = TypeVar('TT')
 
@@ -105,6 +106,9 @@ class Dependency(Provider[T]):
     def instance_of(self) -> Type[T]: ...
     @property
     def default(self) -> Provider[T]: ...
+    @property
+    def parent(self) -> ProviderParent: ...
+    def set_parent(self, parent: ProviderParent) -> None: ...
     def provided_by(self, provider: Provider) -> OverridingContext: ...
 
 
