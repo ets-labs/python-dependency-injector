@@ -50,6 +50,7 @@ cdef class ExternalDependency(Dependency):
 
 cdef class DependenciesContainer(Object):
     cdef dict __providers
+    cdef object __parent
 
     cpdef object _override_providers(self, object container)
 

@@ -113,7 +113,7 @@ class DynamicContainer(Container):
 
             self.providers[name] = value
 
-            if isinstance(value, providers.Dependency):
+            if isinstance(value, (providers.Dependency, providers.DependenciesContainer)):
                 value.set_parent(self)
 
         super(DynamicContainer, self).__setattr__(name, value)
@@ -299,6 +299,11 @@ class DynamicContainer(Container):
         """Reset container singletons."""
         for provider in self.traverse(types=[providers.BaseSingleton]):
             provider.reset()
+
+    @property
+    def parent_name(self):
+        """Return parent name."""
+        return self.declarative_parent.__name__
 
     def resolve_provider_name(self, provider):
         """Try to resolve provider name."""

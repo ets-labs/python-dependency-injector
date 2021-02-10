@@ -751,12 +751,18 @@ cdef class Dependency(Provider):
             raise Error('{0} is not an instance of {1}'.format(instance, self.instance_of))
 
     def _raise_undefined_error(self):
+        error_message = 'Dependency is not defined'
+
         if is_container_instance(self.parent) and self.parent.declarative_parent is not None:
             name_in_container = self.parent.resolve_provider_name(self)
-            name = f'{self.parent.declarative_parent.__name__}.{name_in_container}'
-            raise Error(f'Dependency "{name}" is not defined')
+            parent_name = self.parent.parent_name
+            error_message = f'Dependency "{parent_name}.{name_in_container}" is not defined'
+        elif isinstance(self.parent, DependenciesContainer):
+            name_in_container = self.parent.resolve_provider_name(self)
+            parent_name = self.parent.parent_name
+            error_message = f'Dependency "{parent_name}.{name_in_container}" is not defined'
 
-        raise Error('Dependency is not defined')
+        raise Error(error_message)
 
 
 cdef class ExternalDependency(Dependency):
@@ -824,6 +830,13 @@ cdef class DependenciesContainer(Object):
     def __init__(self, **dependencies):
         """Initializer."""
         self.__providers = dependencies
+
+        for provider in dependencies.items():
+            if isinstance(provider, (Dependency, DependenciesContainer)):
+                provider.set_parent(self)
+
+        self.__parent = None
+
         super(DependenciesContainer, self).__init__(None)
 
     def __deepcopy__(self, memo):
@@ -835,8 +848,18 @@ cdef class DependenciesContainer(Object):
             return copied
 
         copied = self.__class__()
+        memo[id(self)] = copied
+
         copied.__provides = deepcopy(self.__provides, memo)
         copied.__providers = deepcopy(self.__providers, memo)
+
+        # TODO: remove duplication
+        copied_parent = (
+            deepcopy(self.__parent, memo)
+            if is_provider(self.parent) or is_container_instance(self.parent)
+            else self.parent
+        )
+        copied.set_parent(copied_parent)
 
         self._copy_overridings(copied, memo)
 
@@ -853,6 +876,8 @@ cdef class DependenciesContainer(Object):
         provider = self.__providers.get(name)
         if not provider:
             provider = Dependency()
+            provider.set_parent(self)
+
             self.__providers[name] = provider
 
             container = self.__call__()
@@ -911,6 +936,29 @@ cdef class DependenciesContainer(Object):
         """Return related providers generator."""
         yield from self.providers.values()
         yield from super().related
+
+    def resolve_provider_name(self, provider):
+        """Try to resolve provider name."""
+        # TODO: add tests
+        for provider_name, container_provider in self.providers.items():
+            if container_provider is provider:
+                return provider_name
+        else:
+            raise Error(f'Can not resolve name for provider "{provider}"')
+
+    @property
+    def parent_name(self):
+        """Return parent name."""
+        return f'{self.parent.parent_name}.{self.parent.resolve_provider_name(self)}'
+
+    @property
+    def parent(self):
+        """Return parent."""
+        return self.__parent
+
+    def set_parent(self, parent):
+        """Set parent."""
+        self.__parent = parent
 
     cpdef object _override_providers(self, object container):
         """Override providers with providers from provided container."""
