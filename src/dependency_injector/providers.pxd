@@ -227,6 +227,7 @@ cdef class Container(Provider):
     cdef object __container_cls
     cdef dict __overriding_providers
     cdef object __container
+    cdef object __parent
 
     cpdef object _provide(self, tuple args, dict kwargs)
 

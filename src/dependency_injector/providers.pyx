@@ -3522,23 +3522,38 @@ cdef class Container(Provider):
 
         if container is None:
             container = container_cls()
+            container.set_parent(self)
         self.__container = container
 
-        self.apply_overridings()
+        if self.__container and self.__overriding_providers:
+            self.apply_overridings()
+
+        self.__parent = None
 
         super(Container, self).__init__()
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
+        cdef Container copied
+
         copied = memo.get(id(self))
         if copied is not None:
             return copied
 
-        copied = self.__class__(
-            self.__container_cls,
-            deepcopy(self.__container, memo),
-            **deepcopy(self.__overriding_providers, memo),
+        copied = self.__class__(self.__container_cls, UNDEFINED)
+        memo[id(self)] = copied
+
+        copied.__container = deepcopy(self.__container, memo)
+        copied.__overriding_providers = deepcopy(self.__overriding_providers, memo)
+        copied.apply_overridings()
+
+        # TODO: remove duplication
+        copied_parent = (
+            deepcopy(self.__parent, memo)
+            if is_provider(self.parent) or is_container_instance(self.parent)
+            else self.parent
         )
+        copied.set_parent(copied_parent)
 
         return copied
 
@@ -3573,6 +3588,20 @@ cdef class Container(Provider):
         This method should not be called directly. It is called on
         declarative container initialization."""
         self.__container.override_providers(**self.__overriding_providers)
+
+    @property
+    def parent_name(self):
+        """Return parent name."""
+        return f'{self.parent.parent_name}.{self.parent.resolve_provider_name(self)}'
+
+    @property
+    def parent(self):
+        """Return parent."""
+        return self.__parent
+
+    def set_parent(self, parent):
+        """Set parent."""
+        self.__parent = parent
 
     @property
     def related(self):

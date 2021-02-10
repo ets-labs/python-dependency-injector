@@ -8,12 +8,13 @@ from typing import (
     ClassVar,
     Callable as _Callable,
     Iterable,
+    Iterator,
     TypeVar,
     Awaitable,
     overload,
 )
 
-from .providers import Provider, Self
+from .providers import Provider, Self, ProviderParent
 
 
 C_Base = TypeVar('C_Base', bound='Container')
@@ -47,11 +48,14 @@ class Container:
     def resolve_provider_name(self, provider: Provider) -> str: ...
     @property
     def parent_name(self) -> str: ...
+    @property
+    def parent(self) -> ProviderParent: ...
+    def set_parent(self, parent: ProviderParent) -> None: ...
     @overload
-    def traverse(self, types: Optional[Iterable[Type[TT]]] = None) -> _Iterator[TT]: ...
+    def traverse(self, types: Optional[Iterable[Type[TT]]] = None) -> Iterator[TT]: ...
     @classmethod
     @overload
-    def traverse(self, types: Optional[Iterable[Type[TT]]] = None) -> _Iterator[TT]: ...
+    def traverse(cls, types: Optional[Iterable[Type[TT]]] = None) -> Iterator[TT]: ...
 
 
 class DynamicContainer(Container): ...

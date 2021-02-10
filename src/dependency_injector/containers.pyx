@@ -66,6 +66,7 @@ class DynamicContainer(Container):
         self.provider_type = providers.Provider
         self.providers = {}
         self.overridden = tuple()
+        self.parent = None
         self.declarative_parent = None
         self.wired_to_modules = []
         self.wired_to_packages = []
@@ -83,6 +84,7 @@ class DynamicContainer(Container):
 
         copied.provider_type = providers.Provider
         copied.overridden = providers.deepcopy(self.overridden, memo)
+        copied.parent = providers.deepcopy(self.parent, memo)
         copied.declarative_parent = self.declarative_parent
 
         copied.__self__ = providers.deepcopy(self.__self__, memo)
@@ -108,12 +110,14 @@ class DynamicContainer(Container):
 
         :rtype: None
         """
-        if isinstance(value, providers.Provider) and not isinstance(value, providers.Self):
+        if isinstance(value, providers.Provider) \
+                and not isinstance(value, providers.Self) \
+                and name != 'parent':
             _check_provider_type(self, value)
 
             self.providers[name] = value
 
-            if isinstance(value, (providers.Dependency, providers.DependenciesContainer)):
+            if isinstance(value, (providers.Dependency, providers.DependenciesContainer, providers.Container)):
                 value.set_parent(self)
 
         super(DynamicContainer, self).__setattr__(name, value)
@@ -303,7 +307,14 @@ class DynamicContainer(Container):
     @property
     def parent_name(self):
         """Return parent name."""
+        if self.parent:
+            return self.parent.parent_name
+
         return self.declarative_parent.__name__
+
+    def set_parent(self, parent):
+        """Set parent."""
+        self.parent = parent
 
     def resolve_provider_name(self, provider):
         """Try to resolve provider name."""
