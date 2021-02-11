@@ -119,7 +119,7 @@ class DynamicContainer(Container):
             self.providers[name] = value
 
             if isinstance(value, (providers.Dependency, providers.DependenciesContainer, providers.Container)):
-                value.set_parent(self)
+                value.assign_parent(self)
 
         super(DynamicContainer, self).__setattr__(name, value)
 
@@ -313,8 +313,8 @@ class DynamicContainer(Container):
 
         return self.declarative_parent.__name__
 
-    def set_parent(self, parent):
-        """Set parent."""
+    def assign_parent(self, parent):
+        """Assign parent."""
         self.parent = parent
 
     def resolve_provider_name(self, provider):
@@ -347,8 +347,6 @@ class DeclarativeContainerMetaClass(type):
             for name, provider in six.iteritems(attributes)
             if isinstance(provider, providers.Provider) and not isinstance(provider, providers.Self)
         }
-
-        # TODO: set dependencies parent
 
         inherited_providers = {
             name: provider
@@ -394,7 +392,6 @@ class DeclarativeContainerMetaClass(type):
             _check_provider_type(cls, value)
             cls.providers[name] = value
             cls.cls_providers[name] = value
-            # TODO: set dependencies parent
         super(DeclarativeContainerMetaClass, cls).__setattr__(name, value)
 
     def __delattr__(cls, str name):

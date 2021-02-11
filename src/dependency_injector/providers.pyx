@@ -644,7 +644,7 @@ cdef class Dependency(Provider):
             if is_provider(self.__parent) or is_container_instance(self.__parent)
             else self.__parent
         )
-        copied.set_parent(copied_parent)
+        copied.assign_parent(copied_parent)
 
         self._copy_overridings(copied, memo)
 
@@ -720,8 +720,8 @@ cdef class Dependency(Provider):
         """Return parent."""
         return self.__parent
 
-    def set_parent(self, parent):
-        """Set parent."""
+    def assign_parent(self, parent):
+        """Assign parent."""
         self.__parent = parent
 
     @property
@@ -837,7 +837,7 @@ cdef class DependenciesContainer(Object):
 
         for provider in dependencies.items():
             if isinstance(provider, (Dependency, DependenciesContainer, Container)):
-                provider.set_parent(self)
+                provider.assign_parent(self)
 
         self.__parent = None
 
@@ -863,7 +863,7 @@ cdef class DependenciesContainer(Object):
             if is_provider(self.parent) or is_container_instance(self.parent)
             else self.parent
         )
-        copied.set_parent(copied_parent)
+        copied.assign_parent(copied_parent)
 
         self._copy_overridings(copied, memo)
 
@@ -880,7 +880,7 @@ cdef class DependenciesContainer(Object):
         provider = self.__providers.get(name)
         if not provider:
             provider = Dependency()
-            provider.set_parent(self)
+            provider.assign_parent(self)
 
             self.__providers[name] = provider
 
@@ -960,8 +960,8 @@ cdef class DependenciesContainer(Object):
         """Return parent."""
         return self.__parent
 
-    def set_parent(self, parent):
-        """Set parent."""
+    def assign_parent(self, parent):
+        """Assign parent."""
         self.__parent = parent
 
     cpdef object _override_providers(self, object container):
@@ -3526,7 +3526,7 @@ cdef class Container(Provider):
 
         if container is None:
             container = container_cls()
-            container.set_parent(self)
+            container.assign_parent(self)
         self.__container = container
 
         if self.__container and self.__overriding_providers:
@@ -3557,7 +3557,7 @@ cdef class Container(Provider):
             if is_provider(self.parent) or is_container_instance(self.parent)
             else self.parent
         )
-        copied.set_parent(copied_parent)
+        copied.assign_parent(copied_parent)
 
         return copied
 
@@ -3603,8 +3603,8 @@ cdef class Container(Provider):
         """Return parent."""
         return self.__parent
 
-    def set_parent(self, parent):
-        """Set parent."""
+    def assign_parent(self, parent):
+        """Assign parent."""
         self.__parent = parent
 
     @property
