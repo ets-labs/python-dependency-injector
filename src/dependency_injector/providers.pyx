@@ -832,7 +832,7 @@ cdef class DependenciesContainer(Object):
         self.__providers = dependencies
 
         for provider in dependencies.items():
-            if isinstance(provider, (Dependency, DependenciesContainer)):
+            if isinstance(provider, (Dependency, DependenciesContainer, Container)):
                 provider.set_parent(self)
 
         self.__parent = None
