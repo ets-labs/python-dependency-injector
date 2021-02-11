@@ -474,6 +474,8 @@ cdef class Self(Provider):
             return copied
 
         copied = self.__class__()
+        memo[id(self)] = copied
+
         copied.set_container(deepcopy(self.__container, memo))
         copied.set_alt_names(self.__alt_names)
 
