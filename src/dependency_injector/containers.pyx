@@ -84,7 +84,6 @@ class DynamicContainer(Container):
 
         copied.provider_type = providers.Provider
         copied.overridden = providers.deepcopy(self.overridden, memo)
-        copied.parent = providers.deepcopy(self.parent, memo)
         copied.declarative_parent = self.declarative_parent
 
         copied.__self__ = providers.deepcopy(self.__self__, memo)
@@ -93,6 +92,8 @@ class DynamicContainer(Container):
 
         for name, provider in providers.deepcopy(self.providers, memo).items():
             copied.set_provider(name, provider)
+
+        copied.parent = providers.deepcopy(self.parent, memo)
 
         return copied
 
