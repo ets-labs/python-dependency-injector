@@ -632,14 +632,16 @@ cdef class Dependency(Provider):
             if self.__default is not UNDEFINED
             else UNDEFINED
         )
-        copied_parent = (
-            deepcopy(self.__parent, memo)
-            if is_provider(self.parent) or is_container_instance(self.parent)
-            else self.parent
-        )
 
         copied = self.__class__(self.__instance_of, copied_default)
+        memo[id(self)] = copied
+
         # TODO: introduce .set_default() for consistency
+        copied_parent = (
+            deepcopy(self.__parent, memo)
+            if is_provider(self.__parent) or is_container_instance(self.__parent)
+            else self.__parent
+        )
         copied.set_parent(copied_parent)
 
         self._copy_overridings(copied, memo)
