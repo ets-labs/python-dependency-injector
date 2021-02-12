@@ -638,14 +638,7 @@ cdef class Dependency(Provider):
         copied = self.__class__(self.__instance_of, copied_default)
         memo[id(self)] = copied
 
-        # TODO: introduce .set_default() for consistency
-        copied_parent = (
-            deepcopy(self.__parent, memo)
-            if is_provider(self.__parent) or is_container_instance(self.__parent)
-            else self.__parent
-        )
-        copied.assign_parent(copied_parent)
-
+        self._copy_parent(copied, memo)
         self._copy_overridings(copied, memo)
 
         return copied
@@ -715,22 +708,6 @@ cdef class Dependency(Provider):
         """Return default provider."""
         return self.__default
 
-    @property
-    def parent(self):
-        """Return parent."""
-        return self.__parent
-
-    def assign_parent(self, parent):
-        """Assign parent."""
-        self.__parent = parent
-
-    @property
-    def related(self):
-        """Return related providers generator."""
-        if self.__default is not UNDEFINED:
-            yield self.__default
-        yield from super().related
-
     def provided_by(self, provider):
         """Set external dependency provider.
 
@@ -740,6 +717,32 @@ cdef class Dependency(Provider):
         :rtype: None
         """
         return self.override(provider)
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        if self.__default is not UNDEFINED:
+            yield self.__default
+        yield from super().related
+
+    @property
+    def parent(self):
+        """Return parent."""
+        return self.__parent
+
+    @property
+    def parent_name(self):
+        """Return parent name."""
+        if not self.__parent:
+            return None
+        return f'{self.__parent.parent_name}.{self.__parent.resolve_provider_name(self)}'
+
+    def assign_parent(self, parent):
+        """Assign parent."""
+        self.__parent = parent
+
+    def _copy_parent(self, copied, memo):
+        _copy_parent(self, copied, memo)
 
     def _async_provide(self, future_result, future):
         instance = future.result()
@@ -755,18 +758,9 @@ cdef class Dependency(Provider):
             raise Error('{0} is not an instance of {1}'.format(instance, self.instance_of))
 
     def _raise_undefined_error(self):
-        error_message = 'Dependency is not defined'
-
-        if is_container_instance(self.parent) and self.parent.declarative_parent is not None:
-            name_in_container = self.parent.resolve_provider_name(self)
-            parent_name = self.parent.parent_name
-            error_message = f'Dependency "{parent_name}.{name_in_container}" is not defined'
-        elif isinstance(self.parent, DependenciesContainer):
-            name_in_container = self.parent.resolve_provider_name(self)
-            parent_name = self.parent.parent_name
-            error_message = f'Dependency "{parent_name}.{name_in_container}" is not defined'
-
-        raise Error(error_message)
+        if self.parent_name:
+            raise Error(f'Dependency "{self.parent_name}" is not defined')
+        raise Error('Dependency is not defined')
 
 
 cdef class ExternalDependency(Dependency):
@@ -4325,3 +4319,13 @@ def isasyncgenfunction(obj):
         return inspect.isasyncgenfunction(obj)
     except AttributeError:
         return False
+
+
+cpdef _copy_parent(object from_, object to, dict memo):
+    """Copy and assign provider parent."""
+    copied_parent = (
+        deepcopy(from_.parent, memo)
+        if is_provider(from_.parent) or is_container_instance(from_.parent)
+        else from_.parent
+    )
+    to.assign_parent(copied_parent)
