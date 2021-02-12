@@ -833,12 +833,11 @@ cdef class DependenciesContainer(Object):
 
     def __init__(self, **dependencies):
         """Initializer."""
-        self.__providers = dependencies
-
-        for provider in dependencies.items():
+        for provider in dependencies.values():
             if isinstance(provider, (Dependency, DependenciesContainer, Container)):
                 provider.assign_parent(self)
 
+        self.__providers = dependencies
         self.__parent = None
 
         super(DependenciesContainer, self).__init__(None)
@@ -857,14 +856,7 @@ cdef class DependenciesContainer(Object):
         copied.__provides = deepcopy(self.__provides, memo)
         copied.__providers = deepcopy(self.__providers, memo)
 
-        # TODO: remove duplication
-        copied_parent = (
-            deepcopy(self.__parent, memo)
-            if is_provider(self.parent) or is_container_instance(self.parent)
-            else self.parent
-        )
-        copied.assign_parent(copied_parent)
-
+        self._copy_parent(copied, memo)
         self._copy_overridings(copied, memo)
 
         return copied
@@ -943,7 +935,6 @@ cdef class DependenciesContainer(Object):
 
     def resolve_provider_name(self, provider):
         """Try to resolve provider name."""
-        # TODO: add tests
         for provider_name, container_provider in self.providers.items():
             if container_provider is provider:
                 return provider_name
@@ -951,18 +942,29 @@ cdef class DependenciesContainer(Object):
             raise Error(f'Can not resolve name for provider "{provider}"')
 
     @property
-    def parent_name(self):
-        """Return parent name."""
-        return f'{self.parent.parent_name}.{self.parent.resolve_provider_name(self)}'
-
-    @property
     def parent(self):
         """Return parent."""
         return self.__parent
 
+    @property
+    def parent_name(self):
+        """Return parent name."""
+        if not self.__parent:
+            return None
+
+        name = ''
+        if self.__parent.parent_name:
+            name += f'{self.__parent.parent_name}.'
+        name += f'{self.__parent.resolve_provider_name(self)}'
+
+        return name
+
     def assign_parent(self, parent):
         """Assign parent."""
         self.__parent = parent
+
+    def _copy_parent(self, copied, memo):
+        _copy_parent(self, copied, memo)
 
     cpdef object _override_providers(self, object container):
         """Override providers with providers from provided container."""
