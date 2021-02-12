@@ -175,3 +175,50 @@ class ContainerTests(unittest.TestCase):
         b = B(d=D())
         result = b.a().c().bar()
         self.assertEqual(result, 'foo++')
+
+    def test_assign_parent(self):
+        parent = providers.DependenciesContainer()
+        provider = providers.Container(TestCore)
+
+        provider.assign_parent(parent)
+
+        self.assertIs(provider.parent, parent)
+
+    def test_parent_name(self):
+        container = containers.DynamicContainer()
+        provider = providers.Container(TestCore)
+        container.name = provider
+        self.assertEqual(provider.parent_name, 'name')
+
+    def test_parent_name_with_deep_parenting(self):
+        provider = providers.Container(TestCore)
+        container = providers.DependenciesContainer(name=provider)
+        _ = providers.DependenciesContainer(container=container)
+        self.assertEqual(provider.parent_name, 'container.name')
+
+    def test_parent_name_is_none(self):
+        provider = providers.Container(TestCore)
+        self.assertIsNone(provider.parent_name)
+
+    def test_parent_deepcopy(self):
+        container = containers.DynamicContainer()
+        provider = providers.Container(TestCore)
+        container.name = provider
+
+        copied = providers.deepcopy(container)
+
+        self.assertIs(container.name.parent, container)
+        self.assertIs(copied.name.parent, copied)
+
+        self.assertIsNot(container, copied)
+        self.assertIsNot(container.name, copied.name)
+        self.assertIsNot(container.name.parent, copied.name.parent)
+
+    def test_resolve_provider_name(self):
+        container = providers.Container(TestCore)
+        self.assertEqual(container.resolve_provider_name(container.value_getter), 'value_getter')
+
+    def test_resolve_provider_name_no_provider(self):
+        container = providers.Container(TestCore)
+        with self.assertRaises(errors.Error):
+            container.resolve_provider_name(providers.Provider())

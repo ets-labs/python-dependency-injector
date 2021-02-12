@@ -3553,13 +3553,7 @@ cdef class Container(Provider):
         copied.__overriding_providers = deepcopy(self.__overriding_providers, memo)
         copied.apply_overridings()
 
-        # TODO: remove duplication
-        copied_parent = (
-            deepcopy(self.__parent, memo)
-            if is_provider(self.parent) or is_container_instance(self.parent)
-            else self.parent
-        )
-        copied.assign_parent(copied_parent)
+        self._copy_parent(copied, memo)
 
         return copied
 
@@ -3596,24 +3590,43 @@ cdef class Container(Provider):
         self.__container.override_providers(**self.__overriding_providers)
 
     @property
-    def parent_name(self):
-        """Return parent name."""
-        return f'{self.parent.parent_name}.{self.parent.resolve_provider_name(self)}'
+    def related(self):
+        """Return related providers generator."""
+        yield from self.providers.values()
+        yield from super().related
+
+    def resolve_provider_name(self, provider):
+        """Try to resolve provider name."""
+        for provider_name, container_provider in self.providers.items():
+            if container_provider is provider:
+                return provider_name
+        else:
+            raise Error(f'Can not resolve name for provider "{provider}"')
 
     @property
     def parent(self):
         """Return parent."""
         return self.__parent
 
+    @property
+    def parent_name(self):
+        """Return parent name."""
+        if not self.__parent:
+            return None
+
+        name = ''
+        if self.__parent.parent_name:
+            name += f'{self.__parent.parent_name}.'
+        name += f'{self.__parent.resolve_provider_name(self)}'
+
+        return name
+
     def assign_parent(self, parent):
         """Assign parent."""
         self.__parent = parent
 
-    @property
-    def related(self):
-        """Return related providers generator."""
-        yield from self.providers.values()
-        yield from super().related
+    def _copy_parent(self, copied, memo):
+        _copy_parent(self, copied, memo)
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""

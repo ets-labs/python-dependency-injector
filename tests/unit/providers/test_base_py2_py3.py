@@ -698,8 +698,6 @@ class DependenciesContainerTests(unittest.TestCase):
         self.assertEqual(container.resolve_provider_name(container.name), 'name')
 
     def test_resolve_provider_name_no_provider(self):
-        provider = providers.Dependency()
         container = providers.DependenciesContainer()
-
         with self.assertRaises(errors.Error):
-            container.resolve_provider_name(provider)
+            container.resolve_provider_name(providers.Provider())
