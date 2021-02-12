@@ -735,7 +735,13 @@ cdef class Dependency(Provider):
         """Return parent name."""
         if not self.__parent:
             return None
-        return f'{self.__parent.parent_name}.{self.__parent.resolve_provider_name(self)}'
+
+        name = ''
+        if self.__parent.parent_name:
+            name += f'{self.__parent.parent_name}.'
+        name += f'{self.__parent.resolve_provider_name(self)}'
+
+        return name
 
     def assign_parent(self, parent):
         """Assign parent."""

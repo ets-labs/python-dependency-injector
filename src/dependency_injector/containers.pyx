@@ -311,7 +311,10 @@ class DynamicContainer(Container):
         if self.parent:
             return self.parent.parent_name
 
-        return self.declarative_parent.__name__
+        if self.declarative_parent:
+            return self.declarative_parent.__name__
+
+        return None
 
     def assign_parent(self, parent):
         """Assign parent."""
