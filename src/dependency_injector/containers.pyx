@@ -305,6 +305,14 @@ class DynamicContainer(Container):
         for provider in self.traverse(types=[providers.BaseSingleton]):
             provider.reset()
 
+    def resolve_provider_name(self, provider):
+        """Try to resolve provider name."""
+        for provider_name, container_provider in self.providers.items():
+            if container_provider is provider:
+                return provider_name
+        else:
+            raise errors.Error(f'Can not resolve name for provider "{provider}"')
+
     @property
     def parent_name(self):
         """Return parent name."""
@@ -319,15 +327,6 @@ class DynamicContainer(Container):
     def assign_parent(self, parent):
         """Assign parent."""
         self.parent = parent
-
-    def resolve_provider_name(self, provider):
-        """Try to resolve provider name."""
-        # TODO: add tests
-        for provider_name, container_provider in self.providers.items():
-            if container_provider is provider:
-                return provider_name
-        else:
-            raise errors.Error(f'Can not resolve name for provider "{provider}"')
 
 
 class DeclarativeContainerMetaClass(type):
