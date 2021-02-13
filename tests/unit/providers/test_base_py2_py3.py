@@ -360,8 +360,128 @@ class DependencyTests(unittest.TestCase):
         self.provider.provided_by(providers.Factory(dict))
         self.assertRaises(errors.Error, self.provider)
 
-    def test_call_not_overridden(self):
-        self.assertRaises(errors.Error, self.provider)
+    def test_call_undefined(self):
+        with self.assertRaises(errors.Error) as context:
+            self.provider()
+        self.assertEqual(str(context.exception), 'Dependency is not defined')
+
+    def test_call_undefined_error_message_with_container_instance_parent(self):
+        class UserService:
+            def __init__(self, database):
+                self.database = database
+
+        class Container(containers.DeclarativeContainer):
+            database = providers.Dependency()
+
+            user_service = providers.Factory(
+                UserService,
+                database=database,  # <---- missing dependency
+            )
+
+        container = Container()
+
+        with self.assertRaises(errors.Error) as context:
+            container.user_service()
+
+        self.assertEqual(str(context.exception), 'Dependency "Container.database" is not defined')
+
+    def test_call_undefined_error_message_with_container_provider_parent_deep(self):
+        class Database:
+            pass
+
+        class UserService:
+            def __init__(self, db):
+                self.db = db
+
+        class Gateways(containers.DeclarativeContainer):
+            database_client = providers.Singleton(Database)
+
+        class Services(containers.DeclarativeContainer):
+            gateways = providers.DependenciesContainer()
+
+            user = providers.Factory(
+                UserService,
+                db=gateways.database_client,
+            )
+
+        class Container(containers.DeclarativeContainer):
+            gateways = providers.Container(Gateways)
+
+            services = providers.Container(
+                Services,
+                # gateways=gateways,  # <---- missing dependency
+            )
+
+        container = Container()
+
+        with self.assertRaises(errors.Error) as context:
+            container.services().user()
+
+        self.assertEqual(
+            str(context.exception),
+            'Dependency "Container.services.gateways.database_client" is not defined',
+        )
+
+    def test_call_undefined_error_message_with_dependenciescontainer_provider_parent(self):
+        class UserService:
+            def __init__(self, db):
+                self.db = db
+
+        class Services(containers.DeclarativeContainer):
+            gateways = providers.DependenciesContainer()
+
+            user = providers.Factory(
+                UserService,
+                db=gateways.database_client,  # <---- missing dependency
+            )
+
+        services = Services()
+
+        with self.assertRaises(errors.Error) as context:
+            services.user()
+
+        self.assertEqual(
+            str(context.exception),
+            'Dependency "Services.gateways.database_client" is not defined',
+        )
+
+    def test_assign_parent(self):
+        parent = providers.DependenciesContainer()
+        provider = providers.Dependency()
+
+        provider.assign_parent(parent)
+
+        self.assertIs(provider.parent, parent)
+
+    def test_parent_name(self):
+        container = containers.DynamicContainer()
+        provider = providers.Dependency()
+        container.name = provider
+        self.assertEqual(provider.parent_name, 'name')
+
+    def test_parent_name_with_deep_parenting(self):
+        provider = providers.Dependency()
+        container = providers.DependenciesContainer(name=provider)
+        _ = providers.DependenciesContainer(container=container)
+        self.assertEqual(provider.parent_name, 'container.name')
+
+    def test_parent_name_is_none(self):
+        provider = providers.DependenciesContainer()
+        self.assertIsNone(provider.parent_name)
+
+    def test_parent_deepcopy(self):
+        container = containers.DynamicContainer()
+        provider = providers.Dependency()
+        container.name = provider
+
+        copied = providers.deepcopy(container)
+
+        self.assertIs(container.name.parent, container)
+        self.assertIs(copied.name.parent, copied)
+
+        self.assertIsNot(container, copied)
+        self.assertIsNot(container.name, copied.name)
+        self.assertIsNot(container.name.parent, copied.name.parent)
 
     def test_deepcopy(self):
         provider = providers.Dependency(int)
@@ -523,3 +643,61 @@ class DependenciesContainerTests(unittest.TestCase):
 
         self.assertFalse(dependency.overridden)
         self.assertFalse(dependency.overridden)
+
+    def test_assign_parent(self):
+        parent = providers.DependenciesContainer()
+        provider = providers.DependenciesContainer()
+
+        provider.assign_parent(parent)
+
+        self.assertIs(provider.parent, parent)
+
+    def test_parent_name(self):
+        container = containers.DynamicContainer()
+        provider = providers.DependenciesContainer()
+        container.name = provider
+        self.assertEqual(provider.parent_name, 'name')
+
+    def test_parent_name_with_deep_parenting(self):
+        provider = providers.DependenciesContainer()
+        container = providers.DependenciesContainer(name=provider)
+        _ = providers.DependenciesContainer(container=container)
+        self.assertEqual(provider.parent_name, 'container.name')
+
+    def test_parent_name_is_none(self):
+        provider = providers.DependenciesContainer()
+        self.assertIsNone(provider.parent_name)
+
+    def test_parent_deepcopy(self):
+        container = containers.DynamicContainer()
+        provider = providers.DependenciesContainer()
+        container.name = provider
+
+        copied = providers.deepcopy(container)
+
+        self.assertIs(container.name.parent, container)
+        self.assertIs(copied.name.parent, copied)
+
+        self.assertIsNot(container, copied)
+        self.assertIsNot(container.name, copied.name)
+        self.assertIsNot(container.name.parent, copied.name.parent)
+
+    def test_parent_set_on__getattr__(self):
+        provider = providers.DependenciesContainer()
+        self.assertIsInstance(provider.name, providers.Dependency)
+        self.assertIs(provider.name.parent, provider)
+
+    def test_parent_set_on__init__(self):
+        provider = providers.Dependency()
+        container = providers.DependenciesContainer(name=provider)
+        self.assertIs(container.name, provider)
+        self.assertIs(container.name.parent, container)
+
+    def test_resolve_provider_name(self):
+        container = providers.DependenciesContainer()
+        self.assertEqual(container.resolve_provider_name(container.name), 'name')
+
+    def test_resolve_provider_name_no_provider(self):
+        container = providers.DependenciesContainer()
+        with self.assertRaises(errors.Error):
+            container.resolve_provider_name(providers.Provider())

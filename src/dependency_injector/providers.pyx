@@ -474,6 +474,8 @@ cdef class Self(Provider):
             return copied
 
         copied = self.__class__()
+        memo[id(self)] = copied
+
         copied.set_container(deepcopy(self.__container, memo))
         copied.set_alt_names(self.__alt_names)
 
@@ -617,6 +619,8 @@ cdef class Dependency(Provider):
             default = Object(default)
         self.__default = default
 
+        self.__parent = None
+
         super(Dependency, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -625,9 +629,16 @@ cdef class Dependency(Provider):
         if copied is not None:
             return copied
 
-        copied_default = deepcopy(self.__default, memo) if self.__default is not UNDEFINED else UNDEFINED
-        copied = self.__class__(self.__instance_of, copied_default)
+        copied_default = (
+            deepcopy(self.__default, memo)
+            if self.__default is not UNDEFINED
+            else UNDEFINED
+        )
 
+        copied = self.__class__(self.__instance_of, copied_default)
+        memo[id(self)] = copied
+
+        self._copy_parent(copied, memo)
         self._copy_overridings(copied, memo)
 
         return copied
@@ -644,7 +655,7 @@ cdef class Dependency(Provider):
         elif not self.__last_overriding and self.__default is not UNDEFINED:
             result = self.__default(*args, **kwargs)
         else:
-            raise Error('Dependency is not defined')
+            self._raise_undefined_error()
 
         if self.is_async_mode_disabled():
             self._check_instance_type(result)
@@ -697,13 +708,6 @@ cdef class Dependency(Provider):
         """Return default provider."""
         return self.__default
 
-    @property
-    def related(self):
-        """Return related providers generator."""
-        if self.__default is not UNDEFINED:
-            yield self.__default
-        yield from super().related
-
     def provided_by(self, provider):
         """Set external dependency provider.
 
@@ -713,6 +717,38 @@ cdef class Dependency(Provider):
         :rtype: None
         """
         return self.override(provider)
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        if self.__default is not UNDEFINED:
+            yield self.__default
+        yield from super().related
+
+    @property
+    def parent(self):
+        """Return parent."""
+        return self.__parent
+
+    @property
+    def parent_name(self):
+        """Return parent name."""
+        if not self.__parent:
+            return None
+
+        name = ''
+        if self.__parent.parent_name:
+            name += f'{self.__parent.parent_name}.'
+        name += f'{self.__parent.resolve_provider_name(self)}'
+
+        return name
+
+    def assign_parent(self, parent):
+        """Assign parent."""
+        self.__parent = parent
+
+    def _copy_parent(self, copied, memo):
+        _copy_parent(self, copied, memo)
 
     def _async_provide(self, future_result, future):
         instance = future.result()
@@ -726,6 +762,11 @@ cdef class Dependency(Provider):
     def _check_instance_type(self, instance):
         if not isinstance(instance, self.instance_of):
             raise Error('{0} is not an instance of {1}'.format(instance, self.instance_of))
+
+    def _raise_undefined_error(self):
+        if self.parent_name:
+            raise Error(f'Dependency "{self.parent_name}" is not defined')
+        raise Error('Dependency is not defined')
 
 
 cdef class ExternalDependency(Dependency):
@@ -792,7 +833,13 @@ cdef class DependenciesContainer(Object):
 
     def __init__(self, **dependencies):
         """Initializer."""
+        for provider in dependencies.values():
+            if isinstance(provider, CHILD_PROVIDERS):
+                provider.assign_parent(self)
+
         self.__providers = dependencies
+        self.__parent = None
+
         super(DependenciesContainer, self).__init__(None)
 
     def __deepcopy__(self, memo):
@@ -804,9 +851,12 @@ cdef class DependenciesContainer(Object):
             return copied
 
         copied = self.__class__()
+        memo[id(self)] = copied
+
         copied.__provides = deepcopy(self.__provides, memo)
         copied.__providers = deepcopy(self.__providers, memo)
 
+        self._copy_parent(copied, memo)
         self._copy_overridings(copied, memo)
 
         return copied
@@ -822,6 +872,8 @@ cdef class DependenciesContainer(Object):
         provider = self.__providers.get(name)
         if not provider:
             provider = Dependency()
+            provider.assign_parent(self)
+
             self.__providers[name] = provider
 
             container = self.__call__()
@@ -880,6 +932,39 @@ cdef class DependenciesContainer(Object):
         """Return related providers generator."""
         yield from self.providers.values()
         yield from super().related
+
+    def resolve_provider_name(self, provider):
+        """Try to resolve provider name."""
+        for provider_name, container_provider in self.providers.items():
+            if container_provider is provider:
+                return provider_name
+        else:
+            raise Error(f'Can not resolve name for provider "{provider}"')
+
+    @property
+    def parent(self):
+        """Return parent."""
+        return self.__parent
+
+    @property
+    def parent_name(self):
+        """Return parent name."""
+        if not self.__parent:
+            return None
+
+        name = ''
+        if self.__parent.parent_name:
+            name += f'{self.__parent.parent_name}.'
+        name += f'{self.__parent.resolve_provider_name(self)}'
+
+        return name
+
+    def assign_parent(self, parent):
+        """Assign parent."""
+        self.__parent = parent
+
+    def _copy_parent(self, copied, memo):
+        _copy_parent(self, copied, memo)
 
     cpdef object _override_providers(self, object container):
         """Override providers with providers from provided container."""
@@ -3443,23 +3528,32 @@ cdef class Container(Provider):
 
         if container is None:
             container = container_cls()
+            container.assign_parent(self)
         self.__container = container
 
-        self.apply_overridings()
+        if self.__container and self.__overriding_providers:
+            self.apply_overridings()
+
+        self.__parent = None
 
         super(Container, self).__init__()
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
+        cdef Container copied
+
         copied = memo.get(id(self))
         if copied is not None:
             return copied
 
-        copied = self.__class__(
-            self.__container_cls,
-            deepcopy(self.__container, memo),
-            **deepcopy(self.__overriding_providers, memo),
-        )
+        copied = self.__class__(self.__container_cls, UNDEFINED)
+        memo[id(self)] = copied
+
+        copied.__container = deepcopy(self.__container, memo)
+        copied.__overriding_providers = deepcopy(self.__overriding_providers, memo)
+        copied.apply_overridings()
+
+        self._copy_parent(copied, memo)
 
         return copied
 
@@ -3500,6 +3594,39 @@ cdef class Container(Provider):
         """Return related providers generator."""
         yield from self.providers.values()
         yield from super().related
+
+    def resolve_provider_name(self, provider):
+        """Try to resolve provider name."""
+        for provider_name, container_provider in self.providers.items():
+            if container_provider is provider:
+                return provider_name
+        else:
+            raise Error(f'Can not resolve name for provider "{provider}"')
+
+    @property
+    def parent(self):
+        """Return parent."""
+        return self.__parent
+
+    @property
+    def parent_name(self):
+        """Return parent name."""
+        if not self.__parent:
+            return None
+
+        name = ''
+        if self.__parent.parent_name:
+            name += f'{self.__parent.parent_name}.'
+        name += f'{self.__parent.resolve_provider_name(self)}'
+
+        return name
+
+    def assign_parent(self, parent):
+        """Assign parent."""
+        self.__parent = parent
+
+    def _copy_parent(self, copied, memo):
+        _copy_parent(self, copied, memo)
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
@@ -4033,6 +4160,9 @@ cpdef tuple parse_named_injections(dict kwargs):
     return tuple(injections)
 
 
+CHILD_PROVIDERS = (Dependency, DependenciesContainer, Container)
+
+
 cpdef bint is_provider(object instance):
     """Check if instance is provider instance.
 
@@ -4093,6 +4223,30 @@ cpdef str represent_provider(object provider, object provides):
         address=hex(id(provider)))
 
 
+cpdef bint is_container_instance(object instance):
+    """Check if instance is container instance.
+
+    :param instance: Instance to be checked.
+    :type instance: object
+
+    :rtype: bool
+    """
+    return (not isinstance(instance, CLASS_TYPES) and
+            getattr(instance, '__IS_CONTAINER__', False) is True)
+
+
+cpdef bint is_container_class(object instance):
+    """Check if instance is container class.
+
+    :param instance: Instance to be checked.
+    :type instance: object
+
+    :rtype: bool
+    """
+    return (isinstance(instance, CLASS_TYPES) and
+            getattr(instance, '__IS_CONTAINER__', False) is True)
+
+
 cpdef object deepcopy(object instance, dict memo=None):
     """Return full copy of provider or container with providers."""
     if memo is None:
@@ -4101,6 +4255,7 @@ cpdef object deepcopy(object instance, dict memo=None):
     __add_sys_streams(memo)
 
     return copy.deepcopy(instance, memo)
+
 
 def __add_sys_streams(memo):
     """Add system streams to memo dictionary.
@@ -4188,3 +4343,13 @@ def isasyncgenfunction(obj):
         return inspect.isasyncgenfunction(obj)
     except AttributeError:
         return False
+
+
+cpdef _copy_parent(object from_, object to, dict memo):
+    """Copy and assign provider parent."""
+    copied_parent = (
+        deepcopy(from_.parent, memo)
+        if is_provider(from_.parent) or is_container_instance(from_.parent)
+        else from_.parent
+    )
+    to.assign_parent(copied_parent)

@@ -336,6 +336,62 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertIs(obj32, obj42)
         self.assertIs(obj33, obj43)
 
+    def test_assign_parent(self):
+        parent = providers.DependenciesContainer()
+        container = ContainerA()
+
+        container.assign_parent(parent)
+
+        self.assertIs(container.parent, parent)
+
+    def test_parent_name_declarative_parent(self):
+        container = ContainerA()
+        self.assertEqual(container.parent_name, 'ContainerA')
+
+    def test_parent_name(self):
+        container = ContainerA()
+        self.assertEqual(container.parent_name, 'ContainerA')
+
+    def test_parent_name_with_deep_parenting(self):
+        class Container2(containers.DeclarativeContainer):
+
+            name = providers.Container(ContainerA)
+
+        class Container1(containers.DeclarativeContainer):
+
+            container = providers.Container(Container2)
+
+        container = Container1()
+        self.assertEqual(container.container().name.parent_name, 'Container1.container.name')
+
+    def test_parent_name_is_none(self):
+        container = containers.DynamicContainer()
+        self.assertIsNone(container.parent_name)
+
+    def test_parent_deepcopy(self):
+        class Container(containers.DeclarativeContainer):
+            container = providers.Container(ContainerA)
+
+        container = Container()
+
+        copied = providers.deepcopy(container)
+
+        self.assertIs(container.container.parent, container)
+        self.assertIs(copied.container.parent, copied)
+
+        self.assertIsNot(container, copied)
+        self.assertIsNot(container.container, copied.container)
+        self.assertIsNot(container.container.parent, copied.container.parent)
+
+    def test_resolve_provider_name(self):
+        container = ContainerA()
+        self.assertEqual(container.resolve_provider_name(container.p11), 'p11')
+
+    def test_resolve_provider_name_no_provider(self):
+        container = ContainerA()
+        with self.assertRaises(errors.Error):
+            container.resolve_provider_name(providers.Provider())
+
 
 class SelfTests(unittest.TestCase):
 
