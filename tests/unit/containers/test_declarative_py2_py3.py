@@ -224,7 +224,7 @@ class DeclarativeContainerTests(unittest.TestCase):
                          (_OverridingContainer1.p11,
                           _OverridingContainer2.p11))
 
-    def test_reset_last_overridding(self):
+    def test_reset_last_overriding(self):
         class _Container(containers.DeclarativeContainer):
             p11 = providers.Provider()
 
@@ -244,7 +244,7 @@ class DeclarativeContainerTests(unittest.TestCase):
         self.assertEqual(_Container.p11.overridden,
                          (_OverridingContainer1.p11,))
 
-    def test_reset_last_overridding_when_not_overridden(self):
+    def test_reset_last_overriding_when_not_overridden(self):
         with self.assertRaises(errors.Error):
             ContainerA.reset_last_overriding()
 
@@ -431,3 +431,68 @@ class DeclarativeContainerTests(unittest.TestCase):
         self.assertIsInstance(container.p31, providers.Provider)
         self.assertIsInstance(container.p32, providers.Provider)
         self.assertIs(container.p11.last_overriding, provider)
+
+    def test_parent_set_in__new__(self):
+        class Container(containers.DeclarativeContainer):
+            dependency = providers.Dependency()
+            dependencies_container = providers.DependenciesContainer()
+            container = providers.Container(ContainerA)
+
+        self.assertIs(Container.dependency.parent, Container)
+        self.assertIs(Container.dependencies_container.parent, Container)
+        self.assertIs(Container.container.parent, Container)
+
+    def test_parent_set_in__setattr__(self):
+        class Container(containers.DeclarativeContainer):
+            pass
+
+        Container.dependency = providers.Dependency()
+        Container.dependencies_container = providers.DependenciesContainer()
+        Container.container = providers.Container(ContainerA)
+
+        self.assertIs(Container.dependency.parent, Container)
+        self.assertIs(Container.dependencies_container.parent, Container)
+        self.assertIs(Container.container.parent, Container)
+
+    def test_resolve_provider_name(self):
+        self.assertEqual(ContainerA.resolve_provider_name(ContainerA.p11), 'p11')
+
+    def test_resolve_provider_name_no_provider(self):
+        with self.assertRaises(errors.Error):
+            ContainerA.resolve_provider_name(providers.Provider())
+
+    def test_child_dependency_parent_name(self):
+        class Container(containers.DeclarativeContainer):
+            dependency = providers.Dependency()
+
+        with self.assertRaises(errors.Error) as context:
+            Container.dependency()
+        self.assertEqual(
+            str(context.exception),
+            'Dependency "Container.dependency" is not defined',
+        )
+
+    def test_child_dependencies_container_parent_name(self):
+        class Container(containers.DeclarativeContainer):
+            dependencies_container = providers.DependenciesContainer()
+
+        with self.assertRaises(errors.Error) as context:
+            Container.dependencies_container.dependency()
+        self.assertEqual(
+            str(context.exception),
+            'Dependency "Container.dependencies_container.dependency" is not defined',
+        )
+
+    def test_child_container_parent_name(self):
+        class ChildContainer(containers.DeclarativeContainer):
+            dependency = providers.Dependency()
+
+        class Container(containers.DeclarativeContainer):
+            child_container = providers.Container(ChildContainer)
+
+        with self.assertRaises(errors.Error) as context:
+            Container.child_container.dependency()
+        self.assertEqual(
+            str(context.exception),
+            'Dependency "Container.child_container.dependency" is not defined',
+        )

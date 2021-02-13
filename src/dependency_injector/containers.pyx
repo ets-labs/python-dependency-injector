@@ -374,6 +374,10 @@ class DeclarativeContainerMetaClass(type):
         for provider in six.itervalues(cls.providers):
             _check_provider_type(cls, provider)
 
+        for provider in six.itervalues(cls.cls_providers):
+            if isinstance(provider, providers.CHILD_PROVIDERS):
+                provider.assign_parent(cls)
+
         return cls
 
     def __setattr__(cls, str name, object value):
@@ -392,6 +396,10 @@ class DeclarativeContainerMetaClass(type):
         """
         if isinstance(value, providers.Provider) and name != '__self__':
             _check_provider_type(cls, value)
+
+            if isinstance(value, providers.CHILD_PROVIDERS):
+                value.assign_parent(cls)
+
             cls.providers[name] = value
             cls.cls_providers[name] = value
         super(DeclarativeContainerMetaClass, cls).__setattr__(name, value)
@@ -425,12 +433,25 @@ class DeclarativeContainerMetaClass(type):
         return {
             name: provider
             for name, provider in cls.providers.items()
-            if isinstance(provider, providers.CHILD_PROVIDERS)
+            if isinstance(provider, (providers.Dependency, providers.DependenciesContainer))
         }
 
     def traverse(cls, types=None):
         """Return providers traversal generator."""
         yield from providers.traverse(*cls.providers.values(), types=types)
+
+    def resolve_provider_name(cls, provider):
+        """Try to resolve provider name."""
+        for provider_name, container_provider in cls.providers.items():
+            if container_provider is provider:
+                return provider_name
+        else:
+            raise errors.Error(f'Can not resolve name for provider "{provider}"')
+
+    @property
+    def parent_name(cls):
+        """Return parent name."""
+        return cls.__name__
 
     @staticmethod
     def __fetch_self(attributes):
