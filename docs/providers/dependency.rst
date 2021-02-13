@@ -15,7 +15,12 @@ Dependency provider will control that returned object is an instance of ``instan
 
 To provide a dependency you need to override the ``Dependency`` provider. You can call
 provider ``.override()`` method or provide an overriding provider when creating a container.
-See :ref:`provider-overriding`.
+See :ref:`provider-overriding`. If you don't provide a dependency, ``Dependency`` provider
+will raise an error:
+
+.. literalinclude:: ../../examples/providers/dependency_undefined_error.py
+   :language: python
+   :lines: 18-
 
 You also can provide a default for the dependency. To provide a default use ``default`` argument:
 ``Dependency(..., default=...)``. Default can be a value or a provider. If default is not a provider,
