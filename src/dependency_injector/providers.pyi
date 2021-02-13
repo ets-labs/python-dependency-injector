@@ -437,3 +437,6 @@ if pydantic:
     PydanticSettings = pydantic.BaseSettings
 else:
     PydanticSettings = Any
+
+
+CHILD_PROVIDERS: Tuple[Provider]

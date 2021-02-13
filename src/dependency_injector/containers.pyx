@@ -118,7 +118,7 @@ class DynamicContainer(Container):
 
             self.providers[name] = value
 
-            if isinstance(value, (providers.Dependency, providers.DependenciesContainer, providers.Container)):
+            if isinstance(value, providers.CHILD_PROVIDERS):
                 value.assign_parent(self)
 
         super(DynamicContainer, self).__setattr__(name, value)
@@ -425,7 +425,7 @@ class DeclarativeContainerMetaClass(type):
         return {
             name: provider
             for name, provider in cls.providers.items()
-            if isinstance(provider, (providers.Dependency, providers.DependenciesContainer))
+            if isinstance(provider, providers.CHILD_PROVIDERS)
         }
 
     def traverse(cls, types=None):

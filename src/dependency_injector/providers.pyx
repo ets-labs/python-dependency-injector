@@ -834,7 +834,7 @@ cdef class DependenciesContainer(Object):
     def __init__(self, **dependencies):
         """Initializer."""
         for provider in dependencies.values():
-            if isinstance(provider, (Dependency, DependenciesContainer, Container)):
+            if isinstance(provider, CHILD_PROVIDERS):
                 provider.assign_parent(self)
 
         self.__providers = dependencies
@@ -4158,6 +4158,9 @@ cpdef tuple parse_named_injections(dict kwargs):
         injections.append(injection)
 
     return tuple(injections)
+
+
+CHILD_PROVIDERS = (Dependency, DependenciesContainer, Container)
 
 
 cpdef bint is_provider(object instance):
