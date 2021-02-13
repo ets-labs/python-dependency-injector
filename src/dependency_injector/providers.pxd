@@ -41,6 +41,7 @@ cdef class Delegate(Provider):
 cdef class Dependency(Provider):
     cdef object __instance_of
     cdef object __default
+    cdef object __parent
 
 
 cdef class ExternalDependency(Dependency):
@@ -49,6 +50,7 @@ cdef class ExternalDependency(Dependency):
 
 cdef class DependenciesContainer(Object):
     cdef dict __providers
+    cdef object __parent
 
     cpdef object _override_providers(self, object container)
 
@@ -225,6 +227,7 @@ cdef class Container(Provider):
     cdef object __container_cls
     cdef dict __overriding_providers
     cdef object __container
+    cdef object __parent
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
@@ -303,6 +306,12 @@ cpdef bint is_delegated(object instance)
 
 
 cpdef str represent_provider(object provider, object provides)
+
+
+cpdef bint is_container_instance(object instance)
+
+
+cpdef bint is_container_class(object instance)
 
 
 cpdef object deepcopy(object instance, dict memo=*)

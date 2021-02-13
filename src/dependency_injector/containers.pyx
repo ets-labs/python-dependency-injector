@@ -66,6 +66,7 @@ class DynamicContainer(Container):
         self.provider_type = providers.Provider
         self.providers = {}
         self.overridden = tuple()
+        self.parent = None
         self.declarative_parent = None
         self.wired_to_modules = []
         self.wired_to_packages = []
@@ -92,6 +93,8 @@ class DynamicContainer(Container):
         for name, provider in providers.deepcopy(self.providers, memo).items():
             copied.set_provider(name, provider)
 
+        copied.parent = providers.deepcopy(self.parent, memo)
+
         return copied
 
     def __setattr__(self, str name, object value):
@@ -108,9 +111,16 @@ class DynamicContainer(Container):
 
         :rtype: None
         """
-        if isinstance(value, providers.Provider) and not isinstance(value, providers.Self):
+        if isinstance(value, providers.Provider) \
+                and not isinstance(value, providers.Self) \
+                and name != 'parent':
             _check_provider_type(self, value)
+
             self.providers[name] = value
+
+            if isinstance(value, providers.CHILD_PROVIDERS):
+                value.assign_parent(self)
+
         super(DynamicContainer, self).__setattr__(name, value)
 
     def __delattr__(self, str name):
@@ -295,6 +305,29 @@ class DynamicContainer(Container):
         for provider in self.traverse(types=[providers.BaseSingleton]):
             provider.reset()
 
+    def resolve_provider_name(self, provider):
+        """Try to resolve provider name."""
+        for provider_name, container_provider in self.providers.items():
+            if container_provider is provider:
+                return provider_name
+        else:
+            raise errors.Error(f'Can not resolve name for provider "{provider}"')
+
+    @property
+    def parent_name(self):
+        """Return parent name."""
+        if self.parent:
+            return self.parent.parent_name
+
+        if self.declarative_parent:
+            return self.declarative_parent.__name__
+
+        return None
+
+    def assign_parent(self, parent):
+        """Assign parent."""
+        self.parent = parent
+
 
 class DeclarativeContainerMetaClass(type):
     """Declarative inversion of control container meta class."""
@@ -341,6 +374,10 @@ class DeclarativeContainerMetaClass(type):
         for provider in six.itervalues(cls.providers):
             _check_provider_type(cls, provider)
 
+        for provider in six.itervalues(cls.cls_providers):
+            if isinstance(provider, providers.CHILD_PROVIDERS):
+                provider.assign_parent(cls)
+
         return cls
 
     def __setattr__(cls, str name, object value):
@@ -359,6 +396,10 @@ class DeclarativeContainerMetaClass(type):
         """
         if isinstance(value, providers.Provider) and name != '__self__':
             _check_provider_type(cls, value)
+
+            if isinstance(value, providers.CHILD_PROVIDERS):
+                value.assign_parent(cls)
+
             cls.providers[name] = value
             cls.cls_providers[name] = value
         super(DeclarativeContainerMetaClass, cls).__setattr__(name, value)
@@ -398,6 +439,19 @@ class DeclarativeContainerMetaClass(type):
     def traverse(cls, types=None):
         """Return providers traversal generator."""
         yield from providers.traverse(*cls.providers.values(), types=types)
+
+    def resolve_provider_name(cls, provider):
+        """Try to resolve provider name."""
+        for provider_name, container_provider in cls.providers.items():
+            if container_provider is provider:
+                return provider_name
+        else:
+            raise errors.Error(f'Can not resolve name for provider "{provider}"')
+
+    @property
+    def parent_name(cls):
+        """Return parent name."""
+        return cls.__name__
 
     @staticmethod
     def __fetch_self(attributes):

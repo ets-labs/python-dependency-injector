@@ -3,7 +3,7 @@
 import abc
 import dataclasses
 
-from dependency_injector import containers, providers, errors
+from dependency_injector import containers, providers
 
 
 class DbAdapter(metaclass=abc.ABCMeta):
@@ -41,10 +41,5 @@ if __name__ == '__main__':
     assert isinstance(container2.user_service().database, PostgresDbAdapter)
 
     container3 = Container(database=providers.Singleton(object))
-    try:
-        container3.user_service()
-    except errors.Error as exception:
-        print(exception)
-        # The output is:
-        # <object object at 0x107ce5c40> is not an
-        # instance of <class '__main__.DbAdapter'>
+    container3.user_service()  # <-- raises error:
+    # <object ...> is not an instance of DbAdapter
