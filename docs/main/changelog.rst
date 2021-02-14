@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Add method ``container.check_dependencies()`` to check if all container dependencies
+  are defined.
+  See issue: `#383 <https://github.com/ets-labs/python-dependency-injector/issues/383>`_.
+  Thanks to `@shaunc <https://github.com/shaunc>`_ for suggesting the feature.
+
 4.21.0
 ------
 - Improve ``Dependency`` provider error message: when dependency is undefined,
