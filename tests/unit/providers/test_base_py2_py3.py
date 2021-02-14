@@ -352,6 +352,19 @@ class DependencyTests(unittest.TestCase):
         self.assertEqual(provider.default(), {'foo': 'bar'})
         self.assertIs(provider.default, default)
 
+    def test_is_defined(self):
+        provider = providers.Dependency()
+        self.assertFalse(provider.is_defined)
+
+    def test_is_defined_when_overridden(self):
+        provider = providers.Dependency()
+        provider.override('value')
+        self.assertTrue(provider.is_defined)
+
+    def test_is_defined_with_default(self):
+        provider = providers.Dependency(default='value')
+        self.assertTrue(provider.is_defined)
+
     def test_call_overridden(self):
         self.provider.provided_by(providers.Factory(list))
         self.assertIsInstance(self.provider(), list)
