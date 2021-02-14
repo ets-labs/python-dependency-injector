@@ -708,6 +708,11 @@ cdef class Dependency(Provider):
         """Return default provider."""
         return self.__default
 
+    @property
+    def is_defined(self):
+        """Return True if dependency is defined."""
+        return self.__last_overriding or self.__default is not UNDEFINED
+
     def provided_by(self, provider):
         """Set external dependency provider.
 
