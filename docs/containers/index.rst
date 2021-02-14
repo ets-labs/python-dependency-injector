@@ -24,4 +24,5 @@ Containers module API docs - :py:mod:`dependency_injector.containers`.
     specialization
     overriding
     reset_singletons
+    check_dependencies
     traversal
