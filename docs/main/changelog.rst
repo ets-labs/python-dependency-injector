@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.23.0
+------
 - Add support of aliases for ``Configuration`` provider.
   See issue: `#394 <https://github.com/ets-labs/python-dependency-injector/issues/394>`_.
   Thanks to `@gtors <https://github.com/gtors>`_ for suggesting the feature.
