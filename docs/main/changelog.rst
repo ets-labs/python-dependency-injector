@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.22.1
+------
+- Pin ``sphinx`` version to hotfix docs build.
+- Fix a typo in docs.
+
 4.22.0
 ------
 - Add method ``container.check_dependencies()`` to check if all container dependencies
