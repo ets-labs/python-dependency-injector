@@ -306,6 +306,25 @@ configuration provider to strict mode.
 
    Modifier ``.required()`` should be specified before type modifier ``.as_*()``.
 
+Aliases
+-------
+
+You can use ``Configuration`` provider with a context manager to create aliases.
+
+.. literalinclude:: ../../examples/providers/configuration/configuration_alias.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 14,22
+
+.. note::
+
+   Library ``environs`` is a 3rd party library. You need to install it
+   separately::
+
+      pip install environs
+
+   Documentation is available on GitHub: https://github.com/sloria/environs
+
 Injecting invariants
 --------------------
 
