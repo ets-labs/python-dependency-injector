@@ -94,7 +94,7 @@ Module ``models`` contains example SQLAlchemy user model. See ``webapp/models.py
    :language: python
 
 Database
------
+--------
 
 Module ``database`` defines declarative base and utility class with engine and session factory.
 See ``webapp/database.py``:
