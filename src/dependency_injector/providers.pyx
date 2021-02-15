@@ -1415,6 +1415,12 @@ cdef class ConfigurationOption(Provider):
 
         return copied
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc_info):
+        pass
+
     def __str__(self):
         return represent_provider(provider=self, provides=self.get_name())
 
@@ -1739,6 +1745,12 @@ cdef class Configuration(Object):
         self._copy_overridings(copied, memo)
 
         return copied
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc_info):
+        pass
 
     def __str__(self):
         return represent_provider(provider=self, provides=self.__name)
