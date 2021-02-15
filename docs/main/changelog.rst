@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.23.1
+------
+- Hotfix a bug with importing FastAPI ``Request``.
+  See issue: `#398 <https://github.com/ets-labs/python-dependency-injector/issues/398>`_.
+  Thanks to `@tapm <https://github.com/tapm>`_ for reporting the bug.
+
 4.23.0
 ------
 - Add support of aliases for ``Configuration`` provider.

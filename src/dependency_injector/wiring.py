@@ -345,8 +345,13 @@ def _unpatch(
 def _fetch_reference_injections(
         fn: Callable[..., Any],
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    # # Hotfix, see: https://github.com/ets-labs/python-dependency-injector/issues/362
-    if GenericAlias and fn is GenericAlias:
+    # Hotfix, see:
+    # - https://github.com/ets-labs/python-dependency-injector/issues/362
+    # - https://github.com/ets-labs/python-dependency-injector/issues/398
+    if GenericAlias and any((
+                fn is GenericAlias,
+                getattr(fn, '__func__', None) is GenericAlias
+            )):
         fn = fn.__init__
 
     signature = inspect.signature(fn)
