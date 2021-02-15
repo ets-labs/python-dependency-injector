@@ -591,6 +591,18 @@ class DependencyTests(unittest.TestCase):
                              repr(list),
                              hex(id(self.provider))))
 
+    def test_repr_in_container(self):
+        class Container(containers.DeclarativeContainer):
+            dependency = providers.Dependency(instance_of=int)
+
+        container = Container()
+
+        self.assertEqual(repr(container.dependency),
+                         '<dependency_injector.providers.'
+                         'Dependency({0}) at {1}, container name: "Container.dependency">'.format(
+                             repr(int),
+                             hex(id(container.dependency))))
+
 
 class ExternalDependencyTests(unittest.TestCase):
 

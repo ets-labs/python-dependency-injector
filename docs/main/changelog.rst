@@ -13,6 +13,7 @@ Development version
   are defined.
   See issue: `#383 <https://github.com/ets-labs/python-dependency-injector/issues/383>`_.
   Thanks to `@shaunc <https://github.com/shaunc>`_ for suggesting the feature.
+- Add container name to the representation of the ``Dependency`` provider.
 - Add docs cross-links between ``Singleton`` provider and "Reset container singletons"
   pages.
 
