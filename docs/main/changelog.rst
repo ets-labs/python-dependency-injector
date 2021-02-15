@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.22.0
+------
 - Add method ``container.check_dependencies()`` to check if all container dependencies
   are defined.
   See issue: `#383 <https://github.com/ets-labs/python-dependency-injector/issues/383>`_.
