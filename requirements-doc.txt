@@ -1,4 +1,5 @@
-sphinx
+# TODO: unpin 3.5.0 when this bug is fixed: https://github.com/sphinx-doc/sphinx/issues/8885
+sphinx<3.5.0
 -e git://github.com/rmk135/sphinxcontrib-disqus.git#egg=sphinxcontrib-disqus
 
 -r requirements-ext.txt
