@@ -243,6 +243,33 @@ class ConfigTests(unittest.TestCase):
         with self.assertRaises(AttributeError):
             a.__name__
 
+    def test_context_manager_alias(self):
+        class Container(containers.DeclarativeContainer):
+            config = providers.Configuration()
+
+        container = Container()
+
+        with container.config as cfg:
+            cfg.override({'foo': 'foo', 'bar': 'bar'})
+
+        self.assertEqual(container.config(), {'foo': 'foo', 'bar': 'bar'})
+        self.assertEqual(cfg(), {'foo': 'foo', 'bar': 'bar'})
+        self.assertIs(container.config, cfg)
+
+    def test_option_context_manager_alias(self):
+        class Container(containers.DeclarativeContainer):
+            config = providers.Configuration()
+
+        container = Container()
+
+        with container.config.option as opt:
+            opt.override({'foo': 'foo', 'bar': 'bar'})
+
+        self.assertEqual(container.config(), {'option': {'foo': 'foo', 'bar': 'bar'}})
+        self.assertEqual(container.config.option(), {'foo': 'foo', 'bar': 'bar'})
+        self.assertEqual(opt(), {'foo': 'foo', 'bar': 'bar'})
+        self.assertIs(container.config.option, opt)
+
     def test_missing_key(self):
         # See: https://github.com/ets-labs/python-dependency-injector/issues/358
         self.config.override(None)
