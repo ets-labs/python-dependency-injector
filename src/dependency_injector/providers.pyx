@@ -689,7 +689,12 @@ cdef class Dependency(Provider):
 
         :rtype: str
         """
-        return represent_provider(provider=self, provides=self.__instance_of)
+        name = f'<{self.__class__.__module__}.{self.__class__.__name__}'
+        name += f'({repr(self.__instance_of)}) at {hex(id(self))}'
+        if self.parent_name:
+            name += f', container name: "{self.parent_name}"'
+        name += f'>'
+        return name
 
     def __repr__(self):
         """Return string representation of provider.
@@ -707,6 +712,11 @@ cdef class Dependency(Provider):
     def default(self):
         """Return default provider."""
         return self.__default
+
+    @property
+    def is_defined(self):
+        """Return True if dependency is defined."""
+        return self.__last_overriding or self.__default is not UNDEFINED
 
     def provided_by(self, provider):
         """Set external dependency provider.

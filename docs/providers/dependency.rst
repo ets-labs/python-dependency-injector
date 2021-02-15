@@ -1,3 +1,5 @@
+.. _dependency-provider:
+
 Dependency provider
 ===================
 
@@ -30,5 +32,7 @@ dependency provider will wrap it into the ``Object`` provider.
    :language: python
    :lines: 16-23
    :emphasize-lines: 3
+
+See also: :ref:`check-container-dependencies`.
 
 .. disqus::

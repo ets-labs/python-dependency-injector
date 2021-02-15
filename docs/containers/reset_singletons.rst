@@ -1,3 +1,5 @@
+.. _reset-container-singletons:
+
 Reset container singletons
 --------------------------
 
@@ -15,5 +17,7 @@ Method ``.reset_singletons()`` also resets singletons in sub-containers: ``provi
    :language: python
    :lines: 3-
    :emphasize-lines: 21
+
+See also: :ref:`singleton-provider`.
 
 .. disqus::

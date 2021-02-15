@@ -1,3 +1,5 @@
+.. _singleton-provider:
+
 Singleton provider
 ==================
 
@@ -61,6 +63,8 @@ call ``.full_reset()`` method.
    :language: python
    :lines: 3-
    :emphasize-lines: 25
+
+See also: :ref:`reset-container-singletons`.
 
 Using singleton with multiple threads
 -------------------------------------

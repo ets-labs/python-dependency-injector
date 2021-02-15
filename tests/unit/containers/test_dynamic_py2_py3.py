@@ -336,6 +336,35 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertIs(obj32, obj42)
         self.assertIs(obj33, obj43)
 
+    def test_check_dependencies(self):
+        class SubContainer(containers.DeclarativeContainer):
+            dependency = providers.Dependency()
+
+        class Container(containers.DeclarativeContainer):
+            dependency = providers.Dependency()
+            dependencies_container = providers.DependenciesContainer()
+            provider = providers.List(dependencies_container.dependency)
+            sub_container = providers.Container(SubContainer)
+
+        container = Container()
+
+        with self.assertRaises(errors.Error) as context:
+            container.check_dependencies()
+
+        self.assertIn('Container "Container" has undefined dependencies:', str(context.exception))
+        self.assertIn('"Container.dependency"', str(context.exception))
+        self.assertIn('"Container.dependencies_container.dependency"', str(context.exception))
+        self.assertIn('"Container.sub_container.dependency"', str(context.exception))
+
+    def test_check_dependencies_all_defined(self):
+        class Container(containers.DeclarativeContainer):
+            dependency = providers.Dependency()
+
+        container = Container(dependency='provided')
+        result = container.check_dependencies()
+
+        self.assertIsNone(result)
+
     def test_assign_parent(self):
         parent = providers.DependenciesContainer()
         container = ContainerA()

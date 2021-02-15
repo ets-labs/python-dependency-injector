@@ -305,6 +305,30 @@ class DynamicContainer(Container):
         for provider in self.traverse(types=[providers.BaseSingleton]):
             provider.reset()
 
+    def check_dependencies(self):
+        """Check if container dependencies are defined.
+
+        If any dependency is undefined, raises an error.
+        """
+        undefined = [
+            dependency
+            for dependency in self.traverse(types=[providers.Dependency])
+            if not dependency.is_defined
+        ]
+
+        if not undefined:
+            return
+
+        container_name = self.parent_name if self.parent_name else self.__class__.__name__
+        undefined_names = [
+            f'"{dependency.parent_name if dependency.parent_name else dependency}"'
+            for dependency in undefined
+        ]
+        raise errors.Error(
+            f'Container "{container_name}" has undefined dependencies: '
+            f'{", ".join(undefined_names)}',
+        )
+
     def resolve_provider_name(self, provider):
         """Try to resolve provider name."""
         for provider_name, container_provider in self.providers.items():
