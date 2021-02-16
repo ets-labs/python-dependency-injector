@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.23.2
+------
 - Improve async mode exceptions handling.
 - Fix double printing of exception when async resource initialization causes an error.
 
