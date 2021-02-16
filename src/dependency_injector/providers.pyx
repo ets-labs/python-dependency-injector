@@ -3486,7 +3486,6 @@ cdef class Resource(Provider):
             resource = initializer.result()
         except Exception:
             self.__initialized = False
-            raise
         else:
             self.__resource = resource
             self.__shutdowner = shutdowner

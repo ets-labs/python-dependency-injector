@@ -449,14 +449,45 @@ class AsyncResourceTest(AsyncTestCase):
         self.assertTrue(provider.initialized)
         self.assertTrue(provider.is_async_mode_enabled())
 
-        # Disable default exception handling to prevent output
-        asyncio.get_event_loop().set_exception_handler(lambda loop, context: ...)
+        with self.assertRaises(RuntimeError):
+            self._run(future)
+
+        self.assertFalse(provider.initialized)
+        self.assertTrue(provider.is_async_mode_enabled())
+
+    def test_init_async_gen_with_error(self):
+        async def _init():
+            raise RuntimeError()
+            yield
+
+        provider = providers.Resource(_init)
+
+        future = provider()
+        self.assertTrue(provider.initialized)
+        self.assertTrue(provider.is_async_mode_enabled())
 
         with self.assertRaises(RuntimeError):
             self._run(future)
 
-        # Restore default exception handling
-        asyncio.get_event_loop().set_exception_handler(None)
+        self.assertFalse(provider.initialized)
+        self.assertTrue(provider.is_async_mode_enabled())
+
+    def test_init_async_subclass_with_error(self):
+        class _Resource(resources.AsyncResource):
+            async def init(self):
+                raise RuntimeError()
+
+            async def shutdown(self, resource):
+                pass
+
+        provider = providers.Resource(_Resource)
+
+        future = provider()
+        self.assertTrue(provider.initialized)
+        self.assertTrue(provider.is_async_mode_enabled())
+
+        with self.assertRaises(RuntimeError):
+            self._run(future)
 
         self.assertFalse(provider.initialized)
         self.assertTrue(provider.is_async_mode_enabled())
