@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.23.2
+------
+- Improve async mode exceptions handling.
+- Fix double printing of exception when async resource initialization causes an error.
+
 4.23.1
 ------
 - Hotfix a bug with importing FastAPI ``Request``.
