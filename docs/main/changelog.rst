@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Fix double printing of exception when initializing resource causes error.
+
 4.23.1
 ------
 - Hotfix a bug with importing FastAPI ``Request``.
