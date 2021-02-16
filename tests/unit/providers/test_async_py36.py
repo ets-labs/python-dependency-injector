@@ -245,10 +245,8 @@ class FactoryTests(AsyncTestCase):
 
         with self.assertRaises(TypeError) as context:
             self._run(container.client())
-        self.assertEqual(
-            str(context.exception),
-            "create_client() got an unexpected keyword argument 'resource1'",
-        )
+        self.assertIn("create_client() got", str(context.exception))
+        self.assertIn("unexpected keyword argument", str(context.exception))
 
     def test_attributes_injection(self):
         class ContainerWithAttributes(containers.DeclarativeContainer):
