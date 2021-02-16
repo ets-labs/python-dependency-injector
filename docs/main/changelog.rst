@@ -10,7 +10,7 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Improve async mode exceptions handling.
-- Fix double printing of exception when resource initialization causes an error in async mode.
+- Fix double printing of exception when async resource initialization causes an error.
 
 4.23.1
 ------
