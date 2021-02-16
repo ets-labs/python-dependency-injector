@@ -455,10 +455,14 @@ cdef inline void __async_prepare_args_kwargs_callback(
         object awaitables,
         object future,
 ):
-    awaited = future.result()
-    for value, (key, _) in zip(awaited, awaitables):
-        args[key] = value
-    future_result.set_result(args)
+    try:
+        awaited = future.result()
+    except Exception as exception:
+        future_result.set_exception(exception)
+    else:
+        for value, (key, _) in zip(awaited, awaitables):
+            args[key] = value
+        future_result.set_result(args)
 
 
 @cython.boundscheck(False)
@@ -560,19 +564,28 @@ cdef inline object __call(
 
 
 cdef inline void __async_call_callback(object future_result, object call, object future):
-    args, kwargs = future.result()
-    result = call(*args, **kwargs)
+    try:
+        args, kwargs = future.result()
+    except Exception as exception:
+        future_result.set_exception(exception)
+    else:
+        result = call(*args, **kwargs)
 
-    if __isawaitable(result):
-        result = asyncio.ensure_future(result)
-        result.add_done_callback(functools.partial(__async_result_callback, future_result))
-        return
+        if __isawaitable(result):
+            result = asyncio.ensure_future(result)
+            result.add_done_callback(functools.partial(__async_result_callback, future_result))
+            return
 
-    future_result.set_result(result)
+        future_result.set_result(result)
 
 
 cdef inline object __async_result_callback(object future_result, object future):
-    future_result.set_result(future.result())
+    try:
+        result = future.result()
+    except Exception as exception:
+        future_result.set_exception(exception)
+    else:
+        future_result.set_result(result)
 
 
 cdef inline object __callable_call(Callable self, tuple args, dict kwargs):

@@ -190,6 +190,25 @@ class FactoryTests(AsyncTestCase):
 
         self.assertIsNot(service1.client, service2.client)
 
+    def test_kwargs_error_injection(self):
+        async def init_resource():
+            raise Exception('Something went wrong')
+
+        class Container(containers.DeclarativeContainer):
+            resource_with_error = providers.Resource(init_resource)
+
+            client = providers.Factory(
+                Client,
+                resource1=resource_with_error,
+                resource2=None,
+            )
+
+        container = Container()
+
+        with self.assertRaises(Exception) as context:
+            self._run(container.client())
+        self.assertEqual(str(context.exception), 'Something went wrong')
+
     def test_attributes_injection(self):
         class ContainerWithAttributes(containers.DeclarativeContainer):
             resource1 = providers.Resource(init_resource, providers.Object(RESOURCE1))
