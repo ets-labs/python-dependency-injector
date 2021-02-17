@@ -987,3 +987,65 @@ class AsyncProvidersWithAsyncDependenciesTests(AsyncTestCase):
         service = self._run(container.service())
 
         self.assertEquals(service, {'service': 'ok', 'db': {'db': 'ok'}})
+
+
+class AsyncProviderWithAwaitableObjectTests(AsyncTestCase):
+
+    def test(self):
+        class SomeResource:
+            def __await__(self):
+                raise RuntimeError('Should never happen')
+
+        async def init_resource():
+            pool = SomeResource()
+            yield pool
+
+        class Service:
+            def __init__(self, resource) -> None:
+                self.resource = resource
+
+        class Container(containers.DeclarativeContainer):
+            resource = providers.Resource(init_resource)
+            service = providers.Singleton(Service, resource=resource)
+
+        container = Container()
+
+        self._run(container.init_resources())
+        self.assertIsInstance(container.service(), asyncio.Future)
+        self.assertIsInstance(container.resource(), asyncio.Future)
+
+        resource = self._run(container.resource())
+        service = self._run(container.service())
+
+        self.assertIsInstance(resource, SomeResource)
+        self.assertIsInstance(service.resource, SomeResource)
+        self.assertIs(service.resource, resource)
+
+    def test_without_init_resources(self):
+        class SomeResource:
+            def __await__(self):
+                raise RuntimeError('Should never happen')
+
+        async def init_resource():
+            pool = SomeResource()
+            yield pool
+
+        class Service:
+            def __init__(self, resource) -> None:
+                self.resource = resource
+
+        class Container(containers.DeclarativeContainer):
+            resource = providers.Resource(init_resource)
+            service = providers.Singleton(Service, resource=resource)
+
+        container = Container()
+
+        self.assertIsInstance(container.service(), asyncio.Future)
+        self.assertIsInstance(container.resource(), asyncio.Future)
+
+        resource = self._run(container.resource())
+        service = self._run(container.service())
+
+        self.assertIsInstance(resource, SomeResource)
+        self.assertIsInstance(service.resource, SomeResource)
+        self.assertIs(service.resource, resource)

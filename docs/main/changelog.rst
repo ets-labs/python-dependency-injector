@@ -7,6 +7,14 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.23.3
+------
+- Fix mistakenly processed awaitable objects in async mode. This bug has corrupted
+  ``fastapi-redis`` example causing pool exhaustion.
+  Thanks to Ilya Miroshnichenko and Valery Komarov for finding and reporting
+  the issue.
+- Refactor async mode.
+
 4.23.2
 ------
 - Improve async mode exceptions handling.
