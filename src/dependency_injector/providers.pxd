@@ -18,6 +18,7 @@ cdef class Provider(object):
     cdef int __async_mode
 
     cpdef object _provide(self, tuple args, dict kwargs)
+    cpdef object _process_result(self, object result)
     cpdef void _copy_overridings(self, Provider copied, dict memo)
 
 
@@ -544,14 +545,9 @@ cdef inline object __call(
 
     if args_awaitable or kwargs_awaitable:
         if not args_awaitable:
-            future = asyncio.Future()
-            future.set_result(args)
-            args = future
-
+            args = __future_result(args)
         if not kwargs_awaitable:
-            future = asyncio.Future()
-            future.set_result(kwargs)
-            kwargs = future
+            kwargs = __future_result(kwargs)
 
         future_result = asyncio.Future()
 
@@ -618,15 +614,9 @@ cdef inline object __factory_call(Factory self, tuple args, dict kwargs):
 
         if instance_awaitable or attributes_awaitable:
             if not instance_awaitable:
-                future = asyncio.Future()
-                future.set_result(instance)
-                instance = future
-
+                instance = __future_result(instance)
             if not attributes_awaitable:
-                future = asyncio.Future()
-                future.set_result(attributes)
-                attributes = future
-
+                attributes = __future_result(attributes)
             return __async_inject_attributes(instance, attributes)
 
         __inject_attributes(instance, attributes)
@@ -648,3 +638,15 @@ cdef inline bint __isawaitable(object instance):
         return inspect.isawaitable(instance)
 
     return False
+
+
+cdef inline bint __is_future_or_coroutine(object instance):
+    if asyncio is None:
+        return False
+    return asyncio.isfuture(instance) or asyncio.iscoroutine(instance)
+
+
+cdef inline object __future_result(object instance):
+    future_result = asyncio.Future()
+    future_result.set_result(instance)
+    return future_result
