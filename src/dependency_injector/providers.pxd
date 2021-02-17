@@ -6,7 +6,6 @@ except ImportError:
     asyncio = None
 
 import functools
-import inspect
 
 cimport cython
 
@@ -374,7 +373,7 @@ cdef inline object __provide_positional_args(
         value = __get_value(injection)
         positional_args.append(value)
 
-        if __isawaitable(value):
+        if __is_future_or_coroutine(value):
             awaitables.append((index, value))
 
     positional_args.extend(args)
@@ -405,7 +404,7 @@ cdef inline object __provide_keyword_args(
             name = __get_name(kw_injection)
             value = __get_value(kw_injection)
             kwargs[name] = value
-            if __isawaitable(value):
+            if __is_future_or_coroutine(value):
                 awaitables.append((name, value))
     else:
         kwargs, prefixed = __separate_prefixed_kwargs(kwargs)
@@ -424,7 +423,7 @@ cdef inline object __provide_keyword_args(
                 value = __get_value(kw_injection)
 
             kwargs[name] = value
-            if __isawaitable(value):
+            if __is_future_or_coroutine(value):
                 awaitables.append((name, value))
 
     if awaitables:
@@ -479,7 +478,7 @@ cdef inline object __provide_attributes(tuple attributes, int attributes_len):
         name = __get_name(attr_injection)
         value = __get_value(attr_injection)
         attribute_injections[name] = value
-        if __isawaitable(value):
+        if __is_future_or_coroutine(value):
             awaitables.append((name, value))
 
     if awaitables:
@@ -540,8 +539,8 @@ cdef inline object __call(
         injection_kwargs_len,
     )
 
-    args_awaitable = __isawaitable(args)
-    kwargs_awaitable = __isawaitable(kwargs)
+    args_awaitable = __is_future_or_coroutine(args)
+    kwargs_awaitable = __is_future_or_coroutine(kwargs)
 
     if args_awaitable or kwargs_awaitable:
         if not args_awaitable:
@@ -573,7 +572,7 @@ cdef inline void __async_call_callback(object future_result, object call, object
     except Exception as exception:
         future_result.set_exception(exception)
     else:
-        if __isawaitable(result):
+        if __is_future_or_coroutine(result):
             result = asyncio.ensure_future(result)
             result.add_done_callback(functools.partial(__async_result_callback, future_result))
             return
@@ -609,8 +608,8 @@ cdef inline object __factory_call(Factory self, tuple args, dict kwargs):
     if self.__attributes_len > 0:
         attributes = __provide_attributes(self.__attributes, self.__attributes_len)
 
-        instance_awaitable = __isawaitable(instance)
-        attributes_awaitable = __isawaitable(attributes)
+        instance_awaitable = __is_future_or_coroutine(instance)
+        attributes_awaitable = __is_future_or_coroutine(attributes)
 
         if instance_awaitable or attributes_awaitable:
             if not instance_awaitable:
@@ -622,22 +621,6 @@ cdef inline object __factory_call(Factory self, tuple args, dict kwargs):
         __inject_attributes(instance, attributes)
 
     return instance
-
-
-cdef bint __has_isawaitable = False
-
-
-cdef inline bint __isawaitable(object instance):
-    global __has_isawaitable
-
-    if __has_isawaitable is True:
-        return inspect.isawaitable(instance)
-
-    if hasattr(inspect, 'isawaitable'):
-        __has_isawaitable = True
-        return inspect.isawaitable(instance)
-
-    return False
 
 
 cdef inline bint __is_future_or_coroutine(object instance):
