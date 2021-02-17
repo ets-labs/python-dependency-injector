@@ -188,7 +188,19 @@ cdef class Provider(object):
             result = self.__last_overriding(*args, **kwargs)
         else:
             result = self._provide(args, kwargs)
-        return self._process_result(result)
+
+        if self.is_async_mode_disabled():
+            return result
+        elif self.is_async_mode_enabled():
+            if __is_future_or_coroutine(result):
+                return result
+            return __future_result(result)
+        elif self.is_async_mode_undefined():
+            if __is_future_or_coroutine(result):
+                self.enable_async_mode()
+            else:
+                self.disable_async_mode()
+            return result
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
@@ -371,20 +383,6 @@ cdef class Provider(object):
         overridden provider is called. Need to be overridden in subclasses.
         """
         raise NotImplementedError()
-
-    cpdef object _process_result(self, object result):
-        if self.is_async_mode_disabled():
-            return result
-        elif self.is_async_mode_enabled():
-            if __is_future_or_coroutine(result):
-                return result
-            return __future_result(result)
-        elif self.is_async_mode_undefined():
-            if __is_future_or_coroutine(result):
-                self.enable_async_mode()
-            else:
-                self.disable_async_mode()
-            return result
 
     cpdef void _copy_overridings(self, Provider copied, dict memo):
         """Copy provider overridings to a newly copied provider."""

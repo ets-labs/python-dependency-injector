@@ -13,6 +13,7 @@ Development version
   ``fastapi-redis`` example causing pool exhaustion.
   Thanks to Ilya Miroshnichenko and Valery Komarov for finding and reporting
   the issue.
+- Refactor async mode.
 
 4.23.2
 ------
