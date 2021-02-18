@@ -23,6 +23,7 @@ Containers module API docs - :py:mod:`dependency_injector.containers`.
     dynamic
     specialization
     overriding
+    copying
     reset_singletons
     check_dependencies
     traversal
