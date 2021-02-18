@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Refactor ``@containers.copy()`` decorator.
 - Refactor async mode support in containers module.
 
 4.23.5

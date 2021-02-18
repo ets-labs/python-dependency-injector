@@ -659,7 +659,7 @@ def override(object container):
 def copy(object container):
     """:py:class:`DeclarativeContainer` copying decorator.
 
-    This decorator copy all providers from provided container to decorated one.
+    This decorator copies all providers from provided container to decorated one.
     If one of the decorated container providers matches to source container
     providers by name, it would be replaced by reference.
 
@@ -676,7 +676,7 @@ def copy(object container):
             try:
                 source_provider = source_providers[name]
             except KeyError:
-                ...
+                continue
             else:
                 memo[id(source_provider)] = provider
 
