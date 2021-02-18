@@ -496,6 +496,28 @@ class DependencyTests(unittest.TestCase):
         self.assertIsNot(container.name, copied.name)
         self.assertIsNot(container.name.parent, copied.name.parent)
 
+    def test_forward_attr_to_default(self):
+        default = providers.Configuration()
+
+        provider = providers.Dependency(default=default)
+        provider.from_dict({'foo': 'bar'})
+
+        self.assertEqual(default(), {'foo': 'bar'})
+
+    def test_forward_attr_to_overriding(self):
+        overriding = providers.Configuration()
+
+        provider = providers.Dependency()
+        provider.override(overriding)
+        provider.from_dict({'foo': 'bar'})
+
+        self.assertEqual(overriding(), {'foo': 'bar'})
+
+    def test_forward_attr_to_none(self):
+        provider = providers.Dependency()
+        with self.assertRaises(AttributeError):
+            provider.from_dict
+
     def test_deepcopy(self):
         provider = providers.Dependency(int)
 
