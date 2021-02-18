@@ -1,4 +1,4 @@
-"""Declarative container provider overriding with `@override()` decorator."""
+"""Declarative container provider overriding with ``@override()`` decorator."""
 
 import sqlite3
 from unittest import mock
@@ -11,7 +11,7 @@ class Container(containers.DeclarativeContainer):
     database = providers.Singleton(sqlite3.connect, ':memory:')
 
 
-# Overriding `Container` with `OverridingContainer`:
+# Overriding ``Container`` with ``OverridingContainer``:
 @containers.override(Container)
 class OverridingContainer(containers.DeclarativeContainer):
 
