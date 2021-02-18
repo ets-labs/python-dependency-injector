@@ -680,6 +680,13 @@ cdef class Dependency(Provider):
                 self._check_instance_type(result)
                 return result
 
+    def __getattr__(self, name):
+        if self.__last_overriding:
+            return getattr(self.__last_overriding, name)
+        elif self.__default is not UNDEFINED:
+            return getattr(self.__default, name)
+        return super().__getattr__(name)
+
     def __str__(self):
         """Return string representation of provider.
 
