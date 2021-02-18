@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Refactor async mode support in containers module.
+
 4.23.5
 ------
 - Fix docs publishing.

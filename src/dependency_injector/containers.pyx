@@ -1,6 +1,5 @@
 """Containers module."""
 
-import inspect
 import sys
 
 try:
@@ -11,6 +10,7 @@ except ImportError:
 import six
 
 from . import providers, errors
+from .providers cimport __is_future_or_coroutine
 
 
 if sys.version_info[:2] >= (3, 6):
@@ -276,7 +276,7 @@ class DynamicContainer(Container):
         for provider in self.traverse(types=[providers.Resource]):
             resource = provider.init()
 
-            if _isawaitable(resource):
+            if __is_future_or_coroutine(resource):
                 futures.append(resource)
 
         if futures:
@@ -289,7 +289,7 @@ class DynamicContainer(Container):
         for provider in self.traverse(types=[providers.Resource]):
             shutdown = provider.shutdown()
 
-            if _isawaitable(shutdown):
+            if __is_future_or_coroutine(shutdown):
                 futures.append(shutdown)
 
         if futures:
@@ -711,10 +711,3 @@ cpdef object _check_provider_type(object container, object provider):
     if not isinstance(provider, container.provider_type):
         raise errors.Error('{0} can contain only {1} '
                            'instances'.format(container, container.provider_type))
-
-
-cpdef bint _isawaitable(object instance):
-    try:
-        return <bint> inspect.isawaitable(instance)
-    except AttributeError:
-        return <bint> False
