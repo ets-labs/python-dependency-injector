@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.24.0
+------
 - Add docs on ``@containers.copy()`` decorator.
 - Refactor ``@containers.copy()`` decorator.
 - Refactor async mode support in containers module.
