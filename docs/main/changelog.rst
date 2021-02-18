@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.25.0
+------
 - Add ``application-multiple-containers-runtime-overriding`` example. This example demonstrates
   how to build application from multiple containers and override one container config from
   another one in the runtime.
