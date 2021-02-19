@@ -109,6 +109,11 @@ class ProvidersMap:
             return self._resolve_config_option(provider)
         elif isinstance(provider, providers.TypedConfigurationOption):
             return self._resolve_config_option(provider.option, as_=provider.provides)
+        elif isinstance(provider, str):
+            current_provider = self._container
+            for segment in provider.split('.'):
+                current_provider = getattr(current_provider, segment)
+            return current_provider
         else:
             return self._resolve_provider(provider)
 
@@ -524,10 +529,10 @@ class ClassGetItemMeta(GenericMeta):
 
 class _Marker(Generic[T], metaclass=ClassGetItemMeta):
 
-    def __init__(self, provider: Union[providers.Provider, Container]) -> None:
+    def __init__(self, provider: Union[providers.Provider, Container, str]) -> None:
         if _is_declarative_container(provider):
             provider = provider.__self__
-        self.provider: providers.Provider = provider
+        self.provider = provider
 
     def __class_getitem__(cls, item) -> T:
         return cls(item)
