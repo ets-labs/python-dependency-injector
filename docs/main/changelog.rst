@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.25.1
+------
+- Amend docs and add another example for ``@containers.copy()`` decorator.
+
 4.25.0
 ------
 - Add ``application-multiple-containers-runtime-overriding`` example. This example demonstrates
