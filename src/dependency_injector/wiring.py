@@ -50,6 +50,12 @@ __all__ = (
     'wire',
     'unwire',
     'inject',
+    'as_int',
+    'as_float',
+    'as_',
+    'required',
+    'invariant',
+    'provided',
     'Provide',
     'Provider',
     'Closing',
@@ -85,16 +91,23 @@ _patched_registry = Registry()
 
 class ProvidersMap:
 
+    CONTAINER_STRING_ID = '<container>'
+
     def __init__(self, container):
         self._container = container
         self._map = self._create_providers_map(
             current_container=container,
-            original_container=container.declarative_parent,
+            original_container=(
+                container.declarative_parent
+                if container.declarative_parent
+                else container
+            ),
         )
 
     def resolve_provider(
             self,
-            provider: providers.Provider,
+            provider: Union[providers.Provider, str],
+            modifier: Optional['Modifier'] = None,
     ) -> Optional[providers.Provider]:
         if isinstance(provider, providers.Delegate):
             return self._resolve_delegate(provider)
@@ -110,18 +123,40 @@ class ProvidersMap:
         elif isinstance(provider, providers.TypedConfigurationOption):
             return self._resolve_config_option(provider.option, as_=provider.provides)
         elif isinstance(provider, str):
-            current_provider = self._container
-            for segment in provider.split('.'):
-                current_provider = getattr(current_provider, segment)
-            return current_provider
+            return self._resolve_string_id(provider, modifier)
         else:
             return self._resolve_provider(provider)
 
-    def _resolve_delegate(
-            self,
-            original: providers.Delegate,
-    ) -> Optional[providers.Provider]:
-        return self._resolve_provider(original.provides)
+    def _resolve_string_id(self, id: str, modifier: Optional['Modifier'] = None) -> Optional[providers.Provider]:
+        if id == self.CONTAINER_STRING_ID:
+            return self._container.__self__
+
+        provider = self._container
+        for segment in id.split('.'):
+            try:
+                provider = getattr(provider, segment)
+            except AttributeError:
+                return
+
+        if isinstance(modifier, TypeModifier):
+            provider = provider.as_(modifier.type_)
+        elif isinstance(modifier, RequiredModifier):
+            provider = provider.required()
+            if modifier.type_modifier:
+                provider = provider.as_(modifier.type_modifier.type_)
+        elif isinstance(modifier, InvariantModifier):
+            invariant_segment = self._resolve_string_id(modifier.id)
+            provider = provider[invariant_segment]
+        elif isinstance(modifier, ProvidedInstance):
+            provider = provider.provided
+            for type_, value in modifier.segments:
+                if type_ == ProvidedInstance.TYPE_ATTRIBUTE:
+                    provider = getattr(provider, value)
+                elif type_ == ProvidedInstance.TYPE_ITEM:
+                    provider = provider[value]
+                elif type_ == ProvidedInstance.TYPE_CALL:
+                    provider = provider.call()
+        return provider
 
     def _resolve_provided_instance(
             self,
@@ -155,6 +190,12 @@ class ProvidersMap:
                 )
 
         return new
+
+    def _resolve_delegate(
+            self,
+            original: providers.Delegate,
+    ) -> Optional[providers.Provider]:
+        return self._resolve_provider(original.provides)
 
     def _resolve_config_option(
             self,
@@ -386,7 +427,7 @@ def _fetch_reference_injections(
 
 def _bind_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> None:
     for injection, marker in fn.__reference_injections__.items():
-        provider = providers_map.resolve_provider(marker.provider)
+        provider = providers_map.resolve_provider(marker.provider, marker.modifier)
 
         if provider is None:
             continue
@@ -521,20 +562,108 @@ def _is_declarative_container(instance: Any) -> bool:
             and getattr(instance, 'declarative_parent', None) is None)
 
 
+class Modifier:
+    ...
+
+
+class TypeModifier(Modifier):
+    def __init__(self, type_: Type):
+        self.type_ = type_
+
+
+def as_int() -> TypeModifier:
+    return TypeModifier(int)
+
+
+def as_float() -> TypeModifier:
+    return TypeModifier(float)
+
+
+def as_(type_: Type) -> TypeModifier:
+    return TypeModifier(type_)
+
+
+class RequiredModifier(Modifier):
+    def __init__(self):
+        self.type_modifier = None
+
+    def as_int(self) -> 'RequiredModifier':
+        self.type_modifier = TypeModifier(int)
+        return self
+
+
+    def as_float(self) -> 'RequiredModifier':
+        self.type_modifier = TypeModifier(float)
+        return self
+
+
+    def as_(self, type_: Type) -> 'RequiredModifier':
+        self.type_modifier = TypeModifier(type_)
+        return self
+
+
+def required() -> RequiredModifier:
+    return RequiredModifier()
+
+
+class InvariantModifier(Modifier):
+    def __init__(self, id: str) -> None:
+        self.id = id
+
+
+def invariant(id: str) -> InvariantModifier:
+    return InvariantModifier(id)
+
+
+class ProvidedInstance(Modifier):
+
+    TYPE_ATTRIBUTE = 'attr'
+    TYPE_ITEM = 'item'
+    TYPE_CALL = 'call'
+
+    def __init__(self):
+        self.segments = []
+
+    def __getattr__(self, item):
+        self.segments.append((self.TYPE_ATTRIBUTE, item))
+        return self
+
+    def __getitem__(self, item):
+        self.segments.append((self.TYPE_ITEM, item))
+        return self
+
+    def call(self):
+        self.segments.append((self.TYPE_CALL, None))
+        return self
+
+
+def provided() -> ProvidedInstance:
+    return ProvidedInstance()
+
+
 class ClassGetItemMeta(GenericMeta):
     def __getitem__(cls, item):
         # Spike for Python 3.6
+        if isinstance(item, tuple):
+            return cls(*item)
         return cls(item)
 
 
 class _Marker(Generic[T], metaclass=ClassGetItemMeta):
 
-    def __init__(self, provider: Union[providers.Provider, Container, str]) -> None:
+    def __init__(
+            self,
+            provider: Union[providers.Provider, Container, str],
+            modifier: Optional[Modifier] = None,
+    ) -> None:
         if _is_declarative_container(provider):
             provider = provider.__self__
         self.provider = provider
+        self.modifier = modifier
 
     def __class_getitem__(cls, item) -> T:
+        if isinstance(item, tuple):
+            return cls(*item)
         return cls(item)
 
     def __call__(self) -> T:
