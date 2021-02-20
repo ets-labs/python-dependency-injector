@@ -597,11 +597,9 @@ class RequiredModifier(Modifier):
         self.type_modifier = TypeModifier(int)
         return self
 
-
     def as_float(self) -> 'RequiredModifier':
         self.type_modifier = TypeModifier(float)
         return self
-
 
     def as_(self, type_: Type) -> 'RequiredModifier':
         self.type_modifier = TypeModifier(type_)
