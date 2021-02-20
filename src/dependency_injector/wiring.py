@@ -572,14 +572,17 @@ class TypeModifier(Modifier):
 
 
 def as_int() -> TypeModifier:
+    """Return int type modifier."""
     return TypeModifier(int)
 
 
 def as_float() -> TypeModifier:
+    """Return float type modifier."""
     return TypeModifier(float)
 
 
 def as_(type_: Type) -> TypeModifier:
+    """Return custom type modifier."""
     return TypeModifier(type_)
 
 
@@ -603,6 +606,7 @@ class RequiredModifier(Modifier):
 
 
 def required() -> RequiredModifier:
+    """Return required modifier."""
     return RequiredModifier()
 
 
@@ -612,6 +616,7 @@ class InvariantModifier(Modifier):
 
 
 def invariant(id: str) -> InvariantModifier:
+    """Return invariant modifier."""
     return InvariantModifier(id)
 
 
@@ -638,6 +643,7 @@ class ProvidedInstance(Modifier):
 
 
 def provided() -> ProvidedInstance:
+    """Return provided instance modifier."""
     return ProvidedInstance()
 
 
