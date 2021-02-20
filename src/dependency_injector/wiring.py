@@ -127,7 +127,11 @@ class ProvidersMap:
         else:
             return self._resolve_provider(provider)
 
-    def _resolve_string_id(self, id: str, modifier: Optional['Modifier'] = None) -> Optional[providers.Provider]:
+    def _resolve_string_id(
+            self,
+            id: str,
+            modifier: Optional['Modifier'] = None,
+    ) -> Optional[providers.Provider]:
         if id == self.CONTAINER_STRING_ID:
             return self._container.__self__
 
@@ -548,7 +552,11 @@ def _is_declarative_container(instance: Any) -> bool:
 
 class Modifier:
 
-    def modify(self, provider: providers.ConfigurationOption, providers_map: ProvidersMap) -> providers.Provider:
+    def modify(
+            self,
+            provider: providers.ConfigurationOption,
+            providers_map: ProvidersMap,
+    ) -> providers.Provider:
         ...
 
 
@@ -557,7 +565,11 @@ class TypeModifier(Modifier):
     def __init__(self, type_: Type):
         self.type_ = type_
 
-    def modify(self, provider: providers.ConfigurationOption, providers_map: ProvidersMap) -> providers.Provider:
+    def modify(
+            self,
+            provider: providers.ConfigurationOption,
+            providers_map: ProvidersMap,
+    ) -> providers.Provider:
         return provider.as_(self.type_)
 
 
@@ -595,7 +607,11 @@ class RequiredModifier(Modifier):
         self.type_modifier = TypeModifier(type_)
         return self
 
-    def modify(self, provider: providers.ConfigurationOption, providers_map: ProvidersMap) -> providers.Provider:
+    def modify(
+            self,
+            provider: providers.ConfigurationOption,
+            providers_map: ProvidersMap,
+    ) -> providers.Provider:
         provider = provider.required()
         if self.type_modifier:
             provider = provider.as_(self.type_modifier.type_)
@@ -612,7 +628,11 @@ class InvariantModifier(Modifier):
     def __init__(self, id: str) -> None:
         self.id = id
 
-    def modify(self, provider: providers.ConfigurationOption, providers_map: ProvidersMap) -> providers.Provider:
+    def modify(
+            self,
+            provider: providers.ConfigurationOption,
+            providers_map: ProvidersMap,
+    ) -> providers.Provider:
         invariant_segment = providers_map.resolve_provider(self.id)
         return provider[invariant_segment]
 
@@ -643,7 +663,11 @@ class ProvidedInstance(Modifier):
         self.segments.append((self.TYPE_CALL, None))
         return self
 
-    def modify(self, provider: providers.ConfigurationOption, providers_map: ProvidersMap) -> providers.Provider:
+    def modify(
+            self,
+            provider: providers.ConfigurationOption,
+            providers_map: ProvidersMap,
+    ) -> providers.Provider:
         provider = provider.provided
         for type_, value in self.segments:
             if type_ == ProvidedInstance.TYPE_ATTRIBUTE:
