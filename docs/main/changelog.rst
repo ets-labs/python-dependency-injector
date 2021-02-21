@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.26.0
+------
 - Add wiring by string id.
 - Improve error message for ``Dependency`` provider missing attribute.
 
