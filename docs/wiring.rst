@@ -88,6 +88,82 @@ Also you can use ``Provide`` marker to inject a container.
    :emphasize-lines: 16-19
    :lines: 3-
 
+Strings identifiers
+-------------------
+
+You can use wiring with string identifiers. String identifier should match provider name in the container:
+
+.. literalinclude:: ../examples/wiring/example_string_id.py
+   :language: python
+   :emphasize-lines: 17
+   :lines: 3-
+
+With string identifiers you don't need to use a container to specify an injection.
+
+To specify an injection from a nested container use point ``.`` as a separator:
+
+.. code-block:: python
+
+   @inject
+   def foo(service: UserService = Provide['services.user']) -> None:
+       ...
+
+You can also use injection modifiers:
+
+.. code-block:: python
+
+   from dependency_injector.wiring import (
+       inject,
+       Provide,
+       as_int,
+       as_float,
+       as_,
+       required,
+       invariant,
+       provided,
+   )
+
+
+   @inject
+   def foo(value: int = Provide['config.option', as_int()]) -> None:
+       ...
+
+
+   @inject
+   def foo(value: float = Provide['config.option', as_float()]) -> None:
+       ...
+
+
+   @inject
+   def foo(value: Decimal = Provide['config.option', as_(Decimal)]) -> None:
+       ...
+
+   @inject
+   def foo(value: str = Provide['config.option', required()]) -> None:
+       ...
+
+   @inject
+   def foo(value: int = Provide['config.option', required().as_int()]) -> None:
+       ...
+
+
+   @inject
+   def foo(value: int = Provide['config.option', invariant('config.switch')]) -> None:
+       ...
+
+   @inject
+   def foo(value: int = Provide['service', provided().foo['bar'].call()]) -> None:
+       ...
+
+
+To inject a container use special identifier ``<container>``:
+
+.. code-block:: python
+
+   @inject
+   def foo(container: Container = Provide['<container>']) -> None:
+       ...
+
 Wiring with modules and packages
 --------------------------------
 
