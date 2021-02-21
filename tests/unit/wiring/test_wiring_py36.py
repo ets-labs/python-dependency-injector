@@ -169,6 +169,9 @@ class WiringTest(unittest.TestCase):
         }
         self.container.config.from_dict(config)
 
+        value_default = module.test_config_invariant()
+        self.assertEqual(value_default, 1)
+
         with self.container.config.switch.override('a'):
             value_a = module.test_config_invariant()
         self.assertEqual(value_a, 1)

@@ -685,7 +685,7 @@ cdef class Dependency(Provider):
             return getattr(self.__last_overriding, name)
         elif self.__default is not UNDEFINED:
             return getattr(self.__default, name)
-        return super().__getattr__(name)
+        raise AttributeError(f'Provider "{self.__class__.__name__}" has no attribute "{name}"')
 
     def __str__(self):
         """Return string representation of provider.
