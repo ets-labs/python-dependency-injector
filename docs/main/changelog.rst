@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Add wiring by string id.
 - Improve error message for ``Dependency`` provider missing attribute.
 
 4.25.1

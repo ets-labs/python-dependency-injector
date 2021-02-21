@@ -32,9 +32,9 @@ sys.path.append(_SAMPLES_DIR)
 
 from asyncutils import AsyncTestCase
 
-from wiringsamples import module, package
-from wiringsamples.service import Service
-from wiringsamples.container import Container, SubContainer
+from wiringstringidssamples import module, package
+from wiringstringidssamples.service import Service
+from wiringstringidssamples.container import Container, SubContainer
 
 
 class WiringTest(unittest.TestCase):
@@ -50,17 +50,17 @@ class WiringTest(unittest.TestCase):
         self.addCleanup(self.container.unwire)
 
     def test_package_lookup(self):
-        from wiringsamples.package import test_package_function
+        from wiringstringidssamples.package import test_package_function
         service = test_package_function()
         self.assertIsInstance(service, Service)
 
     def test_package_subpackage_lookup(self):
-        from wiringsamples.package.subpackage import test_package_function
+        from wiringstringidssamples.package.subpackage import test_package_function
         service = test_package_function()
         self.assertIsInstance(service, Service)
 
     def test_package_submodule_lookup(self):
-        from wiringsamples.package.subpackage.submodule import test_function
+        from wiringstringidssamples.package.subpackage.submodule import test_function
         service = test_function()
         self.assertIsInstance(service, Service)
 
@@ -203,11 +203,11 @@ class WiringTest(unittest.TestCase):
 
     def test_unwire_package_function(self):
         self.container.unwire()
-        from wiringsamples.package.subpackage.submodule import test_function
+        from wiringstringidssamples.package.subpackage.submodule import test_function
         self.assertIsInstance(test_function(), Provide)
 
     def test_unwire_package_function_by_reference(self):
-        from wiringsamples.package.subpackage import submodule
+        from wiringstringidssamples.package.subpackage import submodule
         self.container.unwire()
         self.assertIsInstance(submodule.test_function(), Provide)
 
@@ -225,7 +225,7 @@ class WiringTest(unittest.TestCase):
         self.assertEqual(some_value, 1)
 
     def test_closing_resource(self):
-        from wiringsamples import resourceclosing
+        from wiringstringidssamples import resourceclosing
 
         resourceclosing.Service.reset_counter()
 
@@ -246,7 +246,7 @@ class WiringTest(unittest.TestCase):
         self.assertIsNot(result_1, result_2)
 
     def test_closing_resource_context(self):
-        from wiringsamples import resourceclosing
+        from wiringstringidssamples import resourceclosing
 
         resourceclosing.Service.reset_counter()
         service = resourceclosing.Service()
@@ -274,21 +274,6 @@ class WiringTest(unittest.TestCase):
         self.assertIsInstance(service, Service)
 
 
-class WiringAndQueue(unittest.TestCase):
-
-    def test_wire_queue(self) -> None:
-        from wiringsamples import queuemodule
-        container = Container()
-        self.addCleanup(container.unwire)
-
-        # Should not raise exception
-        # See: https://github.com/ets-labs/python-dependency-injector/issues/362
-        try:
-            container.wire(modules=[queuemodule])
-        except:
-            raise
-
-
 class WiringAndFastAPITest(unittest.TestCase):
 
     container: Container
@@ -302,7 +287,7 @@ class WiringAndFastAPITest(unittest.TestCase):
         self.assertIsInstance(service, Service)
 
     def test_closing_resource_bypass_marker_injection(self):
-        from wiringsamples import resourceclosing
+        from wiringstringidssamples import resourceclosing
 
         resourceclosing.Service.reset_counter()
 
@@ -330,7 +315,7 @@ class WiringAndFastAPITest(unittest.TestCase):
 class WiringAsyncInjectionsTest(AsyncTestCase):
 
     def test_async_injections(self):
-        from wiringsamples import asyncinjections
+        from wiringstringidssamples import asyncinjections
 
         container = asyncinjections.Container()
         container.wire(modules=[asyncinjections])
@@ -350,7 +335,7 @@ class WiringAsyncInjectionsTest(AsyncTestCase):
         self.assertEqual(asyncinjections.resource2.shutdown_counter, 0)
 
     def test_async_injections_with_closing(self):
-        from wiringsamples import asyncinjections
+        from wiringstringidssamples import asyncinjections
 
         container = asyncinjections.Container()
         container.wire(modules=[asyncinjections])
@@ -380,27 +365,27 @@ class WiringAsyncInjectionsTest(AsyncTestCase):
         self.assertEqual(asyncinjections.resource2.shutdown_counter, 2)
 
 
-class AutoLoaderTest(unittest.TestCase):
-
-    container: Container
-
-    def setUp(self) -> None:
-        self.container = Container(config={'a': {'b': {'c': 10}}})
-        importlib.reload(module)
-
-    def tearDown(self) -> None:
-        with contextlib.suppress(ValueError):
-            unregister_loader_containers(self.container)
-
-        self.container.unwire()
-
-    @classmethod
-    def tearDownClass(cls) -> None:
-        importlib.reload(module)
-
-    def test_register_container(self):
-        register_loader_containers(self.container)
-        importlib.reload(module)
-
-        service = module.test_function()
-        self.assertIsInstance(service, Service)
+# class AutoLoaderTest(unittest.TestCase):
+#
+#     container: Container
+#
+#     def setUp(self) -> None:
+#         self.container = Container(config={'a': {'b': {'c': 10}}})
+#         importlib.reload(module)
+#
+#     def tearDown(self) -> None:
+#         with contextlib.suppress(ValueError):
+#             unregister_loader_containers(self.container)
+#
+#         self.container.unwire()
+#
+#     @classmethod
+#     def tearDownClass(cls) -> None:
+#         importlib.reload(module)
+#
+#     def test_register_container(self):
+#         register_loader_containers(self.container)
+#         importlib.reload(module)
+#
+#         service = module.test_function()
+#         self.assertIsInstance(service, Service)
