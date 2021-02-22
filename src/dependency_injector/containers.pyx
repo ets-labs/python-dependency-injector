@@ -11,6 +11,7 @@ import six
 
 from . import providers, errors
 from .providers cimport __is_future_or_coroutine
+from .schema import build_schema
 
 
 if sys.version_info[:2] >= (3, 6):
@@ -329,6 +330,21 @@ class DynamicContainer(Container):
             f'Container "{container_name}" has undefined dependencies: '
             f'{", ".join(undefined_names)}',
         )
+
+    def from_schema(self, schema):
+        """Build container providers from schema."""
+        for name, provider in build_schema(schema).items():
+            self.set_provider(name, provider)
+
+    def from_yaml_schema(self, filepath):
+        """Build container providers from YAML file schema."""
+        # TODO
+        ...
+
+    def from_json_schema(self, filepath):
+        """Build container providers from JSON file schema."""
+        # TODO
+        ...
 
     def resolve_provider_name(self, provider):
         """Try to resolve provider name."""
