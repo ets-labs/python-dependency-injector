@@ -120,19 +120,23 @@ class WiringTest(unittest.TestCase):
     def test_configuration_option(self):
         (
             value_int,
+            value_float,
             value_str,
             value_decimal,
             value_required,
             value_required_int,
+            value_required_float,
             value_required_str,
             value_required_decimal,
         ) = module.test_config_value()
 
         self.assertEqual(value_int, 10)
+        self.assertEqual(value_float, 10.0)
         self.assertEqual(value_str, '10')
         self.assertEqual(value_decimal, Decimal(10))
         self.assertEqual(value_required, 10)
         self.assertEqual(value_required_int, 10)
+        self.assertEqual(value_required_float, 10.0)
         self.assertEqual(value_required_str, '10')
         self.assertEqual(value_required_decimal, Decimal(10))
 

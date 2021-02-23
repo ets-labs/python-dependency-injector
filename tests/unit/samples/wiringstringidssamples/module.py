@@ -3,7 +3,17 @@
 from decimal import Decimal
 from typing import Callable
 
-from dependency_injector.wiring import inject, Provide, Provider, as_int, as_, required, invariant, provided
+from dependency_injector.wiring import (
+    inject,
+    Provide,
+    Provider,
+    as_int,
+    as_float,
+    as_,
+    required,
+    invariant,
+    provided,
+)
 
 from .container import Container
 from .service import Service
@@ -44,19 +54,23 @@ def test_function_provider(service_provider: Callable[..., Service] = Provider['
 @inject
 def test_config_value(
         value_int: int = Provide['config.a.b.c', as_int()],
+        value_float: float = Provide['config.a.b.c', as_float()],
         value_str: str = Provide['config.a.b.c', as_(str)],
         value_decimal: Decimal = Provide['config.a.b.c', as_(Decimal)],
         value_required: str = Provide['config.a.b.c', required()],
         value_required_int: int = Provide['config.a.b.c', required().as_int()],
+        value_required_float: float = Provide['config.a.b.c', required().as_float()],
         value_required_str: str = Provide['config.a.b.c', required().as_(str)],
         value_required_decimal: str = Provide['config.a.b.c', required().as_(Decimal)],
 ):
     return (
         value_int,
+        value_float,
         value_str,
         value_decimal,
         value_required,
         value_required_int,
+        value_required_float,
         value_required_str,
         value_required_decimal,
     )
