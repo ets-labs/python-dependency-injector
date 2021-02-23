@@ -1,0 +1,39 @@
+version: "1"
+
+providers:
+  config:
+    provider: Configuration
+
+  database_client:
+    provider: Singleton
+    provides: sqlite3.connect
+    args:
+      - config.database.dsn
+
+  s3_client:
+    provider: Singleton
+    provides: boto3.client
+    kwargs:
+      service_name: s3
+      aws_access_key_id: config.aws.access_key_id
+      aws_secret_access_key: config.aws.secret_access_key
+
+  user_service:
+    provider: Factory
+    provides: schemasample.services.UserService
+    kwargs:
+      db: database_client
+
+  auth_service:
+    provider: Factory
+    provides: schemasample.services.AuthService
+    kwargs:
+      db: database_client
+      token_ttl: config.auth.token_ttl.as_int()
+
+  photo_service:
+    provider: Factory
+    provides: schemasample.services.PhotoService
+    kwargs:
+      db: database_client
+      s3: s3_client
