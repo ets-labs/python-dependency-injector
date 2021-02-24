@@ -59,9 +59,14 @@ def _setup_injections(
         arg_injections = data.get('args')
         if arg_injections:
             for arg in arg_injections:
-                injection = _resolve_provider(container, arg)
+                injection = None
+
+                if isinstance(arg, str):
+                    injection = _resolve_provider(container, arg)
+
                 if not injection:
                     injection = arg
+
                 args.append(injection)
         if args:
             provider.add_args(*args)
@@ -69,9 +74,14 @@ def _setup_injections(
         kwarg_injections = data.get('kwargs')
         if kwarg_injections:
             for name, arg in kwarg_injections.items():
-                injection = _resolve_provider(container, arg)
+                injection = None
+
+                if isinstance(arg, str):
+                    injection = _resolve_provider(container, arg)
+
                 if not injection:
                     injection = arg
+
                 kwargs[name] = injection
         if kwargs:
             provider.add_kwargs(**kwargs)
@@ -112,7 +122,7 @@ def _get_provider_cls(provider_cls_name: str) -> Type[providers.Provider]:
     if custom_provider_type:
         return custom_provider_type
 
-    raise SchemaError(f'Undefined provider class: "{provider_cls_name}"')
+    raise SchemaError(f'Undefined provider class "{provider_cls_name}"')
 
 
 def _fetch_provider_cls_from_std(provider_cls_name: str) -> Optional[Type[providers.Provider]]:
@@ -134,7 +144,16 @@ def _import_provider_cls(provider_cls_name: str) -> Optional[Type[providers.Prov
 
 def _import_string(string_name: str) -> Optional[object]:
     segments = string_name.split('.')
+
+    if len(segments) == 1:
+        member = __builtins__.get(segments[0])
+        if member:
+            return member
+
     module_name = '.'.join(segments[:-1])
+    if not module_name:
+        return None
+
     member = segments[-1]
     module = importlib.import_module(module_name)
     return getattr(module, member, None)
