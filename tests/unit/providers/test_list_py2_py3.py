@@ -42,7 +42,7 @@ class ListTests(unittest.TestCase):
         provider = providers.List() \
             .add_args(1, 2) \
             .set_args(3, 4)
-        self.assertEqual(provider.args, tuple([3, 4]))
+        self.assertEqual(provider.args, (3, 4))
 
     def test_clear_args(self):
         provider = providers.List() \

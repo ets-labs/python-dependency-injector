@@ -190,7 +190,7 @@ class _BaseSingletonTestCase(object):
         provider = self.singleton_cls(Example) \
             .add_args(1, 2) \
             .set_args(3, 4)
-        self.assertEqual(provider.args, tuple([3, 4]))
+        self.assertEqual(provider.args, (3, 4))
 
     def test_set_kwargs(self):
         provider = self.singleton_cls(Example) \
