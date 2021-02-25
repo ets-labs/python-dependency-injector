@@ -10,6 +10,13 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Add tests for ``.as_float()`` modifier usage with wiring.
+- Make refactoring of wiring module and tests.
+  See PR # `#406 <https://github.com/ets-labs/python-dependency-injector/issues/406>`_.
+  Thanks to `@withshubh <https://github.com/withshubh>`_ for the contribution:
+    - Refactor unnecessary ``else`` / ``elif`` in ``wiring`` module when ``if`` block has a
+      return statement.
+    - Remove unused imports in tests.
+    - Use literal syntax to create data structure in tests.
 
 4.26.0
 ------
