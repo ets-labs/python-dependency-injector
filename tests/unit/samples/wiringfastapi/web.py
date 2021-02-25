@@ -1,6 +1,7 @@
 import sys
 
 from fastapi import FastAPI, Depends
+from fastapi import Request  # See: https://github.com/ets-labs/python-dependency-injector/issues/398
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from dependency_injector import containers, providers
 from dependency_injector.wiring import inject, Provide
