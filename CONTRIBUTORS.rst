@@ -15,3 +15,4 @@ Dependency Injector Contributors
 + Rüdiger Busche (JarnoRFB)
 + Dmitry Rassoshenko (rda-dev)
 + Fotis Koutoupas (kootoopas)
++ Shubhendra Singh Chauhan (withshubh)
