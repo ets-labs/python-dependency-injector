@@ -1,15 +1,10 @@
-import contextlib
 from decimal import Decimal
-import importlib
 import unittest
 
 from dependency_injector.wiring import (
     wire,
     Provide,
-    Closing,
-    register_loader_containers,
-    unregister_loader_containers,
-)
+    Closing)
 from dependency_injector import errors
 
 # Runtime import to avoid syntax errors in samples on Python < 3.5
