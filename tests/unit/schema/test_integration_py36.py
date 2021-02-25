@@ -1,9 +1,6 @@
-import pathlib
+import sqlite3
 import unittest
 
-import sqlite3
-
-import yaml
 from dependency_injector import containers
 
 # Runtime import
