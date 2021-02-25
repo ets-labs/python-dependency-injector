@@ -18,6 +18,7 @@ Development version
       return statement.
     - Remove unused imports in tests.
     - Use literal syntax to create data structure in tests.
+- Add integration with a static analysis tool `DeepSource <https://deepsource.io/>`_.
 
 4.26.0
 ------
