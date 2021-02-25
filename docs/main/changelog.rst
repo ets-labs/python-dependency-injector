@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Add ``boto3`` example.
 - Add tests for ``.as_float()`` modifier usage with wiring.
 - Make refactoring of wiring module and tests.
   See PR # `#406 <https://github.com/ets-labs/python-dependency-injector/issues/406>`_.

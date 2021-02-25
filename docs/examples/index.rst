@@ -13,6 +13,7 @@ Explore the examples to see the ``Dependency Injector`` in action.
     application-single-container
     application-multiple-containers
     decoupled-packages
+    boto3
     django
     flask
     flask-blueprints

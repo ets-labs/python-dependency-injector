@@ -155,6 +155,7 @@ Choose one of the following:
 - `Application example (single container) <https://python-dependency-injector.ets-labs.org/examples/application-single-container.html>`_
 - `Application example (multiple containers) <https://python-dependency-injector.ets-labs.org/examples/application-multiple-containers.html>`_
 - `Decoupled packages example (multiple containers) <https://python-dependency-injector.ets-labs.org/examples/decoupled-packages.html>`_
+- `Boto3 example <https://python-dependency-injector.ets-labs.org/examples/boto3.html>`_
 - `Django example <https://python-dependency-injector.ets-labs.org/examples/django.html>`_
 - `Flask example <https://python-dependency-injector.ets-labs.org/examples/flask.html>`_
 - `Aiohttp example <https://python-dependency-injector.ets-labs.org/examples/aiohttp.html>`_
