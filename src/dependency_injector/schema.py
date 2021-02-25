@@ -64,6 +64,8 @@ def _setup_injections(
                 if isinstance(arg, str):
                     injection = _resolve_provider(container, arg)
 
+                # TODO: add inline injections
+
                 if not injection:
                     injection = arg
 
@@ -78,6 +80,19 @@ def _setup_injections(
 
                 if isinstance(arg, str):
                     injection = _resolve_provider(container, arg)
+
+                # TODO: refactoring
+                if isinstance(arg, dict):
+                    provider_args = []
+                    provider_type = _get_provider_cls(arg.get('provider'))
+                    provides = arg.get('provides')
+                    if provides:
+                        provides = _import_string(provides)
+                        if provides:
+                            provider_args.append(provides)
+                    for provider_arg in arg.get('args', []):
+                        provider_args.append(_resolve_provider(container, provider_arg))
+                    injection = provider_type(*provider_args)
 
                 if not injection:
                     injection = arg
