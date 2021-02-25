@@ -228,7 +228,7 @@ class FactoryTests(unittest.TestCase):
         provider = providers.Factory(Example) \
             .add_args(1, 2) \
             .set_args(3, 4)
-        self.assertEqual(provider.args, tuple([3, 4]))
+        self.assertEqual(provider.args, (3, 4))
 
     def test_set_kwargs(self):
         provider = providers.Factory(Example) \
