@@ -6,52 +6,64 @@ from typing import Dict, Any, Type, Optional
 from . import containers, providers
 
 
-Schema = Dict[Any, Any]
+ContainerSchema = Dict[Any, Any]
+ProviderSchema = Dict[Any, Any]
 
 
 class SchemaProcessorV1:
 
-    def __init__(self, schema: Schema) -> None:
+    def __init__(self, schema: ContainerSchema) -> None:
         self._schema = schema
         self._container = containers.DynamicContainer()
 
     def process(self):
         """Process schema."""
-        self._create_providers(self._schema)
-        self._setup_injections(self._schema)
+        self._create_providers(self._schema['container'])
+        self._setup_injections(self._schema['container'])
 
     def get_providers(self):
         """Return providers."""
         return self._container.providers
 
-    def _create_providers(self, schema: Schema, container: Optional[containers.Container] = None) -> None:
+    def _create_providers(
+            self,
+            provider_schema: ProviderSchema,
+            container: Optional[containers.Container] = None,
+    ) -> None:
         if container is None:
             container = self._container
-        for provider_name, data in schema['providers'].items():
-            provider_type = _get_provider_cls(data['provider'])
-            args = []
+        for provider_name, data in provider_schema.items():
+            provider = None
 
-            provides = data.get('provides')
-            if provides:
-                provides = _import_string(provides)
+            if 'provider' in data:
+                provider_type = _get_provider_cls(data['provider'])
+                args = []
+
+                provides = data.get('provides')
                 if provides:
-                    args.append(provides)
+                    provides = _import_string(provides)
+                    if provides:
+                        args.append(provides)
 
-            if provider_type is providers.Container:
-                provides = containers.DynamicContainer
-                args.append(provides)
+                provider = provider_type(*args)
 
-            provider = provider_type(*args)
+            if provider is None:
+                provider = providers.Container(containers.DynamicContainer)
+
             container.set_provider(provider_name, provider)
 
             if isinstance(provider, providers.Container):
-                self._create_providers(schema=data, container=provider)
+                self._create_providers(provider_schema=data, container=provider)
 
-    def _setup_injections(self, schema: Schema, container: Optional[containers.Container] = None) -> None:
+    def _setup_injections(
+            self,
+            provider_schema: ProviderSchema,
+            container: Optional[containers.Container] = None,
+    ) -> None:
         if container is None:
             container = self._container
 
-        for provider_name, data in schema['providers'].items():
+        for provider_name, data in provider_schema.items():
             provider = getattr(container, provider_name)
             args = []
             kwargs = {}
@@ -61,10 +73,22 @@ class SchemaProcessorV1:
                 for arg in arg_injections:
                     injection = None
 
-                    if isinstance(arg, str):
-                        injection = self._resolve_provider(arg)
+                    if isinstance(arg, str) and arg.startswith('container.'):
+                        injection = self._resolve_provider(arg[len('container.'):])
 
-                    # TODO: add inline injections
+                    # TODO: refactoring
+                    if isinstance(arg, dict):
+                        provider_args = []
+                        provider_type = _get_provider_cls(arg.get('provider'))
+                        provides = arg.get('provides')
+                        if provides:
+                            provides = _import_string(provides)
+                            if provides:
+                                provider_args.append(provides)
+                        for provider_arg in arg.get('args', []):
+                            if isinstance(provider_arg, str) and provider_arg.startswith('container.'):
+                                provider_args.append(self._resolve_provider(provider_arg[len('container.'):]))
+                        injection = provider_type(*provider_args)
 
                     if not injection:
                         injection = arg
@@ -78,8 +102,8 @@ class SchemaProcessorV1:
                 for name, arg in kwarg_injections.items():
                     injection = None
 
-                    if isinstance(arg, str):
-                        injection = self._resolve_provider(arg)
+                    if isinstance(arg, str) and arg.startswith('container.'):
+                        injection = self._resolve_provider(arg[len('container.'):])
 
                     # TODO: refactoring
                     if isinstance(arg, dict):
@@ -91,7 +115,8 @@ class SchemaProcessorV1:
                             if provides:
                                 provider_args.append(provides)
                         for provider_arg in arg.get('args', []):
-                            provider_args.append(self._resolve_provider(provider_arg))
+                            if isinstance(provider_arg, str) and provider_arg.startswith('container.'):
+                                provider_args.append(self._resolve_provider(provider_arg[len('container.'):]))
                         injection = provider_type(*provider_args)
 
                     if not injection:
@@ -102,7 +127,7 @@ class SchemaProcessorV1:
                 provider.add_kwargs(**kwargs)
 
             if isinstance(provider, providers.Container):
-                self._setup_injections(schema=data, container=provider)
+                self._setup_injections(provider_schema=data, container=provider)
 
     def _resolve_provider(self, name: str) -> Optional[providers.Provider]:
         segments = name.split('.')
@@ -127,7 +152,7 @@ class SchemaProcessorV1:
         return provider
 
 
-def build_schema(schema: Schema) -> Dict[str, providers.Provider]:
+def build_schema(schema: ContainerSchema) -> Dict[str, providers.Provider]:
     """Build provider schema."""
     schema_processor = SchemaProcessorV1(schema)
     schema_processor.process()

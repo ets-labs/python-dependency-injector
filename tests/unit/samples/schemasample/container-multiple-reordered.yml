@@ -1,49 +1,43 @@
 version: "1"
 
-providers:
+container:
 
   services:
-    provider: Container
-    providers:
-      user:
-        provider: Factory
-        provides: schemasample.services.UserService
-        kwargs:
-          db: gateways.database_client
+    user:
+      provider: Factory
+      provides: schemasample.services.UserService
+      kwargs:
+        db: container.gateways.database_client
 
-      auth:
-        provider: Factory
-        provides: schemasample.services.AuthService
-        kwargs:
-          db: gateways.database_client
-          token_ttl: core.config.auth.token_ttl.as_int()
+    auth:
+      provider: Factory
+      provides: schemasample.services.AuthService
+      kwargs:
+        db: container.gateways.database_client
+        token_ttl: container.core.config.auth.token_ttl.as_int()
 
-      photo:
-        provider: Factory
-        provides: schemasample.services.PhotoService
-        kwargs:
-          db: gateways.database_client
-          s3: gateways.s3_client
+    photo:
+      provider: Factory
+      provides: schemasample.services.PhotoService
+      kwargs:
+        db: container.gateways.database_client
+        s3: container.gateways.s3_client
 
   gateways:
-    provider: Container
-    providers:
-      database_client:
-        provider: Singleton
-        provides: sqlite3.connect
-        args:
-          - core.config.database.dsn
+    database_client:
+      provider: Singleton
+      provides: sqlite3.connect
+      args:
+        - container.core.config.database.dsn
 
-      s3_client:
-        provider: Singleton
-        provides: boto3.client
-        kwargs:
-          service_name: s3
-          aws_access_key_id: core.config.aws.access_key_id
-          aws_secret_access_key: core.config.aws.secret_access_key
+    s3_client:
+      provider: Singleton
+      provides: boto3.client
+      kwargs:
+        service_name: s3
+        aws_access_key_id: core.config.aws.access_key_id
+        aws_secret_access_key: core.config.aws.secret_access_key
 
   core:
-    provider: Container
-    providers:
-      config:
-        provider: Configuration
+    config:
+      provider: Configuration

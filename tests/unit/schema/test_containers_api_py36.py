@@ -15,7 +15,7 @@ class FromSchemaTests(unittest.TestCase):
         container.from_schema(
             {
                 'version': '1',
-                'providers': {
+                'container': {
                     'provider1': {
                         'provider': 'Factory',
                         'provides': 'list',
@@ -25,7 +25,7 @@ class FromSchemaTests(unittest.TestCase):
                         'provider': 'Factory',
                         'provides': 'dict',
                         'kwargs': {
-                            'one': 'provider1',
+                            'one': 'container.provider1',
                             'two': 2,
                         },
                     },
@@ -52,7 +52,7 @@ class FromYamlSchemaTests(unittest.TestCase):
             with open(schema_path, 'w') as file:
                 file.write("""
                 version: "1"
-                providers:
+                container:
                   provider1:
                     provider: Factory
                     provides: list
@@ -64,7 +64,7 @@ class FromYamlSchemaTests(unittest.TestCase):
                     provider: Factory
                     provides: dict
                     kwargs:
-                      one: provider1
+                      one: container.provider1
                       two: 2
                 """)
 
@@ -86,7 +86,7 @@ class FromYamlSchemaTests(unittest.TestCase):
             with open(schema_path, 'w') as file:
                 file.write("""
                 version: "1"
-                providers:
+                container:
                   provider:
                     provider: Factory
                     provides: list
@@ -131,7 +131,7 @@ class FromJsonSchemaTests(unittest.TestCase):
                     json.dumps(
                         {
                             'version': '1',
-                            'providers': {
+                            'container': {
                                 'provider1': {
                                     'provider': 'Factory',
                                     'provides': 'list',
@@ -141,7 +141,7 @@ class FromJsonSchemaTests(unittest.TestCase):
                                     'provider': 'Factory',
                                     'provides': 'dict',
                                     'kwargs': {
-                                        'one': 'provider1',
+                                        'one': 'container.provider1',
                                         'two': 2,
                                     },
                                 },
