@@ -122,20 +122,21 @@ class ProvidersMap:
     ) -> Optional[providers.Provider]:
         if isinstance(provider, providers.Delegate):
             return self._resolve_delegate(provider)
-        if isinstance(provider, (
+        elif isinstance(provider, (
             providers.ProvidedInstance,
             providers.AttributeGetter,
             providers.ItemGetter,
             providers.MethodCaller,
         )):
             return self._resolve_provided_instance(provider)
-        if isinstance(provider, providers.ConfigurationOption):
+        elif isinstance(provider, providers.ConfigurationOption):
             return self._resolve_config_option(provider)
-        if isinstance(provider, providers.TypedConfigurationOption):
+        elif isinstance(provider, providers.TypedConfigurationOption):
             return self._resolve_config_option(provider.option, as_=provider.provides)
-        if isinstance(provider, str):
+        elif isinstance(provider, str):
             return self._resolve_string_id(provider, modifier)
-        return self._resolve_provider(provider)
+        else:
+            return self._resolve_provider(provider)
 
     def _resolve_string_id(
             self,
