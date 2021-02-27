@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.27.0
+------
 - Introduce wiring inspect filter to filter out ``flask.request`` and other local proxy objects
   from the inspection.
   See issue: `#408 <https://github.com/ets-labs/python-dependency-injector/issues/408>`_.
