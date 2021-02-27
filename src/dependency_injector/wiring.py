@@ -43,6 +43,12 @@ except ImportError:
 
 
 try:
+    import starlette.requests
+except ImportError:
+    starlette = None
+
+
+try:
     import werkzeug.local
 except ImportError:
     werkzeug = None
@@ -257,7 +263,7 @@ class InspectFilter:
     def is_excluded(self, instance: object) -> bool:
         if self._is_werkzeug_local_proxy(instance):
             return True
-        elif self._is_fastapi_request(instance):
+        elif self._is_starlette_request_cls(instance):
             return True
         else:
             return False
@@ -265,8 +271,10 @@ class InspectFilter:
     def _is_werkzeug_local_proxy(self, instance: object) -> bool:
         return werkzeug and isinstance(instance, werkzeug.local.LocalProxy)
 
-    def _is_fastapi_request(self, instance: object) -> bool:
-        return fastapi and isinstance(instance, fastapi.Request)
+    def _is_starlette_request_cls(self, instance: object) -> bool:
+        return starlette \
+               and isinstance(instance, type) \
+               and issubclass(instance, starlette.requests.Request)
 
 
 inspect_filter = InspectFilter()
