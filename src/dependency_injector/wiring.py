@@ -37,10 +37,15 @@ else:
 
 
 try:
-    from fastapi.params import Depends as FastAPIDepends
-    fastapi_installed = True
+    import fastapi.params
 except ImportError:
-    fastapi_installed = False
+    fastapi = None
+
+
+try:
+    import werkzeug.local
+except ImportError:
+    werkzeug = None
 
 
 from . import providers
@@ -247,6 +252,26 @@ class ProvidersMap:
         return providers_map
 
 
+class InspectFilter:
+
+    def is_excluded(self, instance: object) -> bool:
+        if self._is_werkzeug_local_proxy(instance):
+            return True
+        elif self._is_fastapi_request(instance):
+            return True
+        else:
+            return False
+
+    def _is_werkzeug_local_proxy(self, instance: object) -> bool:
+        return werkzeug and isinstance(instance, werkzeug.local.LocalProxy)
+
+    def _is_fastapi_request(self, instance: object) -> bool:
+        return fastapi and isinstance(instance, fastapi.Request)
+
+
+inspect_filter = InspectFilter()
+
+
 def wire(  # noqa: C901
         container: Container,
         *,
@@ -268,6 +293,8 @@ def wire(  # noqa: C901
 
     for module in modules:
         for name, member in inspect.getmembers(module):
+            if inspect_filter.is_excluded(member):
+                continue
             if inspect.isfunction(member):
                 _patch_fn(module, name, member, providers_map)
             elif inspect.isclass(member):
@@ -530,7 +557,7 @@ def _is_fastapi_default_arg_injection(injection, kwargs):
 
 
 def _is_fastapi_depends(param: Any) -> bool:
-    return fastapi_installed and isinstance(param, FastAPIDepends)
+    return fastapi and isinstance(param, fastapi.params.Depends)
 
 
 def _is_patched(fn):

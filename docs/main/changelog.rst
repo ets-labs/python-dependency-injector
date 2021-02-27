@@ -9,6 +9,11 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Introduce wiring inspect filter to filter out ``flask.request`` and other local proxy objects
+  from the inspection.
+  See issue: `#408 <https://github.com/ets-labs/python-dependency-injector/issues/408>`_.
+  Many thanks to `@bvanfleet <https://github.com/bvanfleet>`_ for reporting the issue and
+  help in finding the root cause.
 - Add ``boto3`` example.
 - Add tests for ``.as_float()`` modifier usage with wiring.
 - Make refactoring of wiring module and tests.
