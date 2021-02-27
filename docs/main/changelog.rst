@@ -7,6 +7,22 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.27.0
+------
+- Introduce wiring inspect filter to filter out ``flask.request`` and other local proxy objects
+  from the inspection.
+  See issue: `#408 <https://github.com/ets-labs/python-dependency-injector/issues/408>`_.
+  Many thanks to `@bvanfleet <https://github.com/bvanfleet>`_ for reporting the issue and
+  help in finding the root cause.
+- Add ``boto3`` example.
+- Add tests for ``.as_float()`` modifier usage with wiring.
+- Make refactoring of wiring module and tests.
+  See PR # `#406 <https://github.com/ets-labs/python-dependency-injector/issues/406>`_.
+  Thanks to `@withshubh <https://github.com/withshubh>`_ for the contribution:
+    - Remove unused imports in tests.
+    - Use literal syntax to create data structure in tests.
+- Add integration with a static analysis tool `DeepSource <https://deepsource.io/>`_.
+
 4.26.0
 ------
 - Add wiring by string id.

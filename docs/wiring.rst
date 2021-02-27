@@ -405,6 +405,7 @@ Take a look at other application examples:
 - :ref:`application-single-container`
 - :ref:`application-multiple-containers`
 - :ref:`decoupled-packages`
+- :ref:`boto3`
 - :ref:`django-example`
 - :ref:`flask-example`
 - :ref:`flask-blueprints-example`

@@ -203,7 +203,7 @@ class ResourceTests(unittest.TestCase):
         provider = providers.Resource(init_fn) \
             .add_args(1, 2) \
             .set_args(3, 4)
-        self.assertEqual(provider.args, tuple([3, 4]))
+        self.assertEqual(provider.args, (3, 4))
 
     def test_clear_args(self):
         provider = providers.Resource(init_fn) \
