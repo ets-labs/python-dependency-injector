@@ -70,6 +70,15 @@ class WiringTest(unittest.TestCase):
         self.assertIsInstance(module.service_provider(), Service)
         self.assertIsInstance(module.undefined, Provide)
 
+    def test_module_attribute_wiring_with_invalid_marker(self):
+        from wiringsamples import module_invalid_attr_injection
+        with self.assertRaises(Exception) as context:
+            self.container.wire(modules=[module_invalid_attr_injection])
+        self.assertEqual(
+            str(context.exception),
+            'Unknown type of marker {0}'.format(module_invalid_attr_injection.service),
+        )
+
     def test_class_wiring(self):
         test_class_object = module.TestClass()
         self.assertIsInstance(test_class_object.service, Service)

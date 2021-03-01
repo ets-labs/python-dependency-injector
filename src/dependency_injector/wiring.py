@@ -550,7 +550,7 @@ def _is_method(member):
 
 
 def _is_marker(member):
-    return isinstance(member, Provide) or isinstance(member, Provider)
+    return isinstance(member, _Marker)
 
 
 def _get_patched(fn, reference_injections, reference_closing):
