@@ -281,7 +281,7 @@ Choose one of the following as a next step:
     - :ref:`application-single-container`
     - :ref:`application-multiple-containers`
     - :ref:`decoupled-packages`
-    - :ref:`boto3`
+    - :ref:`boto3-example`
     - :ref:`django-example`
     - :ref:`flask-example`
     - :ref:`flask-blueprints-example`
