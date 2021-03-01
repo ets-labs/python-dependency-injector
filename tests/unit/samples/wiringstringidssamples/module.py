@@ -19,7 +19,16 @@ from .container import Container
 from .service import Service
 
 
+service = Provide['service']
+service_provider = Provider['service']
+undefined = Provide['undefined']
+
+
 class TestClass:
+
+    service = Provide['service']
+    service_provider = Provider['service']
+    undefined = Provide['undefined']
 
     @inject
     def __init__(self, service: Service = Provide['service']):
