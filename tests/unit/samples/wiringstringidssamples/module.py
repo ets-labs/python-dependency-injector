@@ -3,6 +3,7 @@
 from decimal import Decimal
 from typing import Callable
 
+from dependency_injector import providers
 from dependency_injector.wiring import (
     inject,
     Provide,
@@ -19,16 +20,16 @@ from .container import Container
 from .service import Service
 
 
-service = Provide['service']
-service_provider = Provider['service']
-undefined = Provide['undefined']
+service: Service = Provide['service']
+service_provider: providers.Provider[Service] = Provider['service']
+undefined: providers.Provider = Provide['undefined']
 
 
 class TestClass:
 
-    service = Provide['service']
-    service_provider = Provider['service']
-    undefined = Provide['undefined']
+    service: Service = Provide['service']
+    service_provider: providers.Provider[Service] = Provider['service']
+    undefined: providers.Provider = Provide['undefined']
 
     @inject
     def __init__(self, service: Service = Provide['service']):

@@ -68,6 +68,7 @@ class WiringTest(unittest.TestCase):
     def test_module_attributes_wiring(self):
         self.assertIsInstance(module.service, Service)
         self.assertIsInstance(module.service_provider(), Service)
+        self.assertIsInstance(module.undefined, Provide)
 
     def test_class_wiring(self):
         test_class_object = module.TestClass()
@@ -105,6 +106,7 @@ class WiringTest(unittest.TestCase):
     def test_class_attribute_wiring(self):
         self.assertIsInstance(module.TestClass.service, Service)
         self.assertIsInstance(module.TestClass.service_provider(), Service)
+        self.assertIsInstance(module.TestClass.undefined, Provide)
 
     def test_function_wiring(self):
         service = module.test_function()
@@ -228,11 +230,13 @@ class WiringTest(unittest.TestCase):
         self.container.unwire()
         self.assertIsInstance(module.service, Provide)
         self.assertIsInstance(module.service_provider, Provider)
+        self.assertIsInstance(module.undefined, Provide)
 
     def test_unwire_class_attributes(self):
         self.container.unwire()
         self.assertIsInstance(module.TestClass.service, Provide)
         self.assertIsInstance(module.TestClass.service_provider, Provider)
+        self.assertIsInstance(module.TestClass.undefined, Provide)
 
     def test_wire_multiple_containers(self):
         sub_container = SubContainer()
