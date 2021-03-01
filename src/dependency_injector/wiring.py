@@ -350,7 +350,7 @@ def wire(  # noqa: C901
             _bind_injections(patched, providers_map)
 
 
-def unwire(
+def unwire(  # noqa: C901
         *,
         modules: Optional[Iterable[ModuleType]] = None,
         packages: Optional[Iterable[ModuleType]] = None,

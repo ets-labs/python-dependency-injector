@@ -11,15 +11,15 @@ from .service import Service
 
 
 service: Service = Provide[Container.service]
-service_provider: providers.Provider[Service] = Provider[Container.service]
-undefined: providers.Provider = Provide[providers.Provider()]
+service_provider: Callable[..., Service] = Provider[Container.service]
+undefined: Callable = Provide[providers.Provider()]
 
 
 class TestClass:
 
     service: Service = Provide[Container.service]
-    service_provider: providers.Provider[Service] = Provider[Container.service]
-    undefined: providers.Provider = Provide[providers.Provider()]
+    service_provider: Callable[..., Service] = Provider[Container.service]
+    undefined: Callable = Provide[providers.Provider()]
 
     @inject
     def __init__(self, service: Service = Provide[Container.service]):
