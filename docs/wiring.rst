@@ -164,6 +164,29 @@ To inject a container use special identifier ``<container>``:
    def foo(container: Container = Provide['<container>']) -> None:
        ...
 
+
+Making injections into modules and class attributes
+---------------------------------------------------
+
+You can use wiring to make injections into modules and class attributes.
+
+.. literalinclude:: ../examples/wiring/example_attribute.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 16,21
+
+You could also use string identifiers to avoid a dependency on a container:
+
+.. code-block:: python
+   :emphasize-lines: 1,6
+
+   service: Service = Provide['service']
+
+
+   class Main:
+
+       service: Service = Provide['service']
+
 Wiring with modules and packages
 --------------------------------
 
