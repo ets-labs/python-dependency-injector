@@ -3,13 +3,23 @@
 from decimal import Decimal
 from typing import Callable
 
+from dependency_injector import providers
 from dependency_injector.wiring import inject, Provide, Provider
 
 from .container import Container, SubContainer
 from .service import Service
 
 
+service: Service = Provide[Container.service]
+service_provider: Callable[..., Service] = Provider[Container.service]
+undefined: Callable = Provide[providers.Provider()]
+
+
 class TestClass:
+
+    service: Service = Provide[Container.service]
+    service_provider: Callable[..., Service] = Provider[Container.service]
+    undefined: Callable = Provide[providers.Provider()]
 
     @inject
     def __init__(self, service: Service = Provide[Container.service]):

@@ -6,6 +6,7 @@ import unittest
 from dependency_injector.wiring import (
     wire,
     Provide,
+    Provider,
     Closing,
     register_loader_containers,
     unregister_loader_containers,
@@ -64,6 +65,20 @@ class WiringTest(unittest.TestCase):
         service = test_function()
         self.assertIsInstance(service, Service)
 
+    def test_module_attributes_wiring(self):
+        self.assertIsInstance(module.service, Service)
+        self.assertIsInstance(module.service_provider(), Service)
+        self.assertIsInstance(module.undefined, Provide)
+
+    def test_module_attribute_wiring_with_invalid_marker(self):
+        from wiringsamples import module_invalid_attr_injection
+        with self.assertRaises(Exception) as context:
+            self.container.wire(modules=[module_invalid_attr_injection])
+        self.assertEqual(
+            str(context.exception),
+            'Unknown type of marker {0}'.format(module_invalid_attr_injection.service),
+        )
+
     def test_class_wiring(self):
         test_class_object = module.TestClass()
         self.assertIsInstance(test_class_object.service, Service)
@@ -96,6 +111,11 @@ class WiringTest(unittest.TestCase):
         instance = module.TestClass()
         service = instance.static_method()
         self.assertIsInstance(service, Service)
+
+    def test_class_attribute_wiring(self):
+        self.assertIsInstance(module.TestClass.service, Service)
+        self.assertIsInstance(module.TestClass.service_provider(), Service)
+        self.assertIsInstance(module.TestClass.undefined, Provide)
 
     def test_function_wiring(self):
         service = module.test_function()
@@ -214,6 +234,18 @@ class WiringTest(unittest.TestCase):
         from wiringsamples.package.subpackage import submodule
         self.container.unwire()
         self.assertIsInstance(submodule.test_function(), Provide)
+
+    def test_unwire_module_attributes(self):
+        self.container.unwire()
+        self.assertIsInstance(module.service, Provide)
+        self.assertIsInstance(module.service_provider, Provider)
+        self.assertIsInstance(module.undefined, Provide)
+
+    def test_unwire_class_attributes(self):
+        self.container.unwire()
+        self.assertIsInstance(module.TestClass.service, Provide)
+        self.assertIsInstance(module.TestClass.service_provider, Provider)
+        self.assertIsInstance(module.TestClass.undefined, Provide)
 
     def test_wire_multiple_containers(self):
         sub_container = SubContainer()
