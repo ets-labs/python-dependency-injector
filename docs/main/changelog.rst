@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.28.0
+------
+- Add wiring injections into modules and class attributes.
+  See issue: `#411 <https://github.com/ets-labs/python-dependency-injector/issues/411>`_.
+  Many thanks to `@brunopereira27 <https://github.com/brunopereira27>`_ for submitting
+  the use case.
+
 4.27.0
 ------
 - Introduce wiring inspect filter to filter out ``flask.request`` and other local proxy objects
