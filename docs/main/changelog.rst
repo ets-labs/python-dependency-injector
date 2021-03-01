@@ -9,6 +9,9 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Fix async mode mode exception handling issue in ``Dependency`` provider.
+  See issue: `#409 <https://github.com/ets-labs/python-dependency-injector/issues/409>`_.
+  Thanks to `@wackazong <https://github.com/wackazong>`_ for reporting the issue.
 - Fix links to ``boto3`` example.
 
 4.28.0

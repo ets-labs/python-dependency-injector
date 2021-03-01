@@ -718,6 +718,16 @@ class ProvidedInstanceTests(AsyncTestCase):
 
 class DependencyTests(AsyncTestCase):
 
+    def test_provide_error(self):
+        async def get_async():
+            raise Exception
+
+        provider = providers.Dependency()
+        provider.override(providers.Callable(get_async))
+
+        with self.assertRaises(Exception):
+            self._run(provider())
+
     def test_isinstance(self):
         dependency = 1.0
 

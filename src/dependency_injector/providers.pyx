@@ -764,10 +764,10 @@ cdef class Dependency(Provider):
         _copy_parent(self, copied, memo)
 
     def _async_provide(self, future_result, future):
-        instance = future.result()
         try:
+            instance = future.result()
             self._check_instance_type(instance)
-        except Error as exception:
+        except Exception as exception:
             future_result.set_exception(exception)
         else:
             future_result.set_result(instance)
