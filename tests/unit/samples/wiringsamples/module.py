@@ -9,7 +9,14 @@ from .container import Container, SubContainer
 from .service import Service
 
 
+service = Provide[Container.service]
+service_provider = Provider[Container.service]
+
+
 class TestClass:
+
+    service = Provide[Container.service]
+    service_provider = Provider[Container.service]
 
     @inject
     def __init__(self, service: Service = Provide[Container.service]):
