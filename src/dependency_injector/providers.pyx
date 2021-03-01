@@ -990,42 +990,6 @@ cdef class DependenciesContainer(Object):
             provider.override(dependency_provider)
 
 
-cdef class OverridingContext(object):
-    """Provider overriding context.
-
-    :py:class:`OverridingContext` is used by :py:meth:`Provider.override` for
-    implementing ``with`` contexts. When :py:class:`OverridingContext` is
-    closed, overriding that was created in this context is dropped also.
-
-    .. code-block:: python
-
-        with provider.override(another_provider):
-            assert provider.overridden
-        assert not provider.overridden
-    """
-
-    def __init__(self, Provider overridden, Provider overriding):
-        """Initializer.
-
-        :param overridden: Overridden provider.
-        :type overridden: :py:class:`Provider`
-
-        :param overriding: Overriding provider.
-        :type overriding: :py:class:`Provider`
-        """
-        self.__overridden = overridden
-        self.__overriding = overriding
-        super(OverridingContext, self).__init__()
-
-    def __enter__(self):
-        """Do nothing."""
-        return self.__overriding
-
-    def __exit__(self, *_):
-        """Exit overriding context."""
-        self.__overridden.reset_last_overriding()
-
-
 cdef class Callable(Provider):
     r"""Callable provider calls wrapped callable on every call.
 
@@ -2632,11 +2596,12 @@ cdef class BaseSingleton(Provider):
     def full_reset(self):
         """Reset cached instance in current and all underlying singletons, if any.
 
-        :rtype: None
+        :rtype: :py:class:`SingletonFullResetContext`
         """
         self.reset()
         for provider in self.traverse(types=[BaseSingleton]):
             provider.reset()
+        return SingletonFullResetContext(self)
 
     @property
     def related(self):
@@ -2707,6 +2672,7 @@ cdef class Singleton(BaseSingleton):
         if __is_future_or_coroutine(self.__storage):
             asyncio.ensure_future(self.__storage).cancel()
         self.__storage = None
+        return SingletonResetContext(self)
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
@@ -2775,6 +2741,7 @@ cdef class ThreadSafeSingleton(BaseSingleton):
             if __is_future_or_coroutine(self.__storage):
                 asyncio.ensure_future(self.__storage).cancel()
             self.__storage = None
+        return SingletonResetContext(self)
 
 
     cpdef object _provide(self, tuple args, dict kwargs):
@@ -2856,6 +2823,7 @@ cdef class ThreadLocalSingleton(BaseSingleton):
         if __is_future_or_coroutine(self.__storage.instance):
             asyncio.ensure_future(self.__storage.instance).cancel()
         del self.__storage.instance
+        return SingletonResetContext(self)
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
@@ -4186,6 +4154,67 @@ cpdef tuple parse_named_injections(dict kwargs):
         injections.append(injection)
 
     return tuple(injections)
+
+
+cdef class OverridingContext(object):
+    """Provider overriding context.
+
+    :py:class:`OverridingContext` is used by :py:meth:`Provider.override` for
+    implementing ``with`` contexts. When :py:class:`OverridingContext` is
+    closed, overriding that was created in this context is dropped also.
+
+    .. code-block:: python
+
+        with provider.override(another_provider):
+            assert provider.overridden
+        assert not provider.overridden
+    """
+
+    def __init__(self, Provider overridden, Provider overriding):
+        """Initializer.
+
+        :param overridden: Overridden provider.
+        :type overridden: :py:class:`Provider`
+
+        :param overriding: Overriding provider.
+        :type overriding: :py:class:`Provider`
+        """
+        self.__overridden = overridden
+        self.__overriding = overriding
+        super(OverridingContext, self).__init__()
+
+    def __enter__(self):
+        """Do nothing."""
+        return self.__overriding
+
+    def __exit__(self, *_):
+        """Exit overriding context."""
+        self.__overridden.reset_last_overriding()
+
+
+cdef class BaseSingletonResetContext(object):
+
+    def __init__(self, Provider provider):
+        self.__singleton = provider
+        super().__init__()
+
+    def __enter__(self):
+        return self.__singleton
+
+    def __exit__(self, *_):
+        raise NotImplementedError()
+
+
+cdef class SingletonResetContext(BaseSingletonResetContext):
+
+    def __exit__(self, *_):
+        return self.__singleton.reset()
+
+
+cdef class SingletonFullResetContext(BaseSingletonResetContext):
+
+    def __exit__(self, *_):
+        return self.__singleton.full_reset()
 
 
 CHILD_PROVIDERS = (Dependency, DependenciesContainer, Container)

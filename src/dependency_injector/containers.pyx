@@ -304,6 +304,7 @@ class DynamicContainer(Container):
         """Reset container singletons."""
         for provider in self.traverse(types=[providers.BaseSingleton]):
             provider.reset()
+        return SingletonResetContext(self)
 
     def check_dependencies(self):
         """Check if container dependencies are defined.
@@ -637,6 +638,18 @@ class DeclarativeContainer(Container):
 
         for provider in six.itervalues(cls.providers):
             provider.reset_override()
+
+
+class SingletonResetContext:
+
+    def __init__(self, container):
+        self._container = container
+
+    def __enter__(self):
+        ...
+
+    def __exit__(self, *_):
+        self._container.reset_singletons()
 
 
 def override(object container):
