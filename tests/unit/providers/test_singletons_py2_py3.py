@@ -370,6 +370,23 @@ class _BaseSingletonTestCase(object):
 
         self.assertIsNot(instance1, instance2)
 
+    def test_reset_context_manager(self):
+        singleton = self.singleton_cls(object)
+
+        instance1 = singleton()
+        with singleton.reset():
+            instance2 = singleton()
+        instance3 = singleton()
+        self.assertEqual(len({instance1, instance2, instance3}), 3)
+
+    def test_reset_context_manager_as_attribute(self):
+        singleton = self.singleton_cls(object)
+
+        with singleton.reset() as alias:
+            pass
+
+        self.assertIs(singleton, alias)
+
     def test_full_reset(self):
         dependent_singleton = providers.Singleton(object)
         provider = self.singleton_cls(dict, dependency=dependent_singleton)
@@ -385,6 +402,33 @@ class _BaseSingletonTestCase(object):
         self.assertIsNot(instance2['dependency'], dependent_instance1)
         self.assertIsNot(dependent_instance1, dependent_instance2)
         self.assertIsNot(instance1, instance2)
+
+    def test_full_reset_context_manager(self):
+        class Item:
+            def __init__(self, dependency):
+                self.dependency = dependency
+
+        dependent_singleton = providers.Singleton(object)
+        singleton = self.singleton_cls(Item, dependency=dependent_singleton)
+
+        instance1 = singleton()
+        with singleton.full_reset():
+            instance2 = singleton()
+        instance3 = singleton()
+
+        self.assertEqual(len({instance1, instance2, instance3}), 3)
+        self.assertEqual(
+            len({instance1.dependency, instance2.dependency, instance3.dependency}),
+            3,
+        )
+
+    def test_full_reset_context_manager_as_attribute(self):
+        singleton = self.singleton_cls(object)
+
+        with singleton.full_reset() as alias:
+            pass
+
+        self.assertIs(singleton, alias)
 
 
 class SingletonTests(_BaseSingletonTestCase, unittest.TestCase):
@@ -443,6 +487,16 @@ class ThreadLocalSingletonTests(_BaseSingletonTestCase, unittest.TestCase):
         instance2 = provider()
         self.assertIsInstance(instance2, Example)
 
+        self.assertIsNot(instance1, instance2)
+
+    def test_reset_clean(self):
+        provider = providers.ThreadLocalSingleton(Example)
+        instance1 = provider()
+
+        provider.reset()
+        provider.reset()
+
+        instance2 = provider()
         self.assertIsNot(instance1, instance2)
 
 

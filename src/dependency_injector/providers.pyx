@@ -2743,7 +2743,6 @@ cdef class ThreadSafeSingleton(BaseSingleton):
             self.__storage = None
         return SingletonResetContext(self)
 
-
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
         instance = self.__storage
@@ -2820,9 +2819,16 @@ cdef class ThreadLocalSingleton(BaseSingleton):
 
         :rtype: None
         """
-        if __is_future_or_coroutine(self.__storage.instance):
-            asyncio.ensure_future(self.__storage.instance).cancel()
+        try:
+            instance = self.__storage.instance
+        except AttributeError:
+            return SingletonResetContext(self)
+
+        if __is_future_or_coroutine(instance):
+            asyncio.ensure_future(instance).cancel()
+
         del self.__storage.instance
+
         return SingletonResetContext(self)
 
     cpdef object _provide(self, tuple args, dict kwargs):

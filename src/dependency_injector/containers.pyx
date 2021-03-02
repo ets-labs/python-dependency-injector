@@ -646,7 +646,7 @@ class SingletonResetContext:
         self._container = container
 
     def __enter__(self):
-        ...
+        return self._container
 
     def __exit__(self, *_):
         self._container.reset_singletons()

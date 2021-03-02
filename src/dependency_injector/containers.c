@@ -3606,7 +3606,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContai
 static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContainer_4reset_last_overriding(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContainer_6reset_override(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cls); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_21SingletonResetContext___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_container); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_10containers_21SingletonResetContext_2__enter__(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_10containers_21SingletonResetContext_2__enter__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_21SingletonResetContext_4__exit__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *__pyx_v__); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_8override__decorator(PyObject *__pyx_self, PyObject *__pyx_v_overriding_container); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_4override(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_container); /* proto */
@@ -14649,7 +14649,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_21SingletonResetCon
  *         self._container = container
  * 
  *     def __enter__(self):             # <<<<<<<<<<<<<<
- *         ...
+ *         return self._container
  * 
  */
 
@@ -14667,20 +14667,50 @@ static PyObject *__pyx_pw_19dependency_injector_10containers_21SingletonResetCon
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_10containers_21SingletonResetContext_2__enter__(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_19dependency_injector_10containers_21SingletonResetContext_2__enter__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("__enter__", 0);
 
+  /* "dependency_injector/containers.pyx":649
+ * 
+ *     def __enter__(self):
+ *         return self._container             # <<<<<<<<<<<<<<
+ * 
+ *     def __exit__(self, *_):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_container_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 649, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "dependency_injector/containers.pyx":648
+ *         self._container = container
+ * 
+ *     def __enter__(self):             # <<<<<<<<<<<<<<
+ *         return self._container
+ * 
+ */
+
   /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("dependency_injector.containers.SingletonResetContext.__enter__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
 /* "dependency_injector/containers.pyx":651
- *         ...
+ *         return self._container
  * 
  *     def __exit__(self, *_):             # <<<<<<<<<<<<<<
  *         self._container.reset_singletons()
@@ -14796,7 +14826,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_21SingletonResetCon
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "dependency_injector/containers.pyx":651
- *         ...
+ *         return self._container
  * 
  *     def __exit__(self, *_):             # <<<<<<<<<<<<<<
  *         self._container.reset_singletons()
@@ -23499,7 +23529,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         self._container = container
  * 
  *     def __enter__(self):             # <<<<<<<<<<<<<<
- *         ...
+ *         return self._container
  * 
  */
   __pyx_tuple__101 = PyTuple_Pack(1, __pyx_n_s_self_2); if (unlikely(!__pyx_tuple__101)) __PYX_ERR(0, 648, __pyx_L1_error)
@@ -23508,7 +23538,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_codeobj__102 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__101, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector_containe, __pyx_n_s_enter, 648, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__102)) __PYX_ERR(0, 648, __pyx_L1_error)
 
   /* "dependency_injector/containers.pyx":651
- *         ...
+ *         return self._container
  * 
  *     def __exit__(self, *_):             # <<<<<<<<<<<<<<
  *         self._container.reset_singletons()
@@ -25115,7 +25145,7 @@ if (!__Pyx_RefNanny) {
  *         self._container = container
  * 
  *     def __enter__(self):             # <<<<<<<<<<<<<<
- *         ...
+ *         return self._container
  * 
  */
   __pyx_t_7 = __Pyx_CyFunction_New(&__pyx_mdef_19dependency_injector_10containers_21SingletonResetContext_3__enter__, 0, __pyx_n_s_SingletonResetContext___enter, NULL, __pyx_n_s_dependency_injector_containers, __pyx_d, ((PyObject *)__pyx_codeobj__102)); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 648, __pyx_L1_error)
@@ -25124,7 +25154,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
   /* "dependency_injector/containers.pyx":651
- *         ...
+ *         return self._container
  * 
  *     def __exit__(self, *_):             # <<<<<<<<<<<<<<
  *         self._container.reset_singletons()
