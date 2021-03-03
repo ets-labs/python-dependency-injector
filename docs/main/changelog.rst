@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Add docs and example for ``Factory.add_attributes()`` method.
+
 4.29.0
 ------
 - Implement context manager interface for resetting a singleton provider.

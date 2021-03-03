@@ -40,6 +40,14 @@ injected following these rules:
    :language: python
    :lines: 3-
 
+``Factory`` provider can inject attributes. Use ``.add_attributes()`` method to specify
+attribute injections.
+
+.. literalinclude:: ../../examples/providers/factory_attribute_injections.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 18-18
+
 Passing arguments to the underlying providers
 ---------------------------------------------
 
