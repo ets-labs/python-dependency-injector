@@ -18,6 +18,14 @@ Method ``.reset_singletons()`` also resets singletons in sub-containers: ``provi
    :lines: 3-
    :emphasize-lines: 21
 
+You can use ``.reset_singletons()`` method with a context manager. Singletons will be reset on
+both entering and exiting a context.
+
+.. literalinclude:: ../../examples/containers/reset_singletons_with.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 14-15
+
 See also: :ref:`singleton-provider`.
 
 .. disqus::

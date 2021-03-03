@@ -7,6 +7,15 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.29.0
+------
+- Implement context manager interface for resetting a singleton provider.
+  See issue: `#413 <https://github.com/ets-labs/python-dependency-injector/issues/413>`_.
+  Thanks to `@Arrowana <https://github.com/Arrowana>`_ for suggesting the improvement.
+- Implement overriding interface to container provider.
+  See issue: `#415 <https://github.com/ets-labs/python-dependency-injector/issues/415>`_.
+  Thanks to `@wackazong <https://github.com/wackazong>`_ for bringing up the use case.
+
 4.28.1
 ------
 - Fix async mode mode exception handling issue in ``Dependency`` provider.

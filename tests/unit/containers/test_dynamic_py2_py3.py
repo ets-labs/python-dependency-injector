@@ -336,6 +336,36 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertIs(obj32, obj42)
         self.assertIs(obj33, obj43)
 
+    def test_reset_singletons_context_manager(self):
+        class Item:
+            def __init__(self, dependency):
+                self.dependency = dependency
+
+        class Container(containers.DeclarativeContainer):
+            dependent = providers.Singleton(object)
+            singleton = providers.Singleton(Item, dependency=dependent)
+
+        container = Container()
+
+        instance1 = container.singleton()
+        with container.reset_singletons():
+            instance2 = container.singleton()
+        instance3 = container.singleton()
+
+        self.assertEqual(len({instance1, instance2, instance3}), 3)
+        self.assertEqual(
+            len({instance1.dependency, instance2.dependency, instance3.dependency}),
+            3,
+        )
+
+    def test_reset_singletons_context_manager_as_attribute(self):
+        container = containers.DeclarativeContainer()
+
+        with container.reset_singletons() as alias:
+            pass
+
+        self.assertIs(container, alias)
+
     def test_check_dependencies(self):
         class SubContainer(containers.DeclarativeContainer):
             dependency = providers.Dependency()

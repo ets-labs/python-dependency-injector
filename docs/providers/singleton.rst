@@ -20,13 +20,12 @@ returns it on the rest of the calls.
    :language: python
    :lines: 3-
 
-``Singleton`` provider handles an injection of the dependencies the same way like a
-:ref:`factory-provider`.
+``Singleton`` provider handles dependencies injection the same way like a :ref:`factory-provider`.
 
 .. note::
 
-   ``Singleton`` provider does dependencies injection only when creates the object. When the object
-   is created and memorized ``Singleton`` provider just returns it without applying the injections.
+   ``Singleton`` provider makes dependencies injection only when creates an object. When an object
+   is created and memorized ``Singleton`` provider just returns it without applying injections.
 
 Specialization of the provided type and abstract singletons work the same like like for the
 factories:
@@ -56,6 +55,21 @@ provider.
    Resetting of the memorized object clears the reference to it. Further object's lifecycle is
    managed by the garbage collector.
 
+You can use ``.reset()`` method with a context manager. Memorized instance will be reset on
+both entering and exiting a context.
+
+.. literalinclude:: ../../examples/providers/singleton_resetting_with.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 18-19
+
+Context manager ``.reset()`` returns resetting singleton provider. You can use it for aliasing.
+
+.. code-block:: python
+
+   with container.user_service.reset() as user_service:
+       ...
+
 Method ``.reset()`` resets only current provider. To reset all dependent singleton providers
 call ``.full_reset()`` method.
 
@@ -63,6 +77,13 @@ call ``.full_reset()`` method.
    :language: python
    :lines: 3-
    :emphasize-lines: 25
+
+Method ``.full_reset()`` supports context manager interface like ``.reset()`` does.
+
+.. code-block:: python
+
+   with container.user_service.full_reset() as user_service:
+       ...
 
 See also: :ref:`reset-container-singletons`.
 

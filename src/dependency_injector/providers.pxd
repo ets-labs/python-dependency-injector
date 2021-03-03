@@ -54,11 +54,6 @@ cdef class DependenciesContainer(Object):
     cpdef object _override_providers(self, object container)
 
 
-cdef class OverridingContext(object):
-    cdef Provider __overridden
-    cdef Provider __overriding
-
-
 # Callable providers
 cdef class Callable(Provider):
     cdef object __provides
@@ -292,6 +287,23 @@ cpdef tuple parse_named_injections(dict kwargs)
 
 
 # Utils
+cdef class OverridingContext(object):
+    cdef Provider __overridden
+    cdef Provider __overriding
+
+
+cdef class BaseSingletonResetContext(object):
+    cdef object __singleton
+
+
+cdef class SingletonResetContext(BaseSingletonResetContext):
+    pass
+
+
+cdef class SingletonFullResetContext(BaseSingletonResetContext):
+    pass
+
+
 cdef object CLASS_TYPES
 
 
