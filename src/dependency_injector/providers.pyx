@@ -3578,7 +3578,32 @@ cdef class Container(Provider):
             raise Error('Container provider {0} can be overridden only by providers container'.format(self))
 
         self.__container.override_providers(**provider.providers)
-        super().override(provider)
+        return super().override(provider)
+
+    def reset_last_overriding(self):
+        """Reset last overriding provider.
+
+        :raise: :py:exc:`dependency_injector.errors.Error` if provider is not
+                overridden.
+
+        :rtype: None
+        """
+        super().reset_last_overriding()
+        for provider in self.__container.providers.values():
+            if not provider.overridden:
+                continue
+            provider.reset_last_overriding()
+
+    def reset_override(self):
+        """Reset all overriding providers.
+
+        :rtype: None
+        """
+        super().reset_override()
+        for provider in self.__container.providers.values():
+            if not provider.overridden:
+                continue
+            provider.reset_override()
 
     def apply_overridings(self):
         """Apply container overriding.
