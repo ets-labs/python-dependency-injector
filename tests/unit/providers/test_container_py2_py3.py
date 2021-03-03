@@ -176,6 +176,48 @@ class ContainerTests(unittest.TestCase):
         result = b.a().c().bar()
         self.assertEqual(result, 'foo++')
 
+    def test_reset_last_overriding(self):
+        application = TestApplication(config=_copied(TEST_CONFIG_1))
+        application.core.override(TestCore(config=_copied(TEST_CONFIG_2['core'])))
+
+        application.core.reset_last_overriding()
+
+        self.assertEqual(application.dict_factory(), {'value': TEST_VALUE_1})
+
+    def test_reset_last_overriding_only_overridden(self):
+        application = TestApplication(config=_copied(TEST_CONFIG_1))
+        application.core.override(providers.DependenciesContainer(config=_copied(TEST_CONFIG_2['core'])))
+
+        application.core.reset_last_overriding()
+
+        self.assertEqual(application.dict_factory(), {'value': TEST_VALUE_1})
+
+    def test_override_context_manager(self):
+        application = TestApplication(config=_copied(TEST_CONFIG_1))
+        overriding_core = TestCore(config=_copied(TEST_CONFIG_2['core']))
+
+        with application.core.override(overriding_core) as context_core:
+            self.assertEqual(application.dict_factory(), {'value': TEST_VALUE_2})
+            self.assertIs(context_core(), overriding_core)
+
+        self.assertEqual(application.dict_factory(), {'value': TEST_VALUE_1})
+
+    def test_reset_override(self):
+        application = TestApplication(config=_copied(TEST_CONFIG_1))
+        application.core.override(TestCore(config=_copied(TEST_CONFIG_2['core'])))
+
+        application.core.reset_override()
+
+        self.assertEqual(application.dict_factory(), {'value': None})
+
+    def test_reset_override_only_overridden(self):
+        application = TestApplication(config=_copied(TEST_CONFIG_1))
+        application.core.override(providers.DependenciesContainer(config=_copied(TEST_CONFIG_2['core'])))
+
+        application.core.reset_override()
+
+        self.assertEqual(application.dict_factory(), {'value': None})
+
     def test_assign_parent(self):
         parent = providers.DependenciesContainer()
         provider = providers.Container(TestCore)
