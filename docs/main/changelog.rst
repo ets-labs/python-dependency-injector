@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.29.1
+------
 - Fix recursive copying issue in ``Delegate`` provider.
   See issue: `#245 <https://github.com/ets-labs/python-dependency-injector/issues/245>`_.
   Thanks to `@GitterRemote <https://github.com/GitterRemote>`_ for reporting the issue.
