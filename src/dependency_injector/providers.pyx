@@ -519,13 +519,14 @@ cdef class Delegate(Provider):
         :type: object
     """
 
-    def __init__(self, provides):
+    def __init__(self, provides=None):
         """Initializer.
 
         :param provides: Value that have to be provided.
         :type provides: :py:class:`Provider`
         """
-        self.__provides = ensure_is_provider(provides)
+        self.__provides = None
+        self.set_provides(provides)
         super(Delegate, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -534,8 +535,11 @@ cdef class Delegate(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(deepcopy(self.__provides, memo))
+        copied = self.__class__()
+        memo[id(self)] = copied
 
+        if self.provides:
+            copied.set_provides(deepcopy(self.provides, memo))
         self._copy_overridings(copied, memo)
 
         return copied
@@ -556,8 +560,12 @@ cdef class Delegate(Provider):
 
     @property
     def provides(self):
-        """Return provider."""
         return self.__provides
+
+    def set_provides(self, provides):
+        if provides:
+            provides = ensure_is_provider(provides)
+        self.__provides = provides
 
     @property
     def related(self):
