@@ -9,6 +9,9 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Fix recursive copying issue in ``Delegate`` provider.
+  See issue: `#245 <https://github.com/ets-labs/python-dependency-injector/issues/245>`_.
+  Thanks to `@GitterRemote <https://github.com/GitterRemote>`_ for reporting the issue.
 - Add docs and example for ``Factory.add_attributes()`` method.
 - Remove legacy css file.
 
