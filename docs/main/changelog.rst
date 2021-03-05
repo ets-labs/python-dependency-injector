@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Add docs and example for ``Factory.add_attributes()`` method.
+- Remove legacy css file.
 
 4.29.0
 ------
