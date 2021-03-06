@@ -1022,18 +1022,10 @@ cdef class Callable(Provider):
         some_function.add_kwargs(keyword_argument1=3, keyword_argument=4)
     """
 
-    def __init__(self, provides, *args, **kwargs):
-        """Initializer.
-
-        :param provides: Wrapped callable.
-        :type provides: callable
-        """
-        if not callable(provides):
-            raise Error('Provider {0} expected to get callable, '
-                        'got {0}'.format('.'.join((self.__class__.__module__,
-                                                   self.__class__.__name__)),
-                                         provides))
-        self.__provides = provides
+    def __init__(self, provides=None, *args, **kwargs):
+        """Initialize provider."""
+        self.__provides = None
+        self.set_provides(provides)
 
         self.__args = tuple()
         self.__args_len = 0
@@ -1072,8 +1064,17 @@ cdef class Callable(Provider):
 
     @property
     def provides(self):
-        """Return wrapped callable."""
+        """Return provider's provides."""
         return self.__provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        if provides and not callable(provides):
+            raise Error(
+                f'Provider {self.__class__.__qualname__} expected to get callable, '
+                f'got {provides} instead'
+            )
+        self.__provides = provides
 
     @property
     def args(self):
@@ -2087,18 +2088,12 @@ cdef class Factory(Provider):
 
     provided_type = None
 
-    def __init__(self, provides, *args, **kwargs):
-        """Initializer.
-
-        :param provides: Provided type.
-        :type provides: type
-        """
-        if (self.__class__.provided_type and
-                not issubclass(provides, self.__class__.provided_type)):
-            raise Error('{0} can provide only {1} instances'.format(
-                self.__class__, self.__class__.provided_type))
-
-        self.__instantiator = Callable(provides, *args, **kwargs)
+    def __init__(self, provides=None, *args, **kwargs):
+        """Initialize provider."""
+        self.__instantiator = Callable()
+        self.set_provides(provides)
+        self.set_args(*args)
+        self.set_kwargs(**kwargs)
 
         self.__attributes = tuple()
         self.__attributes_len = 0
@@ -2139,8 +2134,19 @@ cdef class Factory(Provider):
 
     @property
     def provides(self):
-        """Return provided type."""
+        """Return provider's provides."""
         return self.__instantiator.provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        if (provides
+                and self.__class__.provided_type and
+                not issubclass(provides, self.__class__.provided_type)):
+            raise Error(
+                f'{self.__class__.__qualname__} can provide only '
+                f'{self.__class__.provided_type} instances'
+            )
+        self.__instantiator.set_provides(provides)
 
     @property
     def args(self):
@@ -2449,19 +2455,12 @@ cdef class BaseSingleton(Provider):
 
     provided_type = None
 
-    def __init__(self, provides, *args, **kwargs):
-        """Initializer.
-
-        :param provides: Provided type.
-        :type provides: type
-        """
-        if (self.__class__.provided_type and
-                not issubclass(provides, self.__class__.provided_type)):
-            raise Error('{0} can provide only {1} instances'.format(
-                self.__class__, self.__class__.provided_type))
-
-        self.__instantiator = Factory(provides, *args, **kwargs)
-
+    def __init__(self, provides=None, *args, **kwargs):
+        """Initialize provider."""
+        self.__instantiator = Factory()
+        self.set_provides(provides)
+        self.set_args(*args)
+        self.set_kwargs(**kwargs)
         super(BaseSingleton, self).__init__()
 
     def __str__(self):
@@ -2498,8 +2497,19 @@ cdef class BaseSingleton(Provider):
 
     @property
     def provides(self):
-        """Return provided type."""
+        """Return provider's provides."""
         return self.__instantiator.provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        if (provides
+                and self.__class__.provided_type and
+                not issubclass(provides, self.__class__.provided_type)):
+            raise Error(
+                f'{self.__class__.__qualname__} can provide only '
+                f'{self.__class__.provided_type} instances'
+            )
+        self.__instantiator.set_provides(provides)
 
     @property
     def args(self):
