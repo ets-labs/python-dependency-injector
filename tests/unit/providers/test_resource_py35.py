@@ -2,7 +2,7 @@
 
 import asyncio
 
-import unittest2 as unittest
+import unittest
 
 from dependency_injector import containers, providers, resources, errors
 

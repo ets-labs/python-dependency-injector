@@ -1,7 +1,7 @@
 """Dependency injector declarative container unit tests."""
 
 import collections
-import unittest2 as unittest
+import unittest
 
 from dependency_injector import (
     containers,
