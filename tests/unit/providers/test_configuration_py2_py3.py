@@ -106,6 +106,7 @@ class ConfigTests(unittest.TestCase):
 
         self.assertEqual(value, decimal.Decimal('123.123'))
 
+    @unittest.skipIf(sys.version_info[:2] == (2, 7), 'Python 2.7 does not support this assert')
     def test_required(self):
         provider = providers.Callable(
             lambda value: value,
@@ -218,11 +219,13 @@ class ConfigTests(unittest.TestCase):
     def test_value_of_undefined_option(self):
         self.assertIsNone(self.config.a())
 
+    @unittest.skipIf(sys.version_info[:2] == (2, 7), 'Python 2.7 does not support this assert')
     def test_value_of_undefined_option_in_strict_mode(self):
         self.config = providers.Configuration(strict=True)
         with self.assertRaisesRegex(errors.Error, 'Undefined configuration option "config.a"'):
             self.config.a()
 
+    @unittest.skipIf(sys.version_info[:2] == (2, 7), 'Python 2.7 does not support this assert')
     def test_value_of_undefined_option_with_root_none_in_strict_mode(self):
         self.config = providers.Configuration(strict=True)
         self.config.override(None)
