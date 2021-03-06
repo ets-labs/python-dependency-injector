@@ -1,6 +1,7 @@
 """Dependency injector base providers unit tests."""
 
 import unittest
+import warnings
 
 from dependency_injector import (
     containers,
@@ -21,12 +22,13 @@ class ProviderTests(unittest.TestCase):
         self.assertRaises(NotImplementedError, self.provider.__call__)
 
     def test_delegate(self):
-        delegate1 = self.provider.delegate()
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+            delegate1 = self.provider.delegate()
+            delegate2 = self.provider.delegate()
 
         self.assertIsInstance(delegate1, providers.Delegate)
         self.assertIs(delegate1(), self.provider)
-
-        delegate2 = self.provider.delegate()
 
         self.assertIsInstance(delegate2, providers.Delegate)
         self.assertIs(delegate2(), self.provider)

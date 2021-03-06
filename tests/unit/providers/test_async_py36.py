@@ -996,7 +996,7 @@ class AsyncProvidersWithAsyncDependenciesTests(AsyncTestCase):
         container = Container()
         service = self._run(container.service())
 
-        self.assertEquals(service, {'service': 'ok', 'db': {'db': 'ok'}})
+        self.assertEqual(service, {'service': 'ok', 'db': {'db': 'ok'}})
 
 
 class AsyncProviderWithAwaitableObjectTests(AsyncTestCase):

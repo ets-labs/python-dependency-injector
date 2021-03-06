@@ -1,8 +1,8 @@
 """Dependency injector coroutine providers unit tests."""
 
 import asyncio
-
 import unittest
+import warnings
 
 from dependency_injector import (
     providers,
@@ -232,9 +232,12 @@ class AbstractCoroutineTests(AsyncTestCase):
                               providers.Coroutine)
 
     def test_call_overridden_by_coroutine(self):
-        @asyncio.coroutine
-        def _abstract_example():
-            raise RuntimeError('Should not be raised')
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+
+            @asyncio.coroutine
+            def _abstract_example():
+                raise RuntimeError('Should not be raised')
 
         provider = providers.AbstractCoroutine(_abstract_example)
         provider.override(providers.Coroutine(_example))
@@ -242,9 +245,12 @@ class AbstractCoroutineTests(AsyncTestCase):
         self.assertTrue(self._run(provider(1, 2, 3, 4)), (1, 2, 3, 4))
 
     def test_call_overridden_by_delegated_coroutine(self):
-        @asyncio.coroutine
-        def _abstract_example():
-            raise RuntimeError('Should not be raised')
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+
+            @asyncio.coroutine
+            def _abstract_example():
+                raise RuntimeError('Should not be raised')
 
         provider = providers.AbstractCoroutine(_abstract_example)
         provider.override(providers.DelegatedCoroutine(_example))

@@ -412,7 +412,7 @@ class DeclarativeContainerTests(unittest.TestCase):
         class Services(containers.DeclarativeContainer):
             a = providers.Dependency()
             c = providers.Factory(C, a=a)
-            b = providers.Factory(B, fa=a.delegate())
+            b = providers.Factory(B, fa=a.provider)
 
         a = providers.Factory(A)
         assert isinstance(Services(a=a).c().a, A)  # ok
