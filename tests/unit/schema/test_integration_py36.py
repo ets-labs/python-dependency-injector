@@ -273,3 +273,13 @@ class TestSchemaMultipleContainersWithInlineProviders(unittest.TestCase):
         self.assertIs(photo_service1.s3, photo_service2.s3)
         self.assertIs(photo_service1.s3, container.gateways.s3_client())
         self.assertIs(photo_service2.s3, container.gateways.s3_client())
+
+
+class TestSchemaBoto3Session(unittest.TestCase):
+
+    def test(self):
+        container = containers.DynamicContainer()
+        container.from_yaml_schema(f'{_SAMPLES_DIR}/schemasample/container-boto3-session.yml')
+
+        self.assertEqual(container.s3_client().__class__.__name__, 'S3')
+        self.assertEqual(container.sqs_client().__class__.__name__, 'SQS')

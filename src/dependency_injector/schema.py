@@ -150,18 +150,21 @@ class SchemaProcessorV1:
             return None
 
         for segment in segments[1:]:
-            if segment == 'as_int()':
-                provider = provider.as_int()
-            elif segment == 'as_float()':
-                provider = provider.as_float()
-            elif segment.startswith('is_'):  # TODO
-                provider = provider.as_(str)
-                ...
-            else:
-                try:
-                    provider = getattr(provider, segment)
-                except AttributeError:
-                    return None
+            parentheses = ''
+            if '(' in segment and ')' in segment:
+                parentheses = segment[segment.find('('):segment.rfind(')')+1]
+                segment = segment.replace(parentheses, '')
+
+            try:
+                provider = getattr(provider, segment)
+            except AttributeError:
+                # TODO
+                return None
+
+            if parentheses:
+                # TODO
+                provider = provider()
+
         return provider
 
 
