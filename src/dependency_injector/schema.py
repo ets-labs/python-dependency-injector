@@ -1,5 +1,6 @@
 """Schema module."""
 
+import builtins
 import importlib
 from typing import Dict, Any, Type, Optional
 
@@ -204,7 +205,7 @@ def _import_string(string_name: str) -> Optional[object]:
     segments = string_name.split('.')
 
     if len(segments) == 1:
-        member = __builtins__.get(segments[0])
+        member = getattr(builtins, segments[0], None)
         if member:
             return member
 
