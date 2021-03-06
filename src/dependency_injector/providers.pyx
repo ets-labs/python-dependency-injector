@@ -2673,7 +2673,7 @@ cdef class Singleton(BaseSingleton):
         :type: type
     """
 
-    def __init__(self, provides, *args, **kwargs):
+    def __init__(self, provides=None, *args, **kwargs):
         """Initializer.
 
         :param provides: Provided type.
@@ -2740,7 +2740,7 @@ cdef class ThreadSafeSingleton(BaseSingleton):
     :type: :py:class:`threading.RLock`
     """
 
-    def __init__(self, provides, *args, **kwargs):
+    def __init__(self, provides=None, *args, **kwargs):
         """Initializer.
 
         :param provides: Provided type.
@@ -2823,7 +2823,7 @@ cdef class ThreadLocalSingleton(BaseSingleton):
         :type: type
     """
 
-    def __init__(self, provides, *args, **kwargs):
+    def __init__(self, provides=None, *args, **kwargs):
         """Initializer.
 
         :param provides: Provided type.
