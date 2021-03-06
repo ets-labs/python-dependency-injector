@@ -39,11 +39,11 @@ class SchemaProcessorV1:
                 provider_type = _get_provider_cls(data['provider'])
                 args = []
 
-                provides = data.get('provides')
-                if provides:
-                    provides = _import_string(provides)
-                    if provides:
-                        args.append(provides)
+                # provides = data.get('provides')
+                # if provides:
+                #     provides = _import_string(provides)
+                #     if provides:
+                #         args.append(provides)
 
                 provider = provider_type(*args)
 
@@ -68,6 +68,14 @@ class SchemaProcessorV1:
             args = []
             kwargs = {}
 
+            provides = data.get('provides')
+            if provides:
+                if isinstance(provides, str) and provides.startswith('container.'):
+                    provides = self._resolve_provider(provides[len('container.'):])
+                else:
+                    provides = _import_string(provides)
+                provider.set_provides(provides)
+
             arg_injections = data.get('args')
             if arg_injections:
                 for arg in arg_injections:
@@ -82,9 +90,11 @@ class SchemaProcessorV1:
                         provider_type = _get_provider_cls(arg.get('provider'))
                         provides = arg.get('provides')
                         if provides:
-                            provides = _import_string(provides)
-                            if provides:
-                                provider_args.append(provides)
+                            if isinstance(provides, str) and provides.startswith('container.'):
+                                provides = self._resolve_provider(provides[len('container.'):])
+                            else:
+                                provides = _import_string(provides)
+                            provider_args.append(provides)
                         for provider_arg in arg.get('args', []):
                             if isinstance(provider_arg, str) and provider_arg.startswith('container.'):
                                 provider_args.append(self._resolve_provider(provider_arg[len('container.'):]))
@@ -111,9 +121,11 @@ class SchemaProcessorV1:
                         provider_type = _get_provider_cls(arg.get('provider'))
                         provides = arg.get('provides')
                         if provides:
-                            provides = _import_string(provides)
-                            if provides:
-                                provider_args.append(provides)
+                            if isinstance(provides, str) and provides.startswith('container.'):
+                                provides = self._resolve_provider(provides[len('container.'):])
+                            else:
+                                provides = _import_string(provides)
+                            provider_args.append(provides)
                         for provider_arg in arg.get('args', []):
                             if isinstance(provider_arg, str) and provider_arg.startswith('container.'):
                                 provider_args.append(self._resolve_provider(provider_arg[len('container.'):]))
