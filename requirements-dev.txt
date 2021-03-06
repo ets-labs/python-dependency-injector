@@ -12,5 +12,6 @@ fastapi
 pydantic
 numpy
 scipy
+mypy_boto3_s3
 
 -r requirements-ext.txt
