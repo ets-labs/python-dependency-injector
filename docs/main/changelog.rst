@@ -14,6 +14,7 @@ follows `Semantic versioning`_
   Thanks to `@GitterRemote <https://github.com/GitterRemote>`_ for reporting the issue.
 - Add docs and example for ``Factory.add_attributes()`` method.
 - Remove legacy css file.
+- Remove ``unittest2`` test dependency.
 
 4.29.0
 ------

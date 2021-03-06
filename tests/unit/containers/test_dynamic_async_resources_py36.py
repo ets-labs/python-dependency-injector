@@ -1,6 +1,6 @@
 """Dependency injector dynamic container unit tests for async resources."""
 
-import unittest2 as unittest
+import unittest
 
 # Runtime import to get asyncutils module
 import os

@@ -1,6 +1,5 @@
 cython==0.29.21
 tox
-unittest2
 coverage
 flake8
 pydocstyle
