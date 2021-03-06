@@ -1,6 +1,6 @@
 """Dependency injector Flask extension unit tests."""
 
-import unittest2 as unittest
+import unittest
 from flask import Flask, url_for
 from flask.views import MethodView
 

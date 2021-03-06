@@ -4,7 +4,7 @@ import functools
 import itertools
 import sys
 
-import unittest2 as unittest
+import unittest
 
 from dependency_injector import providers, errors
 
