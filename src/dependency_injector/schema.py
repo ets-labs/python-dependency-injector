@@ -56,7 +56,7 @@ class SchemaProcessorV1:
             if isinstance(provider, providers.Container):
                 self._create_providers(provider_schema=data, container=provider)
 
-    def _setup_injections(
+    def _setup_injections(  # noqa: C901
             self,
             provider_schema: ProviderSchema,
             container: Optional[containers.Container] = None,
@@ -97,8 +97,11 @@ class SchemaProcessorV1:
                                 provides = _import_string(provides)
                             provider_args.append(provides)
                         for provider_arg in arg.get('args', []):
-                            if isinstance(provider_arg, str) and provider_arg.startswith('container.'):
-                                provider_args.append(self._resolve_provider(provider_arg[len('container.'):]))
+                            if isinstance(provider_arg, str) \
+                                    and provider_arg.startswith('container.'):
+                                provider_args.append(
+                                    self._resolve_provider(provider_arg[len('container.'):]),
+                                )
                         injection = provider_type(*provider_args)
 
                     if not injection:
@@ -128,8 +131,11 @@ class SchemaProcessorV1:
                                 provides = _import_string(provides)
                             provider_args.append(provides)
                         for provider_arg in arg.get('args', []):
-                            if isinstance(provider_arg, str) and provider_arg.startswith('container.'):
-                                provider_args.append(self._resolve_provider(provider_arg[len('container.'):]))
+                            if isinstance(provider_arg, str) \
+                                    and provider_arg.startswith('container.'):
+                                provider_args.append(
+                                    self._resolve_provider(provider_arg[len('container.'):]),
+                                )
                         injection = provider_type(*provider_args)
 
                     if not injection:
