@@ -291,6 +291,16 @@ class DelegateTests(unittest.TestCase):
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(self.delegate))
 
+    def test_init_optional_provides(self):
+        provider = providers.Delegate()
+        provider.set_provides(self.delegated)
+        self.assertIs(provider.provides, self.delegated)
+        self.assertIs(provider(), self.delegated)
+
+    def test_set_provides_returns_self(self):
+        provider = providers.Delegate()
+        self.assertIs(provider.set_provides(self.delegated), provider)
+
     def test_init_with_not_provider(self):
         self.assertRaises(errors.Error, providers.Delegate, object())
 
