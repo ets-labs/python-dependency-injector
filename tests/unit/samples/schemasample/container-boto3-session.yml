@@ -12,6 +12,7 @@ container:
       aws_access_key_id: container.config.aws_access_key_id
       aws_secret_access_key: container.config.aws_secret_access_key
       aws_session_token: container.config.aws_session_token
+      region_name: container.config.aws_region_name
 
   s3_client:
     provider: Factory

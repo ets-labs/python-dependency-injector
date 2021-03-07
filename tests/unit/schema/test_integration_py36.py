@@ -280,6 +280,14 @@ class TestSchemaBoto3Session(unittest.TestCase):
     def test(self):
         container = containers.DynamicContainer()
         container.from_yaml_schema(f'{_SAMPLES_DIR}/schemasample/container-boto3-session.yml')
+        container.config.from_dict(
+            {
+                'aws_access_key_id': 'key',
+                'aws_secret_access_key': 'secret',
+                'aws_session_token': 'token',
+                'aws_region_name': 'us-east-1',
+            },
+        )
 
         self.assertEqual(container.s3_client().__class__.__name__, 'S3')
         self.assertEqual(container.sqs_client().__class__.__name__, 'SQS')
