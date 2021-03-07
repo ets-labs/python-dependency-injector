@@ -34,6 +34,16 @@ class FactoryTests(unittest.TestCase):
     def test_init_with_not_callable(self):
         self.assertRaises(errors.Error, providers.Factory, 123)
 
+    def test_init_optional_provides(self):
+        provider = providers.Factory()
+        provider.set_provides(object)
+        self.assertIs(provider.provides, object)
+        self.assertIsInstance(provider(), object)
+
+    def test_set_provides_returns_self(self):
+        provider = providers.Factory()
+        self.assertIs(provider.set_provides(object), provider)
+
     def test_init_with_valid_provided_type(self):
         class ExampleProvider(providers.Factory):
             provided_type = Example

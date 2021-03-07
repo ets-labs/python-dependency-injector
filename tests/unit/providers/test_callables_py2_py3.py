@@ -22,6 +22,16 @@ class CallableTests(unittest.TestCase):
     def test_init_with_not_callable(self):
         self.assertRaises(errors.Error, providers.Callable, 123)
 
+    def test_init_optional_provides(self):
+        provider = providers.Callable()
+        provider.set_provides(object)
+        self.assertIs(provider.provides, object)
+        self.assertIsInstance(provider(), object)
+
+    def test_set_provides_returns_self(self):
+        provider = providers.Callable()
+        self.assertIs(provider.set_provides(object), provider)
+
     def test_provided_instance_provider(self):
         provider = providers.Callable(_example)
         self.assertIsInstance(provider.provided, providers.ProvidedInstance)

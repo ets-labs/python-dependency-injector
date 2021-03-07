@@ -1047,9 +1047,10 @@ cdef class Callable(Provider):
         if isinstance(provides, Provider):
             provides = deepcopy(provides, memo)
 
-        copied = self.__class__(provides,
-                                *deepcopy(self.args, memo),
-                                **deepcopy(self.kwargs, memo))
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(provides)
+        copied.set_args(*deepcopy(self.args, memo))
+        copied.set_kwargs(**deepcopy(self.kwargs, memo))
 
         self._copy_overridings(copied, memo)
 
@@ -1075,6 +1076,7 @@ cdef class Callable(Provider):
                 f'got {provides} instead'
             )
         self.__provides = provides
+        return self
 
     @property
     def args(self):
@@ -1271,22 +1273,14 @@ cdef class Coroutine(Callable):
 
     _is_coroutine = _is_coroutine_marker
 
-    def __init__(self, provides, *args, **kwargs):
-        """Initializer.
-
-        :param provides: Wrapped callable.
-        :type provides: callable
-        """
+    def set_provides(self, provides):
+        """Set provider's provides."""
         if not asyncio:
             raise Error('Package asyncio is not available')
-
-        if not asyncio.iscoroutinefunction(provides):
-            raise Error('Provider {0} expected to get coroutine function, '
-                        'got {1}'.format('.'.join((self.__class__.__module__,
-                                                   self.__class__.__name__)),
-                                         provides))
-
-        super(Coroutine, self).__init__(provides, *args, **kwargs)
+        if provides and not asyncio.iscoroutinefunction(provides):
+            raise Error(f'Provider {_class_qualname(self)} expected to get coroutine function, '
+                        f'got {provides} instead')
+        return super().set_provides(provides)
 
 
 cdef class DelegatedCoroutine(Coroutine):
@@ -2106,13 +2100,14 @@ cdef class Factory(Provider):
         if copied is not None:
             return copied
 
-        cls = self.cls
-        if isinstance(cls, Provider):
-            cls = deepcopy(cls, memo)
+        provides = self.provides
+        if isinstance(provides, Provider):
+            provides = deepcopy(provides, memo)
 
-        copied = self.__class__(cls,
-                                *deepcopy(self.args, memo),
-                                **deepcopy(self.kwargs, memo))
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(provides)
+        copied.set_args(*deepcopy(self.args, memo))
+        copied.set_kwargs(**deepcopy(self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
 
         self._copy_overridings(copied, memo)
@@ -2147,6 +2142,7 @@ cdef class Factory(Provider):
                 f'{self.__class__.provided_type} instances'
             )
         self.__instantiator.set_provides(provides)
+        return self
 
     @property
     def args(self):
@@ -2477,13 +2473,14 @@ cdef class BaseSingleton(Provider):
         if copied is not None:
             return copied
 
-        cls = self.cls
-        if isinstance(cls, Provider):
-            cls = deepcopy(cls, memo)
+        provides = self.provides
+        if isinstance(provides, Provider):
+            provides = deepcopy(provides, memo)
 
-        copied = self.__class__(cls,
-                                *deepcopy(self.args, memo),
-                                **deepcopy(self.kwargs, memo))
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(provides)
+        copied.set_args(*deepcopy(self.args, memo))
+        copied.set_kwargs(**deepcopy(self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
 
         self._copy_overridings(copied, memo)
@@ -2510,6 +2507,7 @@ cdef class BaseSingleton(Provider):
                 f'{self.__class__.provided_type} instances'
             )
         self.__instantiator.set_provides(provides)
+        return self
 
     @property
     def args(self):
@@ -4459,3 +4457,16 @@ cpdef _copy_parent(object from_, object to, dict memo):
         else from_.parent
     )
     to.assign_parent(copied_parent)
+
+
+cpdef object _memorized_duplicate(object instance, dict memo):
+    copied = instance.__class__()
+    memo[id(instance)] = copied
+    return copied
+
+
+cpdef str _class_qualname(object instance):
+    name = getattr(instance.__class__, '__qualname__', None)
+    if not name:
+        name = '.'.join((instance.__class__.__module__, instance.__class__.__name__))
+    return name

@@ -43,6 +43,16 @@ class CoroutineTests(AsyncTestCase):
     def test_init_with_not_coroutine(self):
         self.assertRaises(errors.Error, providers.Coroutine, lambda: None)
 
+    def test_init_optional_provides(self):
+        provider = providers.Coroutine()
+        provider.set_provides(_example)
+        self.assertIs(provider.provides, _example)
+        self.assertEqual(run(provider(1, 2, 3, 4)), (1, 2, 3, 4))
+
+    def test_set_provides_returns_self(self):
+        provider = providers.Coroutine()
+        self.assertIs(provider.set_provides(_example), provider)
+
     def test_call_with_positional_args(self):
         provider = providers.Coroutine(_example, 1, 2, 3, 4)
         self.assertTupleEqual(self._run(provider()), (1, 2, 3, 4))
