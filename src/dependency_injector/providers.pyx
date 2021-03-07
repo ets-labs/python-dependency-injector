@@ -1072,8 +1072,10 @@ cdef class Callable(Provider):
         """Set provider's provides."""
         if provides and not callable(provides):
             raise Error(
-                f'Provider {_class_qualname(self)} expected to get callable, '
-                f'got {provides} instead'
+                'Provider {0} expected to get callable, got {1} instead'.format(
+                    _class_qualname(self),
+                    provides,
+                ),
             )
         self.__provides = provides
         return self
@@ -2138,8 +2140,10 @@ cdef class Factory(Provider):
                 and self.__class__.provided_type and
                 not issubclass(provides, self.__class__.provided_type)):
             raise Error(
-                f'{_class_qualname(self)} can provide only '
-                f'{self.__class__.provided_type} instances'
+                '{0} can provide only {1} instances'.format(
+                    _class_qualname(self),
+                    self.__class__.provided_type,
+                ),
             )
         self.__instantiator.set_provides(provides)
         return self
@@ -2503,8 +2507,10 @@ cdef class BaseSingleton(Provider):
                 and self.__class__.provided_type and
                 not issubclass(provides, self.__class__.provided_type)):
             raise Error(
-                f'{_class_qualname(self)} can provide only '
-                f'{self.__class__.provided_type} instances'
+                '{0} can provide only {1} instances'.format(
+                    _class_qualname(self),
+                    self.__class__.provided_type,
+                ),
             )
         self.__instantiator.set_provides(provides)
         return self
