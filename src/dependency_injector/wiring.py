@@ -481,7 +481,7 @@ def _unpatch_attribute(patched: PatchedAttribute) -> None:
     setattr(patched.member, patched.name, patched.marker)
 
 
-def _fetch_reference_injections(
+def _fetch_reference_injections(  # noqa: C901
         fn: Callable[..., Any],
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     # Hotfix, see:
