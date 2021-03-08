@@ -2377,29 +2377,19 @@ cdef class FactoryAggregate(Provider):
     __IS_DELEGATED__ = True
 
     def __init__(self, **factories):
-        """Initializer.
-
-        :param factories: Dictionary of aggregate factories.
-        :type factories: dict[str, :py:class:`Factory`]
-        """
-        for factory in factories.values():
-            if isinstance(factory, Factory) is False:
-                raise Error(
-                    '{0} can aggregate only instances of {1}, given - {2}'
-                    .format(self.__class__, Factory, factory))
-        self.__factories = factories
+        """Initialize provider."""
+        self.__factories = {}
+        self.set_factories(**factories)
         super(FactoryAggregate, self).__init__()
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
-        cdef FactoryAggregate copied
-
         copied = memo.get(id(self))
         if copied is not None:
             return copied
 
-        copied = self.__class__()
-        copied.__factories = deepcopy(self.__factories, memo)
+        copied = _memorized_duplicate(self, memo)
+        copied.set_factories(**deepcopy(self.factories, memo))
 
         self._copy_overridings(copied, memo)
 
@@ -2420,6 +2410,16 @@ cdef class FactoryAggregate(Provider):
     def factories(self):
         """Return dictionary of factories, read-only."""
         return self.__factories
+
+    def set_factories(self, **factories):
+        """Set factories."""
+        for factory in factories.values():
+            if isinstance(factory, Factory) is False:
+                raise Error(
+                    '{0} can aggregate only instances of {1}, given - {2}'
+                    .format(self.__class__, Factory, factory))
+        self.__factories = factories
+        return self
 
     def override(self, _):
         """Override provider with another provider.

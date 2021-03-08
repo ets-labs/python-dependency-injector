@@ -270,6 +270,7 @@ class FactoryAggregate(Provider):
 
     @property
     def factories(self) -> _Dict[str, Factory]: ...
+    def set_factories(self, **factories: Factory) -> FactoryAggregate: ...
 
 
 class BaseSingleton(Provider[T]):

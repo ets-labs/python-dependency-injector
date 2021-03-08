@@ -512,6 +512,26 @@ class FactoryAggregateTests(unittest.TestCase):
                 example_a=providers.Factory(self.ExampleA),
                 example_b=object())
 
+    def test_init_optional_factories(self):
+        provider = providers.FactoryAggregate()
+        provider.set_factories(
+            example_a=self.example_a_factory,
+            example_b=self.example_b_factory,
+        )
+        self.assertEqual(
+            provider.factories,
+            {
+                'example_a': self.example_a_factory,
+                'example_b': self.example_b_factory,
+            },
+        )
+        self.assertIsInstance(provider('example_a'), self.ExampleA)
+        self.assertIsInstance(provider('example_b'), self.ExampleB)
+
+    def test_set_provides_returns_self(self):
+        provider = providers.FactoryAggregate()
+        self.assertIs(provider.set_factories(example_a=self.example_a_factory), provider)
+
     def test_call(self):
         object_a = self.factory_aggregate('example_a',
                                           1, 2, init_arg3=3, init_arg4=4)
