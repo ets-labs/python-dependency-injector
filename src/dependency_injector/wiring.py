@@ -298,6 +298,8 @@ class InspectFilter:
             return True
         elif self._is_starlette_request_cls(instance):
             return True
+        elif self._is_builtin(instance):
+            return True
         else:
             return False
 
@@ -308,6 +310,9 @@ class InspectFilter:
         return starlette \
                and isinstance(instance, type) \
                and issubclass(instance, starlette.requests.Request)
+
+    def _is_builtin(self, instance: object) -> bool:
+        return inspect.isbuiltin(instance)
 
 
 def wire(  # noqa: C901
@@ -476,7 +481,7 @@ def _unpatch_attribute(patched: PatchedAttribute) -> None:
     setattr(patched.member, patched.name, patched.marker)
 
 
-def _fetch_reference_injections(
+def _fetch_reference_injections(  # noqa: C901
         fn: Callable[..., Any],
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     # Hotfix, see:
@@ -488,7 +493,15 @@ def _fetch_reference_injections(
             )):
         fn = fn.__init__
 
-    signature = inspect.signature(fn)
+    try:
+        signature = inspect.signature(fn)
+    except ValueError as exception:
+        if 'no signature found' in str(exception):
+            return {}, {}
+        elif 'not supported by signature' in str(exception):
+            return {}, {}
+        else:
+            raise exception
 
     injections = {}
     closing = {}
@@ -874,9 +887,13 @@ class AutoLoader:
                 super().exec_module(module)
                 loader.wire_module(module)
 
+        class ExtensionFileLoader(importlib.machinery.ExtensionFileLoader):
+            ...
+
         loader_details = [
             (SourcelessFileLoader, importlib.machinery.BYTECODE_SUFFIXES),
             (SourceFileLoader, importlib.machinery.SOURCE_SUFFIXES),
+            (ExtensionFileLoader, importlib.machinery.EXTENSION_SUFFIXES),
         ]
 
         self._path_hook = importlib.machinery.FileFinder.path_hook(*loader_details)
