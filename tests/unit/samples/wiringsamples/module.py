@@ -1,6 +1,7 @@
 """Test module for wiring."""
 
 from decimal import Decimal
+import sys
 from typing import Callable
 
 from dependency_injector import providers
@@ -132,11 +133,12 @@ def test_container(container: Container = Provide[Container]):
 
 # Import tests
 
-import numpy  # noqa
-from numpy import *  # noqa
+if 'pypy' not in sys.version.lower():
+    import numpy  # noqa
+    from numpy import *  # noqa
 
-import scipy  # noqa
-from scipy import *  # noqa
+    import scipy  # noqa
+    from scipy import *  # noqa
 
-import builtins  # noqa
-from builtins import *  # noqa
+    import builtins  # noqa
+    from builtins import *  # noqa
