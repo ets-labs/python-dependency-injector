@@ -152,6 +152,17 @@ class ObjectProviderTests(unittest.TestCase):
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(providers.Object(object())))
 
+    def test_init_optional_provides(self):
+        instance = object()
+        provider = providers.Object()
+        provider.set_provides(instance)
+        self.assertIs(provider.provides, instance)
+        self.assertIs(provider(), instance)
+
+    def test_set_provides_returns_self(self):
+        provider = providers.Object()
+        self.assertIs(provider.set_provides(object()), provider)
+
     def test_provided_instance_provider(self):
         provider = providers.Object(object())
         self.assertIsInstance(provider.provided, providers.ProvidedInstance)

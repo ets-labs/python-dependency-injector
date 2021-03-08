@@ -400,13 +400,10 @@ cdef class Object(Provider):
         :type: object
     """
 
-    def __init__(self, provides):
-        """Initializer.
-
-        :param provides: Value that have to be provided.
-        :type provides: object
-        """
-        self.__provides = provides
+    def __init__(self, provides=None):
+        """Initialize provider."""
+        self.__provides = None
+        self.set_provides(provides)
         super(Object, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -415,7 +412,8 @@ cdef class Object(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(self.__provides)
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(self.provides)
 
         self._copy_overridings(copied, memo)
 
@@ -434,6 +432,16 @@ cdef class Object(Provider):
         :rtype: str
         """
         return self.__str__()
+
+    @property
+    def provides(self):
+        """Return provider's provides."""
+        return self.__provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        self.__provides = provides
+        return self
 
     @property
     def related(self):
