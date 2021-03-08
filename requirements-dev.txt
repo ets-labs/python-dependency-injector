@@ -10,5 +10,7 @@ pyyaml
 httpx
 fastapi
 pydantic
+numpy
+scipy
 
 -r requirements-ext.txt
