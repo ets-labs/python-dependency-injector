@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.29.2
+------
 - Fix wiring to not crash on missing signatures.
   See issue: `#420 <https://github.com/ets-labs/python-dependency-injector/issues/420>`_.
   Thanks to `@Balthus1989 <https://github.com/Balthus1989>`_ for reporting the issue.
