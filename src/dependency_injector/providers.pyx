@@ -3718,10 +3718,14 @@ cdef class Selector(Provider):
         assert isinstance(instance_2, SomeOtherClass)
     """
 
-    def __init__(self, selector, **providers):
+    def __init__(self, selector=None, **providers):
         """Initialize provider."""
-        self.__selector = selector
-        self.__providers = providers
+        self.__selector = None
+        self.set_selector(selector)
+
+        self.__providers = {}
+        self.set_providers(**providers)
+
         super(Selector, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -3730,10 +3734,10 @@ cdef class Selector(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(
-            deepcopy(self.__selector, memo),
-            **deepcopy(self.__providers, memo),
-        )
+        copied = _memorized_duplicate(self, memo)
+        copied.set_selector(deepcopy(self.__selector, memo))
+        copied.set_providers(**deepcopy(self.__providers, memo))
+
         self._copy_overridings(copied, memo)
 
         return copied
@@ -3767,9 +3771,24 @@ cdef class Selector(Provider):
         )
 
     @property
+    def selector(self):
+        """Return selector."""
+        return self.__selector
+
+    def set_selector(self, selector):
+        """Set selector."""
+        self.__selector = selector
+        return self
+
+    @property
     def providers(self):
         """Return providers."""
         return dict(self.__providers)
+
+    def set_providers(self, **providers: Provider):
+        """Set providers."""
+        self.__providers = providers
+        return self
 
     @property
     def related(self):

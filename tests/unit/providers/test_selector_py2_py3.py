@@ -16,6 +16,28 @@ class SelectorTests(unittest.TestCase):
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(providers.Selector(self.selector)))
 
+    def test_init_optional(self):
+        one = providers.Object(1)
+        two = providers.Object(2)
+
+        provider = providers.Selector()
+        provider.set_selector(self.selector)
+        provider.set_providers(one=one, two=two)
+
+        self.assertEqual(provider.providers, {'one': one, 'two': two})
+        with self.selector.override('one'):
+            self.assertEqual(provider(), one())
+        with self.selector.override('two'):
+            self.assertEqual(provider(), two())
+
+    def test_set_selector_returns_self(self):
+        provider = providers.Selector()
+        self.assertIs(provider.set_selector(self.selector), provider)
+
+    def test_set_providers_returns_self(self):
+        provider = providers.Selector()
+        self.assertIs(provider.set_providers(one=providers.Provider()), provider)
+
     def test_provided_instance_provider(self):
         provider = providers.Selector(self.selector)
         self.assertIsInstance(provider.provided, providers.ProvidedInstance)
