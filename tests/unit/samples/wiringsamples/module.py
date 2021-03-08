@@ -128,3 +128,15 @@ def test_class_decorator(service: Service = Provide[Container.service]):
 
 def test_container(container: Container = Provide[Container]):
     return container.service()
+
+
+# Import tests
+
+import numpy  # noqa
+from numpy import *  # noqa
+
+import scipy  # noqa
+from scipy import *  # noqa
+
+import builtins  # noqa
+from builtins import *  # noqa
