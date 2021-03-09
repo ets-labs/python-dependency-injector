@@ -1339,12 +1339,12 @@ struct __pyx_obj_19dependency_injector_9providers_Dict {
  * 
  * 
  * cdef class Resource(Provider):             # <<<<<<<<<<<<<<
- *     cdef object __initializer
+ *     cdef object __provides
  *     cdef bint __initialized
  */
 struct __pyx_obj_19dependency_injector_9providers_Resource {
   struct __pyx_obj_19dependency_injector_9providers_Provider __pyx_base;
-  PyObject *__pyx___initializer;
+  PyObject *__pyx___provides;
   int __pyx___initialized;
   PyObject *__pyx___shutdowner;
   PyObject *__pyx___resource;
@@ -2102,7 +2102,7 @@ static struct __pyx_vtabstruct_19dependency_injector_9providers_Dict *__pyx_vtab
  * 
  * 
  * cdef class Resource(Provider):             # <<<<<<<<<<<<<<
- *     cdef object __initializer
+ *     cdef object __provides
  *     cdef bint __initialized
  */
 

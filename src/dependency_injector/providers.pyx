@@ -3218,8 +3218,10 @@ cdef class Dict(Provider):
 cdef class Resource(Provider):
     """Resource provider provides a component with initialization and shutdown."""
 
-    def __init__(self, initializer, *args, **kwargs):
-        self.__initializer = initializer
+    def __init__(self, provides=None, *args, **kwargs):
+        self.__provides = None
+        self.set_provides(provides)
+
         self.__initialized = False
         self.__resource = None
         self.__shutdowner = None
@@ -3243,11 +3245,11 @@ cdef class Resource(Provider):
         if self.__initialized:
             raise Error('Can not copy initialized resource')
 
-        copied = self.__class__(
-            self.__initializer,
-            *deepcopy(self.args, memo),
-            **deepcopy(self.kwargs, memo),
-        )
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
+        copied.set_args(*deepcopy(self.args, memo))
+        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+
         self._copy_overridings(copied, memo)
 
         return copied
@@ -3257,12 +3259,17 @@ cdef class Resource(Provider):
 
         :rtype: str
         """
-        return represent_provider(provider=self, provides=self.__initializer)
+        return represent_provider(provider=self, provides=self.provides)
 
     @property
-    def initializer(self):
-        """Return initializer."""
-        return self.__initializer
+    def provides(self):
+        """Return provider's provides."""
+        return self.__provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        self.__provides = provides
+        return self
 
     @property
     def args(self):
@@ -3387,7 +3394,7 @@ cdef class Resource(Provider):
     @property
     def related(self):
         """Return related providers generator."""
-        yield from filter(is_provider, [self.__initializer])
+        yield from filter(is_provider, [self.provides])
         yield from filter(is_provider, self.args)
         yield from filter(is_provider, self.kwargs.values())
         yield from super().related
@@ -3396,8 +3403,8 @@ cdef class Resource(Provider):
         if self.__initialized:
             return self.__resource
 
-        if self._is_resource_subclass(self.__initializer):
-            initializer = self.__initializer()
+        if self._is_resource_subclass(self.__provides):
+            initializer = self.__provides()
             self.__resource = __call(
                 initializer.init,
                 args,
@@ -3408,8 +3415,8 @@ cdef class Resource(Provider):
                 self.__kwargs_len,
             )
             self.__shutdowner = initializer.shutdown
-        elif self._is_async_resource_subclass(self.__initializer):
-            initializer = self.__initializer()
+        elif self._is_async_resource_subclass(self.__provides):
+            initializer = self.__provides()
             async_init = __call(
                 initializer.init,
                 args,
@@ -3421,9 +3428,9 @@ cdef class Resource(Provider):
             )
             self.__initialized = True
             return self._create_init_future(async_init, initializer.shutdown)
-        elif inspect.isgeneratorfunction(self.__initializer):
+        elif inspect.isgeneratorfunction(self.__provides):
             initializer = __call(
-                self.__initializer,
+                self.__provides,
                 args,
                 self.__args,
                 self.__args_len,
@@ -3433,9 +3440,9 @@ cdef class Resource(Provider):
             )
             self.__resource = next(initializer)
             self.__shutdowner = initializer.send
-        elif iscoroutinefunction(self.__initializer):
+        elif iscoroutinefunction(self.__provides):
             initializer = __call(
-                self.__initializer,
+                self.__provides,
                 args,
                 self.__args,
                 self.__args_len,
@@ -3445,9 +3452,9 @@ cdef class Resource(Provider):
             )
             self.__initialized = True
             return self._create_init_future(initializer)
-        elif isasyncgenfunction(self.__initializer):
+        elif isasyncgenfunction(self.__provides):
             initializer = __call(
-                self.__initializer,
+                self.__provides,
                 args,
                 self.__args,
                 self.__args_len,
@@ -3457,9 +3464,9 @@ cdef class Resource(Provider):
             )
             self.__initialized = True
             return self._create_async_gen_init_future(initializer)
-        elif callable(self.__initializer):
+        elif callable(self.__provides):
             self.__resource = __call(
-                self.__initializer,
+                self.__provides,
                 args,
                 self.__args,
                 self.__args_len,
@@ -4504,6 +4511,12 @@ cpdef object _memorized_duplicate(object instance, dict memo):
     copied = instance.__class__()
     memo[id(instance)] = copied
     return copied
+
+
+cpdef object _copy_if_provider(object instance, dict memo):
+    if not is_provider(instance):
+        return instance
+    return deepcopy(instance, memo)
 
 
 cpdef str _class_qualname(object instance):

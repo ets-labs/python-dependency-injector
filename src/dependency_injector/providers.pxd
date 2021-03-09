@@ -203,7 +203,7 @@ cdef class Dict(Provider):
 
 
 cdef class Resource(Provider):
-    cdef object __initializer
+    cdef object __provides
     cdef bint __initialized
     cdef object __shutdowner
     cdef object __resource
