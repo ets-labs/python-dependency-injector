@@ -1402,13 +1402,13 @@ struct __pyx_obj_19dependency_injector_9providers_ProvidedInstance {
  * 
  * 
  * cdef class AttributeGetter(Provider):             # <<<<<<<<<<<<<<
- *     cdef Provider __provider
- *     cdef object __attribute
+ *     cdef object __provides
+ *     cdef object __name
  */
 struct __pyx_obj_19dependency_injector_9providers_AttributeGetter {
   struct __pyx_obj_19dependency_injector_9providers_Provider __pyx_base;
-  struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx___provider;
-  PyObject *__pyx___attribute;
+  PyObject *__pyx___provides;
+  PyObject *__pyx___name;
 };
 
 
@@ -2158,8 +2158,8 @@ static struct __pyx_vtabstruct_19dependency_injector_9providers_ProvidedInstance
  * 
  * 
  * cdef class AttributeGetter(Provider):             # <<<<<<<<<<<<<<
- *     cdef Provider __provider
- *     cdef object __attribute
+ *     cdef object __provides
+ *     cdef object __name
  */
 
 struct __pyx_vtabstruct_19dependency_injector_9providers_AttributeGetter {

@@ -241,8 +241,8 @@ cdef class ProvidedInstance(Provider):
 
 
 cdef class AttributeGetter(Provider):
-    cdef Provider __provider
-    cdef object __attribute
+    cdef object __provides
+    cdef object __name
 
     cpdef object _provide(self, tuple args, dict kwargs)
 

@@ -69,16 +69,6 @@ class ProvidedInstanceTests(unittest.TestCase):
     def setUp(self):
         self.container = Container()
 
-    def test_lazy_init(self):
-        provides = providers.Object(object())
-        provider = providers.ProvidedInstance()
-        provider.set_provides(provides)
-        self.assertIs(provider.provides, provides)
-
-    def test_set_provides_returns_self(self):
-        provider = providers.ProvidedInstance()
-        self.assertIs(provider.set_provides(providers.Provider()), provider)
-
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(self.container.service.provided))
 
@@ -134,6 +124,26 @@ class ProvidedInstanceTests(unittest.TestCase):
             'ItemGetter(\'test-test\')',
             repr(provider),
         )
+
+
+class LazyInitTests(unittest.TestCase):
+
+    def test_provided_instance(self):
+        provides = providers.Object(object())
+        provider = providers.ProvidedInstance()
+        provider.set_provides(provides)
+        self.assertIs(provider.provides, provides)
+        self.assertIs(provider.set_provides(providers.Provider()), provider)
+
+    def test_attribute_getter(self):
+        provides = providers.Object(object())
+        provider = providers.AttributeGetter()
+        provider.set_provides(provides)
+        provider.set_name('__dict__')
+        self.assertIs(provider.provides, provides)
+        self.assertEqual(provider.name, '__dict__')
+        self.assertIs(provider.set_provides(providers.Provider()), provider)
+        self.assertIs(provider.set_name('__dict__'), provider)
 
 
 class ProvidedInstancePuzzleTests(unittest.TestCase):
