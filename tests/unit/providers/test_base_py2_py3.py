@@ -335,6 +335,24 @@ class DependencyTests(unittest.TestCase):
     def setUp(self):
         self.provider = providers.Dependency(instance_of=list)
 
+    def test_init_optional(self):
+        list_provider = providers.List(1, 2, 3)
+        provider = providers.Dependency()
+        provider.set_instance_of(list)
+        provider.set_default(list_provider)
+
+        self.assertIs(provider.instance_of, list)
+        self.assertIs(provider.default, list_provider)
+        self.assertEqual(provider(), [1, 2, 3])
+
+    def test_set_instance_of_returns_self(self):
+        provider = providers.Dependency()
+        self.assertIs(provider.set_instance_of(list), provider)
+
+    def test_set_default_returns_self(self):
+        provider = providers.Dependency()
+        self.assertIs(provider.set_default(providers.Provider()), provider)
+
     def test_init_with_not_class(self):
         self.assertRaises(TypeError, providers.Dependency, object())
 

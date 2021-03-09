@@ -619,20 +619,13 @@ cdef class Dependency(Provider):
         :type: type
    """
 
-    def __init__(self, object instance_of=object, default=UNDEFINED):
-        """Initializer."""
-        if not isinstance(instance_of, CLASS_TYPES):
-            raise TypeError(
-                'Argument \'instance_of\' has incorrect type (expected {0}, got {1}))'.format(
-                    CLASS_TYPES,
-                    instance_of,
-                )
-            )
-        self.__instance_of = instance_of
+    def __init__(self, object instance_of=object, default=None):
+        """Initialize provider."""
+        self.__instance_of = None
+        self.set_instance_of(instance_of)
 
-        if default is not UNDEFINED and not isinstance(default, Provider):
-            default = Object(default)
-        self.__default = default
+        self.__default = None
+        self.set_default(default)
 
         self.__parent = None
 
@@ -644,14 +637,9 @@ cdef class Dependency(Provider):
         if copied is not None:
             return copied
 
-        copied_default = (
-            deepcopy(self.__default, memo)
-            if self.__default is not UNDEFINED
-            else UNDEFINED
-        )
-
-        copied = self.__class__(self.__instance_of, copied_default)
-        memo[id(self)] = copied
+        copied = _memorized_duplicate(self, memo)
+        copied.set_instance_of(self.instance_of)
+        copied.set_default(deepcopy(self.default, memo))
 
         self._copy_parent(copied, memo)
         self._copy_overridings(copied, memo)
@@ -667,7 +655,7 @@ cdef class Dependency(Provider):
         """
         if self.__last_overriding:
             result = self.__last_overriding(*args, **kwargs)
-        elif not self.__last_overriding and self.__default is not UNDEFINED:
+        elif self.__default:
             result = self.__default(*args, **kwargs)
         else:
             self._raise_undefined_error()
@@ -700,7 +688,7 @@ cdef class Dependency(Provider):
     def __getattr__(self, name):
         if self.__last_overriding:
             return getattr(self.__last_overriding, name)
-        elif self.__default is not UNDEFINED:
+        elif self.__default:
             return getattr(self.__default, name)
         raise AttributeError(f'Provider "{self.__class__.__name__}" has no attribute "{name}"')
 
@@ -725,18 +713,37 @@ cdef class Dependency(Provider):
 
     @property
     def instance_of(self):
-        """Return class of required dependency."""
+        """Return type."""
         return self.__instance_of
+
+    def set_instance_of(self, instance_of):
+        """Set type."""
+        if not isinstance(instance_of, CLASS_TYPES):
+            raise TypeError(
+                '"instance_of" has incorrect type (expected {0}, got {1}))'.format(
+                    CLASS_TYPES,
+                    instance_of,
+                ),
+            )
+        self.__instance_of = instance_of
+        return self
 
     @property
     def default(self):
         """Return default provider."""
         return self.__default
 
+    def set_default(self, default):
+        """Set type."""
+        if default and not isinstance(default, Provider):
+            default = Object(default)
+        self.__default = default
+        return self
+
     @property
     def is_defined(self):
         """Return True if dependency is defined."""
-        return self.__last_overriding or self.__default is not UNDEFINED
+        return self.__last_overriding or self.__default
 
     def provided_by(self, provider):
         """Set external dependency provider.
@@ -751,7 +758,7 @@ cdef class Dependency(Provider):
     @property
     def related(self):
         """Return related providers generator."""
-        if self.__default is not UNDEFINED:
+        if self.__default:
             yield self.__default
         yield from super().related
 
