@@ -235,7 +235,7 @@ cdef class Selector(Provider):
 # Provided instance
 
 cdef class ProvidedInstance(Provider):
-    cdef Provider __provider
+    cdef object __provides
 
     cpdef object _provide(self, tuple args, dict kwargs)
 

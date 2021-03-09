@@ -69,6 +69,16 @@ class ProvidedInstanceTests(unittest.TestCase):
     def setUp(self):
         self.container = Container()
 
+    def test_lazy_init(self):
+        provides = providers.Object(object())
+        provider = providers.ProvidedInstance()
+        provider.set_provides(provides)
+        self.assertIs(provider.provides, provides)
+
+    def test_set_provides_returns_self(self):
+        provider = providers.ProvidedInstance()
+        self.assertIs(provider.set_provides(providers.Provider()), provider)
+
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(self.container.service.provided))
 

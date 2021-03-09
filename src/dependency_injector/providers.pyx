@@ -3886,23 +3886,22 @@ cdef class ProvidedInstance(Provider):
     - :py:class:`Dependency`
     """
 
-    def __init__(self, provider):
-        self.__provider = provider
+    def __init__(self, provides=None):
+        self.__provides = None
+        self.set_provides(provides)
         super().__init__()
 
     def __repr__(self):
-        return f'{self.__class__.__name__}(\'{self.__provider}\')'
+        return f'{self.__class__.__name__}(\'{self.__provides}\')'
 
     def __deepcopy__(self, memo=None):
-        cdef ProvidedInstance copied
-
         copied = memo.get(id(self))
         if copied is not None:
             return copied
 
-        return self.__class__(
-            deepcopy(self.__provider, memo),
-        )
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
+        return copied
 
     def __getattr__(self, item):
         return AttributeGetter(self, item)
@@ -3912,8 +3911,13 @@ cdef class ProvidedInstance(Provider):
 
     @property
     def provides(self):
-        """Return provider."""
-        return self.__provider
+        """Return provider's provides."""
+        return self.__provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        self.__provides = provides
+        return self
 
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
@@ -3921,11 +3925,12 @@ cdef class ProvidedInstance(Provider):
     @property
     def related(self):
         """Return related providers generator."""
-        yield self.__provider
+        if is_provider(self.provides):
+            yield self.provides
         yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
-        return self.__provider(*args, **kwargs)
+        return self.__provides(*args, **kwargs)
 
 
 cdef class AttributeGetter(Provider):

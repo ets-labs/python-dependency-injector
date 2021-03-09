@@ -1389,12 +1389,12 @@ struct __pyx_obj_19dependency_injector_9providers_Selector {
  * # Provided instance
  * 
  * cdef class ProvidedInstance(Provider):             # <<<<<<<<<<<<<<
- *     cdef Provider __provider
+ *     cdef object __provides
  * 
  */
 struct __pyx_obj_19dependency_injector_9providers_ProvidedInstance {
   struct __pyx_obj_19dependency_injector_9providers_Provider __pyx_base;
-  struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx___provider;
+  PyObject *__pyx___provides;
 };
 
 
@@ -2144,7 +2144,7 @@ static struct __pyx_vtabstruct_19dependency_injector_9providers_Selector *__pyx_
  * # Provided instance
  * 
  * cdef class ProvidedInstance(Provider):             # <<<<<<<<<<<<<<
- *     cdef Provider __provider
+ *     cdef object __provides
  * 
  */
 
