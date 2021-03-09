@@ -28,6 +28,28 @@ class ConfigTests(unittest.TestCase):
     def tearDown(self):
         del self.config
 
+    def test_init_optional(self):
+        provider = providers.Configuration()
+        provider.set_name('myconfig')
+        provider.set_default({'foo': 'bar'})
+        provider.set_strict(True)
+
+        self.assertEqual(provider.get_name(), 'myconfig')
+        self.assertEqual(provider.get_default(), {'foo': 'bar'})
+        self.assertTrue(provider.get_strict())
+
+    def test_set_name_returns_self(self):
+        provider = providers.Configuration()
+        self.assertIs(provider.set_name('myconfig'), provider)
+
+    def test_set_default_returns_self(self):
+        provider = providers.Configuration()
+        self.assertIs(provider.set_default({}), provider)
+
+    def test_set_strict_returns_self(self):
+        provider = providers.Configuration()
+        self.assertIs(provider.set_strict(True), provider)
+
     def test_default_name(self):
         config = providers.Configuration()
         self.assertEqual(config.get_name(), 'config')

@@ -1709,29 +1709,23 @@ cdef class Configuration(Object):
     def __init__(self, name=DEFAULT_NAME, default=None, strict=False):
         self.__name = name
         self.__strict = strict
-
-        value = {}
-        if default is not None:
-            assert isinstance(default, dict), default
-            value = default.copy()
-
         self.__children = {}
 
-        super().__init__(value)
+        super().__init__(provides={})
+        self.set_default(default)
 
     def __deepcopy__(self, memo):
-        cdef Configuration copied
-
         copied = memo.get(id(self))
         if copied is not None:
             return copied
 
-        copied = self.__class__(self.__name, self.__provides, self.__strict)
-        memo[id(self)] = copied
+        copied = _memorized_duplicate(self, memo)
+        copied.set_name(self.get_name())
+        copied.set_default(self.get_default())
+        copied.set_strict(self.get_strict())
+        copied.set_children(deepcopy(self.get_children(), memo))
 
-        copied.__children = deepcopy(self.__children, memo)
         self._copy_overridings(copied, memo)
-
         return copied
 
     def __enter__(self):
@@ -1764,7 +1758,44 @@ cdef class Configuration(Object):
         return child
 
     def get_name(self):
+        """Return name."""
         return self.__name
+
+    def set_name(self, name):
+        """Set name."""
+        self.__name = name
+        return self
+
+    def get_default(self):
+        """Return default."""
+        return self.provides
+
+    def set_default(self, default):
+        """Set default."""
+        if not default:
+            return self
+
+        assert isinstance(default, dict), default
+        self.set_provides(default.copy())
+        return self
+
+    def get_strict(self):
+        """Return strict flag."""
+        return self.__strict
+
+    def set_strict(self, strict):
+        """Set strict flag."""
+        self.__strict = strict
+        return self
+
+    def get_children(self):
+        """Return children options."""
+        return self.__children
+
+    def set_children(self, children):
+        """Set children options."""
+        self.__children = children
+        return self
 
     def get(self, selector, required=False):
         """Return configuration option.
