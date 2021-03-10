@@ -4021,25 +4021,26 @@ cdef class ItemGetter(Provider):
     You should not create this provider directly. See :py:class:`ProvidedInstance` instead.
     """
 
-    def __init__(self, Provider provider, object item):
-        self.__provider = provider
-        self.__item = item
+    def __init__(self, provides=None, name=None):
+        self.__provides = None
+        self.set_provides(provides)
+
+        self.__name = None
+        self.set_name(name)
         super().__init__()
 
     def __repr__(self):
-        return f'{self.__class__.__name__}(\'{self.__item}\')'
+        return f'{self.__class__.__name__}(\'{self.name}\')'
 
-    def __deepcopy__(self, memo=None):
-        cdef ItemGetter copied
-
+    def __deepcopy__(self, memo):
         copied = memo.get(id(self))
         if copied is not None:
             return copied
 
-        return self.__class__(
-            deepcopy(self.__provider, memo),
-            self.__item,
-        )
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
+        copied.set_name(self.name)
+        return copied
 
     def __getattr__(self, item):
         return AttributeGetter(self, item)
@@ -4049,13 +4050,23 @@ cdef class ItemGetter(Provider):
 
     @property
     def provides(self):
-        """Return provider."""
-        return self.__provider
+        """Return provider's provides."""
+        return self.__provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        self.__provides = provides
+        return self
 
     @property
     def name(self):
         """Return name of the item."""
-        return self.__item
+        return self.__name
+
+    def set_name(self, name):
+        """Set name of the item."""
+        self.__name = name
+        return self
 
     def call(self, *args, **kwargs):
         return MethodCaller(self, *args, **kwargs)
@@ -4063,21 +4074,22 @@ cdef class ItemGetter(Provider):
     @property
     def related(self):
         """Return related providers generator."""
-        yield self.__provider
+        if is_provider(self.provides):
+            yield self.provides
         yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
-        provided = self.__provider(*args, **kwargs)
+        provided = self.provides(*args, **kwargs)
         if __is_future_or_coroutine(provided):
             future_result = asyncio.Future()
             provided = asyncio.ensure_future(provided)
             provided.add_done_callback(functools.partial(self._async_provide, future_result))
             return future_result
-        return provided[self.__item]
+        return provided[self.name]
 
     def _async_provide(self, future_result, future):
         provided = future.result()
-        result = provided[self.__item]
+        result = provided[self.name]
         future_result.set_result(result)
 
 

@@ -248,8 +248,8 @@ cdef class AttributeGetter(Provider):
 
 
 cdef class ItemGetter(Provider):
-    cdef Provider __provider
-    cdef object __item
+    cdef object __provides
+    cdef object __name
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
