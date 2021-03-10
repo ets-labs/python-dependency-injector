@@ -255,7 +255,7 @@ cdef class ItemGetter(Provider):
 
 
 cdef class MethodCaller(Provider):
-    cdef Provider __provider
+    cdef object __provides
     cdef tuple __args
     cdef int __args_len
     cdef tuple __kwargs

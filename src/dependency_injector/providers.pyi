@@ -447,7 +447,7 @@ class ItemGetter(Provider, ProvidedInstanceFluentInterface):
 
 
 class MethodCaller(Provider, ProvidedInstanceFluentInterface):
-    def __init__(self, provider: Provider, *args: Injection, **kwargs: Injection) -> None: ...
+    def __init__(self, provides: Optional[Provider] = None, *args: Injection, **kwargs: Injection) -> None: ...
 
 
 class OverridingContext(Generic[T]):

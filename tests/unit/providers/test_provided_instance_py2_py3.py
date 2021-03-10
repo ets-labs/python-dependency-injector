@@ -155,6 +155,14 @@ class LazyInitTests(unittest.TestCase):
         self.assertIs(provider.set_provides(providers.Provider()), provider)
         self.assertIs(provider.set_name('foo'), provider)
 
+    def test_method_caller(self):
+        provides = providers.Object(lambda: 42)
+        provider = providers.MethodCaller()
+        provider.set_provides(provides)
+        self.assertIs(provider.provides, provides)
+        self.assertEqual(provider(), 42)
+        self.assertIs(provider.set_provides(providers.Provider()), provider)
+
 
 class ProvidedInstancePuzzleTests(unittest.TestCase):
 

@@ -1430,12 +1430,12 @@ struct __pyx_obj_19dependency_injector_9providers_ItemGetter {
  * 
  * 
  * cdef class MethodCaller(Provider):             # <<<<<<<<<<<<<<
- *     cdef Provider __provider
+ *     cdef object __provides
  *     cdef tuple __args
  */
 struct __pyx_obj_19dependency_injector_9providers_MethodCaller {
   struct __pyx_obj_19dependency_injector_9providers_Provider __pyx_base;
-  struct __pyx_obj_19dependency_injector_9providers_Provider *__pyx___provider;
+  PyObject *__pyx___provides;
   PyObject *__pyx___args;
   int __pyx___args_len;
   PyObject *__pyx___kwargs;
@@ -2186,7 +2186,7 @@ static struct __pyx_vtabstruct_19dependency_injector_9providers_ItemGetter *__py
  * 
  * 
  * cdef class MethodCaller(Provider):             # <<<<<<<<<<<<<<
- *     cdef Provider __provider
+ *     cdef object __provides
  *     cdef tuple __args
  */
 

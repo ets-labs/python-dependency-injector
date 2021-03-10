@@ -3948,7 +3948,7 @@ cdef class AttributeGetter(Provider):
         super().__init__()
 
     def __repr__(self):
-        return f'{self.__class__.__name__}(\'{self.__name}\')'
+        return f'{self.__class__.__name__}(\'{self.name}\')'
 
     def __deepcopy__(self, memo):
         copied = memo.get(id(self))
@@ -4099,35 +4099,33 @@ cdef class MethodCaller(Provider):
     You should not create this provider directly. See :py:class:`ProvidedInstance` instead.
     """
 
-    def __init__(self, provider, *args, **kwargs):
-        self.__provider = provider
+    def __init__(self, provides=None, *args, **kwargs):
+        self.__provides = None
+        self.set_provides(provides)
 
-        self.__args = parse_positional_injections(args)
-        self.__args_len = len(self.__args)
+        self.__args = tuple()
+        self.__args_len = 0
+        self.set_args(*args)
 
-        self.__kwargs = parse_named_injections(kwargs)
-        self.__kwargs_len = len(self.__kwargs)
+        self.__kwargs = tuple()
+        self.__kwargs_len = 0
+        self.set_kwargs(**kwargs)
 
         super().__init__()
 
     def __repr__(self):
-        return f'{self.__class__.__name__}({self.__provider})'
+        return f'{self.__class__.__name__}({self.provides})'
 
-    def __deepcopy__(self, memo=None):
-        cdef MethodCaller copied
-
+    def __deepcopy__(self, memo):
         copied = memo.get(id(self))
         if copied is not None:
             return copied
 
-        copied = self.__class__(deepcopy(self.__provider, memo))
-        copied.__args = deepcopy(self.__args, memo)
-        copied.__args_len = self.__args_len
-        copied.__kwargs = deepcopy(self.__kwargs, memo)
-        copied.__kwargs_len = self.__kwargs_len
-
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
+        copied.set_args(*deepcopy(self.args, memo))
+        copied.set_kwargs(**deepcopy(self.kwargs, memo))
         self._copy_overridings(copied, memo)
-
         return copied
 
     def __getattr__(self, item):
@@ -4136,10 +4134,18 @@ cdef class MethodCaller(Provider):
     def __getitem__(self, item):
         return ItemGetter(self, item)
 
+    def call(self, *args, **kwargs):
+        return MethodCaller(self, *args, **kwargs)
+
     @property
     def provides(self):
-        """Return provider."""
-        return self.__provider
+        """Return provider's provides."""
+        return self.__provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        self.__provides = provides
+        return self
 
     @property
     def args(self):
@@ -4154,6 +4160,17 @@ cdef class MethodCaller(Provider):
             args.append(arg.__value)
         return tuple(args)
 
+    def set_args(self, *args):
+        """Set positional argument injections.
+
+        Existing positional argument injections are dropped.
+
+        :return: Reference ``self``
+        """
+        self.__args = parse_positional_injections(args)
+        self.__args_len = len(self.__args)
+        return self
+
     @property
     def kwargs(self):
         """Return keyword argument injections."""
@@ -4167,19 +4184,28 @@ cdef class MethodCaller(Provider):
             kwargs[kwarg.__name] = kwarg.__value
         return kwargs
 
-    def call(self, *args, **kwargs):
-        return MethodCaller(self, *args, **kwargs)
+    def set_kwargs(self, **kwargs):
+        """Set keyword argument injections.
+
+        Existing keyword argument injections are dropped.
+
+        :return: Reference ``self``
+        """
+        self.__kwargs = parse_named_injections(kwargs)
+        self.__kwargs_len = len(self.__kwargs)
+        return self
 
     @property
     def related(self):
         """Return related providers generator."""
-        yield self.__provider
+        if is_provider(self.provides):
+            yield self.provides
         yield from filter(is_provider, self.args)
         yield from filter(is_provider, self.kwargs.values())
         yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
-        call = self.__provider()
+        call = self.provides()
         if __is_future_or_coroutine(call):
             future_result = asyncio.Future()
             call = asyncio.ensure_future(call)
