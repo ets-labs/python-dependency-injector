@@ -860,7 +860,7 @@ class AutoLoader:
 
     @property
     def installed(self):
-        return self._path_hook is not None
+        return self._path_hook in sys.path_hooks
 
     def install(self):
         if self.installed:
