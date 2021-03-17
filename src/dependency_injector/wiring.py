@@ -771,7 +771,7 @@ class ProvidedInstance(Modifier):
 
     def modify(
             self,
-            provider: providers.ConfigurationOption,
+            provider: providers.Provider,
             providers_map: ProvidersMap,
     ) -> providers.Provider:
         provider = provider.provided

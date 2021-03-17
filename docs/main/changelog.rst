@@ -11,6 +11,7 @@ Development version
 -------------------
 - Implement providers' lazy initialization.
 - Improve providers' copying.
+- Improve typing in wiring module.
 
 4.30.0
 ------
