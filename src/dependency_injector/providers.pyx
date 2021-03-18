@@ -4009,8 +4009,8 @@ cdef class AttributeGetter(Provider):
         try:
             provided = future.result()
             result = getattr(provided, self.name)
-        except Exception:
-            pass
+        except Exception as exception:
+            future_result.set_exception(exception)
         else:
             future_result.set_result(result)
 
@@ -4088,9 +4088,13 @@ cdef class ItemGetter(Provider):
         return provided[self.name]
 
     def _async_provide(self, future_result, future):
-        provided = future.result()
-        result = provided[self.name]
-        future_result.set_result(result)
+        try:
+            provided = future.result()
+            result = provided[self.name]
+        except Exception as exception:
+            future_result.set_exception(exception)
+        else:
+            future_result.set_result(result)
 
 
 cdef class MethodCaller(Provider):
@@ -4222,17 +4226,21 @@ cdef class MethodCaller(Provider):
         )
 
     def _async_provide(self, future_result, args, kwargs, future):
-        call = future.result()
-        result = __call(
-            call,
-            args,
-            self.__args,
-            self.__args_len,
-            kwargs,
-            self.__kwargs,
-            self.__kwargs_len,
-        )
-        future_result.set_result(result)
+        try:
+            call = future.result()
+            result = __call(
+                call,
+                args,
+                self.__args,
+                self.__args_len,
+                kwargs,
+                self.__kwargs,
+                self.__kwargs_len,
+            )
+        except Exception as exception:
+            future_result.set_exception(exception)
+        else:
+            future_result.set_result(result)
 
 
 cdef class Injection(object):

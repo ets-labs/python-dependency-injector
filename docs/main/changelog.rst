@@ -13,6 +13,7 @@ Development version
 - Improve providers' copying.
 - Improve typing in wiring module.
 - Fix wiring module loader uninstallation issue.
+- Fix provided instance providers error handing in asynchronous mode.
 
 4.30.0
 ------
