@@ -176,6 +176,7 @@ cdef class Provider(object):
         """Initializer."""
         self.__overridden = tuple()
         self.__last_overriding = None
+        self.__overrides = tuple()
         self.__async_mode = ASYNC_MODE_UNDEFINED
         super(Provider, self).__init__()
 
@@ -267,6 +268,7 @@ cdef class Provider(object):
         with self.overriding_lock:
             self.__overridden += (provider,)
             self.__last_overriding = provider
+            provider.register_overrides(self)
 
         return OverridingContext(self, provider)
 
@@ -282,6 +284,8 @@ cdef class Provider(object):
             if len(self.__overridden) == 0:
                 raise Error('Provider {0} is not overridden'.format(str(self)))
 
+            self.__last_overriding.unregister_overrides(self)
+
             self.__overridden = self.__overridden[:-1]
             try:
                 self.__last_overriding = self.__overridden[-1]
@@ -294,8 +298,26 @@ cdef class Provider(object):
         :rtype: None
         """
         with self.overriding_lock:
+            for provider in self.__overridden:
+                provider.unregister_overrides(self)
             self.__overridden = tuple()
             self.__last_overriding = None
+
+    @property
+    def overrides(self):
+        """Return providers that are overridden by the current provider."""
+        return self.__overrides
+
+    def register_overrides(self, provider):
+        """Register provider that overrides current provider."""
+        self.__overrides =  tuple(set(self.__overrides + (provider,)))
+
+    def unregister_overrides(self, provider):
+        """Unregister provider that overrides current provider."""
+        overrides = set(self.__overrides)
+        if provider in overrides:
+            overrides.remove(provider)
+        self.__overrides = tuple(overrides)
 
     def async_(self, *args, **kwargs):
         """Return provided object asynchronously.
@@ -388,6 +410,7 @@ cdef class Provider(object):
         """Copy provider overridings to a newly copied provider."""
         copied.__overridden = deepcopy(self.__overridden, memo)
         copied.__last_overriding = deepcopy(self.__last_overriding, memo)
+        copied.__overrides = deepcopy(self.__overrides, memo)
 
 
 cdef class Object(Provider):
@@ -1893,8 +1916,12 @@ cdef class Configuration(Object):
 
         :rtype: None
         """
-        for child in self.__children.values():
-            child.reset_cache()
+        for provider in self.__children.values():
+            provider.reset_cache()
+
+        for provider in self.overrides:
+            if isinstance(provider, (Configuration, ConfigurationOption)):
+                provider.reset_cache()
 
     def update(self, value):
         """Set configuration options.
