@@ -7,6 +7,14 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Implement providers' lazy initialization.
+- Improve providers' copying.
+- Improve typing in wiring module.
+- Fix wiring module loader uninstallation issue.
+- Fix provided instance providers error handing in asynchronous mode.
+
 4.30.0
 ------
 - Remove restriction to wire a dynamic container.

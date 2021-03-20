@@ -34,6 +34,16 @@ class FactoryTests(unittest.TestCase):
     def test_init_with_not_callable(self):
         self.assertRaises(errors.Error, providers.Factory, 123)
 
+    def test_init_optional_provides(self):
+        provider = providers.Factory()
+        provider.set_provides(object)
+        self.assertIs(provider.provides, object)
+        self.assertIsInstance(provider(), object)
+
+    def test_set_provides_returns_self(self):
+        provider = providers.Factory()
+        self.assertIs(provider.set_provides(object), provider)
+
     def test_init_with_valid_provided_type(self):
         class ExampleProvider(providers.Factory):
             provided_type = Example
@@ -501,6 +511,26 @@ class FactoryAggregateTests(unittest.TestCase):
             providers.FactoryAggregate(
                 example_a=providers.Factory(self.ExampleA),
                 example_b=object())
+
+    def test_init_optional_factories(self):
+        provider = providers.FactoryAggregate()
+        provider.set_factories(
+            example_a=self.example_a_factory,
+            example_b=self.example_b_factory,
+        )
+        self.assertEqual(
+            provider.factories,
+            {
+                'example_a': self.example_a_factory,
+                'example_b': self.example_b_factory,
+            },
+        )
+        self.assertIsInstance(provider('example_a'), self.ExampleA)
+        self.assertIsInstance(provider('example_b'), self.ExampleB)
+
+    def test_set_provides_returns_self(self):
+        provider = providers.FactoryAggregate()
+        self.assertIs(provider.set_factories(example_a=self.example_a_factory), provider)
 
     def test_call(self):
         object_a = self.factory_aggregate('example_a',

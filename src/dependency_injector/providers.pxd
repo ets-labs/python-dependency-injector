@@ -203,7 +203,7 @@ cdef class Dict(Provider):
 
 
 cdef class Resource(Provider):
-    cdef object __initializer
+    cdef object __provides
     cdef bint __initialized
     cdef object __shutdowner
     cdef object __resource
@@ -235,27 +235,27 @@ cdef class Selector(Provider):
 # Provided instance
 
 cdef class ProvidedInstance(Provider):
-    cdef Provider __provider
+    cdef object __provides
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
 cdef class AttributeGetter(Provider):
-    cdef Provider __provider
-    cdef object __attribute
+    cdef object __provides
+    cdef object __name
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
 cdef class ItemGetter(Provider):
-    cdef Provider __provider
-    cdef object __item
+    cdef object __provides
+    cdef object __name
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
 cdef class MethodCaller(Provider):
-    cdef Provider __provider
+    cdef object __provides
     cdef tuple __args
     cdef int __args_len
     cdef tuple __kwargs
