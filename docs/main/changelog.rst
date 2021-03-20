@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.30.0
+------
+- Remove restriction to wire a dynamic container.
+
 4.29.2
 ------
 - Fix wiring to not crash on missing signatures.
