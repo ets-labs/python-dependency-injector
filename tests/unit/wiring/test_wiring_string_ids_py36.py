@@ -7,7 +7,7 @@ from dependency_injector.wiring import (
     Provider,
     Closing,
 )
-from dependency_injector import errors
+from dependency_injector import containers, providers, errors
 
 # Runtime import to avoid syntax errors in samples on Python < 3.5
 import os
@@ -333,6 +333,27 @@ class WiringAndFastAPITest(unittest.TestCase):
         self.assertEqual(result_2.shutdown_counter, 2)
 
         self.assertIsNot(result_1, result_2)
+
+
+class WireDynamicContainerTest(unittest.TestCase):
+
+    def test_wire(self):
+        sub = containers.DynamicContainer()
+        sub.int_object = providers.Object(1)
+
+        container = containers.DynamicContainer()
+        container.config = providers.Configuration()
+        container.service = providers.Factory(Service)
+        container.sub = sub
+
+        container.wire(
+            modules=[module],
+            packages=[package],
+        )
+        self.addCleanup(container.unwire)
+
+        service = module.test_function()
+        self.assertIsInstance(service, Service)
 
 
 class WiringAsyncInjectionsTest(AsyncTestCase):
