@@ -29,6 +29,16 @@ class ResourceTests(unittest.TestCase):
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(providers.Resource(init_fn)))
 
+    def test_init_optional_provides(self):
+        provider = providers.Resource()
+        provider.set_provides(init_fn)
+        self.assertIs(provider.provides, init_fn)
+        self.assertEqual(provider(), (tuple(), dict()))
+
+    def test_set_provides_returns_self(self):
+        provider = providers.Resource()
+        self.assertIs(provider.set_provides(init_fn), provider)
+
     def test_provided_instance_provider(self):
         provider = providers.Resource(init_fn)
         self.assertIsInstance(provider.provided, providers.ProvidedInstance)

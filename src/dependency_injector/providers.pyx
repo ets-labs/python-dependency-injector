@@ -176,6 +176,7 @@ cdef class Provider(object):
         """Initializer."""
         self.__overridden = tuple()
         self.__last_overriding = None
+        self.__overrides = tuple()
         self.__async_mode = ASYNC_MODE_UNDEFINED
         super(Provider, self).__init__()
 
@@ -208,10 +209,8 @@ cdef class Provider(object):
         if copied is not None:
             return copied
 
-        copied = self.__class__()
-
+        copied = _memorized_duplicate(self, memo)
         self._copy_overridings(copied, memo)
-
         return copied
 
     @classmethod
@@ -267,6 +266,7 @@ cdef class Provider(object):
         with self.overriding_lock:
             self.__overridden += (provider,)
             self.__last_overriding = provider
+            provider.register_overrides(self)
 
         return OverridingContext(self, provider)
 
@@ -282,6 +282,8 @@ cdef class Provider(object):
             if len(self.__overridden) == 0:
                 raise Error('Provider {0} is not overridden'.format(str(self)))
 
+            self.__last_overriding.unregister_overrides(self)
+
             self.__overridden = self.__overridden[:-1]
             try:
                 self.__last_overriding = self.__overridden[-1]
@@ -294,8 +296,26 @@ cdef class Provider(object):
         :rtype: None
         """
         with self.overriding_lock:
+            for provider in self.__overridden:
+                provider.unregister_overrides(self)
             self.__overridden = tuple()
             self.__last_overriding = None
+
+    @property
+    def overrides(self):
+        """Return providers that are overridden by the current provider."""
+        return self.__overrides
+
+    def register_overrides(self, provider):
+        """Register provider that overrides current provider."""
+        self.__overrides =  tuple(set(self.__overrides + (provider,)))
+
+    def unregister_overrides(self, provider):
+        """Unregister provider that overrides current provider."""
+        overrides = set(self.__overrides)
+        if provider in overrides:
+            overrides.remove(provider)
+        self.__overrides = tuple(overrides)
 
     def async_(self, *args, **kwargs):
         """Return provided object asynchronously.
@@ -388,6 +408,7 @@ cdef class Provider(object):
         """Copy provider overridings to a newly copied provider."""
         copied.__overridden = deepcopy(self.__overridden, memo)
         copied.__last_overriding = deepcopy(self.__last_overriding, memo)
+        copied.__overrides = deepcopy(self.__overrides, memo)
 
 
 cdef class Object(Provider):
@@ -400,13 +421,10 @@ cdef class Object(Provider):
         :type: object
     """
 
-    def __init__(self, provides):
-        """Initializer.
-
-        :param provides: Value that have to be provided.
-        :type provides: object
-        """
-        self.__provides = provides
+    def __init__(self, provides=None):
+        """Initialize provider."""
+        self.__provides = None
+        self.set_provides(provides)
         super(Object, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -415,7 +433,8 @@ cdef class Object(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(self.__provides)
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(self.provides)
 
         self._copy_overridings(copied, memo)
 
@@ -434,6 +453,16 @@ cdef class Object(Provider):
         :rtype: str
         """
         return self.__str__()
+
+    @property
+    def provides(self):
+        """Return provider's provides."""
+        return self.__provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        self.__provides = provides
+        return self
 
     @property
     def related(self):
@@ -471,14 +500,10 @@ cdef class Self(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__()
-        memo[id(self)] = copied
-
+        copied = _memorized_duplicate(self, memo)
         copied.set_container(deepcopy(self.__container, memo))
         copied.set_alt_names(self.__alt_names)
-
         self._copy_overridings(copied, memo)
-
         return copied
 
     def __str__(self):
@@ -520,11 +545,7 @@ cdef class Delegate(Provider):
     """
 
     def __init__(self, provides=None):
-        """Initializer.
-
-        :param provides: Value that have to be provided.
-        :type provides: :py:class:`Provider`
-        """
+        """Initialize provider."""
         self.__provides = None
         self.set_provides(provides)
         super(Delegate, self).__init__()
@@ -535,11 +556,8 @@ cdef class Delegate(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__()
-        memo[id(self)] = copied
-
-        if self.provides:
-            copied.set_provides(deepcopy(self.provides, memo))
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
         self._copy_overridings(copied, memo)
 
         return copied
@@ -560,12 +578,15 @@ cdef class Delegate(Provider):
 
     @property
     def provides(self):
+        """Return provider's provides."""
         return self.__provides
 
     def set_provides(self, provides):
+        """Set provider's provides."""
         if provides:
             provides = ensure_is_provider(provides)
         self.__provides = provides
+        return self
 
     @property
     def related(self):
@@ -610,20 +631,13 @@ cdef class Dependency(Provider):
         :type: type
    """
 
-    def __init__(self, object instance_of=object, default=UNDEFINED):
-        """Initializer."""
-        if not isinstance(instance_of, CLASS_TYPES):
-            raise TypeError(
-                'Argument \'instance_of\' has incorrect type (expected {0}, got {1}))'.format(
-                    CLASS_TYPES,
-                    instance_of,
-                )
-            )
-        self.__instance_of = instance_of
+    def __init__(self, object instance_of=object, default=None):
+        """Initialize provider."""
+        self.__instance_of = None
+        self.set_instance_of(instance_of)
 
-        if default is not UNDEFINED and not isinstance(default, Provider):
-            default = Object(default)
-        self.__default = default
+        self.__default = None
+        self.set_default(default)
 
         self.__parent = None
 
@@ -635,14 +649,9 @@ cdef class Dependency(Provider):
         if copied is not None:
             return copied
 
-        copied_default = (
-            deepcopy(self.__default, memo)
-            if self.__default is not UNDEFINED
-            else UNDEFINED
-        )
-
-        copied = self.__class__(self.__instance_of, copied_default)
-        memo[id(self)] = copied
+        copied = _memorized_duplicate(self, memo)
+        copied.set_instance_of(self.instance_of)
+        copied.set_default(deepcopy(self.default, memo))
 
         self._copy_parent(copied, memo)
         self._copy_overridings(copied, memo)
@@ -658,7 +667,7 @@ cdef class Dependency(Provider):
         """
         if self.__last_overriding:
             result = self.__last_overriding(*args, **kwargs)
-        elif not self.__last_overriding and self.__default is not UNDEFINED:
+        elif self.__default:
             result = self.__default(*args, **kwargs)
         else:
             self._raise_undefined_error()
@@ -691,7 +700,7 @@ cdef class Dependency(Provider):
     def __getattr__(self, name):
         if self.__last_overriding:
             return getattr(self.__last_overriding, name)
-        elif self.__default is not UNDEFINED:
+        elif self.__default:
             return getattr(self.__default, name)
         raise AttributeError(f'Provider "{self.__class__.__name__}" has no attribute "{name}"')
 
@@ -716,18 +725,37 @@ cdef class Dependency(Provider):
 
     @property
     def instance_of(self):
-        """Return class of required dependency."""
+        """Return type."""
         return self.__instance_of
+
+    def set_instance_of(self, instance_of):
+        """Set type."""
+        if not isinstance(instance_of, CLASS_TYPES):
+            raise TypeError(
+                '"instance_of" has incorrect type (expected {0}, got {1}))'.format(
+                    CLASS_TYPES,
+                    instance_of,
+                ),
+            )
+        self.__instance_of = instance_of
+        return self
 
     @property
     def default(self):
         """Return default provider."""
         return self.__default
 
+    def set_default(self, default):
+        """Set type."""
+        if default and not isinstance(default, Provider):
+            default = Object(default)
+        self.__default = default
+        return self
+
     @property
     def is_defined(self):
         """Return True if dependency is defined."""
-        return self.__last_overriding or self.__default is not UNDEFINED
+        return self.__last_overriding or self.__default
 
     def provided_by(self, provider):
         """Set external dependency provider.
@@ -742,7 +770,7 @@ cdef class Dependency(Provider):
     @property
     def related(self):
         """Return related providers generator."""
-        if self.__default is not UNDEFINED:
+        if self.__default:
             yield self.__default
         yield from super().related
 
@@ -871,12 +899,9 @@ cdef class DependenciesContainer(Object):
         if copied is not None:
             return copied
 
-        copied = self.__class__()
-        memo[id(self)] = copied
-
+        copied = <DependenciesContainer> _memorized_duplicate(self, memo)
         copied.__provides = deepcopy(self.__provides, memo)
         copied.__providers = deepcopy(self.__providers, memo)
-
         self._copy_parent(copied, memo)
         self._copy_overridings(copied, memo)
 
@@ -1022,18 +1047,10 @@ cdef class Callable(Provider):
         some_function.add_kwargs(keyword_argument1=3, keyword_argument=4)
     """
 
-    def __init__(self, provides, *args, **kwargs):
-        """Initializer.
-
-        :param provides: Wrapped callable.
-        :type provides: callable
-        """
-        if not callable(provides):
-            raise Error('Provider {0} expected to get callable, '
-                        'got {0}'.format('.'.join((self.__class__.__module__,
-                                                   self.__class__.__name__)),
-                                         provides))
-        self.__provides = provides
+    def __init__(self, provides=None, *args, **kwargs):
+        """Initialize provider."""
+        self.__provides = None
+        self.set_provides(provides)
 
         self.__args = tuple()
         self.__args_len = 0
@@ -1051,16 +1068,11 @@ cdef class Callable(Provider):
         if copied is not None:
             return copied
 
-        provides = self.provides
-        if isinstance(provides, Provider):
-            provides = deepcopy(provides, memo)
-
-        copied = self.__class__(provides,
-                                *deepcopy(self.args, memo),
-                                **deepcopy(self.kwargs, memo))
-
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
+        copied.set_args(*deepcopy(self.args, memo))
+        copied.set_kwargs(**deepcopy(self.kwargs, memo))
         self._copy_overridings(copied, memo)
-
         return copied
 
     def __str__(self):
@@ -1072,8 +1084,20 @@ cdef class Callable(Provider):
 
     @property
     def provides(self):
-        """Return wrapped callable."""
+        """Return provider's provides."""
         return self.__provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        if provides and not callable(provides):
+            raise Error(
+                'Provider {0} expected to get callable, got {1} instead'.format(
+                    _class_qualname(self),
+                    provides,
+                ),
+            )
+        self.__provides = provides
+        return self
 
     @property
     def args(self):
@@ -1270,22 +1294,14 @@ cdef class Coroutine(Callable):
 
     _is_coroutine = _is_coroutine_marker
 
-    def __init__(self, provides, *args, **kwargs):
-        """Initializer.
-
-        :param provides: Wrapped callable.
-        :type provides: callable
-        """
+    def set_provides(self, provides):
+        """Set provider's provides."""
         if not asyncio:
             raise Error('Package asyncio is not available')
-
-        if not asyncio.iscoroutinefunction(provides):
-            raise Error('Provider {0} expected to get coroutine function, '
-                        'got {1}'.format('.'.join((self.__class__.__module__,
-                                                   self.__class__.__name__)),
-                                         provides))
-
-        super(Coroutine, self).__init__(provides, *args, **kwargs)
+        if provides and not asyncio.iscoroutinefunction(provides):
+            raise Error(f'Provider {_class_qualname(self)} expected to get coroutine function, '
+                        f'got {provides} instead')
+        return super().set_provides(provides)
 
 
 cdef class DelegatedCoroutine(Coroutine):
@@ -1367,7 +1383,7 @@ cdef class ConfigurationOption(Provider):
     :py:class:`Configuration` provider.
     """
 
-    def __init__(self, name, Configuration root, required=False):
+    def __init__(self, name=None, Configuration root=None, required=False):
         self.__name = name
         self.__root = root
         self.__children = {}
@@ -1382,12 +1398,12 @@ cdef class ConfigurationOption(Provider):
         if copied is not None:
             return copied
 
-        copied_name = deepcopy(self.__name, memo)
-        copied_root = deepcopy(self.__root, memo)
-
-        copied = self.__class__(copied_name, copied_root, self.__required)
+        copied = <ConfigurationOption> _memorized_duplicate(self, memo)
+        copied.__name = deepcopy(self.__name, memo)
+        copied.__root = deepcopy(self.__root, memo)
         copied.__children = deepcopy(self.__children, memo)
-
+        copied.__required = self.__required
+        self._copy_overridings(copied, memo)
         return copied
 
     def __enter__(self):
@@ -1473,8 +1489,13 @@ cdef class ConfigurationOption(Provider):
 
     def reset_cache(self):
         self.__cache = UNDEFINED
-        for child in self.__children.values():
-            child.reset_cache()
+
+        for provider in self.__children.values():
+            provider.reset_cache()
+
+        for provider in self.overrides:
+            if isinstance(provider, (Configuration, ConfigurationOption)):
+                provider.reset_cache()
 
     def update(self, value):
         """Set configuration options.
@@ -1696,29 +1717,23 @@ cdef class Configuration(Object):
     def __init__(self, name=DEFAULT_NAME, default=None, strict=False):
         self.__name = name
         self.__strict = strict
-
-        value = {}
-        if default is not None:
-            assert isinstance(default, dict), default
-            value = default.copy()
-
         self.__children = {}
 
-        super().__init__(value)
+        super().__init__(provides={})
+        self.set_default(default)
 
     def __deepcopy__(self, memo):
-        cdef Configuration copied
-
         copied = memo.get(id(self))
         if copied is not None:
             return copied
 
-        copied = self.__class__(self.__name, self.__provides, self.__strict)
-        memo[id(self)] = copied
+        copied = _memorized_duplicate(self, memo)
+        copied.set_name(self.get_name())
+        copied.set_default(self.get_default())
+        copied.set_strict(self.get_strict())
+        copied.set_children(deepcopy(self.get_children(), memo))
 
-        copied.__children = deepcopy(self.__children, memo)
         self._copy_overridings(copied, memo)
-
         return copied
 
     def __enter__(self):
@@ -1751,7 +1766,44 @@ cdef class Configuration(Object):
         return child
 
     def get_name(self):
+        """Return name."""
         return self.__name
+
+    def set_name(self, name):
+        """Set name."""
+        self.__name = name
+        return self
+
+    def get_default(self):
+        """Return default."""
+        return self.provides
+
+    def set_default(self, default):
+        """Set default."""
+        if not default:
+            return self
+
+        assert isinstance(default, dict), default
+        self.set_provides(default.copy())
+        return self
+
+    def get_strict(self):
+        """Return strict flag."""
+        return self.__strict
+
+    def set_strict(self, strict):
+        """Set strict flag."""
+        self.__strict = strict
+        return self
+
+    def get_children(self):
+        """Return children options."""
+        return self.__children
+
+    def set_children(self, children):
+        """Set children options."""
+        self.__children = children
+        return self
 
     def get(self, selector, required=False):
         """Return configuration option.
@@ -1849,8 +1901,12 @@ cdef class Configuration(Object):
 
         :rtype: None
         """
-        for child in self.__children.values():
-            child.reset_cache()
+        for provider in self.__children.values():
+            provider.reset_cache()
+
+        for provider in self.overrides:
+            if isinstance(provider, (Configuration, ConfigurationOption)):
+                provider.reset_cache()
 
     def update(self, value):
         """Set configuration options.
@@ -2087,18 +2143,12 @@ cdef class Factory(Provider):
 
     provided_type = None
 
-    def __init__(self, provides, *args, **kwargs):
-        """Initializer.
-
-        :param provides: Provided type.
-        :type provides: type
-        """
-        if (self.__class__.provided_type and
-                not issubclass(provides, self.__class__.provided_type)):
-            raise Error('{0} can provide only {1} instances'.format(
-                self.__class__, self.__class__.provided_type))
-
-        self.__instantiator = Callable(provides, *args, **kwargs)
+    def __init__(self, provides=None, *args, **kwargs):
+        """Initialize provider."""
+        self.__instantiator = Callable()
+        self.set_provides(provides)
+        self.set_args(*args)
+        self.set_kwargs(**kwargs)
 
         self.__attributes = tuple()
         self.__attributes_len = 0
@@ -2111,17 +2161,12 @@ cdef class Factory(Provider):
         if copied is not None:
             return copied
 
-        cls = self.cls
-        if isinstance(cls, Provider):
-            cls = deepcopy(cls, memo)
-
-        copied = self.__class__(cls,
-                                *deepcopy(self.args, memo),
-                                **deepcopy(self.kwargs, memo))
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
+        copied.set_args(*deepcopy(self.args, memo))
+        copied.set_kwargs(**deepcopy(self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
-
         self._copy_overridings(copied, memo)
-
         return copied
 
     def __str__(self):
@@ -2139,8 +2184,22 @@ cdef class Factory(Provider):
 
     @property
     def provides(self):
-        """Return provided type."""
+        """Return provider's provides."""
         return self.__instantiator.provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        if (provides
+                and self.__class__.provided_type and
+                not issubclass(provides, self.__class__.provided_type)):
+            raise Error(
+                '{0} can provide only {1} instances'.format(
+                    _class_qualname(self),
+                    self.__class__.provided_type,
+                ),
+            )
+        self.__instantiator.set_provides(provides)
+        return self
 
     @property
     def args(self):
@@ -2362,29 +2421,19 @@ cdef class FactoryAggregate(Provider):
     __IS_DELEGATED__ = True
 
     def __init__(self, **factories):
-        """Initializer.
-
-        :param factories: Dictionary of aggregate factories.
-        :type factories: dict[str, :py:class:`Factory`]
-        """
-        for factory in factories.values():
-            if isinstance(factory, Factory) is False:
-                raise Error(
-                    '{0} can aggregate only instances of {1}, given - {2}'
-                    .format(self.__class__, Factory, factory))
-        self.__factories = factories
+        """Initialize provider."""
+        self.__factories = {}
+        self.set_factories(**factories)
         super(FactoryAggregate, self).__init__()
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
-        cdef FactoryAggregate copied
-
         copied = memo.get(id(self))
         if copied is not None:
             return copied
 
-        copied = self.__class__()
-        copied.__factories = deepcopy(self.__factories, memo)
+        copied = _memorized_duplicate(self, memo)
+        copied.set_factories(**deepcopy(self.factories, memo))
 
         self._copy_overridings(copied, memo)
 
@@ -2405,6 +2454,16 @@ cdef class FactoryAggregate(Provider):
     def factories(self):
         """Return dictionary of factories, read-only."""
         return self.__factories
+
+    def set_factories(self, **factories):
+        """Set factories."""
+        for factory in factories.values():
+            if isinstance(factory, Factory) is False:
+                raise Error(
+                    '{0} can aggregate only instances of {1}, given - {2}'
+                    .format(self.__class__, Factory, factory))
+        self.__factories = factories
+        return self
 
     def override(self, _):
         """Override provider with another provider.
@@ -2449,19 +2508,12 @@ cdef class BaseSingleton(Provider):
 
     provided_type = None
 
-    def __init__(self, provides, *args, **kwargs):
-        """Initializer.
-
-        :param provides: Provided type.
-        :type provides: type
-        """
-        if (self.__class__.provided_type and
-                not issubclass(provides, self.__class__.provided_type)):
-            raise Error('{0} can provide only {1} instances'.format(
-                self.__class__, self.__class__.provided_type))
-
-        self.__instantiator = Factory(provides, *args, **kwargs)
-
+    def __init__(self, provides=None, *args, **kwargs):
+        """Initialize provider."""
+        self.__instantiator = Factory()
+        self.set_provides(provides)
+        self.set_args(*args)
+        self.set_kwargs(**kwargs)
         super(BaseSingleton, self).__init__()
 
     def __str__(self):
@@ -2478,17 +2530,12 @@ cdef class BaseSingleton(Provider):
         if copied is not None:
             return copied
 
-        cls = self.cls
-        if isinstance(cls, Provider):
-            cls = deepcopy(cls, memo)
-
-        copied = self.__class__(cls,
-                                *deepcopy(self.args, memo),
-                                **deepcopy(self.kwargs, memo))
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
+        copied.set_args(*deepcopy(self.args, memo))
+        copied.set_kwargs(**deepcopy(self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
-
         self._copy_overridings(copied, memo)
-
         return copied
 
     @property
@@ -2498,8 +2545,22 @@ cdef class BaseSingleton(Provider):
 
     @property
     def provides(self):
-        """Return provided type."""
+        """Return provider's provides."""
         return self.__instantiator.provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        if (provides
+                and self.__class__.provided_type and
+                not issubclass(provides, self.__class__.provided_type)):
+            raise Error(
+                '{0} can provide only {1} instances'.format(
+                    _class_qualname(self),
+                    self.__class__.provided_type,
+                ),
+            )
+        self.__instantiator.set_provides(provides)
+        return self
 
     @property
     def args(self):
@@ -2663,7 +2724,7 @@ cdef class Singleton(BaseSingleton):
         :type: type
     """
 
-    def __init__(self, provides, *args, **kwargs):
+    def __init__(self, provides=None, *args, **kwargs):
         """Initializer.
 
         :param provides: Provided type.
@@ -2730,7 +2791,7 @@ cdef class ThreadSafeSingleton(BaseSingleton):
     :type: :py:class:`threading.RLock`
     """
 
-    def __init__(self, provides, *args, **kwargs):
+    def __init__(self, provides=None, *args, **kwargs):
         """Initializer.
 
         :param provides: Provided type.
@@ -2813,7 +2874,7 @@ cdef class ThreadLocalSingleton(BaseSingleton):
         :type: type
     """
 
-    def __init__(self, provides, *args, **kwargs):
+    def __init__(self, provides=None, *args, **kwargs):
         """Initializer.
 
         :param provides: Provided type.
@@ -3002,9 +3063,9 @@ cdef class List(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(*deepcopy(self.args, memo))
+        copied = _memorized_duplicate(self, memo)
+        copied.set_args(*deepcopy(self.args, memo))
         self._copy_overridings(copied, memo)
-
         return copied
 
     def __str__(self):
@@ -3110,9 +3171,9 @@ cdef class Dict(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(deepcopy(self.kwargs, memo))
+        copied = _memorized_duplicate(self, memo)
+        copied.set_kwargs(**deepcopy(self.kwargs, memo))
         self._copy_overridings(copied, memo)
-
         return copied
 
     def __str__(self):
@@ -3188,8 +3249,10 @@ cdef class Dict(Provider):
 cdef class Resource(Provider):
     """Resource provider provides a component with initialization and shutdown."""
 
-    def __init__(self, initializer, *args, **kwargs):
-        self.__initializer = initializer
+    def __init__(self, provides=None, *args, **kwargs):
+        self.__provides = None
+        self.set_provides(provides)
+
         self.__initialized = False
         self.__resource = None
         self.__shutdowner = None
@@ -3213,11 +3276,11 @@ cdef class Resource(Provider):
         if self.__initialized:
             raise Error('Can not copy initialized resource')
 
-        copied = self.__class__(
-            self.__initializer,
-            *deepcopy(self.args, memo),
-            **deepcopy(self.kwargs, memo),
-        )
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
+        copied.set_args(*deepcopy(self.args, memo))
+        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+
         self._copy_overridings(copied, memo)
 
         return copied
@@ -3227,12 +3290,17 @@ cdef class Resource(Provider):
 
         :rtype: str
         """
-        return represent_provider(provider=self, provides=self.__initializer)
+        return represent_provider(provider=self, provides=self.provides)
 
     @property
-    def initializer(self):
-        """Return initializer."""
-        return self.__initializer
+    def provides(self):
+        """Return provider's provides."""
+        return self.__provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        self.__provides = provides
+        return self
 
     @property
     def args(self):
@@ -3357,7 +3425,7 @@ cdef class Resource(Provider):
     @property
     def related(self):
         """Return related providers generator."""
-        yield from filter(is_provider, [self.__initializer])
+        yield from filter(is_provider, [self.provides])
         yield from filter(is_provider, self.args)
         yield from filter(is_provider, self.kwargs.values())
         yield from super().related
@@ -3366,8 +3434,8 @@ cdef class Resource(Provider):
         if self.__initialized:
             return self.__resource
 
-        if self._is_resource_subclass(self.__initializer):
-            initializer = self.__initializer()
+        if self._is_resource_subclass(self.__provides):
+            initializer = self.__provides()
             self.__resource = __call(
                 initializer.init,
                 args,
@@ -3378,8 +3446,8 @@ cdef class Resource(Provider):
                 self.__kwargs_len,
             )
             self.__shutdowner = initializer.shutdown
-        elif self._is_async_resource_subclass(self.__initializer):
-            initializer = self.__initializer()
+        elif self._is_async_resource_subclass(self.__provides):
+            initializer = self.__provides()
             async_init = __call(
                 initializer.init,
                 args,
@@ -3391,9 +3459,9 @@ cdef class Resource(Provider):
             )
             self.__initialized = True
             return self._create_init_future(async_init, initializer.shutdown)
-        elif inspect.isgeneratorfunction(self.__initializer):
+        elif inspect.isgeneratorfunction(self.__provides):
             initializer = __call(
-                self.__initializer,
+                self.__provides,
                 args,
                 self.__args,
                 self.__args_len,
@@ -3403,9 +3471,9 @@ cdef class Resource(Provider):
             )
             self.__resource = next(initializer)
             self.__shutdowner = initializer.send
-        elif iscoroutinefunction(self.__initializer):
+        elif iscoroutinefunction(self.__provides):
             initializer = __call(
-                self.__initializer,
+                self.__provides,
                 args,
                 self.__args,
                 self.__args_len,
@@ -3415,9 +3483,9 @@ cdef class Resource(Provider):
             )
             self.__initialized = True
             return self._create_init_future(initializer)
-        elif isasyncgenfunction(self.__initializer):
+        elif isasyncgenfunction(self.__provides):
             initializer = __call(
-                self.__initializer,
+                self.__provides,
                 args,
                 self.__args,
                 self.__args_len,
@@ -3427,9 +3495,9 @@ cdef class Resource(Provider):
             )
             self.__initialized = True
             return self._create_async_gen_init_future(initializer)
-        elif callable(self.__initializer):
+        elif callable(self.__provides):
             self.__resource = __call(
-                self.__initializer,
+                self.__provides,
                 args,
                 self.__args,
                 self.__args_len,
@@ -3527,12 +3595,12 @@ cdef class Container(Provider):
         Provider is experimental. Its interface may change.
     """
 
-    def __init__(self, container_cls, container=None, **overriding_providers):
+    def __init__(self, container_cls=None, container=None, **overriding_providers):
         """Initialize provider."""
         self.__container_cls = container_cls
         self.__overriding_providers = overriding_providers
 
-        if container is None:
+        if container is None and container_cls:
             container = container_cls()
             container.assign_parent(self)
         self.__container = container
@@ -3552,15 +3620,12 @@ cdef class Container(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(self.__container_cls, UNDEFINED)
-        memo[id(self)] = copied
-
+        copied = <Container> _memorized_duplicate(self, memo)
+        copied.__container_cls = self.__container_cls
         copied.__container = deepcopy(self.__container, memo)
         copied.__overriding_providers = deepcopy(self.__overriding_providers, memo)
-        copied.apply_overridings()
-
         self._copy_parent(copied, memo)
-
+        self._copy_overridings(copied, memo)
         return copied
 
     def __getattr__(self, name):
@@ -3695,10 +3760,14 @@ cdef class Selector(Provider):
         assert isinstance(instance_2, SomeOtherClass)
     """
 
-    def __init__(self, selector, **providers):
+    def __init__(self, selector=None, **providers):
         """Initialize provider."""
-        self.__selector = selector
-        self.__providers = providers
+        self.__selector = None
+        self.set_selector(selector)
+
+        self.__providers = {}
+        self.set_providers(**providers)
+
         super(Selector, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -3707,10 +3776,10 @@ cdef class Selector(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(
-            deepcopy(self.__selector, memo),
-            **deepcopy(self.__providers, memo),
-        )
+        copied = _memorized_duplicate(self, memo)
+        copied.set_selector(deepcopy(self.__selector, memo))
+        copied.set_providers(**deepcopy(self.__providers, memo))
+
         self._copy_overridings(copied, memo)
 
         return copied
@@ -3744,9 +3813,24 @@ cdef class Selector(Provider):
         )
 
     @property
+    def selector(self):
+        """Return selector."""
+        return self.__selector
+
+    def set_selector(self, selector):
+        """Set selector."""
+        self.__selector = selector
+        return self
+
+    @property
     def providers(self):
         """Return providers."""
         return dict(self.__providers)
+
+    def set_providers(self, **providers: Provider):
+        """Set providers."""
+        self.__providers = providers
+        return self
 
     @property
     def related(self):
@@ -3799,219 +3883,21 @@ cdef class ProvidedInstance(Provider):
     - :py:class:`Dependency`
     """
 
-    def __init__(self, provider):
-        self.__provider = provider
+    def __init__(self, provides=None):
+        self.__provides = None
+        self.set_provides(provides)
         super().__init__()
 
     def __repr__(self):
-        return f'{self.__class__.__name__}(\'{self.__provider}\')'
+        return f'{self.__class__.__name__}(\'{self.__provides}\')'
 
-    def __deepcopy__(self, memo=None):
-        cdef ProvidedInstance copied
-
+    def __deepcopy__(self, memo):
         copied = memo.get(id(self))
         if copied is not None:
             return copied
 
-        return self.__class__(
-            deepcopy(self.__provider, memo),
-        )
-
-    def __getattr__(self, item):
-        return AttributeGetter(self, item)
-
-    def __getitem__(self, item):
-        return ItemGetter(self, item)
-
-    @property
-    def provides(self):
-        """Return provider."""
-        return self.__provider
-
-    def call(self, *args, **kwargs):
-        return MethodCaller(self, *args, **kwargs)
-
-    @property
-    def related(self):
-        """Return related providers generator."""
-        yield self.__provider
-        yield from super().related
-
-    cpdef object _provide(self, tuple args, dict kwargs):
-        return self.__provider(*args, **kwargs)
-
-
-cdef class AttributeGetter(Provider):
-    """Provider that returns the attribute of the injected instance.
-
-    You should not create this provider directly. See :py:class:`ProvidedInstance` instead.
-    """
-
-    def __init__(self, provider, attribute):
-        self.__provider = provider
-        self.__attribute = attribute
-        super().__init__()
-
-    def __repr__(self):
-        return f'{self.__class__.__name__}(\'{self.__attribute}\')'
-
-    def __deepcopy__(self, memo=None):
-        cdef AttributeGetter copied
-
-        copied = memo.get(id(self))
-        if copied is not None:
-            return copied
-
-        return self.__class__(
-            deepcopy(self.__provider, memo),
-            self.__attribute,
-        )
-
-    def __getattr__(self, item):
-        return AttributeGetter(self, item)
-
-    def __getitem__(self, item):
-        return ItemGetter(self, item)
-
-    @property
-    def provides(self):
-        """Return provider."""
-        return self.__provider
-
-    @property
-    def name(self):
-        """Return name of the attribute."""
-        return self.__attribute
-
-    def call(self, *args, **kwargs):
-        return MethodCaller(self, *args, **kwargs)
-
-    @property
-    def related(self):
-        """Return related providers generator."""
-        yield self.__provider
-        yield from super().related
-
-    cpdef object _provide(self, tuple args, dict kwargs):
-        provided = self.__provider(*args, **kwargs)
-        if __is_future_or_coroutine(provided):
-            future_result = asyncio.Future()
-            provided = asyncio.ensure_future(provided)
-            provided.add_done_callback(functools.partial(self._async_provide, future_result))
-            return future_result
-        return getattr(provided, self.__attribute)
-
-    def _async_provide(self, future_result, future):
-        try:
-            provided = future.result()
-            result = getattr(provided, self.__attribute)
-        except Exception:
-            pass
-        else:
-            future_result.set_result(result)
-
-
-cdef class ItemGetter(Provider):
-    """Provider that returns the item of the injected instance.
-
-    You should not create this provider directly. See :py:class:`ProvidedInstance` instead.
-    """
-
-    def __init__(self, Provider provider, object item):
-        self.__provider = provider
-        self.__item = item
-        super().__init__()
-
-    def __repr__(self):
-        return f'{self.__class__.__name__}(\'{self.__item}\')'
-
-    def __deepcopy__(self, memo=None):
-        cdef ItemGetter copied
-
-        copied = memo.get(id(self))
-        if copied is not None:
-            return copied
-
-        return self.__class__(
-            deepcopy(self.__provider, memo),
-            self.__item,
-        )
-
-    def __getattr__(self, item):
-        return AttributeGetter(self, item)
-
-    def __getitem__(self, item):
-        return ItemGetter(self, item)
-
-    @property
-    def provides(self):
-        """Return provider."""
-        return self.__provider
-
-    @property
-    def name(self):
-        """Return name of the item."""
-        return self.__item
-
-    def call(self, *args, **kwargs):
-        return MethodCaller(self, *args, **kwargs)
-
-    @property
-    def related(self):
-        """Return related providers generator."""
-        yield self.__provider
-        yield from super().related
-
-    cpdef object _provide(self, tuple args, dict kwargs):
-        provided = self.__provider(*args, **kwargs)
-        if __is_future_or_coroutine(provided):
-            future_result = asyncio.Future()
-            provided = asyncio.ensure_future(provided)
-            provided.add_done_callback(functools.partial(self._async_provide, future_result))
-            return future_result
-        return provided[self.__item]
-
-    def _async_provide(self, future_result, future):
-        provided = future.result()
-        result = provided[self.__item]
-        future_result.set_result(result)
-
-
-cdef class MethodCaller(Provider):
-    """Provider that calls the method of the injected instance.
-
-    You should not create this provider directly. See :py:class:`ProvidedInstance` instead.
-    """
-
-    def __init__(self, provider, *args, **kwargs):
-        self.__provider = provider
-
-        self.__args = parse_positional_injections(args)
-        self.__args_len = len(self.__args)
-
-        self.__kwargs = parse_named_injections(kwargs)
-        self.__kwargs_len = len(self.__kwargs)
-
-        super().__init__()
-
-    def __repr__(self):
-        return f'{self.__class__.__name__}({self.__provider})'
-
-    def __deepcopy__(self, memo=None):
-        cdef MethodCaller copied
-
-        copied = memo.get(id(self))
-        if copied is not None:
-            return copied
-
-        copied = self.__class__(deepcopy(self.__provider, memo))
-        copied.__args = deepcopy(self.__args, memo)
-        copied.__args_len = self.__args_len
-        copied.__kwargs = deepcopy(self.__kwargs, memo)
-        copied.__kwargs_len = self.__kwargs_len
-
-        self._copy_overridings(copied, memo)
-
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
         return copied
 
     def __getattr__(self, item):
@@ -4022,8 +3908,245 @@ cdef class MethodCaller(Provider):
 
     @property
     def provides(self):
-        """Return provider."""
-        return self.__provider
+        """Return provider's provides."""
+        return self.__provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        self.__provides = provides
+        return self
+
+    def call(self, *args, **kwargs):
+        return MethodCaller(self, *args, **kwargs)
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        if is_provider(self.provides):
+            yield self.provides
+        yield from super().related
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        return self.__provides(*args, **kwargs)
+
+
+cdef class AttributeGetter(Provider):
+    """Provider that returns the attribute of the injected instance.
+
+    You should not create this provider directly. See :py:class:`ProvidedInstance` instead.
+    """
+
+    def __init__(self, provides=None, name=None):
+        self.__provides = None
+        self.set_provides(provides)
+
+        self.__name = None
+        self.set_name(name)
+        super().__init__()
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}(\'{self.name}\')'
+
+    def __deepcopy__(self, memo):
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
+        copied.set_name(self.name)
+        return copied
+
+    def __getattr__(self, item):
+        return AttributeGetter(self, item)
+
+    def __getitem__(self, item):
+        return ItemGetter(self, item)
+
+    @property
+    def provides(self):
+        """Return provider's provides."""
+        return self.__provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        self.__provides = provides
+        return self
+
+    @property
+    def name(self):
+        """Return name of the attribute."""
+        return self.__name
+
+    def set_name(self, name):
+        """Set name of the attribute."""
+        self.__name = name
+        return self
+
+    def call(self, *args, **kwargs):
+        return MethodCaller(self, *args, **kwargs)
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        if is_provider(self.provides):
+            yield self.provides
+        yield from super().related
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        provided = self.provides(*args, **kwargs)
+        if __is_future_or_coroutine(provided):
+            future_result = asyncio.Future()
+            provided = asyncio.ensure_future(provided)
+            provided.add_done_callback(functools.partial(self._async_provide, future_result))
+            return future_result
+        return getattr(provided, self.name)
+
+    def _async_provide(self, future_result, future):
+        try:
+            provided = future.result()
+            result = getattr(provided, self.name)
+        except Exception as exception:
+            future_result.set_exception(exception)
+        else:
+            future_result.set_result(result)
+
+
+cdef class ItemGetter(Provider):
+    """Provider that returns the item of the injected instance.
+
+    You should not create this provider directly. See :py:class:`ProvidedInstance` instead.
+    """
+
+    def __init__(self, provides=None, name=None):
+        self.__provides = None
+        self.set_provides(provides)
+
+        self.__name = None
+        self.set_name(name)
+        super().__init__()
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}(\'{self.name}\')'
+
+    def __deepcopy__(self, memo):
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
+        copied.set_name(self.name)
+        return copied
+
+    def __getattr__(self, item):
+        return AttributeGetter(self, item)
+
+    def __getitem__(self, item):
+        return ItemGetter(self, item)
+
+    @property
+    def provides(self):
+        """Return provider's provides."""
+        return self.__provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        self.__provides = provides
+        return self
+
+    @property
+    def name(self):
+        """Return name of the item."""
+        return self.__name
+
+    def set_name(self, name):
+        """Set name of the item."""
+        self.__name = name
+        return self
+
+    def call(self, *args, **kwargs):
+        return MethodCaller(self, *args, **kwargs)
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        if is_provider(self.provides):
+            yield self.provides
+        yield from super().related
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        provided = self.provides(*args, **kwargs)
+        if __is_future_or_coroutine(provided):
+            future_result = asyncio.Future()
+            provided = asyncio.ensure_future(provided)
+            provided.add_done_callback(functools.partial(self._async_provide, future_result))
+            return future_result
+        return provided[self.name]
+
+    def _async_provide(self, future_result, future):
+        try:
+            provided = future.result()
+            result = provided[self.name]
+        except Exception as exception:
+            future_result.set_exception(exception)
+        else:
+            future_result.set_result(result)
+
+
+cdef class MethodCaller(Provider):
+    """Provider that calls the method of the injected instance.
+
+    You should not create this provider directly. See :py:class:`ProvidedInstance` instead.
+    """
+
+    def __init__(self, provides=None, *args, **kwargs):
+        self.__provides = None
+        self.set_provides(provides)
+
+        self.__args = tuple()
+        self.__args_len = 0
+        self.set_args(*args)
+
+        self.__kwargs = tuple()
+        self.__kwargs_len = 0
+        self.set_kwargs(**kwargs)
+
+        super().__init__()
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}({self.provides})'
+
+    def __deepcopy__(self, memo):
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = _memorized_duplicate(self, memo)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
+        copied.set_args(*deepcopy(self.args, memo))
+        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        self._copy_overridings(copied, memo)
+        return copied
+
+    def __getattr__(self, item):
+        return AttributeGetter(self, item)
+
+    def __getitem__(self, item):
+        return ItemGetter(self, item)
+
+    def call(self, *args, **kwargs):
+        return MethodCaller(self, *args, **kwargs)
+
+    @property
+    def provides(self):
+        """Return provider's provides."""
+        return self.__provides
+
+    def set_provides(self, provides):
+        """Set provider's provides."""
+        self.__provides = provides
+        return self
 
     @property
     def args(self):
@@ -4038,6 +4161,17 @@ cdef class MethodCaller(Provider):
             args.append(arg.__value)
         return tuple(args)
 
+    def set_args(self, *args):
+        """Set positional argument injections.
+
+        Existing positional argument injections are dropped.
+
+        :return: Reference ``self``
+        """
+        self.__args = parse_positional_injections(args)
+        self.__args_len = len(self.__args)
+        return self
+
     @property
     def kwargs(self):
         """Return keyword argument injections."""
@@ -4051,19 +4185,28 @@ cdef class MethodCaller(Provider):
             kwargs[kwarg.__name] = kwarg.__value
         return kwargs
 
-    def call(self, *args, **kwargs):
-        return MethodCaller(self, *args, **kwargs)
+    def set_kwargs(self, **kwargs):
+        """Set keyword argument injections.
+
+        Existing keyword argument injections are dropped.
+
+        :return: Reference ``self``
+        """
+        self.__kwargs = parse_named_injections(kwargs)
+        self.__kwargs_len = len(self.__kwargs)
+        return self
 
     @property
     def related(self):
         """Return related providers generator."""
-        yield self.__provider
+        if is_provider(self.provides):
+            yield self.provides
         yield from filter(is_provider, self.args)
         yield from filter(is_provider, self.kwargs.values())
         yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
-        call = self.__provider()
+        call = self.provides()
         if __is_future_or_coroutine(call):
             future_result = asyncio.Future()
             call = asyncio.ensure_future(call)
@@ -4080,17 +4223,21 @@ cdef class MethodCaller(Provider):
         )
 
     def _async_provide(self, future_result, args, kwargs, future):
-        call = future.result()
-        result = __call(
-            call,
-            args,
-            self.__args,
-            self.__args_len,
-            kwargs,
-            self.__kwargs,
-            self.__kwargs_len,
-        )
-        future_result.set_result(result)
+        try:
+            call = future.result()
+            result = __call(
+                call,
+                args,
+                self.__args,
+                self.__args_len,
+                kwargs,
+                self.__kwargs,
+                self.__kwargs_len,
+            )
+        except Exception as exception:
+            future_result.set_exception(exception)
+        else:
+            future_result.set_result(result)
 
 
 cdef class Injection(object):
@@ -4100,13 +4247,13 @@ cdef class Injection(object):
 cdef class PositionalInjection(Injection):
     """Positional injection class."""
 
-    def __init__(self, value):
+    def __init__(self, value=None):
         """Initializer."""
-        self.__value = value
-        self.__is_provider = <int>is_provider(value)
-        self.__is_delegated = <int>is_delegated(value)
-        self.__call = <int>(self.__is_provider == 1 and
-                            self.__is_delegated == 0)
+        self.__value = None
+        self.__is_provider = 0
+        self.__is_delegated = 0
+        self.__call = 0
+        self.set(value)
         super(PositionalInjection, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -4114,7 +4261,9 @@ cdef class PositionalInjection(Injection):
         copied = memo.get(id(self))
         if copied is not None:
             return copied
-        return self.__class__(deepcopy(self.__value, memo))
+        copied = _memorized_duplicate(self, memo)
+        copied.set(_copy_if_provider(self.__value, memo))
+        return copied
 
     def get_value(self):
         """Return injection value."""
@@ -4124,18 +4273,28 @@ cdef class PositionalInjection(Injection):
         """Return original value."""
         return self.__value
 
+    def set(self, value):
+        """Set injection."""
+        self.__value = value
+        self.__is_provider = <int>is_provider(value)
+        self.__is_delegated = <int>is_delegated(value)
+        self.__call = <int>(self.__is_provider == 1 and self.__is_delegated == 0)
+
 
 cdef class NamedInjection(Injection):
     """Keyword injection class."""
 
-    def __init__(self, name, value):
+    def __init__(self, name=None, value=None):
         """Initializer."""
         self.__name = name
-        self.__value = value
-        self.__is_provider = <int>is_provider(value)
-        self.__is_delegated = <int>is_delegated(value)
-        self.__call = <int>(self.__is_provider == 1 and
-                            self.__is_delegated == 0)
+        self.set_name(name)
+
+        self.__value = None
+        self.__is_provider = 0
+        self.__is_delegated = 0
+        self.__call = 0
+        self.set(value)
+
         super(NamedInjection, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -4143,12 +4302,18 @@ cdef class NamedInjection(Injection):
         copied = memo.get(id(self))
         if copied is not None:
             return copied
-        return self.__class__(deepcopy(self.__name, memo),
-                              deepcopy(self.__value, memo))
+        copied = _memorized_duplicate(self, memo)
+        copied.set_name(self.get_name())
+        copied.set(_copy_if_provider(self.__value, memo))
+        return copied
 
     def get_name(self):
-        """Return injection value."""
+        """Return injection name."""
         return __get_name(self)
+
+    def set_name(self, name):
+        """Set injection name."""
+        self.__name = name
 
     def get_value(self):
         """Return injection value."""
@@ -4157,6 +4322,13 @@ cdef class NamedInjection(Injection):
     def get_original_value(self):
         """Return original value."""
         return self.__value
+
+    def set(self, value):
+        """Set injection."""
+        self.__value = value
+        self.__is_provider = <int>is_provider(value)
+        self.__is_delegated = <int>is_delegated(value)
+        self.__call = <int>(self.__is_provider == 1 and self.__is_delegated == 0)
 
 
 @cython.boundscheck(False)
@@ -4449,3 +4621,22 @@ cpdef _copy_parent(object from_, object to, dict memo):
         else from_.parent
     )
     to.assign_parent(copied_parent)
+
+
+cpdef object _memorized_duplicate(object instance, dict memo):
+    copied = instance.__class__()
+    memo[id(instance)] = copied
+    return copied
+
+
+cpdef object _copy_if_provider(object instance, dict memo):
+    if not is_provider(instance):
+        return instance
+    return deepcopy(instance, memo)
+
+
+cpdef str _class_qualname(object instance):
+    name = getattr(instance.__class__, '__qualname__', None)
+    if not name:
+        name = '.'.join((instance.__class__.__module__, instance.__class__.__name__))
+    return name

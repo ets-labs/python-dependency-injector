@@ -655,6 +655,32 @@ class ProvidedInstanceTests(AsyncTestCase):
         self.assertIs(instance2.resource, RESOURCE1)
         self.assertIs(instance1.resource, instance2.resource)
 
+    def test_provided_attribute_error(self):
+        async def raise_exception():
+            raise RuntimeError()
+
+        class TestContainer(containers.DeclarativeContainer):
+            client = providers.Factory(raise_exception)
+
+        container = TestContainer()
+
+        with self.assertRaises(RuntimeError):
+            self._run(container.client.provided.attr())
+
+    def test_provided_attribute_undefined_attribute(self):
+        class TestClient:
+            def __init__(self, resource):
+                self.resource = resource
+
+        class TestContainer(containers.DeclarativeContainer):
+            resource = providers.Resource(init_resource, providers.Object(RESOURCE1))
+            client = providers.Factory(TestClient, resource=resource)
+
+        container = TestContainer()
+
+        with self.assertRaises(AttributeError):
+            self._run(container.client.provided.attr())
+
     def test_provided_item(self):
         class TestClient:
             def __init__(self, resource):
@@ -685,6 +711,28 @@ class ProvidedInstanceTests(AsyncTestCase):
         self.assertIs(instance2.resource, RESOURCE1)
         self.assertIs(instance1.resource, instance2.resource)
 
+    def test_provided_item_error(self):
+        async def raise_exception():
+            raise RuntimeError()
+
+        class TestContainer(containers.DeclarativeContainer):
+            client = providers.Factory(raise_exception)
+
+        container = TestContainer()
+
+        with self.assertRaises(RuntimeError):
+            self._run(container.client.provided['item']())
+
+    def test_provided_item_undefined_item(self):
+        class TestContainer(containers.DeclarativeContainer):
+            resource = providers.Resource(init_resource, providers.Object(RESOURCE1))
+            client = providers.Factory(dict, resource=resource)
+
+        container = TestContainer()
+
+        with self.assertRaises(KeyError):
+            self._run(container.client.provided['item']())
+
     def test_provided_method_call(self):
         class TestClient:
             def __init__(self, resource):
@@ -714,6 +762,31 @@ class ProvidedInstanceTests(AsyncTestCase):
         self.assertIs(instance1.resource, RESOURCE1)
         self.assertIs(instance2.resource, RESOURCE1)
         self.assertIs(instance1.resource, instance2.resource)
+
+    def test_provided_method_call_parent_error(self):
+        async def raise_exception():
+            raise RuntimeError()
+
+        class TestContainer(containers.DeclarativeContainer):
+            client = providers.Factory(raise_exception)
+
+        container = TestContainer()
+
+        with self.assertRaises(RuntimeError):
+            self._run(container.client.provided.method.call()())
+
+    def test_provided_method_call_error(self):
+        class TestClient:
+            def method(self):
+                raise RuntimeError()
+
+        class TestContainer(containers.DeclarativeContainer):
+            client = providers.Factory(TestClient)
+
+        container = TestContainer()
+
+        with self.assertRaises(RuntimeError):
+            self._run(container.client.provided.method.call()())
 
 
 class DependencyTests(AsyncTestCase):
@@ -996,7 +1069,7 @@ class AsyncProvidersWithAsyncDependenciesTests(AsyncTestCase):
         container = Container()
         service = self._run(container.service())
 
-        self.assertEquals(service, {'service': 'ok', 'db': {'db': 'ok'}})
+        self.assertEqual(service, {'service': 'ok', 'db': {'db': 'ok'}})
 
 
 class AsyncProviderWithAwaitableObjectTests(AsyncTestCase):

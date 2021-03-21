@@ -771,7 +771,7 @@ class ProvidedInstance(Modifier):
 
     def modify(
             self,
-            provider: providers.ConfigurationOption,
+            provider: providers.Provider,
             providers_map: ProvidersMap,
     ) -> providers.Provider:
         provider = provider.provided
@@ -860,7 +860,7 @@ class AutoLoader:
 
     @property
     def installed(self):
-        return self._path_hook is not None
+        return self._path_hook in sys.path_hooks
 
     def install(self):
         if self.installed:

@@ -1,11 +1,17 @@
 """Containers module."""
 
+import json
 import sys
 
 try:
     import asyncio
 except ImportError:
     asyncio = None
+
+try:
+    import yaml
+except ImportError:
+    yaml = None
 
 import six
 
@@ -82,13 +88,13 @@ class DynamicContainer(Container):
         copied = self.__class__()
         memo[id(self)] = copied
 
-        copied.provider_type = providers.Provider
-        copied.overridden = providers.deepcopy(self.overridden, memo)
-        copied.declarative_parent = self.declarative_parent
-
         copied.__self__ = providers.deepcopy(self.__self__, memo)
         for name in copied.__self__.alt_names:
             copied.set_provider(name, copied.__self__)
+
+        copied.provider_type = providers.Provider
+        copied.overridden = providers.deepcopy(self.overridden, memo)
+        copied.declarative_parent = self.declarative_parent
 
         for name, provider in providers.deepcopy(self.providers, memo).items():
             copied.set_provider(name, provider)
@@ -329,6 +335,39 @@ class DynamicContainer(Container):
             f'Container "{container_name}" has undefined dependencies: '
             f'{", ".join(undefined_names)}',
         )
+
+    def from_schema(self, schema):
+        """Build container providers from schema."""
+        from .schema import build_schema
+        for name, provider in build_schema(schema).items():
+            self.set_provider(name, provider)
+
+    def from_yaml_schema(self, filepath, loader=None):
+        """Build container providers from YAML schema.
+
+        You can specify type of loader as a second argument. By default, method
+        uses ``SafeLoader``.
+        """
+        if yaml is None:
+            raise errors.Error(
+                'Unable to load yaml schema - PyYAML is not installed. '
+                'Install PyYAML or install Dependency Injector with yaml extras: '
+                '"pip install dependency-injector[yaml]"'
+            )
+
+        if loader is None:
+            loader = yaml.SafeLoader
+
+        with open(filepath) as file:
+            schema = yaml.load(file, loader)
+
+        self.from_schema(schema)
+
+    def from_json_schema(self, filepath):
+        """Build container providers from JSON schema."""
+        with open(filepath) as file:
+            schema = json.load(file)
+        self.from_schema(schema)
 
     def resolve_provider_name(self, provider):
         """Try to resolve provider name."""

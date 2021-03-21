@@ -1,0 +1,27 @@
+version: "1"
+
+container:
+
+  config:
+    provider: Configuration
+
+  session:
+    provider: Singleton
+    provides: boto3.session.Session
+    kwargs:
+      aws_access_key_id: container.config.aws_access_key_id
+      aws_secret_access_key: container.config.aws_secret_access_key
+      aws_session_token: container.config.aws_session_token
+      region_name: container.config.aws_region_name
+
+  s3_client:
+    provider: Factory
+    provides: container.session.provided.client.call()
+    kwargs:
+      service_name: s3
+
+  sqs_client:
+    provider: Factory
+    provides: container.session.provided.client.call()
+    kwargs:
+      service_name: sqs

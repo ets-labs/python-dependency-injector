@@ -437,6 +437,7 @@ class AutoLoaderTest(unittest.TestCase):
     def test_register_container(self):
         register_loader_containers(self.container)
         importlib.reload(module)
+        importlib.import_module('wiringsamples.imports')
 
         service = module.test_function()
         self.assertIsInstance(service, Service)

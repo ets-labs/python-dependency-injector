@@ -28,6 +28,28 @@ class ConfigTests(unittest.TestCase):
     def tearDown(self):
         del self.config
 
+    def test_init_optional(self):
+        provider = providers.Configuration()
+        provider.set_name('myconfig')
+        provider.set_default({'foo': 'bar'})
+        provider.set_strict(True)
+
+        self.assertEqual(provider.get_name(), 'myconfig')
+        self.assertEqual(provider.get_default(), {'foo': 'bar'})
+        self.assertTrue(provider.get_strict())
+
+    def test_set_name_returns_self(self):
+        provider = providers.Configuration()
+        self.assertIs(provider.set_name('myconfig'), provider)
+
+    def test_set_default_returns_self(self):
+        provider = providers.Configuration()
+        self.assertIs(provider.set_default({}), provider)
+
+    def test_set_strict_returns_self(self):
+        provider = providers.Configuration()
+        self.assertIs(provider.set_strict(True), provider)
+
     def test_default_name(self):
         config = providers.Configuration()
         self.assertEqual(config.get_name(), 'config')
@@ -393,6 +415,60 @@ class ConfigLinkingTests(unittest.TestCase):
         self.assertEqual(services.config(), {'value': 'services2'})
         self.assertEqual(services.config.value(), 'services2')
         self.assertEqual(services.value_getter(), 'services2')
+
+    def test_reset_overriding_cache(self):
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/428
+        class Core(containers.DeclarativeContainer):
+            config = providers.Configuration()
+
+            greetings = providers.Factory(str, config.greeting)
+
+        class Application(containers.DeclarativeContainer):
+            config = providers.Configuration()
+
+            core = providers.Container(
+                Core,
+                config=config,
+            )
+
+            greetings = providers.Factory(str, config.greeting)
+
+        container = Application()
+
+        container.config.set('greeting', 'Hello World')
+        self.assertEqual(container.greetings(), 'Hello World')
+        self.assertEqual(container.core.greetings(), 'Hello World')
+
+        container.config.set('greeting', 'Hello Bob')
+        self.assertEqual(container.greetings(), 'Hello Bob')
+        self.assertEqual(container.core.greetings(), 'Hello Bob')
+
+    def test_reset_overriding_cache_for_option(self):
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/428
+        class Core(containers.DeclarativeContainer):
+            config = providers.Configuration()
+
+            greetings = providers.Factory(str, config.greeting)
+
+        class Application(containers.DeclarativeContainer):
+            config = providers.Configuration()
+
+            core = providers.Container(
+                Core,
+                config=config.option,
+            )
+
+            greetings = providers.Factory(str, config.option.greeting)
+
+        container = Application()
+
+        container.config.set('option.greeting', 'Hello World')
+        self.assertEqual(container.greetings(), 'Hello World')
+        self.assertEqual(container.core.greetings(), 'Hello World')
+
+        container.config.set('option.greeting', 'Hello Bob')
+        self.assertEqual(container.greetings(), 'Hello Bob')
+        self.assertEqual(container.core.greetings(), 'Hello Bob')
 
 
 class ConfigFromIniTests(unittest.TestCase):

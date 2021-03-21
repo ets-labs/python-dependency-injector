@@ -7,6 +7,17 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.31.0
+------
+- Implement providers' lazy initialization.
+- Improve providers' copying.
+- Improve typing in wiring module.
+- Fix wiring module loader uninstallation issue.
+- Fix provided instance providers error handing in asynchronous mode.
+- Fix overridden configuration option cache resetting.
+  See issue: `#428 <https://github.com/ets-labs/python-dependency-injector/issues/428>`_.
+  Thanks to `@dcendents <https://github.com/dcendents>`_ for reporting the issue.
+
 4.30.0
 ------
 - Remove restriction to wire a dynamic container.

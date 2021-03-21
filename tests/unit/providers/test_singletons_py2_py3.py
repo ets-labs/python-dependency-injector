@@ -36,6 +36,16 @@ class _BaseSingletonTestCase(object):
     def test_init_with_not_callable(self):
         self.assertRaises(errors.Error, self.singleton_cls, 123)
 
+    def test_init_optional_provides(self):
+        provider = self.singleton_cls()
+        provider.set_provides(object)
+        self.assertIs(provider.provides, object)
+        self.assertIsInstance(provider(), object)
+
+    def test_set_provides_returns_self(self):
+        provider = self.singleton_cls()
+        self.assertIs(provider.set_provides(object), provider)
+
     def test_init_with_valid_provided_type(self):
         class ExampleProvider(self.singleton_cls):
             provided_type = Example

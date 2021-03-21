@@ -1,6 +1,7 @@
 """Dependency injector base providers unit tests."""
 
 import unittest
+import warnings
 
 from dependency_injector import (
     containers,
@@ -21,12 +22,13 @@ class ProviderTests(unittest.TestCase):
         self.assertRaises(NotImplementedError, self.provider.__call__)
 
     def test_delegate(self):
-        delegate1 = self.provider.delegate()
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+            delegate1 = self.provider.delegate()
+            delegate2 = self.provider.delegate()
 
         self.assertIsInstance(delegate1, providers.Delegate)
         self.assertIs(delegate1(), self.provider)
-
-        delegate2 = self.provider.delegate()
 
         self.assertIsInstance(delegate2, providers.Delegate)
         self.assertIs(delegate2(), self.provider)
@@ -149,6 +151,17 @@ class ObjectProviderTests(unittest.TestCase):
 
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(providers.Object(object())))
+
+    def test_init_optional_provides(self):
+        instance = object()
+        provider = providers.Object()
+        provider.set_provides(instance)
+        self.assertIs(provider.provides, instance)
+        self.assertIs(provider(), instance)
+
+    def test_set_provides_returns_self(self):
+        provider = providers.Object()
+        self.assertIs(provider.set_provides(object()), provider)
 
     def test_provided_instance_provider(self):
         provider = providers.Object(object())
@@ -289,6 +302,16 @@ class DelegateTests(unittest.TestCase):
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(self.delegate))
 
+    def test_init_optional_provides(self):
+        provider = providers.Delegate()
+        provider.set_provides(self.delegated)
+        self.assertIs(provider.provides, self.delegated)
+        self.assertIs(provider(), self.delegated)
+
+    def test_set_provides_returns_self(self):
+        provider = providers.Delegate()
+        self.assertIs(provider.set_provides(self.delegated), provider)
+
     def test_init_with_not_provider(self):
         self.assertRaises(errors.Error, providers.Delegate, object())
 
@@ -311,6 +334,24 @@ class DependencyTests(unittest.TestCase):
 
     def setUp(self):
         self.provider = providers.Dependency(instance_of=list)
+
+    def test_init_optional(self):
+        list_provider = providers.List(1, 2, 3)
+        provider = providers.Dependency()
+        provider.set_instance_of(list)
+        provider.set_default(list_provider)
+
+        self.assertIs(provider.instance_of, list)
+        self.assertIs(provider.default, list_provider)
+        self.assertEqual(provider(), [1, 2, 3])
+
+    def test_set_instance_of_returns_self(self):
+        provider = providers.Dependency()
+        self.assertIs(provider.set_instance_of(list), provider)
+
+    def test_set_default_returns_self(self):
+        provider = providers.Dependency()
+        self.assertIs(provider.set_default(providers.Provider()), provider)
 
     def test_init_with_not_class(self):
         self.assertRaises(TypeError, providers.Dependency, object())

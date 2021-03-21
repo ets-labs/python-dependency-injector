@@ -126,6 +126,44 @@ class ProvidedInstanceTests(unittest.TestCase):
         )
 
 
+class LazyInitTests(unittest.TestCase):
+
+    def test_provided_instance(self):
+        provides = providers.Object(object())
+        provider = providers.ProvidedInstance()
+        provider.set_provides(provides)
+        self.assertIs(provider.provides, provides)
+        self.assertIs(provider.set_provides(providers.Provider()), provider)
+
+    def test_attribute_getter(self):
+        provides = providers.Object(object())
+        provider = providers.AttributeGetter()
+        provider.set_provides(provides)
+        provider.set_name('__dict__')
+        self.assertIs(provider.provides, provides)
+        self.assertEqual(provider.name, '__dict__')
+        self.assertIs(provider.set_provides(providers.Provider()), provider)
+        self.assertIs(provider.set_name('__dict__'), provider)
+
+    def test_item_getter(self):
+        provides = providers.Object({'foo': 'bar'})
+        provider = providers.ItemGetter()
+        provider.set_provides(provides)
+        provider.set_name('foo')
+        self.assertIs(provider.provides, provides)
+        self.assertEqual(provider.name, 'foo')
+        self.assertIs(provider.set_provides(providers.Provider()), provider)
+        self.assertIs(provider.set_name('foo'), provider)
+
+    def test_method_caller(self):
+        provides = providers.Object(lambda: 42)
+        provider = providers.MethodCaller()
+        provider.set_provides(provides)
+        self.assertIs(provider.provides, provides)
+        self.assertEqual(provider(), 42)
+        self.assertIs(provider.set_provides(providers.Provider()), provider)
+
+
 class ProvidedInstancePuzzleTests(unittest.TestCase):
 
     def test_puzzled(self):

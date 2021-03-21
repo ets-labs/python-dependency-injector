@@ -1,8 +1,8 @@
 """Dependency injector coroutine providers unit tests."""
 
 import asyncio
-
 import unittest
+import warnings
 
 from dependency_injector import (
     providers,
@@ -42,6 +42,16 @@ class CoroutineTests(AsyncTestCase):
 
     def test_init_with_not_coroutine(self):
         self.assertRaises(errors.Error, providers.Coroutine, lambda: None)
+
+    def test_init_optional_provides(self):
+        provider = providers.Coroutine()
+        provider.set_provides(_example)
+        self.assertIs(provider.provides, _example)
+        self.assertEqual(run(provider(1, 2, 3, 4)), (1, 2, 3, 4))
+
+    def test_set_provides_returns_self(self):
+        provider = providers.Coroutine()
+        self.assertIs(provider.set_provides(_example), provider)
 
     def test_call_with_positional_args(self):
         provider = providers.Coroutine(_example, 1, 2, 3, 4)
@@ -232,9 +242,12 @@ class AbstractCoroutineTests(AsyncTestCase):
                               providers.Coroutine)
 
     def test_call_overridden_by_coroutine(self):
-        @asyncio.coroutine
-        def _abstract_example():
-            raise RuntimeError('Should not be raised')
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+
+            @asyncio.coroutine
+            def _abstract_example():
+                raise RuntimeError('Should not be raised')
 
         provider = providers.AbstractCoroutine(_abstract_example)
         provider.override(providers.Coroutine(_example))
@@ -242,9 +255,12 @@ class AbstractCoroutineTests(AsyncTestCase):
         self.assertTrue(self._run(provider(1, 2, 3, 4)), (1, 2, 3, 4))
 
     def test_call_overridden_by_delegated_coroutine(self):
-        @asyncio.coroutine
-        def _abstract_example():
-            raise RuntimeError('Should not be raised')
+        with warnings.catch_warnings():
+            warnings.simplefilter('ignore')
+
+            @asyncio.coroutine
+            def _abstract_example():
+                raise RuntimeError('Should not be raised')
 
         provider = providers.AbstractCoroutine(_abstract_example)
         provider.override(providers.DelegatedCoroutine(_example))
