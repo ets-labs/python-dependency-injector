@@ -14,6 +14,9 @@ Development version
 - Improve typing in wiring module.
 - Fix wiring module loader uninstallation issue.
 - Fix provided instance providers error handing in asynchronous mode.
+- Fix overridden configuration option cache resetting.
+  See issue: `#428 <https://github.com/ets-labs/python-dependency-injector/issues/428>`_.
+  Thanks to `@dcendents <https://github.com/dcendents>`_ for reporting the issue.
 
 4.30.0
 ------
