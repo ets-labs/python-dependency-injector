@@ -1489,8 +1489,13 @@ cdef class ConfigurationOption(Provider):
 
     def reset_cache(self):
         self.__cache = UNDEFINED
-        for child in self.__children.values():
-            child.reset_cache()
+
+        for provider in self.__children.values():
+            provider.reset_cache()
+
+        for provider in self.overrides:
+            if isinstance(provider, (Configuration, ConfigurationOption)):
+                provider.reset_cache()
 
     def update(self, value):
         """Set configuration options.

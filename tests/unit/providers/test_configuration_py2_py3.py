@@ -416,6 +416,58 @@ class ConfigLinkingTests(unittest.TestCase):
         self.assertEqual(services.config.value(), 'services2')
         self.assertEqual(services.value_getter(), 'services2')
 
+    def test_reset_overriding_cache(self):
+        class Core(containers.DeclarativeContainer):
+            config = providers.Configuration()
+
+            greetings = providers.Factory(str, config.greeting)
+
+        class Application(containers.DeclarativeContainer):
+            config = providers.Configuration()
+
+            core = providers.Container(
+                Core,
+                config=config,
+            )
+
+            greetings = providers.Factory(str, config.greeting)
+
+        container = Application()
+
+        container.config.set('greeting', 'Hello World')
+        self.assertEqual(container.greetings(), 'Hello World')
+        self.assertEqual(container.core.greetings(), 'Hello World')
+
+        container.config.set('greeting', 'Hello Bob')
+        self.assertEqual(container.greetings(), 'Hello Bob')
+        self.assertEqual(container.core.greetings(), 'Hello Bob')
+
+    def test_reset_overriding_cache_for_option(self):
+        class Core(containers.DeclarativeContainer):
+            config = providers.Configuration()
+
+            greetings = providers.Factory(str, config.greeting)
+
+        class Application(containers.DeclarativeContainer):
+            config = providers.Configuration()
+
+            core = providers.Container(
+                Core,
+                config=config.option,
+            )
+
+            greetings = providers.Factory(str, config.option.greeting)
+
+        container = Application()
+
+        container.config.set('option.greeting', 'Hello World')
+        self.assertEqual(container.greetings(), 'Hello World')
+        self.assertEqual(container.core.greetings(), 'Hello World')
+
+        container.config.set('option.greeting', 'Hello Bob')
+        self.assertEqual(container.greetings(), 'Hello Bob')
+        self.assertEqual(container.core.greetings(), 'Hello Bob')
+
 
 class ConfigFromIniTests(unittest.TestCase):
 
