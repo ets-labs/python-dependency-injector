@@ -176,6 +176,7 @@ cdef class Provider(object):
         """Initializer."""
         self.__overridden = tuple()
         self.__last_overriding = None
+        self.__overrides = tuple()
         self.__async_mode = ASYNC_MODE_UNDEFINED
         super(Provider, self).__init__()
 
@@ -208,10 +209,8 @@ cdef class Provider(object):
         if copied is not None:
             return copied
 
-        copied = self.__class__()
-
+        copied = _memorized_duplicate(self, memo)
         self._copy_overridings(copied, memo)
-
         return copied
 
     @classmethod
@@ -267,6 +266,7 @@ cdef class Provider(object):
         with self.overriding_lock:
             self.__overridden += (provider,)
             self.__last_overriding = provider
+            provider.register_overrides(self)
 
         return OverridingContext(self, provider)
 
@@ -282,6 +282,8 @@ cdef class Provider(object):
             if len(self.__overridden) == 0:
                 raise Error('Provider {0} is not overridden'.format(str(self)))
 
+            self.__last_overriding.unregister_overrides(self)
+
             self.__overridden = self.__overridden[:-1]
             try:
                 self.__last_overriding = self.__overridden[-1]
@@ -294,8 +296,26 @@ cdef class Provider(object):
         :rtype: None
         """
         with self.overriding_lock:
+            for provider in self.__overridden:
+                provider.unregister_overrides(self)
             self.__overridden = tuple()
             self.__last_overriding = None
+
+    @property
+    def overrides(self):
+        """Return providers that are overridden by the current provider."""
+        return self.__overrides
+
+    def register_overrides(self, provider):
+        """Register provider that overrides current provider."""
+        self.__overrides =  tuple(set(self.__overrides + (provider,)))
+
+    def unregister_overrides(self, provider):
+        """Unregister provider that overrides current provider."""
+        overrides = set(self.__overrides)
+        if provider in overrides:
+            overrides.remove(provider)
+        self.__overrides = tuple(overrides)
 
     def async_(self, *args, **kwargs):
         """Return provided object asynchronously.
@@ -388,6 +408,7 @@ cdef class Provider(object):
         """Copy provider overridings to a newly copied provider."""
         copied.__overridden = deepcopy(self.__overridden, memo)
         copied.__last_overriding = deepcopy(self.__last_overriding, memo)
+        copied.__overrides = deepcopy(self.__overrides, memo)
 
 
 cdef class Object(Provider):
@@ -479,14 +500,10 @@ cdef class Self(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__()
-        memo[id(self)] = copied
-
+        copied = _memorized_duplicate(self, memo)
         copied.set_container(deepcopy(self.__container, memo))
         copied.set_alt_names(self.__alt_names)
-
         self._copy_overridings(copied, memo)
-
         return copied
 
     def __str__(self):
@@ -539,13 +556,8 @@ cdef class Delegate(Provider):
         if copied is not None:
             return copied
 
-        provides = self.provides
-        if provides:
-            provides = deepcopy(self.provides, memo)
-
         copied = _memorized_duplicate(self, memo)
-        copied.set_provides(provides)
-
+        copied.set_provides(_copy_if_provider(self.provides, memo))
         self._copy_overridings(copied, memo)
 
         return copied
@@ -887,12 +899,9 @@ cdef class DependenciesContainer(Object):
         if copied is not None:
             return copied
 
-        copied = self.__class__()
-        memo[id(self)] = copied
-
+        copied = <DependenciesContainer> _memorized_duplicate(self, memo)
         copied.__provides = deepcopy(self.__provides, memo)
         copied.__providers = deepcopy(self.__providers, memo)
-
         self._copy_parent(copied, memo)
         self._copy_overridings(copied, memo)
 
@@ -1059,17 +1068,11 @@ cdef class Callable(Provider):
         if copied is not None:
             return copied
 
-        provides = self.provides
-        if isinstance(provides, Provider):
-            provides = deepcopy(provides, memo)
-
         copied = _memorized_duplicate(self, memo)
-        copied.set_provides(provides)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
         copied.set_args(*deepcopy(self.args, memo))
         copied.set_kwargs(**deepcopy(self.kwargs, memo))
-
         self._copy_overridings(copied, memo)
-
         return copied
 
     def __str__(self):
@@ -1380,7 +1383,7 @@ cdef class ConfigurationOption(Provider):
     :py:class:`Configuration` provider.
     """
 
-    def __init__(self, name, Configuration root, required=False):
+    def __init__(self, name=None, Configuration root=None, required=False):
         self.__name = name
         self.__root = root
         self.__children = {}
@@ -1395,12 +1398,12 @@ cdef class ConfigurationOption(Provider):
         if copied is not None:
             return copied
 
-        copied_name = deepcopy(self.__name, memo)
-        copied_root = deepcopy(self.__root, memo)
-
-        copied = self.__class__(copied_name, copied_root, self.__required)
+        copied = <ConfigurationOption> _memorized_duplicate(self, memo)
+        copied.__name = deepcopy(self.__name, memo)
+        copied.__root = deepcopy(self.__root, memo)
         copied.__children = deepcopy(self.__children, memo)
-
+        copied.__required = self.__required
+        self._copy_overridings(copied, memo)
         return copied
 
     def __enter__(self):
@@ -1486,8 +1489,13 @@ cdef class ConfigurationOption(Provider):
 
     def reset_cache(self):
         self.__cache = UNDEFINED
-        for child in self.__children.values():
-            child.reset_cache()
+
+        for provider in self.__children.values():
+            provider.reset_cache()
+
+        for provider in self.overrides:
+            if isinstance(provider, (Configuration, ConfigurationOption)):
+                provider.reset_cache()
 
     def update(self, value):
         """Set configuration options.
@@ -1893,8 +1901,12 @@ cdef class Configuration(Object):
 
         :rtype: None
         """
-        for child in self.__children.values():
-            child.reset_cache()
+        for provider in self.__children.values():
+            provider.reset_cache()
+
+        for provider in self.overrides:
+            if isinstance(provider, (Configuration, ConfigurationOption)):
+                provider.reset_cache()
 
     def update(self, value):
         """Set configuration options.
@@ -2149,18 +2161,12 @@ cdef class Factory(Provider):
         if copied is not None:
             return copied
 
-        provides = self.provides
-        if isinstance(provides, Provider):
-            provides = deepcopy(provides, memo)
-
         copied = _memorized_duplicate(self, memo)
-        copied.set_provides(provides)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
         copied.set_args(*deepcopy(self.args, memo))
         copied.set_kwargs(**deepcopy(self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
-
         self._copy_overridings(copied, memo)
-
         return copied
 
     def __str__(self):
@@ -2524,18 +2530,12 @@ cdef class BaseSingleton(Provider):
         if copied is not None:
             return copied
 
-        provides = self.provides
-        if isinstance(provides, Provider):
-            provides = deepcopy(provides, memo)
-
         copied = _memorized_duplicate(self, memo)
-        copied.set_provides(provides)
+        copied.set_provides(_copy_if_provider(self.provides, memo))
         copied.set_args(*deepcopy(self.args, memo))
         copied.set_kwargs(**deepcopy(self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
-
         self._copy_overridings(copied, memo)
-
         return copied
 
     @property
@@ -3063,9 +3063,9 @@ cdef class List(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(*deepcopy(self.args, memo))
+        copied = _memorized_duplicate(self, memo)
+        copied.set_args(*deepcopy(self.args, memo))
         self._copy_overridings(copied, memo)
-
         return copied
 
     def __str__(self):
@@ -3171,9 +3171,9 @@ cdef class Dict(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(deepcopy(self.kwargs, memo))
+        copied = _memorized_duplicate(self, memo)
+        copied.set_kwargs(**deepcopy(self.kwargs, memo))
         self._copy_overridings(copied, memo)
-
         return copied
 
     def __str__(self):
@@ -3595,12 +3595,12 @@ cdef class Container(Provider):
         Provider is experimental. Its interface may change.
     """
 
-    def __init__(self, container_cls, container=None, **overriding_providers):
+    def __init__(self, container_cls=None, container=None, **overriding_providers):
         """Initialize provider."""
         self.__container_cls = container_cls
         self.__overriding_providers = overriding_providers
 
-        if container is None:
+        if container is None and container_cls:
             container = container_cls()
             container.assign_parent(self)
         self.__container = container
@@ -3620,15 +3620,12 @@ cdef class Container(Provider):
         if copied is not None:
             return copied
 
-        copied = self.__class__(self.__container_cls, UNDEFINED)
-        memo[id(self)] = copied
-
+        copied = <Container> _memorized_duplicate(self, memo)
+        copied.__container_cls = self.__container_cls
         copied.__container = deepcopy(self.__container, memo)
         copied.__overriding_providers = deepcopy(self.__overriding_providers, memo)
-        copied.apply_overridings()
-
         self._copy_parent(copied, memo)
-
+        self._copy_overridings(copied, memo)
         return copied
 
     def __getattr__(self, name):
@@ -4250,13 +4247,13 @@ cdef class Injection(object):
 cdef class PositionalInjection(Injection):
     """Positional injection class."""
 
-    def __init__(self, value):
+    def __init__(self, value=None):
         """Initializer."""
-        self.__value = value
-        self.__is_provider = <int>is_provider(value)
-        self.__is_delegated = <int>is_delegated(value)
-        self.__call = <int>(self.__is_provider == 1 and
-                            self.__is_delegated == 0)
+        self.__value = None
+        self.__is_provider = 0
+        self.__is_delegated = 0
+        self.__call = 0
+        self.set(value)
         super(PositionalInjection, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -4264,7 +4261,9 @@ cdef class PositionalInjection(Injection):
         copied = memo.get(id(self))
         if copied is not None:
             return copied
-        return self.__class__(deepcopy(self.__value, memo))
+        copied = _memorized_duplicate(self, memo)
+        copied.set(_copy_if_provider(self.__value, memo))
+        return copied
 
     def get_value(self):
         """Return injection value."""
@@ -4274,18 +4273,28 @@ cdef class PositionalInjection(Injection):
         """Return original value."""
         return self.__value
 
+    def set(self, value):
+        """Set injection."""
+        self.__value = value
+        self.__is_provider = <int>is_provider(value)
+        self.__is_delegated = <int>is_delegated(value)
+        self.__call = <int>(self.__is_provider == 1 and self.__is_delegated == 0)
+
 
 cdef class NamedInjection(Injection):
     """Keyword injection class."""
 
-    def __init__(self, name, value):
+    def __init__(self, name=None, value=None):
         """Initializer."""
         self.__name = name
-        self.__value = value
-        self.__is_provider = <int>is_provider(value)
-        self.__is_delegated = <int>is_delegated(value)
-        self.__call = <int>(self.__is_provider == 1 and
-                            self.__is_delegated == 0)
+        self.set_name(name)
+
+        self.__value = None
+        self.__is_provider = 0
+        self.__is_delegated = 0
+        self.__call = 0
+        self.set(value)
+
         super(NamedInjection, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -4293,12 +4302,18 @@ cdef class NamedInjection(Injection):
         copied = memo.get(id(self))
         if copied is not None:
             return copied
-        return self.__class__(deepcopy(self.__name, memo),
-                              deepcopy(self.__value, memo))
+        copied = _memorized_duplicate(self, memo)
+        copied.set_name(self.get_name())
+        copied.set(_copy_if_provider(self.__value, memo))
+        return copied
 
     def get_name(self):
-        """Return injection value."""
+        """Return injection name."""
         return __get_name(self)
+
+    def set_name(self, name):
+        """Set injection name."""
+        self.__name = name
 
     def get_value(self):
         """Return injection value."""
@@ -4307,6 +4322,13 @@ cdef class NamedInjection(Injection):
     def get_original_value(self):
         """Return original value."""
         return self.__value
+
+    def set(self, value):
+        """Set injection."""
+        self.__value = value
+        self.__is_provider = <int>is_provider(value)
+        self.__is_delegated = <int>is_delegated(value)
+        self.__call = <int>(self.__is_provider == 1 and self.__is_delegated == 0)
 
 
 @cython.boundscheck(False)
