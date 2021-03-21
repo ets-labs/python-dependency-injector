@@ -417,6 +417,7 @@ class ConfigLinkingTests(unittest.TestCase):
         self.assertEqual(services.value_getter(), 'services2')
 
     def test_reset_overriding_cache(self):
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/428
         class Core(containers.DeclarativeContainer):
             config = providers.Configuration()
 
@@ -443,6 +444,7 @@ class ConfigLinkingTests(unittest.TestCase):
         self.assertEqual(container.core.greetings(), 'Hello Bob')
 
     def test_reset_overriding_cache_for_option(self):
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/428
         class Core(containers.DeclarativeContainer):
             config = providers.Configuration()
 
