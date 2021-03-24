@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.31.1
+------
+- Fix ``ThreadSafeSingleton`` synchronization issue.
+  See issue: `#433 <https://github.com/ets-labs/python-dependency-injector/issues/433>`_.
+  Thanks to `@garlandhu <https://github.com/garlandhu>`_ for reporting the issue.
+
 4.31.0
 ------
 - Implement providers' lazy initialization.
