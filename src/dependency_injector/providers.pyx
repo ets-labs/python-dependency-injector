@@ -2819,17 +2819,14 @@ cdef class ThreadSafeSingleton(BaseSingleton):
         if instance is None:
             with self.__storage_lock:
                 if self.__storage is None:
-                    instance = __factory_call(self.__instantiator, args, kwargs)
-
-                    if __is_future_or_coroutine(instance):
+                    result = __factory_call(self.__instantiator, args, kwargs)
+                    if __is_future_or_coroutine(result):
                         future_result = asyncio.Future()
-                        instance = asyncio.ensure_future(instance)
-                        instance.add_done_callback(functools.partial(self._async_init_instance, future_result))
-                        self.__storage = future_result
-                        return future_result
-
-                    self.__storage = instance
-
+                        result = asyncio.ensure_future(result)
+                        result.add_done_callback(functools.partial(self._async_init_instance, future_result))
+                        result = future_result
+                    self.__storage = result
+                instance = self.__storage
         return instance
 
 
