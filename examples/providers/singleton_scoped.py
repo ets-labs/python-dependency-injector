@@ -10,7 +10,7 @@ class Service:
 
 class Container(containers.DeclarativeContainer):
 
-    service_provider = providers.Singleton(Service)
+    service_provider = providers.ThreadLocalSingleton(Service)
 
 
 def index_view():
