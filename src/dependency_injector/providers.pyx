@@ -14,6 +14,12 @@ import threading
 import warnings
 
 try:
+    import contextvars
+except ImportError:
+    contextvars = None
+
+
+try:
     import asyncio
 except ImportError:
     asyncio = None
@@ -2925,6 +2931,89 @@ cdef class ThreadLocalSingleton(BaseSingleton):
             future_result.set_exception(exception)
         else:
             self.__storage.instance = instance
+            future_result.set_result(instance)
+
+
+cdef class ContextLocalSingleton(BaseSingleton):
+    """Context-local singleton provides single objects in scope of a context.
+
+    .. py:attribute:: provided_type
+
+        If provided type is defined, provider checks that providing class is
+        its subclass.
+
+        :type: type | None
+
+    .. py:attribute:: cls
+       :noindex:
+
+        Class that provides object.
+        Alias for :py:attr:`provides`.
+
+        :type: type
+    """
+    _none = object()
+
+    def __init__(self, provides=None, *args, **kwargs):
+        """Initializer.
+
+        :param provides: Provided type.
+        :type provides: type
+        """
+        if not contextvars:
+            raise RuntimeError(
+                'Contextvars library not found. This provider '
+                'requires Python 3.7 or a backport of contextvars. '
+                'To install a backport run "pip install contextvars".'
+            )
+
+        super(ContextLocalSingleton, self).__init__(provides, *args, **kwargs)
+        self.__storage = contextvars.ContextVar('__storage', default=self._none)
+
+    def reset(self):
+        """Reset cached instance, if any.
+
+        :rtype: None
+        """
+        instance = self.__storage.get()
+        if instance is self._none:
+            return SingletonResetContext(self)
+
+        if __is_future_or_coroutine(instance):
+            asyncio.ensure_future(instance).cancel()
+
+        self.__storage.set(self._none)
+
+        return SingletonResetContext(self)
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        """Return single instance."""
+        cdef object instance
+
+        instance = self.__storage.get()
+
+        if instance is self._none:
+            instance = __factory_call(self.__instantiator, args, kwargs)
+
+            if __is_future_or_coroutine(instance):
+                future_result = asyncio.Future()
+                instance = asyncio.ensure_future(instance)
+                instance.add_done_callback(functools.partial(self._async_init_instance, future_result))
+                self.__storage.set(future_result)
+                return future_result
+
+            self.__storage.set(instance)
+
+        return instance
+
+    def _async_init_instance(self, future_result, result):
+        try:
+            instance = result.result()
+        except Exception as exception:
+            self.__storage.set(self._none)
+            future_result.set_exception(exception)
+        else:
+            self.__storage.set(instance)
             future_result.set_result(instance)
 
 
