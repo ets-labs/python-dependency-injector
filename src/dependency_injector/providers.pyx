@@ -3169,7 +3169,7 @@ cdef class Dict(Provider):
             return copied
 
         copied = _memorized_duplicate(self, memo)
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        self._copy_kwargs(copied, memo)
         self._copy_overridings(copied, memo)
         return copied
 
@@ -3238,9 +3238,18 @@ cdef class Dict(Provider):
         yield from filter(is_provider, self.kwargs.values())
         yield from super().related
 
+    def _copy_kwargs(self, copied, memo):
+        """Return copy of kwargs."""
+        copied_kwargs = {
+            _copy_if_provider(name, memo): _copy_if_provider(value, memo)
+            for name, value in self.kwargs.items()
+        }
+        copied.set_kwargs(copied_kwargs)
+
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable's call."""
         return __provide_keyword_args(kwargs, self.__kwargs, self.__kwargs_len)
+
 
 
 cdef class Resource(Provider):

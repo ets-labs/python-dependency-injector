@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Fix an issue with ``Dict`` provider non-string keys.
+  See issue: `#435 <https://github.com/ets-labs/python-dependency-injector/issues/435>`_.
+  Thanks to `@daniel55411 <https://github.com/daniel55411>`_ for reporting the issue.
+
 4.31.1
 ------
 - Fix ``ThreadSafeSingleton`` synchronization issue.

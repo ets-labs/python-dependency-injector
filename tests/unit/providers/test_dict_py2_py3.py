@@ -173,6 +173,27 @@ class DictTests(unittest.TestCase):
         self.assertIs(dependent_provider2.cls, dependent_provider_copy2.cls)
         self.assertIsNot(dependent_provider2, dependent_provider_copy2)
 
+    def test_deepcopy_kwargs_non_string_keys(self):
+        a1 = object()
+        a2 = object()
+
+        dependent_provider1 = providers.Factory(list)
+        dependent_provider2 = providers.Factory(dict)
+
+        provider = providers.Dict({a1: dependent_provider1, a2: dependent_provider2})
+
+        provider_copy = providers.deepcopy(provider)
+        dependent_provider_copy1 = provider_copy.kwargs[a1]
+        dependent_provider_copy2 = provider_copy.kwargs[a2]
+
+        self.assertNotEqual(provider.kwargs, provider_copy.kwargs)
+
+        self.assertIs(dependent_provider1.cls, dependent_provider_copy1.cls)
+        self.assertIsNot(dependent_provider1, dependent_provider_copy1)
+
+        self.assertIs(dependent_provider2.cls, dependent_provider_copy2.cls)
+        self.assertIsNot(dependent_provider2, dependent_provider_copy2)
+
     def test_deepcopy_overridden(self):
         provider = providers.Dict()
         object_provider = providers.Object(object())
