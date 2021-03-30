@@ -7,6 +7,15 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.31.2
+------
+- Fix an issue with ``Dict`` provider non-string keys.
+  See issue: `#435 <https://github.com/ets-labs/python-dependency-injector/issues/435>`_.
+  Thanks to `@daniel55411 <https://github.com/daniel55411>`_ for reporting the issue.
+- Fix Flask scoped contexts example.
+  See issue: `#440 <https://github.com/ets-labs/python-dependency-injector/pull/440>`_.
+  Thanks to `@sonthonaxrk <https://github.com/sonthonaxrk>`_ for the contribution.
+
 4.31.1
 ------
 - Fix ``ThreadSafeSingleton`` synchronization issue.

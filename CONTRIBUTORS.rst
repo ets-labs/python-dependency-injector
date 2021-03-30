@@ -16,3 +16,4 @@ Dependency Injector Contributors
 + Dmitry Rassoshenko (rda-dev)
 + Fotis Koutoupas (kootoopas)
 + Shubhendra Singh Chauhan (withshubh)
++ sonthonaxrk (sonthonaxrk)
