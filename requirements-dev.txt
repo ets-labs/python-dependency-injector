@@ -1,4 +1,4 @@
-cython==0.29.21
+cython==0.29.22
 tox
 coverage
 flake8
