@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.32.0
+------
+- Add ``ContextLocalSingleton`` provider.
+  See PR: `#443 <https://github.com/ets-labs/python-dependency-injector/pull/442>`_.
+  Thanks to `@sonthonaxrk <https://github.com/sonthonaxrk>`_ for the contribution.
+- Regenerate C sources using Cython 0.29.22.
+
 4.31.2
 ------
 - Fix an issue with ``Dict`` provider non-string keys.
