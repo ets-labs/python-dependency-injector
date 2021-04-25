@@ -868,6 +868,47 @@ class DependencyTests(AsyncTestCase):
         self.assertEqual(dependency4, dependency)
 
 
+class ListTests(AsyncTestCase):
+
+    def test_provide(self):
+        # See issue: https://github.com/ets-labs/python-dependency-injector/issues/450
+        async def create_resource(param: str):
+            return param
+
+        class Container(containers.DeclarativeContainer):
+
+            resources = providers.List(
+                providers.Resource(create_resource, 'foo'),
+                providers.Resource(create_resource, 'bar')
+            )
+
+        container = Container()
+        resources = self._run(container.resources())
+
+        self.assertEqual(resources[0], 'foo')
+        self.assertEqual(resources[1], 'bar')
+
+
+class DictTests(AsyncTestCase):
+
+    def test_provide(self):
+        async def create_resource(param: str):
+            return param
+
+        class Container(containers.DeclarativeContainer):
+
+            resources = providers.Dict(
+                foo=providers.Resource(create_resource, 'foo'),
+                bar=providers.Resource(create_resource, 'bar')
+            )
+
+        container = Container()
+        resources = self._run(container.resources())
+
+        self.assertEqual(resources['foo'], 'foo')
+        self.assertEqual(resources['bar'], 'bar')
+
+
 class OverrideTests(AsyncTestCase):
 
     def test_provider(self):

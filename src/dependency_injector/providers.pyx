@@ -3211,7 +3211,7 @@ cdef class List(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable's call."""
-        return list(__provide_positional_args(args, self.__args, self.__args_len))
+        return __provide_positional_args(args, self.__args, self.__args_len)
 
 
 cdef class Dict(Provider):

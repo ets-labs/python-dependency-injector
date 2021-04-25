@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.32.1
+------
+- Fix a bug with ``List`` provider not working in async mode.
+  See issue: `#450 <https://github.com/ets-labs/python-dependency-injector/issues/450>`_.
+  Thanks to `@mxab <https://github.com/mxab>`_ for reporting the issue.
+- Add async mode tests for ``List`` and ``Dict`` provider.
+
 4.32.0
 ------
 - Add ``ContextLocalSingleton`` provider.
