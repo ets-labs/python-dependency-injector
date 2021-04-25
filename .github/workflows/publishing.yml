@@ -57,16 +57,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-18.04, windows-latest, macos-latest]
+    env:
+      CIBW_SKIP: cp27-win*
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
           python-version: 3.9
       - run: pip install cibuildwheel==1.8.0
-      - name: Install Visual C++ for Python 2.7 on Windows
-        if: runner.os == 'Windows'
-        run: |
-          choco install vcpython27 -f -y
       - run: cibuildwheel --output-dir wheelhouse
       - uses: actions/upload-artifact@v2
         with:
