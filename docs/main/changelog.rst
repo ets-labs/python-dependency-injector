@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.32.2
+------
+- Improve wiring fault tolerance.
+  See issue `#441 <https://github.com/ets-labs/python-dependency-injector/issues/441>`_.
+  Thanks to `@ssheng <https://github.com/ssheng>`_ for reporting the issue.
+
 4.32.1
 ------
 - Fix a bug with ``List`` provider not working in async mode.
