@@ -342,11 +342,17 @@ def wire(  # noqa: C901
                 _patch_fn(module, member_name, member, providers_map)
             elif inspect.isclass(member):
                 cls = member
-                for cls_member_name, cls_member in inspect.getmembers(cls):
-                    if _is_marker(cls_member):
-                        _patch_attribute(cls, cls_member_name, cls_member, providers_map)
-                    elif _is_method(cls_member):
-                        _patch_method(cls, cls_member_name, cls_member, providers_map)
+                try:
+                    cls_members = inspect.getmembers(cls)
+                except Exception:  # noqa
+                    # Hotfix, see: https://github.com/ets-labs/python-dependency-injector/issues/441
+                    continue
+                else:
+                    for cls_member_name, cls_member in cls_members:
+                        if _is_marker(cls_member):
+                            _patch_attribute(cls, cls_member_name, cls_member, providers_map)
+                        elif _is_method(cls_member):
+                            _patch_method(cls, cls_member_name, cls_member, providers_map)
 
         for patched in _patched_registry.get_callables_from_module(module):
             _bind_injections(patched, providers_map)
