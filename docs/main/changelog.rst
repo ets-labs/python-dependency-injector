@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.32.3
+------
+- This fix a typo in ``di_in_python.rst`` doc.
+  Thanks to `@loingo95 <https://github.com/loingo95>`_ for the fix.
+
 4.32.2
 ------
 - Improve wiring fault tolerance.
