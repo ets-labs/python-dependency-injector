@@ -9,7 +9,7 @@ Dependency injection and inversion of control in Python
                  Dependency Injector, its container, Factory, Singleton and Configuration
                  providers. The example show how to use Dependency Injector providers overriding
                  feature for testing or configuring project in different environments and explains
-                 why it's better then monkey-patching.
+                 why it's better than monkey-patching.
 
 Originally dependency injection pattern got popular in the languages with a static typing,
 like Java. Dependency injection is a principle that helps to achieve an inversion of control.
@@ -29,7 +29,7 @@ contains Python examples that show how to implement dependency injection. It dem
 of the dependency injection framework ``Dependency Injector``, its container, ``Factory``,
 ``Singleton`` and ``Configuration`` providers. The example shows how to use ``Dependency Injector``
 providers overriding feature for testing or configuring project in different environments and
-explains why it's better then monkey-patching.
+explains why it's better than monkey-patching.
 
 What is dependency injection?
 -----------------------------
