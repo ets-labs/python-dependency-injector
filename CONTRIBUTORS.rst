@@ -17,3 +17,4 @@ Dependency Injector Contributors
 + Fotis Koutoupas (kootoopas)
 + Shubhendra Singh Chauhan (withshubh)
 + sonthonaxrk (sonthonaxrk)
++ Ngo Thanh Loi (Leonn) (loingo95)
