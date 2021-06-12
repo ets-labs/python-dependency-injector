@@ -91,10 +91,25 @@ else:
 
 if yaml:
     # TODO: use SafeLoader without env interpolation by default in version 5.*
-    yaml_env_marker_pattern = re.compile(r'\$\{([^}^{]+)\}')
+    yaml_env_marker_pattern = re.compile(
+        r'\${(?P<name>[^}^{:]+)(?P<separator>:?)(?P<default>.*?)}',
+    )
+
     def yaml_env_marker_constructor(_, node):
         """"Replace environment variable marker with its value."""
-        return os.path.expandvars(node.value)
+        node_value = node.value
+        for match in reversed(list(yaml_env_marker_pattern.finditer(node.value))):
+            has_default = match.group('separator') == ':'
+
+            value = os.getenv(match.group('name'))
+            if value is None:
+                if not has_default:
+                    continue
+                value = match.group('default')
+
+            span_min, span_max = match.span()
+            node_value = f'{node_value[:span_min]}{value}{node_value[span_max:]}'
+        return node_value
 
     yaml.add_implicit_resolver('!path', yaml_env_marker_pattern)
     yaml.add_constructor('!path', yaml_env_marker_constructor)

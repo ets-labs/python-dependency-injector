@@ -883,6 +883,30 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
         self.assertEqual(self.config.section1.value2(), '${CONFIG_TEST_PATH}/path')
 
     @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
+    def test_default_values(self):
+        os.environ['DEFINED'] = 'defined'
+        self.addCleanup(os.environ.pop, 'DEFINED')
+
+        with open(self.config_file, 'w') as config_file:
+            config_file.write(
+                'section:\n'
+                '  defined_with_default: ${DEFINED:default}\n'
+                '  undefined_with_default: ${UNDEFINED:default}\n'
+                '  complex: ${DEFINED}/path/${DEFINED:default}/${UNDEFINED}/${UNDEFINED:default}\n'
+            )
+
+        self.config.from_yaml(self.config_file)
+
+        self.assertEqual(
+            self.config.section(),
+            {
+                'defined_with_default': 'defined',
+                'undefined_with_default': 'default',
+                'complex': 'defined/path/defined/${UNDEFINED}/default',
+            },
+        )
+
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test_option_env_variable_interpolation(self):
         self.config.option.from_yaml(self.config_file)
 
