@@ -64,6 +64,25 @@ else:  # pragma: no cover
                                     copy.deepcopy(obj.im_self, memo),
                                     obj.im_class)
 
+config_env_marker_pattern = re.compile(
+    r'\${(?P<name>[^}^{:]+)(?P<separator>:?)(?P<default>.*?)}',
+)
+
+def _resolve_config_env_markers(config_value):
+    """"Replace environment variable markers with their values."""
+    for match in reversed(list(config_env_marker_pattern.finditer(config_value))):
+        has_default = match.group('separator') == ':'
+
+        value = os.getenv(match.group('name'))
+        if value is None:
+            if not has_default:
+                continue
+            value = match.group('default')
+
+        span_min, span_max = match.span()
+        config_value = f'{config_value[:span_min]}{value}{config_value[span_max:]}'
+    return config_value
+
 
 if sys.version_info[0] == 3:
     class EnvInterpolation(iniconfigparser.BasicInterpolation):
@@ -71,7 +90,7 @@ if sys.version_info[0] == 3:
 
         def before_get(self, parser, section, option, value, defaults):
             value = super().before_get(parser, section, option, value, defaults)
-            return os.path.expandvars(value)
+            return _resolve_config_env_markers(value)
 
     def _parse_ini_file(filepath):
         parser = iniconfigparser.ConfigParser(interpolation=EnvInterpolation())
@@ -84,19 +103,18 @@ else:
     def _parse_ini_file(filepath):
         parser = iniconfigparser.ConfigParser()
         with open(filepath) as config_file:
-            config_string = os.path.expandvars(config_file.read())
+            config_string = _resolve_config_env_markers(config_file.read())
         parser.readfp(StringIO.StringIO(config_string))
         return parser
 
 
 if yaml:
     # TODO: use SafeLoader without env interpolation by default in version 5.*
-    yaml_env_marker_pattern = re.compile(r'\$\{([^}^{]+)\}')
     def yaml_env_marker_constructor(_, node):
         """"Replace environment variable marker with its value."""
-        return os.path.expandvars(node.value)
+        return _resolve_config_env_markers(node.value)
 
-    yaml.add_implicit_resolver('!path', yaml_env_marker_pattern)
+    yaml.add_implicit_resolver('!path', config_env_marker_pattern)
     yaml.add_constructor('!path', yaml_env_marker_constructor)
 
     class YamlLoader(yaml.SafeLoader):
@@ -105,7 +123,7 @@ if yaml:
         Inherits ``yaml.SafeLoader`` and add environment variables interpolation.
         """
 
-    YamlLoader.add_implicit_resolver('!path', yaml_env_marker_pattern, None)
+    YamlLoader.add_implicit_resolver('!path', config_env_marker_pattern, None)
     YamlLoader.add_constructor('!path', yaml_env_marker_constructor)
 else:
     class YamlLoader:

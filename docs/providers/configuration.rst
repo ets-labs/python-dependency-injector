@@ -5,7 +5,7 @@ Configuration provider
 
 .. meta::
    :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Configuration,Injection,
-              Option,Ini,Json,Yaml,Pydantic,Dict,Environment Variable,Load,Read,Get
+              Option,Ini,Json,Yaml,Pydantic,Dict,Environment Variable,Default,Load,Read,Get
    :description: Configuration provides configuration options to the other providers. This page
                  demonstrates how to use Configuration provider to inject the dependencies, load
                  a configuration from an ini or yaml file, a dictionary, an environment variable,
@@ -43,8 +43,18 @@ where ``examples/providers/configuration/config.ini`` is:
    :language: ini
 
 :py:meth:`Configuration.from_ini` method supports environment variables interpolation. Use
-``${ENV_NAME}`` format in the configuration file to substitute value of the environment
-variable ``ENV_NAME``.
+``${ENV_NAME}`` format in the configuration file to substitute value from ``ENV_NAME`` environment
+variable.
+
+You can also specify a default value using ``${ENV_NAME:default}`` format. If environment
+variable ``ENV_NAME`` is undefined, configuration provider will substitute value ``default``.
+
+.. code-block:: ini
+
+   [section]
+   option1 = {$ENV_VAR}
+   option2 = {$ENV_VAR}/path
+   option3 = {$ENV_VAR:default}
 
 Loading from a YAML file
 ------------------------
@@ -62,12 +72,22 @@ where ``examples/providers/configuration/config.yml`` is:
 .. literalinclude:: ../../examples/providers/configuration/config.yml
    :language: ini
 
+:py:meth:`Configuration.from_yaml` method supports environment variables interpolation. Use
+``${ENV_NAME}`` format in the configuration file to substitute value from ``ENV_NAME`` environment
+variable.
+
+You can also specify a default value using ``${ENV_NAME:default}`` format. If environment
+variable ``ENV_NAME`` is undefined, configuration provider will substitute value ``default``.
+
+.. code-block:: ini
+
+   section:
+     option1: {$ENV_VAR}
+     option2: {$ENV_VAR}/path
+     option3: {$ENV_VAR:default}
+
 :py:meth:`Configuration.from_yaml` method uses custom version of ``yaml.SafeLoader``.
-
-The loader supports environment variables interpolation. Use ``${ENV_NAME}`` format
-in the configuration file to substitute value of the environment variable ``ENV_NAME``.
-
-You can also specify a YAML loader as an argument:
+To use another loader use ``loader`` argument:
 
 .. code-block:: python
 
