@@ -654,6 +654,29 @@ class ConfigFromIniWithEnvInterpolationTests(unittest.TestCase):
         self.assertEqual(self.config.section1.value1(), '${CONFIG_TEST_ENV}')
         self.assertEqual(self.config.section1.value2(), '${CONFIG_TEST_PATH}/path')
 
+    def test_default_values(self):
+        os.environ['DEFINED'] = 'defined'
+        self.addCleanup(os.environ.pop, 'DEFINED')
+
+        with open(self.config_file, 'w') as config_file:
+            config_file.write(
+                '[section]\n'
+                'defined_with_default=${DEFINED:default}\n'
+                'undefined_with_default=${UNDEFINED:default}\n'
+                'complex=${DEFINED}/path/${DEFINED:default}/${UNDEFINED}/${UNDEFINED:default}\n'
+            )
+
+        self.config.from_ini(self.config_file)
+
+        self.assertEqual(
+            self.config.section(),
+            {
+                'defined_with_default': 'defined',
+                'undefined_with_default': 'default',
+                'complex': 'defined/path/defined/${UNDEFINED}/default',
+            },
+        )
+
 
 class ConfigFromYamlTests(unittest.TestCase):
 
