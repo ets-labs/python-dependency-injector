@@ -5,7 +5,7 @@ Configuration provider
 
 .. meta::
    :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Configuration,Injection,
-              Option,Ini,Json,Yaml,Pydantic,Dict,Environment Variable,Load,Read,Get
+              Option,Ini,Json,Yaml,Pydantic,Dict,Environment Variable,Default,Load,Read,Get
    :description: Configuration provides configuration options to the other providers. This page
                  demonstrates how to use Configuration provider to inject the dependencies, load
                  a configuration from an ini or yaml file, a dictionary, an environment variable,
