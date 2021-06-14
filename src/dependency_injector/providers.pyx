@@ -1698,6 +1698,16 @@ cdef class ConfigurationOption(Provider):
 
         self.override(value)
 
+    def from_value(self, value):
+        """Load configuration value.
+
+        :param value: Configuration value
+        :type value: object
+
+        :rtype: None
+        """
+        self.override(value)
+
     @property
     def related(self):
         """Return related providers generator."""
@@ -2102,6 +2112,16 @@ cdef class Configuration(Object):
                 raise ValueError('Environment variable "{0}" is undefined'.format(name))
             value = None
 
+        self.override(value)
+
+    def from_value(self, value):
+        """Load configuration value.
+
+        :param value: Configuration value
+        :type value: object
+
+        :rtype: None
+        """
         self.override(value)
 
     @property

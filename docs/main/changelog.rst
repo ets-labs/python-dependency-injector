@@ -13,6 +13,10 @@ Development version
   configuration files with ``${ENV_NAME:default}`` format.
   See issue `#459 <https://github.com/ets-labs/python-dependency-injector/issues/459>`_.
   Thanks to `Maksym Shemet @hbmshemet <https://github.com/hbmshemet>`_ for suggesting the feature.
+- Add method ``Configuration.from_value()``.
+  See issue `#462 <https://github.com/ets-labs/python-dependency-injector/issues/462>`_.
+  Thanks to Mr. `Slack Clone <https://disqus.com/by/slackclone/>`_  for bringing it up
+  in the comments for configuration provider docs.
 
 4.32.3
 ------
