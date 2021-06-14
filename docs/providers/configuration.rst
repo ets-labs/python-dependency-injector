@@ -164,6 +164,17 @@ Loading from an environment variable
    :lines: 3-
    :emphasize-lines: 18-20
 
+Loading a value
+---------------
+
+``Configuration`` provider can load configuration value using the
+:py:meth:`Configuration.from_value` method:
+
+.. literalinclude:: ../../examples/providers/configuration/configuration_value.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 14-15
+
 Loading from the multiple sources
 ---------------------------------
 
