@@ -1376,3 +1376,25 @@ class ConfigFromEnvTests(unittest.TestCase):
         self.config = providers.Configuration(strict=True)
         self.config.option.from_env('UNDEFINED_ENV', default='default-value', required=False)
         self.assertEqual(self.config.option(), 'default-value')
+
+
+class ConfigFromValueTests(unittest.TestCase):
+
+    def setUp(self):
+        self.config = providers.Configuration(name='config')
+
+    def test_from_value(self):
+        test_value = 123321
+        self.config.from_value(test_value)
+        self.assertEqual(self.config(), test_value)
+
+    def test_option_from_value(self):
+        test_value_1 = 123
+        test_value_2 = 321
+
+        self.config.option1.from_value(test_value_1)
+        self.config.option2.from_value(test_value_2)
+
+        self.assertEqual(self.config(), {'option1': test_value_1, 'option2': test_value_2})
+        self.assertEqual(self.config.option1(), test_value_1)
+        self.assertEqual(self.config.option2(), test_value_2)
