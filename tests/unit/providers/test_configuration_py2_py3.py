@@ -591,17 +591,20 @@ class ConfigFromIniWithEnvInterpolationTests(unittest.TestCase):
         self.config = providers.Configuration(name='config')
 
         os.environ['CONFIG_TEST_ENV'] = 'test-value'
+        os.environ['CONFIG_TEST_PATH'] = 'test-path'
 
         _, self.config_file = tempfile.mkstemp()
         with open(self.config_file, 'w') as config_file:
             config_file.write(
                 '[section1]\n'
                 'value1=${CONFIG_TEST_ENV}\n'
+                'value2=${CONFIG_TEST_PATH}/path\n'
             )
 
     def tearDown(self):
         del self.config
-        del os.environ['CONFIG_TEST_ENV']
+        os.environ.pop('CONFIG_TEST_ENV', None)
+        os.environ.pop('CONFIG_TEST_PATH', None)
         os.unlink(self.config_file)
 
     def test_env_variable_interpolation(self):
@@ -612,11 +615,67 @@ class ConfigFromIniWithEnvInterpolationTests(unittest.TestCase):
             {
                 'section1': {
                     'value1': 'test-value',
+                    'value2': 'test-path/path',
                 },
             },
         )
-        self.assertEqual(self.config.section1(), {'value1': 'test-value'})
+        self.assertEqual(
+            self.config.section1(),
+            {
+                'value1': 'test-value',
+                'value2': 'test-path/path',
+            },
+        )
         self.assertEqual(self.config.section1.value1(), 'test-value')
+        self.assertEqual(self.config.section1.value2(), 'test-path/path')
+
+    def test_missing_envs(self):
+        del os.environ['CONFIG_TEST_ENV']
+        del os.environ['CONFIG_TEST_PATH']
+
+        self.config.from_ini(self.config_file)
+
+        self.assertEqual(
+            self.config(),
+            {
+                'section1': {
+                    'value1': '${CONFIG_TEST_ENV}',
+                    'value2': '${CONFIG_TEST_PATH}/path',
+                },
+            },
+        )
+        self.assertEqual(
+            self.config.section1(),
+            {
+                'value1': '${CONFIG_TEST_ENV}',
+                'value2': '${CONFIG_TEST_PATH}/path',
+            },
+        )
+        self.assertEqual(self.config.section1.value1(), '${CONFIG_TEST_ENV}')
+        self.assertEqual(self.config.section1.value2(), '${CONFIG_TEST_PATH}/path')
+
+    def test_default_values(self):
+        os.environ['DEFINED'] = 'defined'
+        self.addCleanup(os.environ.pop, 'DEFINED')
+
+        with open(self.config_file, 'w') as config_file:
+            config_file.write(
+                '[section]\n'
+                'defined_with_default=${DEFINED:default}\n'
+                'undefined_with_default=${UNDEFINED:default}\n'
+                'complex=${DEFINED}/path/${DEFINED:default}/${UNDEFINED}/${UNDEFINED:default}\n'
+            )
+
+        self.config.from_ini(self.config_file)
+
+        self.assertEqual(
+            self.config.section(),
+            {
+                'defined_with_default': 'defined',
+                'undefined_with_default': 'default',
+                'complex': 'defined/path/defined/${UNDEFINED}/default',
+            },
+        )
 
 
 class ConfigFromYamlTests(unittest.TestCase):
@@ -781,17 +840,20 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
         self.config = providers.Configuration(name='config')
 
         os.environ['CONFIG_TEST_ENV'] = 'test-value'
+        os.environ['CONFIG_TEST_PATH'] = 'test-path'
 
         _, self.config_file = tempfile.mkstemp()
         with open(self.config_file, 'w') as config_file:
             config_file.write(
                 'section1:\n'
                 '  value1: ${CONFIG_TEST_ENV}\n'
+                '  value2: ${CONFIG_TEST_PATH}/path\n'
             )
 
     def tearDown(self):
         del self.config
-        del os.environ['CONFIG_TEST_ENV']
+        os.environ.pop('CONFIG_TEST_ENV', None)
+        os.environ.pop('CONFIG_TEST_PATH', None)
         os.unlink(self.config_file)
 
     @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
@@ -803,11 +865,69 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
             {
                 'section1': {
                     'value1': 'test-value',
+                    'value2': 'test-path/path',
                 },
             },
         )
-        self.assertEqual(self.config.section1(), {'value1': 'test-value'})
+        self.assertEqual(
+            self.config.section1(),
+            {
+                'value1': 'test-value',
+                'value2': 'test-path/path',
+            },
+        )
         self.assertEqual(self.config.section1.value1(), 'test-value')
+        self.assertEqual(self.config.section1.value2(), 'test-path/path')
+
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
+    def test_missing_envs(self):
+        del os.environ['CONFIG_TEST_ENV']
+        del os.environ['CONFIG_TEST_PATH']
+
+        self.config.from_yaml(self.config_file)
+
+        self.assertEqual(
+            self.config(),
+            {
+                'section1': {
+                    'value1': '${CONFIG_TEST_ENV}',
+                    'value2': '${CONFIG_TEST_PATH}/path',
+                },
+            },
+        )
+        self.assertEqual(
+            self.config.section1(),
+            {
+                'value1': '${CONFIG_TEST_ENV}',
+                'value2': '${CONFIG_TEST_PATH}/path',
+            },
+        )
+        self.assertEqual(self.config.section1.value1(), '${CONFIG_TEST_ENV}')
+        self.assertEqual(self.config.section1.value2(), '${CONFIG_TEST_PATH}/path')
+
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
+    def test_default_values(self):
+        os.environ['DEFINED'] = 'defined'
+        self.addCleanup(os.environ.pop, 'DEFINED')
+
+        with open(self.config_file, 'w') as config_file:
+            config_file.write(
+                'section:\n'
+                '  defined_with_default: ${DEFINED:default}\n'
+                '  undefined_with_default: ${UNDEFINED:default}\n'
+                '  complex: ${DEFINED}/path/${DEFINED:default}/${UNDEFINED}/${UNDEFINED:default}\n'
+            )
+
+        self.config.from_yaml(self.config_file)
+
+        self.assertEqual(
+            self.config.section(),
+            {
+                'defined_with_default': 'defined',
+                'undefined_with_default': 'default',
+                'complex': 'defined/path/defined/${UNDEFINED}/default',
+            },
+        )
 
     @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test_option_env_variable_interpolation(self):
@@ -818,41 +938,47 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
             {
                 'section1': {
                     'value1': 'test-value',
+                    'value2': 'test-path/path',
                 },
             },
         )
-        self.assertEqual(self.config.option.section1(), {'value1': 'test-value'})
+        self.assertEqual(
+            self.config.option.section1(),
+            {
+                'value1': 'test-value',
+                'value2': 'test-path/path',
+            },
+        )
         self.assertEqual(self.config.option.section1.value1(), 'test-value')
+        self.assertEqual(self.config.option.section1.value2(), 'test-path/path')
 
     @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test_env_variable_interpolation_custom_loader(self):
         self.config.from_yaml(self.config_file, loader=yaml.UnsafeLoader)
 
         self.assertEqual(
-            self.config(),
+            self.config.section1(),
             {
-                'section1': {
-                    'value1': 'test-value',
-                },
+                'value1': 'test-value',
+                'value2': 'test-path/path',
             },
         )
-        self.assertEqual(self.config.section1(), {'value1': 'test-value'})
         self.assertEqual(self.config.section1.value1(), 'test-value')
+        self.assertEqual(self.config.section1.value2(), 'test-path/path')
 
     @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test_option_env_variable_interpolation_custom_loader(self):
         self.config.option.from_yaml(self.config_file, loader=yaml.UnsafeLoader)
 
         self.assertEqual(
-            self.config.option(),
+            self.config.option.section1(),
             {
-                'section1': {
-                    'value1': 'test-value',
-                },
+                'value1': 'test-value',
+                'value2': 'test-path/path',
             },
         )
-        self.assertEqual(self.config.option.section1(), {'value1': 'test-value'})
         self.assertEqual(self.config.option.section1.value1(), 'test-value')
+        self.assertEqual(self.config.option.section1.value2(), 'test-path/path')
 
 
 class ConfigFromPydanticTests(unittest.TestCase):
@@ -1250,3 +1376,25 @@ class ConfigFromEnvTests(unittest.TestCase):
         self.config = providers.Configuration(strict=True)
         self.config.option.from_env('UNDEFINED_ENV', default='default-value', required=False)
         self.assertEqual(self.config.option(), 'default-value')
+
+
+class ConfigFromValueTests(unittest.TestCase):
+
+    def setUp(self):
+        self.config = providers.Configuration(name='config')
+
+    def test_from_value(self):
+        test_value = 123321
+        self.config.from_value(test_value)
+        self.assertEqual(self.config(), test_value)
+
+    def test_option_from_value(self):
+        test_value_1 = 123
+        test_value_2 = 321
+
+        self.config.option1.from_value(test_value_1)
+        self.config.option2.from_value(test_value_2)
+
+        self.assertEqual(self.config(), {'option1': test_value_1, 'option2': test_value_2})
+        self.assertEqual(self.config.option1(), test_value_1)
+        self.assertEqual(self.config.option2(), test_value_2)
