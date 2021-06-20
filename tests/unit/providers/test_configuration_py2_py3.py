@@ -639,20 +639,20 @@ class ConfigFromIniWithEnvInterpolationTests(unittest.TestCase):
             self.config(),
             {
                 'section1': {
-                    'value1': '${CONFIG_TEST_ENV}',
-                    'value2': '${CONFIG_TEST_PATH}/path',
+                    'value1': '',
+                    'value2': '/path',
                 },
             },
         )
         self.assertEqual(
             self.config.section1(),
             {
-                'value1': '${CONFIG_TEST_ENV}',
-                'value2': '${CONFIG_TEST_PATH}/path',
+                'value1': '',
+                'value2': '/path',
             },
         )
-        self.assertEqual(self.config.section1.value1(), '${CONFIG_TEST_ENV}')
-        self.assertEqual(self.config.section1.value2(), '${CONFIG_TEST_PATH}/path')
+        self.assertEqual(self.config.section1.value1(), '')
+        self.assertEqual(self.config.section1.value2(), '/path')
 
     def test_default_values(self):
         os.environ['DEFINED'] = 'defined'
@@ -673,7 +673,7 @@ class ConfigFromIniWithEnvInterpolationTests(unittest.TestCase):
             {
                 'defined_with_default': 'defined',
                 'undefined_with_default': 'default',
-                'complex': 'defined/path/defined/${UNDEFINED}/default',
+                'complex': 'defined/path/defined//default',
             },
         )
 
@@ -890,20 +890,20 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
             self.config(),
             {
                 'section1': {
-                    'value1': '${CONFIG_TEST_ENV}',
-                    'value2': '${CONFIG_TEST_PATH}/path',
+                    'value1': None,
+                    'value2': '/path',
                 },
             },
         )
         self.assertEqual(
             self.config.section1(),
             {
-                'value1': '${CONFIG_TEST_ENV}',
-                'value2': '${CONFIG_TEST_PATH}/path',
+                'value1': None,
+                'value2': '/path',
             },
         )
-        self.assertEqual(self.config.section1.value1(), '${CONFIG_TEST_ENV}')
-        self.assertEqual(self.config.section1.value2(), '${CONFIG_TEST_PATH}/path')
+        self.assertIsNone(self.config.section1.value1())
+        self.assertEqual(self.config.section1.value2(), '/path')
 
     @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test_default_values(self):
@@ -925,7 +925,7 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
             {
                 'defined_with_default': 'defined',
                 'undefined_with_default': 'default',
-                'complex': 'defined/path/defined/${UNDEFINED}/default',
+                'complex': 'defined/path/defined//default',
             },
         )
 

@@ -68,15 +68,18 @@ config_env_marker_pattern = re.compile(
     r'\${(?P<name>[^}^{:]+)(?P<separator>:?)(?P<default>.*?)}',
 )
 
-def _resolve_config_env_markers(config_value):
-    """"Replace environment variable markers with their values."""
-    for match in reversed(list(config_env_marker_pattern.finditer(config_value))):
+def _resolve_config_env_markers(config_value, envs_required=False):
+    """Replace environment variable markers with their values."""
+    findings = list(config_env_marker_pattern.finditer(config_value))
+
+    for match in reversed(findings):
+        env_name = match.group('name')
         has_default = match.group('separator') == ':'
 
-        value = os.getenv(match.group('name'))
+        value = os.getenv(env_name)
         if value is None:
-            if not has_default:
-                continue
+            if not has_default and envs_required:
+                raise ValueError(f'Missing required environment variable "{env_name}"')
             value = match.group('default')
 
         span_min, span_max = match.span()
@@ -85,17 +88,11 @@ def _resolve_config_env_markers(config_value):
 
 
 if sys.version_info[0] == 3:
-    class EnvInterpolation(iniconfigparser.BasicInterpolation):
-        """Interpolation which expands environment variables in values."""
-
-        def before_get(self, parser, section, option, value, defaults):
-            value = super().before_get(parser, section, option, value, defaults)
-            return _resolve_config_env_markers(value)
-
     def _parse_ini_file(filepath):
-        parser = iniconfigparser.ConfigParser(interpolation=EnvInterpolation())
+        parser = iniconfigparser.ConfigParser()
         with open(filepath) as config_file:
-            parser.read_file(config_file)
+            config_string = _resolve_config_env_markers(config_file.read())
+        parser.read_string(config_string)
         return parser
 else:
     import StringIO
@@ -109,27 +106,16 @@ else:
 
 
 if yaml:
-    # TODO: use SafeLoader without env interpolation by default in version 5.*
-    def yaml_env_marker_constructor(_, node):
-        """"Replace environment variable marker with its value."""
-        return _resolve_config_env_markers(node.value)
-
-    yaml.add_implicit_resolver('!path', config_env_marker_pattern)
-    yaml.add_constructor('!path', yaml_env_marker_constructor)
-
     class YamlLoader(yaml.SafeLoader):
-        """Custom YAML loader.
+        """YAML loader.
 
-        Inherits ``yaml.SafeLoader`` and add environment variables interpolation.
+        This loader mimics ``yaml.SafeLoader``.
         """
-
-    YamlLoader.add_implicit_resolver('!path', config_env_marker_pattern, None)
-    YamlLoader.add_constructor('!path', yaml_env_marker_constructor)
 else:
     class YamlLoader:
-        """Custom YAML loader.
+        """YAML loader.
 
-        Inherits ``yaml.SafeLoader`` and add environment variables interpolation.
+        This loader mimics ``yaml.SafeLoader``.
         """
 
 
@@ -1567,7 +1553,7 @@ cdef class ConfigurationOption(Provider):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    def from_yaml(self, filepath, required=UNDEFINED, loader=None):
+    def from_yaml(self, filepath, required=UNDEFINED, loader=None, envs_required=False):
         """Load configuration from the yaml file.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -1580,6 +1566,9 @@ cdef class ConfigurationOption(Provider):
 
         :param loader: YAML loader, :py:class:`YamlLoader` is used if not specified.
         :type loader: ``yaml.Loader``
+
+        :param envs_required: When True, raises an error on undefined environment variable.
+        :type envs_required: bool
 
         :rtype: None
         """
@@ -1595,7 +1584,7 @@ cdef class ConfigurationOption(Provider):
 
         try:
             with open(filepath) as opened_file:
-                config = yaml.load(opened_file, loader)
+                config_content = opened_file.read()
         except IOError as exception:
             if required is not False \
                     and (self._is_strict_mode_enabled() or required is True) \
@@ -1603,6 +1592,12 @@ cdef class ConfigurationOption(Provider):
                 exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
                 raise
             return
+
+        config_content = _resolve_config_env_markers(
+            config_content,
+            envs_required=envs_required,
+        )
+        config = yaml.load(config_content, loader)
 
         current_config = self.__call__()
         if not current_config:
@@ -1988,7 +1983,7 @@ cdef class Configuration(Object):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    def from_yaml(self, filepath, required=UNDEFINED, loader=None):
+    def from_yaml(self, filepath, required=UNDEFINED, loader=None, envs_required=False):
         """Load configuration from the yaml file.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -2001,6 +1996,9 @@ cdef class Configuration(Object):
 
         :param loader: YAML loader, :py:class:`YamlLoader` is used if not specified.
         :type loader: ``yaml.Loader``
+
+        :param envs_required: When True, raises an error on undefined environment variable.
+        :type envs_required: bool
 
         :rtype: None
         """
@@ -2016,7 +2014,7 @@ cdef class Configuration(Object):
 
         try:
             with open(filepath) as opened_file:
-                config = yaml.load(opened_file, loader)
+                config_content = opened_file.read()
         except IOError as exception:
             if required is not False \
                     and (self._is_strict_mode_enabled() or required is True) \
@@ -2024,6 +2022,12 @@ cdef class Configuration(Object):
                 exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
                 raise
             return
+
+        config_content = _resolve_config_env_markers(
+            config_content,
+            envs_required=envs_required,
+        )
+        config = yaml.load(config_content, loader)
 
         current_config = self.__call__()
         if not current_config:
