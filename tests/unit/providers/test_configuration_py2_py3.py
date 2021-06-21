@@ -654,6 +654,31 @@ class ConfigFromIniWithEnvInterpolationTests(unittest.TestCase):
         self.assertEqual(self.config.section1.value1(), '')
         self.assertEqual(self.config.section1.value2(), '/path')
 
+    def test_option_missing_envs(self):
+        del os.environ['CONFIG_TEST_ENV']
+        del os.environ['CONFIG_TEST_PATH']
+
+        self.config.option.from_ini(self.config_file)
+
+        self.assertEqual(
+            self.config.option(),
+            {
+                'section1': {
+                    'value1': '',
+                    'value2': '/path',
+                },
+            },
+        )
+        self.assertEqual(
+            self.config.option.section1(),
+            {
+                'value1': '',
+                'value2': '/path',
+            },
+        )
+        self.assertEqual(self.config.option.section1.value1(), '')
+        self.assertEqual(self.config.option.section1.value2(), '/path')
+
     def test_default_values(self):
         os.environ['DEFINED'] = 'defined'
         self.addCleanup(os.environ.pop, 'DEFINED')
