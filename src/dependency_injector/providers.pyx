@@ -68,9 +68,9 @@ config_env_marker_pattern = re.compile(
     r'\${(?P<name>[^}^{:]+)(?P<separator>:?)(?P<default>.*?)}',
 )
 
-def _resolve_config_env_markers(config_value, envs_required=False):
+def _resolve_config_env_markers(config_content, envs_required=False):
     """Replace environment variable markers with their values."""
-    findings = list(config_env_marker_pattern.finditer(config_value))
+    findings = list(config_env_marker_pattern.finditer(config_content))
 
     for match in reversed(findings):
         env_name = match.group('name')
@@ -83,8 +83,8 @@ def _resolve_config_env_markers(config_value, envs_required=False):
             value = match.group('default')
 
         span_min, span_max = match.span()
-        config_value = f'{config_value[:span_min]}{value}{config_value[span_max:]}'
-    return config_value
+        config_content = f'{config_content[:span_min]}{value}{config_content[span_max:]}'
+    return config_content
 
 
 if sys.version_info[0] == 3:
