@@ -88,19 +88,25 @@ def _resolve_config_env_markers(config_content, envs_required=False):
 
 
 if sys.version_info[0] == 3:
-    def _parse_ini_file(filepath):
+    def _parse_ini_file(filepath, envs_required=False):
         parser = iniconfigparser.ConfigParser()
         with open(filepath) as config_file:
-            config_string = _resolve_config_env_markers(config_file.read())
+            config_string = _resolve_config_env_markers(
+                config_file.read(),
+                envs_required=envs_required,
+            )
         parser.read_string(config_string)
         return parser
 else:
     import StringIO
 
-    def _parse_ini_file(filepath):
+    def _parse_ini_file(filepath, envs_required=False):
         parser = iniconfigparser.ConfigParser()
         with open(filepath) as config_file:
-            config_string = _resolve_config_env_markers(config_file.read())
+            config_string = _resolve_config_env_markers(
+                config_file.read(),
+                envs_required=envs_required,
+            )
         parser.readfp(StringIO.StringIO(config_string))
         return parser
 
@@ -1521,7 +1527,7 @@ cdef class ConfigurationOption(Provider):
         """
         self.override(value)
 
-    def from_ini(self, filepath, required=UNDEFINED):
+    def from_ini(self, filepath, required=UNDEFINED, envs_required=False):
         """Load configuration from the ini file.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -1532,10 +1538,16 @@ cdef class ConfigurationOption(Provider):
         :param required: When required is True, raise an exception if file does not exist.
         :type required: bool
 
+        :param envs_required: When True, raises an error on undefined environment variable.
+        :type envs_required: bool
+
         :rtype: None
         """
         try:
-            parser = _parse_ini_file(filepath)
+            parser = _parse_ini_file(
+                filepath,
+                envs_required=envs_required or self._is_strict_mode_enabled(),
+            )
         except IOError as exception:
             if required is not False \
                     and (self._is_strict_mode_enabled() or required is True) \
@@ -1951,7 +1963,7 @@ cdef class Configuration(Object):
         """
         self.override(value)
 
-    def from_ini(self, filepath, required=UNDEFINED):
+    def from_ini(self, filepath, required=UNDEFINED, envs_required=False):
         """Load configuration from the ini file.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -1962,10 +1974,16 @@ cdef class Configuration(Object):
         :param required: When required is True, raise an exception if file does not exist.
         :type required: bool
 
+        :param envs_required: When True, raises an error on undefined environment variable.
+        :type envs_required: bool
+
         :rtype: None
         """
         try:
-            parser = _parse_ini_file(filepath)
+            parser = _parse_ini_file(
+                filepath,
+                envs_required=envs_required or self._is_strict_mode_enabled(),
+            )
         except IOError as exception:
             if required is not False \
                     and (self._is_strict_mode_enabled() or required is True) \
