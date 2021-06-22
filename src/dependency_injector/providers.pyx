@@ -1595,7 +1595,7 @@ cdef class ConfigurationOption(Provider):
 
         config_content = _resolve_config_env_markers(
             config_content,
-            envs_required=envs_required,
+            envs_required=envs_required or self._is_strict_mode_enabled(),
         )
         config = yaml.load(config_content, loader)
 
@@ -2025,7 +2025,7 @@ cdef class Configuration(Object):
 
         config_content = _resolve_config_env_markers(
             config_content,
-            envs_required=envs_required,
+            envs_required=envs_required or self._is_strict_mode_enabled(),
         )
         config = yaml.load(config_content, loader)
 
