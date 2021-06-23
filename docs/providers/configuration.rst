@@ -5,11 +5,14 @@ Configuration provider
 
 .. meta::
    :keywords: Python,DI,Dependency injection,IoC,Inversion of Control,Configuration,Injection,
-              Option,Ini,Json,Yaml,Pydantic,Dict,Environment Variable,Default,Load,Read,Get
+              Option,Ini,Json,Yaml,Pydantic,Dict,Environment Variable Interpolation,
+              Environment Variable Substitution,Environment Variable in Config,
+              Environment Variable in YAML file,Environment Variable in INI file,Default,Load,Read
    :description: Configuration provides configuration options to the other providers. This page
                  demonstrates how to use Configuration provider to inject the dependencies, load
                  a configuration from an ini or yaml file, a dictionary, an environment variable,
-                 or a pydantic settings object.
+                 or a pydantic settings object. This page also describes how to substitute (interpolate)
+                 environment variables in YAML and INI configuration files.
 
 .. currentmodule:: dependency_injector.providers
 
@@ -42,12 +45,7 @@ where ``examples/providers/configuration/config.ini`` is:
 .. literalinclude:: ../../examples/providers/configuration/config.ini
    :language: ini
 
-:py:meth:`Configuration.from_ini` method supports environment variables interpolation. Use
-``${ENV_NAME}`` format in the configuration file to substitute value from ``ENV_NAME`` environment
-variable.
-
-You can also specify a default value using ``${ENV_NAME:default}`` format. If environment
-variable ``ENV_NAME`` is undefined, configuration provider will substitute value ``default``.
+:py:meth:`Configuration.from_ini` method supports environment variables interpolation.
 
 .. code-block:: ini
 
@@ -55,6 +53,8 @@ variable ``ENV_NAME`` is undefined, configuration provider will substitute value
    option1 = {$ENV_VAR}
    option2 = {$ENV_VAR}/path
    option3 = {$ENV_VAR:default}
+
+See also: :ref:`configuration-envs-interpolation`.
 
 Loading from a YAML file
 ------------------------
@@ -72,12 +72,7 @@ where ``examples/providers/configuration/config.yml`` is:
 .. literalinclude:: ../../examples/providers/configuration/config.yml
    :language: ini
 
-:py:meth:`Configuration.from_yaml` method supports environment variables interpolation. Use
-``${ENV_NAME}`` format in the configuration file to substitute value from ``ENV_NAME`` environment
-variable.
-
-You can also specify a default value using ``${ENV_NAME:default}`` format. If environment
-variable ``ENV_NAME`` is undefined, configuration provider will substitute value ``default``.
+:py:meth:`Configuration.from_yaml` method supports environment variables interpolation.
 
 .. code-block:: ini
 
@@ -85,6 +80,8 @@ variable ``ENV_NAME`` is undefined, configuration provider will substitute value
      option1: {$ENV_VAR}
      option2: {$ENV_VAR}/path
      option3: {$ENV_VAR:default}
+
+See also: :ref:`configuration-envs-interpolation`.
 
 :py:meth:`Configuration.from_yaml` method uses custom version of ``yaml.SafeLoader``.
 To use another loader use ``loader`` argument:
@@ -190,6 +187,73 @@ where ``examples/providers/configuration/config.local.yml`` is:
 
 .. literalinclude:: ../../examples/providers/configuration/config.local.yml
    :language: ini
+
+.. _configuration-envs-interpolation:
+
+Using environment variables in configuration files
+--------------------------------------------------
+
+``Configuration`` provider supports environment variables interpolation in configuration files.
+Use ``${ENV_NAME}`` in the configuration file to substitute value from environment
+variable ``ENV_NAME``.
+
+.. code-block:: ini
+
+   section:
+     option: ${ENV_NAME}
+
+You can also specify a default value using ``${ENV_NAME:default}`` format. If environment
+variable ``ENV_NAME`` is undefined, configuration provider will substitute value ``default``.
+
+.. code-block:: ini
+
+   [section]
+   option = {$ENV_NAME:default}
+
+If you'd like to specify a default value for environment variable inside of the application you can use
+``os.environ.setdefault()``.
+
+.. literalinclude:: ../../examples/providers/configuration/configuration_env_interpolation_os_default.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 12
+
+If environment variable is undefined and doesn't have a default, ``Configuration`` provider
+will replace it with an empty value. This is a default behavior. To raise an error on
+undefined environment variable that doesn't have a default value, pass argument
+``envs_required=True`` to a configuration reading method:
+
+.. code-block:: python
+
+   container.config.from_yaml('config.yml', envs_required=True)
+
+See also: :ref:`configuration-strict-mode`.
+
+.. note::
+   ``Configuration`` provider makes environment variables interpolation before parsing. This preserves
+   original parser behavior. For instance, undefined environment variable in YAML configuration file
+   will be replaced with an empty value and then YAML parser will load the file.
+
+   Original configuration file:
+
+   .. code-block:: ini
+
+      section:
+        option: ${ENV_NAME}
+
+   Configuration file after interpolation where ``ENV_NAME`` is undefined:
+
+   .. code-block:: ini
+
+      section:
+        option:
+
+   Configuration provider after parsing interpolated YAML file contains ``None`` in
+   option ``section.option``:
+
+   .. code-block:: python
+
+      assert container.config.section.option() is None
 
 Mandatory and optional sources
 ------------------------------
@@ -307,6 +371,21 @@ configuration data is undefined:
 
        try:
            container.config.from_dict({})  # raise exception
+       except ValueError:
+           ...
+
+Environment variables interpolation in strict mode raises an exception when encounters
+an undefined environment variable without a default value.
+
+.. code-block:: ini
+
+   section:
+     option: {$UNDEFINED}
+
+.. code-block:: python
+
+       try:
+           container.config.from_yaml('undefined_env.yml')  # raise exception
        except ValueError:
            ...
 
