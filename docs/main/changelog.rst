@@ -7,6 +7,19 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.34.0
+------
+- Add option ``envs_required`` for configuration provider ``.from_yaml()`` and ``.from_ini()``
+  methods. With ``envs_required=True`` methods ``.from_yaml()`` and ``.from_ini()`` raise
+  an exception when encounter an undefined environment variable in the configuration file.
+  By default this option is set to false for preserving previous behavior ``envs_required=False``.
+- Add raising of an exception in configuration provider strict mode when provider encounters
+  an undefined environment variable in the configuration file.
+- Update configuration provider environment variables interpolation to replace
+  undefined environment variables with an empty value.
+- Update configuration provider to perform environment variables interpolation before passing
+  configuration file content to the parser.
+
 4.33.0
 ------
 - Add support of default value for environment variable in INI and YAML

@@ -629,7 +629,7 @@ class ConfigFromIniWithEnvInterpolationTests(unittest.TestCase):
         self.assertEqual(self.config.section1.value1(), 'test-value')
         self.assertEqual(self.config.section1.value2(), 'test-path/path')
 
-    def test_missing_envs(self):
+    def test_missing_envs_not_required(self):
         del os.environ['CONFIG_TEST_ENV']
         del os.environ['CONFIG_TEST_PATH']
 
@@ -639,20 +639,107 @@ class ConfigFromIniWithEnvInterpolationTests(unittest.TestCase):
             self.config(),
             {
                 'section1': {
-                    'value1': '${CONFIG_TEST_ENV}',
-                    'value2': '${CONFIG_TEST_PATH}/path',
+                    'value1': '',
+                    'value2': '/path',
                 },
             },
         )
         self.assertEqual(
             self.config.section1(),
             {
-                'value1': '${CONFIG_TEST_ENV}',
-                'value2': '${CONFIG_TEST_PATH}/path',
+                'value1': '',
+                'value2': '/path',
             },
         )
-        self.assertEqual(self.config.section1.value1(), '${CONFIG_TEST_ENV}')
-        self.assertEqual(self.config.section1.value2(), '${CONFIG_TEST_PATH}/path')
+        self.assertEqual(self.config.section1.value1(), '')
+        self.assertEqual(self.config.section1.value2(), '/path')
+
+    def test_missing_envs_required(self):
+        with open(self.config_file, 'w') as config_file:
+            config_file.write(
+                '[section]\n'
+                'undefined=${UNDEFINED}\n'
+            )
+
+        with self.assertRaises(ValueError) as context:
+            self.config.from_ini(self.config_file, envs_required=True)
+
+        self.assertEqual(
+            str(context.exception),
+            'Missing required environment variable "UNDEFINED"',
+        )
+
+    def test_missing_envs_strict_mode(self):
+        with open(self.config_file, 'w') as config_file:
+            config_file.write(
+                '[section]\n'
+                'undefined=${UNDEFINED}\n'
+            )
+
+        self.config.set_strict(True)
+        with self.assertRaises(ValueError) as context:
+            self.config.from_ini(self.config_file)
+
+        self.assertEqual(
+            str(context.exception),
+            'Missing required environment variable "UNDEFINED"',
+        )
+
+    def test_option_missing_envs_not_required(self):
+        del os.environ['CONFIG_TEST_ENV']
+        del os.environ['CONFIG_TEST_PATH']
+
+        self.config.option.from_ini(self.config_file)
+
+        self.assertEqual(
+            self.config.option(),
+            {
+                'section1': {
+                    'value1': '',
+                    'value2': '/path',
+                },
+            },
+        )
+        self.assertEqual(
+            self.config.option.section1(),
+            {
+                'value1': '',
+                'value2': '/path',
+            },
+        )
+        self.assertEqual(self.config.option.section1.value1(), '')
+        self.assertEqual(self.config.option.section1.value2(), '/path')
+
+    def test_option_missing_envs_required(self):
+        with open(self.config_file, 'w') as config_file:
+            config_file.write(
+                '[section]\n'
+                'undefined=${UNDEFINED}\n'
+            )
+
+        with self.assertRaises(ValueError) as context:
+            self.config.option.from_ini(self.config_file, envs_required=True)
+
+        self.assertEqual(
+            str(context.exception),
+            'Missing required environment variable "UNDEFINED"',
+        )
+
+    def test_option_missing_envs_strict_mode(self):
+        with open(self.config_file, 'w') as config_file:
+            config_file.write(
+                '[section]\n'
+                'undefined=${UNDEFINED}\n'
+            )
+
+        self.config.set_strict(True)
+        with self.assertRaises(ValueError) as context:
+            self.config.option.from_ini(self.config_file)
+
+        self.assertEqual(
+            str(context.exception),
+            'Missing required environment variable "UNDEFINED"',
+        )
 
     def test_default_values(self):
         os.environ['DEFINED'] = 'defined'
@@ -673,7 +760,7 @@ class ConfigFromIniWithEnvInterpolationTests(unittest.TestCase):
             {
                 'defined_with_default': 'defined',
                 'undefined_with_default': 'default',
-                'complex': 'defined/path/defined/${UNDEFINED}/default',
+                'complex': 'defined/path/defined//default',
             },
         )
 
@@ -880,7 +967,7 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
         self.assertEqual(self.config.section1.value2(), 'test-path/path')
 
     @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
-    def test_missing_envs(self):
+    def test_missing_envs_not_required(self):
         del os.environ['CONFIG_TEST_ENV']
         del os.environ['CONFIG_TEST_PATH']
 
@@ -890,20 +977,112 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
             self.config(),
             {
                 'section1': {
-                    'value1': '${CONFIG_TEST_ENV}',
-                    'value2': '${CONFIG_TEST_PATH}/path',
+                    'value1': None,
+                    'value2': '/path',
                 },
             },
         )
         self.assertEqual(
             self.config.section1(),
             {
-                'value1': '${CONFIG_TEST_ENV}',
-                'value2': '${CONFIG_TEST_PATH}/path',
+                'value1': None,
+                'value2': '/path',
             },
         )
-        self.assertEqual(self.config.section1.value1(), '${CONFIG_TEST_ENV}')
-        self.assertEqual(self.config.section1.value2(), '${CONFIG_TEST_PATH}/path')
+        self.assertIsNone(self.config.section1.value1())
+        self.assertEqual(self.config.section1.value2(), '/path')
+
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
+    def test_missing_envs_required(self):
+        with open(self.config_file, 'w') as config_file:
+            config_file.write(
+                'section:\n'
+                '  undefined: ${UNDEFINED}\n'
+            )
+
+        with self.assertRaises(ValueError) as context:
+            self.config.from_yaml(self.config_file, envs_required=True)
+
+        self.assertEqual(
+            str(context.exception),
+            'Missing required environment variable "UNDEFINED"',
+        )
+
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
+    def test_missing_envs_strict_mode(self):
+        with open(self.config_file, 'w') as config_file:
+            config_file.write(
+                'section:\n'
+                '  undefined: ${UNDEFINED}\n'
+            )
+
+        self.config.set_strict(True)
+        with self.assertRaises(ValueError) as context:
+            self.config.from_yaml(self.config_file)
+
+        self.assertEqual(
+            str(context.exception),
+            'Missing required environment variable "UNDEFINED"',
+        )
+
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
+    def test_option_missing_envs_not_required(self):
+        del os.environ['CONFIG_TEST_ENV']
+        del os.environ['CONFIG_TEST_PATH']
+
+        self.config.option.from_yaml(self.config_file)
+
+        self.assertEqual(
+            self.config.option(),
+            {
+                'section1': {
+                    'value1': None,
+                    'value2': '/path',
+                },
+            },
+        )
+        self.assertEqual(
+            self.config.option.section1(),
+            {
+                'value1': None,
+                'value2': '/path',
+            },
+        )
+        self.assertIsNone(self.config.option.section1.value1())
+        self.assertEqual(self.config.option.section1.value2(), '/path')
+
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
+    def test_option_missing_envs_required(self):
+        with open(self.config_file, 'w') as config_file:
+            config_file.write(
+                'section:\n'
+                '  undefined: ${UNDEFINED}\n'
+            )
+
+        with self.assertRaises(ValueError) as context:
+            self.config.option.from_yaml(self.config_file, envs_required=True)
+
+        self.assertEqual(
+            str(context.exception),
+            'Missing required environment variable "UNDEFINED"',
+        )
+
+    @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
+    def test_option_missing_envs_strict_mode(self):
+        with open(self.config_file, 'w') as config_file:
+            config_file.write(
+                'section:\n'
+                '  undefined: ${UNDEFINED}\n'
+            )
+
+        self.config.set_strict(True)
+        with self.assertRaises(ValueError) as context:
+            self.config.option.from_yaml(self.config_file)
+
+        self.assertEqual(
+            str(context.exception),
+            'Missing required environment variable "UNDEFINED"',
+        )
 
     @unittest.skipIf(sys.version_info[:2] == (3, 4), 'PyYAML does not support Python 3.4')
     def test_default_values(self):
@@ -925,7 +1104,7 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
             {
                 'defined_with_default': 'defined',
                 'undefined_with_default': 'default',
-                'complex': 'defined/path/defined/${UNDEFINED}/default',
+                'complex': 'defined/path/defined//default',
             },
         )
 
