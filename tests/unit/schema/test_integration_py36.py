@@ -277,6 +277,7 @@ class TestSchemaMultipleContainersWithInlineProviders(unittest.TestCase):
 
 class TestSchemaBoto3Session(unittest.TestCase):
 
+    @unittest.skip('Boto3 tries to connect to the internet')
     def test(self):
         container = containers.DynamicContainer()
         container.from_yaml_schema(f'{_SAMPLES_DIR}/schemasample/container-boto3-session.yml')
