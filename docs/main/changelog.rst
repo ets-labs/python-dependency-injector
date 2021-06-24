@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.34.0
+------
 - Add option ``envs_required`` for configuration provider ``.from_yaml()`` and ``.from_ini()``
   methods. With ``envs_required=True`` methods ``.from_yaml()`` and ``.from_ini()`` raise
   an exception when encounter an undefined environment variable in the configuration file.
