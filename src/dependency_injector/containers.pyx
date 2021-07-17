@@ -290,16 +290,53 @@ class DynamicContainer(Container):
 
     def shutdown_resources(self):
         """Shutdown all container resources."""
-        futures = []
+        def _is_safe_to_shutdown(resource):
+            for related in resource.related:
+                if isinstance(related, providers.Resource) and related.initialized:
+                    return False
+            return True
 
-        for provider in self.traverse(types=[providers.Resource]):
-            shutdown = provider.shutdown()
+        def _resources_without_dependencies(resources):
+            for resource in resources:
+                if _is_safe_to_shutdown(resource):
+                    yield resource
 
-            if __is_future_or_coroutine(shutdown):
-                futures.append(shutdown)
+        async def _async_shutdown(initialized_resources):
+            initialized_resources = set(initialized_resources)
+            while initialized_resources:
+                resources_to_shutdown = set(_resources_without_dependencies(initialized_resources))
+                if not resources_to_shutdown:
+                    raise RuntimeError('Unable to resolve resources shutdown order')
+                await asyncio.gather(
+                    *(
+                        resource.shutdown()
+                        for resource in resources_to_shutdown
+                    ),
+                )
+                initialized_resources -= resources_to_shutdown
 
-        if futures:
-            return asyncio.gather(*futures)
+        def _sync_shutdown(initialized_resources):
+            initialized_resources = set(initialized_resources)
+            while initialized_resources:
+                resources_to_shutdown = set(_resources_without_dependencies(initialized_resources))
+                if not resources_to_shutdown:
+                    raise RuntimeError('Unable to resolve resources shutdown order')
+                for resource in resources_to_shutdown:
+                    resource.shutdown()
+                initialized_resources -= resources_to_shutdown
+
+        initialized_resources = list(
+            filter(
+                lambda resource: resource.initialized,
+                self.traverse(types=[providers.Resource])
+            ),
+        )
+
+        is_async = any((resource.is_async_mode_enabled() for resource in initialized_resources))
+        if is_async:
+            return _async_shutdown(initialized_resources)
+        else:
+            return _sync_shutdown(initialized_resources)
 
     def apply_container_providers_overridings(self):
         """Apply container providers' overridings."""
