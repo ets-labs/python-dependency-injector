@@ -290,53 +290,46 @@ class DynamicContainer(Container):
 
     def shutdown_resources(self):
         """Shutdown all container resources."""
-        def _is_safe_to_shutdown(resource):
+        def _no_initialized_dependencies(resource):
             for related in resource.related:
                 if isinstance(related, providers.Resource) and related.initialized:
                     return False
             return True
 
-        def _resources_without_dependencies(resources):
-            for resource in resources:
-                if _is_safe_to_shutdown(resource):
-                    yield resource
+        def _without_initialized_dependencies(resources):
+            return list(filter(_no_initialized_dependencies, resources))
 
-        async def _async_shutdown(initialized_resources):
-            initialized_resources = set(initialized_resources)
-            while initialized_resources:
-                resources_to_shutdown = set(_resources_without_dependencies(initialized_resources))
+        def _any_initialized(resources):
+            return any(resource.initialized for resource in resources)
+
+        def _any_in_async_mode(resources):
+            return any(resource.is_async_mode_enabled() for resource in resources)
+
+        async def _async_ordered_shutdown(resources):
+            while _any_initialized(resources):
+                resources_to_shutdown = _without_initialized_dependencies(resources)
                 if not resources_to_shutdown:
                     raise RuntimeError('Unable to resolve resources shutdown order')
-                await asyncio.gather(
-                    *(
-                        resource.shutdown()
-                        for resource in resources_to_shutdown
-                    ),
-                )
-                initialized_resources -= resources_to_shutdown
+                futures = []
+                for resource in resources_to_shutdown:
+                    result = resource.shutdown()
+                    if __is_future_or_coroutine(result):
+                        futures.append(result)
+                await asyncio.gather(*futures)
 
-        def _sync_shutdown(initialized_resources):
-            initialized_resources = set(initialized_resources)
-            while initialized_resources:
-                resources_to_shutdown = set(_resources_without_dependencies(initialized_resources))
+        def _sync_ordered_shutdown(resources):
+            while _any_initialized(resources):
+                resources_to_shutdown = _without_initialized_dependencies(resources)
                 if not resources_to_shutdown:
                     raise RuntimeError('Unable to resolve resources shutdown order')
                 for resource in resources_to_shutdown:
                     resource.shutdown()
-                initialized_resources -= resources_to_shutdown
 
-        initialized_resources = list(
-            filter(
-                lambda resource: resource.initialized,
-                self.traverse(types=[providers.Resource])
-            ),
-        )
-
-        is_async = any((resource.is_async_mode_enabled() for resource in initialized_resources))
-        if is_async:
-            return _async_shutdown(initialized_resources)
+        resources = list(self.traverse(types=[providers.Resource]))
+        if _any_in_async_mode(resources):
+            return _async_ordered_shutdown(resources)
         else:
-            return _sync_shutdown(initialized_resources)
+            return _sync_ordered_shutdown(resources)
 
     def apply_container_providers_overridings(self):
         """Apply container providers' overridings."""
