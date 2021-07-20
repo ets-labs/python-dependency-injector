@@ -79,3 +79,33 @@ class AsyncResourcesTest(AsyncTestCase):
         self._run(container.shutdown_resources())
         self.assertEqual(initialized_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
         self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
+
+    def test_shutdown_circular_dependencies_breaker(self):
+        async def _resource(name, **_):
+            yield name
+
+        class Container(containers.DeclarativeContainer):
+            resource1 = providers.Resource(
+                _resource,
+                name='r1',
+            )
+            resource2 = providers.Resource(
+                _resource,
+                name='r2',
+                r1=resource1,
+            )
+            resource3 = providers.Resource(
+                _resource,
+                name='r3',
+                r2=resource2,
+            )
+
+        container = Container()
+        self._run(container.init_resources())
+
+        # Create circular dependency after initialization (r3 -> r2 -> r1 -> r3 -> ...)
+        container.resource1.add_kwargs(r3=container.resource3)
+
+        with self.assertRaises(RuntimeError) as context:
+            self._run(container.shutdown_resources())
+        self.assertEqual(str(context.exception), 'Unable to resolve resources shutdown order')
