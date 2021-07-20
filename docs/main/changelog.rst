@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.34.1
+------
+- Update ``container.shutdown_resources()`` to respect dependencies order while shutdown.
+  See issue `#432 <https://github.com/ets-labs/python-dependency-injector/issues/432>`_.
+  Thanks to `Saulius Beinorius <https://github.com/saulbein>`_  for bringing up the issue.
+
 4.34.0
 ------
 - Add option ``envs_required`` for configuration provider ``.from_yaml()`` and ``.from_ini()``

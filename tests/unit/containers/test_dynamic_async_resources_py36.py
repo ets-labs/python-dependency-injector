@@ -1,6 +1,5 @@
 """Dependency injector dynamic container unit tests for async resources."""
-
-import unittest
+import asyncio
 
 # Runtime import to get asyncutils module
 import os
@@ -23,49 +22,138 @@ from dependency_injector import (
 
 class AsyncResourcesTest(AsyncTestCase):
 
-    @unittest.skipIf(sys.version_info[:2] <= (3, 5), 'Async test')
-    def test_async_init_resources(self):
-        async def _init1():
-            _init1.init_counter += 1
-            yield
-            _init1.shutdown_counter += 1
+    def test_init_and_shutdown_ordering(self):
+        """Test init and shutdown resources.
 
-        _init1.init_counter = 0
-        _init1.shutdown_counter = 0
+        Methods .init_resources() and .shutdown_resources() should respect resources dependencies.
+        Initialization should first initialize resources without dependencies and then provide
+        these resources to other resources. Resources shutdown should follow the same rule: first
+        shutdown resources without initialized dependencies and then continue correspondingly
+        until all resources are shutdown.
+        """
+        initialized_resources = []
+        shutdown_resources = []
 
-        async def _init2():
-            _init2.init_counter += 1
-            yield
-            _init2.shutdown_counter += 1
+        async def _resource(name, delay, **_):
+            await asyncio.sleep(delay)
+            initialized_resources.append(name)
 
-        _init2.init_counter = 0
-        _init2.shutdown_counter = 0
+            yield name
+
+            await asyncio.sleep(delay)
+            shutdown_resources.append(name)
 
         class Container(containers.DeclarativeContainer):
-            resource1 = providers.Resource(_init1)
-            resource2 = providers.Resource(_init2)
+            resource1 = providers.Resource(
+                _resource,
+                name='r1',
+                delay=0.03,
+            )
+            resource2 = providers.Resource(
+                _resource,
+                name='r2',
+                delay=0.02,
+                r1=resource1,
+            )
+            resource3 = providers.Resource(
+                _resource,
+                name='r3',
+                delay=0.01,
+                r2=resource2,
+            )
 
         container = Container()
-        self.assertEqual(_init1.init_counter, 0)
-        self.assertEqual(_init1.shutdown_counter, 0)
-        self.assertEqual(_init2.init_counter, 0)
-        self.assertEqual(_init2.shutdown_counter, 0)
 
         self._run(container.init_resources())
-        self.assertEqual(_init1.init_counter, 1)
-        self.assertEqual(_init1.shutdown_counter, 0)
-        self.assertEqual(_init2.init_counter, 1)
-        self.assertEqual(_init2.shutdown_counter, 0)
+        self.assertEqual(initialized_resources, ['r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, [])
 
         self._run(container.shutdown_resources())
-        self.assertEqual(_init1.init_counter, 1)
-        self.assertEqual(_init1.shutdown_counter, 1)
-        self.assertEqual(_init2.init_counter, 1)
-        self.assertEqual(_init2.shutdown_counter, 1)
+        self.assertEqual(initialized_resources, ['r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3'])
 
         self._run(container.init_resources())
+        self.assertEqual(initialized_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3'])
+
         self._run(container.shutdown_resources())
-        self.assertEqual(_init1.init_counter, 2)
-        self.assertEqual(_init1.shutdown_counter, 2)
-        self.assertEqual(_init2.init_counter, 2)
-        self.assertEqual(_init2.shutdown_counter, 2)
+        self.assertEqual(initialized_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
+
+    def test_shutdown_circular_dependencies_breaker(self):
+        async def _resource(name, **_):
+            yield name
+
+        class Container(containers.DeclarativeContainer):
+            resource1 = providers.Resource(
+                _resource,
+                name='r1',
+            )
+            resource2 = providers.Resource(
+                _resource,
+                name='r2',
+                r1=resource1,
+            )
+            resource3 = providers.Resource(
+                _resource,
+                name='r3',
+                r2=resource2,
+            )
+
+        container = Container()
+        self._run(container.init_resources())
+
+        # Create circular dependency after initialization (r3 -> r2 -> r1 -> r3 -> ...)
+        container.resource1.add_kwargs(r3=container.resource3)
+
+        with self.assertRaises(RuntimeError) as context:
+            self._run(container.shutdown_resources())
+        self.assertEqual(str(context.exception), 'Unable to resolve resources shutdown order')
+
+    def test_shutdown_sync_and_async_ordering(self):
+        initialized_resources = []
+        shutdown_resources = []
+
+        def _sync_resource(name, **_):
+            initialized_resources.append(name)
+            yield name
+            shutdown_resources.append(name)
+
+        async def _async_resource(name, **_):
+            initialized_resources.append(name)
+            yield name
+            shutdown_resources.append(name)
+
+        class Container(containers.DeclarativeContainer):
+            resource1 = providers.Resource(
+                _sync_resource,
+                name='r1',
+            )
+            resource2 = providers.Resource(
+                _sync_resource,
+                name='r2',
+                r1=resource1,
+            )
+            resource3 = providers.Resource(
+                _async_resource,
+                name='r3',
+                r2=resource2,
+            )
+
+        container = Container()
+
+        self._run(container.init_resources())
+        self.assertEqual(initialized_resources, ['r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, [])
+
+        self._run(container.shutdown_resources())
+        self.assertEqual(initialized_resources, ['r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3'])
+
+        self._run(container.init_resources())
+        self.assertEqual(initialized_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3'])
+
+        self._run(container.shutdown_resources())
+        self.assertEqual(initialized_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
