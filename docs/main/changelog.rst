@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Dev version
------------
+4.34.1
+------
 - Update ``container.shutdown_resources()`` to respect dependencies order while shutdown.
   See issue `#432 <https://github.com/ets-labs/python-dependency-injector/issues/432>`_.
   Thanks to `Saulius Beinorius <https://github.com/saulbein>`_  for bringing up the issue.
