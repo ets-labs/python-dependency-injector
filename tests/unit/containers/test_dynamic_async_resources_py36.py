@@ -70,15 +70,15 @@ class AsyncResourcesTest(AsyncTestCase):
 
         self._run(container.shutdown_resources())
         self.assertEqual(initialized_resources, ['r1', 'r2', 'r3'])
-        self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, ['r3', 'r2', 'r1'])
 
         self._run(container.init_resources())
         self.assertEqual(initialized_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
-        self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, ['r3', 'r2', 'r1'])
 
         self._run(container.shutdown_resources())
         self.assertEqual(initialized_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
-        self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, ['r3', 'r2', 'r1', 'r3', 'r2', 'r1'])
 
     def test_shutdown_circular_dependencies_breaker(self):
         async def _resource(name, **_):
@@ -148,12 +148,12 @@ class AsyncResourcesTest(AsyncTestCase):
 
         self._run(container.shutdown_resources())
         self.assertEqual(initialized_resources, ['r1', 'r2', 'r3'])
-        self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, ['r3', 'r2', 'r1'])
 
         self._run(container.init_resources())
         self.assertEqual(initialized_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
-        self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, ['r3', 'r2', 'r1'])
 
         self._run(container.shutdown_resources())
         self.assertEqual(initialized_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
-        self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, ['r3', 'r2', 'r1', 'r3', 'r2', 'r1'])
