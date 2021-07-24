@@ -290,24 +290,19 @@ class DynamicContainer(Container):
 
     def shutdown_resources(self):
         """Shutdown all container resources."""
-        def _no_initialized_dependencies(resource):
-            for related in resource.related:
-                if isinstance(related, providers.Resource) and related.initialized:
-                    return False
-            return True
-
-        def _without_initialized_dependencies(resources):
-            return list(filter(_no_initialized_dependencies, resources))
-
-        def _any_initialized(resources):
-            return any(resource.initialized for resource in resources)
-
-        def _any_in_async_mode(resources):
-            return any(resource.is_async_mode_enabled() for resource in resources)
+        def _independent_resources(resources):
+            for resource in resources:
+                for other_resource in resources:
+                    if not other_resource.initialized:
+                        continue
+                    if resource in other_resource.related:
+                        break
+                else:
+                    yield resource
 
         async def _async_ordered_shutdown(resources):
-            while _any_initialized(resources):
-                resources_to_shutdown = _without_initialized_dependencies(resources)
+            while any(resource.initialized for resource in resources):
+                resources_to_shutdown = list(_independent_resources(resources))
                 if not resources_to_shutdown:
                     raise RuntimeError('Unable to resolve resources shutdown order')
                 futures = []
@@ -318,15 +313,15 @@ class DynamicContainer(Container):
                 await asyncio.gather(*futures)
 
         def _sync_ordered_shutdown(resources):
-            while _any_initialized(resources):
-                resources_to_shutdown = _without_initialized_dependencies(resources)
+            while any(resource.initialized for resource in resources):
+                resources_to_shutdown = list(_independent_resources(resources))
                 if not resources_to_shutdown:
                     raise RuntimeError('Unable to resolve resources shutdown order')
                 for resource in resources_to_shutdown:
                     resource.shutdown()
 
         resources = list(self.traverse(types=[providers.Resource]))
-        if _any_in_async_mode(resources):
+        if any(resource.is_async_mode_enabled() for resource in resources):
             return _async_ordered_shutdown(resources)
         else:
             return _sync_ordered_shutdown(resources)

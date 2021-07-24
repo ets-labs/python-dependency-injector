@@ -233,15 +233,15 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
 
         container.shutdown_resources()
         self.assertEqual(initialized_resources, ['r1', 'r2', 'r3'])
-        self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, ['r3', 'r2', 'r1'])
 
         container.init_resources()
         self.assertEqual(initialized_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
-        self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, ['r3', 'r2', 'r1'])
 
         container.shutdown_resources()
         self.assertEqual(initialized_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
-        self.assertEqual(shutdown_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
+        self.assertEqual(shutdown_resources, ['r3', 'r2', 'r1', 'r3', 'r2', 'r1'])
 
     def test_shutdown_resources_circular_dependencies_breaker(self):
         def _resource(name, **_):
