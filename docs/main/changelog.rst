@@ -7,6 +7,10 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.35.0
+------
+- Add support of six 1.16.0.
+
 4.34.2
 ------
 - Fix a bug with reverse shutdown order in ``container.shutdown_resources()``.
