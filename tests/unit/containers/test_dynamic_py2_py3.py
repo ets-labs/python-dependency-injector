@@ -698,7 +698,6 @@ class DynamicContainerWithCustomStringTests(unittest.TestCase):
         thing = None
 
     def setUp(self):
-        self.object = self.CustomClass()
         self.container = containers.DynamicContainer()
         self.provider = providers.Provider()
 

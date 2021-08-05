@@ -469,14 +469,14 @@ class DeclarativeContainerMetaClass(type):
 
         return cls
 
-    def __setattr__(cls, str name, object value):
+    def __setattr__(cls, name, value):
         """Set class attribute.
 
         If value of attribute is provider, it will be added into providers
         dictionary.
 
         :param name: Attribute's name
-        :type name: str
+        :type name: object
 
         :param value: Attribute's value
         :type value: object
@@ -493,14 +493,14 @@ class DeclarativeContainerMetaClass(type):
             cls.cls_providers[name] = value
         super(DeclarativeContainerMetaClass, cls).__setattr__(name, value)
 
-    def __delattr__(cls, str name):
+    def __delattr__(cls, name):
         """Delete class attribute.
 
         If value of attribute is provider, it will be deleted from providers
         dictionary.
 
         :param name: Attribute's name
-        :type name: str
+        :type name: object
 
         :rtype: None
         """
