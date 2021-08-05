@@ -2591,12 +2591,6 @@ static CYTHON_INLINE int __Pyx_IterFinish(void);
 /* UnpackItemEndCheck.proto */
 static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected);
 
-/* ArgTypeTest.proto */
-#define __Pyx_ArgTypeTest(obj, type, none_allowed, name, exact)\
-    ((likely((Py_TYPE(obj) == type) | (none_allowed && (obj == Py_None)))) ? 1 :\
-        __Pyx__ArgTypeTest(obj, type, name, exact))
-static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
-
 /* IncludeStringH.proto */
 #include <string.h>
 
@@ -2962,6 +2956,12 @@ static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb);
 
 /* None.proto */
 static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname);
+
+/* ArgTypeTest.proto */
+#define __Pyx_ArgTypeTest(obj, type, none_allowed, name, exact)\
+    ((likely((Py_TYPE(obj) == type) | (none_allowed && (obj == Py_None)))) ? 1 :\
+        __Pyx__ArgTypeTest(obj, type, name, exact))
+static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact);
 
 /* UnpackUnboundCMethod.proto */
 typedef struct {
@@ -5185,7 +5185,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  * 
  *         return copied             # <<<<<<<<<<<<<<
  * 
- *     def __setattr__(self, str name, object value):
+ *     def __setattr__(self, name, value):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_copied);
@@ -5222,14 +5222,14 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 /* "dependency_injector/containers.pyx":106
  *         return copied
  * 
- *     def __setattr__(self, str name, object value):             # <<<<<<<<<<<<<<
+ *     def __setattr__(self, name, value):             # <<<<<<<<<<<<<<
  *         """Set instance attribute.
  * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_5__setattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_4__setattr__[] = "Set instance attribute.\n\n        If value of attribute is provider, it will be added into providers\n        dictionary.\n\n        :param name: Attribute's name\n        :type name: str\n\n        :param value: Attribute's value\n        :type value: object\n\n        :rtype: None\n        ";
+static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_4__setattr__[] = "Set instance attribute.\n\n        If value of attribute is provider, it will be added into providers\n        dictionary.\n\n        :param name: Attribute's name\n        :type name: object\n\n        :param value: Attribute's value\n        :type value: object\n\n        :rtype: None\n        ";
 static PyMethodDef __pyx_mdef_19dependency_injector_10containers_16DynamicContainer_5__setattr__ = {"__setattr__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_10containers_16DynamicContainer_5__setattr__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_19dependency_injector_10containers_16DynamicContainer_4__setattr__};
 static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_5__setattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
@@ -5286,7 +5286,7 @@ static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
     __pyx_v_self = values[0];
-    __pyx_v_name = ((PyObject*)values[1]);
+    __pyx_v_name = values[1];
     __pyx_v_value = values[2];
   }
   goto __pyx_L4_argument_unpacking_done;
@@ -5297,14 +5297,9 @@ static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_name), (&PyString_Type), 1, "name", 1))) __PYX_ERR(0, 106, __pyx_L1_error)
   __pyx_r = __pyx_pf_19dependency_injector_10containers_16DynamicContainer_4__setattr__(__pyx_self, __pyx_v_self, __pyx_v_name, __pyx_v_value);
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = NULL;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -5375,8 +5370,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  * 
  */
   __pyx_t_4 = (__Pyx_PyString_Equals(__pyx_v_name, __pyx_n_s_parent, Py_NE)); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 122, __pyx_L1_error)
-  __pyx_t_5 = (__pyx_t_4 != 0);
-  __pyx_t_1 = __pyx_t_5;
+  __pyx_t_1 = __pyx_t_4;
   __pyx_L4_bool_binop_done:;
 
   /* "dependency_injector/containers.pyx":120
@@ -5425,8 +5419,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_1 = PyObject_IsInstance(__pyx_v_value, __pyx_t_3); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 127, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_5 = (__pyx_t_1 != 0);
-    if (__pyx_t_5) {
+    __pyx_t_4 = (__pyx_t_1 != 0);
+    if (__pyx_t_4) {
 
       /* "dependency_injector/containers.pyx":128
  * 
@@ -5477,7 +5471,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  * 
  *         super(DynamicContainer, self).__setattr__(name, value)             # <<<<<<<<<<<<<<
  * 
- *     def __delattr__(self, str name):
+ *     def __delattr__(self, name):
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_DynamicContainer); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -5545,7 +5539,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
   /* "dependency_injector/containers.pyx":106
  *         return copied
  * 
- *     def __setattr__(self, str name, object value):             # <<<<<<<<<<<<<<
+ *     def __setattr__(self, name, value):             # <<<<<<<<<<<<<<
  *         """Set instance attribute.
  * 
  */
@@ -5569,14 +5563,14 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 /* "dependency_injector/containers.pyx":132
  *         super(DynamicContainer, self).__setattr__(name, value)
  * 
- *     def __delattr__(self, str name):             # <<<<<<<<<<<<<<
+ *     def __delattr__(self, name):             # <<<<<<<<<<<<<<
  *         """Delete instance attribute.
  * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_7__delattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_6__delattr__[] = "Delete instance attribute.\n\n        If value of attribute is provider, it will be deleted from providers\n        dictionary.\n\n        :param name: Attribute's name\n        :type name: str\n\n        :rtype: None\n        ";
+static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_6__delattr__[] = "Delete instance attribute.\n\n        If value of attribute is provider, it will be deleted from providers\n        dictionary.\n\n        :param name: Attribute's name\n        :type name: object\n\n        :rtype: None\n        ";
 static PyMethodDef __pyx_mdef_19dependency_injector_10containers_16DynamicContainer_7__delattr__ = {"__delattr__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_10containers_16DynamicContainer_7__delattr__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_19dependency_injector_10containers_16DynamicContainer_6__delattr__};
 static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_7__delattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
@@ -5623,7 +5617,7 @@ static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
     __pyx_v_self = values[0];
-    __pyx_v_name = ((PyObject*)values[1]);
+    __pyx_v_name = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -5633,14 +5627,9 @@ static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_name), (&PyString_Type), 1, "name", 1))) __PYX_ERR(0, 132, __pyx_L1_error)
   __pyx_r = __pyx_pf_19dependency_injector_10containers_16DynamicContainer_6__delattr__(__pyx_self, __pyx_v_self, __pyx_v_name);
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = NULL;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -5736,7 +5725,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
   /* "dependency_injector/containers.pyx":132
  *         super(DynamicContainer, self).__setattr__(name, value)
  * 
- *     def __delattr__(self, str name):             # <<<<<<<<<<<<<<
+ *     def __delattr__(self, name):             # <<<<<<<<<<<<<<
  *         """Delete instance attribute.
  * 
  */
@@ -6273,7 +6262,7 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_16DynamicContainer_
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_14set_providers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_13set_providers[] = "Set container providers.\n\n        :param providers: Dictionary of providers\n        :type providers:\n            dict[str, :py:class:`dependency_injector.providers.Provider`]\n\n        :rtype: None\n        ";
+static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_13set_providers[] = "Set container providers.\n\n        :param providers: Dictionary of providers\n        :type providers:\n            dict[object, :py:class:`dependency_injector.providers.Provider`]\n\n        :rtype: None\n        ";
 static PyMethodDef __pyx_mdef_19dependency_injector_10containers_16DynamicContainer_14set_providers = {"set_providers", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_10containers_16DynamicContainer_14set_providers, METH_VARARGS|METH_KEYWORDS, __pyx_doc_19dependency_injector_10containers_16DynamicContainer_13set_providers};
 static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_14set_providers(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
@@ -13794,7 +13783,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
  * 
  *         return cls             # <<<<<<<<<<<<<<
  * 
- *     def __setattr__(cls, str name, object value):
+ *     def __setattr__(cls, name, value):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(((PyObject *)__pyx_v_cls));
@@ -13843,14 +13832,14 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
 /* "dependency_injector/containers.pyx":472
  *         return cls
  * 
- *     def __setattr__(cls, str name, object value):             # <<<<<<<<<<<<<<
+ *     def __setattr__(cls, name, value):             # <<<<<<<<<<<<<<
  *         """Set class attribute.
  * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_3__setattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_2__setattr__[] = "Set class attribute.\n\n        If value of attribute is provider, it will be added into providers\n        dictionary.\n\n        :param name: Attribute's name\n        :type name: str\n\n        :param value: Attribute's value\n        :type value: object\n\n        :rtype: None\n        ";
+static char __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_2__setattr__[] = "Set class attribute.\n\n        If value of attribute is provider, it will be added into providers\n        dictionary.\n\n        :param name: Attribute's name\n        :type name: object\n\n        :param value: Attribute's value\n        :type value: object\n\n        :rtype: None\n        ";
 static PyMethodDef __pyx_mdef_19dependency_injector_10containers_29DeclarativeContainerMetaClass_3__setattr__ = {"__setattr__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_3__setattr__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_2__setattr__};
 static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_3__setattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_cls = 0;
@@ -13907,7 +13896,7 @@ static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContai
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
     __pyx_v_cls = values[0];
-    __pyx_v_name = ((PyObject*)values[1]);
+    __pyx_v_name = values[1];
     __pyx_v_value = values[2];
   }
   goto __pyx_L4_argument_unpacking_done;
@@ -13918,14 +13907,9 @@ static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContai
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_name), (&PyString_Type), 1, "name", 1))) __PYX_ERR(0, 472, __pyx_L1_error)
   __pyx_r = __pyx_pf_19dependency_injector_10containers_29DeclarativeContainerMetaClass_2__setattr__(__pyx_self, __pyx_v_cls, __pyx_v_name, __pyx_v_value);
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = NULL;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -13967,8 +13951,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
     goto __pyx_L4_bool_binop_done;
   }
   __pyx_t_5 = (__Pyx_PyString_Equals(__pyx_v_name, __pyx_n_s_self, Py_NE)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 486, __pyx_L1_error)
-  __pyx_t_4 = (__pyx_t_5 != 0);
-  __pyx_t_1 = __pyx_t_4;
+  __pyx_t_1 = __pyx_t_5;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_1) {
 
@@ -13997,8 +13980,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_1 = PyObject_IsInstance(__pyx_v_value, __pyx_t_2); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 489, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_4 = (__pyx_t_1 != 0);
-    if (__pyx_t_4) {
+    __pyx_t_5 = (__pyx_t_1 != 0);
+    if (__pyx_t_5) {
 
       /* "dependency_injector/containers.pyx":490
  * 
@@ -14073,7 +14056,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
  *             cls.cls_providers[name] = value
  *         super(DeclarativeContainerMetaClass, cls).__setattr__(name, value)             # <<<<<<<<<<<<<<
  * 
- *     def __delattr__(cls, str name):
+ *     def __delattr__(cls, name):
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_DeclarativeContainerMetaClass_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 494, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -14141,7 +14124,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
   /* "dependency_injector/containers.pyx":472
  *         return cls
  * 
- *     def __setattr__(cls, str name, object value):             # <<<<<<<<<<<<<<
+ *     def __setattr__(cls, name, value):             # <<<<<<<<<<<<<<
  *         """Set class attribute.
  * 
  */
@@ -14165,14 +14148,14 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
 /* "dependency_injector/containers.pyx":496
  *         super(DeclarativeContainerMetaClass, cls).__setattr__(name, value)
  * 
- *     def __delattr__(cls, str name):             # <<<<<<<<<<<<<<
+ *     def __delattr__(cls, name):             # <<<<<<<<<<<<<<
  *         """Delete class attribute.
  * 
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_5__delattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_4__delattr__[] = "Delete class attribute.\n\n        If value of attribute is provider, it will be deleted from providers\n        dictionary.\n\n        :param name: Attribute's name\n        :type name: str\n\n        :rtype: None\n        ";
+static char __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_4__delattr__[] = "Delete class attribute.\n\n        If value of attribute is provider, it will be deleted from providers\n        dictionary.\n\n        :param name: Attribute's name\n        :type name: object\n\n        :rtype: None\n        ";
 static PyMethodDef __pyx_mdef_19dependency_injector_10containers_29DeclarativeContainerMetaClass_5__delattr__ = {"__delattr__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_5__delattr__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_4__delattr__};
 static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_5__delattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_cls = 0;
@@ -14219,7 +14202,7 @@ static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContai
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
     __pyx_v_cls = values[0];
-    __pyx_v_name = ((PyObject*)values[1]);
+    __pyx_v_name = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -14229,14 +14212,9 @@ static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContai
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_name), (&PyString_Type), 1, "name", 1))) __PYX_ERR(0, 496, __pyx_L1_error)
   __pyx_r = __pyx_pf_19dependency_injector_10containers_29DeclarativeContainerMetaClass_4__delattr__(__pyx_self, __pyx_v_cls, __pyx_v_name);
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = NULL;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -14357,7 +14335,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
   /* "dependency_injector/containers.pyx":496
  *         super(DeclarativeContainerMetaClass, cls).__setattr__(name, value)
  * 
- *     def __delattr__(cls, str name):             # <<<<<<<<<<<<<<
+ *     def __delattr__(cls, name):             # <<<<<<<<<<<<<<
  *         """Delete class attribute.
  * 
  */
@@ -26744,7 +26722,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "dependency_injector/containers.pyx":106
  *         return copied
  * 
- *     def __setattr__(self, str name, object value):             # <<<<<<<<<<<<<<
+ *     def __setattr__(self, name, value):             # <<<<<<<<<<<<<<
  *         """Set instance attribute.
  * 
  */
@@ -26756,7 +26734,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "dependency_injector/containers.pyx":132
  *         super(DynamicContainer, self).__setattr__(name, value)
  * 
- *     def __delattr__(self, str name):             # <<<<<<<<<<<<<<
+ *     def __delattr__(self, name):             # <<<<<<<<<<<<<<
  *         """Delete instance attribute.
  * 
  */
@@ -27041,7 +27019,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "dependency_injector/containers.pyx":472
  *         return cls
  * 
- *     def __setattr__(cls, str name, object value):             # <<<<<<<<<<<<<<
+ *     def __setattr__(cls, name, value):             # <<<<<<<<<<<<<<
  *         """Set class attribute.
  * 
  */
@@ -27053,7 +27031,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "dependency_injector/containers.pyx":496
  *         super(DeclarativeContainerMetaClass, cls).__setattr__(name, value)
  * 
- *     def __delattr__(cls, str name):             # <<<<<<<<<<<<<<
+ *     def __delattr__(cls, name):             # <<<<<<<<<<<<<<
  *         """Delete class attribute.
  * 
  */
@@ -28240,7 +28218,7 @@ if (!__Pyx_RefNanny) {
   /* "dependency_injector/containers.pyx":106
  *         return copied
  * 
- *     def __setattr__(self, str name, object value):             # <<<<<<<<<<<<<<
+ *     def __setattr__(self, name, value):             # <<<<<<<<<<<<<<
  *         """Set instance attribute.
  * 
  */
@@ -28252,7 +28230,7 @@ if (!__Pyx_RefNanny) {
   /* "dependency_injector/containers.pyx":132
  *         super(DynamicContainer, self).__setattr__(name, value)
  * 
- *     def __delattr__(self, str name):             # <<<<<<<<<<<<<<
+ *     def __delattr__(self, name):             # <<<<<<<<<<<<<<
  *         """Delete instance attribute.
  * 
  */
@@ -28585,7 +28563,7 @@ if (!__Pyx_RefNanny) {
   /* "dependency_injector/containers.pyx":472
  *         return cls
  * 
- *     def __setattr__(cls, str name, object value):             # <<<<<<<<<<<<<<
+ *     def __setattr__(cls, name, value):             # <<<<<<<<<<<<<<
  *         """Set class attribute.
  * 
  */
@@ -28597,7 +28575,7 @@ if (!__Pyx_RefNanny) {
   /* "dependency_injector/containers.pyx":496
  *         super(DeclarativeContainerMetaClass, cls).__setattr__(name, value)
  * 
- *     def __delattr__(cls, str name):             # <<<<<<<<<<<<<<
+ *     def __delattr__(cls, name):             # <<<<<<<<<<<<<<
  *         """Delete class attribute.
  * 
  */
@@ -29931,27 +29909,6 @@ static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected) {
     } else {
         return __Pyx_IterFinish();
     }
-    return 0;
-}
-
-/* ArgTypeTest */
-static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact)
-{
-    if (unlikely(!type)) {
-        PyErr_SetString(PyExc_SystemError, "Missing type object");
-        return 0;
-    }
-    else if (exact) {
-        #if PY_MAJOR_VERSION == 2
-        if ((type == &PyBaseString_Type) && likely(__Pyx_PyBaseString_CheckExact(obj))) return 1;
-        #endif
-    }
-    else {
-        if (likely(__Pyx_TypeCheck(obj, type))) return 1;
-    }
-    PyErr_Format(PyExc_TypeError,
-        "Argument '%.200s' has incorrect type (expected %.200s, got %.200s)",
-        name, type->tp_name, Py_TYPE(obj)->tp_name);
     return 0;
 }
 
@@ -32798,6 +32755,27 @@ bad:
 /* None */
 static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname) {
     PyErr_Format(PyExc_UnboundLocalError, "local variable '%s' referenced before assignment", varname);
+}
+
+/* ArgTypeTest */
+static int __Pyx__ArgTypeTest(PyObject *obj, PyTypeObject *type, const char *name, int exact)
+{
+    if (unlikely(!type)) {
+        PyErr_SetString(PyExc_SystemError, "Missing type object");
+        return 0;
+    }
+    else if (exact) {
+        #if PY_MAJOR_VERSION == 2
+        if ((type == &PyBaseString_Type) && likely(__Pyx_PyBaseString_CheckExact(obj))) return 1;
+        #endif
+    }
+    else {
+        if (likely(__Pyx_TypeCheck(obj, type))) return 1;
+    }
+    PyErr_Format(PyExc_TypeError,
+        "Argument '%.200s' has incorrect type (expected %.200s, got %.200s)",
+        name, type->tp_name, Py_TYPE(obj)->tp_name);
+    return 0;
 }
 
 /* UnpackUnboundCMethod */

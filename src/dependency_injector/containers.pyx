@@ -103,14 +103,14 @@ class DynamicContainer(Container):
 
         return copied
 
-    def __setattr__(self, str name, object value):
+    def __setattr__(self, name, value):
         """Set instance attribute.
 
         If value of attribute is provider, it will be added into providers
         dictionary.
 
         :param name: Attribute's name
-        :type name: str
+        :type name: object
 
         :param value: Attribute's value
         :type value: object
@@ -129,14 +129,14 @@ class DynamicContainer(Container):
 
         super(DynamicContainer, self).__setattr__(name, value)
 
-    def __delattr__(self, str name):
+    def __delattr__(self, name):
         """Delete instance attribute.
 
         If value of attribute is provider, it will be deleted from providers
         dictionary.
 
         :param name: Attribute's name
-        :type name: str
+        :type name: object
 
         :rtype: None
         """
@@ -169,7 +169,7 @@ class DynamicContainer(Container):
 
         :param providers: Dictionary of providers
         :type providers:
-            dict[str, :py:class:`dependency_injector.providers.Provider`]
+            dict[object, :py:class:`dependency_injector.providers.Provider`]
 
         :rtype: None
         """
@@ -469,14 +469,14 @@ class DeclarativeContainerMetaClass(type):
 
         return cls
 
-    def __setattr__(cls, str name, object value):
+    def __setattr__(cls, name, value):
         """Set class attribute.
 
         If value of attribute is provider, it will be added into providers
         dictionary.
 
         :param name: Attribute's name
-        :type name: str
+        :type name: object
 
         :param value: Attribute's value
         :type value: object
@@ -493,14 +493,14 @@ class DeclarativeContainerMetaClass(type):
             cls.cls_providers[name] = value
         super(DeclarativeContainerMetaClass, cls).__setattr__(name, value)
 
-    def __delattr__(cls, str name):
+    def __delattr__(cls, name):
         """Delete class attribute.
 
         If value of attribute is provider, it will be deleted from providers
         dictionary.
 
         :param name: Attribute's name
-        :type name: str
+        :type name: object
 
         :rtype: None
         """
