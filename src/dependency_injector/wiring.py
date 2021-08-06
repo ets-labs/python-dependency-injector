@@ -552,6 +552,8 @@ def _unbind_injections(fn: Callable[..., Any]) -> None:
 
 def _fetch_modules(package):
     modules = [package]
+    if not hasattr(package, '__path__') or not hasattr(package, '__name__'):
+        return modules
     for module_info in pkgutil.walk_packages(
             path=package.__path__,
             prefix=package.__name__ + '.',

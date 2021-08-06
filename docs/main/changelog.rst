@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.35.2
+------
+- Update wiring to support modules provided as packages.
+  See issue `#481 <https://github.com/ets-labs/python-dependency-injector/issues/481>`_.
+  Thanks to `@Sadbot <https://github.com/Sadbot>`_  for demonstrating the issue.
+
 4.35.1
 ------
 - Fix a container issue with supporting custom string types.
