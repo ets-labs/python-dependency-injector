@@ -310,6 +310,18 @@ class WiringTest(unittest.TestCase):
         self.assertIsInstance(service, Service)
 
 
+class ModuleAsPackagingTest(unittest.TestCase):
+
+    def setUp(self):
+        self.container = Container(config={'a': {'b': {'c': 10}}})
+        self.addCleanup(self.container.unwire)
+
+    def test_module_as_package_wiring(self):
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/481
+        self.container.wire(packages=[module])
+        self.assertIsInstance(module.service, Service)
+
+
 class WiringAndQueue(unittest.TestCase):
 
     def test_wire_queue(self) -> None:
