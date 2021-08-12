@@ -752,8 +752,8 @@ def copy(object base_container):
             if name not in source_providers:
                 continue
             source_provider = source_providers[name]
-
             memo[id(source_provider)] = provider
+
             if hasattr(provider, 'providers') and hasattr(source_provider, 'providers'):
                 sub_memo = _get_memo_for_matching_names(provider.providers, source_provider.providers)
                 memo.update(sub_memo)
@@ -763,8 +763,14 @@ def copy(object base_container):
         memo = {}
         memo.update(_get_memo_for_matching_names(new_container.cls_providers, base_container.providers))
 
+        new_container_cls_providers = dict(new_container.cls_providers)
+
         providers_copy = providers.deepcopy(base_container.providers, memo)
         for name, provider in six.iteritems(providers_copy):
+            setattr(new_container, name, provider)
+
+        new_container_providers = providers.deepcopy(new_container_cls_providers, memo)
+        for name, provider in new_container_providers.items():
             setattr(new_container, name, provider)
 
         return new_container
