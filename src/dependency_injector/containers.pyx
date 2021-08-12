@@ -733,43 +733,44 @@ def override(object container):
     return _decorator
 
 
-def copy(object container):
+def copy(object base_container):
     """:py:class:`DeclarativeContainer` copying decorator.
 
     This decorator copies all providers from provided container to decorated one.
     If one of the decorated container providers matches to source container
     providers by name, it would be replaced by reference.
 
-    :param container: Container that should be copied by decorated container.
-    :type container: :py:class:`DeclarativeContainer`
+    :param base_container: Container that should be copied by decorated container.
+    :type base_container: :py:class:`DeclarativeContainer`
 
     :return: Declarative container's copying decorator.
     :rtype: callable(:py:class:`DeclarativeContainer`)
     """
-    def _get_providers_memo(from_providers, source_providers):
-        memo = dict()
-
-        for name, provider in from_providers.items():
-            try:
-                source_provider = source_providers[name]
-            except KeyError:
+    def _get_memo_for_matching_names(new_providers, base_providers):
+        memo = {}
+        for new_provider_name, new_provider in six.iteritems(new_providers):
+            if new_provider_name not in base_providers:
                 continue
-            else:
-                memo[id(source_provider)] = provider
+            source_provider = base_providers[new_provider_name]
+            memo[id(source_provider)] = new_provider
 
-                if hasattr(provider, 'providers') and hasattr(source_provider, 'providers'):
-                    sub_memo = _get_providers_memo(provider.providers, source_provider.providers)
-                    memo.update(sub_memo)
+            if hasattr(new_provider, 'providers') and hasattr(source_provider, 'providers'):
+                sub_memo = _get_memo_for_matching_names(new_provider.providers, source_provider.providers)
+                memo.update(sub_memo)
         return memo
 
-    def _decorator(copied_container):
-        memo = _get_providers_memo(copied_container.cls_providers, container.providers)
+    def _decorator(new_container):
+        memo = {}
+        memo.update(_get_memo_for_matching_names(new_container.cls_providers, base_container.providers))
 
-        providers_copy = providers.deepcopy(container.providers, memo)
-        for name, provider in six.iteritems(providers_copy):
-            setattr(copied_container, name, provider)
+        new_providers = {}
+        new_providers.update(providers.deepcopy(base_container.providers, memo))
+        new_providers.update(providers.deepcopy(new_container.cls_providers, memo))
 
-        return copied_container
+        for name, provider in six.iteritems(new_providers):
+            setattr(new_container, name, provider)
+        return new_container
+
     return _decorator
 
 

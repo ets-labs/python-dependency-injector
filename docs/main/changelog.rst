@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.35.3
+------
+- Fix ``@containers.copy()`` decorator to respect dependencies on parent providers.
+  See issue `#477 <https://github.com/ets-labs/python-dependency-injector/issues/477>`_.
+  Thanks to `Andrey Torsunov @gtors <https://github.com/gtors>`_  for reporting the issue.
+- Fix typing stub for ``container.override_providers()`` to accept other types besides ``Provider``.
+
 4.35.2
 ------
 - Update wiring to support modules provided as packages.
