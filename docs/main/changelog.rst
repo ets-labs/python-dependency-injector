@@ -7,7 +7,7 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Dev version
+4.35.3
 ------
 - Fix ``@containers.copy()`` decorator to respect dependencies on parent providers.
   See issue `#477 <https://github.com/ets-labs/python-dependency-injector/issues/477>`_.
