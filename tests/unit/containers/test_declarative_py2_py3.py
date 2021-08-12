@@ -308,16 +308,30 @@ class DeclarativeContainerTests(unittest.TestCase):
         self.assertIsNot(_Container1.p11, _Container2.p11)
         self.assertIsNot(_Container1.p12, _Container2.p12)
 
-        self.assertIs(_Container.p12.kwargs['p11'], _Container.p11)
-        self.assertIs(_Container1.p12.kwargs['p11'], _Container1.p11)
-        self.assertIs(_Container2.p12.kwargs['p11'], _Container2.p11)
-
-        self.assertEqual(_Container.p12(), dict(p11=0))
-        self.assertEqual(_Container1.p12(), dict(p11=1))
-        self.assertEqual(_Container2.p12(), dict(p11=2))
+        self.assertEqual(_Container.p12(), {'p11': 0})
+        self.assertEqual(_Container1.p12(), {'p11': 1})
+        self.assertEqual(_Container2.p12(), {'p11': 2})
 
         self.assertEqual(_Container1.p13(), 11)
         self.assertEqual(_Container2.p13(), 22)
+
+    def test_copy_with_parent_dependency(self):
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/477
+        class Base(containers.DeclarativeContainer):
+            p11 = providers.Object(0)
+            p12 = providers.Factory(dict, p11=p11)
+
+        @containers.copy(Base)
+        class New(Base):
+            p13 = providers.Factory(dict, p12=Base.p12)
+
+        new1 = New()
+        new2 = New(p11=1)
+        new3 = New(p11=2)
+
+        self.assertEqual(new1.p13(), {'p12': {'p11': 0}})
+        self.assertEqual(new2.p13(), {'p12': {'p11': 1}})
+        self.assertEqual(new3.p13(), {'p12': {'p11': 2}})
 
     def test_copy_with_replacing_subcontainer_providers(self):
         # See: https://github.com/ets-labs/python-dependency-injector/issues/374
