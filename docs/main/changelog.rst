@@ -12,6 +12,7 @@ Dev version
 - Fix ``@containers.copy()`` decorator to respect dependencies on parent providers.
   See issue `#477 <https://github.com/ets-labs/python-dependency-injector/issues/477>`_.
   Thanks to `Andrey Torsunov @gtors <https://github.com/gtors>`_  for reporting the issue.
+- Fix typing stub for ``container.override_providers()`` to accept other types besides ``Provider``.
 
 4.35.2
 ------
