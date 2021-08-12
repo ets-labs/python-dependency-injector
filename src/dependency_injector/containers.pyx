@@ -746,24 +746,22 @@ def copy(object base_container):
     :return: Declarative container's copying decorator.
     :rtype: callable(:py:class:`DeclarativeContainer`)
     """
-    def _get_providers_memo(from_providers, source_providers):
-        memo = dict()
-
+    def _get_memo_for_matching_names(from_providers, source_providers):
+        memo = {}
         for name, provider in from_providers.items():
-            try:
-                source_provider = source_providers[name]
-            except KeyError:
+            if name not in source_providers:
                 continue
-            else:
-                memo[id(source_provider)] = provider
+            source_provider = source_providers[name]
 
-                if hasattr(provider, 'providers') and hasattr(source_provider, 'providers'):
-                    sub_memo = _get_providers_memo(provider.providers, source_provider.providers)
-                    memo.update(sub_memo)
+            memo[id(source_provider)] = provider
+            if hasattr(provider, 'providers') and hasattr(source_provider, 'providers'):
+                sub_memo = _get_memo_for_matching_names(provider.providers, source_provider.providers)
+                memo.update(sub_memo)
         return memo
 
     def _decorator(new_container):
-        memo = _get_providers_memo(new_container.cls_providers, base_container.providers)
+        memo = {}
+        memo.update(_get_memo_for_matching_names(new_container.cls_providers, base_container.providers))
 
         providers_copy = providers.deepcopy(base_container.providers, memo)
         for name, provider in six.iteritems(providers_copy):
