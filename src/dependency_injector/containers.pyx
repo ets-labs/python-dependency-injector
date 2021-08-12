@@ -733,15 +733,15 @@ def override(object container):
     return _decorator
 
 
-def copy(object container):
+def copy(object base_container):
     """:py:class:`DeclarativeContainer` copying decorator.
 
     This decorator copies all providers from provided container to decorated one.
     If one of the decorated container providers matches to source container
     providers by name, it would be replaced by reference.
 
-    :param container: Container that should be copied by decorated container.
-    :type container: :py:class:`DeclarativeContainer`
+    :param base_container: Container that should be copied by decorated container.
+    :type base_container: :py:class:`DeclarativeContainer`
 
     :return: Declarative container's copying decorator.
     :rtype: callable(:py:class:`DeclarativeContainer`)
@@ -762,14 +762,14 @@ def copy(object container):
                     memo.update(sub_memo)
         return memo
 
-    def _decorator(copied_container):
-        memo = _get_providers_memo(copied_container.cls_providers, container.providers)
+    def _decorator(new_container):
+        memo = _get_providers_memo(new_container.cls_providers, base_container.providers)
 
-        providers_copy = providers.deepcopy(container.providers, memo)
+        providers_copy = providers.deepcopy(base_container.providers, memo)
         for name, provider in six.iteritems(providers_copy):
-            setattr(copied_container, name, provider)
+            setattr(new_container, name, provider)
 
-        return copied_container
+        return new_container
     return _decorator
 
 

@@ -1710,14 +1710,14 @@ struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_9_overrid
 /* "dependency_injector/containers.pyx":736
  * 
  * 
- * def copy(object container):             # <<<<<<<<<<<<<<
+ * def copy(object base_container):             # <<<<<<<<<<<<<<
  *     """:py:class:`DeclarativeContainer` copying decorator.
  * 
  */
 struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_10_copy {
   PyObject_HEAD
   PyObject *__pyx_v__get_providers_memo;
-  PyObject *__pyx_v_container;
+  PyObject *__pyx_v_base_container;
 };
 
 
@@ -3459,6 +3459,7 @@ static const char __pyx_k_cls_providers[] = "cls_providers";
 static const char __pyx_k_ensure_future[] = "ensure_future";
 static const char __pyx_k_future_result[] = "future_result";
 static const char __pyx_k_instance_type[] = "instance_type";
+static const char __pyx_k_new_container[] = "new_container";
 static const char __pyx_k_provider_name[] = "provider_name";
 static const char __pyx_k_provider_type[] = "provider_type";
 static const char __pyx_k_set_alt_names[] = "set_alt_names";
@@ -3466,6 +3467,7 @@ static const char __pyx_k_set_container[] = "set_container";
 static const char __pyx_k_set_exception[] = "set_exception";
 static const char __pyx_k_set_providers[] = "set_providers";
 static const char __pyx_k_AttributeError[] = "AttributeError";
+static const char __pyx_k_base_container[] = "base_container";
 static const char __pyx_k_container_name[] = "container_name";
 static const char __pyx_k_from_providers[] = "from_providers";
 static const char __pyx_k_init_resources[] = "init_resources";
@@ -3476,7 +3478,6 @@ static const char __pyx_k_CHILD_PROVIDERS[] = "CHILD_PROVIDERS";
 static const char __pyx_k_source_provider[] = "source_provider";
 static const char __pyx_k_undefined_names[] = "undefined_names";
 static const char __pyx_k_DynamicContainer[] = "DynamicContainer";
-static const char __pyx_k_copied_container[] = "copied_container";
 static const char __pyx_k_copied_providers[] = "copied_providers";
 static const char __pyx_k_from_json_schema[] = "from_json_schema";
 static const char __pyx_k_from_yaml_schema[] = "from_yaml_schema";
@@ -3689,6 +3690,7 @@ static PyObject *__pyx_n_s_asyncio_tasks;
 static PyObject *__pyx_n_s_attributes;
 static PyObject *__pyx_n_s_await;
 static PyObject *__pyx_n_s_base;
+static PyObject *__pyx_n_s_base_container;
 static PyObject *__pyx_n_s_bases;
 static PyObject *__pyx_n_s_build_schema;
 static PyObject *__pyx_n_s_call;
@@ -3707,7 +3709,6 @@ static PyObject *__pyx_n_s_container_name;
 static PyObject *__pyx_n_s_container_provider;
 static PyObject *__pyx_n_s_containers;
 static PyObject *__pyx_n_s_copied;
-static PyObject *__pyx_n_s_copied_container;
 static PyObject *__pyx_n_s_copied_providers;
 static PyObject *__pyx_n_s_copied_self;
 static PyObject *__pyx_n_s_copy;
@@ -3777,6 +3778,7 @@ static PyObject *__pyx_n_s_modules;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_name_2;
 static PyObject *__pyx_n_s_new;
+static PyObject *__pyx_n_s_new_container;
 static PyObject *__pyx_n_s_object;
 static PyObject *__pyx_n_s_open;
 static PyObject *__pyx_n_s_other_resource;
@@ -3906,8 +3908,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_21SingletonResetCon
 static PyObject *__pyx_pf_19dependency_injector_10containers_8override__decorator(PyObject *__pyx_self, PyObject *__pyx_v_overriding_container); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_4override(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_container); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_4copy__get_providers_memo(PyObject *__pyx_self, PyObject *__pyx_v_from_providers, PyObject *__pyx_v_source_providers); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_10containers_4copy_2_decorator(PyObject *__pyx_self, PyObject *__pyx_v_copied_container); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_10containers_6copy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_container); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_10containers_4copy_2_decorator(PyObject *__pyx_self, PyObject *__pyx_v_new_container); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_10containers_6copy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_base_container); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_8is_container(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_instance); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_10containers_10_check_provider_type(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_container, PyObject *__pyx_v_provider); /* proto */
 static PyObject *__pyx_pf_11cfunc_dot_to_py_64__Pyx_CFunc_void____object____object____object____object___to_py_wrap(PyObject *__pyx_self, PyObject *__pyx_v_future_result, PyObject *__pyx_v_args, PyObject *__pyx_v_future_args_kwargs, PyObject *__pyx_v_future); /* proto */
@@ -17724,20 +17726,20 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_4override(CYTHON_UN
 /* "dependency_injector/containers.pyx":736
  * 
  * 
- * def copy(object container):             # <<<<<<<<<<<<<<
+ * def copy(object base_container):             # <<<<<<<<<<<<<<
  *     """:py:class:`DeclarativeContainer` copying decorator.
  * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_10containers_7copy(PyObject *__pyx_self, PyObject *__pyx_v_container); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_6copy[] = ":py:class:`DeclarativeContainer` copying decorator.\n\n    This decorator copies all providers from provided container to decorated one.\n    If one of the decorated container providers matches to source container\n    providers by name, it would be replaced by reference.\n\n    :param container: Container that should be copied by decorated container.\n    :type container: :py:class:`DeclarativeContainer`\n\n    :return: Declarative container's copying decorator.\n    :rtype: callable(:py:class:`DeclarativeContainer`)\n    ";
+static PyObject *__pyx_pw_19dependency_injector_10containers_7copy(PyObject *__pyx_self, PyObject *__pyx_v_base_container); /*proto*/
+static char __pyx_doc_19dependency_injector_10containers_6copy[] = ":py:class:`DeclarativeContainer` copying decorator.\n\n    This decorator copies all providers from provided container to decorated one.\n    If one of the decorated container providers matches to source container\n    providers by name, it would be replaced by reference.\n\n    :param base_container: Container that should be copied by decorated container.\n    :type base_container: :py:class:`DeclarativeContainer`\n\n    :return: Declarative container's copying decorator.\n    :rtype: callable(:py:class:`DeclarativeContainer`)\n    ";
 static PyMethodDef __pyx_mdef_19dependency_injector_10containers_7copy = {"copy", (PyCFunction)__pyx_pw_19dependency_injector_10containers_7copy, METH_O, __pyx_doc_19dependency_injector_10containers_6copy};
-static PyObject *__pyx_pw_19dependency_injector_10containers_7copy(PyObject *__pyx_self, PyObject *__pyx_v_container) {
+static PyObject *__pyx_pw_19dependency_injector_10containers_7copy(PyObject *__pyx_self, PyObject *__pyx_v_base_container) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("copy (wrapper)", 0);
-  __pyx_r = __pyx_pf_19dependency_injector_10containers_6copy(__pyx_self, ((PyObject *)__pyx_v_container));
+  __pyx_r = __pyx_pf_19dependency_injector_10containers_6copy(__pyx_self, ((PyObject *)__pyx_v_base_container));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
@@ -18164,7 +18166,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_4copy__get_provider
  *                     memo.update(sub_memo)
  *         return memo             # <<<<<<<<<<<<<<
  * 
- *     def _decorator(copied_container):
+ *     def _decorator(new_container):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_memo);
@@ -18202,26 +18204,26 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_4copy__get_provider
 /* "dependency_injector/containers.pyx":765
  *         return memo
  * 
- *     def _decorator(copied_container):             # <<<<<<<<<<<<<<
- *         memo = _get_providers_memo(copied_container.cls_providers, container.providers)
+ *     def _decorator(new_container):             # <<<<<<<<<<<<<<
+ *         memo = _get_providers_memo(new_container.cls_providers, base_container.providers)
  * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_10containers_4copy_3_decorator(PyObject *__pyx_self, PyObject *__pyx_v_copied_container); /*proto*/
+static PyObject *__pyx_pw_19dependency_injector_10containers_4copy_3_decorator(PyObject *__pyx_self, PyObject *__pyx_v_new_container); /*proto*/
 static PyMethodDef __pyx_mdef_19dependency_injector_10containers_4copy_3_decorator = {"_decorator", (PyCFunction)__pyx_pw_19dependency_injector_10containers_4copy_3_decorator, METH_O, 0};
-static PyObject *__pyx_pw_19dependency_injector_10containers_4copy_3_decorator(PyObject *__pyx_self, PyObject *__pyx_v_copied_container) {
+static PyObject *__pyx_pw_19dependency_injector_10containers_4copy_3_decorator(PyObject *__pyx_self, PyObject *__pyx_v_new_container) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_decorator (wrapper)", 0);
-  __pyx_r = __pyx_pf_19dependency_injector_10containers_4copy_2_decorator(__pyx_self, ((PyObject *)__pyx_v_copied_container));
+  __pyx_r = __pyx_pf_19dependency_injector_10containers_4copy_2_decorator(__pyx_self, ((PyObject *)__pyx_v_new_container));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_19dependency_injector_10containers_4copy_2_decorator(PyObject *__pyx_self, PyObject *__pyx_v_copied_container) {
+static PyObject *__pyx_pf_19dependency_injector_10containers_4copy_2_decorator(PyObject *__pyx_self, PyObject *__pyx_v_new_container) {
   struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_10_copy *__pyx_cur_scope;
   struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_10_copy *__pyx_outer_scope;
   PyObject *__pyx_v_memo = NULL;
@@ -18249,15 +18251,15 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_4copy_2_decorator(P
 
   /* "dependency_injector/containers.pyx":766
  * 
- *     def _decorator(copied_container):
- *         memo = _get_providers_memo(copied_container.cls_providers, container.providers)             # <<<<<<<<<<<<<<
+ *     def _decorator(new_container):
+ *         memo = _get_providers_memo(new_container.cls_providers, base_container.providers)             # <<<<<<<<<<<<<<
  * 
- *         providers_copy = providers.deepcopy(container.providers, memo)
+ *         providers_copy = providers.deepcopy(base_container.providers, memo)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_copied_container, __pyx_n_s_cls_providers); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 766, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_new_container, __pyx_n_s_cls_providers); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 766, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (unlikely(!__pyx_cur_scope->__pyx_v_container)) { __Pyx_RaiseClosureNameError("container"); __PYX_ERR(0, 766, __pyx_L1_error) }
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_container, __pyx_n_s_providers); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 766, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_v_base_container)) { __Pyx_RaiseClosureNameError("base_container"); __PYX_ERR(0, 766, __pyx_L1_error) }
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_base_container, __pyx_n_s_providers); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 766, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (unlikely(!__pyx_cur_scope->__pyx_v__get_providers_memo)) { __Pyx_RaiseClosureNameError("_get_providers_memo"); __PYX_ERR(0, 766, __pyx_L1_error) }
   __pyx_t_3 = __pyx_pf_19dependency_injector_10containers_4copy__get_providers_memo(__pyx_cur_scope->__pyx_v__get_providers_memo, __pyx_t_1, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 766, __pyx_L1_error)
@@ -18268,19 +18270,19 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_4copy_2_decorator(P
   __pyx_t_3 = 0;
 
   /* "dependency_injector/containers.pyx":768
- *         memo = _get_providers_memo(copied_container.cls_providers, container.providers)
+ *         memo = _get_providers_memo(new_container.cls_providers, base_container.providers)
  * 
- *         providers_copy = providers.deepcopy(container.providers, memo)             # <<<<<<<<<<<<<<
+ *         providers_copy = providers.deepcopy(base_container.providers, memo)             # <<<<<<<<<<<<<<
  *         for name, provider in six.iteritems(providers_copy):
- *             setattr(copied_container, name, provider)
+ *             setattr(new_container, name, provider)
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_providers); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 768, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_deepcopy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 768, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_cur_scope->__pyx_v_container)) { __Pyx_RaiseClosureNameError("container"); __PYX_ERR(0, 768, __pyx_L1_error) }
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_container, __pyx_n_s_providers); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 768, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_v_base_container)) { __Pyx_RaiseClosureNameError("base_container"); __PYX_ERR(0, 768, __pyx_L1_error) }
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_base_container, __pyx_n_s_providers); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 768, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = NULL;
   __pyx_t_5 = 0;
@@ -18334,9 +18336,9 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_4copy_2_decorator(P
 
   /* "dependency_injector/containers.pyx":769
  * 
- *         providers_copy = providers.deepcopy(container.providers, memo)
+ *         providers_copy = providers.deepcopy(base_container.providers, memo)
  *         for name, provider in six.iteritems(providers_copy):             # <<<<<<<<<<<<<<
- *             setattr(copied_container, name, provider)
+ *             setattr(new_container, name, provider)
  * 
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_six); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 769, __pyx_L1_error)
@@ -18451,41 +18453,41 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_4copy_2_decorator(P
     __pyx_t_2 = 0;
 
     /* "dependency_injector/containers.pyx":770
- *         providers_copy = providers.deepcopy(container.providers, memo)
+ *         providers_copy = providers.deepcopy(base_container.providers, memo)
  *         for name, provider in six.iteritems(providers_copy):
- *             setattr(copied_container, name, provider)             # <<<<<<<<<<<<<<
+ *             setattr(new_container, name, provider)             # <<<<<<<<<<<<<<
  * 
- *         return copied_container
+ *         return new_container
  */
-    __pyx_t_10 = PyObject_SetAttr(__pyx_v_copied_container, __pyx_v_name, __pyx_v_provider); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 770, __pyx_L1_error)
+    __pyx_t_10 = PyObject_SetAttr(__pyx_v_new_container, __pyx_v_name, __pyx_v_provider); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 770, __pyx_L1_error)
 
     /* "dependency_injector/containers.pyx":769
  * 
- *         providers_copy = providers.deepcopy(container.providers, memo)
+ *         providers_copy = providers.deepcopy(base_container.providers, memo)
  *         for name, provider in six.iteritems(providers_copy):             # <<<<<<<<<<<<<<
- *             setattr(copied_container, name, provider)
+ *             setattr(new_container, name, provider)
  * 
  */
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
   /* "dependency_injector/containers.pyx":772
- *             setattr(copied_container, name, provider)
+ *             setattr(new_container, name, provider)
  * 
- *         return copied_container             # <<<<<<<<<<<<<<
+ *         return new_container             # <<<<<<<<<<<<<<
  *     return _decorator
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_copied_container);
-  __pyx_r = __pyx_v_copied_container;
+  __Pyx_INCREF(__pyx_v_new_container);
+  __pyx_r = __pyx_v_new_container;
   goto __pyx_L0;
 
   /* "dependency_injector/containers.pyx":765
  *         return memo
  * 
- *     def _decorator(copied_container):             # <<<<<<<<<<<<<<
- *         memo = _get_providers_memo(copied_container.cls_providers, container.providers)
+ *     def _decorator(new_container):             # <<<<<<<<<<<<<<
+ *         memo = _get_providers_memo(new_container.cls_providers, base_container.providers)
  * 
  */
 
@@ -18511,12 +18513,12 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_4copy_2_decorator(P
 /* "dependency_injector/containers.pyx":736
  * 
  * 
- * def copy(object container):             # <<<<<<<<<<<<<<
+ * def copy(object base_container):             # <<<<<<<<<<<<<<
  *     """:py:class:`DeclarativeContainer` copying decorator.
  * 
  */
 
-static PyObject *__pyx_pf_19dependency_injector_10containers_6copy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_container) {
+static PyObject *__pyx_pf_19dependency_injector_10containers_6copy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_base_container) {
   struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_10_copy *__pyx_cur_scope;
   PyObject *__pyx_v__decorator = 0;
   PyObject *__pyx_r = NULL;
@@ -18534,9 +18536,9 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_6copy(CYTHON_UNUSED
   } else {
     __Pyx_GOTREF(__pyx_cur_scope);
   }
-  __pyx_cur_scope->__pyx_v_container = __pyx_v_container;
-  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_container);
-  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_container);
+  __pyx_cur_scope->__pyx_v_base_container = __pyx_v_base_container;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_base_container);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_base_container);
 
   /* "dependency_injector/containers.pyx":749
  *     :rtype: callable(:py:class:`DeclarativeContainer`)
@@ -18554,8 +18556,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_6copy(CYTHON_UNUSED
   /* "dependency_injector/containers.pyx":765
  *         return memo
  * 
- *     def _decorator(copied_container):             # <<<<<<<<<<<<<<
- *         memo = _get_providers_memo(copied_container.cls_providers, container.providers)
+ *     def _decorator(new_container):             # <<<<<<<<<<<<<<
+ *         memo = _get_providers_memo(new_container.cls_providers, base_container.providers)
  * 
  */
   __pyx_t_1 = __Pyx_CyFunction_New(&__pyx_mdef_19dependency_injector_10containers_4copy_3_decorator, 0, __pyx_n_s_copy_locals__decorator, ((PyObject*)__pyx_cur_scope), __pyx_n_s_dependency_injector_containers, __pyx_d, ((PyObject *)__pyx_codeobj__20)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 765, __pyx_L1_error)
@@ -18565,7 +18567,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_6copy(CYTHON_UNUSED
 
   /* "dependency_injector/containers.pyx":773
  * 
- *         return copied_container
+ *         return new_container
  *     return _decorator             # <<<<<<<<<<<<<<
  * 
  * 
@@ -18578,7 +18580,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_6copy(CYTHON_UNUSED
   /* "dependency_injector/containers.pyx":736
  * 
  * 
- * def copy(object container):             # <<<<<<<<<<<<<<
+ * def copy(object base_container):             # <<<<<<<<<<<<<<
  *     """:py:class:`DeclarativeContainer` copying decorator.
  * 
  */
@@ -25688,7 +25690,7 @@ static void __pyx_tp_dealloc_19dependency_injector_10containers___pyx_scope_stru
   struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_10_copy *p = (struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_10_copy *)o;
   PyObject_GC_UnTrack(o);
   Py_CLEAR(p->__pyx_v__get_providers_memo);
-  Py_CLEAR(p->__pyx_v_container);
+  Py_CLEAR(p->__pyx_v_base_container);
   if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct_10_copy < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_10_copy)))) {
     __pyx_freelist_19dependency_injector_10containers___pyx_scope_struct_10_copy[__pyx_freecount_19dependency_injector_10containers___pyx_scope_struct_10_copy++] = ((struct __pyx_obj_19dependency_injector_10containers___pyx_scope_struct_10_copy *)o);
   } else {
@@ -25702,8 +25704,8 @@ static int __pyx_tp_traverse_19dependency_injector_10containers___pyx_scope_stru
   if (p->__pyx_v__get_providers_memo) {
     e = (*v)(p->__pyx_v__get_providers_memo, a); if (e) return e;
   }
-  if (p->__pyx_v_container) {
-    e = (*v)(p->__pyx_v_container, a); if (e) return e;
+  if (p->__pyx_v_base_container) {
+    e = (*v)(p->__pyx_v_base_container, a); if (e) return e;
   }
   return 0;
 }
@@ -25714,8 +25716,8 @@ static int __pyx_tp_clear_19dependency_injector_10containers___pyx_scope_struct_
   tmp = ((PyObject*)p->__pyx_v__get_providers_memo);
   p->__pyx_v__get_providers_memo = Py_None; Py_INCREF(Py_None);
   Py_XDECREF(tmp);
-  tmp = ((PyObject*)p->__pyx_v_container);
-  p->__pyx_v_container = Py_None; Py_INCREF(Py_None);
+  tmp = ((PyObject*)p->__pyx_v_base_container);
+  p->__pyx_v_base_container = Py_None; Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   return 0;
 }
@@ -26315,6 +26317,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_attributes, __pyx_k_attributes, sizeof(__pyx_k_attributes), 0, 0, 1, 1},
   {&__pyx_n_s_await, __pyx_k_await, sizeof(__pyx_k_await), 0, 0, 1, 1},
   {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
+  {&__pyx_n_s_base_container, __pyx_k_base_container, sizeof(__pyx_k_base_container), 0, 0, 1, 1},
   {&__pyx_n_s_bases, __pyx_k_bases, sizeof(__pyx_k_bases), 0, 0, 1, 1},
   {&__pyx_n_s_build_schema, __pyx_k_build_schema, sizeof(__pyx_k_build_schema), 0, 0, 1, 1},
   {&__pyx_n_s_call, __pyx_k_call, sizeof(__pyx_k_call), 0, 0, 1, 1},
@@ -26333,7 +26336,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_container_provider, __pyx_k_container_provider, sizeof(__pyx_k_container_provider), 0, 0, 1, 1},
   {&__pyx_n_s_containers, __pyx_k_containers, sizeof(__pyx_k_containers), 0, 0, 1, 1},
   {&__pyx_n_s_copied, __pyx_k_copied, sizeof(__pyx_k_copied), 0, 0, 1, 1},
-  {&__pyx_n_s_copied_container, __pyx_k_copied_container, sizeof(__pyx_k_copied_container), 0, 0, 1, 1},
   {&__pyx_n_s_copied_providers, __pyx_k_copied_providers, sizeof(__pyx_k_copied_providers), 0, 0, 1, 1},
   {&__pyx_n_s_copied_self, __pyx_k_copied_self, sizeof(__pyx_k_copied_self), 0, 0, 1, 1},
   {&__pyx_n_s_copy, __pyx_k_copy, sizeof(__pyx_k_copy), 0, 0, 1, 1},
@@ -26403,6 +26405,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_n_s_name_2, __pyx_k_name_2, sizeof(__pyx_k_name_2), 0, 0, 1, 1},
   {&__pyx_n_s_new, __pyx_k_new, sizeof(__pyx_k_new), 0, 0, 1, 1},
+  {&__pyx_n_s_new_container, __pyx_k_new_container, sizeof(__pyx_k_new_container), 0, 0, 1, 1},
   {&__pyx_n_s_object, __pyx_k_object, sizeof(__pyx_k_object), 0, 0, 1, 1},
   {&__pyx_n_s_open, __pyx_k_open, sizeof(__pyx_k_open), 0, 0, 1, 1},
   {&__pyx_n_s_other_resource, __pyx_k_other_resource, sizeof(__pyx_k_other_resource), 0, 0, 1, 1},
@@ -26613,11 +26616,11 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "dependency_injector/containers.pyx":765
  *         return memo
  * 
- *     def _decorator(copied_container):             # <<<<<<<<<<<<<<
- *         memo = _get_providers_memo(copied_container.cls_providers, container.providers)
+ *     def _decorator(new_container):             # <<<<<<<<<<<<<<
+ *         memo = _get_providers_memo(new_container.cls_providers, base_container.providers)
  * 
  */
-  __pyx_tuple__19 = PyTuple_Pack(5, __pyx_n_s_copied_container, __pyx_n_s_memo, __pyx_n_s_providers_copy, __pyx_n_s_name, __pyx_n_s_provider); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 765, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(5, __pyx_n_s_new_container, __pyx_n_s_memo, __pyx_n_s_providers_copy, __pyx_n_s_name, __pyx_n_s_provider); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 765, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
   __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector_containe, __pyx_n_s_decorator, 765, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 765, __pyx_L1_error)
@@ -27202,11 +27205,11 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "dependency_injector/containers.pyx":736
  * 
  * 
- * def copy(object container):             # <<<<<<<<<<<<<<
+ * def copy(object base_container):             # <<<<<<<<<<<<<<
  *     """:py:class:`DeclarativeContainer` copying decorator.
  * 
  */
-  __pyx_tuple__123 = PyTuple_Pack(5, __pyx_n_s_container, __pyx_n_s_get_providers_memo, __pyx_n_s_get_providers_memo, __pyx_n_s_decorator, __pyx_n_s_decorator); if (unlikely(!__pyx_tuple__123)) __PYX_ERR(0, 736, __pyx_L1_error)
+  __pyx_tuple__123 = PyTuple_Pack(5, __pyx_n_s_base_container, __pyx_n_s_get_providers_memo, __pyx_n_s_get_providers_memo, __pyx_n_s_decorator, __pyx_n_s_decorator); if (unlikely(!__pyx_tuple__123)) __PYX_ERR(0, 736, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__123);
   __Pyx_GIVEREF(__pyx_tuple__123);
   __pyx_codeobj__124 = (PyObject*)__Pyx_PyCode_New(1, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__123, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector_containe, __pyx_n_s_copy, 736, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__124)) __PYX_ERR(0, 736, __pyx_L1_error)
@@ -29035,7 +29038,7 @@ if (!__Pyx_RefNanny) {
   /* "dependency_injector/containers.pyx":736
  * 
  * 
- * def copy(object container):             # <<<<<<<<<<<<<<
+ * def copy(object base_container):             # <<<<<<<<<<<<<<
  *     """:py:class:`DeclarativeContainer` copying decorator.
  * 
  */
