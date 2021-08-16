@@ -606,6 +606,7 @@ class AsyncResourceTest(AsyncTestCase):
 
 
 class ResourceTypingTest(unittest.TestCase):
+    # See issue: https://github.com/ets-labs/python-dependency-injector/issues/488
 
     def test_sync_generic_type(self):
         class MyDependency:
