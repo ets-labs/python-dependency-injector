@@ -13,6 +13,10 @@ follows `Semantic versioning`_
   See issue `#477 <https://github.com/ets-labs/python-dependency-injector/issues/477>`_.
   Thanks to `Andrey Torsunov @gtors <https://github.com/gtors>`_  for reporting the issue.
 - Fix typing stub for ``container.override_providers()`` to accept other types besides ``Provider``.
+- Fix runtime issue with generic typing in resource initializer classes ``resources.Resource``
+  and ``resources.AsyncResource``.
+  See issue `#488 <https://github.com/ets-labs/python-dependency-injector/issues/488>`_.
+  Thanks to `@EdwardBlair <https://github.com/EdwardBlair>`_  for reporting the issue.
 
 4.35.2
 ------

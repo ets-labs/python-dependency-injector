@@ -3,5 +3,8 @@ source = src/dependency_injector
 omit = tests/unit
 plugins = Cython.Coverage
 
+[report]
+show_missing = true
+
 [html]
 directory=reports/unittests/

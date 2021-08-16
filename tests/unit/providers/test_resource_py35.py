@@ -1,8 +1,8 @@
 """Dependency injector resource provider unit tests."""
 
 import asyncio
-
 import unittest
+from typing import Any
 
 from dependency_injector import containers, providers, resources, errors
 
@@ -603,3 +603,31 @@ class AsyncResourceTest(AsyncTestCase):
 
         self.assertIs(result2, resource)
         self.assertEqual(_init.counter, 1)
+
+
+class ResourceTypingTest(unittest.TestCase):
+    # See issue: https://github.com/ets-labs/python-dependency-injector/issues/488
+
+    def test_sync_generic_type(self):
+        class MyDependency:
+            ...
+
+        class MyResource(resources.Resource[MyDependency]):
+            def init(self, *args: Any, **kwargs: Any) -> MyDependency:
+                return MyDependency()
+
+            def shutdown(self, resource: MyDependency) -> None: ...
+
+        self.assertTrue(issubclass(MyResource, resources.Resource))
+
+    def test_async_generic_type(self):
+        class MyDependency:
+            ...
+
+        class MyAsyncResource(resources.AsyncResource[MyDependency]):
+            async def init(self, *args: Any, **kwargs: Any) -> MyDependency:
+                return MyDependency()
+
+            async def shutdown(self, resource: MyDependency) -> None: ...
+
+        self.assertTrue(issubclass(MyAsyncResource, resources.AsyncResource))
