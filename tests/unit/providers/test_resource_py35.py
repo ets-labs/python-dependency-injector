@@ -145,6 +145,44 @@ class ResourceTests(unittest.TestCase):
         self.assertEqual(TestResource.init_counter, 2)
         self.assertEqual(TestResource.shutdown_counter, 2)
 
+    def test_init_class_generic_typing(self):
+        # See issue: https://github.com/ets-labs/python-dependency-injector/issues/488
+        class TestDependency:
+            ...
+
+        class TestResource(resources.Resource[TestDependency]):
+            def init(self, *args: Any, **kwargs: Any) -> TestDependency:
+                return TestDependency()
+
+            def shutdown(self, resource: TestDependency) -> None: ...
+
+        self.assertTrue(issubclass(TestResource, resources.Resource))
+
+    def test_init_class_abc_definition_is_required(self):
+        class TestResource(resources.Resource):
+            ...
+
+        with self.assertRaises(TypeError) as context:
+            TestResource()
+
+        self.assertEqual(
+            "Can't instantiate abstract class TestResource with abstract methods init, shutdown",
+            str(context.exception),
+        )
+
+    def test_init_class_abc_shutdown_definition_is_required(self):
+        class TestResource(resources.Resource):
+            def init(self):
+                ...
+
+        with self.assertRaises(TypeError) as context:
+            TestResource()
+
+        self.assertEqual(
+            "Can't instantiate abstract class TestResource with abstract method shutdown",
+            str(context.exception),
+        )
+
     def test_init_not_callable(self):
         provider = providers.Resource(1)
         with self.assertRaises(errors.Error):
@@ -449,6 +487,44 @@ class AsyncResourceTest(AsyncTestCase):
         self.assertEqual(TestResource.init_counter, 2)
         self.assertEqual(TestResource.shutdown_counter, 2)
 
+    def test_init_async_class_generic_typing(self):
+        # See issue: https://github.com/ets-labs/python-dependency-injector/issues/488
+        class TestDependency:
+            ...
+
+        class TestAsyncResource(resources.AsyncResource[TestDependency]):
+            async def init(self, *args: Any, **kwargs: Any) -> TestDependency:
+                return TestDependency()
+
+            async def shutdown(self, resource: TestDependency) -> None: ...
+
+        self.assertTrue(issubclass(TestAsyncResource, resources.AsyncResource))
+
+    def test_init_async_class_abc_definition_is_required(self):
+        class TestAsyncResource(resources.AsyncResource):
+            ...
+
+        with self.assertRaises(TypeError) as context:
+            TestAsyncResource()
+
+        self.assertEqual(
+            "Can't instantiate abstract class TestAsyncResource with abstract methods init, shutdown",
+            str(context.exception),
+        )
+
+    def test_init_async_class_abc_shutdown_definition_is_required(self):
+        class TestAsyncResource(resources.AsyncResource):
+            async def init(self):
+                ...
+
+        with self.assertRaises(TypeError) as context:
+            TestAsyncResource()
+
+        self.assertEqual(
+            "Can't instantiate abstract class TestAsyncResource with abstract method shutdown",
+            str(context.exception),
+        )
+
     def test_init_with_error(self):
         async def _init():
             raise RuntimeError()
@@ -603,31 +679,3 @@ class AsyncResourceTest(AsyncTestCase):
 
         self.assertIs(result2, resource)
         self.assertEqual(_init.counter, 1)
-
-
-class ResourceTypingTest(unittest.TestCase):
-    # See issue: https://github.com/ets-labs/python-dependency-injector/issues/488
-
-    def test_sync_generic_type(self):
-        class MyDependency:
-            ...
-
-        class MyResource(resources.Resource[MyDependency]):
-            def init(self, *args: Any, **kwargs: Any) -> MyDependency:
-                return MyDependency()
-
-            def shutdown(self, resource: MyDependency) -> None: ...
-
-        self.assertTrue(issubclass(MyResource, resources.Resource))
-
-    def test_async_generic_type(self):
-        class MyDependency:
-            ...
-
-        class MyAsyncResource(resources.AsyncResource[MyDependency]):
-            async def init(self, *args: Any, **kwargs: Any) -> MyDependency:
-                return MyDependency()
-
-            async def shutdown(self, resource: MyDependency) -> None: ...
-
-        self.assertTrue(issubclass(MyAsyncResource, resources.AsyncResource))

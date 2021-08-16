@@ -7,7 +7,7 @@ from typing import TypeVar, Generic
 T = TypeVar('T')
 
 
-class Resource(Generic[T]):
+class Resource(Generic[T], metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def init(self, *args, **kwargs) -> T:
@@ -18,7 +18,7 @@ class Resource(Generic[T]):
         ...
 
 
-class AsyncResource(Generic[T]):
+class AsyncResource(Generic[T], metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     async def init(self, *args, **kwargs) -> T:
