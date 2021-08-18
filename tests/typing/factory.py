@@ -1,4 +1,4 @@
-from typing import Tuple, Any, Dict
+from typing import Tuple, Any, Dict, Type
 
 from dependency_injector import providers
 
@@ -72,3 +72,10 @@ provider11 = providers.Factory(Cat)
 async def _async11() -> None:
     animal1: Animal = await provider11(1, 2, 3, b='1', c=2, e=0.0)  # type: ignore
     animal2: Animal = await provider11.async_(1, 2, 3, b='1', c=2, e=0.0)
+
+# Test 12: to check class type from provider
+factory_provider = providers.Factory(int, '1')
+factory_provided_cls: Type[int] = factory_provider.cls
+assert factory_provided_cls("1") == 1
+factory_provided_provides: Type[int] = factory_provider.provides
+assert factory_provided_provides("1") == 1

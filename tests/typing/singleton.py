@@ -1,4 +1,4 @@
-from typing import Tuple, Any, Dict
+from typing import Tuple, Any, Dict, Type
 
 from dependency_injector import providers
 
@@ -75,3 +75,10 @@ provider13 = providers.Singleton(Cat)
 async def _async13() -> None:
     animal1: Animal = await provider13(1, 2, 3, b='1', c=2, e=0.0)  # type: ignore
     animal2: Animal = await provider13.async_(1, 2, 3, b='1', c=2, e=0.0)
+
+# Test 14: to check class from provider
+provider14 = providers.Singleton(Cat)
+provided_cls: Type[Cat] = provider14.cls
+assert issubclass(provided_cls, Cat)
+provided_provides: Type[Cat] = provider14.provides
+assert issubclass(provided_provides, Cat)
