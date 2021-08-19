@@ -1,6 +1,7 @@
 """Dependency injector resource provider unit tests."""
 
 import asyncio
+import inspect
 import unittest
 from typing import Any
 
@@ -158,7 +159,7 @@ class ResourceTests(unittest.TestCase):
 
         self.assertTrue(issubclass(TestResource, resources.Resource))
 
-    def test_init_class_abc_definition_is_required(self):
+    def test_init_class_abc_init_definition_is_required(self):
         class TestResource(resources.Resource):
             ...
 
@@ -166,19 +167,13 @@ class ResourceTests(unittest.TestCase):
             TestResource()
 
         self.assertIn("Can't instantiate abstract class TestResource", str(context.exception))
-        self.assertIn("init, shutdown", str(context.exception))
+        self.assertIn("init", str(context.exception))
 
-
-    def test_init_class_abc_shutdown_definition_is_required(self):
+    def test_init_class_abc_shutdown_definition_is_not_required(self):
         class TestResource(resources.Resource):
             def init(self):
                 ...
-
-        with self.assertRaises(TypeError) as context:
-            TestResource()
-
-        self.assertIn("Can't instantiate abstract class TestResource", str(context.exception))
-        self.assertIn("shutdown", str(context.exception))
+        self.assertTrue(hasattr(TestResource(), 'shutdown'))
 
     def test_init_not_callable(self):
         provider = providers.Resource(1)
@@ -497,7 +492,7 @@ class AsyncResourceTest(AsyncTestCase):
 
         self.assertTrue(issubclass(TestAsyncResource, resources.AsyncResource))
 
-    def test_init_async_class_abc_definition_is_required(self):
+    def test_init_async_class_abc_init_definition_is_required(self):
         class TestAsyncResource(resources.AsyncResource):
             ...
 
@@ -505,18 +500,14 @@ class AsyncResourceTest(AsyncTestCase):
             TestAsyncResource()
 
         self.assertIn("Can't instantiate abstract class TestAsyncResource", str(context.exception))
-        self.assertIn("init, shutdown", str(context.exception))
+        self.assertIn("init", str(context.exception))
 
-    def test_init_async_class_abc_shutdown_definition_is_required(self):
+    def test_init_async_class_abc_shutdown_definition_is_not_required(self):
         class TestAsyncResource(resources.AsyncResource):
             async def init(self):
                 ...
-
-        with self.assertRaises(TypeError) as context:
-            TestAsyncResource()
-
-        self.assertIn("Can't instantiate abstract class TestAsyncResource", str(context.exception))
-        self.assertIn("shutdown", str(context.exception))
+        self.assertTrue(hasattr(TestAsyncResource(), 'shutdown'))
+        self.assertTrue(inspect.iscoroutinefunction(TestAsyncResource.shutdown))
 
     def test_init_with_error(self):
         async def _init():

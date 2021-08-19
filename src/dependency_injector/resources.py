@@ -1,7 +1,7 @@
 """Resources module."""
 
 import abc
-from typing import TypeVar, Generic
+from typing import TypeVar, Generic, Optional
 
 
 T = TypeVar('T')
@@ -10,20 +10,18 @@ T = TypeVar('T')
 class Resource(Generic[T], metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def init(self, *args, **kwargs) -> T:
+    def init(self, *args, **kwargs) -> Optional[T]:
         ...
 
-    @abc.abstractmethod
-    def shutdown(self, resource: T) -> None:
+    def shutdown(self, resource: Optional[T]) -> None:
         ...
 
 
 class AsyncResource(Generic[T], metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    async def init(self, *args, **kwargs) -> T:
+    async def init(self, *args, **kwargs) -> Optional[T]:
         ...
 
-    @abc.abstractmethod
-    async def shutdown(self, resource: T) -> None:
+    async def shutdown(self, resource: Optional[T]) -> None:
         ...
