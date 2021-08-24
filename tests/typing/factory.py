@@ -1,4 +1,4 @@
-from typing import Tuple, Any, Dict
+from typing import Callable, Optional, Tuple, Any, Dict, Type
 
 from dependency_injector import providers
 
@@ -72,3 +72,17 @@ provider11 = providers.Factory(Cat)
 async def _async11() -> None:
     animal1: Animal = await provider11(1, 2, 3, b='1', c=2, e=0.0)  # type: ignore
     animal2: Animal = await provider11.async_(1, 2, 3, b='1', c=2, e=0.0)
+
+# Test 12: to check class type from .provides
+provider12 = providers.Factory(Cat)
+provided_cls12: Type[Animal] = provider12.cls
+assert issubclass(provided_cls12, Animal)
+provided_provides12: Optional[Callable[..., Animal]] = provider12.provides
+assert provided_provides12 is not None and provided_provides12() == Cat()
+
+# Test 13: to check class from .provides with explicit typevar
+provider13 = providers.Factory[Animal](Cat)
+provided_cls13: Type[Animal] = provider13.cls
+assert issubclass(provided_cls13, Animal)
+provided_provides13: Optional[Callable[..., Animal]] = provider13.provides
+assert provided_provides13 is not None and provided_provides13() == Cat()
