@@ -18,3 +18,5 @@ Dependency Injector Contributors
 + Shubhendra Singh Chauhan (withshubh)
 + sonthonaxrk (sonthonaxrk)
 + Ngo Thanh Loi (Leonn) (loingo95)
++ Thiago Hiromi (thiromi)
++ Felipe Rubio (krouw)
