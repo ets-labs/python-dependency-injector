@@ -12,6 +12,9 @@ Development version
 - Improve resource subclasses typing and make shutdown definition optional
   `PR #492 <https://github.com/ets-labs/python-dependency-injector/pull/492>`_.
   Thanks to `@EdwardBlair <https://github.com/EdwardBlair>`_  for suggesting the improvement.
+- Fix environment variables interpolation examples in configuration provider docs ``{$ENV} -> ${ENV}``.
+  Thanks to `Felipe Rubio @krouw <https://github.com/krouw>`_ for reporting the issue and
+  fixing yaml example `PR #494 <https://github.com/ets-labs/python-dependency-injector/pull/494>`_.
 - Fix ``@containers.copy()`` decorator to respect dependencies on parent providers.
   See issue `#477 <https://github.com/ets-labs/python-dependency-injector/issues/477>`_.
   Thanks to `Andrey Torsunov @gtors <https://github.com/gtors>`_  for reporting the issue.
