@@ -7,8 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-4.35.3
-------
+Development version
+-------------------
+- Improve resource subclasses typing and make shutdown definition optional
+  `PR #492 <https://github.com/ets-labs/python-dependency-injector/pull/492>`_.
+  Thanks to `@EdwardBlair <https://github.com/EdwardBlair>`_  for suggesting the improvement.
 - Fix ``@containers.copy()`` decorator to respect dependencies on parent providers.
   See issue `#477 <https://github.com/ets-labs/python-dependency-injector/issues/477>`_.
   Thanks to `Andrey Torsunov @gtors <https://github.com/gtors>`_  for reporting the issue.
@@ -17,6 +20,11 @@ follows `Semantic versioning`_
   and ``resources.AsyncResource``.
   See issue `#488 <https://github.com/ets-labs/python-dependency-injector/issues/488>`_.
   Thanks to `@EdwardBlair <https://github.com/EdwardBlair>`_  for reporting the issue.
+
+4.35.3
+------
+- *This release was removed from PyPI. It was inconsistently published because project has
+  reached a PyPI size limit. Changes from this release are published on PyPI in next version.*
 
 4.35.2
 ------
