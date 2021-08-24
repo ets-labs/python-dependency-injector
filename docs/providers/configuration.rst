@@ -77,9 +77,9 @@ where ``examples/providers/configuration/config.yml`` is:
 .. code-block:: ini
 
    section:
-     option1: {$ENV_VAR}
-     option2: {$ENV_VAR}/path
-     option3: {$ENV_VAR:default}
+     option1: ${ENV_VAR}
+     option2: ${ENV_VAR}/path
+     option3: ${ENV_VAR:default}
 
 See also: :ref:`configuration-envs-interpolation`.
 
