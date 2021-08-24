@@ -1,4 +1,4 @@
-from typing import List, Iterator, Generator, AsyncIterator, AsyncGenerator
+from typing import List, Iterator, Generator, AsyncIterator, AsyncGenerator, Optional
 
 from dependency_injector import providers, resources
 
@@ -35,7 +35,7 @@ class MyResource4(resources.Resource[List[int]]):
     def init(self, *args, **kwargs) -> List[int]:
         return []
 
-    def shutdown(self, resource: List[int]) -> None:
+    def shutdown(self, resource: Optional[List[int]]) -> None:
         ...
 
 
@@ -87,7 +87,7 @@ class MyResource8(resources.AsyncResource[List[int]]):
     async def init(self, *args, **kwargs) -> List[int]:
         return []
 
-    async def shutdown(self, resource: List[int]) -> None:
+    async def shutdown(self, resource: Optional[List[int]]) -> None:
         ...
 
 
