@@ -2499,7 +2499,7 @@ cdef class FactoryAggregate(Provider):
             return copied
 
         copied = _memorized_duplicate(self, memo)
-        copied.set_factories(**deepcopy(self.factories, memo))
+        copied.set_factories(deepcopy(self.factories, memo))
 
         self._copy_overridings(copied, memo)
 

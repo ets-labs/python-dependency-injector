@@ -5,6 +5,7 @@ import sys
 import unittest
 
 from dependency_injector import (
+    containers,
     providers,
     errors,
 )
@@ -662,6 +663,24 @@ class FactoryAggregateTests(unittest.TestCase):
         self.assertIsNot(self.factory_aggregate.example_b, provider_copy.example_b)
         self.assertIsInstance(self.factory_aggregate.example_b, type(provider_copy.example_b))
         self.assertIs(self.factory_aggregate.example_b.cls, provider_copy.example_b.cls)
+
+    def test_deepcopy_with_non_string_keys(self):
+        factory_aggregate = providers.FactoryAggregate({
+            self.ExampleA: self.example_a_factory,
+            self.ExampleB: self.example_b_factory,
+        })
+        provider_copy = providers.deepcopy(factory_aggregate)
+
+        self.assertIsNot(factory_aggregate, provider_copy)
+        self.assertIsInstance(provider_copy, type(factory_aggregate))
+
+        self.assertIsNot(factory_aggregate.factories[self.ExampleA], provider_copy.factories[self.ExampleA])
+        self.assertIsInstance(factory_aggregate.factories[self.ExampleA], type(provider_copy.factories[self.ExampleA]))
+        self.assertIs(factory_aggregate.factories[self.ExampleA].cls, provider_copy.factories[self.ExampleA].cls)
+
+        self.assertIsNot(factory_aggregate.factories[self.ExampleB], provider_copy.factories[self.ExampleB])
+        self.assertIsInstance(factory_aggregate.factories[self.ExampleB], type(provider_copy.factories[self.ExampleB]))
+        self.assertIs(factory_aggregate.factories[self.ExampleB].cls, provider_copy.factories[self.ExampleB].cls)
 
     def test_repr(self):
         self.assertEqual(repr(self.factory_aggregate),
