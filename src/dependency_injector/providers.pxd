@@ -142,7 +142,7 @@ cdef class FactoryDelegate(Delegate):
 cdef class FactoryAggregate(Provider):
     cdef dict __factories
 
-    cdef Factory __get_factory(self, str factory_name)
+    cdef Factory __get_factory(self, object factory_name)
 
 
 # Singleton providers

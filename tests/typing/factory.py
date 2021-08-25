@@ -63,6 +63,19 @@ factory_a_9: providers.Factory[str] = provider9.a
 factory_b_9: providers.Factory[str] = provider9.b
 val9: str = provider9('a')
 
+provider9_set_non_string_keys: providers.FactoryAggregate[str] = providers.FactoryAggregate()
+provider9_set_non_string_keys.set_factories({Cat: providers.Factory(str, "str")})
+factory_set_non_string_9: providers.Factory[str] = provider9_set_non_string_keys.factories[Cat]
+
+provider9_new_non_string_keys: providers.FactoryAggregate[str] = providers.FactoryAggregate(
+    {Cat: providers.Factory(str, "str")},
+)
+factory_new_non_string_9: providers.Factory[str] = provider9_new_non_string_keys.factories[Cat]
+
+provider9_no_explicit_typing = providers.FactoryAggregate(a=providers.Factory(str, "str"))
+provider9_no_explicit_typing_factory: providers.Factory[str] = provider9_no_explicit_typing.factories["a"]
+provider9_no_explicit_typing_object: str = provider9_no_explicit_typing("a")
+
 # Test 10: to check the explicit typing
 factory10: providers.Provider[Animal] = providers.Factory(Cat)
 animal10: Animal = factory10()
