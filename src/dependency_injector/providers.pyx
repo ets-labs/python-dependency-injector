@@ -2486,10 +2486,10 @@ cdef class FactoryAggregate(Provider):
 
     __IS_DELEGATED__ = True
 
-    def __init__(self, **factories):
+    def __init__(self, factories_dict_=None, **factories_kwargs):
         """Initialize provider."""
         self.__factories = {}
-        self.set_factories(**factories)
+        self.set_factories(factories_dict_, **factories_kwargs)
         super(FactoryAggregate, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -2499,7 +2499,7 @@ cdef class FactoryAggregate(Provider):
             return copied
 
         copied = _memorized_duplicate(self, memo)
-        copied.set_factories(**deepcopy(self.factories, memo))
+        copied.set_factories(deepcopy(self.factories, memo))
 
         self._copy_overridings(copied, memo)
 
@@ -2521,13 +2521,23 @@ cdef class FactoryAggregate(Provider):
         """Return dictionary of factories, read-only."""
         return self.__factories
 
-    def set_factories(self, **factories):
+    def set_factories(self, factories_dict_=None, **factories_kwargs):
         """Set factories."""
+        factories = {}
+        factories.update(factories_kwargs)
+        if factories_dict_:
+            factories.update(factories_dict_)
+
         for factory in factories.values():
             if isinstance(factory, Factory) is False:
                 raise Error(
-                    '{0} can aggregate only instances of {1}, given - {2}'
-                    .format(self.__class__, Factory, factory))
+                    '{0} can aggregate only instances of {1}, given - {2}'.format(
+                        self.__class__,
+                        Factory,
+                        factory,
+                    ),
+                )
+
         self.__factories = factories
         return self
 
@@ -2539,8 +2549,7 @@ cdef class FactoryAggregate(Provider):
         :return: Overriding context.
         :rtype: :py:class:`OverridingContext`
         """
-        raise Error(
-            '{0} providers could not be overridden'.format(self.__class__))
+        raise Error('{0} providers could not be overridden'.format(self.__class__))
 
     @property
     def related(self):
@@ -2561,12 +2570,10 @@ cdef class FactoryAggregate(Provider):
 
         return self.__get_factory(factory_name)(*args, **kwargs)
 
-    cdef Factory __get_factory(self, str factory_name):
-        if factory_name not in self.__factories:
-            raise NoSuchProviderError(
-                '{0} does not contain factory with name {1}'.format(
-                    self, factory_name))
-        return <Factory> self.__factories[factory_name]
+    cdef Factory __get_factory(self, object factory_key):
+        if factory_key not in self.__factories:
+            raise NoSuchProviderError('{0} does not contain factory with name {1}'.format(self, factory_key))
+        return <Factory> self.__factories[factory_key]
 
 
 cdef class BaseSingleton(Provider):

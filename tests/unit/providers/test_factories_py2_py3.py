@@ -5,6 +5,7 @@ import sys
 import unittest
 
 from dependency_injector import (
+    containers,
     providers,
     errors,
 )
@@ -498,13 +499,43 @@ class FactoryAggregateTests(unittest.TestCase):
         self.example_b_factory = providers.Factory(self.ExampleB)
         self.factory_aggregate = providers.FactoryAggregate(
             example_a=self.example_a_factory,
-            example_b=self.example_b_factory)
+            example_b=self.example_b_factory,
+        )
 
     def test_is_provider(self):
         self.assertTrue(providers.is_provider(self.factory_aggregate))
 
     def test_is_delegated_provider(self):
         self.assertTrue(providers.is_delegated(self.factory_aggregate))
+
+    def test_init_with_non_string_keys(self):
+        factory = providers.FactoryAggregate({
+            self.ExampleA: self.example_a_factory,
+            self.ExampleB: self.example_b_factory,
+        })
+
+        object_a = factory(self.ExampleA, 1, 2, init_arg3=3, init_arg4=4)
+        object_b = factory(self.ExampleB, 11, 22, init_arg3=33, init_arg4=44)
+
+        self.assertIsInstance(object_a, self.ExampleA)
+        self.assertEqual(object_a.init_arg1, 1)
+        self.assertEqual(object_a.init_arg2, 2)
+        self.assertEqual(object_a.init_arg3, 3)
+        self.assertEqual(object_a.init_arg4, 4)
+
+        self.assertIsInstance(object_b, self.ExampleB)
+        self.assertEqual(object_b.init_arg1, 11)
+        self.assertEqual(object_b.init_arg2, 22)
+        self.assertEqual(object_b.init_arg3, 33)
+        self.assertEqual(object_b.init_arg4, 44)
+
+        self.assertEqual(
+            factory.factories,
+            {
+                self.ExampleA: self.example_a_factory,
+                self.ExampleB: self.example_b_factory,
+            },
+        )
 
     def test_init_with_not_a_factory(self):
         with self.assertRaises(errors.Error):
@@ -528,7 +559,37 @@ class FactoryAggregateTests(unittest.TestCase):
         self.assertIsInstance(provider('example_a'), self.ExampleA)
         self.assertIsInstance(provider('example_b'), self.ExampleB)
 
-    def test_set_provides_returns_self(self):
+    def test_set_factories_with_non_string_keys(self):
+        factory = providers.FactoryAggregate()
+        factory.set_factories({
+            self.ExampleA: self.example_a_factory,
+            self.ExampleB: self.example_b_factory,
+        })
+
+        object_a = factory(self.ExampleA, 1, 2, init_arg3=3, init_arg4=4)
+        object_b = factory(self.ExampleB, 11, 22, init_arg3=33, init_arg4=44)
+
+        self.assertIsInstance(object_a, self.ExampleA)
+        self.assertEqual(object_a.init_arg1, 1)
+        self.assertEqual(object_a.init_arg2, 2)
+        self.assertEqual(object_a.init_arg3, 3)
+        self.assertEqual(object_a.init_arg4, 4)
+
+        self.assertIsInstance(object_b, self.ExampleB)
+        self.assertEqual(object_b.init_arg1, 11)
+        self.assertEqual(object_b.init_arg2, 22)
+        self.assertEqual(object_b.init_arg3, 33)
+        self.assertEqual(object_b.init_arg4, 44)
+
+        self.assertEqual(
+            factory.factories,
+            {
+                self.ExampleA: self.example_a_factory,
+                self.ExampleB: self.example_b_factory,
+            },
+        )
+
+    def test_set_factories_returns_self(self):
         provider = providers.FactoryAggregate()
         self.assertIs(provider.set_factories(example_a=self.example_a_factory), provider)
 
@@ -602,6 +663,24 @@ class FactoryAggregateTests(unittest.TestCase):
         self.assertIsNot(self.factory_aggregate.example_b, provider_copy.example_b)
         self.assertIsInstance(self.factory_aggregate.example_b, type(provider_copy.example_b))
         self.assertIs(self.factory_aggregate.example_b.cls, provider_copy.example_b.cls)
+
+    def test_deepcopy_with_non_string_keys(self):
+        factory_aggregate = providers.FactoryAggregate({
+            self.ExampleA: self.example_a_factory,
+            self.ExampleB: self.example_b_factory,
+        })
+        provider_copy = providers.deepcopy(factory_aggregate)
+
+        self.assertIsNot(factory_aggregate, provider_copy)
+        self.assertIsInstance(provider_copy, type(factory_aggregate))
+
+        self.assertIsNot(factory_aggregate.factories[self.ExampleA], provider_copy.factories[self.ExampleA])
+        self.assertIsInstance(factory_aggregate.factories[self.ExampleA], type(provider_copy.factories[self.ExampleA]))
+        self.assertIs(factory_aggregate.factories[self.ExampleA].cls, provider_copy.factories[self.ExampleA].cls)
+
+        self.assertIsNot(factory_aggregate.factories[self.ExampleB], provider_copy.factories[self.ExampleB])
+        self.assertIsInstance(factory_aggregate.factories[self.ExampleB], type(provider_copy.factories[self.ExampleB]))
+        self.assertIs(factory_aggregate.factories[self.ExampleB].cls, provider_copy.factories[self.ExampleB].cls)
 
     def test_repr(self):
         self.assertEqual(repr(self.factory_aggregate),

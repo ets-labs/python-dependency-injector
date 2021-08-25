@@ -1,42 +1,27 @@
 """Resources module."""
 
 import abc
-import sys
-from typing import TypeVar, Generic
-
-if sys.version_info < (3, 7):
-    from typing import GenericMeta
-else:
-    class GenericMeta(type):
-        ...
+from typing import TypeVar, Generic, Optional
 
 
 T = TypeVar('T')
 
 
-class ResourceMeta(GenericMeta, abc.ABCMeta):
-    def __getitem__(cls, item):
-        # Spike for Python 3.6
-        return cls(item)
-
-
-class Resource(Generic[T], metaclass=ResourceMeta):
+class Resource(Generic[T], metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def init(self, *args, **kwargs) -> T:
+    def init(self, *args, **kwargs) -> Optional[T]:
         ...
 
-    @abc.abstractmethod
-    def shutdown(self, resource: T) -> None:
+    def shutdown(self, resource: Optional[T]) -> None:
         ...
 
 
-class AsyncResource(Generic[T], metaclass=ResourceMeta):
+class AsyncResource(Generic[T], metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    async def init(self, *args, **kwargs) -> T:
+    async def init(self, *args, **kwargs) -> Optional[T]:
         ...
 
-    @abc.abstractmethod
-    async def shutdown(self, resource: T) -> None:
+    async def shutdown(self, resource: Optional[T]) -> None:
         ...

@@ -50,9 +50,9 @@ where ``examples/providers/configuration/config.ini`` is:
 .. code-block:: ini
 
    [section]
-   option1 = {$ENV_VAR}
-   option2 = {$ENV_VAR}/path
-   option3 = {$ENV_VAR:default}
+   option1 = ${ENV_VAR}
+   option2 = ${ENV_VAR}/path
+   option3 = ${ENV_VAR:default}
 
 See also: :ref:`configuration-envs-interpolation`.
 
@@ -77,9 +77,9 @@ where ``examples/providers/configuration/config.yml`` is:
 .. code-block:: ini
 
    section:
-     option1: {$ENV_VAR}
-     option2: {$ENV_VAR}/path
-     option3: {$ENV_VAR:default}
+     option1: ${ENV_VAR}
+     option2: ${ENV_VAR}/path
+     option3: ${ENV_VAR:default}
 
 See also: :ref:`configuration-envs-interpolation`.
 
@@ -208,7 +208,7 @@ variable ``ENV_NAME`` is undefined, configuration provider will substitute value
 .. code-block:: ini
 
    [section]
-   option = {$ENV_NAME:default}
+   option = ${ENV_NAME:default}
 
 If you'd like to specify a default value for environment variable inside of the application you can use
 ``os.environ.setdefault()``.
@@ -380,7 +380,7 @@ an undefined environment variable without a default value.
 .. code-block:: ini
 
    section:
-     option: {$UNDEFINED}
+     option: ${UNDEFINED}
 
 .. code-block:: python
 

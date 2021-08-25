@@ -7,12 +7,32 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-4.35.3
+4.36.0
 ------
+- Add support of non-string keys for ``FactoryAggregate`` provider.
+- Improve ``FactoryAggregate`` typing stub.
+- Improve resource subclasses typing and make shutdown definition optional
+  `PR #492 <https://github.com/ets-labs/python-dependency-injector/pull/492>`_.
+  Thanks to `@EdwardBlair <https://github.com/EdwardBlair>`_  for suggesting the improvement.
+- Fix type annotations for ``.provides``.
+  Thanks to `Thiago Hiromi @thiromi <https://github.com/thiromi>`_ for the fix
+  `PR #491 <https://github.com/ets-labs/python-dependency-injector/pull/491>`_.
+- Fix environment variables interpolation examples in configuration provider docs ``{$ENV} -> ${ENV}``.
+  Thanks to `Felipe Rubio @krouw <https://github.com/krouw>`_ for reporting the issue and
+  fixing yaml example `PR #494 <https://github.com/ets-labs/python-dependency-injector/pull/494>`_.
 - Fix ``@containers.copy()`` decorator to respect dependencies on parent providers.
   See issue `#477 <https://github.com/ets-labs/python-dependency-injector/issues/477>`_.
   Thanks to `Andrey Torsunov @gtors <https://github.com/gtors>`_  for reporting the issue.
 - Fix typing stub for ``container.override_providers()`` to accept other types besides ``Provider``.
+- Fix runtime issue with generic typing in resource initializer classes ``resources.Resource``
+  and ``resources.AsyncResource``.
+  See issue `#488 <https://github.com/ets-labs/python-dependency-injector/issues/488>`_.
+  Thanks to `@EdwardBlair <https://github.com/EdwardBlair>`_  for reporting the issue.
+
+4.35.3
+------
+- *This release was removed from PyPI. It was inconsistently published because project has
+  reached a PyPI size limit. Changes from this release are published on PyPI in next version.*
 
 4.35.2
 ------
