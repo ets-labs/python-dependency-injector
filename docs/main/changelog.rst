@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Add support of non-string keys for ``FactoryAggregate`` provider.
 - Improve ``FactoryAggregate`` typing stub.
 - Improve resource subclasses typing and make shutdown definition optional
   `PR #492 <https://github.com/ets-labs/python-dependency-injector/pull/492>`_.
