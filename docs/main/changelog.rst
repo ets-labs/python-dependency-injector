@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.36.0
+------
 - Add support of non-string keys for ``FactoryAggregate`` provider.
 - Improve ``FactoryAggregate`` typing stub.
 - Improve resource subclasses typing and make shutdown definition optional
