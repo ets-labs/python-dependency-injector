@@ -2530,7 +2530,13 @@ cdef class FactoryAggregate(Provider):
 
         for factory in factories.values():
             if isinstance(factory, Factory) is False:
-                raise Error(f'{self.__class__} can aggregate only instances of {Factory}, given - {factory}')
+                raise Error(
+                    '{0} can aggregate only instances of {1}, given - {2}'.format(
+                        self.__class__,
+                        Factory,
+                        factory,
+                    ),
+                )
 
         self.__factories = factories
         return self
@@ -2543,8 +2549,7 @@ cdef class FactoryAggregate(Provider):
         :return: Overriding context.
         :rtype: :py:class:`OverridingContext`
         """
-        raise Error(
-            '{0} providers could not be overridden'.format(self.__class__))
+        raise Error('{0} providers could not be overridden'.format(self.__class__))
 
     @property
     def related(self):
@@ -2567,7 +2572,7 @@ cdef class FactoryAggregate(Provider):
 
     cdef Factory __get_factory(self, object factory_key):
         if factory_key not in self.__factories:
-            raise NoSuchProviderError(f'{self} does not contain factory with name {factory_key}')
+            raise NoSuchProviderError('{0} does not contain factory with name {1}'.format(self, factory_key))
         return <Factory> self.__factories[factory_key]
 
 
