@@ -148,13 +148,11 @@ provider with two peculiarities:
 Factory aggregate
 -----------------
 
-:py:class:`FactoryAggregate` provider aggregates multiple factories. When you call the
-``FactoryAggregate`` it delegates the call to one of the factories.
+:py:class:`FactoryAggregate` provider aggregates multiple factories.
 
-The aggregated factories are associated with the string names. When you call the
-``FactoryAggregate`` you have to provide one of the these names as a first argument.
-``FactoryAggregate`` looks for the factory with a matching name and delegates it the work. The
-rest of the arguments are passed to the delegated ``Factory``.
+The aggregated factories are associated with the string keys. When you call the
+``FactoryAggregate`` you have to provide one of the these keys as a first argument.
+``FactoryAggregate`` looks for the factory with a matching key and calls it with the rest of the arguments.
 
 .. image:: images/factory_aggregate.png
     :width: 100%
@@ -165,17 +163,35 @@ rest of the arguments are passed to the delegated ``Factory``.
    :lines: 3-
    :emphasize-lines: 33-37,47
 
-You can get a dictionary of the aggregated factories using the ``.factories`` attribute of the
-``FactoryAggregate``. To get a game factories dictionary from the previous example you can use
+You can get a dictionary of the aggregated factories using the ``.factories`` attribute.
+To get a game factories dictionary from the previous example you can use
 ``game_factory.factories`` attribute.
 
 You can also access an aggregated factory as an attribute. To create the ``Chess`` object from the
-previous example you can do ``chess = game_factory.chess('John', 'Jane')``.
+previous example you can do ``chess = game_factory.chess("John", "Jane")``.
 
 .. note::
    You can not override the ``FactoryAggregate`` provider.
 
 .. note::
    When you inject the ``FactoryAggregate`` provider it is passed "as is".
+
+To use non-string keys or keys with ``.`` and ``-`` you can provide a dictionary as a positional argument:
+
+.. code-block:: python
+
+   providers.FactoryAggregate({
+       SomeClass: providers.Factory(...),
+       "key.with.periods": providers.Factory(...),
+       "key-with-dashes": providers.Factory(...),
+   })
+
+Example:
+
+.. literalinclude:: ../../examples/providers/factory_aggregate_non_string_keys.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 30-33,39-40
+
 
 .. disqus::
