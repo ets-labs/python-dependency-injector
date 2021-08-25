@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Improve ``FactoryAggregate`` typing stub.
 - Improve resource subclasses typing and make shutdown definition optional
   `PR #492 <https://github.com/ets-labs/python-dependency-injector/pull/492>`_.
   Thanks to `@EdwardBlair <https://github.com/EdwardBlair>`_  for suggesting the improvement.
