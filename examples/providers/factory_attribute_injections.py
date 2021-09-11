@@ -17,7 +17,7 @@ class Container(containers.DeclarativeContainer):
     client = providers.Factory(Client)
 
     service = providers.Factory(Service)
-    service.add_attributes(clent=client)
+    service.add_attributes(client=client)
 
 
 if __name__ == '__main__':
