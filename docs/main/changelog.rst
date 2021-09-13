@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+
+Develop
+-------
+- Fix a typo in ``Factory`` provider docs ``service.add_attributes(clent=client)``
+  `#499 <https://github.com/ets-labs/python-dependency-injector/issues/499>`_.
+  Thanks to `@rajanjha786 <https://github.com/rajanjha786>`_ for the contribution.
+
 4.36.0
 ------
 - Add support of non-string keys for ``FactoryAggregate`` provider.
