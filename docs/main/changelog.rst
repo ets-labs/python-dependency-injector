@@ -13,6 +13,9 @@ Develop
 - Fix a typo in ``Factory`` provider docs ``service.add_attributes(clent=client)``
   `#499 <https://github.com/ets-labs/python-dependency-injector/issues/499>`_.
   Thanks to `@rajanjha786 <https://github.com/rajanjha786>`_ for the contribution.
+- Fix a typo in ``boto3`` example 
+  `#511 <https://github.com/ets-labs/python-dependency-injector/issues/511>`_.
+  Thanks to `@whysage <https://github.com/whysage>`_ for the contribution.
 
 4.36.0
 ------
