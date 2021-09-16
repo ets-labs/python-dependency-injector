@@ -8,7 +8,7 @@ Boto3 example
    :description: This example demonstrates a usage of Boto3 AWS client and Dependency Injector.
 
 
-This example shows how to use ``Dependency Injector`` with `Boto3 <https://www.djangoproject.com/>`_.
+This example shows how to use ``Dependency Injector`` with `Boto3 <https://github.com/boto/boto3>`_.
 
 The source code is available on the `Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/boto3-session>`_.
 
