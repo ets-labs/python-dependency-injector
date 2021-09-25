@@ -226,7 +226,10 @@ class ProvidersMap:
             self,
             original: providers.Delegate,
     ) -> Optional[providers.Provider]:
-        return self._resolve_provider(original.provides)
+        provider = self._resolve_provider(original.provides)
+        if provider:
+            provider = provider.provider
+        return provider
 
     def _resolve_config_option(
             self,
@@ -539,7 +542,10 @@ def _bind_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> Non
         if isinstance(marker, Provide):
             fn.__injections__[injection] = provider
         elif isinstance(marker, Provider):
-            fn.__injections__[injection] = provider.provider
+            if isinstance(provider, providers.Delegate):
+                fn.__injections__[injection] = provider
+            else:
+                fn.__injections__[injection] = provider.provider
 
         if injection in fn.__reference_closing__:
             fn.__closing__[injection] = provider

@@ -169,6 +169,10 @@ class WiringTest(unittest.TestCase):
         service = module.test_provide_provider()
         self.assertIsInstance(service, Service)
 
+    def test_provider_provider(self):
+        service = module.test_provider_provider()
+        self.assertIsInstance(service, Service)
+
     def test_provided_instance(self):
         class TestService:
             foo = {
