@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 
 Develop
 -------
+- Fix a wiring bug with improper resolving of ``Provide[some_provider.provider]``.
 - Fix a typo in ``Factory`` provider docs ``service.add_attributes(clent=client)``
   `#499 <https://github.com/ets-labs/python-dependency-injector/issues/499>`_.
   Thanks to `@rajanjha786 <https://github.com/rajanjha786>`_ for the contribution.

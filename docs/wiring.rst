@@ -39,19 +39,29 @@ a function or method argument:
 
 Specifying an annotation is optional.
 
-There are two types of markers:
-
-- ``Provide[foo]`` - call the provider ``foo`` and injects the result
-- ``Provider[foo]`` - injects the provider ``foo`` itself
+To inject the provider itself use ``Provide[foo.provider]``:
 
 .. code-block:: python
 
+   from dependency_injector.providers import Factory
+   from dependency_injector.wiring import inject, Provide
+
+
+   @inject
+   def foo(bar_provider: Factory[Bar] = Provide[Container.bar.provider]):
+       bar = bar_provider(argument="baz")
+       ...
+You can also use ``Provider[foo]`` for injecting the provider itself:
+
+.. code-block:: python
+
+   from dependency_injector.providers import Factory
    from dependency_injector.wiring import inject, Provider
 
 
    @inject
-   def foo(bar_provider: Callable[..., Bar] = Provider[Container.bar]):
-       bar = bar_provider()
+   def foo(bar_provider: Factory[Bar] = Provider[Container.bar]):
+       bar = bar_provider(argument="baz")
        ...
 
 You can use configuration, provided instance and sub-container providers as you normally do.
