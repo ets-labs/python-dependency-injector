@@ -8,6 +8,10 @@ From version 0.7.6 *Dependency Injector* framework strictly
 follows `Semantic versioning`_
 
 
+4.36.2
+------
+- Update docs.
+
 4.36.1
 ------
 - Fix a wiring bug with improper resolving of ``Provide[some_provider.provider]``.
