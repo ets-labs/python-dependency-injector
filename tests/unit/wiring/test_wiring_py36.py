@@ -314,7 +314,7 @@ class WiringTest(unittest.TestCase):
         self.assertIsInstance(service, Service)
 
 
-class ModuleAsPackagingTest(unittest.TestCase):
+class ModuleAsPackageTest(unittest.TestCase):
 
     def setUp(self):
         self.container = Container(config={'a': {'b': {'c': 10}}})
