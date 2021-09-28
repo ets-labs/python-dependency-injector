@@ -15,6 +15,7 @@ from typing import (
     Callable,
     Any,
     Tuple,
+    List,
     Dict,
     Generic,
     TypeVar,
@@ -321,16 +322,20 @@ class InspectFilter:
 def wire(  # noqa: C901
         container: Container,
         *,
-        modules: Optional[Iterable[ModuleType]] = None,
-        packages: Optional[Iterable[ModuleType]] = None,
+        modules: Optional[Iterable[Union[ModuleType, str]]] = None,
+        packages: Optional[Iterable[Union[ModuleType, str]]] = None,
+        from_package: Optional[str] = None,
 ) -> None:
     """Wire container providers with provided packages and modules."""
     if not modules:
         modules = []
+    modules = _resolve_string_imports(modules, from_package)
 
-    if packages:
-        for package in packages:
-            modules.extend(_fetch_modules(package))
+    if not packages:
+        packages = []
+    packages = _resolve_string_imports(packages, from_package)
+    for package in packages:
+        modules.extend(_fetch_modules(package))
 
     providers_map = ProvidersMap(container)
 
@@ -670,6 +675,16 @@ def _is_declarative_container(instance: Any) -> bool:
     return (isinstance(instance, type)
             and getattr(instance, '__IS_CONTAINER__', False) is True
             and getattr(instance, 'declarative_parent', None) is None)
+
+
+def _resolve_string_imports(
+        modules: Optional[Iterable[Union[ModuleType, str]]],
+        from_package: Optional[str],
+) -> List[ModuleType]:
+    return [
+        importlib.import_module(module, from_package) if isinstance(module, str) else module
+        for module in modules
+    ]
 
 
 class Modifier:
