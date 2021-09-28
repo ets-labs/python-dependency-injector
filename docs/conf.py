@@ -52,8 +52,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Dependency Injector'
-copyright = u'2021, ETS Labs'
-author = u'ETS Labs'
+copyright = u'2021, Roman Mogylatov'
+author = u'Roman Mogylatov'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -232,7 +232,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
   (master_doc, 'dependency_injector.tex', u'Dependency Injector Documentation',
-   u'ETS Labs', 'manual'),
+   u'Roman Mogylatov', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -303,7 +303,7 @@ html_theme_options = {
     'github_button': True,
     'github_banner': True,
     'logo': 'logo.svg',
-    'description': 'Dependency injection framework for Python',
+    'description': 'Dependency injection framework for Python by Roman Mogylatov',
     'code_font_size': '10pt',
     'analytics_id': 'UA-67012059-1',
 }
