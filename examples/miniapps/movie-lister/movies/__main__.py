@@ -4,8 +4,8 @@ import sys
 
 from dependency_injector.wiring import inject, Provide
 
-from .listers import MovieLister
-from .containers import Container
+from movies.listers import MovieLister
+from movies.containers import Container
 
 
 @inject

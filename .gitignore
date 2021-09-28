@@ -72,3 +72,12 @@ src/dependency_injector/providers/*.so
 
 # Workspace for samples
 .workspace/
+/examples/miniapps/movie-lister/wslenv2-win/Scripts
+/examples/miniapps/movie-lister/wslenv2-win
+/examples/miniapps/movie-lister/wslenv2/bin
+/examples/miniapps/movie-lister/wslenv2/share/python-wheels
+/examples/miniapps/movie-lister/wslenv2
+/examples/miniapps/movie-lister/setup_venv.bat
+/examples/miniapps/movie-lister/setup_venv.sh
+/examples/miniapps/movie-lister/run_movie_lister.bat
+/examples/miniapps/movie-lister/run_movie_lister.sh

@@ -4,7 +4,7 @@ import csv
 import sqlite3
 from typing import Callable, List
 
-from .entities import Movie
+from movies.entities import Movie
 
 
 class MovieFinder:

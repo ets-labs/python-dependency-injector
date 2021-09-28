@@ -1,6 +1,6 @@
 """Movie listers module."""
 
-from .finders import MovieFinder
+from movies.finders import MovieFinder
 
 
 class MovieLister:

@@ -2,7 +2,7 @@
 
 from dependency_injector import containers, providers
 
-from . import finders, listers, entities
+from movies import finders, listers, entities
 
 
 class Container(containers.DeclarativeContainer):

@@ -4,7 +4,7 @@ from unittest import mock
 
 import pytest
 
-from .containers import Container
+from movies.containers import Container
 
 
 @pytest.fixture
