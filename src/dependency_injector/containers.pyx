@@ -1,7 +1,9 @@
 """Containers module."""
-
+import contextlib
 import json
 import sys
+import importlib
+import inspect
 
 try:
     import asyncio
@@ -248,11 +250,22 @@ class DynamicContainer(Container):
         for provider in six.itervalues(self.providers):
             provider.reset_override()
 
-    def wire(self, modules=None, packages=None):
+    def wire(self, modules=None, packages=None, from_package=None):
         """Wire container providers with provided packages and modules.
 
         :rtype: None
         """
+        modules = [*modules] if modules else []
+        packages = [*packages] if packages else []
+
+        if from_package is None and \
+                (_has_any_relative_string_imports(modules) or _has_any_relative_string_imports(packages)):
+            with contextlib.suppress(Exception):
+                from_package = _resolve_calling_package_name()
+
+        modules = _resolve_string_imports(modules, from_package)
+        packages = _resolve_string_imports(packages, from_package)
+
         wire(
             container=self,
             modules=modules,
@@ -261,7 +274,6 @@ class DynamicContainer(Container):
 
         if modules:
             self.wired_to_modules.extend(modules)
-
         if packages:
             self.wired_to_packages.extend(packages)
 
@@ -789,3 +801,27 @@ cpdef object _check_provider_type(object container, object provider):
     if not isinstance(provider, container.provider_type):
         raise errors.Error('{0} can contain only {1} '
                            'instances'.format(container, container.provider_type))
+
+
+cpdef bint _has_any_relative_string_imports(object modules):
+    for module in modules:
+        if not isinstance(module, str):
+            continue
+        if module.startswith("."):
+            return True
+    else:
+        return False
+
+
+cpdef list _resolve_string_imports(object modules, object from_package):
+    return [
+        importlib.import_module(module, from_package) if isinstance(module, str) else module
+        for module in modules
+    ]
+
+
+cpdef object _resolve_calling_package_name():
+    stack = inspect.stack()
+    pre_last_frame = stack[0]
+    module = inspect.getmodule(pre_last_frame[0])
+    return module.__package__

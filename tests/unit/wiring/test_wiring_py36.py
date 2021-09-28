@@ -36,6 +36,7 @@ from asyncutils import AsyncTestCase
 from wiringsamples import module, package
 from wiringsamples.service import Service
 from wiringsamples.container import Container, SubContainer
+from wiringsamples.wire_relative_string_names import wire_with_relative_string_names
 
 
 class WiringTest(unittest.TestCase):
@@ -311,6 +312,52 @@ class WiringTest(unittest.TestCase):
 
     def test_container(self):
         service = module.test_container()
+        self.assertIsInstance(service, Service)
+
+
+class WiringWithStringModuleAndPackageNamesTest(unittest.TestCase):
+
+    container: Container
+
+    def setUp(self) -> None:
+        self.container = Container()
+        self.addCleanup(self.container.unwire)
+
+    def test_absolute_names(self):
+        self.container.wire(
+            modules=["wiringsamples.module"],
+            packages=["wiringsamples.package"],
+        )
+
+        service = module.test_function()
+        self.assertIsInstance(service, Service)
+
+        from wiringsamples.package.subpackage.submodule import test_function
+        service = test_function()
+        self.assertIsInstance(service, Service)
+
+    def test_relative_names_with_explicit_package(self):
+        self.container.wire(
+            modules=[".module"],
+            packages=[".package"],
+            from_package="wiringsamples",
+        )
+
+        service = module.test_function()
+        self.assertIsInstance(service, Service)
+
+        from wiringsamples.package.subpackage.submodule import test_function
+        service = test_function()
+        self.assertIsInstance(service, Service)
+
+    def test_relative_names_with_auto_package(self):
+        wire_with_relative_string_names(self.container)
+
+        service = module.test_function()
+        self.assertIsInstance(service, Service)
+
+        from wiringsamples.package.subpackage.submodule import test_function
+        service = test_function()
         self.assertIsInstance(service, Service)
 
 

@@ -322,20 +322,15 @@ class InspectFilter:
 def wire(  # noqa: C901
         container: Container,
         *,
-        modules: Optional[Iterable[Union[ModuleType, str]]] = None,
-        packages: Optional[Iterable[Union[ModuleType, str]]] = None,
-        from_package: Optional[str] = None,
+        modules: Optional[Iterable[ModuleType]] = None,
+        packages: Optional[Iterable[ModuleType]] = None,
 ) -> None:
     """Wire container providers with provided packages and modules."""
-    if not modules:
-        modules = []
-    modules = _resolve_string_imports(modules, from_package)
+    modules = [*modules] if modules else []
 
-    if not packages:
-        packages = []
-    packages = _resolve_string_imports(packages, from_package)
-    for package in packages:
-        modules.extend(_fetch_modules(package))
+    if packages:
+        for package in packages:
+            modules.extend(_fetch_modules(package))
 
     providers_map = ProvidersMap(container)
 
@@ -372,8 +367,7 @@ def unwire(  # noqa: C901
         packages: Optional[Iterable[ModuleType]] = None,
 ) -> None:
     """Wire provided packages and modules with previous wired providers."""
-    if not modules:
-        modules = []
+    modules = [*modules] if modules else []
 
     if packages:
         for package in packages:
@@ -675,16 +669,6 @@ def _is_declarative_container(instance: Any) -> bool:
     return (isinstance(instance, type)
             and getattr(instance, '__IS_CONTAINER__', False) is True
             and getattr(instance, 'declarative_parent', None) is None)
-
-
-def _resolve_string_imports(
-        modules: Optional[Iterable[Union[ModuleType, str]]],
-        from_package: Optional[str],
-) -> List[ModuleType]:
-    return [
-        importlib.import_module(module, from_package) if isinstance(module, str) else module
-        for module in modules
-    ]
 
 
 class Modifier:
