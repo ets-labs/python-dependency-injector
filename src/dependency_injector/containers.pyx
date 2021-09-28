@@ -1,4 +1,5 @@
 """Containers module."""
+
 import contextlib
 import json
 import sys
@@ -258,10 +259,10 @@ class DynamicContainer(Container):
         modules = [*modules] if modules else []
         packages = [*packages] if packages else []
 
-        if from_package is None and \
-                (_has_any_relative_string_imports(modules) or _has_any_relative_string_imports(packages)):
-            with contextlib.suppress(Exception):
-                from_package = _resolve_calling_package_name()
+        if _any_relative_string_imports_in(modules) or _any_relative_string_imports_in(packages):
+            if from_package is None:
+                with contextlib.suppress(Exception):
+                    from_package = _resolve_calling_package_name()
 
         modules = _resolve_string_imports(modules, from_package)
         packages = _resolve_string_imports(packages, from_package)
@@ -803,7 +804,7 @@ cpdef object _check_provider_type(object container, object provider):
                            'instances'.format(container, container.provider_type))
 
 
-cpdef bint _has_any_relative_string_imports(object modules):
+cpdef bint _any_relative_string_imports_in(object modules):
     for module in modules:
         if not isinstance(module, str):
             continue

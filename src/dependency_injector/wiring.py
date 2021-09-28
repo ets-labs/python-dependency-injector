@@ -15,7 +15,6 @@ from typing import (
     Callable,
     Any,
     Tuple,
-    List,
     Dict,
     Generic,
     TypeVar,
