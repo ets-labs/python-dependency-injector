@@ -20,6 +20,6 @@ def main(service: Service = Provide[Container.service]) -> None:
 
 if __name__ == '__main__':
     container = Container()
-    container.wire(modules=["__main__"])
+    container.wire(modules=[__name__])
 
     main()
