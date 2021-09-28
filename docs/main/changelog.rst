@@ -8,8 +8,8 @@ From version 0.7.6 *Dependency Injector* framework strictly
 follows `Semantic versioning`_
 
 
-Develop
--------
+4.36.1
+------
 - Fix a wiring bug with improper resolving of ``Provide[some_provider.provider]``.
 - Fix a typo in ``Factory`` provider docs ``service.add_attributes(clent=client)``
   `#499 <https://github.com/ets-labs/python-dependency-injector/issues/499>`_.
