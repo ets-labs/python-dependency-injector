@@ -1,8 +1,6 @@
 """Main module."""
 
-import sys
-
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide, inject
 
 from .user.repositories import UserRepository
 from .photo.repositories import PhotoRepository
@@ -38,6 +36,6 @@ def main(
 if __name__ == '__main__':
     application = ApplicationContainer()
     application.config.from_ini('config.ini')
-    application.wire(modules=[sys.modules[__name__]])
+    application.wire(modules=[__name__])
 
     main()
