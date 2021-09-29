@@ -1,7 +1,7 @@
 dependency-injector
 fastapi
 uvicorn
-aioredis
+aioredis<2  # TODO: Update example to work with aioredis >= 2.0
 
 # For testing:
 pytest
