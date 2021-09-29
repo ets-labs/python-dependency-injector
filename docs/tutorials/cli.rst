@@ -160,19 +160,19 @@ Second put next in the ``fixtures.py``:
 
 
    SAMPLE_DATA = [
-       ('The Hunger Games: Mockingjay - Part 2', 2015, 'Francis Lawrence'),
-       ('Rogue One: A Star Wars Story', 2016, 'Gareth Edwards'),
-       ('The Jungle Book', 2016, 'Jon Favreau'),
+       ("The Hunger Games: Mockingjay - Part 2", 2015, "Francis Lawrence"),
+       ("Rogue One: A Star Wars Story", 2016, "Gareth Edwards"),
+       ("The Jungle Book", 2016, "Jon Favreau"),
    ]
 
    FILE = pathlib.Path(__file__)
    DIR = FILE.parent
-   CSV_FILE = DIR / 'movies.csv'
-   SQLITE_FILE = DIR / 'movies.db'
+   CSV_FILE = DIR / "movies.csv"
+   SQLITE_FILE = DIR / "movies.db"
 
 
    def create_csv(movies_data, path):
-       with open(path, 'w') as opened_file:
+       with open(path, "w") as opened_file:
            writer = csv.writer(opened_file)
            for row in movies_data:
                writer.writerow(row)
@@ -181,20 +181,20 @@ Second put next in the ``fixtures.py``:
    def create_sqlite(movies_data, path):
        with sqlite3.connect(path) as db:
            db.execute(
-               'CREATE TABLE IF NOT EXISTS movies '
-               '(title text, year int, director text)'
+               "CREATE TABLE IF NOT EXISTS movies "
+               "(title text, year int, director text)"
            )
-           db.execute('DELETE FROM movies')
-           db.executemany('INSERT INTO movies VALUES (?,?,?)', movies_data)
+           db.execute("DELETE FROM movies")
+           db.executemany("INSERT INTO movies VALUES (?,?,?)", movies_data)
 
 
    def main():
        create_csv(SAMPLE_DATA, CSV_FILE)
        create_sqlite(SAMPLE_DATA, SQLITE_FILE)
-       print('OK')
+       print("OK")
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        main()
 
 Now run in the terminal:
@@ -266,7 +266,7 @@ Edit ``__main__.py``:
        ...
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
 
        main()
@@ -321,7 +321,7 @@ and put next into it:
            self.director = str(director)
 
        def __repr__(self):
-           return '{0}(title={1}, year={2}, director={3})'.format(
+           return "{0}(title={1}, year={2}, director={3})".format(
                self.__class__.__name__,
                repr(self.title),
                repr(self.year),
@@ -483,9 +483,9 @@ Edit ``__main__.py``:
        ...
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml('config.yml')
+       container.config.from_yaml("config.yml")
 
        main()
 
@@ -592,9 +592,9 @@ Edit ``__main__.py``:
        ...
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml('config.yml')
+       container.config.from_yaml("config.yml")
        container.wire(modules=[sys.modules[__name__]])
 
        main()
@@ -621,18 +621,18 @@ Edit ``__main__.py``:
 
    @inject
    def main(lister: MovieLister = Provide[Container.lister]) -> None:
-       print('Francis Lawrence movies:')
-       for movie in lister.movies_directed_by('Francis Lawrence'):
-           print('\t-', movie)
+       print("Francis Lawrence movies:")
+       for movie in lister.movies_directed_by("Francis Lawrence"):
+           print("\t-", movie)
 
-       print('2016 movies:')
+       print("2016 movies:")
        for movie in lister.movies_released_in(2016):
-           print('\t-', movie)
+           print("\t-", movie)
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml('config.yml')
+       container.config.from_yaml("config.yml")
        container.wire(modules=[sys.modules[__name__]])
 
        main()
@@ -718,7 +718,7 @@ Edit ``finders.py``:
 
        def find_all(self) -> List[Movie]:
            with self._database as db:
-               rows = db.execute('SELECT title, year, director FROM movies')
+               rows = db.execute("SELECT title, year, director FROM movies")
                return [self._movie_factory(*row) for row in rows]
 
 Now we need to add the sqlite finder to the container and update lister's dependency to use it.
@@ -877,19 +877,19 @@ Edit ``__main__.py``:
 
    @inject
    def main(lister: MovieLister = Provide[Container.lister]) -> None:
-       print('Francis Lawrence movies:')
-       for movie in lister.movies_directed_by('Francis Lawrence'):
-           print('\t-', movie)
+       print("Francis Lawrence movies:")
+       for movie in lister.movies_directed_by("Francis Lawrence"):
+           print("\t-", movie)
 
-       print('2016 movies:')
+       print("2016 movies:")
        for movie in lister.movies_released_in(2016):
-           print('\t-', movie)
+           print("\t-", movie)
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml('config.yml')
-       container.config.finder.type.from_env('MOVIE_FINDER_TYPE')
+       container.config.from_yaml("config.yml")
+       container.config.finder.type.from_env("MOVIE_FINDER_TYPE")
        container.wire(modules=[sys.modules[__name__]])
 
        main()
@@ -963,14 +963,14 @@ and put next into it:
    def container():
        container = Container()
        container.config.from_dict({
-           'finder': {
-               'type': 'csv',
-               'csv': {
-                   'path': '/fake-movies.csv',
-                   'delimiter': ',',
+           "finder": {
+               "type": "csv",
+               "csv": {
+                   "path": "/fake-movies.csv",
+                   "delimiter": ",",
                },
-               'sqlite': {
-                   'path': '/fake-movies.db',
+               "sqlite": {
+                   "path": "/fake-movies.db",
                },
            },
        })
@@ -980,23 +980,23 @@ and put next into it:
    def test_movies_directed_by(container):
        finder_mock = mock.Mock()
        finder_mock.find_all.return_value = [
-           container.movie('The 33', 2015, 'Patricia Riggen'),
-           container.movie('The Jungle Book', 2016, 'Jon Favreau'),
+           container.movie("The 33", 2015, "Patricia Riggen"),
+           container.movie("The Jungle Book", 2016, "Jon Favreau"),
        ]
 
        with container.finder.override(finder_mock):
            lister = container.lister()
-           movies = lister.movies_directed_by('Jon Favreau')
+           movies = lister.movies_directed_by("Jon Favreau")
 
        assert len(movies) == 1
-       assert movies[0].title == 'The Jungle Book'
+       assert movies[0].title == "The Jungle Book"
 
 
    def test_movies_released_in(container):
        finder_mock = mock.Mock()
        finder_mock.find_all.return_value = [
-           container.movie('The 33', 2015, 'Patricia Riggen'),
-           container.movie('The Jungle Book', 2016, 'Jon Favreau'),
+           container.movie("The 33", 2015, "Patricia Riggen"),
+           container.movie("The Jungle Book", 2016, "Jon Favreau"),
        ]
 
        with container.finder.override(finder_mock):
@@ -1004,7 +1004,7 @@ and put next into it:
            movies = lister.movies_released_in(2015)
 
        assert len(movies) == 1
-       assert movies[0].title == 'The 33'
+       assert movies[0].title == "The 33"
 
 Run in the terminal:
 
