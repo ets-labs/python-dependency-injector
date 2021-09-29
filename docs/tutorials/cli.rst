@@ -575,13 +575,11 @@ Let's inject the ``lister`` into the  ``main()`` function.
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 3-7,11-12,19
+   :emphasize-lines: 3-5,9-10,17
 
    """Main module."""
 
-   import sys
-
-   from dependency_injector.wiring import inject, Provide
+   from dependency_injector.wiring import Provide, inject
 
    from .listers import MovieLister
    from .containers import Container
@@ -595,7 +593,7 @@ Edit ``__main__.py``:
    if __name__ == "__main__":
        container = Container()
        container.config.from_yaml("config.yml")
-       container.wire(modules=[sys.modules[__name__]])
+       container.wire(modules=[__name__])
 
        main()
 
@@ -607,13 +605,11 @@ Francis Lawrence and movies released in 2016.
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 13-19
+   :emphasize-lines: 11-17
 
    """Main module."""
 
-   import sys
-
-   from dependency_injector.wiring import inject, Provide
+   from dependency_injector.wiring import Provide, inject
 
    from .listers import MovieLister
    from .containers import Container
@@ -633,7 +629,7 @@ Edit ``__main__.py``:
    if __name__ == "__main__":
        container = Container()
        container.config.from_yaml("config.yml")
-       container.wire(modules=[sys.modules[__name__]])
+       container.wire(modules=[__name__])
 
        main()
 
@@ -863,13 +859,11 @@ Now we need to read the value of the ``config.finder.type`` option from the envi
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 25
+   :emphasize-lines: 23
 
    """Main module."""
 
-   import sys
-
-   from dependency_injector.wiring import inject, Provide
+   from dependency_injector.wiring import Provide, inject
 
    from .listers import MovieLister
    from .containers import Container

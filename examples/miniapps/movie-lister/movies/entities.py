@@ -9,7 +9,7 @@ class Movie:
         self.director = str(director)
 
     def __repr__(self):
-        return '{0}(title={1}, year={2}, director={3})'.format(
+        return "{0}(title={1}, year={2}, director={3})".format(
             self.__class__.__name__,
             repr(self.title),
             repr(self.year),
