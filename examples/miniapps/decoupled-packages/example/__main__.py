@@ -22,20 +22,20 @@ def main(
 ) -> None:
     user1 = user_repository.get(id=1)
     user1_photos = photo_repository.get_photos(user1.id)
-    print(f'Retrieve user id={user1.id}, photos count={len(user1_photos)}')
+    print(f"Retrieve user id={user1.id}, photos count={len(user1_photos)}")
 
     user2 = user_repository.get(id=2)
     user2_photos = photo_repository.get_photos(user2.id)
-    print(f'Retrieve user id={user2.id}, photos count={len(user2_photos)}')
+    print(f"Retrieve user id={user2.id}, photos count={len(user2_photos)}")
 
     assert aggregation_service.user_repository is user_repository
     assert aggregation_service.photo_repository is photo_repository
-    print('Aggregate analytics from user and photo packages')
+    print("Aggregate analytics from user and photo packages")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     application = ApplicationContainer()
-    application.config.from_ini('config.ini')
+    application.config.from_ini("config.ini")
     application.wire(modules=[__name__])
 
     main()
