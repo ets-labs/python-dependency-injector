@@ -1,9 +1,7 @@
 """Wiring container injection example."""
 
-import sys
-
 from dependency_injector import containers, providers
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide, inject
 
 
 class Service:
@@ -21,8 +19,8 @@ def main(container: Container = Provide[Container]):
     ...
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
-    container.wire(modules=[sys.modules[__name__]])
+    container.wire(modules=[__name__])
 
     main()

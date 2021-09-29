@@ -95,17 +95,17 @@ Also you can use ``Provide`` marker to inject a container.
 
 .. literalinclude:: ../examples/wiring/example_container.py
    :language: python
-   :emphasize-lines: 16-19
+   :emphasize-lines: 14-17
    :lines: 3-
 
-Strings identifiers
--------------------
+String identifiers
+------------------
 
 You can use wiring with string identifiers. String identifier should match provider name in the container:
 
 .. literalinclude:: ../examples/wiring/example_string_id.py
    :language: python
-   :emphasize-lines: 17
+   :emphasize-lines: 15
    :lines: 3-
 
 With string identifiers you don't need to use a container to specify an injection.
@@ -183,19 +183,19 @@ You can use wiring to make injections into modules and class attributes.
 .. literalinclude:: ../examples/wiring/example_attribute.py
    :language: python
    :lines: 3-
-   :emphasize-lines: 16,21
+   :emphasize-lines: 14,19
 
 You could also use string identifiers to avoid a dependency on a container:
 
 .. code-block:: python
    :emphasize-lines: 1,6
 
-   service: Service = Provide['service']
+   service: Service = Provide["service"]
 
 
    class Main:
 
-       service: Service = Provide['service']
+       service: Service = Provide["service"]
 
 Wiring with modules and packages
 --------------------------------
@@ -233,7 +233,7 @@ When wiring is done functions and methods with the markers are patched to provid
 
 
    container = Container()
-   container.wire(modules=[sys.modules[__name__]])
+   container.wire(modules=[__name__])
 
    foo()  # <--- Argument "bar" is injected
 
@@ -267,7 +267,7 @@ You can use that in testing to re-create and re-wire a container before each tes
 
        def setUp(self):
            self.container = Container()
-           self.container.wire(modules=[module1, module2])
+           self.container.wire(modules=["yourapp.module1", "yourapp.module2"])
            self.addCleanup(self.container.unwire)
 
 .. code-block:: python
@@ -278,7 +278,7 @@ You can use that in testing to re-create and re-wire a container before each tes
    @pytest.fixture
    def container():
        container = Container()
-       container.wire(modules=[module1, module2])
+       container.wire(modules=["yourapp.module1", "yourapp.module2"])
        yield container
        container.unwire()
 
@@ -402,11 +402,11 @@ This is useful when you import modules dynamically.
    from .containers import Container
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
        register_loader_containers(container)  # <--- installs import hook
 
-       module = importlib.import_module('package.module')
+       module = importlib.import_module("package.module")
        module.foo()
 
 You can register multiple containers in the import hook. For doing this call register function
