@@ -2,7 +2,7 @@
 
 import sys
 
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide, inject
 
 from .services import UserService, AuthService, PhotoService
 from .containers import Application
