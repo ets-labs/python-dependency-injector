@@ -98,7 +98,7 @@ you configure global resource:
 
        configure_logging = providers.Resource(
            logging.config.fileConfig,
-           fname='logging.ini',
+           fname="logging.ini",
        )
 
 Function initializer does not provide a way to specify custom resource shutdown.
@@ -210,8 +210,8 @@ first argument.
 
 .. _resource-provider-wiring-closing:
 
-Resources, wiring and per-function execution scope
---------------------------------------------------
+Resources, wiring, and per-function execution scope
+---------------------------------------------------
 
 You can compound ``Resource`` provider with :ref:`wiring` to implement per-function
 execution scope. For doing this you need to use additional ``Closing`` marker from
@@ -220,7 +220,7 @@ execution scope. For doing this you need to use additional ``Closing`` marker fr
 .. literalinclude:: ../../examples/wiring/flask_resource_closing.py
    :language: python
    :lines: 3-
-   :emphasize-lines: 24
+   :emphasize-lines: 22
 
 Framework initializes and injects the resource into the function. With the ``Closing`` marker
 framework calls resource ``shutdown()`` method when function execution is over.
@@ -325,7 +325,7 @@ When you use resource provider with asynchronous initializer you need to call it
        connection = await container.connection.shutdown()
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        asyncio.run(main())
 
 Container ``init_resources()`` and ``shutdown_resources()`` methods should be used asynchronously if there is
@@ -349,7 +349,7 @@ at least one asynchronous resource provider:
        await container.shutdown_resources()
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        asyncio.run(main())
 
 See also:
