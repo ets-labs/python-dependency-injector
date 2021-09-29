@@ -22,9 +22,9 @@ def main(
     photo_service.upload_photo(user, photo)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     application = Application()
-    application.config.from_yaml('config.yml')
+    application.config.from_yaml("config.yml")
     application.core.init_resources()
     application.wire(modules=[__name__])
 
