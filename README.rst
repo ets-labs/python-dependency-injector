@@ -195,7 +195,7 @@ What is the dependency injection?
  - dependency injection is a principle that decreases coupling and increases cohesion
 
 Why should I do the dependency injection?
- - your code becomes more flexible, testable and clear 😎
+ - your code becomes more flexible, testable, and clear 😎
 
 How do I start doing the dependency injection?
  - you start writing the code following the dependency injection principle
@@ -204,7 +204,7 @@ How do I start doing the dependency injection?
 
 What price do I pay and what do I get?
  - you need to explicitly specify the dependencies
- - it will be extra work in the beginning
+ - it will be an extra work in the beginning
  - it will payoff as the project grows
 
 Have a question?
