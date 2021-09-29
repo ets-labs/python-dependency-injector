@@ -4,8 +4,8 @@ import os
 class ApiClient:
 
     def __init__(self):
-        self.api_key = os.getenv('API_KEY')  # <-- dependency
-        self.timeout = os.getenv('TIMEOUT')  # <-- dependency
+        self.api_key = os.getenv("API_KEY")  # <-- dependency
+        self.timeout = os.getenv("TIMEOUT")  # <-- dependency
 
 
 class Service:
@@ -19,5 +19,5 @@ def main() -> None:
     ...
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

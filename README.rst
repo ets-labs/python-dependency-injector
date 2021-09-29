@@ -80,7 +80,7 @@ Key features of the ``Dependency Injector``:
 .. code-block:: python
 
    from dependency_injector import containers, providers
-   from dependency_injector.wiring import inject, Provide
+   from dependency_injector.wiring import Provide, inject
 
 
    class Container(containers.DeclarativeContainer):
@@ -104,11 +104,11 @@ Key features of the ``Dependency Injector``:
        ...
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
-       container.config.api_key.from_env('API_KEY')
-       container.config.timeout.from_env('TIMEOUT')
-       container.wire(modules=[sys.modules[__name__]])
+       container.config.api_key.from_env("API_KEY")
+       container.config.timeout.from_env("TIMEOUT")
+       container.wire(modules=[__name__])
 
        main()  # <-- dependency is injected automatically
 
