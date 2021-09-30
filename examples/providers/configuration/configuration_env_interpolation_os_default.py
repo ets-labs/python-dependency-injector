@@ -10,10 +10,10 @@ class Container(containers.DeclarativeContainer):
     config = providers.Configuration()
 
 
-if __name__ == '__main__':
-    os.environ.setdefault('ENV_VAR', 'default value')
+if __name__ == "__main__":
+    os.environ.setdefault("ENV_VAR", "default value")
 
     container = Container()
-    container.config.from_yaml('config-with-env-var.yml')
+    container.config.from_yaml("config-with-env-var.yml")
 
-    assert container.config.section.option() == 'default value'
+    assert container.config.section.option() == "default value"

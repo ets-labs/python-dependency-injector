@@ -17,7 +17,7 @@ class UserRepository:
     def get_all(self) -> List[User]:
         return [
             self.user_factory(**user_data)
-            for user_data in [{'uid': 1}, {'uid': 2}]
+            for user_data in [{"uid": 1}, {"uid": 2}]
         ]
 
 
@@ -31,7 +31,7 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     user_repository = container.user_repository_factory()

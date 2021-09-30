@@ -26,7 +26,7 @@ async def main(container: Container):
     ...
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     asyncio.run(main(container))

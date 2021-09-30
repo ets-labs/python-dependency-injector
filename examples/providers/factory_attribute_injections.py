@@ -20,7 +20,7 @@ class Container(containers.DeclarativeContainer):
     service.add_attributes(client=client)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     service = container.service()

@@ -15,7 +15,7 @@ class Container(containers.DeclarativeContainer):
     coroutine_provider = providers.Coroutine(coroutine, arg1=1, arg2=2)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     arg1, arg2 = asyncio.run(container.coroutine_provider())

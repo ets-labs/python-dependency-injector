@@ -7,7 +7,7 @@ from dependency_injector import containers, providers
 
 async def init_async_resource():
     await asyncio.sleep(0.1)
-    yield 'Initialized'
+    yield "Initialized"
 
 
 class Service:
@@ -31,7 +31,7 @@ async def main(container: Container):
     ...
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     asyncio.run(main(container))

@@ -22,13 +22,13 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
-    container.config.override({'one_or_another': 'one'})
+    container.config.override({"one_or_another": "one"})
     instance_1 = container.selector()
     assert isinstance(instance_1, SomeClass)
 
-    container.config.override({'one_or_another': 'another'})
+    container.config.override({"one_or_another": "another"})
     instance_2 = container.selector()
     assert isinstance(instance_2, SomeOtherClass)

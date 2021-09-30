@@ -18,23 +18,23 @@ class Container(containers.DeclarativeContainer):
 
     dependency = providers.Object(
         {
-            'foo': {
-                'bar': 10,
-                'baz': lambda arg: {'arg': arg}
+            "foo": {
+                "bar": 10,
+                "baz": lambda arg: {"arg": arg}
             },
         },
     )
 
     demo_list = providers.List(
-        dependency.provided['foo']['bar'],
-        dependency.provided['foo']['baz'].call(22)['arg'],
-        dependency.provided['foo']['baz'].call(service)['arg'],
-        dependency.provided['foo']['baz'].call(service)['arg'].value,
-        dependency.provided['foo']['baz'].call(service)['arg'].get_value.call(),
+        dependency.provided["foo"]["bar"],
+        dependency.provided["foo"]["baz"].call(22)["arg"],
+        dependency.provided["foo"]["baz"].call(service)["arg"],
+        dependency.provided["foo"]["baz"].call(service)["arg"].value,
+        dependency.provided["foo"]["baz"].call(service)["arg"].get_value.call(),
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     assert container.demo_list() == [

@@ -29,5 +29,5 @@ try:
 except errors.Error as exception:
     print(exception)
     # The output is:
-    # <class '__main__.ServiceProvider'> can provide only
-    # <class '__main__.BaseService'> instances
+    # <class "__main__.ServiceProvider"> can provide only
+    # <class "__main__.BaseService"> instances

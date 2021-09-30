@@ -29,7 +29,7 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     # 1. Use .override() to replace the API client with stub

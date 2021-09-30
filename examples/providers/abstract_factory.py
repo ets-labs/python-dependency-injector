@@ -41,26 +41,26 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
-    cache_type = random.choice(['redis', 'memcached'])
-    if cache_type == 'redis':
+    cache_type = random.choice(["redis", "memcached"])
+    if cache_type == "redis":
         container.cache_client_factory.override(
             providers.Factory(
                 RedisCacheClient,
-                host='localhost',
+                host="localhost",
                 port=6379,
                 db=0,
             ),
         )
-    elif cache_type == 'memcached':
+    elif cache_type == "memcached":
         container.cache_client_factory.override(
             providers.Factory(
                 MemcachedCacheClient,
-                hosts=['10.0.1.1'],
+                hosts=["10.0.1.1"],
                 port=11211,
-                prefix='my_app',
+                prefix="my_app",
             ),
         )
 
@@ -68,12 +68,12 @@ if __name__ == '__main__':
     print(service.cache)
     # The output depends on cache_type variable value.
     #
-    # If the value is 'redis':
-    # RedisCacheClient(host='localhost', port=6379, db=0)
+    # If the value is "redis":
+    # RedisCacheClient(host="localhost", port=6379, db=0)
     #
-    # If the value is 'memcached':
-    # MemcachedCacheClient(hosts=['10.0.1.1'], port=11211, prefix='my_app')
+    # If the value is "memcached":
+    # MemcachedCacheClient(hosts=["10.0.1.1"], port=11211, prefix="my_app")
     #
     # If the value is None:
-    # Error: AbstractFactory(<class '__main__.AbstractCacheClient'>) must be
+    # Error: AbstractFactory(<class "__main__.AbstractCacheClient">) must be
     # overridden before calling

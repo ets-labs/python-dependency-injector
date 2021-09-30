@@ -16,8 +16,8 @@ class Container(containers.DeclarativeContainer):
     password_verifier = providers.Callable(passlib.hash.sha256_crypt.verify)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
-    hashed_password = container.password_hasher('super secret')
-    assert container.password_verifier('super secret', hashed_password)
+    hashed_password = container.password_hasher("super secret")
+    assert container.password_verifier("super secret", hashed_password)

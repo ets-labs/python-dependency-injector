@@ -5,7 +5,7 @@ from dependency_injector import containers, providers
 
 class Service:
     def __init__(self):
-        self.value = 'foo'
+        self.value = "foo"
         self.values = [self.value]
 
     def get_value(self):
@@ -36,8 +36,8 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     client = container.client_factory()
-    assert client.value1 == client.value2 == client.value3 == 'foo'
+    assert client.value1 == client.value2 == client.value3 == "foo"

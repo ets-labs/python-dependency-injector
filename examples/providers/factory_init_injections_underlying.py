@@ -39,7 +39,7 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     algorithm_1 = container.algorithm_factory(

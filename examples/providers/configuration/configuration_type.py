@@ -22,17 +22,17 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     # Emulate environment variables
-    os.environ['API_KEY'] = 'secret'
-    os.environ['API_TIMEOUT'] = '5'
+    os.environ["API_KEY"] = "secret"
+    os.environ["API_TIMEOUT"] = "5"
 
-    container.config.api.key.from_env('API_KEY')
-    container.config.api.timeout.from_env('API_TIMEOUT')
+    container.config.api.key.from_env("API_KEY")
+    container.config.api.timeout.from_env("API_TIMEOUT")
 
     api_client = container.api_client_factory()
 
-    assert api_client.api_key == 'secret'
+    assert api_client.api_key == "secret"
     assert api_client.timeout == 5
