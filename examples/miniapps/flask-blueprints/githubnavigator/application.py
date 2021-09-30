@@ -9,8 +9,8 @@ from .blueprints import example
 
 def create_app() -> Flask:
     container = Container()
-    container.config.from_yaml('config.yml')
-    container.config.github.auth_token.from_env('GITHUB_TOKEN')
+    container.config.from_yaml("config.yml")
+    container.config.github.auth_token.from_env("GITHUB_TOKEN")
     container.wire(modules=[example])
 
     app = Flask(__name__)
