@@ -70,7 +70,7 @@ Tests use :ref:`provider-overriding` feature to replace giphy client with a mock
 
 .. literalinclude:: ../../examples/miniapps/sanic/giphynavigator/tests.py
    :language: python
-   :emphasize-lines: 27,54,68
+   :emphasize-lines: 34,61,75
 
 Sources
 -------
