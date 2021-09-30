@@ -200,8 +200,46 @@ You could also use string identifiers to avoid a dependency on a container:
 Wiring with modules and packages
 --------------------------------
 
-To wire a container with a module you need to call ``container.wire(modules=[...])`` method. Argument
-``modules`` is an iterable of the module objects.
+To wire a container with the modules you need to call ``container.wire()`` method:
+
+.. code-block:: python
+
+   container.wire(
+       modules=[
+           "yourapp.module1",
+           "yourapp.module2",
+       ],
+   )
+
+Method ``container.wire()`` can resolve relative imports:
+
+.. code-block:: python
+
+   # In module "yourapp.foo":
+
+   container.wire(
+       modules=[
+           ".module1",  # Resolved to: "yourapp.module1"
+           ".module2",  # Resolved to: "yourapp.module2"
+       ],
+   )
+
+You can also manually specify a base package for resolving relative imports with
+the ``from_package`` argument:
+
+.. code-block:: python
+
+   # In module "yourapp.main":
+
+   container.wire(
+       modules=[
+           ".module1",  # Resolved to: "anotherapp.module1"
+           ".module2",  # Resolved to: "anotherapp.module2"
+       ],
+       from_package="anotherapp",
+   )
+
+Argument ``modules`` can also take already imported modules:
 
 .. code-block:: python
 
@@ -211,15 +249,16 @@ To wire a container with a module you need to call ``container.wire(modules=[...
    container = Container()
    container.wire(modules=[module1, module2])
 
-You can wire container with a package. Container walks recursively over package modules.
+You can wire container with a package. Container walks recursively over the package modules:
 
 .. code-block:: python
 
-   from yourapp import package1, package2
-
-
-   container = Container()
-   container.wire(packages=[package1, package2])
+   container.wire(
+       packages=[
+           "yourapp.package1",
+           "yourapp.package2",
+       ],
+   )
 
 Arguments ``modules`` and ``packages`` can be used together.
 
