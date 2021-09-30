@@ -62,10 +62,10 @@ def main():
     assert service1.s3_client is s3_client
     assert service1.sqs_client is sqs_client
 
-    service2 = container.service1()
+    service2 = container.service2()
     print(service2, service2.s3_client, service2.sqs_client)
-    assert service2.s3_client is s3_client
-    assert service2.sqs_client is sqs_client
+    assert service2.s3_client.__class__.__name__ == "S3"
+    assert service2.sqs_client.__class__.__name__ == "SQS"
 
 
 if __name__ == "__main__":
