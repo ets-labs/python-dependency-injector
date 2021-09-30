@@ -98,8 +98,8 @@ The output should be something like:
 
 .. code-block::
 
-   platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
-   plugins: cov-2.10.0, sanic-1.6.1
+   platform darwin -- Python 3.9.5, pytest-6.2.2, py-1.10.0, pluggy-0.13.1
+   plugins: cov-2.12.1, sanic-1.8.1, anyio-3.3.2
    collected 3 items
 
    giphynavigator/tests.py ...                                     [100%]
@@ -114,6 +114,6 @@ The output should be something like:
    giphynavigator/giphy.py            14      9    36%
    giphynavigator/handlers.py         11      0   100%
    giphynavigator/services.py          9      1    89%
-   giphynavigator/tests.py            34      0   100%
+   giphynavigator/tests.py            39      0   100%
    ---------------------------------------------------
-   TOTAL                              90     14    84%
+   TOTAL                              95     14    85%

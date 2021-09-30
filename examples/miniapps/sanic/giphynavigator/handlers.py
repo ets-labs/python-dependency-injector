@@ -15,15 +15,15 @@ async def index(
         default_query: str = Provide[Container.config.default.query],
         default_limit: int = Provide[Container.config.default.limit.as_int()],
 ) -> HTTPResponse:
-    query = request.args.get('query', default_query)
-    limit = int(request.args.get('limit', default_limit))
+    query = request.args.get("query", default_query)
+    limit = int(request.args.get("limit", default_limit))
 
     gifs = await search_service.search(query, limit)
 
     return json(
         {
-            'query': query,
-            'limit': limit,
-            'gifs': gifs,
+            "query": query,
+            "limit": limit,
+            "gifs": gifs,
         },
     )
