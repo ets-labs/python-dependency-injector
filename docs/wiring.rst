@@ -115,7 +115,7 @@ To specify an injection from a nested container use point ``.`` as a separator:
 .. code-block:: python
 
    @inject
-   def foo(service: UserService = Provide['services.user']) -> None:
+   def foo(service: UserService = Provide["services.user"]) -> None:
        ...
 
 You can also use injection modifiers:
@@ -135,34 +135,34 @@ You can also use injection modifiers:
 
 
    @inject
-   def foo(value: int = Provide['config.option', as_int()]) -> None:
+   def foo(value: int = Provide["config.option", as_int()]) -> None:
        ...
 
 
    @inject
-   def foo(value: float = Provide['config.option', as_float()]) -> None:
+   def foo(value: float = Provide["config.option", as_float()]) -> None:
        ...
 
 
    @inject
-   def foo(value: Decimal = Provide['config.option', as_(Decimal)]) -> None:
+   def foo(value: Decimal = Provide["config.option", as_(Decimal)]) -> None:
        ...
 
    @inject
-   def foo(value: str = Provide['config.option', required()]) -> None:
+   def foo(value: str = Provide["config.option", required()]) -> None:
        ...
 
    @inject
-   def foo(value: int = Provide['config.option', required().as_int()]) -> None:
+   def foo(value: int = Provide["config.option", required().as_int()]) -> None:
        ...
 
 
    @inject
-   def foo(value: int = Provide['config.option', invariant('config.switch')]) -> None:
+   def foo(value: int = Provide["config.option", invariant("config.switch")]) -> None:
        ...
 
    @inject
-   def foo(value: int = Provide['service', provided().foo['bar'].call()]) -> None:
+   def foo(value: int = Provide["service", provided().foo["bar"].call()]) -> None:
        ...
 
 
@@ -171,7 +171,7 @@ To inject a container use special identifier ``<container>``:
 .. code-block:: python
 
    @inject
-   def foo(container: Container = Provide['<container>']) -> None:
+   def foo(container: Container = Provide["<container>"]) -> None:
        ...
 
 
