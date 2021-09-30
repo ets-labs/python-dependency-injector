@@ -80,7 +80,7 @@ Key features of the ``Dependency Injector``:
 .. code-block:: python
 
    from dependency_injector import containers, providers
-   from dependency_injector.wiring import inject, Provide
+   from dependency_injector.wiring import Provide, inject
 
 
    class Container(containers.DeclarativeContainer):
@@ -104,11 +104,11 @@ Key features of the ``Dependency Injector``:
        ...
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
-       container.config.api_key.from_env('API_KEY')
-       container.config.timeout.from_env('TIMEOUT')
-       container.wire(modules=[sys.modules[__name__]])
+       container.config.api_key.from_env("API_KEY")
+       container.config.timeout.from_env("TIMEOUT")
+       container.wire(modules=[__name__])
 
        main()  # <-- dependency is injected automatically
 
@@ -195,7 +195,7 @@ What is the dependency injection?
  - dependency injection is a principle that decreases coupling and increases cohesion
 
 Why should I do the dependency injection?
- - your code becomes more flexible, testable and clear 😎
+ - your code becomes more flexible, testable, and clear 😎
 
 How do I start doing the dependency injection?
  - you start writing the code following the dependency injection principle
@@ -204,7 +204,7 @@ How do I start doing the dependency injection?
 
 What price do I pay and what do I get?
  - you need to explicitly specify the dependencies
- - it will be extra work in the beginning
+ - it will be an extra work in the beginning
  - it will payoff as the project grows
 
 Have a question?

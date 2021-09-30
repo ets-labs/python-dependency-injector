@@ -30,7 +30,7 @@ class Gateways(containers.DeclarativeContainer):
 
     s3_client = providers.Singleton(
         boto3.client,
-        service_name='s3',
+        service_name="s3",
         aws_access_key_id=config.aws.access_key_id,
         aws_secret_access_key=config.aws.secret_access_key,
     )

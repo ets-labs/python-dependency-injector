@@ -2,7 +2,7 @@
 
 import sys
 
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide, inject
 
 from .services import UserService, AuthService, PhotoService
 from .containers import Application
@@ -22,10 +22,10 @@ def main(
     photo_service.upload_photo(user, photo)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     application = Application()
-    application.config.from_yaml('config.yml')
+    application.config.from_yaml("config.yml")
     application.core.init_resources()
-    application.wire(modules=[sys.modules[__name__]])
+    application.wire(modules=[__name__])
 
     main(*sys.argv[1:])

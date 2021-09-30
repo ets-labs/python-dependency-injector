@@ -18,12 +18,12 @@ def main(service: Service):  # <-- dependency is injected
     ...
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main(
         service=Service(
             api_client=ApiClient(
-                api_key=os.getenv('API_KEY'),
-                timeout=os.getenv('TIMEOUT'),
+                api_key=os.getenv("API_KEY"),
+                timeout=os.getenv("TIMEOUT"),
             ),
         ),
     )

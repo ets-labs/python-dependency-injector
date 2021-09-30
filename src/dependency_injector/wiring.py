@@ -325,8 +325,7 @@ def wire(  # noqa: C901
         packages: Optional[Iterable[ModuleType]] = None,
 ) -> None:
     """Wire container providers with provided packages and modules."""
-    if not modules:
-        modules = []
+    modules = [*modules] if modules else []
 
     if packages:
         for package in packages:
@@ -367,8 +366,7 @@ def unwire(  # noqa: C901
         packages: Optional[Iterable[ModuleType]] = None,
 ) -> None:
     """Wire provided packages and modules with previous wired providers."""
-    if not modules:
-        modules = []
+    modules = [*modules] if modules else []
 
     if packages:
         for package in packages:

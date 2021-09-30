@@ -46,5 +46,5 @@ class SqliteMovieFinder(MovieFinder):
 
     def find_all(self) -> List[Movie]:
         with self._database as db:
-            rows = db.execute('SELECT title, year, director FROM movies')
+            rows = db.execute("SELECT title, year, director FROM movies")
             return [self._movie_factory(*row) for row in rows]

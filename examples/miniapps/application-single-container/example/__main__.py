@@ -2,7 +2,7 @@
 
 import sys
 
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide, inject
 
 from .services import UserService, AuthService, PhotoService
 from .containers import Container
@@ -22,10 +22,10 @@ def main(
     photo_service.upload_photo(user, photo)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
     container.init_resources()
-    container.config.from_ini('config.ini')
-    container.wire(modules=[sys.modules[__name__]])
+    container.config.from_ini("config.ini")
+    container.wire(modules=[__name__])
 
     main(*sys.argv[1:])

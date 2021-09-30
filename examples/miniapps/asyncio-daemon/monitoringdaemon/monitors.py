@@ -25,10 +25,10 @@ class HttpMonitor(Monitor):
             options: Dict[str, Any],
     ) -> None:
         self._client = http_client
-        self._method = options.pop('method')
-        self._url = options.pop('url')
-        self._timeout = options.pop('timeout')
-        super().__init__(check_every=options.pop('check_every'))
+        self._method = options.pop("method")
+        self._url = options.pop("url")
+        self._timeout = options.pop("timeout")
+        super().__init__(check_every=options.pop("check_every"))
 
     async def check(self) -> None:
         time_start = time.time()
@@ -43,11 +43,11 @@ class HttpMonitor(Monitor):
         time_took = time_end - time_start
 
         self.logger.info(
-            'Check\n'
-            '    %s %s\n'
-            '    response code: %s\n'
-            '    content length: %s\n'
-            '    request took: %s seconds',
+            "Check\n"
+            "    %s %s\n"
+            "    response code: %s\n"
+            "    content length: %s\n"
+            "    request took: %s seconds",
             self._method,
             self._url,
             response.status,

@@ -19,22 +19,22 @@ class RequestStub:
 def container():
     container = Container()
     container.config.from_dict({
-        'log': {
-            'level': 'INFO',
-            'formant': '[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s',
+        "log": {
+            "level": "INFO",
+            "formant": "[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s",
         },
-        'monitors': {
-            'example': {
-                'method': 'GET',
-                'url': 'http://fake-example.com',
-                'timeout': 1,
-                'check_every': 1,
+        "monitors": {
+            "example": {
+                "method": "GET",
+                "url": "http://fake-example.com",
+                "timeout": 1,
+                "check_every": 1,
             },
-            'httpbin': {
-                'method': 'GET',
-                'url': 'https://fake-httpbin.org/get',
-                'timeout': 1,
-                'check_every': 1,
+            "httpbin": {
+                "method": "GET",
+                "url": "https://fake-httpbin.org/get",
+                "timeout": 1,
+                "check_every": 1,
             },
         },
     })
@@ -43,7 +43,7 @@ def container():
 
 @pytest.mark.asyncio
 async def test_example_monitor(container, caplog):
-    caplog.set_level('INFO')
+    caplog.set_level("INFO")
 
     http_client_mock = mock.AsyncMock()
     http_client_mock.request.return_value = RequestStub(
@@ -55,14 +55,14 @@ async def test_example_monitor(container, caplog):
         example_monitor = container.example_monitor()
         await example_monitor.check()
 
-    assert 'http://fake-example.com' in caplog.text
-    assert 'response code: 200' in caplog.text
-    assert 'content length: 635' in caplog.text
+    assert "http://fake-example.com" in caplog.text
+    assert "response code: 200" in caplog.text
+    assert "content length: 635" in caplog.text
 
 
 @pytest.mark.asyncio
 async def test_dispatcher(container, caplog, event_loop):
-    caplog.set_level('INFO')
+    caplog.set_level("INFO")
 
     example_monitor_mock = mock.AsyncMock()
     httpbin_monitor_mock = mock.AsyncMock()

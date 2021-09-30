@@ -29,12 +29,12 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
-    container = Container(config={'max_workers': 4})
+if __name__ == "__main__":
+    container = Container(config={"max_workers": 4})
 
     container.init_resources()
 
-    logging.info('Resources are initialized')
+    logging.info("Resources are initialized")
     thread_pool = container.thread_pool()
     thread_pool.map(print, range(10))
 
