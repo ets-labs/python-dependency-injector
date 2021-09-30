@@ -59,8 +59,8 @@ The output should look something like:
 
 .. code-block:: bash
 
-   Docker version 19.03.12, build 48a66213fe
-   docker-compose version 1.26.2, build eefe0d31
+   Docker version 20.10.5, build 55c4c88
+   docker-compose version 1.29.0, build 07737305
 
 .. note::
 
@@ -135,7 +135,7 @@ Put next lines into the ``Dockerfile`` file:
 
 .. code-block:: bash
 
-   FROM python:3.8-buster
+   FROM python:3.9-buster
 
    ENV PYTHONUNBUFFERED=1
 
@@ -267,9 +267,9 @@ Put next lines into the ``__main__.py`` file:
        ...
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml('config.yml')
+       container.config.from_yaml("config.yml")
        container.init_resources()
 
        main()
@@ -356,7 +356,7 @@ and next into the ``dispatcher.py``:
            asyncio.run(self.start())
 
        async def start(self) -> None:
-           self._logger.info('Starting up')
+           self._logger.info("Starting up")
 
            for monitor in self._monitors:
                self._monitor_tasks.append(
@@ -376,11 +376,11 @@ and next into the ``dispatcher.py``:
 
            self._stopping = True
 
-           self._logger.info('Shutting down')
+           self._logger.info("Shutting down")
            for task, monitor in zip(self._monitor_tasks, self._monitors):
                task.cancel()
            self._monitor_tasks.clear()
-           self._logger.info('Shutdown finished successfully')
+           self._logger.info("Shutdown finished successfully")
 
        @staticmethod
        async def _run_monitor(monitor: Monitor) -> None:
@@ -396,7 +396,7 @@ and next into the ``dispatcher.py``:
                except asyncio.CancelledError:
                    break
                except Exception:
-                   monitor.logger.exception('Error executing monitor check')
+                   monitor.logger.exception("Error executing monitor check")
 
                await asyncio.sleep(_until_next(last=time_start))
 
@@ -442,13 +442,11 @@ and call the ``run()`` method. We will use :ref:`wiring` feature.
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 3-7,11-13,20
+   :emphasize-lines: 3-5,9-11,18
 
    """Main module."""
 
-   import sys
-
-   from dependency_injector.wiring import inject, Provide
+   from dependency_injector.wiring import Provide, inject
 
    from .dispatcher import Dispatcher
    from .containers import Container
@@ -459,11 +457,11 @@ Edit ``__main__.py``:
        dispatcher.run()
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml('config.yml')
+       container.config.from_yaml("config.yml")
        container.init_resources()
-       container.wire(modules=[sys.modules[__name__]])
+       container.wire(modules=[__name__])
 
        main()
 
@@ -613,10 +611,10 @@ Edit ``monitors.py``:
                options: Dict[str, Any],
        ) -> None:
            self._client = http_client
-           self._method = options.pop('method')
-           self._url = options.pop('url')
-           self._timeout = options.pop('timeout')
-           super().__init__(check_every=options.pop('check_every'))
+           self._method = options.pop("method")
+           self._url = options.pop("url")
+           self._timeout = options.pop("timeout")
+           super().__init__(check_every=options.pop("check_every"))
 
        async def check(self) -> None:
            time_start = time.time()
@@ -631,11 +629,11 @@ Edit ``monitors.py``:
            time_took = time_end - time_start
 
            self.logger.info(
-               'Check\n'
-               '    %s %s\n'
-               '    response code: %s\n'
-               '    content length: %s\n'
-               '    request took: %s seconds',
+               "Check\n"
+               "    %s %s\n"
+               "    response code: %s\n"
+               "    content length: %s\n"
+               "    request took: %s seconds",
                self._method,
                self._url,
                response.status,
@@ -913,22 +911,22 @@ and put next into it:
    def container():
        container = Container()
        container.config.from_dict({
-           'log': {
-               'level': 'INFO',
-               'formant': '[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s',
+           "log": {
+               "level": "INFO",
+               "formant": "[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s",
            },
-           'monitors': {
-               'example': {
-                   'method': 'GET',
-                   'url': 'http://fake-example.com',
-                   'timeout': 1,
-                   'check_every': 1,
+           "monitors": {
+               "example": {
+                   "method": "GET",
+                   "url": "http://fake-example.com",
+                   "timeout": 1,
+                   "check_every": 1,
                },
-               'httpbin': {
-                   'method': 'GET',
-                   'url': 'https://fake-httpbin.org/get',
-                   'timeout': 1,
-                   'check_every': 1,
+               "httpbin": {
+                   "method": "GET",
+                   "url": "https://fake-httpbin.org/get",
+                   "timeout": 1,
+                   "check_every": 1,
                },
            },
        })
@@ -937,7 +935,7 @@ and put next into it:
 
    @pytest.mark.asyncio
    async def test_example_monitor(container, caplog):
-       caplog.set_level('INFO')
+       caplog.set_level("INFO")
 
        http_client_mock = mock.AsyncMock()
        http_client_mock.request.return_value = RequestStub(
@@ -949,14 +947,14 @@ and put next into it:
            example_monitor = container.example_monitor()
            await example_monitor.check()
 
-       assert 'http://fake-example.com' in caplog.text
-       assert 'response code: 200' in caplog.text
-       assert 'content length: 635' in caplog.text
+       assert "http://fake-example.com" in caplog.text
+       assert "response code: 200" in caplog.text
+       assert "content length: 635" in caplog.text
 
 
    @pytest.mark.asyncio
    async def test_dispatcher(container, caplog, event_loop):
-       caplog.set_level('INFO')
+       caplog.set_level("INFO")
 
        example_monitor_mock = mock.AsyncMock()
        httpbin_monitor_mock = mock.AsyncMock()
