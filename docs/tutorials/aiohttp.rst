@@ -177,16 +177,16 @@ Edit ``handlers.py``:
 
 
    async def index(request: web.Request) -> web.Response:
-       query = request.query.get('query', 'Dependency Injector')
-       limit = int(request.query.get('limit', 10))
+       query = request.query.get("query", "Dependency Injector")
+       limit = int(request.query.get("limit", 10))
 
        gifs = []
 
        return web.json_response(
            {
-               'query': query,
-               'limit': limit,
-               'gifs': gifs,
+               "query": query,
+               "limit": limit,
+               "gifs": gifs,
            },
        )
 
@@ -228,7 +228,7 @@ Put next into the ``application.py``:
        app = web.Application()
        app.container = container
        app.add_routes([
-           web.get('/', handlers.index),
+           web.get("/", handlers.index),
        ])
        return app
 
@@ -304,7 +304,7 @@ and put next into it:
 
    class GiphyClient:
 
-       API_URL = 'https://api.giphy.com/v1'
+       API_URL = "https://api.giphy.com/v1"
 
        def __init__(self, api_key, timeout):
            self._api_key = api_key
@@ -312,11 +312,11 @@ and put next into it:
 
        async def search(self, query, limit):
            """Make search API call and return result."""
-           url = f'{self.API_URL}/gifs/search'
+           url = f"{self.API_URL}/gifs/search"
            params = {
-               'q': query,
-               'api_key': self._api_key,
-               'limit': limit,
+               "q": query,
+               "api_key": self._api_key,
+               "limit": limit,
            }
            async with ClientSession(timeout=self._timeout) as session:
                async with session.get(url, params=params) as response:
@@ -409,13 +409,13 @@ Edit ``application.py``:
 
    def create_app() -> web.Application:
        container = Container()
-       container.config.from_yaml('config.yml')
-       container.config.giphy.api_key.from_env('GIPHY_API_KEY')
+       container.config.from_yaml("config.yml")
+       container.config.giphy.api_key.from_env("GIPHY_API_KEY")
 
        app = web.Application()
        app.container = container
        app.add_routes([
-           web.get('/', handlers.index),
+           web.get("/", handlers.index),
        ])
        return app
 
@@ -483,7 +483,7 @@ and put next into it:
 
            result = await self._giphy_client.search(query, limit)
 
-           return [{'url': gif['url']} for gif in result['data']]
+           return [{"url": gif["url"]} for gif in result["data"]]
 
 The ``SearchService`` has a dependency on the ``GiphyClient``. This dependency will be
 injected when we add ``SearchService`` to the container.
@@ -531,7 +531,7 @@ Edit ``handlers.py``:
    """Handlers module."""
 
    from aiohttp import web
-   from dependency_injector.wiring import inject, Provide
+   from dependency_injector.wiring import Provide, inject
 
    from .services import SearchService
    from .containers import Container
@@ -542,16 +542,16 @@ Edit ``handlers.py``:
            request: web.Request,
            search_service: SearchService = Provide[Container.search_service],
    ) -> web.Response:
-       query = request.query.get('query', 'Dependency Injector')
-       limit = int(request.query.get('limit', 10))
+       query = request.query.get("query", "Dependency Injector")
+       limit = int(request.query.get("limit", 10))
 
        gifs = await search_service.search(query, limit)
 
        return web.json_response(
            {
-               'query': query,
-               'limit': limit,
-               'gifs': gifs,
+               "query": query,
+               "limit": limit,
+               "gifs": gifs,
            },
        )
 
@@ -574,14 +574,14 @@ Edit ``application.py``:
 
    def create_app() -> web.Application:
        container = Container()
-       container.config.from_yaml('config.yml')
-       container.config.giphy.api_key.from_env('GIPHY_API_KEY')
+       container.config.from_yaml("config.yml")
+       container.config.giphy.api_key.from_env("GIPHY_API_KEY")
        container.wire(modules=[handlers])
 
        app = web.Application()
        app.container = container
        app.add_routes([
-           web.get('/', handlers.index),
+           web.get("/", handlers.index),
        ])
        return app
 
@@ -651,7 +651,7 @@ Edit ``handlers.py``:
    """Handlers module."""
 
    from aiohttp import web
-   from dependency_injector.wiring import inject, Provide
+   from dependency_injector.wiring import Provide, inject
 
    from .services import SearchService
    from .containers import Container
@@ -664,16 +664,16 @@ Edit ``handlers.py``:
            default_query: str = Provide[Container.config.default.query],
            default_limit: int = Provide[Container.config.default.limit.as_int()],
    ) -> web.Response:
-       query = request.query.get('query', default_query)
-       limit = int(request.query.get('limit', default_limit))
+       query = request.query.get("query", default_query)
+       limit = int(request.query.get("limit", default_limit))
 
        gifs = await search_service.search(query, limit)
 
        return web.json_response(
            {
-               'query': query,
-               'limit': limit,
-               'gifs': gifs,
+               "query": query,
+               "limit": limit,
+               "gifs": gifs,
            },
        )
 
@@ -745,29 +745,29 @@ and put next into it:
    async def test_index(client, app):
        giphy_client_mock = mock.AsyncMock(spec=GiphyClient)
        giphy_client_mock.search.return_value = {
-           'data': [
-               {'url': 'https://giphy.com/gif1.gif'},
-               {'url': 'https://giphy.com/gif2.gif'},
+           "data": [
+               {"url": "https://giphy.com/gif1.gif"},
+               {"url": "https://giphy.com/gif2.gif"},
            ],
        }
 
        with app.container.giphy_client.override(giphy_client_mock):
            response = await client.get(
-               '/',
+               "/",
                params={
-                   'query': 'test',
-                   'limit': 10,
+                   "query": "test",
+                   "limit": 10,
                },
            )
 
        assert response.status == 200
        data = await response.json()
        assert data == {
-           'query': 'test',
-           'limit': 10,
-           'gifs': [
-               {'url': 'https://giphy.com/gif1.gif'},
-               {'url': 'https://giphy.com/gif2.gif'},
+           "query": "test",
+           "limit": 10,
+           "gifs": [
+               {"url": "https://giphy.com/gif1.gif"},
+               {"url": "https://giphy.com/gif2.gif"},
            ],
        }
 
@@ -775,30 +775,30 @@ and put next into it:
    async def test_index_no_data(client, app):
        giphy_client_mock = mock.AsyncMock(spec=GiphyClient)
        giphy_client_mock.search.return_value = {
-           'data': [],
+           "data": [],
        }
 
        with app.container.giphy_client.override(giphy_client_mock):
-           response = await client.get('/')
+           response = await client.get("/")
 
        assert response.status == 200
        data = await response.json()
-       assert data['gifs'] == []
+       assert data["gifs"] == []
 
 
    async def test_index_default_params(client, app):
        giphy_client_mock = mock.AsyncMock(spec=GiphyClient)
        giphy_client_mock.search.return_value = {
-           'data': [],
+           "data": [],
        }
 
        with app.container.giphy_client.override(giphy_client_mock):
-           response = await client.get('/')
+           response = await client.get("/")
 
        assert response.status == 200
        data = await response.json()
-       assert data['query'] == app.container.config.default.query()
-       assert data['limit'] == app.container.config.default.limit()
+       assert data["query"] == app.container.config.default.query()
+       assert data["limit"] == app.container.config.default.limit()
 
 Now let's run it and check the coverage:
 
