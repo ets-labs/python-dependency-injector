@@ -23,8 +23,8 @@ To use non-string keys or keys with ``.`` and ``-`` provide a dictionary as a po
 
    providers.Dict({
        SomeClass: providers.Factory(...),
-       'key.with.periods': providers.Factory(...),
-       'key-with-dashes': providers.Factory(...),
+       "key.with.periods": providers.Factory(...),
+       "key-with-dashes": providers.Factory(...),
    })
 
 Example:

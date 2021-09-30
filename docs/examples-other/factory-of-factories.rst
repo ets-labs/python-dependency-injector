@@ -20,7 +20,7 @@ additional arguments.
    )
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        instance = concrete_factory()
        # Same as: # instance = SomeClass(base_argument=1, extra_argument=2)
 
@@ -46,7 +46,7 @@ Passing of the arguments works the same way like for any other :ref:`factory-pro
        arg1=1,
    )
    dict_factory = factory_of_dict_factories(arg2=2)
-   print(dict_factory())  # prints: {'arg1': 1, 'arg2': 2}
+   print(dict_factory())  # prints: {"arg1": 1, "arg2": 2}
 
    # 2. Keyword arguments of upper level factory have priority
    factory_of_dict_factories = providers.Factory(
@@ -55,7 +55,7 @@ Passing of the arguments works the same way like for any other :ref:`factory-pro
        arg1=1,
    )
    dict_factory = factory_of_dict_factories(arg1=2)
-   print(dict_factory())  # prints: {'arg1': 2}
+   print(dict_factory())  # prints: {"arg1": 2}
 
    # 3. Keyword arguments provided from context have the most priority
    factory_of_dict_factories = providers.Factory(
@@ -64,7 +64,7 @@ Passing of the arguments works the same way like for any other :ref:`factory-pro
        arg1=1,
    )
    dict_factory = factory_of_dict_factories(arg1=2)
-   print(dict_factory(arg1=3))  # prints: {'arg1': 3}
+   print(dict_factory(arg1=3))  # prints: {"arg1": 3}
 
 Credits
 -------
