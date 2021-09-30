@@ -58,7 +58,7 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     token_service = container.token_service()
