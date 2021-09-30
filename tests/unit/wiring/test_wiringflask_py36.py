@@ -1,17 +1,18 @@
 import unittest
+import json
 
 # Runtime import to avoid syntax errors in samples on Python < 3.5 and reach top-dir
 import os
 _TOP_DIR = os.path.abspath(
     os.path.sep.join((
         os.path.dirname(__file__),
-        '../',
+        "../",
     )),
 )
 _SAMPLES_DIR = os.path.abspath(
     os.path.sep.join((
         os.path.dirname(__file__),
-        '../samples/',
+        "../samples/",
     )),
 )
 import sys
@@ -27,7 +28,7 @@ class WiringFlaskTest(unittest.TestCase):
         client = web.app.test_client()
 
         with web.app.app_context():
-            response = client.get('/')
+            response = client.get("/")
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data, b'{"result":"Ok"}\n')
+        self.assertEqual(json.loads(response.data), {"result": "Ok"})
