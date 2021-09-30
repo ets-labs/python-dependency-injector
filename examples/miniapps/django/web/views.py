@@ -18,18 +18,18 @@ def index(
         default_limit: int = Provide[Container.config.DEFAULT_LIMIT.as_int()],
         limit_options: List[int] = Provide[Container.config.LIMIT_OPTIONS],
 ) -> HttpResponse:
-    query = request.GET.get('query', default_query)
-    limit = int(request.GET.get('limit', default_limit))
+    query = request.GET.get("query", default_query)
+    limit = int(request.GET.get("limit", default_limit))
 
     repositories = search_service.search_repositories(query, limit)
 
     return render(
         request,
-        template_name='index.html',
+        template_name="index.html",
         context={
-            'query': query,
-            'limit': limit,
-            'limit_options': limit_options,
-            'repositories': repositories,
+            "query": query,
+            "limit": limit,
+            "limit_options": limit_options,
+            "repositories": repositories,
         }
     )

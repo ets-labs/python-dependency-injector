@@ -105,9 +105,9 @@ The output should be something like:
    githubnavigator/wsgi.py             4      4     0%
    manage.py                          12      2    83%
    web/__init__.py                     0      0   100%
-   web/apps.py                         7      0   100%
+   web/apps.py                         6      0   100%
    web/tests.py                       28      0   100%
    web/urls.py                         3      0   100%
    web/views.py                       12      0   100%
    ---------------------------------------------------
-   TOTAL                             121     10    92%
+   TOTAL                             120     10    92%

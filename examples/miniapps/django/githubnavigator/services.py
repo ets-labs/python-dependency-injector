@@ -15,7 +15,7 @@ class SearchService:
         """Search for repositories and return formatted data."""
         repositories = self._github_client.search_repositories(
             query=query,
-            **{'in': 'name'},
+            **{"in": "name"},
         )
         return [
             self._format_repo(repository)
@@ -25,20 +25,20 @@ class SearchService:
     def _format_repo(self, repository: Repository):
         commits = repository.get_commits()
         return {
-            'url': repository.html_url,
-            'name': repository.name,
-            'owner': {
-                'login': repository.owner.login,
-                'url': repository.owner.html_url,
-                'avatar_url': repository.owner.avatar_url,
+            "url": repository.html_url,
+            "name": repository.name,
+            "owner": {
+                "login": repository.owner.login,
+                "url": repository.owner.html_url,
+                "avatar_url": repository.owner.avatar_url,
             },
-            'latest_commit': self._format_commit(commits[0]) if commits else {},
+            "latest_commit": self._format_commit(commits[0]) if commits else {},
         }
 
     def _format_commit(self, commit: Commit):
         return {
-            'sha': commit.sha,
-            'url': commit.html_url,
-            'message': commit.commit.message,
-            'author_name': commit.commit.author.name,
+            "sha": commit.sha,
+            "url": commit.html_url,
+            "message": commit.commit.message,
+            "author_name": commit.commit.author.name,
         }
