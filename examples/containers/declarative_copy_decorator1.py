@@ -13,7 +13,7 @@ class Service:
 
 class SourceContainer(containers.DeclarativeContainer):
 
-    database = providers.Singleton(sqlite3.connect, ':memory:')
+    database = providers.Singleton(sqlite3.connect, ":memory:")
     service = providers.Factory(Service, db=database)
 
 
@@ -24,7 +24,7 @@ class DestinationContainer(SourceContainer):
     database = providers.Singleton(mock.Mock)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = DestinationContainer()
 
     service = container.service()

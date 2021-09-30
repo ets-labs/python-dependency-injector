@@ -21,7 +21,7 @@ class OverridingContainer(containers.DeclarativeContainer):
     service = providers.Factory(ServiceStub)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
     overriding_container = OverridingContainer()
 

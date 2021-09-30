@@ -14,21 +14,21 @@ class ContainerB(ContainerA):
 
 
 assert ContainerA.providers == {
-    'provider1': ContainerA.provider1,
+    "provider1": ContainerA.provider1,
 }
 assert ContainerB.providers == {
-    'provider1': ContainerA.provider1,
-    'provider2': ContainerB.provider2,
+    "provider1": ContainerA.provider1,
+    "provider2": ContainerB.provider2,
 }
 
 assert ContainerA.cls_providers == {
-    'provider1': ContainerA.provider1,
+    "provider1": ContainerA.provider1,
 }
 assert ContainerB.cls_providers == {
-    'provider2': ContainerB.provider2,
+    "provider2": ContainerB.provider2,
 }
 
 assert ContainerA.inherited_providers == {}
 assert ContainerB.inherited_providers == {
-    'provider1': ContainerA.provider1,
+    "provider1": ContainerA.provider1,
 }
