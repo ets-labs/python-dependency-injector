@@ -960,13 +960,13 @@ You should see:
 
 .. code-block:: bash
 
-   platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
+   platform darwin -- Python 3.9, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
    plugins: flask-1.0.0, cov-2.10.0
    collected 2 items
 
    githubnavigator/tests.py ..                                     [100%]
 
-   ---------- coverage: platform darwin, python 3.8.3-final-0 -----------
+   ---------- coverage: platform darwin, python 3.9 -----------
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
    githubnavigator/__init__.py          0      0   100%

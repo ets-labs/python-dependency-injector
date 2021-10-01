@@ -69,14 +69,14 @@ The output should be something like:
 
 .. code-block::
 
-   platform linux -- Python 3.8.6, pytest-6.2.1, py-1.10.0, pluggy-0.13.1
+   platform linux -- Python 3.9, pytest-6.2.1, py-1.10.0, pluggy-0.13.1
    rootdir: /code
    plugins: cov-2.10.1, asyncio-0.14.0
    collected 1 item
 
    fastapiredis/tests.py .                                         [100%]
 
-   ----------- coverage: platform linux, python 3.8.6-final-0 -----------
+   ----------- coverage: platform linux, python 3.9 -----------
    Name                          Stmts   Miss  Cover
    -------------------------------------------------
    fastapiredis/__init__.py          0      0   100%

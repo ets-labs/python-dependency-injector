@@ -58,13 +58,13 @@ The output should be something like:
 
 .. code-block::
 
-   platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
+   platform darwin -- Python 3.9, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
    plugins: cov-2.10.0
    collected 2 items
 
    movies/tests.py ..                                              [100%]
 
-   ---------- coverage: platform darwin, python 3.8.5-final-0 -----------
+   ---------- coverage: platform darwin, python 3.9 -----------
    Name                   Stmts   Miss  Cover
    ------------------------------------------
    movies/__init__.py         0      0   100%

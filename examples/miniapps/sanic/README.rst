@@ -98,13 +98,13 @@ The output should be something like:
 
 .. code-block::
 
-   platform darwin -- Python 3.9.5, pytest-6.2.2, py-1.10.0, pluggy-0.13.1
+   platform darwin -- Python 3.9, pytest-6.2.2, py-1.10.0, pluggy-0.13.1
    plugins: cov-2.12.1, sanic-1.8.1, anyio-3.3.2
    collected 3 items
 
    giphynavigator/tests.py ...                                     [100%]
 
-   ---------- coverage: platform darwin, python 3.8.3-final-0 -----------
+   ---------- coverage: platform darwin, python 3.9 -----------
    Name                            Stmts   Miss  Cover
    ---------------------------------------------------
    giphynavigator/__init__.py          0      0   100%
