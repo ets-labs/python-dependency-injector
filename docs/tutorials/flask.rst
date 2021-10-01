@@ -110,7 +110,7 @@ You should see something like:
 .. code-block:: bash
 
    (venv) $ python -c "import dependency_injector; print(dependency_injector.__version__)"
-   4.0.0
+   4.37.0
    (venv) $ python -c "import flask; print(flask.__version__)"
    1.1.2
 
