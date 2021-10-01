@@ -56,3 +56,5 @@ function or method.
 
    if __name__ == "__main__":
        animal = provider()  # mypy knows that animal is of type "Animal"
+
+.. disqus::
