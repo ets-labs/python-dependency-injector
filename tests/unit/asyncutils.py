@@ -18,12 +18,12 @@ def setup_test_loop(
     loop = loop_factory()
     try:
         module = loop.__class__.__module__
-        skip_watcher = 'uvloop' in module
+        skip_watcher = "uvloop" in module
     except AttributeError:  # pragma: no cover
         # Just in case
         skip_watcher = True
     asyncio.set_event_loop(loop)
-    if sys.platform != 'win32' and not skip_watcher:
+    if sys.platform != "win32" and not skip_watcher:
         policy = asyncio.get_event_loop_policy()
         watcher = asyncio.SafeChildWatcher()  # type: ignore
         watcher.attach_loop(loop)

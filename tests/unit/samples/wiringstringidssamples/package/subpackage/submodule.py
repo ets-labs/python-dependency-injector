@@ -4,5 +4,5 @@ from ...service import Service
 
 
 @inject
-def test_function(service: Service = Provide['service']):
+def test_function(service: Service = Provide["service"]):
     return service

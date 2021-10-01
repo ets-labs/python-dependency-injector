@@ -14,7 +14,7 @@ import os
 _TOP_DIR = os.path.abspath(
     os.path.sep.join((
         os.path.dirname(__file__),
-        '../',
+        "../",
     )),
 )
 import sys
@@ -172,8 +172,8 @@ class CoroutineTests(AsyncTestCase):
         provider.add_kwargs(a1=dependent_provider1, a2=dependent_provider2)
 
         provider_copy = providers.deepcopy(provider)
-        dependent_provider_copy1 = provider_copy.kwargs['a1']
-        dependent_provider_copy2 = provider_copy.kwargs['a2']
+        dependent_provider_copy1 = provider_copy.kwargs["a1"]
+        dependent_provider_copy2 = provider_copy.kwargs["a2"]
 
         self.assertNotEqual(provider.kwargs, provider_copy.kwargs)
 
@@ -205,8 +205,8 @@ class CoroutineTests(AsyncTestCase):
         provider = providers.Coroutine(_example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.'
-                         'Coroutine({0}) at {1}>'.format(
+                         "<dependency_injector.providers."
+                         "Coroutine({0}) at {1}>".format(
                              repr(_example),
                              hex(id(provider))))
 
@@ -229,8 +229,8 @@ class DelegatedCoroutineTests(unittest.TestCase):
         provider = providers.DelegatedCoroutine(_example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.'
-                         'DelegatedCoroutine({0}) at {1}>'.format(
+                         "<dependency_injector.providers."
+                         "DelegatedCoroutine({0}) at {1}>".format(
                              repr(_example),
                              hex(id(provider))))
 
@@ -243,11 +243,11 @@ class AbstractCoroutineTests(AsyncTestCase):
 
     def test_call_overridden_by_coroutine(self):
         with warnings.catch_warnings():
-            warnings.simplefilter('ignore')
+            warnings.simplefilter("ignore")
 
             @asyncio.coroutine
             def _abstract_example():
-                raise RuntimeError('Should not be raised')
+                raise RuntimeError("Should not be raised")
 
         provider = providers.AbstractCoroutine(_abstract_example)
         provider.override(providers.Coroutine(_example))
@@ -256,11 +256,11 @@ class AbstractCoroutineTests(AsyncTestCase):
 
     def test_call_overridden_by_delegated_coroutine(self):
         with warnings.catch_warnings():
-            warnings.simplefilter('ignore')
+            warnings.simplefilter("ignore")
 
             @asyncio.coroutine
             def _abstract_example():
-                raise RuntimeError('Should not be raised')
+                raise RuntimeError("Should not be raised")
 
         provider = providers.AbstractCoroutine(_abstract_example)
         provider.override(providers.DelegatedCoroutine(_example))
@@ -289,8 +289,8 @@ class AbstractCoroutineTests(AsyncTestCase):
         provider = providers.AbstractCoroutine(_example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.'
-                         'AbstractCoroutine({0}) at {1}>'.format(
+                         "<dependency_injector.providers."
+                         "AbstractCoroutine({0}) at {1}>".format(
                              repr(_example),
                              hex(id(provider))))
 

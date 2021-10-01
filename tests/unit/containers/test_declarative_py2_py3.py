@@ -52,15 +52,15 @@ class DeclarativeContainerTests(unittest.TestCase):
         self.assertEqual(
             ContainerA.providers,
             {
-                'p11': ContainerA.p11,
-                'p12': ContainerA.p12,
+                "p11": ContainerA.p11,
+                "p12": ContainerA.p12,
             },
         )
         self.assertEqual(
             ContainerA2.providers,
             {
-                'p11': p1,
-                'p12': p2,
+                "p11": p1,
+                "p12": p2,
             },
         )
 
@@ -95,17 +95,17 @@ class DeclarativeContainerTests(unittest.TestCase):
         self.assertEqual(
             ContainerD.dependencies,
             {
-                'p41': ContainerD.p41,
-                'p42': ContainerD.p42,
+                "p41": ContainerD.p41,
+                "p42": ContainerD.p42,
             },
         )
         self.assertEqual(
             ContainerE.dependencies,
             {
-                'p41': ContainerD.p41,
-                'p42': ContainerD.p42,
-                'p51': ContainerE.p51,
-                'p52': ContainerE.p52,
+                "p41": ContainerD.p41,
+                "p42": ContainerD.p42,
+                "p51": ContainerE.p51,
+                "p52": ContainerE.p52,
             },
         )
 
@@ -308,9 +308,9 @@ class DeclarativeContainerTests(unittest.TestCase):
         self.assertIsNot(_Container1.p11, _Container2.p11)
         self.assertIsNot(_Container1.p12, _Container2.p12)
 
-        self.assertEqual(_Container.p12(), {'p11': 0})
-        self.assertEqual(_Container1.p12(), {'p11': 1})
-        self.assertEqual(_Container2.p12(), {'p11': 2})
+        self.assertEqual(_Container.p12(), {"p11": 0})
+        self.assertEqual(_Container1.p12(), {"p11": 1})
+        self.assertEqual(_Container2.p12(), {"p11": 2})
 
         self.assertEqual(_Container1.p13(), 11)
         self.assertEqual(_Container2.p13(), 22)
@@ -329,9 +329,9 @@ class DeclarativeContainerTests(unittest.TestCase):
         new2 = New(p11=1)
         new3 = New(p11=2)
 
-        self.assertEqual(new1.p13(), {'p12': {'p11': 0}})
-        self.assertEqual(new2.p13(), {'p12': {'p11': 1}})
-        self.assertEqual(new3.p13(), {'p12': {'p11': 2}})
+        self.assertEqual(new1.p13(), {"p12": {"p11": 0}})
+        self.assertEqual(new2.p13(), {"p12": {"p11": 1}})
+        self.assertEqual(new3.p13(), {"p12": {"p11": 2}})
 
     def test_copy_with_replacing_subcontainer_providers(self):
         # See: https://github.com/ets-labs/python-dependency-injector/issues/374
@@ -339,7 +339,7 @@ class DeclarativeContainerTests(unittest.TestCase):
             foo = providers.Dependency(instance_of=str)
 
         def build_x():
-            return X(foo='1')
+            return X(foo="1")
 
         class A(containers.DeclarativeContainer):
             x = providers.DependenciesContainer(**X.providers)
@@ -351,7 +351,7 @@ class DeclarativeContainerTests(unittest.TestCase):
 
         b1 = B1()
 
-        self.assertEqual(b1.y(), '1')
+        self.assertEqual(b1.y(), "1")
 
     def test_containers_attribute(self):
         class Container(containers.DeclarativeContainer):
@@ -388,17 +388,17 @@ class DeclarativeContainerTests(unittest.TestCase):
 
         container = _Container(p1=1)
 
-        self.assertEqual(container.p2(), {'p1': 1})
+        self.assertEqual(container.p2(), {"p1": 1})
         self.assertIs(
-            container.p2.last_overriding.kwargs['p1'],
+            container.p2.last_overriding.kwargs["p1"],
             container.p1,
         )
         self.assertIsNot(
-            container.p2.last_overriding.kwargs['p1'],
+            container.p2.last_overriding.kwargs["p1"],
             _Container.p1,
         )
         self.assertIs(
-            _Container.p2.last_overriding.kwargs['p1'],
+            _Container.p2.last_overriding.kwargs["p1"],
             _Container.p1,
         )
 
@@ -419,9 +419,9 @@ class DeclarativeContainerTests(unittest.TestCase):
     def test_init_with_dependency_delegation(self):
         # Bug:
         # https://github.com/ets-labs/python-dependency-injector/issues/235
-        A = collections.namedtuple('A', [])
-        B = collections.namedtuple('B', ['fa'])
-        C = collections.namedtuple('B', ['a'])
+        A = collections.namedtuple("A", [])
+        B = collections.namedtuple("B", ["fa"])
+        C = collections.namedtuple("B", ["a"])
 
         class Services(containers.DeclarativeContainer):
             a = providers.Dependency()
@@ -469,7 +469,7 @@ class DeclarativeContainerTests(unittest.TestCase):
         self.assertIs(Container.container.parent, Container)
 
     def test_resolve_provider_name(self):
-        self.assertEqual(ContainerA.resolve_provider_name(ContainerA.p11), 'p11')
+        self.assertEqual(ContainerA.resolve_provider_name(ContainerA.p11), "p11")
 
     def test_resolve_provider_name_no_provider(self):
         with self.assertRaises(errors.Error):
@@ -483,7 +483,7 @@ class DeclarativeContainerTests(unittest.TestCase):
             Container.dependency()
         self.assertEqual(
             str(context.exception),
-            'Dependency "Container.dependency" is not defined',
+            "Dependency \"Container.dependency\" is not defined",
         )
 
     def test_child_dependencies_container_parent_name(self):
@@ -494,7 +494,7 @@ class DeclarativeContainerTests(unittest.TestCase):
             Container.dependencies_container.dependency()
         self.assertEqual(
             str(context.exception),
-            'Dependency "Container.dependencies_container.dependency" is not defined',
+            "Dependency \"Container.dependencies_container.dependency\" is not defined",
         )
 
     def test_child_container_parent_name(self):
@@ -508,7 +508,7 @@ class DeclarativeContainerTests(unittest.TestCase):
             Container.child_container.dependency()
         self.assertEqual(
             str(context.exception),
-            'Dependency "Container.child_container.dependency" is not defined',
+            "Dependency \"Container.child_container.dependency\" is not defined",
         )
 
 
@@ -529,11 +529,11 @@ class DeclarativeContainerWithCustomStringTests(unittest.TestCase):
         self.provider = providers.Provider()
 
     def test_setattr(self):
-        setattr(self.container, self.CustomString('test_attr'), self.provider)
+        setattr(self.container, self.CustomString("test_attr"), self.provider)
         self.assertIs(self.container.test_attr, self.provider)
 
     def test_delattr(self):
-        setattr(self.container, self.CustomString('test_attr'), self.provider)
-        delattr(self.container, self.CustomString('test_attr'))
+        setattr(self.container, self.CustomString("test_attr"), self.provider)
+        delattr(self.container, self.CustomString("test_attr"))
         with self.assertRaises(AttributeError):
             self.container.test_attr

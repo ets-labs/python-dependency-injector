@@ -2,7 +2,7 @@
 
 import sys
 
-if 'pypy' not in sys.version.lower():
+if "pypy" not in sys.version.lower():
     import numpy  # noqa
     from numpy import *  # noqa
 

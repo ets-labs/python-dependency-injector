@@ -9,7 +9,7 @@ from dependency_injector.wiring import inject, Provide
 
 class Service:
     async def process(self) -> str:
-        return 'Ok'
+        return "Ok"
 
 
 class Container(containers.DeclarativeContainer):
@@ -21,19 +21,19 @@ app = FastAPI()
 security = HTTPBasic()
 
 
-@app.api_route('/')
+@app.api_route("/")
 @inject
 async def index(service: Service = Depends(Provide[Container.service])):
     result = await service.process()
-    return {'result': result}
+    return {"result": result}
 
 
-@app.get('/auth')
+@app.get("/auth")
 @inject
 def read_current_user(
         credentials: HTTPBasicCredentials = Depends(security)
 ):
-    return {'username': credentials.username, 'password': credentials.password}
+    return {"username": credentials.username, "password": credentials.password}
 
 
 container = Container()

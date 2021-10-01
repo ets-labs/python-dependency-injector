@@ -14,19 +14,19 @@ class FromSchemaTests(unittest.TestCase):
         container = containers.DynamicContainer()
         container.from_schema(
             {
-                'version': '1',
-                'container': {
-                    'provider1': {
-                        'provider': 'Factory',
-                        'provides': 'list',
-                        'args': [1, 2, 3],
+                "version": "1",
+                "container": {
+                    "provider1": {
+                        "provider": "Factory",
+                        "provides": "list",
+                        "args": [1, 2, 3],
                     },
-                    'provider2': {
-                        'provider': 'Factory',
-                        'provides': 'dict',
-                        'kwargs': {
-                            'one': 'container.provider1',
-                            'two': 2,
+                    "provider2": {
+                        "provider": "Factory",
+                        "provides": "dict",
+                        "kwargs": {
+                            "one": "container.provider1",
+                            "two": 2,
                         },
                     },
                 },
@@ -39,7 +39,7 @@ class FromSchemaTests(unittest.TestCase):
 
         self.assertIsInstance(container.provider2, providers.Factory)
         self.assertIs(container.provider2.provides, dict)
-        self.assertEqual(container.provider2.kwargs, {'one': container.provider1, 'two': 2})
+        self.assertEqual(container.provider2.kwargs, {"one": container.provider1, "two": 2})
 
 
 class FromYamlSchemaTests(unittest.TestCase):
@@ -48,8 +48,8 @@ class FromYamlSchemaTests(unittest.TestCase):
         container = containers.DynamicContainer()
 
         with tempfile.TemporaryDirectory() as tmp_dir:
-            schema_path = os.path.join(tmp_dir, 'schema.yml')
-            with open(schema_path, 'w') as file:
+            schema_path = os.path.join(tmp_dir, "schema.yml")
+            with open(schema_path, "w") as file:
                 file.write("""
                 version: "1"
                 container:
@@ -76,14 +76,14 @@ class FromYamlSchemaTests(unittest.TestCase):
 
         self.assertIsInstance(container.provider2, providers.Factory)
         self.assertIs(container.provider2.provides, dict)
-        self.assertEqual(container.provider2.kwargs, {'one': container.provider1, 'two': 2})
+        self.assertEqual(container.provider2.kwargs, {"one": container.provider1, "two": 2})
 
     def test_with_loader(self):
         container = containers.DynamicContainer()
 
         with tempfile.TemporaryDirectory() as tmp_dir:
-            schema_path = os.path.join(tmp_dir, 'schema.yml')
-            with open(schema_path, 'w') as file:
+            schema_path = os.path.join(tmp_dir, "schema.yml")
+            with open(schema_path, "w") as file:
                 file.write("""
                 version: "1"
                 container:
@@ -109,13 +109,13 @@ class FromYamlSchemaTests(unittest.TestCase):
         container = containers.DynamicContainer()
         with no_yaml_module():
             with self.assertRaises(errors.Error) as error:
-                container.from_yaml_schema('./no-yaml-installed.yml')
+                container.from_yaml_schema("./no-yaml-installed.yml")
 
         self.assertEqual(
             error.exception.args[0],
-            'Unable to load yaml schema - PyYAML is not installed. '
-            'Install PyYAML or install Dependency Injector with yaml extras: '
-            '"pip install dependency-injector[yaml]"',
+            "Unable to load yaml schema - PyYAML is not installed. "
+            "Install PyYAML or install Dependency Injector with yaml extras: "
+            "\"pip install dependency-injector[yaml]\"",
         )
 
 
@@ -125,24 +125,24 @@ class FromJsonSchemaTests(unittest.TestCase):
         container = containers.DynamicContainer()
 
         with tempfile.TemporaryDirectory() as tmp_dir:
-            schema_path = os.path.join(tmp_dir, 'schema.json')
-            with open(schema_path, 'w') as file:
+            schema_path = os.path.join(tmp_dir, "schema.json")
+            with open(schema_path, "w") as file:
                 file.write(
                     json.dumps(
                         {
-                            'version': '1',
-                            'container': {
-                                'provider1': {
-                                    'provider': 'Factory',
-                                    'provides': 'list',
-                                    'args': [1, 2, 3],
+                            "version": "1",
+                            "container": {
+                                "provider1": {
+                                    "provider": "Factory",
+                                    "provides": "list",
+                                    "args": [1, 2, 3],
                                 },
-                                'provider2': {
-                                    'provider': 'Factory',
-                                    'provides': 'dict',
-                                    'kwargs': {
-                                        'one': 'container.provider1',
-                                        'two': 2,
+                                "provider2": {
+                                    "provider": "Factory",
+                                    "provides": "dict",
+                                    "kwargs": {
+                                        "one": "container.provider1",
+                                        "two": 2,
                                     },
                                 },
                             },
@@ -159,4 +159,4 @@ class FromJsonSchemaTests(unittest.TestCase):
 
         self.assertIsInstance(container.provider2, providers.Factory)
         self.assertIs(container.provider2.provides, dict)
-        self.assertEqual(container.provider2.kwargs, {'one': container.provider1, 'two': 2})
+        self.assertEqual(container.provider2.kwargs, {"one": container.provider1, "two": 2})

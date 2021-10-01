@@ -28,7 +28,7 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         container = ContainerA()
         container.a1 = providers.Dependency()
         container.a2 = providers.DependenciesContainer()
-        self.assertEqual(container.dependencies, {'a1': container.a1, 'a2': container.a2})
+        self.assertEqual(container.dependencies, {"a1": container.a1, "a2": container.a2})
 
     def test_set_get_del_providers(self):
         p13 = providers.Provider()
@@ -212,36 +212,36 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         class Container(containers.DeclarativeContainer):
             resource1 = providers.Resource(
                 _resource,
-                name='r1',
+                name="r1",
             )
             resource2 = providers.Resource(
                 _resource,
-                name='r2',
+                name="r2",
                 r1=resource1,
             )
             resource3 = providers.Resource(
                 _resource,
-                name='r3',
+                name="r3",
                 r2=resource2,
             )
 
         container = Container()
 
         container.init_resources()
-        self.assertEqual(initialized_resources, ['r1', 'r2', 'r3'])
+        self.assertEqual(initialized_resources, ["r1", "r2", "r3"])
         self.assertEqual(shutdown_resources, [])
 
         container.shutdown_resources()
-        self.assertEqual(initialized_resources, ['r1', 'r2', 'r3'])
-        self.assertEqual(shutdown_resources, ['r3', 'r2', 'r1'])
+        self.assertEqual(initialized_resources, ["r1", "r2", "r3"])
+        self.assertEqual(shutdown_resources, ["r3", "r2", "r1"])
 
         container.init_resources()
-        self.assertEqual(initialized_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
-        self.assertEqual(shutdown_resources, ['r3', 'r2', 'r1'])
+        self.assertEqual(initialized_resources, ["r1", "r2", "r3", "r1", "r2", "r3"])
+        self.assertEqual(shutdown_resources, ["r3", "r2", "r1"])
 
         container.shutdown_resources()
-        self.assertEqual(initialized_resources, ['r1', 'r2', 'r3', 'r1', 'r2', 'r3'])
-        self.assertEqual(shutdown_resources, ['r3', 'r2', 'r1', 'r3', 'r2', 'r1'])
+        self.assertEqual(initialized_resources, ["r1", "r2", "r3", "r1", "r2", "r3"])
+        self.assertEqual(shutdown_resources, ["r3", "r2", "r1", "r3", "r2", "r1"])
 
     def test_shutdown_resources_circular_dependencies_breaker(self):
         def _resource(name, **_):
@@ -250,16 +250,16 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         class Container(containers.DeclarativeContainer):
             resource1 = providers.Resource(
                 _resource,
-                name='r1',
+                name="r1",
             )
             resource2 = providers.Resource(
                 _resource,
-                name='r2',
+                name="r2",
                 r1=resource1,
             )
             resource3 = providers.Resource(
                 _resource,
-                name='r3',
+                name="r3",
                 r2=resource2,
             )
 
@@ -271,7 +271,7 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
 
         with self.assertRaises(RuntimeError) as context:
             container.shutdown_resources()
-        self.assertEqual(str(context.exception), 'Unable to resolve resources shutdown order')
+        self.assertEqual(str(context.exception), "Unable to resolve resources shutdown order")
 
     def test_init_shutdown_nested_resources(self):
         def _init1():
@@ -416,16 +416,16 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         with self.assertRaises(errors.Error) as context:
             container.check_dependencies()
 
-        self.assertIn('Container "Container" has undefined dependencies:', str(context.exception))
-        self.assertIn('"Container.dependency"', str(context.exception))
-        self.assertIn('"Container.dependencies_container.dependency"', str(context.exception))
-        self.assertIn('"Container.sub_container.dependency"', str(context.exception))
+        self.assertIn("Container \"Container\" has undefined dependencies:", str(context.exception))
+        self.assertIn("\"Container.dependency\"", str(context.exception))
+        self.assertIn("\"Container.dependencies_container.dependency\"", str(context.exception))
+        self.assertIn("\"Container.sub_container.dependency\"", str(context.exception))
 
     def test_check_dependencies_all_defined(self):
         class Container(containers.DeclarativeContainer):
             dependency = providers.Dependency()
 
-        container = Container(dependency='provided')
+        container = Container(dependency="provided")
         result = container.check_dependencies()
 
         self.assertIsNone(result)
@@ -440,11 +440,11 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
 
     def test_parent_name_declarative_parent(self):
         container = ContainerA()
-        self.assertEqual(container.parent_name, 'ContainerA')
+        self.assertEqual(container.parent_name, "ContainerA")
 
     def test_parent_name(self):
         container = ContainerA()
-        self.assertEqual(container.parent_name, 'ContainerA')
+        self.assertEqual(container.parent_name, "ContainerA")
 
     def test_parent_name_with_deep_parenting(self):
         class Container2(containers.DeclarativeContainer):
@@ -456,7 +456,7 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
             container = providers.Container(Container2)
 
         container = Container1()
-        self.assertEqual(container.container().name.parent_name, 'Container1.container.name')
+        self.assertEqual(container.container().name.parent_name, "Container1.container.name")
 
     def test_parent_name_is_none(self):
         container = containers.DynamicContainer()
@@ -479,7 +479,7 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
 
     def test_resolve_provider_name(self):
         container = ContainerA()
-        self.assertEqual(container.resolve_provider_name(container.p11), 'p11')
+        self.assertEqual(container.resolve_provider_name(container.p11), "p11")
 
     def test_resolve_provider_name_no_provider(self):
         container = ContainerA()
@@ -496,11 +496,11 @@ class SelfTests(unittest.TestCase):
         class Container(containers.DeclarativeContainer):
             __self__ = providers.Self()
             foo = providers.Callable(call_bar, __self__)
-            bar = providers.Object('hello')
+            bar = providers.Object("hello")
 
         container = Container()
 
-        self.assertIs(container.foo(), 'hello')
+        self.assertIs(container.foo(), "hello")
 
     def test_self_attribute_implicit(self):
         class Container(containers.DeclarativeContainer):
@@ -531,7 +531,7 @@ class SelfTests(unittest.TestCase):
         container = Container()
 
         self.assertIs(container.__self__, container.foo)
-        self.assertEqual(set(container.__self__.alt_names), {'foo'})
+        self.assertEqual(set(container.__self__.alt_names), {"foo"})
 
     def test_self_attribute_alt_name_explicit_1(self):
         class Container(containers.DeclarativeContainer):
@@ -543,7 +543,7 @@ class SelfTests(unittest.TestCase):
 
         self.assertIs(container.__self__, container.foo)
         self.assertIs(container.__self__, container.bar)
-        self.assertEqual(set(container.__self__.alt_names), {'foo', 'bar'})
+        self.assertEqual(set(container.__self__.alt_names), {"foo", "bar"})
 
     def test_self_attribute_alt_name_explicit_2(self):
         class Container(containers.DeclarativeContainer):
@@ -554,7 +554,7 @@ class SelfTests(unittest.TestCase):
 
         self.assertIs(container.__self__, container.foo)
         self.assertIs(container.__self__, container.bar)
-        self.assertEqual(set(container.__self__.alt_names), {'foo', 'bar'})
+        self.assertEqual(set(container.__self__.alt_names), {"foo", "bar"})
 
     def test_providers_attribute_1(self):
         class Container(containers.DeclarativeContainer):
@@ -595,14 +595,14 @@ class SelfTests(unittest.TestCase):
         class Container(containers.DeclarativeContainer):
             __self__ = providers.Self()
             foo = providers.Callable(call_bar, __self__)
-            bar = providers.Object('hello')
+            bar = providers.Object("hello")
 
         container1 = Container()
         container2 = providers.deepcopy(container1)
-        container1.bar.override('bye')
+        container1.bar.override("bye")
 
-        self.assertIs(container1.foo(), 'bye')
-        self.assertIs(container2.foo(), 'hello')
+        self.assertIs(container1.foo(), "bye")
+        self.assertIs(container2.foo(), "hello")
 
     def test_deepcopy_alt_names_1(self):
         class Container(containers.DeclarativeContainer):
@@ -646,7 +646,7 @@ class SelfTests(unittest.TestCase):
         class SubContainer(containers.DeclarativeContainer):
             __self__ = providers.Self()
             foo = providers.Callable(call_bar, __self__)
-            bar = providers.Object('hello')
+            bar = providers.Object("hello")
 
         class Container(containers.DeclarativeContainer):
             sub_container = providers.Container(SubContainer)
@@ -655,7 +655,7 @@ class SelfTests(unittest.TestCase):
 
         container = Container()
 
-        self.assertIs(container.baz(), 'hello')
+        self.assertIs(container.baz(), "hello")
 
     def test_with_container_provider_overriding(self):
         def call_bar(container):
@@ -664,16 +664,16 @@ class SelfTests(unittest.TestCase):
         class SubContainer(containers.DeclarativeContainer):
             __self__ = providers.Self()
             foo = providers.Callable(call_bar, __self__)
-            bar = providers.Object('hello')
+            bar = providers.Object("hello")
 
         class Container(containers.DeclarativeContainer):
-            sub_container = providers.Container(SubContainer, bar='bye')
+            sub_container = providers.Container(SubContainer, bar="bye")
 
             baz = providers.Callable(lambda value: value, sub_container.foo)
 
         container = Container()
 
-        self.assertIs(container.baz(), 'bye')
+        self.assertIs(container.baz(), "bye")
 
     def test_with_container_provider_self(self):
         class SubContainer(containers.DeclarativeContainer):
@@ -702,19 +702,19 @@ class DynamicContainerWithCustomStringTests(unittest.TestCase):
         self.provider = providers.Provider()
 
     def test_setattr(self):
-        setattr(self.container, self.CustomString('test_attr'), self.provider)
+        setattr(self.container, self.CustomString("test_attr"), self.provider)
         self.assertIs(self.container.test_attr, self.provider)
 
     def test_delattr(self):
-        setattr(self.container, self.CustomString('test_attr'), self.provider)
-        delattr(self.container, self.CustomString('test_attr'))
+        setattr(self.container, self.CustomString("test_attr"), self.provider)
+        delattr(self.container, self.CustomString("test_attr"))
         with self.assertRaises(AttributeError):
             self.container.test_attr
 
     def test_set_provider(self):
-        self.container.set_provider(self.CustomString('test_attr'), self.provider)
+        self.container.set_provider(self.CustomString("test_attr"), self.provider)
         self.assertIs(self.container.test_attr, self.provider)
 
     def test_set_providers(self):
-        self.container.set_providers(**{self.CustomString('test_attr'): self.provider})
+        self.container.set_providers(**{self.CustomString("test_attr"): self.provider})
         self.assertIs(self.container.test_attr, self.provider)

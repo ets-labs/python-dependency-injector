@@ -8,22 +8,22 @@ from dependency_injector.ext import aiohttp
 
 
 async def index(_):
-    return web.Response(text='Hello World!')
+    return web.Response(text="Hello World!")
 
 
 async def test(_):
-    return web.Response(text='Test!')
+    return web.Response(text="Test!")
 
 
 class Test(web.View):
     async def get(self):
-        return web.Response(text='Test class-based!')
+        return web.Response(text="Test class-based!")
 
 
 @web.middleware
 async def middleware(request, handler):
     resp = await handler(request)
-    resp.text = resp.text + ' wink1'
+    resp.text = resp.text + " wink1"
     return resp
 
 
@@ -42,7 +42,7 @@ class ApplicationContainer(containers.DeclarativeContainer):
         web.Application,
         middlewares=providers.List(
             aiohttp.Middleware(middleware),
-            aiohttp.MiddlewareFactory(middleware_factory, text=' wink2'),
+            aiohttp.MiddlewareFactory(middleware_factory, text=" wink2"),
         ),
     )
 
@@ -61,33 +61,33 @@ class ApplicationTests(AioHTTPTestCase):
         app = container.app()
         app.container = container
         app.add_routes([
-            web.get('/', container.index_view.as_view()),
-            web.get('/test', container.test_view.as_view(), name='test'),
-            web.get('/test-class', container.test_class_view.as_view()),
+            web.get("/", container.index_view.as_view()),
+            web.get("/test", container.test_view.as_view(), name="test"),
+            web.get("/test-class", container.test_class_view.as_view()),
         ])
         return app
 
     @unittest_run_loop
     async def test_index(self):
-        response = await self.client.get('/')
+        response = await self.client.get("/")
 
         self.assertEqual(response.status, 200)
-        self.assertEqual(await response.text(), 'Hello World! wink2 wink1')
+        self.assertEqual(await response.text(), "Hello World! wink2 wink1")
 
     @unittest_run_loop
     async def test_test(self):
-        response = await self.client.get('/test')
+        response = await self.client.get("/test")
 
         self.assertEqual(response.status, 200)
-        self.assertEqual(await response.text(), 'Test! wink2 wink1')
+        self.assertEqual(await response.text(), "Test! wink2 wink1")
 
     @unittest_run_loop
     async def test_test_class_based(self):
-        response = await self.client.get('/test-class')
+        response = await self.client.get("/test-class")
 
         self.assertEqual(response.status, 200)
-        self.assertEqual(await response.text(), 'Test class-based! wink2 wink1')
+        self.assertEqual(await response.text(), "Test class-based! wink2 wink1")
 
     @unittest_run_loop
     async def test_endpoints(self):
-        self.assertEqual(str(self.app.router['test'].url_for()), '/test')
+        self.assertEqual(str(self.app.router["test"].url_for()), "/test")

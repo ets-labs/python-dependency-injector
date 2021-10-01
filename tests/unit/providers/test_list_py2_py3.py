@@ -17,20 +17,20 @@ class ListTests(unittest.TestCase):
         self.assertIsInstance(provider.provided, providers.ProvidedInstance)
 
     def test_call_with_init_positional_args(self):
-        provider = providers.List('i1', 'i2')
+        provider = providers.List("i1", "i2")
 
         list1 = provider()
         list2 = provider()
 
-        self.assertEqual(list1, ['i1', 'i2'])
-        self.assertEqual(list2, ['i1', 'i2'])
+        self.assertEqual(list1, ["i1", "i2"])
+        self.assertEqual(list2, ["i1", "i2"])
 
         self.assertIsNot(list1, list2)
 
     def test_call_with_context_args(self):
-        provider = providers.List('i1', 'i2')
+        provider = providers.List("i1", "i2")
 
-        self.assertEqual(provider('i3', 'i4'), ['i1', 'i2', 'i3', 'i4'])
+        self.assertEqual(provider("i3", "i4"), ["i1", "i2", "i3", "i4"])
 
     def test_fluent_interface(self):
         provider = providers.List() \
@@ -134,7 +134,7 @@ class ListTests(unittest.TestCase):
         provider = providers.List(1, 2)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.'
-                         'List({0}) at {1}>'.format(
+                         "<dependency_injector.providers."
+                         "List({0}) at {1}>".format(
                              repr(list(provider.args)),
                              hex(id(provider))))

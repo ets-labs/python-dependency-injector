@@ -4051,7 +4051,7 @@ cdef class ProvidedInstance(Provider):
         super().__init__()
 
     def __repr__(self):
-        return f'{self.__class__.__name__}(\'{self.__provides}\')'
+        return f'{self.__class__.__name__}("{self.__provides}")'
 
     def __deepcopy__(self, memo):
         copied = memo.get(id(self))
@@ -4107,7 +4107,7 @@ cdef class AttributeGetter(Provider):
         super().__init__()
 
     def __repr__(self):
-        return f'{self.__class__.__name__}(\'{self.name}\')'
+        return f'{self.__class__.__name__}("{self.name}")'
 
     def __deepcopy__(self, memo):
         copied = memo.get(id(self))
@@ -4189,7 +4189,7 @@ cdef class ItemGetter(Provider):
         super().__init__()
 
     def __repr__(self):
-        return f'{self.__class__.__name__}(\'{self.name}\')'
+        return f'{self.__class__.__name__}("{self.name}")'
 
     def __deepcopy__(self, memo):
         copied = memo.get(id(self))

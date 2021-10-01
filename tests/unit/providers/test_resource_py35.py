@@ -12,7 +12,7 @@ import os
 _TOP_DIR = os.path.abspath(
     os.path.sep.join((
         os.path.dirname(__file__),
-        '../',
+        "../",
     )),
 )
 import sys
@@ -173,7 +173,7 @@ class ResourceTests(unittest.TestCase):
         class TestResource(resources.Resource):
             def init(self):
                 ...
-        self.assertTrue(hasattr(TestResource(), 'shutdown'))
+        self.assertTrue(hasattr(TestResource(), "shutdown"))
 
     def test_init_not_callable(self):
         provider = providers.Resource(1)
@@ -229,15 +229,15 @@ class ResourceTests(unittest.TestCase):
         self.assertFalse(provider.initialized)
 
     def test_call_with_context_args(self):
-        provider = providers.Resource(init_fn, 'i1', 'i2')
-        self.assertEqual(provider('i3', i4=4), (('i1', 'i2', 'i3'), {'i4': 4}))
+        provider = providers.Resource(init_fn, "i1", "i2")
+        self.assertEqual(provider("i3", i4=4), (("i1", "i2", "i3"), {"i4": 4}))
 
     def test_fluent_interface(self):
         provider = providers.Resource(init_fn) \
             .add_args(1, 2) \
             .add_kwargs(a3=3, a4=4)
 
-        self.assertEqual(provider(), ((1, 2), {'a3': 3, 'a4': 4}))
+        self.assertEqual(provider(), ((1, 2), {"a3": 3, "a4": 4}))
 
     def test_set_args(self):
         provider = providers.Resource(init_fn) \
@@ -253,13 +253,13 @@ class ResourceTests(unittest.TestCase):
 
     def test_set_kwargs(self):
         provider = providers.Resource(init_fn) \
-            .add_kwargs(a1='i1', a2='i2') \
-            .set_kwargs(a3='i3', a4='i4')
-        self.assertEqual(provider.kwargs, {'a3': 'i3', 'a4': 'i4'})
+            .add_kwargs(a1="i1", a2="i2") \
+            .set_kwargs(a3="i3", a4="i4")
+        self.assertEqual(provider.kwargs, {"a3": "i3", "a4": "i4"})
 
     def test_clear_kwargs(self):
         provider = providers.Resource(init_fn) \
-            .add_kwargs(a1='i1', a2='i2') \
+            .add_kwargs(a1="i1", a2="i2") \
             .clear_kwargs()
         self.assertEqual(provider.kwargs, {})
 
@@ -333,8 +333,8 @@ class ResourceTests(unittest.TestCase):
         provider.add_kwargs(d1=dependent_provider1, d2=dependent_provider2)
 
         provider_copy = providers.deepcopy(provider)
-        dependent_provider_copy1 = provider_copy.kwargs['d1']
-        dependent_provider_copy2 = provider_copy.kwargs['d2']
+        dependent_provider_copy1 = provider_copy.kwargs["d1"]
+        dependent_provider_copy2 = provider_copy.kwargs["d2"]
 
         self.assertNotEqual(provider.kwargs, provider_copy.kwargs)
 
@@ -377,7 +377,7 @@ class ResourceTests(unittest.TestCase):
 
         self.assertEqual(
             repr(provider),
-            '<dependency_injector.providers.Resource({0}) at {1}>'.format(
+            "<dependency_injector.providers.Resource({0}) at {1}>".format(
                 repr(init_fn),
                 hex(id(provider)),
             )
@@ -506,7 +506,7 @@ class AsyncResourceTest(AsyncTestCase):
         class TestAsyncResource(resources.AsyncResource):
             async def init(self):
                 ...
-        self.assertTrue(hasattr(TestAsyncResource(), 'shutdown'))
+        self.assertTrue(hasattr(TestAsyncResource(), "shutdown"))
         self.assertTrue(inspect.iscoroutinefunction(TestAsyncResource.shutdown))
 
     def test_init_with_error(self):
@@ -566,11 +566,11 @@ class AsyncResourceTest(AsyncTestCase):
         # See: https://github.com/ets-labs/python-dependency-injector/issues/361
         async def init_db_connection(db_url: str):
             await asyncio.sleep(0.001)
-            yield {'connection': 'ok', 'url': db_url}
+            yield {"connection": "ok", "url": db_url}
 
         async def init_user_session(db):
             await asyncio.sleep(0.001)
-            yield {'session': 'ok', 'db': db}
+            yield {"session": "ok", "db": db}
 
         class Container(containers.DeclarativeContainer):
             config = providers.Configuration()
@@ -586,7 +586,7 @@ class AsyncResourceTest(AsyncTestCase):
             )
 
         async def main():
-            container = Container(config={'db_url': 'postgres://...'})
+            container = Container(config={"db_url": "postgres://..."})
             try:
                 return await container.user_session()
             finally:
@@ -596,7 +596,7 @@ class AsyncResourceTest(AsyncTestCase):
 
         self.assertEqual(
             result,
-            {'session': 'ok', 'db': {'connection': 'ok', 'url': 'postgres://...'}},
+            {"session": "ok", "db": {"connection": "ok", "url": "postgres://..."}},
         )
 
     def test_init_and_shutdown_methods(self):

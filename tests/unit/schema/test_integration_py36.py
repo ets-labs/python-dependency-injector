@@ -8,13 +8,13 @@ import os
 _TOP_DIR = os.path.abspath(
     os.path.sep.join((
         os.path.dirname(__file__),
-        '../',
+        "../",
     )),
 )
 _SAMPLES_DIR = os.path.abspath(
     os.path.sep.join((
         os.path.dirname(__file__),
-        '../samples/',
+        "../samples/",
     )),
 )
 import sys
@@ -27,17 +27,17 @@ class TestSchemaSingleContainer(unittest.TestCase):
 
     def test(self):
         container = containers.DynamicContainer()
-        container.from_yaml_schema(f'{_SAMPLES_DIR}/schemasample/container-single.yml')
+        container.from_yaml_schema(f"{_SAMPLES_DIR}/schemasample/container-single.yml")
         container.config.from_dict({
-            'database': {
-                'dsn': ':memory:',
+            "database": {
+                "dsn": ":memory:",
             },
-            'aws': {
-                'access_key_id': 'KEY',
-                'secret_access_key': 'SECRET',
+            "aws": {
+                "access_key_id": "KEY",
+                "secret_access_key": "SECRET",
             },
-            'auth': {
-                'token_ttl': 3600,
+            "auth": {
+                "token_ttl": 3600,
             },
         })
 
@@ -90,17 +90,17 @@ class TestSchemaMultipleContainers(unittest.TestCase):
 
     def test(self):
         container = containers.DynamicContainer()
-        container.from_yaml_schema(f'{_SAMPLES_DIR}/schemasample/container-multiple.yml')
+        container.from_yaml_schema(f"{_SAMPLES_DIR}/schemasample/container-multiple.yml")
         container.core.config.from_dict({
-            'database': {
-                'dsn': ':memory:',
+            "database": {
+                "dsn": ":memory:",
             },
-            'aws': {
-                'access_key_id': 'KEY',
-                'secret_access_key': 'SECRET',
+            "aws": {
+                "access_key_id": "KEY",
+                "secret_access_key": "SECRET",
             },
-            'auth': {
-                'token_ttl': 3600,
+            "auth": {
+                "token_ttl": 3600,
             },
         })
 
@@ -153,17 +153,17 @@ class TestSchemaMultipleContainersReordered(unittest.TestCase):
 
     def test(self):
         container = containers.DynamicContainer()
-        container.from_yaml_schema(f'{_SAMPLES_DIR}/schemasample/container-multiple-reordered.yml')
+        container.from_yaml_schema(f"{_SAMPLES_DIR}/schemasample/container-multiple-reordered.yml")
         container.core.config.from_dict({
-            'database': {
-                'dsn': ':memory:',
+            "database": {
+                "dsn": ":memory:",
             },
-            'aws': {
-                'access_key_id': 'KEY',
-                'secret_access_key': 'SECRET',
+            "aws": {
+                "access_key_id": "KEY",
+                "secret_access_key": "SECRET",
             },
-            'auth': {
-                'token_ttl': 3600,
+            "auth": {
+                "token_ttl": 3600,
             },
         })
 
@@ -216,17 +216,17 @@ class TestSchemaMultipleContainersWithInlineProviders(unittest.TestCase):
 
     def test(self):
         container = containers.DynamicContainer()
-        container.from_yaml_schema(f'{_SAMPLES_DIR}/schemasample/container-multiple-inline.yml')
+        container.from_yaml_schema(f"{_SAMPLES_DIR}/schemasample/container-multiple-inline.yml")
         container.core.config.from_dict({
-            'database': {
-                'dsn': ':memory:',
+            "database": {
+                "dsn": ":memory:",
             },
-            'aws': {
-                'access_key_id': 'KEY',
-                'secret_access_key': 'SECRET',
+            "aws": {
+                "access_key_id": "KEY",
+                "secret_access_key": "SECRET",
             },
-            'auth': {
-                'token_ttl': 3600,
+            "auth": {
+                "token_ttl": 3600,
             },
         })
 
@@ -277,18 +277,18 @@ class TestSchemaMultipleContainersWithInlineProviders(unittest.TestCase):
 
 class TestSchemaBoto3Session(unittest.TestCase):
 
-    @unittest.skip('Boto3 tries to connect to the internet')
+    @unittest.skip("Boto3 tries to connect to the internet")
     def test(self):
         container = containers.DynamicContainer()
-        container.from_yaml_schema(f'{_SAMPLES_DIR}/schemasample/container-boto3-session.yml')
+        container.from_yaml_schema(f"{_SAMPLES_DIR}/schemasample/container-boto3-session.yml")
         container.config.from_dict(
             {
-                'aws_access_key_id': 'key',
-                'aws_secret_access_key': 'secret',
-                'aws_session_token': 'token',
-                'aws_region_name': 'us-east-1',
+                "aws_access_key_id": "key",
+                "aws_secret_access_key": "secret",
+                "aws_session_token": "token",
+                "aws_region_name": "us-east-1",
             },
         )
 
-        self.assertEqual(container.s3_client().__class__.__name__, 'S3')
-        self.assertEqual(container.sqs_client().__class__.__name__, 'SQS')
+        self.assertEqual(container.s3_client().__class__.__name__, "S3")
+        self.assertEqual(container.sqs_client().__class__.__name__, "SQS")

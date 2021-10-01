@@ -101,7 +101,7 @@ class ProviderTests(unittest.TestCase):
 class ObjectTests(unittest.TestCase):
 
     def test_traversal(self):
-        provider = providers.Object('string')
+        provider = providers.Object("string")
         all_providers = list(provider.traverse())
         self.assertEqual(len(all_providers), 0)
 
@@ -250,9 +250,9 @@ class CallableTests(unittest.TestCase):
         self.assertEqual(len(all_providers), 0)
 
     def test_traverse_args(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
-        provider = providers.Callable(list, 'foo', provider1, provider2)
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
+        provider = providers.Callable(list, "foo", provider1, provider2)
 
         all_providers = list(provider.traverse())
 
@@ -261,9 +261,9 @@ class CallableTests(unittest.TestCase):
         self.assertIn(provider2, all_providers)
 
     def test_traverse_kwargs(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
-        provider = providers.Callable(dict, foo='foo', bar=provider1, baz=provider2)
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
+        provider = providers.Callable(dict, foo="foo", bar=provider1, baz=provider2)
 
         all_providers = list(provider.traverse())
 
@@ -272,10 +272,10 @@ class CallableTests(unittest.TestCase):
         self.assertIn(provider2, all_providers)
 
     def test_traverse_overridden(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
 
-        provider = providers.Callable(dict, 'foo')
+        provider = providers.Callable(dict, "foo")
         provider.override(provider1)
         provider.override(provider2)
 
@@ -287,8 +287,8 @@ class CallableTests(unittest.TestCase):
 
     def test_traverse_provides(self):
         provider1 = providers.Callable(list)
-        provider2 = providers.Object('bar')
-        provider3 = providers.Object('baz')
+        provider2 = providers.Object("bar")
+        provider3 = providers.Object("baz")
 
         provider = providers.Callable(provider1, provider2)
         provider.override(provider3)
@@ -304,7 +304,7 @@ class CallableTests(unittest.TestCase):
 class ConfigurationTests(unittest.TestCase):
 
     def test_traverse(self):
-        config = providers.Configuration(default={'option1': {'option2': 'option2'}})
+        config = providers.Configuration(default={"option1": {"option2": "option2"}})
         option1 = config.option1
         option2 = config.option1.option2
         option3 = config.option1[config.option1.option2]
@@ -327,7 +327,7 @@ class ConfigurationTests(unittest.TestCase):
         self.assertIn(option, all_providers)
 
     def test_traverse_overridden(self):
-        options = {'option1': {'option2': 'option2'}}
+        options = {"option1": {"option2": "option2"}}
         config = providers.Configuration()
         config.from_dict(options)
 
@@ -339,7 +339,7 @@ class ConfigurationTests(unittest.TestCase):
         self.assertIs(overridden, config.last_overriding)
 
     def test_traverse_overridden_option_1(self):
-        options = {'option2': 'option2'}
+        options = {"option2": "option2"}
         config = providers.Configuration()
         config.option1.from_dict(options)
 
@@ -350,7 +350,7 @@ class ConfigurationTests(unittest.TestCase):
         self.assertIn(config.last_overriding, all_providers)
 
     def test_traverse_overridden_option_2(self):
-        options = {'option2': 'option2'}
+        options = {"option2": "option2"}
         config = providers.Configuration()
         config.option1.from_dict(options)
 
@@ -367,9 +367,9 @@ class FactoryTests(unittest.TestCase):
         self.assertEqual(len(all_providers), 0)
 
     def test_traverse_args(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
-        provider = providers.Factory(list, 'foo', provider1, provider2)
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
+        provider = providers.Factory(list, "foo", provider1, provider2)
 
         all_providers = list(provider.traverse())
 
@@ -378,9 +378,9 @@ class FactoryTests(unittest.TestCase):
         self.assertIn(provider2, all_providers)
 
     def test_traverse_kwargs(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
-        provider = providers.Factory(dict, foo='foo', bar=provider1, baz=provider2)
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
+        provider = providers.Factory(dict, foo="foo", bar=provider1, baz=provider2)
 
         all_providers = list(provider.traverse())
 
@@ -389,10 +389,10 @@ class FactoryTests(unittest.TestCase):
         self.assertIn(provider2, all_providers)
 
     def test_traverse_attributes(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
         provider = providers.Factory(dict)
-        provider.add_attributes(foo='foo', bar=provider1, baz=provider2)
+        provider.add_attributes(foo="foo", bar=provider1, baz=provider2)
 
         all_providers = list(provider.traverse())
 
@@ -401,10 +401,10 @@ class FactoryTests(unittest.TestCase):
         self.assertIn(provider2, all_providers)
 
     def test_traverse_overridden(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
 
-        provider = providers.Factory(dict, 'foo')
+        provider = providers.Factory(dict, "foo")
         provider.override(provider1)
         provider.override(provider2)
 
@@ -416,8 +416,8 @@ class FactoryTests(unittest.TestCase):
 
     def test_traverse_provides(self):
         provider1 = providers.Callable(list)
-        provider2 = providers.Object('bar')
-        provider3 = providers.Object('baz')
+        provider2 = providers.Object("bar")
+        provider3 = providers.Object("baz")
 
         provider = providers.Factory(provider1, provider2)
         provider.override(provider3)
@@ -452,9 +452,9 @@ class BaseSingletonTests(unittest.TestCase):
         self.assertEqual(len(all_providers), 0)
 
     def test_traverse_args(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
-        provider = providers.Singleton(list, 'foo', provider1, provider2)
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
+        provider = providers.Singleton(list, "foo", provider1, provider2)
 
         all_providers = list(provider.traverse())
 
@@ -463,9 +463,9 @@ class BaseSingletonTests(unittest.TestCase):
         self.assertIn(provider2, all_providers)
 
     def test_traverse_kwargs(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
-        provider = providers.Singleton(dict, foo='foo', bar=provider1, baz=provider2)
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
+        provider = providers.Singleton(dict, foo="foo", bar=provider1, baz=provider2)
 
         all_providers = list(provider.traverse())
 
@@ -474,10 +474,10 @@ class BaseSingletonTests(unittest.TestCase):
         self.assertIn(provider2, all_providers)
 
     def test_traverse_attributes(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
         provider = providers.Singleton(dict)
-        provider.add_attributes(foo='foo', bar=provider1, baz=provider2)
+        provider.add_attributes(foo="foo", bar=provider1, baz=provider2)
 
         all_providers = list(provider.traverse())
 
@@ -486,10 +486,10 @@ class BaseSingletonTests(unittest.TestCase):
         self.assertIn(provider2, all_providers)
 
     def test_traverse_overridden(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
 
-        provider = providers.Singleton(dict, 'foo')
+        provider = providers.Singleton(dict, "foo")
         provider.override(provider1)
         provider.override(provider2)
 
@@ -501,8 +501,8 @@ class BaseSingletonTests(unittest.TestCase):
 
     def test_traverse_provides(self):
         provider1 = providers.Callable(list)
-        provider2 = providers.Object('bar')
-        provider3 = providers.Object('baz')
+        provider2 = providers.Object("bar")
+        provider3 = providers.Object("baz")
 
         provider = providers.Singleton(provider1, provider2)
         provider.override(provider3)
@@ -518,9 +518,9 @@ class BaseSingletonTests(unittest.TestCase):
 class ListTests(unittest.TestCase):
 
     def test_traverse_args(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
-        provider = providers.List('foo', provider1, provider2)
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
+        provider = providers.List("foo", provider1, provider2)
 
         all_providers = list(provider.traverse())
 
@@ -529,11 +529,11 @@ class ListTests(unittest.TestCase):
         self.assertIn(provider2, all_providers)
 
     def test_traverse_overridden(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
         provider3 = providers.List(provider1, provider2)
 
-        provider = providers.List('foo')
+        provider = providers.List("foo")
         provider.override(provider3)
 
         all_providers = list(provider.traverse())
@@ -547,9 +547,9 @@ class ListTests(unittest.TestCase):
 class DictTests(unittest.TestCase):
 
     def test_traverse_kwargs(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
-        provider = providers.Dict(foo='foo', bar=provider1, baz=provider2)
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
+        provider = providers.Dict(foo="foo", bar=provider1, baz=provider2)
 
         all_providers = list(provider.traverse())
 
@@ -558,11 +558,11 @@ class DictTests(unittest.TestCase):
         self.assertIn(provider2, all_providers)
 
     def test_traverse_overridden(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
         provider3 = providers.Dict(bar=provider1, baz=provider2)
 
-        provider = providers.Dict(foo='foo')
+        provider = providers.Dict(foo="foo")
         provider.override(provider3)
 
         all_providers = list(provider.traverse())
@@ -581,9 +581,9 @@ class ResourceTests(unittest.TestCase):
         self.assertEqual(len(all_providers), 0)
 
     def test_traverse_args(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
-        provider = providers.Resource(list, 'foo', provider1, provider2)
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
+        provider = providers.Resource(list, "foo", provider1, provider2)
 
         all_providers = list(provider.traverse())
 
@@ -592,9 +592,9 @@ class ResourceTests(unittest.TestCase):
         self.assertIn(provider2, all_providers)
 
     def test_traverse_kwargs(self):
-        provider1 = providers.Object('bar')
-        provider2 = providers.Object('baz')
-        provider = providers.Resource(dict, foo='foo', bar=provider1, baz=provider2)
+        provider1 = providers.Object("bar")
+        provider2 = providers.Object("baz")
+        provider = providers.Resource(dict, foo="foo", bar=provider1, baz=provider2)
 
         all_providers = list(provider.traverse())
 
@@ -606,7 +606,7 @@ class ResourceTests(unittest.TestCase):
         provider1 = providers.Resource(list)
         provider2 = providers.Resource(tuple)
 
-        provider = providers.Resource(dict, 'foo')
+        provider = providers.Resource(dict, "foo")
         provider.override(provider1)
         provider.override(provider2)
 
@@ -676,7 +676,7 @@ class ContainerTests(unittest.TestCase):
 class SelectorTests(unittest.TestCase):
 
     def test_traverse(self):
-        switch = lambda: 'provider1'
+        switch = lambda: "provider1"
         provider1 = providers.Callable(list)
         provider2 = providers.Callable(dict)
 
@@ -693,7 +693,7 @@ class SelectorTests(unittest.TestCase):
         self.assertIn(provider2, all_providers)
 
     def test_traverse_switch(self):
-        switch = providers.Callable(lambda: 'provider1')
+        switch = providers.Callable(lambda: "provider1")
         provider1 = providers.Callable(list)
         provider2 = providers.Callable(dict)
 
@@ -713,10 +713,10 @@ class SelectorTests(unittest.TestCase):
     def test_traverse_overridden(self):
         provider1 = providers.Callable(list)
         provider2 = providers.Callable(dict)
-        selector1 = providers.Selector(lambda: 'provider1', provider1=provider1)
+        selector1 = providers.Selector(lambda: "provider1", provider1=provider1)
 
         provider = providers.Selector(
-            lambda: 'provider2',
+            lambda: "provider2",
             provider2=provider2,
         )
         provider.override(selector1)
@@ -788,7 +788,7 @@ class ItemGetterTests(unittest.TestCase):
     def test_traverse(self):
         provider1 = providers.Provider()
         provided = provider1.provided
-        provider = provided['item']
+        provider = provided["item"]
 
         all_providers = list(provider.traverse())
 
@@ -801,7 +801,7 @@ class ItemGetterTests(unittest.TestCase):
         provided = provider1.provided
         provider2 = providers.Provider()
 
-        provider = provided['item']
+        provider = provided["item"]
         provider.override(provider2)
 
         all_providers = list(provider.traverse())
@@ -832,7 +832,7 @@ class MethodCallerTests(unittest.TestCase):
         provided = provider1.provided
         method = provided.method
         provider2 = providers.Provider()
-        provider = method.call('foo', provider2)
+        provider = method.call("foo", provider2)
 
         all_providers = list(provider.traverse())
 
@@ -847,7 +847,7 @@ class MethodCallerTests(unittest.TestCase):
         provided = provider1.provided
         method = provided.method
         provider2 = providers.Provider()
-        provider = method.call(foo='foo', bar=provider2)
+        provider = method.call(foo="foo", bar=provider2)
 
         all_providers = list(provider.traverse())
 

@@ -96,7 +96,7 @@ def test_provider_provider(service_provider: Callable[..., Service] = Provider[C
 
 
 @inject
-def test_provided_instance(some_value: int = Provide[Container.service.provided.foo['bar'].call()]):
+def test_provided_instance(some_value: int = Provide[Container.service.provided.foo["bar"].call()]):
     return some_value
 
 

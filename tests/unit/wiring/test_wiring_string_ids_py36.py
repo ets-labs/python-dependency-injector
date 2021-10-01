@@ -18,13 +18,13 @@ import os
 _TOP_DIR = os.path.abspath(
     os.path.sep.join((
         os.path.dirname(__file__),
-        '../',
+        "../",
     )),
 )
 _SAMPLES_DIR = os.path.abspath(
     os.path.sep.join((
         os.path.dirname(__file__),
-        '../samples/',
+        "../samples/",
     )),
 )
 import sys
@@ -43,7 +43,7 @@ class WiringTest(unittest.TestCase):
     container: Container
 
     def setUp(self) -> None:
-        self.container = Container(config={'a': {'b': {'c': 10}}})
+        self.container = Container(config={"a": {"b": {"c": 10}}})
         self.container.wire(
             modules=[module],
             packages=[package],
@@ -143,17 +143,17 @@ class WiringTest(unittest.TestCase):
 
         self.assertEqual(value_int, 10)
         self.assertEqual(value_float, 10.0)
-        self.assertEqual(value_str, '10')
+        self.assertEqual(value_str, "10")
         self.assertEqual(value_decimal, Decimal(10))
         self.assertEqual(value_required, 10)
         self.assertEqual(value_required_int, 10)
         self.assertEqual(value_required_float, 10.0)
-        self.assertEqual(value_required_str, '10')
+        self.assertEqual(value_required_str, "10")
         self.assertEqual(value_required_decimal, Decimal(10))
 
     def test_configuration_option_required_undefined(self):
         self.container.config.reset_override()
-        with self.assertRaisesRegex(errors.Error, 'Undefined configuration option "config.a.b.c"'):
+        with self.assertRaisesRegex(errors.Error, "Undefined configuration option \"config.a.b.c\""):
             module.test_config_value_required_undefined()
 
     def test_provide_provider(self):
@@ -163,7 +163,7 @@ class WiringTest(unittest.TestCase):
     def test_provided_instance(self):
         class TestService:
             foo = {
-                'bar': lambda: 10,
+                "bar": lambda: 10,
             }
 
         with self.container.service.override(TestService()):
@@ -176,22 +176,22 @@ class WiringTest(unittest.TestCase):
 
     def test_config_invariant(self):
         config = {
-            'option': {
-                'a': 1,
-                'b': 2,
+            "option": {
+                "a": 1,
+                "b": 2,
             },
-            'switch': 'a',
+            "switch": "a",
         }
         self.container.config.from_dict(config)
 
         value_default = module.test_config_invariant()
         self.assertEqual(value_default, 1)
 
-        with self.container.config.switch.override('a'):
+        with self.container.config.switch.override("a"):
             value_a = module.test_config_invariant()
         self.assertEqual(value_a, 1)
 
-        with self.container.config.switch.override('b'):
+        with self.container.config.switch.override("b"):
             value_b = module.test_config_invariant()
         self.assertEqual(value_b, 2)
 
@@ -418,7 +418,7 @@ class AutoLoaderTest(unittest.TestCase):
     container: Container
 
     def setUp(self) -> None:
-        self.container = Container(config={'a': {'b': {'c': 10}}})
+        self.container = Container(config={"a": {"b": {"c": 10}}})
         importlib.reload(module)
 
     def tearDown(self) -> None:

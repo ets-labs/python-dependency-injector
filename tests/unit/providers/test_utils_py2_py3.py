@@ -17,7 +17,7 @@ class IsProviderTests(unittest.TestCase):
         self.assertFalse(providers.is_provider(providers.Provider))
 
     def test_with_string(self):
-        self.assertFalse(providers.is_provider('some_string'))
+        self.assertFalse(providers.is_provider("some_string"))
 
     def test_with_object(self):
         self.assertFalse(providers.is_provider(object()))
@@ -50,7 +50,7 @@ class EnsureIsProviderTests(unittest.TestCase):
     def test_with_string(self):
         self.assertRaises(errors.Error,
                           providers.ensure_is_provider,
-                          'some_string')
+                          "some_string")
 
     def test_with_object(self):
         self.assertRaises(errors.Error, providers.ensure_is_provider, object())

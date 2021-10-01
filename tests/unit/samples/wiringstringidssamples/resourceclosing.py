@@ -33,5 +33,5 @@ class Container(containers.DeclarativeContainer):
 
 
 @inject
-def test_function(service: Service = Closing[Provide['service']]):
+def test_function(service: Service = Closing[Provide["service"]]):
     return service

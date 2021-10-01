@@ -9,7 +9,7 @@ import os
 _TOP_DIR = os.path.abspath(
     os.path.sep.join((
         os.path.dirname(__file__),
-        '../',
+        "../",
     )),
 )
 import sys
@@ -192,7 +192,7 @@ class FactoryTests(AsyncTestCase):
 
     def test_injection_error(self):
         async def init_resource():
-            raise Exception('Something went wrong')
+            raise Exception("Something went wrong")
 
         class Container(containers.DeclarativeContainer):
             resource_with_error = providers.Resource(init_resource)
@@ -207,11 +207,11 @@ class FactoryTests(AsyncTestCase):
 
         with self.assertRaises(Exception) as context:
             self._run(container.client())
-        self.assertEqual(str(context.exception), 'Something went wrong')
+        self.assertEqual(str(context.exception), "Something went wrong")
 
     def test_injection_runtime_error_async_provides(self):
         async def create_client(*args,  **kwargs):
-            raise Exception('Something went wrong')
+            raise Exception("Something went wrong")
 
         class Container(containers.DeclarativeContainer):
             resource = providers.Resource(init_resource, providers.Object(RESOURCE1))
@@ -226,7 +226,7 @@ class FactoryTests(AsyncTestCase):
 
         with self.assertRaises(Exception) as context:
             self._run(container.client())
-        self.assertEqual(str(context.exception), 'Something went wrong')
+        self.assertEqual(str(context.exception), "Something went wrong")
 
     def test_injection_call_error_async_provides(self):
         async def create_client():  # <-- no args defined
@@ -302,7 +302,7 @@ class FactoryTests(AsyncTestCase):
 
             @attribute_set_error.setter
             def attribute_set_error(self, value):
-                raise Exception('Something went wrong')
+                raise Exception("Something went wrong")
 
         class Container(containers.DeclarativeContainer):
             resource = providers.Resource(init_resource, providers.Object(RESOURCE1))
@@ -318,11 +318,11 @@ class FactoryTests(AsyncTestCase):
 
         with self.assertRaises(Exception) as context:
             self._run(container.client())
-        self.assertEqual(str(context.exception), 'Something went wrong')
+        self.assertEqual(str(context.exception), "Something went wrong")
 
     def test_attributes_injection_runtime_error(self):
         async def init_resource():
-            raise Exception('Something went wrong')
+            raise Exception("Something went wrong")
 
         class Container(containers.DeclarativeContainer):
             resource = providers.Resource(init_resource)
@@ -339,7 +339,7 @@ class FactoryTests(AsyncTestCase):
 
         with self.assertRaises(Exception) as context:
             self._run(container.client())
-        self.assertEqual(str(context.exception), 'Something went wrong')
+        self.assertEqual(str(context.exception), "Something went wrong")
 
     def test_async_instance_and_sync_attributes_injection(self):
         class ContainerWithAttributes(containers.DeclarativeContainer):
@@ -406,11 +406,11 @@ class FactoryAggregateTests(AsyncTestCase):
 
         self.assertTrue(provider.is_async_mode_undefined())
 
-        created_object1 = self._run(provider('object1'))
+        created_object1 = self._run(provider("object1"))
         self.assertIs(created_object1, object1)
         self.assertTrue(provider.is_async_mode_enabled())
 
-        created_object2 = self._run(provider('object2'))
+        created_object2 = self._run(provider("object2"))
         self.assertIs(created_object2, object2)
 
 
@@ -696,7 +696,7 @@ class ProvidedInstanceTests(AsyncTestCase):
         class TestContainer(containers.DeclarativeContainer):
             resource = providers.Resource(init_resource, providers.Object(RESOURCE1))
             client = providers.Factory(TestClient, resource=resource)
-            service = providers.Factory(TestService, resource=client.provided['resource'])
+            service = providers.Factory(TestService, resource=client.provided["resource"])
 
         container = TestContainer()
 
@@ -721,7 +721,7 @@ class ProvidedInstanceTests(AsyncTestCase):
         container = TestContainer()
 
         with self.assertRaises(RuntimeError):
-            self._run(container.client.provided['item']())
+            self._run(container.client.provided["item"]())
 
     def test_provided_item_undefined_item(self):
         class TestContainer(containers.DeclarativeContainer):
@@ -731,7 +731,7 @@ class ProvidedInstanceTests(AsyncTestCase):
         container = TestContainer()
 
         with self.assertRaises(KeyError):
-            self._run(container.client.provided['item']())
+            self._run(container.client.provided["item"]())
 
     def test_provided_method_call(self):
         class TestClient:
@@ -878,15 +878,15 @@ class ListTests(AsyncTestCase):
         class Container(containers.DeclarativeContainer):
 
             resources = providers.List(
-                providers.Resource(create_resource, 'foo'),
-                providers.Resource(create_resource, 'bar')
+                providers.Resource(create_resource, "foo"),
+                providers.Resource(create_resource, "bar")
             )
 
         container = Container()
         resources = self._run(container.resources())
 
-        self.assertEqual(resources[0], 'foo')
-        self.assertEqual(resources[1], 'bar')
+        self.assertEqual(resources[0], "foo")
+        self.assertEqual(resources[1], "bar")
 
 
 class DictTests(AsyncTestCase):
@@ -898,15 +898,15 @@ class DictTests(AsyncTestCase):
         class Container(containers.DeclarativeContainer):
 
             resources = providers.Dict(
-                foo=providers.Resource(create_resource, 'foo'),
-                bar=providers.Resource(create_resource, 'bar')
+                foo=providers.Resource(create_resource, "foo"),
+                bar=providers.Resource(create_resource, "bar")
             )
 
         container = Container()
         resources = self._run(container.resources())
 
-        self.assertEqual(resources['foo'], 'foo')
-        self.assertEqual(resources['bar'], 'bar')
+        self.assertEqual(resources["foo"], "foo")
+        self.assertEqual(resources["bar"], "bar")
 
 
 class OverrideTests(AsyncTestCase):
@@ -1097,10 +1097,10 @@ class AsyncProvidersWithAsyncDependenciesTests(AsyncTestCase):
     def test_injections(self):
         # See: https://github.com/ets-labs/python-dependency-injector/issues/368
         async def async_db_provider():
-            return {'db': 'ok'}
+            return {"db": "ok"}
 
         async def async_service(db=None):
-            return {'service': 'ok', 'db': db}
+            return {"service": "ok", "db": db}
 
         class Container(containers.DeclarativeContainer):
 
@@ -1110,7 +1110,7 @@ class AsyncProvidersWithAsyncDependenciesTests(AsyncTestCase):
         container = Container()
         service = self._run(container.service())
 
-        self.assertEqual(service, {'service': 'ok', 'db': {'db': 'ok'}})
+        self.assertEqual(service, {"service": "ok", "db": {"db": "ok"}})
 
 
 class AsyncProviderWithAwaitableObjectTests(AsyncTestCase):
@@ -1118,7 +1118,7 @@ class AsyncProviderWithAwaitableObjectTests(AsyncTestCase):
     def test(self):
         class SomeResource:
             def __await__(self):
-                raise RuntimeError('Should never happen')
+                raise RuntimeError("Should never happen")
 
         async def init_resource():
             pool = SomeResource()
@@ -1148,7 +1148,7 @@ class AsyncProviderWithAwaitableObjectTests(AsyncTestCase):
     def test_without_init_resources(self):
         class SomeResource:
             def __await__(self):
-                raise RuntimeError('Should never happen')
+                raise RuntimeError("Should never happen")
 
         async def init_resource():
             pool = SomeResource()

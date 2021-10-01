@@ -80,48 +80,48 @@ class _BaseSingletonTestCase(object):
         self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_positional_args(self):
-        provider = self.singleton_cls(Example, 'i1', 'i2')
+        provider = self.singleton_cls(Example, "i1", "i2")
 
         instance1 = provider()
         instance2 = provider()
 
-        self.assertEqual(instance1.init_arg1, 'i1')
-        self.assertEqual(instance1.init_arg2, 'i2')
+        self.assertEqual(instance1.init_arg1, "i1")
+        self.assertEqual(instance1.init_arg2, "i2")
 
-        self.assertEqual(instance2.init_arg1, 'i1')
-        self.assertEqual(instance2.init_arg2, 'i2')
+        self.assertEqual(instance2.init_arg1, "i1")
+        self.assertEqual(instance2.init_arg2, "i2")
 
         self.assertIs(instance1, instance2)
         self.assertIsInstance(instance1, Example)
         self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_keyword_args(self):
-        provider = self.singleton_cls(Example, init_arg1='i1', init_arg2='i2')
+        provider = self.singleton_cls(Example, init_arg1="i1", init_arg2="i2")
 
         instance1 = provider()
         instance2 = provider()
 
-        self.assertEqual(instance1.init_arg1, 'i1')
-        self.assertEqual(instance1.init_arg2, 'i2')
+        self.assertEqual(instance1.init_arg1, "i1")
+        self.assertEqual(instance1.init_arg2, "i2")
 
-        self.assertEqual(instance2.init_arg1, 'i1')
-        self.assertEqual(instance2.init_arg2, 'i2')
+        self.assertEqual(instance2.init_arg1, "i1")
+        self.assertEqual(instance2.init_arg2, "i2")
 
         self.assertIs(instance1, instance2)
         self.assertIsInstance(instance1, Example)
         self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_positional_and_keyword_args(self):
-        provider = self.singleton_cls(Example, 'i1', init_arg2='i2')
+        provider = self.singleton_cls(Example, "i1", init_arg2="i2")
 
         instance1 = provider()
         instance2 = provider()
 
-        self.assertEqual(instance1.init_arg1, 'i1')
-        self.assertEqual(instance1.init_arg2, 'i2')
+        self.assertEqual(instance1.init_arg1, "i1")
+        self.assertEqual(instance1.init_arg2, "i2")
 
-        self.assertEqual(instance2.init_arg1, 'i1')
-        self.assertEqual(instance2.init_arg2, 'i2')
+        self.assertEqual(instance2.init_arg1, "i1")
+        self.assertEqual(instance2.init_arg2, "i2")
 
         self.assertIs(instance1, instance2)
         self.assertIsInstance(instance1, Example)
@@ -129,16 +129,16 @@ class _BaseSingletonTestCase(object):
 
     def test_call_with_attributes(self):
         provider = self.singleton_cls(Example)
-        provider.add_attributes(attribute1='a1', attribute2='a2')
+        provider.add_attributes(attribute1="a1", attribute2="a2")
 
         instance1 = provider()
         instance2 = provider()
 
-        self.assertEqual(instance1.attribute1, 'a1')
-        self.assertEqual(instance1.attribute2, 'a2')
+        self.assertEqual(instance1.attribute1, "a1")
+        self.assertEqual(instance1.attribute2, "a2")
 
-        self.assertEqual(instance2.attribute1, 'a1')
-        self.assertEqual(instance2.attribute2, 'a2')
+        self.assertEqual(instance2.attribute1, "a1")
+        self.assertEqual(instance2.attribute2, "a2")
 
         self.assertIs(instance1, instance2)
         self.assertIsInstance(instance1, Example)
@@ -285,8 +285,8 @@ class _BaseSingletonTestCase(object):
         provider.add_kwargs(a1=dependent_provider1, a2=dependent_provider2)
 
         provider_copy = providers.deepcopy(provider)
-        dependent_provider_copy1 = provider_copy.kwargs['a1']
-        dependent_provider_copy2 = provider_copy.kwargs['a2']
+        dependent_provider_copy1 = provider_copy.kwargs["a1"]
+        dependent_provider_copy2 = provider_copy.kwargs["a2"]
 
         self.assertNotEqual(provider.kwargs, provider_copy.kwargs)
 
@@ -304,8 +304,8 @@ class _BaseSingletonTestCase(object):
         provider.add_attributes(a1=dependent_provider1, a2=dependent_provider2)
 
         provider_copy = providers.deepcopy(provider)
-        dependent_provider_copy1 = provider_copy.attributes['a1']
-        dependent_provider_copy2 = provider_copy.attributes['a2']
+        dependent_provider_copy1 = provider_copy.attributes["a1"]
+        dependent_provider_copy2 = provider_copy.attributes["a2"]
 
         self.assertNotEqual(provider.attributes, provider_copy.attributes)
 
@@ -342,8 +342,8 @@ class _BaseSingletonTestCase(object):
         self.assertIsNot(provider, provider_copy)
         self.assertIsInstance(provider_copy, providers.Singleton)
         self.assertIs(provider.args[0], sys.stdin)
-        self.assertIs(provider.kwargs['a2'], sys.stdout)
-        self.assertIs(provider.attributes['a3'], sys.stderr)
+        self.assertIs(provider.kwargs["a2"], sys.stdout)
+        self.assertIs(provider.attributes["a3"], sys.stderr)
 
     def test_reset(self):
         provider = self.singleton_cls(object)
@@ -364,12 +364,12 @@ class _BaseSingletonTestCase(object):
 
         dependent_instance = dependent_singleton()
         instance1 = provider()
-        self.assertIs(instance1['dependency'], dependent_instance)
+        self.assertIs(instance1["dependency"], dependent_instance)
 
         provider.reset()
 
         instance2 = provider()
-        self.assertIs(instance1['dependency'], dependent_instance)
+        self.assertIs(instance1["dependency"], dependent_instance)
 
         self.assertIsNot(instance1, instance2)
 
@@ -396,13 +396,13 @@ class _BaseSingletonTestCase(object):
 
         dependent_instance1 = dependent_singleton()
         instance1 = provider()
-        self.assertIs(instance1['dependency'], dependent_instance1)
+        self.assertIs(instance1["dependency"], dependent_instance1)
 
         provider.full_reset()
 
         dependent_instance2 = dependent_singleton()
         instance2 = provider()
-        self.assertIsNot(instance2['dependency'], dependent_instance1)
+        self.assertIsNot(instance2["dependency"], dependent_instance1)
         self.assertIsNot(dependent_instance1, dependent_instance2)
         self.assertIsNot(instance1, instance2)
 

@@ -13,8 +13,8 @@ class ContextLocalSingletonTests(_BaseSingletonTestCase, unittest.TestCase):
         provider = providers.ContextLocalSingleton(Example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.'
-                         'ContextLocalSingleton({0}) at {1}>'.format(
+                         "<dependency_injector.providers."
+                         "ContextLocalSingleton({0}) at {1}>".format(
                              repr(Example),
                              hex(id(provider))))
 

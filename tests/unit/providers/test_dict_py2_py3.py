@@ -19,110 +19,110 @@ class DictTests(unittest.TestCase):
     def test_init_with_non_string_keys(self):
         a1 = object()
         a2 = object()
-        provider = providers.Dict({a1: 'i1', a2: 'i2'})
+        provider = providers.Dict({a1: "i1", a2: "i2"})
 
         dict1 = provider()
         dict2 = provider()
 
-        self.assertEqual(dict1, {a1: 'i1', a2: 'i2'})
-        self.assertEqual(dict2, {a1: 'i1', a2: 'i2'})
+        self.assertEqual(dict1, {a1: "i1", a2: "i2"})
+        self.assertEqual(dict2, {a1: "i1", a2: "i2"})
 
         self.assertIsNot(dict1, dict2)
 
     def test_init_with_string_and_non_string_keys(self):
         a1 = object()
-        provider = providers.Dict({a1: 'i1'}, a2='i2')
+        provider = providers.Dict({a1: "i1"}, a2="i2")
 
         dict1 = provider()
         dict2 = provider()
 
-        self.assertEqual(dict1, {a1: 'i1', 'a2': 'i2'})
-        self.assertEqual(dict2, {a1: 'i1', 'a2': 'i2'})
+        self.assertEqual(dict1, {a1: "i1", "a2": "i2"})
+        self.assertEqual(dict2, {a1: "i1", "a2": "i2"})
 
         self.assertIsNot(dict1, dict2)
 
     def test_call_with_init_keyword_args(self):
-        provider = providers.Dict(a1='i1', a2='i2')
+        provider = providers.Dict(a1="i1", a2="i2")
 
         dict1 = provider()
         dict2 = provider()
 
-        self.assertEqual(dict1, {'a1': 'i1', 'a2': 'i2'})
-        self.assertEqual(dict2, {'a1': 'i1', 'a2': 'i2'})
+        self.assertEqual(dict1, {"a1": "i1", "a2": "i2"})
+        self.assertEqual(dict2, {"a1": "i1", "a2": "i2"})
 
         self.assertIsNot(dict1, dict2)
 
     def test_call_with_context_keyword_args(self):
-        provider = providers.Dict(a1='i1', a2='i2')
+        provider = providers.Dict(a1="i1", a2="i2")
         self.assertEqual(
-            provider(a3='i3', a4='i4'),
-            {'a1': 'i1', 'a2': 'i2', 'a3': 'i3', 'a4': 'i4'},
+            provider(a3="i3", a4="i4"),
+            {"a1": "i1", "a2": "i2", "a3": "i3", "a4": "i4"},
         )
 
     def test_call_with_provider(self):
         provider = providers.Dict(
-            a1=providers.Factory(str, 'i1'),
-            a2=providers.Factory(str, 'i2'),
+            a1=providers.Factory(str, "i1"),
+            a2=providers.Factory(str, "i2"),
         )
-        self.assertEqual(provider(), {'a1': 'i1', 'a2': 'i2'})
+        self.assertEqual(provider(), {"a1": "i1", "a2": "i2"})
 
     def test_fluent_interface(self):
         provider = providers.Dict() \
-            .add_kwargs(a1='i1', a2='i2')
-        self.assertEqual(provider(), {'a1': 'i1', 'a2': 'i2'})
+            .add_kwargs(a1="i1", a2="i2")
+        self.assertEqual(provider(), {"a1": "i1", "a2": "i2"})
 
     def test_add_kwargs(self):
         provider = providers.Dict() \
-            .add_kwargs(a1='i1') \
-            .add_kwargs(a2='i2')
-        self.assertEqual(provider.kwargs, {'a1': 'i1', 'a2': 'i2'})
+            .add_kwargs(a1="i1") \
+            .add_kwargs(a2="i2")
+        self.assertEqual(provider.kwargs, {"a1": "i1", "a2": "i2"})
 
     def test_add_kwargs_non_string_keys(self):
         a1 = object()
         a2 = object()
         provider = providers.Dict() \
-            .add_kwargs({a1: 'i1'}) \
-            .add_kwargs({a2: 'i2'})
-        self.assertEqual(provider.kwargs, {a1: 'i1', a2: 'i2'})
+            .add_kwargs({a1: "i1"}) \
+            .add_kwargs({a2: "i2"})
+        self.assertEqual(provider.kwargs, {a1: "i1", a2: "i2"})
 
     def test_add_kwargs_string_and_non_string_keys(self):
         a2 = object()
         provider = providers.Dict() \
-            .add_kwargs(a1='i1') \
-            .add_kwargs({a2: 'i2'})
-        self.assertEqual(provider.kwargs, {'a1': 'i1', a2: 'i2'})
+            .add_kwargs(a1="i1") \
+            .add_kwargs({a2: "i2"})
+        self.assertEqual(provider.kwargs, {"a1": "i1", a2: "i2"})
 
     def test_set_kwargs(self):
         provider = providers.Dict() \
-            .add_kwargs(a1='i1', a2='i2') \
-            .set_kwargs(a3='i3', a4='i4')
-        self.assertEqual(provider.kwargs, {'a3': 'i3', 'a4': 'i4'})
+            .add_kwargs(a1="i1", a2="i2") \
+            .set_kwargs(a3="i3", a4="i4")
+        self.assertEqual(provider.kwargs, {"a3": "i3", "a4": "i4"})
 
     def test_set_kwargs_non_string_keys(self):
         a3 = object()
         a4 = object()
         provider = providers.Dict() \
-            .add_kwargs(a1='i1', a2='i2') \
-            .set_kwargs({a3: 'i3', a4: 'i4'})
-        self.assertEqual(provider.kwargs, {a3: 'i3', a4: 'i4'})
+            .add_kwargs(a1="i1", a2="i2") \
+            .set_kwargs({a3: "i3", a4: "i4"})
+        self.assertEqual(provider.kwargs, {a3: "i3", a4: "i4"})
 
     def test_set_kwargs_string_and_non_string_keys(self):
         a3 = object()
         provider = providers.Dict() \
-            .add_kwargs(a1='i1', a2='i2') \
-            .set_kwargs({a3: 'i3'}, a4='i4')
-        self.assertEqual(provider.kwargs, {a3: 'i3', 'a4': 'i4'})
+            .add_kwargs(a1="i1", a2="i2") \
+            .set_kwargs({a3: "i3"}, a4="i4")
+        self.assertEqual(provider.kwargs, {a3: "i3", "a4": "i4"})
 
     def test_clear_kwargs(self):
         provider = providers.Dict() \
-            .add_kwargs(a1='i1', a2='i2') \
+            .add_kwargs(a1="i1", a2="i2") \
             .clear_kwargs()
         self.assertEqual(provider.kwargs, {})
 
     def test_call_overridden(self):
-        provider = providers.Dict(a1='i1', a2='i2')
-        overriding_provider1 = providers.Dict(a2='i2', a3='i3')
-        overriding_provider2 = providers.Dict(a3='i3', a4='i4')
+        provider = providers.Dict(a1="i1", a2="i2")
+        overriding_provider1 = providers.Dict(a2="i2", a3="i3")
+        overriding_provider2 = providers.Dict(a3="i3", a4="i4")
 
         provider.override(overriding_provider1)
         provider.override(overriding_provider2)
@@ -131,11 +131,11 @@ class DictTests(unittest.TestCase):
         instance2 = provider()
 
         self.assertIsNot(instance1, instance2)
-        self.assertEqual(instance1, {'a3': 'i3', 'a4': 'i4'})
-        self.assertEqual(instance2, {'a3': 'i3', 'a4': 'i4'})
+        self.assertEqual(instance1, {"a3": "i3", "a4": "i4"})
+        self.assertEqual(instance2, {"a3": "i3", "a4": "i4"})
 
     def test_deepcopy(self):
-        provider = providers.Dict(a1='i1', a2='i2')
+        provider = providers.Dict(a1="i1", a2="i2")
 
         provider_copy = providers.deepcopy(provider)
 
@@ -144,8 +144,8 @@ class DictTests(unittest.TestCase):
         self.assertIsInstance(provider, providers.Dict)
 
     def test_deepcopy_from_memo(self):
-        provider = providers.Dict(a1='i1', a2='i2')
-        provider_copy_memo = providers.Dict(a1='i1', a2='i2')
+        provider = providers.Dict(a1="i1", a2="i2")
+        provider_copy_memo = providers.Dict(a1="i1", a2="i2")
 
         provider_copy = providers.deepcopy(
             provider,
@@ -162,8 +162,8 @@ class DictTests(unittest.TestCase):
         provider.add_kwargs(d1=dependent_provider1, d2=dependent_provider2)
 
         provider_copy = providers.deepcopy(provider)
-        dependent_provider_copy1 = provider_copy.kwargs['d1']
-        dependent_provider_copy2 = provider_copy.kwargs['d2']
+        dependent_provider_copy1 = provider_copy.kwargs["d1"]
+        dependent_provider_copy2 = provider_copy.kwargs["d2"]
 
         self.assertNotEqual(provider.kwargs, provider_copy.kwargs)
 
@@ -218,14 +218,14 @@ class DictTests(unittest.TestCase):
 
         self.assertIsNot(provider, provider_copy)
         self.assertIsInstance(provider_copy, providers.Dict)
-        self.assertIs(provider.kwargs['stdin'], sys.stdin)
-        self.assertIs(provider.kwargs['stdout'], sys.stdout)
-        self.assertIs(provider.kwargs['stderr'], sys.stderr)
+        self.assertIs(provider.kwargs["stdin"], sys.stdin)
+        self.assertIs(provider.kwargs["stdout"], sys.stdout)
+        self.assertIs(provider.kwargs["stderr"], sys.stderr)
 
     def test_repr(self):
         provider = providers.Dict(a1=1, a2=2)
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.'
-                         'Dict({0}) at {1}>'.format(
+                         "<dependency_injector.providers."
+                         "Dict({0}) at {1}>".format(
                              repr(provider.kwargs),
                              hex(id(provider))))

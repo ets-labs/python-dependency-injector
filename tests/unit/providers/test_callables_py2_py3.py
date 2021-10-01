@@ -154,8 +154,8 @@ class CallableTests(unittest.TestCase):
         provider.add_kwargs(a1=dependent_provider1, a2=dependent_provider2)
 
         provider_copy = providers.deepcopy(provider)
-        dependent_provider_copy1 = provider_copy.kwargs['a1']
-        dependent_provider_copy2 = provider_copy.kwargs['a2']
+        dependent_provider_copy1 = provider_copy.kwargs["a1"]
+        dependent_provider_copy2 = provider_copy.kwargs["a2"]
 
         self.assertNotEqual(provider.kwargs, provider_copy.kwargs)
 
@@ -193,14 +193,14 @@ class CallableTests(unittest.TestCase):
         self.assertIsNot(provider, provider_copy)
         self.assertIsInstance(provider_copy, providers.Callable)
         self.assertIs(provider.args[0], sys.stdin)
-        self.assertIs(provider.kwargs['a2'], sys.stdout)
+        self.assertIs(provider.kwargs["a2"], sys.stdout)
 
     def test_repr(self):
         provider = providers.Callable(_example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.'
-                         'Callable({0}) at {1}>'.format(
+                         "<dependency_injector.providers."
+                         "Callable({0}) at {1}>".format(
                              repr(_example),
                              hex(id(provider))))
 
@@ -223,8 +223,8 @@ class DelegatedCallableTests(unittest.TestCase):
         provider = providers.DelegatedCallable(_example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.'
-                         'DelegatedCallable({0}) at {1}>'.format(
+                         "<dependency_injector.providers."
+                         "DelegatedCallable({0}) at {1}>".format(
                              repr(_example),
                              hex(id(provider))))
 
@@ -275,8 +275,8 @@ class AbstractCallableTests(unittest.TestCase):
         provider = providers.AbstractCallable(_example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.'
-                         'AbstractCallable({0}) at {1}>'.format(
+                         "<dependency_injector.providers."
+                         "AbstractCallable({0}) at {1}>".format(
                              repr(_example),
                              hex(id(provider))))
 

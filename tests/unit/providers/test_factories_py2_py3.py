@@ -86,48 +86,48 @@ class FactoryTests(unittest.TestCase):
         self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_positional_args(self):
-        provider = providers.Factory(Example, 'i1', 'i2')
+        provider = providers.Factory(Example, "i1", "i2")
 
         instance1 = provider()
         instance2 = provider()
 
-        self.assertEqual(instance1.init_arg1, 'i1')
-        self.assertEqual(instance1.init_arg2, 'i2')
+        self.assertEqual(instance1.init_arg1, "i1")
+        self.assertEqual(instance1.init_arg2, "i2")
 
-        self.assertEqual(instance2.init_arg1, 'i1')
-        self.assertEqual(instance2.init_arg2, 'i2')
+        self.assertEqual(instance2.init_arg1, "i1")
+        self.assertEqual(instance2.init_arg2, "i2")
 
         self.assertIsNot(instance1, instance2)
         self.assertIsInstance(instance1, Example)
         self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_keyword_args(self):
-        provider = providers.Factory(Example, init_arg1='i1', init_arg2='i2')
+        provider = providers.Factory(Example, init_arg1="i1", init_arg2="i2")
 
         instance1 = provider()
         instance2 = provider()
 
-        self.assertEqual(instance1.init_arg1, 'i1')
-        self.assertEqual(instance1.init_arg2, 'i2')
+        self.assertEqual(instance1.init_arg1, "i1")
+        self.assertEqual(instance1.init_arg2, "i2")
 
-        self.assertEqual(instance2.init_arg1, 'i1')
-        self.assertEqual(instance2.init_arg2, 'i2')
+        self.assertEqual(instance2.init_arg1, "i1")
+        self.assertEqual(instance2.init_arg2, "i2")
 
         self.assertIsNot(instance1, instance2)
         self.assertIsInstance(instance1, Example)
         self.assertIsInstance(instance2, Example)
 
     def test_call_with_init_positional_and_keyword_args(self):
-        provider = providers.Factory(Example, 'i1', init_arg2='i2')
+        provider = providers.Factory(Example, "i1", init_arg2="i2")
 
         instance1 = provider()
         instance2 = provider()
 
-        self.assertEqual(instance1.init_arg1, 'i1')
-        self.assertEqual(instance1.init_arg2, 'i2')
+        self.assertEqual(instance1.init_arg1, "i1")
+        self.assertEqual(instance1.init_arg2, "i2")
 
-        self.assertEqual(instance2.init_arg1, 'i1')
-        self.assertEqual(instance2.init_arg2, 'i2')
+        self.assertEqual(instance2.init_arg1, "i1")
+        self.assertEqual(instance2.init_arg2, "i2")
 
         self.assertIsNot(instance1, instance2)
         self.assertIsInstance(instance1, Example)
@@ -135,16 +135,16 @@ class FactoryTests(unittest.TestCase):
 
     def test_call_with_attributes(self):
         provider = providers.Factory(Example)
-        provider.add_attributes(attribute1='a1', attribute2='a2')
+        provider.add_attributes(attribute1="a1", attribute2="a2")
 
         instance1 = provider()
         instance2 = provider()
 
-        self.assertEqual(instance1.attribute1, 'a1')
-        self.assertEqual(instance1.attribute2, 'a2')
+        self.assertEqual(instance1.attribute1, "a1")
+        self.assertEqual(instance1.attribute2, "a2")
 
-        self.assertEqual(instance2.attribute1, 'a1')
-        self.assertEqual(instance2.attribute2, 'a2')
+        self.assertEqual(instance2.attribute1, "a1")
+        self.assertEqual(instance2.attribute2, "a2")
 
         self.assertIsNot(instance1, instance2)
         self.assertIsInstance(instance1, Example)
@@ -331,8 +331,8 @@ class FactoryTests(unittest.TestCase):
         provider.add_kwargs(a1=dependent_provider1, a2=dependent_provider2)
 
         provider_copy = providers.deepcopy(provider)
-        dependent_provider_copy1 = provider_copy.kwargs['a1']
-        dependent_provider_copy2 = provider_copy.kwargs['a2']
+        dependent_provider_copy1 = provider_copy.kwargs["a1"]
+        dependent_provider_copy2 = provider_copy.kwargs["a2"]
 
         self.assertNotEqual(provider.kwargs, provider_copy.kwargs)
 
@@ -350,8 +350,8 @@ class FactoryTests(unittest.TestCase):
         provider.add_attributes(a1=dependent_provider1, a2=dependent_provider2)
 
         provider_copy = providers.deepcopy(provider)
-        dependent_provider_copy1 = provider_copy.attributes['a1']
-        dependent_provider_copy2 = provider_copy.attributes['a2']
+        dependent_provider_copy1 = provider_copy.attributes["a1"]
+        dependent_provider_copy2 = provider_copy.attributes["a2"]
 
         self.assertNotEqual(provider.attributes, provider_copy.attributes)
 
@@ -388,15 +388,15 @@ class FactoryTests(unittest.TestCase):
         self.assertIsNot(provider, provider_copy)
         self.assertIsInstance(provider_copy, providers.Factory)
         self.assertIs(provider.args[0], sys.stdin)
-        self.assertIs(provider.kwargs['a2'], sys.stdout)
-        self.assertIs(provider.attributes['a3'], sys.stderr)
+        self.assertIs(provider.kwargs["a2"], sys.stdout)
+        self.assertIs(provider.attributes["a3"], sys.stderr)
 
     def test_repr(self):
         provider = providers.Factory(Example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.'
-                         'Factory({0}) at {1}>'.format(
+                         "<dependency_injector.providers."
+                         "Factory({0}) at {1}>".format(
                              repr(Example),
                              hex(id(provider))))
 
@@ -419,8 +419,8 @@ class DelegatedFactoryTests(unittest.TestCase):
         provider = providers.DelegatedFactory(Example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.'
-                         'DelegatedFactory({0}) at {1}>'.format(
+                         "<dependency_injector.providers."
+                         "DelegatedFactory({0}) at {1}>".format(
                              repr(Example),
                              hex(id(provider))))
 
@@ -465,8 +465,8 @@ class AbstractFactoryTests(unittest.TestCase):
         provider = providers.AbstractFactory(Example)
 
         self.assertEqual(repr(provider),
-                         '<dependency_injector.providers.'
-                         'AbstractFactory({0}) at {1}>'.format(
+                         "<dependency_injector.providers."
+                         "AbstractFactory({0}) at {1}>".format(
                              repr(Example),
                              hex(id(provider))))
 
@@ -552,12 +552,12 @@ class FactoryAggregateTests(unittest.TestCase):
         self.assertEqual(
             provider.factories,
             {
-                'example_a': self.example_a_factory,
-                'example_b': self.example_b_factory,
+                "example_a": self.example_a_factory,
+                "example_b": self.example_b_factory,
             },
         )
-        self.assertIsInstance(provider('example_a'), self.ExampleA)
-        self.assertIsInstance(provider('example_b'), self.ExampleB)
+        self.assertIsInstance(provider("example_a"), self.ExampleA)
+        self.assertIsInstance(provider("example_b"), self.ExampleB)
 
     def test_set_factories_with_non_string_keys(self):
         factory = providers.FactoryAggregate()
@@ -594,9 +594,9 @@ class FactoryAggregateTests(unittest.TestCase):
         self.assertIs(provider.set_factories(example_a=self.example_a_factory), provider)
 
     def test_call(self):
-        object_a = self.factory_aggregate('example_a',
+        object_a = self.factory_aggregate("example_a",
                                           1, 2, init_arg3=3, init_arg4=4)
-        object_b = self.factory_aggregate('example_b',
+        object_b = self.factory_aggregate("example_b",
                                           11, 22, init_arg3=33, init_arg4=44)
 
         self.assertIsInstance(object_a, self.ExampleA)
@@ -613,7 +613,7 @@ class FactoryAggregateTests(unittest.TestCase):
 
     def test_call_factory_name_as_kwarg(self):
         object_a = self.factory_aggregate(
-            factory_name='example_a',
+            factory_name="example_a",
             init_arg1=1,
             init_arg2=2,
             init_arg3=3,
@@ -631,7 +631,7 @@ class FactoryAggregateTests(unittest.TestCase):
 
     def test_call_no_such_provider(self):
         with self.assertRaises(errors.NoSuchProviderError):
-            self.factory_aggregate('unknown')
+            self.factory_aggregate("unknown")
 
     def test_overridden(self):
         with self.assertRaises(errors.Error):
@@ -684,7 +684,7 @@ class FactoryAggregateTests(unittest.TestCase):
 
     def test_repr(self):
         self.assertEqual(repr(self.factory_aggregate),
-                         '<dependency_injector.providers.'
-                         'FactoryAggregate({0}) at {1}>'.format(
+                         "<dependency_injector.providers."
+                         "FactoryAggregate({0}) at {1}>".format(
                              repr(self.factory_aggregate.factories),
                              hex(id(self.factory_aggregate))))

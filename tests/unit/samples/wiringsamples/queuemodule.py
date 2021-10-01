@@ -2,4 +2,4 @@
 from queue import Queue
 
 
-__all__ = ('Queue',)
+__all__ = ("Queue",)

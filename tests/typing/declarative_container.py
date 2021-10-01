@@ -63,4 +63,4 @@ class Container7(containers.DeclarativeContainer):
     provider = providers.Factory(str)
 
 container7 = Container7()
-container7.override_providers(provider='new_value')
+container7.override_providers(provider="new_value")

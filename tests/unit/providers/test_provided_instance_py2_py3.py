@@ -32,7 +32,7 @@ class Client:
 
 class Container(containers.DeclarativeContainer):
 
-    service = providers.Singleton(Service, value='foo')
+    service = providers.Singleton(Service, value="foo")
 
     client_attribute = providers.Factory(
         Client,
@@ -74,30 +74,30 @@ class ProvidedInstanceTests(unittest.TestCase):
 
     def test_attribute(self):
         client = self.container.client_attribute()
-        self.assertEqual(client.value, 'foo')
+        self.assertEqual(client.value, "foo")
 
     def test_item(self):
         client = self.container.client_item()
-        self.assertEqual(client.value, 'foo')
+        self.assertEqual(client.value, "foo")
 
     def test_attribute_item(self):
         client = self.container.client_attribute_item()
-        self.assertEqual(client.value, 'foo')
+        self.assertEqual(client.value, "foo")
 
     def test_method_call(self):
         client = self.container.client_method_call()
-        self.assertEqual(client.value, 'foo')
+        self.assertEqual(client.value, "foo")
 
     def test_method_closure_call(self):
         client = self.container.client_method_closure_call()
-        self.assertEqual(client.value, 'foo')
+        self.assertEqual(client.value, "foo")
 
     def test_provided_call(self):
         client = self.container.client_provided_call()
-        self.assertEqual(client.value, 'foo')
+        self.assertEqual(client.value, "foo")
 
     def test_call_overridden(self):
-        value = 'bar'
+        value = "bar"
         with self.container.service.override(Service(value)):
             self.assertEqual(self.container.client_attribute().value, value)
             self.assertEqual(self.container.client_item().value, value)
@@ -107,21 +107,21 @@ class ProvidedInstanceTests(unittest.TestCase):
     def test_repr_provided_instance(self):
         provider = self.container.service.provided
         self.assertEqual(
-            'ProvidedInstance(\'{0}\')'.format(repr(self.container.service)),
+            "ProvidedInstance(\"{0}\")".format(repr(self.container.service)),
             repr(provider),
         )
 
     def test_repr_attribute_getter(self):
         provider = self.container.service.provided.value
         self.assertEqual(
-            'AttributeGetter(\'value\')',
+            "AttributeGetter(\"value\")",
             repr(provider),
         )
 
     def test_repr_item_getter(self):
-        provider = self.container.service.provided['test-test']
+        provider = self.container.service.provided["test-test"]
         self.assertEqual(
-            'ItemGetter(\'test-test\')',
+            "ItemGetter(\"test-test\")",
             repr(provider),
         )
 
@@ -139,21 +139,21 @@ class LazyInitTests(unittest.TestCase):
         provides = providers.Object(object())
         provider = providers.AttributeGetter()
         provider.set_provides(provides)
-        provider.set_name('__dict__')
+        provider.set_name("__dict__")
         self.assertIs(provider.provides, provides)
-        self.assertEqual(provider.name, '__dict__')
+        self.assertEqual(provider.name, "__dict__")
         self.assertIs(provider.set_provides(providers.Provider()), provider)
-        self.assertIs(provider.set_name('__dict__'), provider)
+        self.assertIs(provider.set_name("__dict__"), provider)
 
     def test_item_getter(self):
-        provides = providers.Object({'foo': 'bar'})
+        provides = providers.Object({"foo": "bar"})
         provider = providers.ItemGetter()
         provider.set_provides(provides)
-        provider.set_name('foo')
+        provider.set_name("foo")
         self.assertIs(provider.provides, provides)
-        self.assertEqual(provider.name, 'foo')
+        self.assertEqual(provider.name, "foo")
         self.assertIs(provider.set_provides(providers.Provider()), provider)
-        self.assertIs(provider.set_name('foo'), provider)
+        self.assertIs(provider.set_name("foo"), provider)
 
     def test_method_caller(self):
         provides = providers.Object(lambda: 42)
@@ -167,25 +167,25 @@ class LazyInitTests(unittest.TestCase):
 class ProvidedInstancePuzzleTests(unittest.TestCase):
 
     def test_puzzled(self):
-        service = providers.Singleton(Service, value='foo-bar')
+        service = providers.Singleton(Service, value="foo-bar")
 
         dependency = providers.Object(
             {
-                'a': {
-                    'b': {
-                        'c1': 10,
-                        'c2': lambda arg: {'arg': arg}
+                "a": {
+                    "b": {
+                        "c1": 10,
+                        "c2": lambda arg: {"arg": arg}
                     },
                 },
             },
         )
 
         test_list = providers.List(
-            dependency.provided['a']['b']['c1'],
-            dependency.provided['a']['b']['c2'].call(22)['arg'],
-            dependency.provided['a']['b']['c2'].call(service)['arg'],
-            dependency.provided['a']['b']['c2'].call(service)['arg'].value,
-            dependency.provided['a']['b']['c2'].call(service)['arg'].get_value.call(),
+            dependency.provided["a"]["b"]["c1"],
+            dependency.provided["a"]["b"]["c2"].call(22)["arg"],
+            dependency.provided["a"]["b"]["c2"].call(service)["arg"],
+            dependency.provided["a"]["b"]["c2"].call(service)["arg"].value,
+            dependency.provided["a"]["b"]["c2"].call(service)["arg"].get_value.call(),
         )
 
         result = test_list()
@@ -196,8 +196,8 @@ class ProvidedInstancePuzzleTests(unittest.TestCase):
                 10,
                 22,
                 service(),
-                'foo-bar',
-                'foo-bar',
+                "foo-bar",
+                "foo-bar",
             ],
         )
 

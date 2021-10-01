@@ -36,15 +36,15 @@ class Container(containers.DeclarativeContainer):
 
 @inject
 async def async_injection(
-        resource1: object = Provide['resource1'],
-        resource2: object = Provide['resource2'],
+        resource1: object = Provide["resource1"],
+        resource2: object = Provide["resource2"],
 ):
     return resource1, resource2
 
 
 @inject
 async def async_injection_with_closing(
-        resource1: object = Closing[Provide['resource1']],
-        resource2: object = Closing[Provide['resource2']],
+        resource1: object = Closing[Provide["resource1"]],
+        resource2: object = Closing[Provide["resource2"]],
 ):
     return resource1, resource2

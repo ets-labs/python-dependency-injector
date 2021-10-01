@@ -24,10 +24,10 @@ class SelectorTests(unittest.TestCase):
         provider.set_selector(self.selector)
         provider.set_providers(one=one, two=two)
 
-        self.assertEqual(provider.providers, {'one': one, 'two': two})
-        with self.selector.override('one'):
+        self.assertEqual(provider.providers, {"one": one, "two": two})
+        with self.selector.override("one"):
             self.assertEqual(provider(), one())
-        with self.selector.override('two'):
+        with self.selector.override("two"):
             self.assertEqual(provider(), two())
 
     def test_set_selector_returns_self(self):
@@ -49,10 +49,10 @@ class SelectorTests(unittest.TestCase):
             two=providers.Object(2),
         )
 
-        with self.selector.override('one'):
+        with self.selector.override("one"):
             self.assertEqual(provider(), 1)
 
-        with self.selector.override('two'):
+        with self.selector.override("two"):
             self.assertEqual(provider(), 2)
 
     def test_call_undefined_provider(self):
@@ -62,7 +62,7 @@ class SelectorTests(unittest.TestCase):
             two=providers.Object(2),
         )
 
-        with self.selector.override('three'):
+        with self.selector.override("three"):
             with self.assertRaises(errors.Error):
                 provider()
 
@@ -79,7 +79,7 @@ class SelectorTests(unittest.TestCase):
 
     def test_call_any_callable(self):
         provider = providers.Selector(
-            functools.partial(next, itertools.cycle(['one', 'two'])),
+            functools.partial(next, itertools.cycle(["one", "two"])),
             one=providers.Object(1),
             two=providers.Object(2),
         )
@@ -95,11 +95,11 @@ class SelectorTests(unittest.TestCase):
             one=providers.Callable(lambda *args, **kwargs: (args, kwargs)),
         )
 
-        with self.selector.override('one'):
+        with self.selector.override("one"):
             args, kwargs = provider(1, 2, three=3, four=4)
 
         self.assertEqual(args, (1, 2))
-        self.assertEqual(kwargs, {'three': 3, 'four': 4})
+        self.assertEqual(kwargs, {"three": 3, "four": 4})
 
     def test_getattr(self):
         provider_one = providers.Object(1)
@@ -135,7 +135,7 @@ class SelectorTests(unittest.TestCase):
         provider.override(overriding_provider1)
         provider.override(overriding_provider2)
 
-        with self.selector.override('sample'):
+        with self.selector.override("sample"):
             self.assertEqual(provider(), 3)
 
     def test_providers_attribute(self):
@@ -148,7 +148,7 @@ class SelectorTests(unittest.TestCase):
             two=provider_two,
         )
 
-        self.assertEqual(provider.providers, {'one': provider_one, 'two': provider_two})
+        self.assertEqual(provider.providers, {"one": provider_one, "two": provider_two})
 
     def test_deepcopy(self):
         provider = providers.Selector(self.selector)
@@ -198,13 +198,13 @@ class SelectorTests(unittest.TestCase):
         self.assertIsNot(provider, provider_copy)
         self.assertIsInstance(provider_copy, providers.Selector)
 
-        with self.selector.override('stdin'):
+        with self.selector.override("stdin"):
             self.assertIs(provider(), sys.stdin)
 
-        with self.selector.override('stdout'):
+        with self.selector.override("stdout"):
             self.assertIs(provider(), sys.stdout)
 
-        with self.selector.override('stderr'):
+        with self.selector.override("stderr"):
             self.assertIs(provider(), sys.stderr)
 
     def test_repr(self):
@@ -215,9 +215,9 @@ class SelectorTests(unittest.TestCase):
         )
 
         self.assertIn(
-            '<dependency_injector.providers.Selector({0}'.format(repr(self.selector)),
+            "<dependency_injector.providers.Selector({0}".format(repr(self.selector)),
             repr(provider),
         )
-        self.assertIn('one={0}'.format(repr(provider.one)), repr(provider))
-        self.assertIn('two={0}'.format(repr(provider.two)), repr(provider))
-        self.assertIn('at {0}'.format(hex(id(provider))), repr(provider))
+        self.assertIn("one={0}".format(repr(provider.one)), repr(provider))
+        self.assertIn("two={0}".format(repr(provider.two)), repr(provider))
+        self.assertIn("at {0}".format(hex(id(provider))), repr(provider))
