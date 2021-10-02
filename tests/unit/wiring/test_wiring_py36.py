@@ -30,6 +30,7 @@ _SAMPLES_DIR = os.path.abspath(
 import sys
 sys.path.append(_TOP_DIR)
 sys.path.append(_SAMPLES_DIR)
+import copy
 
 from asyncutils import AsyncTestCase
 
@@ -359,6 +360,74 @@ class WiringWithStringModuleAndPackageNamesTest(unittest.TestCase):
         from wiringsamples.package.subpackage.submodule import test_function
         service = test_function()
         self.assertIsInstance(service, Service)
+
+
+class WiringWithWiringConfigInTheContainerTest(unittest.TestCase):
+
+    container: Container
+    original_wiring_config = copy.deepcopy(Container.wiring_config)
+
+    def tearDown(self) -> None:
+        Container.wiring_config = copy.deepcopy(self.original_wiring_config)
+        self.container.unwire()
+
+    def test_absolute_names(self):
+        Container.wiring_config = {
+            "modules": ["wiringsamples.module"],
+            "packages": ["wiringsamples.package"],
+        }
+        self.container = Container()
+        self.container.wire()
+
+        service = module.test_function()
+        self.assertIsInstance(service, Service)
+
+        from wiringsamples.package.subpackage.submodule import test_function
+        service = test_function()
+        self.assertIsInstance(service, Service)
+
+    def test_relative_names_with_explicit_package(self):
+        Container.wiring_config = {
+            "modules": [".module"],
+            "packages": [".package"],
+            "from_package": "wiringsamples",
+        }
+        self.container = Container()
+        self.container.wire()
+
+        service = module.test_function()
+        self.assertIsInstance(service, Service)
+
+        from wiringsamples.package.subpackage.submodule import test_function
+        service = test_function()
+        self.assertIsInstance(service, Service)
+
+    def test_relative_names_with_auto_package(self):
+        Container.wiring_config = {
+            "modules": [".module"],
+            "packages": [".package"],
+        }
+        self.container = Container()
+        self.container.wire()
+
+        service = module.test_function()
+        self.assertIsInstance(service, Service)
+
+        from wiringsamples.package.subpackage.submodule import test_function
+        service = test_function()
+        self.assertIsInstance(service, Service)
+
+    def test_auto_wire(self):
+        Container.wiring_config = {
+            "modules": [".module"],
+            "auto_wire": True,
+        }
+        self.container = Container()
+
+        service = module.test_function()
+        self.assertIsInstance(service, Service)
+
+        self.assertTrue(self.container.is_auto_wiring_enabled())
 
 
 class ModuleAsPackageTest(unittest.TestCase):
