@@ -3,6 +3,7 @@ from typing import (
     Generic,
     Type,
     Dict,
+    List,
     Tuple,
     Optional,
     Any,
@@ -26,12 +27,20 @@ T = TypeVar('T')
 TT = TypeVar('TT')
 
 
+class WiringConfiguration:
+    modules: List[Any]
+    packages: List[Any]
+    from_package: Optional[str]
+    auto_wire: bool
+    def __init__(self, modules: Optional[Iterable[Any]] = None, packages: Optional[Iterable[Any]] = None, from_package: Optional[str] = None, auto_wire: bool = True) -> None: ...
+
+
 class Container:
     provider_type: Type[Provider] = Provider
     providers: Dict[str, Provider]
     dependencies: Dict[str, Provider]
     overridden: Tuple[Provider]
-    wiring_config: Dict[str, Any]
+    wiring_config: WiringConfiguration
     __self__: Self
     def __init__(self) -> None: ...
     def __deepcopy__(self, memo: Optional[Dict[str, Any]]) -> Provider: ...

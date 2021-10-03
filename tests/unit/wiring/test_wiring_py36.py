@@ -11,7 +11,7 @@ from dependency_injector.wiring import (
     register_loader_containers,
     unregister_loader_containers,
 )
-from dependency_injector import errors
+from dependency_injector import containers, errors
 
 # Runtime import to avoid syntax errors in samples on Python < 3.5
 import os
@@ -30,7 +30,6 @@ _SAMPLES_DIR = os.path.abspath(
 import sys
 sys.path.append(_TOP_DIR)
 sys.path.append(_SAMPLES_DIR)
-import copy
 
 from asyncutils import AsyncTestCase
 
@@ -365,19 +364,18 @@ class WiringWithStringModuleAndPackageNamesTest(unittest.TestCase):
 class WiringWithWiringConfigInTheContainerTest(unittest.TestCase):
 
     container: Container
-    original_wiring_config = copy.deepcopy(Container.wiring_config)
+    original_wiring_config = Container.wiring_config
 
     def tearDown(self) -> None:
-        Container.wiring_config = copy.deepcopy(self.original_wiring_config)
+        Container.wiring_config = self.original_wiring_config
         self.container.unwire()
 
     def test_absolute_names(self):
-        Container.wiring_config = {
-            "modules": ["wiringsamples.module"],
-            "packages": ["wiringsamples.package"],
-        }
+        Container.wiring_config = containers.WiringConfiguration(
+            modules=["wiringsamples.module"],
+            packages=["wiringsamples.package"],
+        )
         self.container = Container()
-        self.container.wire()
 
         service = module.test_function()
         self.assertIsInstance(service, Service)
@@ -387,13 +385,12 @@ class WiringWithWiringConfigInTheContainerTest(unittest.TestCase):
         self.assertIsInstance(service, Service)
 
     def test_relative_names_with_explicit_package(self):
-        Container.wiring_config = {
-            "modules": [".module"],
-            "packages": [".package"],
-            "from_package": "wiringsamples",
-        }
+        Container.wiring_config = containers.WiringConfiguration(
+            modules=[".module"],
+            packages=[".package"],
+            from_package="wiringsamples",
+        )
         self.container = Container()
-        self.container.wire()
 
         service = module.test_function()
         self.assertIsInstance(service, Service)
@@ -403,12 +400,11 @@ class WiringWithWiringConfigInTheContainerTest(unittest.TestCase):
         self.assertIsInstance(service, Service)
 
     def test_relative_names_with_auto_package(self):
-        Container.wiring_config = {
-            "modules": [".module"],
-            "packages": [".package"],
-        }
+        Container.wiring_config = containers.WiringConfiguration(
+            modules=[".module"],
+            packages=[".package"],
+        )
         self.container = Container()
-        self.container.wire()
 
         service = module.test_function()
         self.assertIsInstance(service, Service)
@@ -417,17 +413,19 @@ class WiringWithWiringConfigInTheContainerTest(unittest.TestCase):
         service = test_function()
         self.assertIsInstance(service, Service)
 
-    def test_auto_wire(self):
-        Container.wiring_config = {
-            "modules": [".module"],
-            "auto_wire": True,
-        }
+    def test_auto_wire_disabled(self):
+        Container.wiring_config = containers.WiringConfiguration(
+            modules=[".module"],
+            auto_wire=False,
+        )
         self.container = Container()
 
         service = module.test_function()
-        self.assertIsInstance(service, Service)
+        self.assertIsInstance(service, Provide)
 
-        self.assertTrue(self.container.is_auto_wiring_enabled())
+        self.container.wire()
+        service = module.test_function()
+        self.assertIsInstance(service, Service)
 
 
 class ModuleAsPackageTest(unittest.TestCase):
