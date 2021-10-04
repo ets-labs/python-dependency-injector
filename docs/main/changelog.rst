@@ -11,7 +11,7 @@ Develop
 -------
 - Improve wiring with adding importing modules and packages from a string
   ``container.wire(modules=["yourapp.module1"])``.
-- Add wiring configuration to the container ``wiring_config = containers.WiringConfiguration()``.
+- Add container wiring configuration ``wiring_config = containers.WiringConfiguration()``.
 - Update documentation and fix typos.
 
 4.36.2
