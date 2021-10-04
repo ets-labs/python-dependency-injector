@@ -11,7 +11,7 @@ from dependency_injector.wiring import (
     register_loader_containers,
     unregister_loader_containers,
 )
-from dependency_injector import errors
+from dependency_injector import containers, errors
 
 # Runtime import to avoid syntax errors in samples on Python < 3.5
 import os
@@ -358,6 +358,73 @@ class WiringWithStringModuleAndPackageNamesTest(unittest.TestCase):
 
         from wiringsamples.package.subpackage.submodule import test_function
         service = test_function()
+        self.assertIsInstance(service, Service)
+
+
+class WiringWithWiringConfigInTheContainerTest(unittest.TestCase):
+
+    container: Container
+    original_wiring_config = Container.wiring_config
+
+    def tearDown(self) -> None:
+        Container.wiring_config = self.original_wiring_config
+        self.container.unwire()
+
+    def test_absolute_names(self):
+        Container.wiring_config = containers.WiringConfiguration(
+            modules=["wiringsamples.module"],
+            packages=["wiringsamples.package"],
+        )
+        self.container = Container()
+
+        service = module.test_function()
+        self.assertIsInstance(service, Service)
+
+        from wiringsamples.package.subpackage.submodule import test_function
+        service = test_function()
+        self.assertIsInstance(service, Service)
+
+    def test_relative_names_with_explicit_package(self):
+        Container.wiring_config = containers.WiringConfiguration(
+            modules=[".module"],
+            packages=[".package"],
+            from_package="wiringsamples",
+        )
+        self.container = Container()
+
+        service = module.test_function()
+        self.assertIsInstance(service, Service)
+
+        from wiringsamples.package.subpackage.submodule import test_function
+        service = test_function()
+        self.assertIsInstance(service, Service)
+
+    def test_relative_names_with_auto_package(self):
+        Container.wiring_config = containers.WiringConfiguration(
+            modules=[".module"],
+            packages=[".package"],
+        )
+        self.container = Container()
+
+        service = module.test_function()
+        self.assertIsInstance(service, Service)
+
+        from wiringsamples.package.subpackage.submodule import test_function
+        service = test_function()
+        self.assertIsInstance(service, Service)
+
+    def test_auto_wire_disabled(self):
+        Container.wiring_config = containers.WiringConfiguration(
+            modules=[".module"],
+            auto_wire=False,
+        )
+        self.container = Container()
+
+        service = module.test_function()
+        self.assertIsInstance(service, Provide)
+
+        self.container.wire()
+        service = module.test_function()
         self.assertIsInstance(service, Service)
 
 

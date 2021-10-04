@@ -1,6 +1,7 @@
 """Containers module."""
 
 import contextlib
+import copy as copy_module
 import json
 import sys
 import importlib
@@ -30,6 +31,19 @@ else:
 
     def unwire(*args, **kwargs):
         raise NotImplementedError('Wiring requires Python 3.6 or above')
+
+
+class WiringConfiguration:
+    """Container wiring configuration."""
+
+    def __init__(self, modules=None, packages=None, from_package=None, auto_wire=True):
+        self.modules = [*modules] if modules else []
+        self.packages = [*packages] if packages else []
+        self.from_package = from_package
+        self.auto_wire = auto_wire
+
+    def __deepcopy__(self, memo=None):
+        return self.__class__(self.modules, self.packages, self.from_package, self.auto_wire)
 
 
 class Container(object):
@@ -77,6 +91,7 @@ class DynamicContainer(Container):
         self.overridden = tuple()
         self.parent = None
         self.declarative_parent = None
+        self.wiring_config = WiringConfiguration()
         self.wired_to_modules = []
         self.wired_to_packages = []
         self.__self__ = providers.Self(self)
@@ -97,6 +112,7 @@ class DynamicContainer(Container):
 
         copied.provider_type = providers.Provider
         copied.overridden = providers.deepcopy(self.overridden, memo)
+        copied.wiring_config = copy_module.deepcopy(self.wiring_config, memo)
         copied.declarative_parent = self.declarative_parent
 
         for name, provider in providers.deepcopy(self.providers, memo).items():
@@ -251,21 +267,40 @@ class DynamicContainer(Container):
         for provider in six.itervalues(self.providers):
             provider.reset_override()
 
+    def is_auto_wiring_enabled(self):
+        """Check if auto wiring is needed."""
+        return self.wiring_config.auto_wire is True
+
     def wire(self, modules=None, packages=None, from_package=None):
         """Wire container providers with provided packages and modules.
 
         :rtype: None
         """
+        if modules is None and self.wiring_config.modules:
+            modules = self.wiring_config.modules
+        if packages is None and self.wiring_config.packages:
+            packages = self.wiring_config.packages
+
         modules = [*modules] if modules else []
         packages = [*packages] if packages else []
 
         if _any_relative_string_imports_in(modules) or _any_relative_string_imports_in(packages):
             if from_package is None:
-                with contextlib.suppress(Exception):
-                    from_package = _resolve_calling_package_name()
+                if self.wiring_config.from_package is not None:
+                    from_package = self.wiring_config.from_package
+                elif self.declarative_parent is not None \
+                        and (self.wiring_config.modules or self.wiring_config.packages):
+                    with contextlib.suppress(Exception):
+                        from_package = _resolve_package_name_from_cls(self.declarative_parent)
+                else:
+                    with contextlib.suppress(Exception):
+                        from_package = _resolve_calling_package_name()
 
         modules = _resolve_string_imports(modules, from_package)
         packages = _resolve_string_imports(packages, from_package)
+
+        if not modules and not packages:
+            return
 
         wire(
             container=self,
@@ -463,10 +498,20 @@ class DeclarativeContainerMetaClass(type):
         all_providers.update(inherited_providers)
         all_providers.update(cls_providers)
 
+        wiring_config = attributes.get("wiring_config")
+        if wiring_config is None:
+            wiring_config = WiringConfiguration()
+        if wiring_config is not None and not isinstance(wiring_config, WiringConfiguration):
+            raise errors.Error(
+                "Wiring configuration should be an instance of WiringConfiguration, "
+                "instead got {0}".format(wiring_config)
+            )
+
         attributes['containers'] = containers
         attributes['inherited_providers'] = inherited_providers
         attributes['cls_providers'] = cls_providers
         attributes['providers'] = all_providers
+        attributes['wiring_config'] = wiring_config
 
         cls = <type>type.__new__(mcs, class_name, bases, attributes)
 
@@ -617,6 +662,12 @@ class DeclarativeContainer(Container):
     :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
     """
 
+    wiring_config = WiringConfiguration()
+    """Wiring configuration.
+
+    :type: WiringConfiguration
+    """
+
     cls_providers = dict()
     """Read-only dictionary of current container providers.
 
@@ -649,6 +700,7 @@ class DeclarativeContainer(Container):
         """
         container = cls.instance_type()
         container.provider_type = cls.provider_type
+        container.wiring_config = copy_module.deepcopy(cls.wiring_config)
         container.declarative_parent = cls
 
         copied_providers = providers.deepcopy({ **cls.providers, **{'@@self@@': cls.__self__}})
@@ -664,6 +716,9 @@ class DeclarativeContainer(Container):
 
         container.override_providers(**overriding_providers)
         container.apply_container_providers_overridings()
+
+        if container.is_auto_wiring_enabled():
+            container.wire()
 
         return container
 
@@ -825,4 +880,9 @@ cpdef object _resolve_calling_package_name():
     stack = inspect.stack()
     pre_last_frame = stack[0]
     module = inspect.getmodule(pre_last_frame[0])
+    return module.__package__
+
+
+cpdef object _resolve_package_name_from_cls(cls):
+    module = importlib.import_module(cls.__module__)
     return module.__package__
