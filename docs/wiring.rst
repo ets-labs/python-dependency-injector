@@ -215,7 +215,7 @@ Method ``container.wire()`` can resolve relative imports:
 
 .. code-block:: python
 
-   # In module "yourapp.foo":
+   # In module "yourapp.main":
 
    container.wire(
        modules=[
@@ -347,6 +347,76 @@ You can use that in testing to re-create and re-wire a container before each tes
       from . import module
 
       module.fn()
+
+Wiring configuration
+--------------------
+
+You can specify wiring configuration in the container. When wiring configuration is defined,
+container will call method ``.wire()`` automatically when you create an instance:
+
+.. code-block:: python
+
+   class Container(containers.DeclarativeContainer):
+
+       wiring_config = containers.WiringConfiguration(
+           modules=[
+               "yourapp.module1",
+               "yourapp.module2",
+           ],
+           packages=[
+               "yourapp.package1",
+               "yourapp.package2",
+           ],
+       )
+
+       ...
+
+
+   if __name__ == "__main__":
+       container = Container()  # container.wire() is called automatically
+       ...
+
+You can also use relative imports. Container will resolve them corresponding
+to the module of the container class:
+
+.. code-block:: python
+
+   # In module "yourapp.container":
+
+   class Container(containers.DeclarativeContainer):
+
+       wiring_config = containers.WiringConfiguration(
+           modules=[
+              ".module1",  # Resolved to: "yourapp.module1"
+              ".module2",  # Resolved to: "yourapp.module2"
+           ],
+       )
+   )
+
+
+   # In module "yourapp.foo.bar.main":
+
+   if __name__ == "__main__":
+       container = Container()  # wire to "yourapp.module1" and "yourapp.module2"
+       ...
+
+To use wiring configuration and call method ``.wire()`` manually, set flag ``auto_wire=False``:
+
+.. code-block:: python
+   :emphasize-lines: 5
+
+   class Container(containers.DeclarativeContainer):
+
+       wiring_config = containers.WiringConfiguration(
+           modules=["yourapp.module1"],
+           auto_wire=False,
+       )
+
+
+   if __name__ == "__main__":
+       container = Container()  # container.wire() is NOT called automatically
+       container.wire()         # wire to "yourapp.module1"
+       ...
 
 .. _async-injections-wiring:
 
