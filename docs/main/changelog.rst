@@ -12,6 +12,7 @@ Develop
 - Improve wiring with adding importing modules and packages from a string
   ``container.wire(modules=["yourapp.module1"])``.
 - Add container wiring configuration ``wiring_config = containers.WiringConfiguration()``.
+- Add support of ``with`` statement for ``container.override_providers()`` method.
 - Update documentation and fix typos.
 
 4.36.2

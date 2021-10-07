@@ -240,9 +240,12 @@ class DynamicContainer(Container):
 
         :rtype: None
         """
+        overridden_providers = []
         for name, overriding_provider in six.iteritems(overriding_providers):
             container_provider = getattr(self, name)
             container_provider.override(overriding_provider)
+            overridden_providers.append(container_provider)
+        return ProvidersOverridingContext(self, overridden_providers)
 
     def reset_last_overriding(self):
         """Reset last overriding provider for each container providers.
@@ -782,6 +785,21 @@ class SingletonResetContext:
 
     def __exit__(self, *_):
         self._container.reset_singletons()
+
+
+
+class ProvidersOverridingContext:
+
+    def __init__(self, container, overridden_providers):
+        self._container = container
+        self._overridden_providers = overridden_providers
+
+    def __enter__(self):
+        return self._container
+
+    def __exit__(self, *_):
+        for provider in self._overridden_providers:
+            provider.reset_last_overriding()
 
 
 def override(object container):

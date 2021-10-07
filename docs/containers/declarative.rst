@@ -34,10 +34,39 @@ Injections in the declarative container are done the usual way:
    :language: python
    :lines: 3-
 
-You can override the container providers when you create the container instance:
+You can override container providers while creating a container instance:
 
 .. literalinclude:: ../../examples/containers/declarative_override_providers.py
    :language: python
    :lines: 3-
+   :emphasize-lines: 13
+
+Alternatively, you can call ``container.override_providers()`` method when the container instance
+already exists:
+
+.. code-block:: python
+   :emphasize-lines: 3
+
+   container = Container()
+
+   container.override_providers(foo=mock.Mock(Foo), bar=mock.Mock(Bar))
+
+   assert isinstance(container.foo(), mock.Mock)
+   assert isinstance(container.bar(), mock.Mock)
+
+You can also use ``container.override_providers()`` with a context manager to reset
+provided overriding after the context is closed:
+
+.. code-block:: python
+   :emphasize-lines: 3
+
+   container = Container()
+
+   with container.override_providers(foo=mock.Mock(Foo), bar=mock.Mock(Bar)):
+       assert isinstance(container.foo(), mock.Mock)
+       assert isinstance(container.bar(), mock.Mock)
+
+   assert isinstance(container.foo(), Foo)
+   assert isinstance(container.bar(), Bar)
 
 .. disqus::
