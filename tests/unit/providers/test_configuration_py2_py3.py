@@ -795,7 +795,6 @@ class ConfigFromYamlTests(unittest.TestCase):
         os.unlink(self.config_file_1)
         os.unlink(self.config_file_2)
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test(self):
         self.config.from_yaml(self.config_file_1)
 
@@ -805,7 +804,6 @@ class ConfigFromYamlTests(unittest.TestCase):
         self.assertEqual(self.config.section2(), {"value2": 2})
         self.assertEqual(self.config.section2.value2(), 2)
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_merge(self):
         self.config.from_yaml(self.config_file_1)
         self.config.from_yaml(self.config_file_2)
@@ -833,45 +831,37 @@ class ConfigFromYamlTests(unittest.TestCase):
         self.assertEqual(self.config.section3(), {"value3": 3})
         self.assertEqual(self.config.section3.value3(), 3)
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_file_does_not_exist(self):
         self.config.from_yaml("./does_not_exist.yml")
         self.assertEqual(self.config(), {})
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_file_does_not_exist_strict_mode(self):
         self.config = providers.Configuration(strict=True)
         with self.assertRaises(IOError):
             self.config.from_yaml("./does_not_exist.yml")
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_option_file_does_not_exist(self):
         self.config.option.from_yaml("./does_not_exist.yml")
         self.assertIsNone(self.config.option())
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_option_file_does_not_exist_strict_mode(self):
         self.config = providers.Configuration(strict=True)
         with self.assertRaises(IOError):
             self.config.option.from_yaml("./does_not_exist.yml")
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_required_file_does_not_exist(self):
         with self.assertRaises(IOError):
             self.config.from_yaml("./does_not_exist.yml", required=True)
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_required_option_file_does_not_exist(self):
         with self.assertRaises(IOError):
             self.config.option.from_yaml("./does_not_exist.yml", required=True)
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_not_required_file_does_not_exist_strict_mode(self):
         self.config = providers.Configuration(strict=True)
         self.config.from_yaml("./does_not_exist.yml", required=False)
         self.assertEqual(self.config(), {})
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_not_required_option_file_does_not_exist_strict_mode(self):
         self.config = providers.Configuration(strict=True)
         self.config.option.from_yaml("./does_not_exist.yml", required=False)
@@ -943,7 +933,6 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
         os.environ.pop("CONFIG_TEST_PATH", None)
         os.unlink(self.config_file)
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_env_variable_interpolation(self):
         self.config.from_yaml(self.config_file)
 
@@ -966,7 +955,6 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
         self.assertEqual(self.config.section1.value1(), "test-value")
         self.assertEqual(self.config.section1.value2(), "test-path/path")
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_missing_envs_not_required(self):
         del os.environ["CONFIG_TEST_ENV"]
         del os.environ["CONFIG_TEST_PATH"]
@@ -992,7 +980,6 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
         self.assertIsNone(self.config.section1.value1())
         self.assertEqual(self.config.section1.value2(), "/path")
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_missing_envs_required(self):
         with open(self.config_file, "w") as config_file:
             config_file.write(
@@ -1008,7 +995,6 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
             "Missing required environment variable \"UNDEFINED\"",
         )
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_missing_envs_strict_mode(self):
         with open(self.config_file, "w") as config_file:
             config_file.write(
@@ -1025,7 +1011,6 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
             "Missing required environment variable \"UNDEFINED\"",
         )
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_option_missing_envs_not_required(self):
         del os.environ["CONFIG_TEST_ENV"]
         del os.environ["CONFIG_TEST_PATH"]
@@ -1051,7 +1036,6 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
         self.assertIsNone(self.config.option.section1.value1())
         self.assertEqual(self.config.option.section1.value2(), "/path")
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_option_missing_envs_required(self):
         with open(self.config_file, "w") as config_file:
             config_file.write(
@@ -1067,7 +1051,6 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
             "Missing required environment variable \"UNDEFINED\"",
         )
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_option_missing_envs_strict_mode(self):
         with open(self.config_file, "w") as config_file:
             config_file.write(
@@ -1084,7 +1067,6 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
             "Missing required environment variable \"UNDEFINED\"",
         )
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_default_values(self):
         os.environ["DEFINED"] = "defined"
         self.addCleanup(os.environ.pop, "DEFINED")
@@ -1108,7 +1090,6 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
             },
         )
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_option_env_variable_interpolation(self):
         self.config.option.from_yaml(self.config_file)
 
@@ -1131,7 +1112,6 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
         self.assertEqual(self.config.option.section1.value1(), "test-value")
         self.assertEqual(self.config.option.section1.value2(), "test-path/path")
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_env_variable_interpolation_custom_loader(self):
         self.config.from_yaml(self.config_file, loader=yaml.UnsafeLoader)
 
@@ -1145,7 +1125,6 @@ class ConfigFromYamlWithEnvInterpolationTests(unittest.TestCase):
         self.assertEqual(self.config.section1.value1(), "test-value")
         self.assertEqual(self.config.section1.value2(), "test-path/path")
 
-    @unittest.skipIf(sys.version_info[:2] == (3, 4), "PyYAML does not support Python 3.4")
     def test_option_env_variable_interpolation_custom_loader(self):
         self.config.option.from_yaml(self.config_file, loader=yaml.UnsafeLoader)
 
