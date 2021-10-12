@@ -1,4 +1,6 @@
 cython==0.29.22
+pytest
+pytest-asyncio
 tox
 coverage
 flake8
