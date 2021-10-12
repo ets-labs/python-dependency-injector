@@ -7,11 +7,6 @@ import gc
 import unittest
 
 
-def run(main):
-    loop = asyncio.get_event_loop()
-    return loop.run_until_complete(main)
-
-
 def setup_test_loop(
         loop_factory=asyncio.new_event_loop
 ) -> asyncio.AbstractEventLoop:

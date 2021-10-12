@@ -30,11 +30,6 @@ async def _example(arg1, arg2, arg3, arg4):
     return arg1, arg2, arg3, arg4
 
 
-def run(main):
-    loop = asyncio.get_event_loop()
-    return loop.run_until_complete(main)
-
-
 class CoroutineTests(AsyncTestCase):
 
     def test_init_with_coroutine(self):
@@ -47,7 +42,7 @@ class CoroutineTests(AsyncTestCase):
         provider = providers.Coroutine()
         provider.set_provides(_example)
         self.assertIs(provider.provides, _example)
-        self.assertEqual(run(provider(1, 2, 3, 4)), (1, 2, 3, 4))
+        self.assertEqual(self._run(provider(1, 2, 3, 4)), (1, 2, 3, 4))
 
     def test_set_provides_returns_self(self):
         provider = providers.Coroutine()
@@ -66,7 +61,7 @@ class CoroutineTests(AsyncTestCase):
         provider = providers.Coroutine(_example,
                                        1, 2,
                                        arg3=3, arg4=4)
-        self.assertTupleEqual(run(provider()), (1, 2, 3, 4))
+        self.assertTupleEqual(self._run(provider()), (1, 2, 3, 4))
 
     def test_call_with_context_args(self):
         provider = providers.Coroutine(_example, 1, 2)
