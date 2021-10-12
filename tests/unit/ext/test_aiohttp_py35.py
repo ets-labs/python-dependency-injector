@@ -7,15 +7,15 @@ from dependency_injector import containers, providers
 from dependency_injector.ext import aiohttp
 
 
-async def index(_):
+async def index_view(_):
     return web.Response(text="Hello World!")
 
 
-async def test(_):
+async def second_view(_):
     return web.Response(text="Test!")
 
 
-class Test(web.View):
+class OtherClassBasedView(web.View):
     async def get(self):
         return web.Response(text="Test class-based!")
 
@@ -46,9 +46,9 @@ class ApplicationContainer(containers.DeclarativeContainer):
         ),
     )
 
-    index_view = aiohttp.View(index)
-    test_view = aiohttp.View(test)
-    test_class_view = aiohttp.ClassBasedView(Test)
+    index_view = aiohttp.View(index_view)
+    second_view = aiohttp.View(second_view)
+    other_class_based_view = aiohttp.ClassBasedView(OtherClassBasedView)
 
 
 class ApplicationTests(AioHTTPTestCase):
@@ -62,8 +62,8 @@ class ApplicationTests(AioHTTPTestCase):
         app.container = container
         app.add_routes([
             web.get("/", container.index_view.as_view()),
-            web.get("/test", container.test_view.as_view(), name="test"),
-            web.get("/test-class", container.test_class_view.as_view()),
+            web.get("/second", container.second_view.as_view(), name="second"),
+            web.get("/class-based", container.other_class_based_view.as_view()),
         ])
         return app
 
@@ -75,19 +75,19 @@ class ApplicationTests(AioHTTPTestCase):
         self.assertEqual(await response.text(), "Hello World! wink2 wink1")
 
     @unittest_run_loop
-    async def test_test(self):
-        response = await self.client.get("/test")
+    async def test_second(self):
+        response = await self.client.get("/second")
 
         self.assertEqual(response.status, 200)
         self.assertEqual(await response.text(), "Test! wink2 wink1")
 
     @unittest_run_loop
-    async def test_test_class_based(self):
-        response = await self.client.get("/test-class")
+    async def test_class_based(self):
+        response = await self.client.get("/class-based")
 
         self.assertEqual(response.status, 200)
         self.assertEqual(await response.text(), "Test class-based! wink2 wink1")
 
     @unittest_run_loop
     async def test_endpoints(self):
-        self.assertEqual(str(self.app.router["test"].url_for()), "/test")
+        self.assertEqual(str(self.app.router["second"].url_for()), "/second")
