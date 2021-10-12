@@ -36,6 +36,7 @@ reports/
 .cache
 nosetests.xml
 coverage.xml
+.hypothesis/
 
 # Translations
 *.mo
@@ -54,7 +55,7 @@ target/
 .idea/
 
 # Virtualenv
-venv/
+venv*/
 
 # SQLite
 *.db
