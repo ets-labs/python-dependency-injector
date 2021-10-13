@@ -27,8 +27,6 @@ import sys
 sys.path.append(_TOP_DIR)
 sys.path.append(_SAMPLES_DIR)
 
-from asyncutils import AsyncTestCase
-
 from wiringsamples import module, package
 from wiringsamples.service import Service
 from wiringsamples.container import Container, SubContainer
@@ -487,56 +485,3 @@ class WiringAndFastAPITest(unittest.TestCase):
         self.assertEqual(result_2.shutdown_counter, 2)
 
         self.assertIsNot(result_1, result_2)
-
-
-class WiringAsyncInjectionsTest(AsyncTestCase):
-
-    def test_async_injections(self):
-        from wiringsamples import asyncinjections
-
-        container = asyncinjections.Container()
-        container.wire(modules=[asyncinjections])
-        self.addCleanup(container.unwire)
-
-        asyncinjections.resource1.reset_counters()
-        asyncinjections.resource2.reset_counters()
-
-        resource1, resource2 = self._run(asyncinjections.async_injection())
-
-        self.assertIs(resource1, asyncinjections.resource1)
-        self.assertEqual(asyncinjections.resource1.init_counter, 1)
-        self.assertEqual(asyncinjections.resource1.shutdown_counter, 0)
-
-        self.assertIs(resource2, asyncinjections.resource2)
-        self.assertEqual(asyncinjections.resource2.init_counter, 1)
-        self.assertEqual(asyncinjections.resource2.shutdown_counter, 0)
-
-    def test_async_injections_with_closing(self):
-        from wiringsamples import asyncinjections
-
-        container = asyncinjections.Container()
-        container.wire(modules=[asyncinjections])
-        self.addCleanup(container.unwire)
-
-        asyncinjections.resource1.reset_counters()
-        asyncinjections.resource2.reset_counters()
-
-        resource1, resource2 = self._run(asyncinjections.async_injection_with_closing())
-
-        self.assertIs(resource1, asyncinjections.resource1)
-        self.assertEqual(asyncinjections.resource1.init_counter, 1)
-        self.assertEqual(asyncinjections.resource1.shutdown_counter, 1)
-
-        self.assertIs(resource2, asyncinjections.resource2)
-        self.assertEqual(asyncinjections.resource2.init_counter, 1)
-        self.assertEqual(asyncinjections.resource2.shutdown_counter, 1)
-
-        resource1, resource2 = self._run(asyncinjections.async_injection_with_closing())
-
-        self.assertIs(resource1, asyncinjections.resource1)
-        self.assertEqual(asyncinjections.resource1.init_counter, 2)
-        self.assertEqual(asyncinjections.resource1.shutdown_counter, 2)
-
-        self.assertIs(resource2, asyncinjections.resource2)
-        self.assertEqual(asyncinjections.resource2.init_counter, 2)
-        self.assertEqual(asyncinjections.resource2.shutdown_counter, 2)
