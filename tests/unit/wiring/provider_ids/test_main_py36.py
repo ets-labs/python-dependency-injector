@@ -3,7 +3,7 @@
 from decimal import Decimal
 
 from dependency_injector import errors
-from dependency_injector.wiring import Provide, Provider, wire
+from dependency_injector.wiring import Closing, Provide, Provider, wire
 from pytest import fixture, mark, raises
 
 from wiringsamples import module, package, resourceclosing
@@ -290,6 +290,23 @@ def test_closing_resource():
 
 
 @mark.usefixtures("resourceclosing_container")
+def test_closing_resource_bypass_marker_injection():
+    resourceclosing.Service.reset_counter()
+
+    result_1 = resourceclosing.test_function(service=Closing[Provide[resourceclosing.Container.service]])
+    assert isinstance(result_1, resourceclosing.Service)
+    assert result_1.init_counter == 1
+    assert result_1.shutdown_counter == 1
+
+    result_2 = resourceclosing.test_function(service=Closing[Provide[resourceclosing.Container.service]])
+    assert isinstance(result_2, resourceclosing.Service)
+    assert result_2.init_counter == 2
+    assert result_2.shutdown_counter == 2
+
+    assert result_1 is not result_2
+
+
+@mark.usefixtures("resourceclosing_container")
 def test_closing_resource_context():
     resourceclosing.Service.reset_counter()
     service = resourceclosing.Service()
@@ -312,4 +329,9 @@ def test_class_decorator():
 
 def test_container():
     service = module.test_container()
+    assert isinstance(service, Service)
+
+
+def test_bypass_marker_injection():
+    service = module.test_function(service=Provide[Container.service])
     assert isinstance(service, Service)
