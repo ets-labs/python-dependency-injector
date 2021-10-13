@@ -4,7 +4,6 @@ from dependency_injector.wiring import (
     Provide,
     Closing,
 )
-from dependency_injector import containers, errors
 
 # Runtime import to avoid syntax errors in samples on Python < 3.5
 import os
@@ -27,18 +26,6 @@ sys.path.append(_SAMPLES_DIR)
 from wiringsamples import module
 from wiringsamples.service import Service
 from wiringsamples.container import Container
-
-
-class ModuleAsPackageTest(unittest.TestCase):
-
-    def setUp(self):
-        self.container = Container(config={"a": {"b": {"c": 10}}})
-        self.addCleanup(self.container.unwire)
-
-    def test_module_as_package_wiring(self):
-        # See: https://github.com/ets-labs/python-dependency-injector/issues/481
-        self.container.wire(packages=[module])
-        self.assertIsInstance(module.service, Service)
 
 
 class WiringAndQueue(unittest.TestCase):
