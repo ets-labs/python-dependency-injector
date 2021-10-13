@@ -27,53 +27,6 @@ sys.path.append(_SAMPLES_DIR)
 from wiringsamples import module
 from wiringsamples.service import Service
 from wiringsamples.container import Container
-from wiringsamples.wire_relative_string_names import wire_with_relative_string_names
-
-
-class WiringWithStringModuleAndPackageNamesTest(unittest.TestCase):
-
-    container: Container
-
-    def setUp(self) -> None:
-        self.container = Container()
-        self.addCleanup(self.container.unwire)
-
-    def test_absolute_names(self):
-        self.container.wire(
-            modules=["wiringsamples.module"],
-            packages=["wiringsamples.package"],
-        )
-
-        service = module.test_function()
-        self.assertIsInstance(service, Service)
-
-        from wiringsamples.package.subpackage.submodule import test_function
-        service = test_function()
-        self.assertIsInstance(service, Service)
-
-    def test_relative_names_with_explicit_package(self):
-        self.container.wire(
-            modules=[".module"],
-            packages=[".package"],
-            from_package="wiringsamples",
-        )
-
-        service = module.test_function()
-        self.assertIsInstance(service, Service)
-
-        from wiringsamples.package.subpackage.submodule import test_function
-        service = test_function()
-        self.assertIsInstance(service, Service)
-
-    def test_relative_names_with_auto_package(self):
-        wire_with_relative_string_names(self.container)
-
-        service = module.test_function()
-        self.assertIsInstance(service, Service)
-
-        from wiringsamples.package.subpackage.submodule import test_function
-        service = test_function()
-        self.assertIsInstance(service, Service)
 
 
 class WiringWithWiringConfigInTheContainerTest(unittest.TestCase):
