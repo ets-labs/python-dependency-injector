@@ -99,6 +99,12 @@ def test_provide_provider(service_provider: Callable[..., Service] = Provide["se
 
 
 @inject
+def test_provider_provider(service_provider: Callable[..., Service] = Provider["service.provider"]):
+    service = service_provider()
+    return service
+
+
+@inject
 def test_provided_instance(some_value: int = Provide["service", provided().foo["bar"].call()]):
     return some_value
 

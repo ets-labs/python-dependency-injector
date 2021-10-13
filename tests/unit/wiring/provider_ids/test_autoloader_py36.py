@@ -3,8 +3,8 @@
 import contextlib
 import importlib
 
-from pytest import fixture
 from dependency_injector.wiring import register_loader_containers, unregister_loader_containers
+from pytest import fixture
 
 from wiringsamples import module
 from wiringsamples.service import Service
