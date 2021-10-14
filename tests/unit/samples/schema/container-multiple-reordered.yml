@@ -5,20 +5,20 @@ container:
   services:
     user:
       provider: Factory
-      provides: samples.schemasample.services.UserService
+      provides: samples.schema.services.UserService
       kwargs:
         db: container.gateways.database_client
 
     auth:
       provider: Factory
-      provides: samples.schemasample.services.AuthService
+      provides: samples.schema.services.AuthService
       kwargs:
         db: container.gateways.database_client
         token_ttl: container.core.config.auth.token_ttl.as_int()
 
     photo:
       provider: Factory
-      provides: samples.schemasample.services.PhotoService
+      provides: samples.schema.services.PhotoService
       kwargs:
         db: container.gateways.database_client
         s3: container.gateways.s3_client

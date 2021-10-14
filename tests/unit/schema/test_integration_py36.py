@@ -6,7 +6,7 @@ import sqlite3
 from dependency_injector import containers
 from pytest import mark
 
-from samples.schemasample.services import UserService, AuthService, PhotoService
+from samples.schema.services import UserService, AuthService, PhotoService
 
 
 SAMPLES_DIR = os.path.abspath(
@@ -18,7 +18,7 @@ SAMPLES_DIR = os.path.abspath(
 
 
 def test_single_container_schema(container: containers.DynamicContainer):
-    container.from_yaml_schema(f"{SAMPLES_DIR}/schemasample/container-single.yml")
+    container.from_yaml_schema(f"{SAMPLES_DIR}/schema/container-single.yml")
     container.config.from_dict({
         "database": {
                  "dsn": ":memory:",
@@ -78,7 +78,7 @@ def test_single_container_schema(container: containers.DynamicContainer):
 
 
 def test_multiple_containers_schema(container: containers.DynamicContainer):
-    container.from_yaml_schema(f"{SAMPLES_DIR}/schemasample/container-multiple.yml")
+    container.from_yaml_schema(f"{SAMPLES_DIR}/schema/container-multiple.yml")
     container.core.config.from_dict({
         "database": {
             "dsn": ":memory:",
@@ -138,7 +138,7 @@ def test_multiple_containers_schema(container: containers.DynamicContainer):
 
 
 def test_multiple_reordered_containers_schema(container: containers.DynamicContainer):
-    container.from_yaml_schema(f"{SAMPLES_DIR}/schemasample/container-multiple-reordered.yml")
+    container.from_yaml_schema(f"{SAMPLES_DIR}/schema/container-multiple-reordered.yml")
     container.core.config.from_dict({
         "database": {
             "dsn": ":memory:",
@@ -198,7 +198,7 @@ def test_multiple_reordered_containers_schema(container: containers.DynamicConta
 
 
 def test_multiple_containers_with_inline_providers_schema(container: containers.DynamicContainer):
-    container.from_yaml_schema(f"{SAMPLES_DIR}/schemasample/container-multiple-inline.yml")
+    container.from_yaml_schema(f"{SAMPLES_DIR}/schema/container-multiple-inline.yml")
     container.core.config.from_dict({
         "database": {
             "dsn": ":memory:",
@@ -259,7 +259,7 @@ def test_multiple_containers_with_inline_providers_schema(container: containers.
 
 @mark.skip(reason="Boto3 tries to connect to the internet")
 def test_schema_with_boto3_session(container: containers.DynamicContainer):
-    container.from_yaml_schema(f"{SAMPLES_DIR}/schemasample/container-boto3-session.yml")
+    container.from_yaml_schema(f"{SAMPLES_DIR}/schema/container-boto3-session.yml")
     container.config.from_dict(
         {
             "aws_access_key_id": "key",
