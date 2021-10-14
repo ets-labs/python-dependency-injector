@@ -25,23 +25,23 @@ def provider():
     return providers.Provider()
 
 
-def test_setattr(container: containers.DynamicContainer, provider: providers.Provider):
+def test_setattr(container, provider):
     setattr(container, CustomString("test_attr"), provider)
     assert container.test_attr is provider
 
 
-def test_delattr(container: containers.DynamicContainer, provider: providers.Provider):
+def test_delattr(container, provider):
     setattr(container, CustomString("test_attr"), provider)
     delattr(container, CustomString("test_attr"))
     with raises(AttributeError):
         container.test_attr
 
 
-def test_set_provider(container: containers.DynamicContainer, provider: providers.Provider):
+def test_set_provider(container, provider):
     container.set_provider(CustomString("test_attr"), provider)
     assert container.test_attr is provider
 
 
-def test_set_providers(container: containers.DynamicContainer, provider: providers.Provider):
+def test_set_providers(container, provider):
     container.set_providers(**{CustomString("test_attr"): provider})
     assert container.test_attr is provider
