@@ -7,12 +7,7 @@ import re
 
 import yaml
 from dependency_injector import containers, providers, errors
-from pytest import fixture, raises
-
-
-@fixture
-def container():
-    return containers.DynamicContainer()
+from pytest import raises
 
 
 def test_from_schema(container: containers.DynamicContainer):

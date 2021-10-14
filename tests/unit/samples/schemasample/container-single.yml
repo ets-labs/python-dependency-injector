@@ -20,20 +20,20 @@ container:
 
   user_service:
     provider: Factory
-    provides: schemasample.services.UserService
+    provides: samples.schemasample.services.UserService
     kwargs:
       db: container.database_client
 
   auth_service:
     provider: Factory
-    provides: schemasample.services.AuthService
+    provides: samples.schemasample.services.AuthService
     kwargs:
       db: container.database_client
       token_ttl: container.config.auth.token_ttl.as_int()
 
   photo_service:
     provider: Factory
-    provides: schemasample.services.PhotoService
+    provides: samples.schemasample.services.PhotoService
     kwargs:
       db: container.database_client
       s3: container.s3_client
