@@ -1,18 +1,13 @@
-import unittest
+"""Container typing in runtime tests."""
 
 from dependency_injector import containers
 
 
-class SomeClass:
-    ...
+def test_types_declarative():
+    container: containers.Container = containers.DeclarativeContainer()
+    assert isinstance(container, containers.Container)
 
 
-class TypesTest(unittest.TestCase):
-
-    def test_declarative(self):
-        container: containers.Container = containers.DeclarativeContainer()
-        self.assertIsInstance(container, containers.Container)
-
-    def test_dynamic(self):
-        container: containers.Container = containers.DynamicContainer()
-        self.assertIsInstance(container, containers.Container)
+def test_types_dynamic():
+    container: containers.Container = containers.DynamicContainer()
+    assert isinstance(container, containers.Container)
