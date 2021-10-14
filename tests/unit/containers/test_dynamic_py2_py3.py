@@ -9,7 +9,7 @@ from dependency_injector import (
 )
 
 
-class ContainerA(containers.DeclarativeContainer):
+class Container(containers.DeclarativeContainer):
     p11 = providers.Provider()
     p12 = providers.Provider()
 
@@ -17,15 +17,15 @@ class ContainerA(containers.DeclarativeContainer):
 class DeclarativeContainerInstanceTests(unittest.TestCase):
 
     def test_providers_attribute(self):
-        container_a1 = ContainerA()
-        container_a2 = ContainerA()
+        container_a1 = Container()
+        container_a2 = Container()
 
         self.assertIsNot(container_a1.p11, container_a2.p11)
         self.assertIsNot(container_a1.p12, container_a2.p12)
         self.assertNotEqual(container_a1.providers, container_a2.providers)
 
     def test_dependencies_attribute(self):
-        container = ContainerA()
+        container = Container()
         container.a1 = providers.Dependency()
         container.a2 = providers.DependenciesContainer()
         self.assertEqual(container.dependencies, {"a1": container.a1, "a2": container.a2})
@@ -33,16 +33,16 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
     def test_set_get_del_providers(self):
         p13 = providers.Provider()
 
-        container_a1 = ContainerA()
-        container_a2 = ContainerA()
+        container_a1 = Container()
+        container_a2 = Container()
 
         container_a1.p13 = p13
         container_a2.p13 = p13
 
-        self.assertEqual(ContainerA.providers, dict(p11=ContainerA.p11,
-                                                    p12=ContainerA.p12))
-        self.assertEqual(ContainerA.cls_providers, dict(p11=ContainerA.p11,
-                                                        p12=ContainerA.p12))
+        self.assertEqual(Container.providers, dict(p11=Container.p11,
+                                                   p12=Container.p12))
+        self.assertEqual(Container.cls_providers, dict(p11=Container.p11,
+                                                       p12=Container.p12))
 
         self.assertEqual(container_a1.providers, dict(p11=container_a1.p11,
                                                       p12=container_a1.p12,
@@ -62,29 +62,29 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         del container_a1.p11
         del container_a1.p12
         self.assertEqual(container_a1.providers, dict())
-        self.assertEqual(ContainerA.providers, dict(p11=ContainerA.p11,
-                                                    p12=ContainerA.p12))
+        self.assertEqual(Container.providers, dict(p11=Container.p11,
+                                                   p12=Container.p12))
 
         del container_a2.p11
         del container_a2.p12
         self.assertEqual(container_a2.providers, dict())
-        self.assertEqual(ContainerA.providers, dict(p11=ContainerA.p11,
-                                                    p12=ContainerA.p12))
+        self.assertEqual(Container.providers, dict(p11=Container.p11,
+                                                   p12=Container.p12))
 
     def test_set_invalid_provider_type(self):
-        container_a = ContainerA()
+        container_a = Container()
         container_a.provider_type = providers.Object
 
         with self.assertRaises(errors.Error):
             container_a.px = providers.Provider()
 
-        self.assertIs(ContainerA.provider_type,
+        self.assertIs(Container.provider_type,
                       containers.DeclarativeContainer.provider_type)
 
     def test_set_providers(self):
         p13 = providers.Provider()
         p14 = providers.Provider()
-        container_a = ContainerA()
+        container_a = Container()
 
         container_a.set_providers(p13=p13, p14=p14)
 
@@ -120,14 +120,14 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertEqual(_Container.p11.overridden, tuple())
 
     def test_override_with_itself(self):
-        container = ContainerA()
+        container = Container()
         with self.assertRaises(errors.Error):
             container.override(container)
 
     def test_override_providers(self):
         p1 = providers.Provider()
         p2 = providers.Provider()
-        container_a = ContainerA()
+        container_a = Container()
 
         container_a.override_providers(p11=p1, p12=p2)
 
@@ -137,7 +137,7 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
     def test_override_providers_context_manager(self):
         p1 = providers.Provider()
         p2 = providers.Provider()
-        container_a = ContainerA()
+        container_a = Container()
 
         with container_a.override_providers(p11=p1, p12=p2) as container:
             self.assertIs(container, container_a)
@@ -148,7 +148,7 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertIsNone(container_a.p12.last_overriding)
 
     def test_override_providers_with_unknown_provider(self):
-        container_a = ContainerA()
+        container_a = Container()
 
         with self.assertRaises(AttributeError):
             container_a.override_providers(unknown=providers.Provider())
@@ -178,7 +178,7 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
                          (overriding_container1.p11,))
 
     def test_reset_last_overriding_when_not_overridden(self):
-        container = ContainerA()
+        container = Container()
 
         with self.assertRaises(errors.Error):
             container.reset_last_overriding()
@@ -445,24 +445,24 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
 
     def test_assign_parent(self):
         parent = providers.DependenciesContainer()
-        container = ContainerA()
+        container = Container()
 
         container.assign_parent(parent)
 
         self.assertIs(container.parent, parent)
 
     def test_parent_name_declarative_parent(self):
-        container = ContainerA()
-        self.assertEqual(container.parent_name, "ContainerA")
+        container = Container()
+        self.assertEqual(container.parent_name, "Container")
 
     def test_parent_name(self):
-        container = ContainerA()
-        self.assertEqual(container.parent_name, "ContainerA")
+        container = Container()
+        self.assertEqual(container.parent_name, "Container")
 
     def test_parent_name_with_deep_parenting(self):
         class Container2(containers.DeclarativeContainer):
 
-            name = providers.Container(ContainerA)
+            name = providers.Container(Container)
 
         class Container1(containers.DeclarativeContainer):
 
@@ -476,26 +476,26 @@ class DeclarativeContainerInstanceTests(unittest.TestCase):
         self.assertIsNone(container.parent_name)
 
     def test_parent_deepcopy(self):
-        class Container(containers.DeclarativeContainer):
-            container = providers.Container(ContainerA)
+        class ParentContainer(containers.DeclarativeContainer):
+            child = providers.Container(Container)
 
-        container = Container()
+        container = ParentContainer()
 
         copied = providers.deepcopy(container)
 
-        self.assertIs(container.container.parent, container)
-        self.assertIs(copied.container.parent, copied)
+        self.assertIs(container.child.parent, container)
+        self.assertIs(copied.child.parent, copied)
 
         self.assertIsNot(container, copied)
-        self.assertIsNot(container.container, copied.container)
-        self.assertIsNot(container.container.parent, copied.container.parent)
+        self.assertIsNot(container.child, copied.child)
+        self.assertIsNot(container.child.parent, copied.child.parent)
 
     def test_resolve_provider_name(self):
-        container = ContainerA()
+        container = Container()
         self.assertEqual(container.resolve_provider_name(container.p11), "p11")
 
     def test_resolve_provider_name_no_provider(self):
-        container = ContainerA()
+        container = Container()
         with self.assertRaises(errors.Error):
             container.resolve_provider_name(providers.Provider())
 
