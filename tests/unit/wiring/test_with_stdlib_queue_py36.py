@@ -2,8 +2,8 @@
 
 from pytest import fixture
 
-from wiringsamples import queuemodule
-from wiringsamples.container import Container
+from samples.wiring import queuemodule
+from samples.wiring.container import Container
 
 
 @fixture

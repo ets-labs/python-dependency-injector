@@ -6,9 +6,9 @@ from dependency_injector import errors
 from dependency_injector.wiring import Closing, Provide, Provider, wire
 from pytest import fixture, mark, raises
 
-from wiringstringidssamples import module, package, resourceclosing
-from wiringstringidssamples.service import Service
-from wiringstringidssamples.container import Container, SubContainer
+from samples.wiringstringids import module, package, resourceclosing
+from samples.wiringstringids.service import Service
+from samples.wiringstringids.container import Container, SubContainer
 
 
 @fixture(autouse=True)
@@ -42,19 +42,19 @@ def resourceclosing_container():
 
 
 def test_package_lookup():
-    from wiringstringidssamples.package import test_package_function
+    from samples.wiringstringids.package import test_package_function
     service = test_package_function()
     assert isinstance(service, Service)
 
 
 def test_package_subpackage_lookup():
-    from wiringstringidssamples.package.subpackage import test_package_function
+    from samples.wiringstringids.package.subpackage import test_package_function
     service = test_package_function()
     assert isinstance(service, Service)
 
 
 def test_package_submodule_lookup():
-    from wiringstringidssamples.package.subpackage.submodule import test_function
+    from samples.wiringstringids.package.subpackage.submodule import test_function
     service = test_function()
     assert isinstance(service, Service)
 
@@ -66,7 +66,7 @@ def test_module_attributes_wiring():
 
 
 def test_module_attribute_wiring_with_invalid_marker(container: Container):
-    from wiringstringidssamples import module_invalid_attr_injection
+    from samples.wiringstringids import module_invalid_attr_injection
     with raises(Exception, match="Unknown type of marker {0}".format(module_invalid_attr_injection.service)):
         container.wire(modules=[module_invalid_attr_injection])
 
@@ -241,12 +241,12 @@ def test_unwire_class_method(container: Container):
 
 def test_unwire_package_function(container: Container):
     container.unwire()
-    from wiringstringidssamples.package.subpackage.submodule import test_function
+    from samples.wiringstringids.package.subpackage.submodule import test_function
     assert isinstance(test_function(), Provide)
 
 
 def test_unwire_package_function_by_reference(container: Container):
-    from wiringstringidssamples.package.subpackage import submodule
+    from samples.wiringstringids.package.subpackage import submodule
     container.unwire()
     assert isinstance(submodule.test_function(), Provide)
 

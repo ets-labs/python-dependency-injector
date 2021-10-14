@@ -2,9 +2,9 @@
 
 from pytest import fixture
 
-from wiringsamples import module
-from wiringsamples.service import Service
-from wiringsamples.container import Container
+from samples.wiring import module
+from samples.wiring.service import Service
+from samples.wiring.container import Container
 
 
 @fixture

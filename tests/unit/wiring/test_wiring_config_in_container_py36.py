@@ -4,9 +4,9 @@ from dependency_injector import containers
 from dependency_injector.wiring import Provide
 from pytest import fixture, mark
 
-from wiringsamples import module
-from wiringsamples.service import Service
-from wiringsamples.container import Container
+from samples.wiring import module
+from samples.wiring.service import Service
+from samples.wiring.container import Container
 
 
 @fixture(autouse=True)
@@ -23,8 +23,8 @@ def container(wiring_config: containers.WiringConfiguration):
     "wiring_config",
     [
         containers.WiringConfiguration(
-            modules=["wiringsamples.module"],
-            packages=["wiringsamples.package"],
+            modules=["samples.wiring.module"],
+            packages=["samples.wiring.package"],
         ),
     ],
 )
@@ -32,7 +32,7 @@ def test_absolute_names():
     service = module.test_function()
     assert isinstance(service, Service)
 
-    from wiringsamples.package.subpackage.submodule import test_function
+    from samples.wiring.package.subpackage.submodule import test_function
     service = test_function()
     assert isinstance(service, Service)
 
@@ -43,7 +43,7 @@ def test_absolute_names():
         containers.WiringConfiguration(
             modules=[".module"],
             packages=[".package"],
-            from_package="wiringsamples",
+            from_package="samples.wiring",
         ),
     ],
 )
@@ -51,7 +51,7 @@ def test_relative_names_with_explicit_package():
     service = module.test_function()
     assert isinstance(service, Service)
 
-    from wiringsamples.package.subpackage.submodule import test_function
+    from samples.wiring.package.subpackage.submodule import test_function
     service = test_function()
     assert isinstance(service, Service)
 
@@ -69,7 +69,7 @@ def test_relative_names_with_auto_package():
     service = module.test_function()
     assert isinstance(service, Service)
 
-    from wiringsamples.package.subpackage.submodule import test_function
+    from samples.wiring.package.subpackage.submodule import test_function
     service = test_function()
     assert isinstance(service, Service)
 

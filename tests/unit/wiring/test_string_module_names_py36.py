@@ -2,10 +2,10 @@
 
 from pytest import fixture
 
-from wiringsamples import module
-from wiringsamples.service import Service
-from wiringsamples.container import Container
-from wiringsamples.wire_relative_string_names import wire_with_relative_string_names
+from samples.wiring import module
+from samples.wiring.service import Service
+from samples.wiring.container import Container
+from samples.wiring.wire_relative_string_names import wire_with_relative_string_names
 
 
 @fixture
@@ -17,14 +17,14 @@ def container():
 
 def test_absolute_names(container: Container):
     container.wire(
-        modules=["wiringsamples.module"],
-        packages=["wiringsamples.package"],
+        modules=["samples.wiring.module"],
+        packages=["samples.wiring.package"],
     )
 
     service = module.test_function()
     assert isinstance(service, Service)
 
-    from wiringsamples.package.subpackage.submodule import test_function
+    from samples.wiring.package.subpackage.submodule import test_function
     service = test_function()
     assert isinstance(service, Service)
 
@@ -33,13 +33,13 @@ def test_relative_names_with_explicit_package(container: Container):
     container.wire(
         modules=[".module"],
         packages=[".package"],
-        from_package="wiringsamples",
+        from_package="samples.wiring",
     )
 
     service = module.test_function()
     assert isinstance(service, Service)
 
-    from wiringsamples.package.subpackage.submodule import test_function
+    from samples.wiring.package.subpackage.submodule import test_function
     service = test_function()
     assert isinstance(service, Service)
 
@@ -50,7 +50,7 @@ def test_relative_names_with_auto_package(container: Container):
     service = module.test_function()
     assert isinstance(service, Service)
 
-    from wiringsamples.package.subpackage.submodule import test_function
+    from samples.wiring.package.subpackage.submodule import test_function
     service = test_function()
     assert isinstance(service, Service)
 

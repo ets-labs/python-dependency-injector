@@ -3,8 +3,8 @@
 from dependency_injector import containers, providers
 from pytest import fixture
 
-from wiringstringidssamples import module, package
-from wiringstringidssamples.service import Service
+from samples.wiringstringids import module, package
+from samples.wiringstringids.service import Service
 
 
 @fixture(autouse=True)

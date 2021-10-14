@@ -6,9 +6,9 @@ import importlib
 from dependency_injector.wiring import register_loader_containers, unregister_loader_containers
 from pytest import fixture
 
-from wiringstringidssamples import module
-from wiringstringidssamples.service import Service
-from wiringstringidssamples.container import Container
+from samples.wiringstringids import module
+from samples.wiringstringids.service import Service
+from samples.wiringstringids.container import Container
 
 
 @fixture
@@ -26,8 +26,6 @@ def container():
 def test_register_container(container: Container) -> None:
     register_loader_containers(container)
     importlib.reload(module)
-    importlib.import_module("wiringsamples.imports")
 
     service = module.test_function()
-
     assert isinstance(service, Service)

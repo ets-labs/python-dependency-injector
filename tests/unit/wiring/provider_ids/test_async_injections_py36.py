@@ -2,7 +2,7 @@
 
 from pytest import fixture, mark
 
-from wiringsamples import asyncinjections
+from samples.wiring import asyncinjections
 
 
 @fixture(autouse=True)
