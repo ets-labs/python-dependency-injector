@@ -1,1 +1,1 @@
-"""Dependency injector extension unit tests."""
+"""Extension tests."""
