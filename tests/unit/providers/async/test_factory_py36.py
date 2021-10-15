@@ -1,49 +1,11 @@
-"""Factory async mode tests."""
+"""Factory provider async mode tests."""
 
 import asyncio
-import random
 
 from dependency_injector import containers, providers
 from pytest import mark, raises
 
-
-RESOURCE1 = object()
-RESOURCE2 = object()
-
-
-async def init_resource(resource):
-    await asyncio.sleep(random.randint(1, 10) / 1000)
-    yield resource
-    await asyncio.sleep(random.randint(1, 10) / 1000)
-
-
-class Client:
-    def __init__(self, resource1: object, resource2: object) -> None:
-        self.resource1 = resource1
-        self.resource2 = resource2
-
-
-class Service:
-    def __init__(self, client: Client) -> None:
-        self.client = client
-
-
-class BaseContainer(containers.DeclarativeContainer):
-    resource1 = providers.Resource(init_resource, providers.Object(RESOURCE1))
-    resource2 = providers.Resource(init_resource, providers.Object(RESOURCE2))
-
-
-class Container(BaseContainer):
-    client = providers.Factory(
-        Client,
-        resource1=BaseContainer.resource1,
-        resource2=BaseContainer.resource2,
-    )
-
-    service = providers.Factory(
-        Service,
-        client=client,
-    )
+from .common import RESOURCE1, RESOURCE2, Client, Service, BaseContainer, Container, init_resource
 
 
 @mark.asyncio
@@ -182,6 +144,86 @@ async def test_args_kwargs_injection():
     assert service2.client.resource2 is RESOURCE2
 
     assert service1.client is not service2.client
+
+
+@mark.asyncio
+async def test_async_provider_with_async_injections():
+    # See: https://github.com/ets-labs/python-dependency-injector/issues/368
+    async def async_client_provider():
+        return {"client": "OK"}
+
+    async def async_service(client):
+        return {"service": "OK", "client": client}
+
+    class Container(containers.DeclarativeContainer):
+        client = providers.Factory(async_client_provider)
+        service = providers.Factory(async_service, client=client)
+
+    container = Container()
+    service = await container.service()
+
+    assert service == {"service": "OK", "client": {"client": "OK"}}
+
+
+@mark.asyncio
+async def test_with_awaitable_injection():
+    class SomeResource:
+        def __await__(self):
+            raise RuntimeError("Should never happen")
+
+    async def init_resource():
+        yield SomeResource()
+
+    class Service:
+        def __init__(self, resource) -> None:
+            self.resource = resource
+
+    class Container(containers.DeclarativeContainer):
+        resource = providers.Resource(init_resource)
+        service = providers.Factory(Service, resource=resource)
+
+    container = Container()
+
+    assert isinstance(container.service(), asyncio.Future)
+    assert isinstance(container.resource(), asyncio.Future)
+
+    resource = await container.resource()
+    service = await container.service()
+
+    assert isinstance(resource, SomeResource)
+    assert isinstance(service.resource, SomeResource)
+    assert service.resource is resource
+
+
+@mark.asyncio
+async def test_with_awaitable_injection_and_with_init_resources_call():
+    class SomeResource:
+        def __await__(self):
+            raise RuntimeError("Should never happen")
+
+    async def init_resource():
+        yield SomeResource()
+
+    class Service:
+        def __init__(self, resource) -> None:
+            self.resource = resource
+
+    class Container(containers.DeclarativeContainer):
+        resource = providers.Resource(init_resource)
+        service = providers.Factory(Service, resource=resource)
+
+    container = Container()
+
+    await container.init_resources()
+    assert isinstance(container.service(), asyncio.Future)
+    assert isinstance(container.resource(), asyncio.Future)
+
+    resource = await container.resource()
+    service = await container.service()
+
+    assert isinstance(resource, SomeResource)
+    assert isinstance(service.resource, SomeResource)
+    assert service.resource is resource
 
 
 @mark.asyncio
