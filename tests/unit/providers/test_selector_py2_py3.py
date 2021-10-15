@@ -7,6 +7,7 @@ import sys
 import unittest
 
 from dependency_injector import providers, errors
+from pytest import raises
 
 
 class SelectorTests(unittest.TestCase):
@@ -14,7 +15,7 @@ class SelectorTests(unittest.TestCase):
     selector = providers.Configuration()
 
     def test_is_provider(self):
-        self.assertTrue(providers.is_provider(providers.Selector(self.selector)))
+        assert providers.is_provider(providers.Selector(self.selector)) is True
 
     def test_init_optional(self):
         one = providers.Object(1)
@@ -24,23 +25,23 @@ class SelectorTests(unittest.TestCase):
         provider.set_selector(self.selector)
         provider.set_providers(one=one, two=two)
 
-        self.assertEqual(provider.providers, {"one": one, "two": two})
+        assert provider.providers == {"one": one, "two": two}
         with self.selector.override("one"):
-            self.assertEqual(provider(), one())
+            assert provider() == one()
         with self.selector.override("two"):
-            self.assertEqual(provider(), two())
+            assert provider() == two()
 
     def test_set_selector_returns_self(self):
         provider = providers.Selector()
-        self.assertIs(provider.set_selector(self.selector), provider)
+        assert provider.set_selector(self.selector) is provider
 
     def test_set_providers_returns_self(self):
         provider = providers.Selector()
-        self.assertIs(provider.set_providers(one=providers.Provider()), provider)
+        assert provider.set_providers(one=providers.Provider()) is provider
 
     def test_provided_instance_provider(self):
         provider = providers.Selector(self.selector)
-        self.assertIsInstance(provider.provided, providers.ProvidedInstance)
+        assert isinstance(provider.provided, providers.ProvidedInstance)
 
     def test_call(self):
         provider = providers.Selector(
@@ -50,10 +51,10 @@ class SelectorTests(unittest.TestCase):
         )
 
         with self.selector.override("one"):
-            self.assertEqual(provider(), 1)
+            assert provider() == 1
 
         with self.selector.override("two"):
-            self.assertEqual(provider(), 2)
+            assert provider() == 2
 
     def test_call_undefined_provider(self):
         provider = providers.Selector(
@@ -63,7 +64,7 @@ class SelectorTests(unittest.TestCase):
         )
 
         with self.selector.override("three"):
-            with self.assertRaises(errors.Error):
+            with raises(errors.Error):
                 provider()
 
     def test_call_selector_is_none(self):
@@ -74,7 +75,7 @@ class SelectorTests(unittest.TestCase):
         )
 
         with self.selector.override(None):
-            with self.assertRaises(errors.Error):
+            with raises(errors.Error):
                 provider()
 
     def test_call_any_callable(self):
@@ -84,10 +85,10 @@ class SelectorTests(unittest.TestCase):
             two=providers.Object(2),
         )
 
-        self.assertEqual(provider(), 1)
-        self.assertEqual(provider(), 2)
-        self.assertEqual(provider(), 1)
-        self.assertEqual(provider(), 2)
+        assert provider() == 1
+        assert provider() == 2
+        assert provider() == 1
+        assert provider() == 2
 
     def test_call_with_context_args(self):
         provider = providers.Selector(
@@ -98,8 +99,8 @@ class SelectorTests(unittest.TestCase):
         with self.selector.override("one"):
             args, kwargs = provider(1, 2, three=3, four=4)
 
-        self.assertEqual(args, (1, 2))
-        self.assertEqual(kwargs, {"three": 3, "four": 4})
+        assert args == (1, 2)
+        assert kwargs == {"three": 3, "four": 4}
 
     def test_getattr(self):
         provider_one = providers.Object(1)
@@ -111,8 +112,8 @@ class SelectorTests(unittest.TestCase):
             two=provider_two,
         )
 
-        self.assertIs(provider.one, provider_one)
-        self.assertIs(provider.two, provider_two)
+        assert provider.one is provider_one
+        assert provider.two is provider_two
 
     def test_getattr_attribute_error(self):
         provider_one = providers.Object(1)
@@ -124,7 +125,7 @@ class SelectorTests(unittest.TestCase):
             two=provider_two,
         )
 
-        with self.assertRaises(AttributeError):
+        with raises(AttributeError):
             _ = provider.provider_three
 
     def test_call_overridden(self):
@@ -136,7 +137,7 @@ class SelectorTests(unittest.TestCase):
         provider.override(overriding_provider2)
 
         with self.selector.override("sample"):
-            self.assertEqual(provider(), 3)
+            assert provider() == 3
 
     def test_providers_attribute(self):
         provider_one = providers.Object(1)
@@ -147,16 +148,15 @@ class SelectorTests(unittest.TestCase):
             one=provider_one,
             two=provider_two,
         )
-
-        self.assertEqual(provider.providers, {"one": provider_one, "two": provider_two})
+        assert provider.providers == {"one": provider_one, "two": provider_two}
 
     def test_deepcopy(self):
         provider = providers.Selector(self.selector)
 
         provider_copy = providers.deepcopy(provider)
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertIsInstance(provider, providers.Selector)
+        assert provider is not provider_copy
+        assert isinstance(provider, providers.Selector)
 
     def test_deepcopy_from_memo(self):
         provider = providers.Selector(self.selector)
@@ -167,7 +167,7 @@ class SelectorTests(unittest.TestCase):
             memo={id(provider): provider_copy_memo},
         )
 
-        self.assertIs(provider_copy, provider_copy_memo)
+        assert provider_copy is provider_copy_memo
 
     def test_deepcopy_overridden(self):
         provider = providers.Selector(self.selector)
@@ -178,11 +178,11 @@ class SelectorTests(unittest.TestCase):
         provider_copy = providers.deepcopy(provider)
         object_provider_copy = provider_copy.overridden[0]
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertIsInstance(provider, providers.Selector)
+        assert provider is not provider_copy
+        assert isinstance(provider, providers.Selector)
 
-        self.assertIsNot(object_provider, object_provider_copy)
-        self.assertIsInstance(object_provider_copy, providers.Object)
+        assert object_provider is not object_provider_copy
+        assert isinstance(object_provider_copy, providers.Object)
 
     def test_deepcopy_with_sys_streams(self):
         provider = providers.Selector(
@@ -195,17 +195,17 @@ class SelectorTests(unittest.TestCase):
 
         provider_copy = providers.deepcopy(provider)
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertIsInstance(provider_copy, providers.Selector)
+        assert provider is not provider_copy
+        assert isinstance(provider_copy, providers.Selector)
 
         with self.selector.override("stdin"):
-            self.assertIs(provider(), sys.stdin)
+            assert provider() is sys.stdin
 
         with self.selector.override("stdout"):
-            self.assertIs(provider(), sys.stdout)
+            assert provider() is sys.stdout
 
         with self.selector.override("stderr"):
-            self.assertIs(provider(), sys.stderr)
+            assert provider() is sys.stderr
 
     def test_repr(self):
         provider = providers.Selector(
@@ -214,10 +214,7 @@ class SelectorTests(unittest.TestCase):
             two=providers.Object(2),
         )
 
-        self.assertIn(
-            "<dependency_injector.providers.Selector({0}".format(repr(self.selector)),
-            repr(provider),
-        )
-        self.assertIn("one={0}".format(repr(provider.one)), repr(provider))
-        self.assertIn("two={0}".format(repr(provider.two)), repr(provider))
-        self.assertIn("at {0}".format(hex(id(provider))), repr(provider))
+        assert "<dependency_injector.providers.Selector({0}".format(repr(self.selector)) in repr(provider)
+        assert "one={0}".format(repr(provider.one)) in repr(provider)
+        assert "two={0}".format(repr(provider.two)) in repr(provider)
+        assert "at {0}".format(hex(id(provider))) in repr(provider)

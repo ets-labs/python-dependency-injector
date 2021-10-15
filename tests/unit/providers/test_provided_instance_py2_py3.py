@@ -70,60 +70,51 @@ class ProvidedInstanceTests(unittest.TestCase):
         self.container = Container()
 
     def test_is_provider(self):
-        self.assertTrue(providers.is_provider(self.container.service.provided))
+        assert providers.is_provider(self.container.service.provided) is True
 
     def test_attribute(self):
         client = self.container.client_attribute()
-        self.assertEqual(client.value, "foo")
+        assert client.value == "foo"
 
     def test_item(self):
         client = self.container.client_item()
-        self.assertEqual(client.value, "foo")
+        assert client.value == "foo"
 
     def test_attribute_item(self):
         client = self.container.client_attribute_item()
-        self.assertEqual(client.value, "foo")
+        assert client.value == "foo"
 
     def test_method_call(self):
         client = self.container.client_method_call()
-        self.assertEqual(client.value, "foo")
+        assert client.value == "foo"
 
     def test_method_closure_call(self):
         client = self.container.client_method_closure_call()
-        self.assertEqual(client.value, "foo")
+        assert client.value == "foo"
 
     def test_provided_call(self):
         client = self.container.client_provided_call()
-        self.assertEqual(client.value, "foo")
+        assert client.value == "foo"
 
     def test_call_overridden(self):
         value = "bar"
         with self.container.service.override(Service(value)):
-            self.assertEqual(self.container.client_attribute().value, value)
-            self.assertEqual(self.container.client_item().value, value)
-            self.assertEqual(self.container.client_attribute_item().value, value)
-            self.assertEqual(self.container.client_method_call().value, value)
+            assert self.container.client_attribute().value == value
+            assert self.container.client_item().value == value
+            assert self.container.client_attribute_item().value == value
+            assert self.container.client_method_call().value == value
 
     def test_repr_provided_instance(self):
         provider = self.container.service.provided
-        self.assertEqual(
-            "ProvidedInstance(\"{0}\")".format(repr(self.container.service)),
-            repr(provider),
-        )
+        assert repr(provider) == "ProvidedInstance(\"{0}\")".format(repr(self.container.service))
 
     def test_repr_attribute_getter(self):
         provider = self.container.service.provided.value
-        self.assertEqual(
-            "AttributeGetter(\"value\")",
-            repr(provider),
-        )
+        assert repr(provider) == "AttributeGetter(\"value\")"
 
     def test_repr_item_getter(self):
         provider = self.container.service.provided["test-test"]
-        self.assertEqual(
-            "ItemGetter(\"test-test\")",
-            repr(provider),
-        )
+        assert repr(provider) == "ItemGetter(\"test-test\")"
 
 
 class LazyInitTests(unittest.TestCase):
@@ -132,36 +123,36 @@ class LazyInitTests(unittest.TestCase):
         provides = providers.Object(object())
         provider = providers.ProvidedInstance()
         provider.set_provides(provides)
-        self.assertIs(provider.provides, provides)
-        self.assertIs(provider.set_provides(providers.Provider()), provider)
+        assert provider.provides is provides
+        assert provider.set_provides(providers.Provider()) is provider
 
     def test_attribute_getter(self):
         provides = providers.Object(object())
         provider = providers.AttributeGetter()
         provider.set_provides(provides)
         provider.set_name("__dict__")
-        self.assertIs(provider.provides, provides)
-        self.assertEqual(provider.name, "__dict__")
-        self.assertIs(provider.set_provides(providers.Provider()), provider)
-        self.assertIs(provider.set_name("__dict__"), provider)
+        assert provider.provides is provides
+        assert provider.name == "__dict__"
+        assert provider.set_provides(providers.Provider()) is provider
+        assert provider.set_name("__dict__") is provider
 
     def test_item_getter(self):
         provides = providers.Object({"foo": "bar"})
         provider = providers.ItemGetter()
         provider.set_provides(provides)
         provider.set_name("foo")
-        self.assertIs(provider.provides, provides)
-        self.assertEqual(provider.name, "foo")
-        self.assertIs(provider.set_provides(providers.Provider()), provider)
-        self.assertIs(provider.set_name("foo"), provider)
+        assert provider.provides is provides
+        assert provider.name == "foo"
+        assert provider.set_provides(providers.Provider()) is provider
+        assert provider.set_name("foo") is provider
 
     def test_method_caller(self):
         provides = providers.Object(lambda: 42)
         provider = providers.MethodCaller()
         provider.set_provides(provides)
-        self.assertIs(provider.provides, provides)
-        self.assertEqual(provider(), 42)
-        self.assertIs(provider.set_provides(providers.Provider()), provider)
+        assert provider.provides is provides
+        assert provider() == 42
+        assert provider.set_provides(providers.Provider()) is provider
 
 
 class ProvidedInstancePuzzleTests(unittest.TestCase):
@@ -189,17 +180,13 @@ class ProvidedInstancePuzzleTests(unittest.TestCase):
         )
 
         result = test_list()
-
-        self.assertEqual(
-            result,
-            [
-                10,
-                22,
-                service(),
-                "foo-bar",
-                "foo-bar",
-            ],
-        )
+        assert result == [
+            10,
+            22,
+            service(),
+            "foo-bar",
+            "foo-bar",
+        ]
 
 
 class ProvidedInstanceInBaseClassTests(unittest.TestCase):

@@ -9,11 +9,11 @@ class PositionalInjectionTests(unittest.TestCase):
 
     def test_isinstance(self):
         injection = providers.PositionalInjection(1)
-        self.assertIsInstance(injection, providers.Injection)
+        assert isinstance(injection, providers.Injection)
 
     def test_get_value_with_not_provider(self):
         injection = providers.PositionalInjection(123)
-        self.assertEqual(injection.get_value(), 123)
+        assert injection.get_value() == 123
 
     def test_get_value_with_factory(self):
         injection = providers.PositionalInjection(providers.Factory(object))
@@ -21,14 +21,14 @@ class PositionalInjectionTests(unittest.TestCase):
         obj1 = injection.get_value()
         obj2 = injection.get_value()
 
-        self.assertIs(type(obj1), object)
-        self.assertIs(type(obj2), object)
-        self.assertIsNot(obj1, obj2)
+        assert type(obj1) is object
+        assert type(obj2) is object
+        assert obj1 is not obj2
 
     def test_get_original_value(self):
         provider = providers.Factory(object)
         injection = providers.PositionalInjection(provider)
-        self.assertIs(injection.get_original_value(), provider)
+        assert injection.get_original_value() is provider
 
     def test_deepcopy(self):
         provider = providers.Factory(object)
@@ -36,9 +36,8 @@ class PositionalInjectionTests(unittest.TestCase):
 
         injection_copy = providers.deepcopy(injection)
 
-        self.assertIsNot(injection_copy, injection)
-        self.assertIsNot(injection_copy.get_original_value(),
-                         injection.get_original_value())
+        assert injection_copy is not injection
+        assert injection_copy.get_original_value() is not injection.get_original_value()
 
     def test_deepcopy_memo(self):
         provider = providers.Factory(object)
@@ -48,40 +47,38 @@ class PositionalInjectionTests(unittest.TestCase):
         injection_copy = providers.deepcopy(
             injection, {id(injection): injection_copy_orig})
 
-        self.assertIs(injection_copy, injection_copy_orig)
-        self.assertIs(injection_copy.get_original_value(),
-                      injection.get_original_value())
+        assert injection_copy is injection_copy_orig
+        assert injection_copy.get_original_value() is injection.get_original_value()
 
 
 class NamedInjectionTests(unittest.TestCase):
 
     def test_isinstance(self):
         injection = providers.NamedInjection("name", 1)
-        self.assertIsInstance(injection, providers.Injection)
+        assert isinstance(injection, providers.Injection)
 
     def test_get_name(self):
         injection = providers.NamedInjection("name", 123)
-        self.assertEqual(injection.get_name(), "name")
+        assert injection.get_name() == "name"
 
     def test_get_value_with_not_provider(self):
         injection = providers.NamedInjection("name", 123)
-        self.assertEqual(injection.get_value(), 123)
+        assert injection.get_value() == 123
 
     def test_get_value_with_factory(self):
-        injection = providers.NamedInjection("name",
-                                             providers.Factory(object))
+        injection = providers.NamedInjection("name", providers.Factory(object))
 
         obj1 = injection.get_value()
         obj2 = injection.get_value()
 
-        self.assertIs(type(obj1), object)
-        self.assertIs(type(obj2), object)
-        self.assertIsNot(obj1, obj2)
+        assert type(obj1) is object
+        assert type(obj2) is object
+        assert obj1 is not obj2
 
     def test_get_original_value(self):
         provider = providers.Factory(object)
         injection = providers.NamedInjection("name", provider)
-        self.assertIs(injection.get_original_value(), provider)
+        assert injection.get_original_value() is provider
 
     def test_deepcopy(self):
         provider = providers.Factory(object)
@@ -89,9 +86,8 @@ class NamedInjectionTests(unittest.TestCase):
 
         injection_copy = providers.deepcopy(injection)
 
-        self.assertIsNot(injection_copy, injection)
-        self.assertIsNot(injection_copy.get_original_value(),
-                         injection.get_original_value())
+        assert injection_copy is not injection
+        assert injection_copy.get_original_value() is not injection.get_original_value()
 
     def test_deepcopy_memo(self):
         provider = providers.Factory(object)
@@ -101,6 +97,5 @@ class NamedInjectionTests(unittest.TestCase):
         injection_copy = providers.deepcopy(
             injection, {id(injection): injection_copy_orig})
 
-        self.assertIs(injection_copy, injection_copy_orig)
-        self.assertIs(injection_copy.get_original_value(),
-                      injection.get_original_value())
+        assert injection_copy is injection_copy_orig
+        assert injection_copy.get_original_value() is injection.get_original_value()

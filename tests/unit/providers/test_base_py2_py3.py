@@ -8,6 +8,7 @@ from dependency_injector import (
     providers,
     errors,
 )
+from pytest import raises
 
 
 class ProviderTests(unittest.TestCase):
@@ -16,10 +17,11 @@ class ProviderTests(unittest.TestCase):
         self.provider = providers.Provider()
 
     def test_is_provider(self):
-        self.assertTrue(providers.is_provider(self.provider))
+        assert providers.is_provider(self.provider) is True
 
     def test_call(self):
-        self.assertRaises(NotImplementedError, self.provider.__call__)
+        with raises(NotImplementedError):
+            self.provider()
 
     def test_delegate(self):
         with warnings.catch_warnings():
@@ -27,32 +29,32 @@ class ProviderTests(unittest.TestCase):
             delegate1 = self.provider.delegate()
             delegate2 = self.provider.delegate()
 
-        self.assertIsInstance(delegate1, providers.Delegate)
-        self.assertIs(delegate1(), self.provider)
+        assert isinstance(delegate1, providers.Delegate)
+        assert delegate1() is self.provider
 
-        self.assertIsInstance(delegate2, providers.Delegate)
-        self.assertIs(delegate2(), self.provider)
+        assert isinstance(delegate2, providers.Delegate)
+        assert delegate2() is self.provider
 
-        self.assertIsNot(delegate1, delegate2)
+        assert delegate1 is not delegate2
 
     def test_provider(self):
         delegate1 = self.provider.provider
 
-        self.assertIsInstance(delegate1, providers.Delegate)
-        self.assertIs(delegate1(), self.provider)
+        assert isinstance(delegate1, providers.Delegate)
+        assert delegate1() is self.provider
 
         delegate2 = self.provider.provider
 
-        self.assertIsInstance(delegate2, providers.Delegate)
-        self.assertIs(delegate2(), self.provider)
+        assert isinstance(delegate2, providers.Delegate)
+        assert delegate2() is self.provider
 
-        self.assertIsNot(delegate1, delegate2)
+        assert delegate1 is not delegate2
 
     def test_override(self):
         overriding_provider = providers.Provider()
         self.provider.override(overriding_provider)
-        self.assertTrue(self.provider.overridden)
-        self.assertIs(self.provider.last_overriding, overriding_provider)
+        assert self.provider.overridden == (overriding_provider,)
+        assert self.provider.last_overriding is overriding_provider
 
     def test_double_override(self):
         overriding_provider1 = providers.Object(1)
@@ -61,21 +63,23 @@ class ProviderTests(unittest.TestCase):
         self.provider.override(overriding_provider1)
         overriding_provider1.override(overriding_provider2)
 
-        self.assertEqual(self.provider(), overriding_provider2())
+        assert self.provider() == overriding_provider2()
 
     def test_overriding_context(self):
         overriding_provider = providers.Provider()
         with self.provider.override(overriding_provider):
-            self.assertTrue(self.provider.overridden)
-        self.assertFalse(self.provider.overridden)
+            assert self.provider.overridden == (overriding_provider,)
+        assert self.provider.overridden == tuple()
+        assert not self.provider.overridden
 
     def test_override_with_itself(self):
-        self.assertRaises(errors.Error, self.provider.override, self.provider)
+        with raises(errors.Error):
+            self.provider.override(self.provider)
 
     def test_override_with_not_provider(self):
         obj = object()
         self.provider.override(obj)
-        self.assertIs(self.provider(), obj)
+        assert self.provider() is obj
 
     def test_reset_last_overriding(self):
         overriding_provider1 = providers.Provider()
@@ -84,38 +88,40 @@ class ProviderTests(unittest.TestCase):
         self.provider.override(overriding_provider1)
         self.provider.override(overriding_provider2)
 
-        self.assertIs(self.provider.overridden[-1], overriding_provider2)
-        self.assertIs(self.provider.last_overriding, overriding_provider2)
+        assert self.provider.overridden[-1] is overriding_provider2
+        assert self.provider.last_overriding is overriding_provider2
 
         self.provider.reset_last_overriding()
-        self.assertIs(self.provider.overridden[-1], overriding_provider1)
-        self.assertIs(self.provider.last_overriding, overriding_provider1)
+        assert self.provider.overridden[-1] is overriding_provider1
+        assert self.provider.last_overriding is overriding_provider1
 
         self.provider.reset_last_overriding()
-        self.assertFalse(self.provider.overridden)
-        self.assertIsNone(self.provider.last_overriding)
+        assert self.provider.overridden == tuple()
+        assert not self.provider.overridden
+        assert self.provider.last_overriding is None
 
     def test_reset_last_overriding_of_not_overridden_provider(self):
-        self.assertRaises(errors.Error, self.provider.reset_last_overriding)
+        with raises(errors.Error):
+            self.provider.reset_last_overriding()
 
     def test_reset_override(self):
         overriding_provider = providers.Provider()
         self.provider.override(overriding_provider)
 
-        self.assertTrue(self.provider.overridden)
-        self.assertEqual(self.provider.overridden, (overriding_provider,))
+        assert self.provider.overridden
+        assert self.provider.overridden == (overriding_provider,)
 
         self.provider.reset_override()
 
-        self.assertEqual(self.provider.overridden, tuple())
+        assert self.provider.overridden == tuple()
 
     def test_deepcopy(self):
         provider = providers.Provider()
 
         provider_copy = providers.deepcopy(provider)
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertIsInstance(provider, providers.Provider)
+        assert provider is not provider_copy
+        assert isinstance(provider, providers.Provider)
 
     def test_deepcopy_from_memo(self):
         provider = providers.Provider()
@@ -124,7 +130,7 @@ class ProviderTests(unittest.TestCase):
         provider_copy = providers.deepcopy(
             provider, memo={id(provider): provider_copy_memo})
 
-        self.assertIs(provider_copy, provider_copy_memo)
+        assert provider_copy is provider_copy_memo
 
     def test_deepcopy_overridden(self):
         provider = providers.Provider()
@@ -135,56 +141,57 @@ class ProviderTests(unittest.TestCase):
         provider_copy = providers.deepcopy(provider)
         overriding_provider_copy = provider_copy.overridden[0]
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertIsInstance(provider, providers.Provider)
+        assert provider is not provider_copy
+        assert isinstance(provider, providers.Provider)
 
-        self.assertIsNot(overriding_provider, overriding_provider_copy)
-        self.assertIsInstance(overriding_provider_copy, providers.Provider)
+        assert overriding_provider is not overriding_provider_copy
+        assert isinstance(overriding_provider_copy, providers.Provider)
 
     def test_repr(self):
-        self.assertEqual(repr(self.provider),
-                         "<dependency_injector.providers."
-                         "Provider() at {0}>".format(hex(id(self.provider))))
+        assert repr(self.provider) == (
+            "<dependency_injector.providers."
+            "Provider() at {0}>".format(hex(id(self.provider)))
+        )
 
 
 class ObjectProviderTests(unittest.TestCase):
 
     def test_is_provider(self):
-        self.assertTrue(providers.is_provider(providers.Object(object())))
+        assert providers.is_provider(providers.Object(object())) is True
 
     def test_init_optional_provides(self):
         instance = object()
         provider = providers.Object()
         provider.set_provides(instance)
-        self.assertIs(provider.provides, instance)
-        self.assertIs(provider(), instance)
+        assert provider.provides is instance
+        assert provider() is instance
 
     def test_set_provides_returns_self(self):
         provider = providers.Object()
-        self.assertIs(provider.set_provides(object()), provider)
+        assert provider.set_provides(object()) is provider
 
     def test_provided_instance_provider(self):
         provider = providers.Object(object())
-        self.assertIsInstance(provider.provided, providers.ProvidedInstance)
+        assert isinstance(provider.provided, providers.ProvidedInstance)
 
     def test_call_object_provider(self):
         obj = object()
-        self.assertIs(providers.Object(obj)(), obj)
+        assert providers.Object(obj)() is obj
 
     def test_call_overridden_object_provider(self):
         obj1 = object()
         obj2 = object()
         provider = providers.Object(obj1)
         provider.override(providers.Object(obj2))
-        self.assertIs(provider(), obj2)
+        assert provider() is obj2
 
     def test_deepcopy(self):
         provider = providers.Object(1)
 
         provider_copy = providers.deepcopy(provider)
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertIsInstance(provider, providers.Object)
+        assert provider is not provider_copy
+        assert isinstance(provider, providers.Object)
 
     def test_deepcopy_from_memo(self):
         provider = providers.Object(1)
@@ -193,7 +200,7 @@ class ObjectProviderTests(unittest.TestCase):
         provider_copy = providers.deepcopy(
             provider, memo={id(provider): provider_copy_memo})
 
-        self.assertIs(provider_copy, provider_copy_memo)
+        assert provider_copy is provider_copy_memo
 
     def test_deepcopy_overridden(self):
         provider = providers.Object(1)
@@ -204,11 +211,11 @@ class ObjectProviderTests(unittest.TestCase):
         provider_copy = providers.deepcopy(provider)
         overriding_provider_copy = provider_copy.overridden[0]
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertIsInstance(provider, providers.Object)
+        assert provider is not provider_copy
+        assert isinstance(provider, providers.Object)
 
-        self.assertIsNot(overriding_provider, overriding_provider_copy)
-        self.assertIsInstance(overriding_provider_copy, providers.Provider)
+        assert overriding_provider is not overriding_provider_copy
+        assert isinstance(overriding_provider_copy, providers.Provider)
 
     def test_deepcopy_doesnt_copy_provided_object(self):
         # Fixes bug #231
@@ -218,46 +225,45 @@ class ObjectProviderTests(unittest.TestCase):
 
         provider_copy = providers.deepcopy(provider)
 
-        self.assertIs(provider(), some_object)
-        self.assertIs(provider_copy(), some_object)
+        assert provider() is some_object
+        assert provider_copy() is some_object
 
     def test_repr(self):
         some_object = object()
         provider = providers.Object(some_object)
-        self.assertEqual(repr(provider),
-                         "<dependency_injector.providers."
-                         "Object({0}) at {1}>".format(
-                             repr(some_object),
-                             hex(id(provider))))
+        assert repr(provider) == (
+            "<dependency_injector.providers."
+            "Object({0}) at {1}>".format(repr(some_object), hex(id(provider)))
+        )
 
 
 class SelfProviderTests(unittest.TestCase):
 
     def test_is_provider(self):
-        self.assertTrue(providers.is_provider(providers.Self()))
+        assert providers.is_provider(providers.Self()) is True
 
     def test_call_object_provider(self):
         container = containers.DeclarativeContainer()
-        self.assertIs(providers.Self(container)(), container)
+        assert providers.Self(container)() is container
 
     def test_set_container(self):
         container = containers.DeclarativeContainer()
         provider = providers.Self()
         provider.set_container(container)
-        self.assertIs(provider(), container)
+        assert provider() is container
 
     def test_set_alt_names(self):
         provider = providers.Self()
         provider.set_alt_names({"foo", "bar", "baz"})
-        self.assertEqual(set(provider.alt_names), {"foo", "bar", "baz"})
+        assert set(provider.alt_names) == {"foo", "bar", "baz"}
 
     def test_deepcopy(self):
         provider = providers.Self()
 
         provider_copy = providers.deepcopy(provider)
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertIsInstance(provider, providers.Self)
+        assert provider is not provider_copy
+        assert isinstance(provider, providers.Self)
 
     def test_deepcopy_from_memo(self):
         provider = providers.Self()
@@ -266,7 +272,7 @@ class SelfProviderTests(unittest.TestCase):
         provider_copy = providers.deepcopy(
             provider, memo={id(provider): provider_copy_memo})
 
-        self.assertIs(provider_copy, provider_copy_memo)
+        assert provider_copy is provider_copy_memo
 
     def test_deepcopy_overridden(self):
         provider = providers.Self()
@@ -277,20 +283,19 @@ class SelfProviderTests(unittest.TestCase):
         provider_copy = providers.deepcopy(provider)
         overriding_provider_copy = provider_copy.overridden[0]
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertIsInstance(provider, providers.Self)
+        assert provider is not provider_copy
+        assert isinstance(provider, providers.Self)
 
-        self.assertIsNot(overriding_provider, overriding_provider_copy)
-        self.assertIsInstance(overriding_provider_copy, providers.Provider)
+        assert overriding_provider is not overriding_provider_copy
+        assert isinstance(overriding_provider_copy, providers.Provider)
 
     def test_repr(self):
         container = containers.DeclarativeContainer()
         provider = providers.Self(container)
-        self.assertEqual(repr(provider),
-                         "<dependency_injector.providers."
-                         "Self({0}) at {1}>".format(
-                             repr(container),
-                             hex(id(provider))))
+        assert repr(provider) == (
+            "<dependency_injector.providers."
+            "Self({0}) at {1}>".format(repr(container), hex(id(provider)))
+        )
 
 
 class DelegateTests(unittest.TestCase):
@@ -300,34 +305,34 @@ class DelegateTests(unittest.TestCase):
         self.delegate = providers.Delegate(self.delegated)
 
     def test_is_provider(self):
-        self.assertTrue(providers.is_provider(self.delegate))
+        assert providers.is_provider(self.delegate) is True
 
     def test_init_optional_provides(self):
         provider = providers.Delegate()
         provider.set_provides(self.delegated)
-        self.assertIs(provider.provides, self.delegated)
-        self.assertIs(provider(), self.delegated)
+        assert provider.provides is self.delegated
+        assert provider() is self.delegated
 
     def test_set_provides_returns_self(self):
         provider = providers.Delegate()
-        self.assertIs(provider.set_provides(self.delegated), provider)
+        assert provider.set_provides(self.delegated) is provider
 
     def test_init_with_not_provider(self):
-        self.assertRaises(errors.Error, providers.Delegate, object())
+        with raises(errors.Error):
+            providers.Delegate(object())
 
     def test_call(self):
         delegated1 = self.delegate()
         delegated2 = self.delegate()
 
-        self.assertIs(delegated1, self.delegated)
-        self.assertIs(delegated2, self.delegated)
+        assert delegated1 is self.delegated
+        assert delegated2 is self.delegated
 
     def test_repr(self):
-        self.assertEqual(repr(self.delegate),
-                         "<dependency_injector.providers."
-                         "Delegate({0}) at {1}>".format(
-                             repr(self.delegated),
-                             hex(id(self.delegate))))
+        assert repr(self.delegate) == (
+            "<dependency_injector.providers."
+            "Delegate({0}) at {1}>".format(repr(self.delegated), hex(id(self.delegate)))
+        )
 
 
 class DependencyTests(unittest.TestCase):
@@ -341,20 +346,21 @@ class DependencyTests(unittest.TestCase):
         provider.set_instance_of(list)
         provider.set_default(list_provider)
 
-        self.assertIs(provider.instance_of, list)
-        self.assertIs(provider.default, list_provider)
-        self.assertEqual(provider(), [1, 2, 3])
+        assert provider.instance_of is list
+        assert provider.default is list_provider
+        assert provider() == [1, 2, 3]
 
     def test_set_instance_of_returns_self(self):
         provider = providers.Dependency()
-        self.assertIs(provider.set_instance_of(list), provider)
+        assert provider.set_instance_of(list) is provider
 
     def test_set_default_returns_self(self):
         provider = providers.Dependency()
-        self.assertIs(provider.set_default(providers.Provider()), provider)
+        assert provider.set_default(providers.Provider()) is provider
 
     def test_init_with_not_class(self):
-        self.assertRaises(TypeError, providers.Dependency, object())
+        with raises(TypeError):
+            providers.Dependency(object())
 
     def test_with_abc(self):
         try:
@@ -365,59 +371,59 @@ class DependencyTests(unittest.TestCase):
         provider = providers.Dependency(collections_abc.Mapping)
         provider.provided_by(providers.Factory(dict))
 
-        self.assertIsInstance(provider(), collections_abc.Mapping)
-        self.assertIsInstance(provider(), dict)
+        assert isinstance(provider(), collections_abc.Mapping)
+        assert isinstance(provider(), dict)
 
     def test_is_provider(self):
-        self.assertTrue(providers.is_provider(self.provider))
+        assert providers.is_provider(self.provider) is True
 
     def test_provided_instance_provider(self):
-        self.assertIsInstance(self.provider.provided, providers.ProvidedInstance)
+        assert isinstance(self.provider.provided, providers.ProvidedInstance)
 
     def test_default(self):
         provider = providers.Dependency(instance_of=dict, default={"foo": "bar"})
-        self.assertEqual(provider(), {"foo": "bar"})
+        assert provider() == {"foo": "bar"}
 
     def test_default_attribute(self):
         provider = providers.Dependency(instance_of=dict, default={"foo": "bar"})
-        self.assertEqual(provider.default(), {"foo": "bar"})
+        assert provider.default() == {"foo": "bar"}
 
     def test_default_provider(self):
         provider = providers.Dependency(instance_of=dict, default=providers.Factory(dict, foo="bar"))
-        self.assertEqual(provider.default(), {"foo": "bar"})
+        assert provider.default() == {"foo": "bar"}
 
     def test_default_attribute_provider(self):
         default = providers.Factory(dict, foo="bar")
         provider = providers.Dependency(instance_of=dict, default=default)
 
-        self.assertEqual(provider.default(), {"foo": "bar"})
-        self.assertIs(provider.default, default)
+        assert provider.default() == {"foo": "bar"}
+        assert provider.default is default
 
     def test_is_defined(self):
         provider = providers.Dependency()
-        self.assertFalse(provider.is_defined)
+        assert provider.is_defined is False
 
     def test_is_defined_when_overridden(self):
         provider = providers.Dependency()
         provider.override("value")
-        self.assertTrue(provider.is_defined)
+        assert provider.is_defined is True
 
     def test_is_defined_with_default(self):
         provider = providers.Dependency(default="value")
-        self.assertTrue(provider.is_defined)
+        assert provider.is_defined is True
 
     def test_call_overridden(self):
         self.provider.provided_by(providers.Factory(list))
-        self.assertIsInstance(self.provider(), list)
+        assert isinstance(self.provider(), list)
 
     def test_call_overridden_but_not_instance_of(self):
         self.provider.provided_by(providers.Factory(dict))
-        self.assertRaises(errors.Error, self.provider)
+        with raises(errors.Error):
+            self.provider()
 
     def test_call_undefined(self):
-        with self.assertRaises(errors.Error) as context:
+        with raises(errors.Error, match="Dependency is not defined"):
             self.provider()
-        self.assertEqual(str(context.exception), "Dependency is not defined")
 
     def test_call_undefined_error_message_with_container_instance_parent(self):
         class UserService:
@@ -434,10 +440,9 @@ class DependencyTests(unittest.TestCase):
 
         container = Container()
 
-        with self.assertRaises(errors.Error) as context:
+        with raises(errors.Error) as exception_info:
             container.user_service()
-
-        self.assertEqual(str(context.exception), "Dependency \"Container.database\" is not defined")
+        assert str(exception_info.value) == "Dependency \"Container.database\" is not defined"
 
     def test_call_undefined_error_message_with_container_provider_parent_deep(self):
         class Database:
@@ -468,13 +473,9 @@ class DependencyTests(unittest.TestCase):
 
         container = Container()
 
-        with self.assertRaises(errors.Error) as context:
+        with raises(errors.Error) as exception_info:
             container.services().user()
-
-        self.assertEqual(
-            str(context.exception),
-            "Dependency \"Container.services.gateways.database_client\" is not defined",
-        )
+        assert str(exception_info.value) == "Dependency \"Container.services.gateways.database_client\" is not defined"
 
     def test_call_undefined_error_message_with_dependenciescontainer_provider_parent(self):
         class UserService:
@@ -491,13 +492,9 @@ class DependencyTests(unittest.TestCase):
 
         services = Services()
 
-        with self.assertRaises(errors.Error) as context:
+        with raises(errors.Error) as exception_info:
             services.user()
-
-        self.assertEqual(
-            str(context.exception),
-            "Dependency \"Services.gateways.database_client\" is not defined",
-        )
+        assert str(exception_info.value) == "Dependency \"Services.gateways.database_client\" is not defined"
 
     def test_assign_parent(self):
         parent = providers.DependenciesContainer()
@@ -505,23 +502,23 @@ class DependencyTests(unittest.TestCase):
 
         provider.assign_parent(parent)
 
-        self.assertIs(provider.parent, parent)
+        assert provider.parent is parent
 
     def test_parent_name(self):
         container = containers.DynamicContainer()
         provider = providers.Dependency()
         container.name = provider
-        self.assertEqual(provider.parent_name, "name")
+        assert provider.parent_name == "name"
 
     def test_parent_name_with_deep_parenting(self):
         provider = providers.Dependency()
         container = providers.DependenciesContainer(name=provider)
         _ = providers.DependenciesContainer(container=container)
-        self.assertEqual(provider.parent_name, "container.name")
+        assert provider.parent_name == "container.name"
 
     def test_parent_name_is_none(self):
         provider = providers.DependenciesContainer()
-        self.assertIsNone(provider.parent_name)
+        assert provider.parent_name is None
 
     def test_parent_deepcopy(self):
         container = containers.DynamicContainer()
@@ -530,12 +527,12 @@ class DependencyTests(unittest.TestCase):
 
         copied = providers.deepcopy(container)
 
-        self.assertIs(container.name.parent, container)
-        self.assertIs(copied.name.parent, copied)
+        assert container.name.parent is container
+        assert copied.name.parent is copied
 
-        self.assertIsNot(container, copied)
-        self.assertIsNot(container.name, copied.name)
-        self.assertIsNot(container.name.parent, copied.name.parent)
+        assert container is not copied
+        assert container.name is not copied.name
+        assert container.name.parent is not copied.name.parent
 
     def test_forward_attr_to_default(self):
         default = providers.Configuration()
@@ -543,7 +540,7 @@ class DependencyTests(unittest.TestCase):
         provider = providers.Dependency(default=default)
         provider.from_dict({"foo": "bar"})
 
-        self.assertEqual(default(), {"foo": "bar"})
+        assert default() == {"foo": "bar"}
 
     def test_forward_attr_to_overriding(self):
         overriding = providers.Configuration()
@@ -552,11 +549,11 @@ class DependencyTests(unittest.TestCase):
         provider.override(overriding)
         provider.from_dict({"foo": "bar"})
 
-        self.assertEqual(overriding(), {"foo": "bar"})
+        assert overriding() == {"foo": "bar"}
 
     def test_forward_attr_to_none(self):
         provider = providers.Dependency()
-        with self.assertRaises(AttributeError):
+        with raises(AttributeError):
             provider.from_dict
 
     def test_deepcopy(self):
@@ -564,8 +561,8 @@ class DependencyTests(unittest.TestCase):
 
         provider_copy = providers.deepcopy(provider)
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertIsInstance(provider, providers.Dependency)
+        assert provider is not provider_copy
+        assert isinstance(provider, providers.Dependency)
 
     def test_deepcopy_from_memo(self):
         provider = providers.Dependency(int)
@@ -574,7 +571,7 @@ class DependencyTests(unittest.TestCase):
         provider_copy = providers.deepcopy(
             provider, memo={id(provider): provider_copy_memo})
 
-        self.assertIs(provider_copy, provider_copy_memo)
+        assert provider_copy is provider_copy_memo
 
     def test_deepcopy_overridden(self):
         provider = providers.Dependency(int)
@@ -585,11 +582,11 @@ class DependencyTests(unittest.TestCase):
         provider_copy = providers.deepcopy(provider)
         overriding_provider_copy = provider_copy.overridden[0]
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertIsInstance(provider, providers.Dependency)
+        assert provider is not provider_copy
+        assert isinstance(provider, providers.Dependency)
 
-        self.assertIsNot(overriding_provider, overriding_provider_copy)
-        self.assertIsInstance(overriding_provider_copy, providers.Provider)
+        assert overriding_provider is not overriding_provider_copy
+        assert isinstance(overriding_provider_copy, providers.Provider)
 
     def test_deep_copy_default_object(self):
         default = {"foo": "bar"}
@@ -597,8 +594,8 @@ class DependencyTests(unittest.TestCase):
 
         provider_copy = providers.deepcopy(provider)
 
-        self.assertIs(provider_copy(), default)
-        self.assertIs(provider_copy.default(), default)
+        assert provider_copy() is default
+        assert provider_copy.default() is default
 
     def test_deep_copy_default_provider(self):
         bar = object()
@@ -607,9 +604,9 @@ class DependencyTests(unittest.TestCase):
 
         provider_copy = providers.deepcopy(provider)
 
-        self.assertEqual(provider_copy(), {"foo": bar})
-        self.assertEqual(provider_copy.default(), {"foo": bar})
-        self.assertIs(provider_copy()["foo"], bar)
+        assert provider_copy() == {"foo": bar}
+        assert provider_copy.default() == {"foo": bar}
+        assert provider_copy()["foo"] is bar
 
     def test_with_container_default_object(self):
         default = {"foo": "bar"}
@@ -619,8 +616,8 @@ class DependencyTests(unittest.TestCase):
 
         container = Container()
 
-        self.assertIs(container.provider(), default)
-        self.assertIs(container.provider.default(), default)
+        assert container.provider() is default
+        assert container.provider.default() is default
 
     def test_with_container_default_provider(self):
         bar = object()
@@ -630,9 +627,9 @@ class DependencyTests(unittest.TestCase):
 
         container = Container()
 
-        self.assertEqual(container.provider(), {"foo": bar})
-        self.assertEqual(container.provider.default(), {"foo": bar})
-        self.assertIs(container.provider()["foo"], bar)
+        assert container.provider() == {"foo": bar}
+        assert container.provider.default() == {"foo": bar}
+        assert container.provider()["foo"] is bar
 
     def test_with_container_default_provider_with_overriding(self):
         bar = object()
@@ -643,16 +640,15 @@ class DependencyTests(unittest.TestCase):
 
         container = Container(provider=providers.Factory(dict, foo=providers.Object(baz)))
 
-        self.assertEqual(container.provider(), {"foo": baz})
-        self.assertEqual(container.provider.default(), {"foo": bar})
-        self.assertIs(container.provider()["foo"], baz)
+        assert container.provider() == {"foo": baz}
+        assert container.provider.default() == {"foo": bar}
+        assert container.provider()["foo"] is baz
 
     def test_repr(self):
-        self.assertEqual(repr(self.provider),
-                         "<dependency_injector.providers."
-                         "Dependency({0}) at {1}>".format(
-                             repr(list),
-                             hex(id(self.provider))))
+        assert repr(self.provider) == (
+            "<dependency_injector.providers."
+            "Dependency({0}) at {1}>".format(repr(list), hex(id(self.provider)))
+        )
 
     def test_repr_in_container(self):
         class Container(containers.DeclarativeContainer):
@@ -660,11 +656,13 @@ class DependencyTests(unittest.TestCase):
 
         container = Container()
 
-        self.assertEqual(repr(container.dependency),
-                         "<dependency_injector.providers."
-                         "Dependency({0}) at {1}, container name: \"Container.dependency\">".format(
-                             repr(int),
-                             hex(id(container.dependency))))
+        assert repr(container.dependency) == (
+            "<dependency_injector.providers."
+            "Dependency({0}) at {1}, container name: \"Container.dependency\">".format(
+                repr(int),
+                hex(id(container.dependency)),
+            )
+        )
 
 
 class ExternalDependencyTests(unittest.TestCase):
@@ -673,7 +671,7 @@ class ExternalDependencyTests(unittest.TestCase):
         self.provider = providers.ExternalDependency(instance_of=list)
 
     def test_is_instance(self):
-        self.assertIsInstance(self.provider, providers.Dependency)
+        assert isinstance(self.provider, providers.Dependency)
 
 
 class DependenciesContainerTests(unittest.TestCase):
@@ -690,47 +688,46 @@ class DependenciesContainerTests(unittest.TestCase):
         has_dependency = hasattr(self.provider, "dependency")
         dependency = self.provider.dependency
 
-        self.assertIsInstance(dependency, providers.Dependency)
-        self.assertIs(dependency, self.provider.dependency)
-        self.assertTrue(has_dependency)
-        self.assertIsNone(dependency.last_overriding)
+        assert isinstance(dependency, providers.Dependency)
+        assert dependency is self.provider.dependency
+        assert has_dependency is True
+        assert dependency.last_overriding is None
 
     def test_getattr_with_container(self):
         self.provider.override(self.container)
 
         dependency = self.provider.dependency
 
-        self.assertTrue(dependency.overridden)
-        self.assertIs(dependency.last_overriding, self.container.dependency)
+        assert dependency.overridden == (self.container.dependency,)
+        assert dependency.last_overriding is self.container.dependency
 
     def test_providers(self):
         dependency1 = self.provider.dependency1
         dependency2 = self.provider.dependency2
-        self.assertEqual(self.provider.providers, {"dependency1": dependency1,
-                                                   "dependency2": dependency2})
+        assert self.provider.providers == {"dependency1": dependency1, "dependency2": dependency2}
 
     def test_override(self):
         dependency = self.provider.dependency
         self.provider.override(self.container)
 
-        self.assertTrue(dependency.overridden)
-        self.assertIs(dependency.last_overriding, self.container.dependency)
+        assert dependency.overridden == (self.container.dependency,)
+        assert dependency.last_overriding is self.container.dependency
 
     def test_reset_last_overriding(self):
         dependency = self.provider.dependency
         self.provider.override(self.container)
         self.provider.reset_last_overriding()
 
-        self.assertIsNone(dependency.last_overriding)
-        self.assertIsNone(dependency.last_overriding)
+        assert dependency.last_overriding is None
+        assert dependency.last_overriding is None
 
     def test_reset_override(self):
         dependency = self.provider.dependency
         self.provider.override(self.container)
         self.provider.reset_override()
 
-        self.assertFalse(dependency.overridden)
-        self.assertFalse(dependency.overridden)
+        assert dependency.overridden == tuple()
+        assert not dependency.overridden
 
     def test_assign_parent(self):
         parent = providers.DependenciesContainer()
@@ -738,23 +735,23 @@ class DependenciesContainerTests(unittest.TestCase):
 
         provider.assign_parent(parent)
 
-        self.assertIs(provider.parent, parent)
+        assert provider.parent is parent
 
     def test_parent_name(self):
         container = containers.DynamicContainer()
         provider = providers.DependenciesContainer()
         container.name = provider
-        self.assertEqual(provider.parent_name, "name")
+        assert provider.parent_name == "name"
 
     def test_parent_name_with_deep_parenting(self):
         provider = providers.DependenciesContainer()
         container = providers.DependenciesContainer(name=provider)
         _ = providers.DependenciesContainer(container=container)
-        self.assertEqual(provider.parent_name, "container.name")
+        assert provider.parent_name == "container.name"
 
     def test_parent_name_is_none(self):
         provider = providers.DependenciesContainer()
-        self.assertIsNone(provider.parent_name)
+        assert provider.parent_name is None
 
     def test_parent_deepcopy(self):
         container = containers.DynamicContainer()
@@ -763,29 +760,29 @@ class DependenciesContainerTests(unittest.TestCase):
 
         copied = providers.deepcopy(container)
 
-        self.assertIs(container.name.parent, container)
-        self.assertIs(copied.name.parent, copied)
+        assert container.name.parent is container
+        assert copied.name.parent is copied
 
-        self.assertIsNot(container, copied)
-        self.assertIsNot(container.name, copied.name)
-        self.assertIsNot(container.name.parent, copied.name.parent)
+        assert container is not copied
+        assert container.name is not copied.name
+        assert container.name.parent is not copied.name.parent
 
     def test_parent_set_on__getattr__(self):
         provider = providers.DependenciesContainer()
-        self.assertIsInstance(provider.name, providers.Dependency)
-        self.assertIs(provider.name.parent, provider)
+        assert isinstance(provider.name, providers.Dependency)
+        assert provider.name.parent is provider
 
     def test_parent_set_on__init__(self):
         provider = providers.Dependency()
         container = providers.DependenciesContainer(name=provider)
-        self.assertIs(container.name, provider)
-        self.assertIs(container.name.parent, container)
+        assert container.name is provider
+        assert container.name.parent is container
 
     def test_resolve_provider_name(self):
         container = providers.DependenciesContainer()
-        self.assertEqual(container.resolve_provider_name(container.name), "name")
+        assert container.resolve_provider_name(container.name) == "name"
 
     def test_resolve_provider_name_no_provider(self):
         container = providers.DependenciesContainer()
-        with self.assertRaises(errors.Error):
+        with raises(errors.Error):
             container.resolve_provider_name(providers.Provider())

@@ -18,10 +18,10 @@ class TraverseTests(unittest.TestCase):
 
         all_providers = list(providers.traverse(provider1))
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(provider3, all_providers)
+        assert len(all_providers) == 3
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert provider3 in all_providers
 
     def test_traverse_types_filtering(self):
         provider1 = providers.Resource(dict)
@@ -36,9 +36,9 @@ class TraverseTests(unittest.TestCase):
 
         all_providers = list(providers.traverse(provider, types=[providers.Resource]))
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
 
 class ProviderTests(unittest.TestCase):
@@ -56,10 +56,10 @@ class ProviderTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(provider3, all_providers)
+        assert len(all_providers) == 3
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert provider3 in all_providers
 
     def test_traversal_overriding_nested(self):
         provider1 = providers.Provider()
@@ -75,10 +75,10 @@ class ProviderTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(provider3, all_providers)
+        assert len(all_providers) == 3
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert provider3 in all_providers
 
     def test_traverse_types_filtering(self):
         provider1 = providers.Resource(dict)
@@ -93,9 +93,9 @@ class ProviderTests(unittest.TestCase):
 
         all_providers = list(provider.traverse(types=[providers.Resource]))
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
 
 class ObjectTests(unittest.TestCase):
@@ -103,7 +103,7 @@ class ObjectTests(unittest.TestCase):
     def test_traversal(self):
         provider = providers.Object("string")
         all_providers = list(provider.traverse())
-        self.assertEqual(len(all_providers), 0)
+        assert len(all_providers) == 0
 
     def test_traversal_provider(self):
         another_provider = providers.Provider()
@@ -111,8 +111,8 @@ class ObjectTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 1)
-        self.assertIn(another_provider, all_providers)
+        assert len(all_providers) == 1
+        assert another_provider in all_providers
 
     def test_traversal_provider_and_overriding(self):
         another_provider_1 = providers.Provider()
@@ -126,10 +126,10 @@ class ObjectTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(another_provider_1, all_providers)
-        self.assertIn(another_provider_2, all_providers)
-        self.assertIn(another_provider_3, all_providers)
+        assert len(all_providers) == 3
+        assert another_provider_1 in all_providers
+        assert another_provider_2 in all_providers
+        assert another_provider_3 in all_providers
 
 
 class DelegateTests(unittest.TestCase):
@@ -140,8 +140,8 @@ class DelegateTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 1)
-        self.assertIn(another_provider, all_providers)
+        assert len(all_providers) == 1
+        assert another_provider in all_providers
 
     def test_traversal_provider_and_overriding(self):
         provider1 = providers.Provider()
@@ -156,10 +156,10 @@ class DelegateTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(provider3, all_providers)
+        assert len(all_providers) == 3
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert provider3 in all_providers
 
 
 class DependencyTests(unittest.TestCase):
@@ -167,7 +167,7 @@ class DependencyTests(unittest.TestCase):
     def test_traversal(self):
         provider = providers.Dependency()
         all_providers = list(provider.traverse())
-        self.assertEqual(len(all_providers), 0)
+        assert len(all_providers) == 0
 
     def test_traversal_default(self):
         another_provider = providers.Provider()
@@ -175,8 +175,8 @@ class DependencyTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 1)
-        self.assertIn(another_provider, all_providers)
+        assert len(all_providers) == 1
+        assert another_provider in all_providers
 
     def test_traversal_overriding(self):
         provider1 = providers.Provider()
@@ -189,9 +189,9 @@ class DependencyTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
 
 class DependenciesContainerTests(unittest.TestCase):
@@ -199,7 +199,7 @@ class DependenciesContainerTests(unittest.TestCase):
     def test_traversal(self):
         provider = providers.DependenciesContainer()
         all_providers = list(provider.traverse())
-        self.assertEqual(len(all_providers), 0)
+        assert len(all_providers) == 0
 
     def test_traversal_default(self):
         another_provider = providers.Provider()
@@ -207,8 +207,8 @@ class DependenciesContainerTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 1)
-        self.assertIn(another_provider, all_providers)
+        assert len(all_providers) == 1
+        assert another_provider in all_providers
 
     def test_traversal_fluent_interface(self):
         provider = providers.DependenciesContainer()
@@ -217,9 +217,9 @@ class DependenciesContainerTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traversal_overriding(self):
         provider1 = providers.Provider()
@@ -234,12 +234,12 @@ class DependenciesContainerTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 5)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(provider3, all_providers)
-        self.assertIn(provider.provider1, all_providers)
-        self.assertIn(provider.provider2, all_providers)
+        assert len(all_providers) == 5
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert provider3 in all_providers
+        assert provider.provider1 in all_providers
+        assert provider.provider2 in all_providers
 
 
 class CallableTests(unittest.TestCase):
@@ -247,7 +247,7 @@ class CallableTests(unittest.TestCase):
     def test_traverse(self):
         provider = providers.Callable(dict)
         all_providers = list(provider.traverse())
-        self.assertEqual(len(all_providers), 0)
+        assert len(all_providers) == 0
 
     def test_traverse_args(self):
         provider1 = providers.Object("bar")
@@ -256,9 +256,9 @@ class CallableTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_kwargs(self):
         provider1 = providers.Object("bar")
@@ -267,9 +267,9 @@ class CallableTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_overridden(self):
         provider1 = providers.Object("bar")
@@ -281,9 +281,9 @@ class CallableTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_provides(self):
         provider1 = providers.Callable(list)
@@ -295,10 +295,10 @@ class CallableTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(provider3, all_providers)
+        assert len(all_providers) == 3
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert provider3 in all_providers
 
 
 class ConfigurationTests(unittest.TestCase):
@@ -311,10 +311,10 @@ class ConfigurationTests(unittest.TestCase):
 
         all_providers = list(config.traverse())
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(option1, all_providers)
-        self.assertIn(option2, all_providers)
-        self.assertIn(option3, all_providers)
+        assert len(all_providers) == 3
+        assert option1 in all_providers
+        assert option2 in all_providers
+        assert option3 in all_providers
 
     def test_traverse_typed(self):
         config = providers.Configuration()
@@ -323,8 +323,8 @@ class ConfigurationTests(unittest.TestCase):
 
         all_providers = list(typed_option.traverse())
 
-        self.assertEqual(len(all_providers), 1)
-        self.assertIn(option, all_providers)
+        assert len(all_providers) == 1
+        assert option in all_providers
 
     def test_traverse_overridden(self):
         options = {"option1": {"option2": "option2"}}
@@ -333,10 +333,10 @@ class ConfigurationTests(unittest.TestCase):
 
         all_providers = list(config.traverse())
 
-        self.assertEqual(len(all_providers), 1)
+        assert len(all_providers) == 1
         overridden, = all_providers
-        self.assertEqual(overridden(), options)
-        self.assertIs(overridden, config.last_overriding)
+        assert overridden() == options
+        assert overridden is config.last_overriding
 
     def test_traverse_overridden_option_1(self):
         options = {"option2": "option2"}
@@ -345,9 +345,9 @@ class ConfigurationTests(unittest.TestCase):
 
         all_providers = list(config.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(config.option1, all_providers)
-        self.assertIn(config.last_overriding, all_providers)
+        assert len(all_providers) == 2
+        assert config.option1 in all_providers
+        assert config.last_overriding in all_providers
 
     def test_traverse_overridden_option_2(self):
         options = {"option2": "option2"}
@@ -356,7 +356,7 @@ class ConfigurationTests(unittest.TestCase):
 
         all_providers = list(config.option1.traverse())
 
-        self.assertEqual(len(all_providers), 0)
+        assert len(all_providers) == 0
 
 
 class FactoryTests(unittest.TestCase):
@@ -364,7 +364,7 @@ class FactoryTests(unittest.TestCase):
     def test_traverse(self):
         provider = providers.Factory(dict)
         all_providers = list(provider.traverse())
-        self.assertEqual(len(all_providers), 0)
+        assert len(all_providers) == 0
 
     def test_traverse_args(self):
         provider1 = providers.Object("bar")
@@ -373,9 +373,9 @@ class FactoryTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_kwargs(self):
         provider1 = providers.Object("bar")
@@ -384,9 +384,9 @@ class FactoryTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_attributes(self):
         provider1 = providers.Object("bar")
@@ -396,9 +396,9 @@ class FactoryTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_overridden(self):
         provider1 = providers.Object("bar")
@@ -410,9 +410,9 @@ class FactoryTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_provides(self):
         provider1 = providers.Callable(list)
@@ -424,10 +424,10 @@ class FactoryTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(provider3, all_providers)
+        assert len(all_providers) == 3
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert provider3 in all_providers
 
 
 class FactoryAggregateTests(unittest.TestCase):
@@ -439,9 +439,9 @@ class FactoryAggregateTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(factory1, all_providers)
-        self.assertIn(factory2, all_providers)
+        assert len(all_providers) == 2
+        assert factory1 in all_providers
+        assert factory2 in all_providers
 
 
 class BaseSingletonTests(unittest.TestCase):
@@ -449,7 +449,7 @@ class BaseSingletonTests(unittest.TestCase):
     def test_traverse(self):
         provider = providers.Singleton(dict)
         all_providers = list(provider.traverse())
-        self.assertEqual(len(all_providers), 0)
+        assert len(all_providers) == 0
 
     def test_traverse_args(self):
         provider1 = providers.Object("bar")
@@ -458,9 +458,9 @@ class BaseSingletonTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_kwargs(self):
         provider1 = providers.Object("bar")
@@ -469,9 +469,9 @@ class BaseSingletonTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_attributes(self):
         provider1 = providers.Object("bar")
@@ -481,9 +481,9 @@ class BaseSingletonTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_overridden(self):
         provider1 = providers.Object("bar")
@@ -495,9 +495,9 @@ class BaseSingletonTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_provides(self):
         provider1 = providers.Callable(list)
@@ -509,10 +509,10 @@ class BaseSingletonTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(provider3, all_providers)
+        assert len(all_providers) == 3
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert provider3 in all_providers
 
 
 class ListTests(unittest.TestCase):
@@ -524,9 +524,9 @@ class ListTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_overridden(self):
         provider1 = providers.Object("bar")
@@ -538,10 +538,10 @@ class ListTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(provider3, all_providers)
+        assert len(all_providers) == 3
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert provider3 in all_providers
 
 
 class DictTests(unittest.TestCase):
@@ -553,9 +553,9 @@ class DictTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_overridden(self):
         provider1 = providers.Object("bar")
@@ -567,10 +567,10 @@ class DictTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(provider3, all_providers)
+        assert len(all_providers) == 3
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert provider3 in all_providers
 
 
 class ResourceTests(unittest.TestCase):
@@ -578,7 +578,7 @@ class ResourceTests(unittest.TestCase):
     def test_traverse(self):
         provider = providers.Resource(dict)
         all_providers = list(provider.traverse())
-        self.assertEqual(len(all_providers), 0)
+        assert len(all_providers) == 0
 
     def test_traverse_args(self):
         provider1 = providers.Object("bar")
@@ -587,9 +587,9 @@ class ResourceTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_kwargs(self):
         provider1 = providers.Object("bar")
@@ -598,9 +598,9 @@ class ResourceTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_overridden(self):
         provider1 = providers.Resource(list)
@@ -612,9 +612,9 @@ class ResourceTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_provides(self):
         provider1 = providers.Callable(list)
@@ -623,8 +623,8 @@ class ResourceTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 1)
-        self.assertIn(provider1, all_providers)
+        assert len(all_providers) == 1
+        assert provider1 in all_providers
 
 
 class ContainerTests(unittest.TestCase):
@@ -638,11 +638,8 @@ class ContainerTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertEqual(
-            {provider.provides for provider in all_providers},
-            {list,  dict},
-        )
+        assert len(all_providers) == 2
+        assert {list,  dict} == {provider.provides for provider in all_providers}
 
     def test_traverse_overridden(self):
         class Container1(containers.DeclarativeContainer):
@@ -660,17 +657,14 @@ class ContainerTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 5)
-        self.assertEqual(
-            {
-                provider.provides
-                for provider in all_providers
-                if isinstance(provider, providers.Callable)
-            },
-            {list, dict, tuple, str},
-        )
-        self.assertIn(provider.last_overriding, all_providers)
-        self.assertIs(provider.last_overriding(), container2)
+        assert len(all_providers) == 5
+        assert {list, dict, tuple, str} == {
+            provider.provides
+            for provider in all_providers
+            if isinstance(provider, providers.Callable)
+        }
+        assert provider.last_overriding in all_providers
+        assert provider.last_overriding() is container2
 
 
 class SelectorTests(unittest.TestCase):
@@ -688,9 +682,9 @@ class SelectorTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_switch(self):
         switch = providers.Callable(lambda: "provider1")
@@ -705,10 +699,10 @@ class SelectorTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(switch, all_providers)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 3
+        assert switch in all_providers
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
     def test_traverse_overridden(self):
         provider1 = providers.Callable(list)
@@ -723,10 +717,10 @@ class SelectorTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(selector1, all_providers)
+        assert len(all_providers) == 3
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert selector1 in all_providers
 
 
 class ProvidedInstanceTests(unittest.TestCase):
@@ -737,8 +731,8 @@ class ProvidedInstanceTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 1)
-        self.assertIn(provider1, all_providers)
+        assert len(all_providers) == 1
+        assert provider1 in all_providers
 
     def test_traverse_overridden(self):
         provider1 = providers.Provider()
@@ -749,9 +743,9 @@ class ProvidedInstanceTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provider2 in all_providers
 
 
 class AttributeGetterTests(unittest.TestCase):
@@ -763,9 +757,9 @@ class AttributeGetterTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provided, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provided in all_providers
 
     def test_traverse_overridden(self):
         provider1 = providers.Provider()
@@ -777,10 +771,10 @@ class AttributeGetterTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(provided, all_providers)
+        assert len(all_providers) == 3
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert provided in all_providers
 
 
 class ItemGetterTests(unittest.TestCase):
@@ -792,9 +786,9 @@ class ItemGetterTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 2)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provided, all_providers)
+        assert len(all_providers) == 2
+        assert provider1 in all_providers
+        assert provided in all_providers
 
     def test_traverse_overridden(self):
         provider1 = providers.Provider()
@@ -806,10 +800,10 @@ class ItemGetterTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(provided, all_providers)
+        assert len(all_providers) == 3
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert provided in all_providers
 
 
 class MethodCallerTests(unittest.TestCase):
@@ -822,10 +816,10 @@ class MethodCallerTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 3)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provided, all_providers)
-        self.assertIn(method, all_providers)
+        assert len(all_providers) == 3
+        assert provider1 in all_providers
+        assert provided in all_providers
+        assert method in all_providers
 
     def test_traverse_args(self):
         provider1 = providers.Provider()
@@ -836,11 +830,11 @@ class MethodCallerTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 4)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(provided, all_providers)
-        self.assertIn(method, all_providers)
+        assert len(all_providers) == 4
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert provided in all_providers
+        assert method in all_providers
 
     def test_traverse_kwargs(self):
         provider1 = providers.Provider()
@@ -851,11 +845,11 @@ class MethodCallerTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 4)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(provided, all_providers)
-        self.assertIn(method, all_providers)
+        assert len(all_providers) == 4
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert provided in all_providers
+        assert method in all_providers
 
     def test_traverse_overridden(self):
         provider1 = providers.Provider()
@@ -868,8 +862,8 @@ class MethodCallerTests(unittest.TestCase):
 
         all_providers = list(provider.traverse())
 
-        self.assertEqual(len(all_providers), 4)
-        self.assertIn(provider1, all_providers)
-        self.assertIn(provider2, all_providers)
-        self.assertIn(provided, all_providers)
-        self.assertIn(method, all_providers)
+        assert len(all_providers) == 4
+        assert provider1 in all_providers
+        assert provider2 in all_providers
+        assert provided in all_providers
+        assert method in all_providers

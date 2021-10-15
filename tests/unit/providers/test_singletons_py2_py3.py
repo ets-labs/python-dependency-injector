@@ -6,6 +6,7 @@ from dependency_injector import (
     providers,
     errors,
 )
+from pytest import raises
 
 from .singleton_common import Example, _BaseSingletonTestCase
 
@@ -16,12 +17,10 @@ class SingletonTests(_BaseSingletonTestCase, unittest.TestCase):
 
     def test_repr(self):
         provider = self.singleton_cls(Example)
-
-        self.assertEqual(repr(provider),
-                         "<dependency_injector.providers."
-                         "Singleton({0}) at {1}>".format(
-                             repr(Example),
-                             hex(id(provider))))
+        assert repr(provider) == (
+            "<dependency_injector.providers."
+            "Singleton({0}) at {1}>".format(repr(Example), hex(id(provider)))
+        )
 
 
 class DelegatedSingletonTests(_BaseSingletonTestCase, unittest.TestCase):
@@ -30,16 +29,14 @@ class DelegatedSingletonTests(_BaseSingletonTestCase, unittest.TestCase):
 
     def test_is_delegated_provider(self):
         provider = self.singleton_cls(object)
-        self.assertTrue(providers.is_delegated(provider))
+        assert providers.is_delegated(provider) is True
 
     def test_repr(self):
         provider = self.singleton_cls(Example)
-
-        self.assertEqual(repr(provider),
-                         "<dependency_injector.providers."
-                         "DelegatedSingleton({0}) at {1}>".format(
-                             repr(Example),
-                             hex(id(provider))))
+        assert repr(provider) == (
+            "<dependency_injector.providers."
+            "DelegatedSingleton({0}) at {1}>".format(repr(Example), hex(id(provider)))
+        )
 
 
 class ThreadLocalSingletonTests(_BaseSingletonTestCase, unittest.TestCase):
@@ -48,25 +45,23 @@ class ThreadLocalSingletonTests(_BaseSingletonTestCase, unittest.TestCase):
 
     def test_repr(self):
         provider = providers.ThreadLocalSingleton(Example)
-
-        self.assertEqual(repr(provider),
-                         "<dependency_injector.providers."
-                         "ThreadLocalSingleton({0}) at {1}>".format(
-                             repr(Example),
-                             hex(id(provider))))
+        assert repr(provider) == (
+            "<dependency_injector.providers."
+            "ThreadLocalSingleton({0}) at {1}>".format(repr(Example), hex(id(provider)))
+        )
 
     def test_reset(self):
         provider = providers.ThreadLocalSingleton(Example)
 
         instance1 = provider()
-        self.assertIsInstance(instance1, Example)
+        assert isinstance(instance1, Example)
 
         provider.reset()
 
         instance2 = provider()
-        self.assertIsInstance(instance2, Example)
+        assert isinstance(instance2, Example)
 
-        self.assertIsNot(instance1, instance2)
+        assert instance1 is not instance2
 
     def test_reset_clean(self):
         provider = providers.ThreadLocalSingleton(Example)
@@ -76,7 +71,7 @@ class ThreadLocalSingletonTests(_BaseSingletonTestCase, unittest.TestCase):
         provider.reset()
 
         instance2 = provider()
-        self.assertIsNot(instance1, instance2)
+        assert instance1 is not instance2
 
 
 class DelegatedThreadLocalSingletonTests(_BaseSingletonTestCase,
@@ -86,16 +81,15 @@ class DelegatedThreadLocalSingletonTests(_BaseSingletonTestCase,
 
     def test_is_delegated_provider(self):
         provider = self.singleton_cls(object)
-        self.assertTrue(providers.is_delegated(provider))
+        assert providers.is_delegated(provider) is True
 
     def test_repr(self):
         provider = self.singleton_cls(Example)
 
-        self.assertEqual(repr(provider),
-                         "<dependency_injector.providers."
-                         "DelegatedThreadLocalSingleton({0}) at {1}>".format(
-                             repr(Example),
-                             hex(id(provider))))
+        assert repr(provider) == (
+            "<dependency_injector.providers."
+            "DelegatedThreadLocalSingleton({0}) at {1}>".format(repr(Example), hex(id(provider)))
+        )
 
 
 class ThreadSafeSingletonTests(_BaseSingletonTestCase, unittest.TestCase):
@@ -104,12 +98,10 @@ class ThreadSafeSingletonTests(_BaseSingletonTestCase, unittest.TestCase):
 
     def test_repr(self):
         provider = self.singleton_cls(Example)
-
-        self.assertEqual(repr(provider),
-                         "<dependency_injector.providers."
-                         "ThreadSafeSingleton({0}) at {1}>".format(
-                             repr(Example),
-                             hex(id(provider))))
+        assert repr(provider) == (
+            "<dependency_injector.providers."
+            "ThreadSafeSingleton({0}) at {1}>".format(repr(Example), hex(id(provider)))
+        )
 
 
 class DelegatedThreadSafeSingletonTests(_BaseSingletonTestCase,
@@ -119,40 +111,38 @@ class DelegatedThreadSafeSingletonTests(_BaseSingletonTestCase,
 
     def test_is_delegated_provider(self):
         provider = self.singleton_cls(object)
-        self.assertTrue(providers.is_delegated(provider))
+        assert providers.is_delegated(provider) is True
 
     def test_repr(self):
         provider = self.singleton_cls(Example)
-
-        self.assertEqual(repr(provider),
-                         "<dependency_injector.providers."
-                         "DelegatedThreadSafeSingleton({0}) at {1}>".format(
-                             repr(Example),
-                             hex(id(provider))))
+        assert repr(provider) == (
+            "<dependency_injector.providers."
+            "DelegatedThreadSafeSingleton({0}) at {1}>".format(repr(Example), hex(id(provider)))
+        )
 
 
 class AbstractSingletonTests(unittest.TestCase):
 
     def test_inheritance(self):
-        self.assertIsInstance(providers.AbstractSingleton(Example),
+        assert isinstance(providers.AbstractSingleton(Example),
                               providers.BaseSingleton)
 
     def test_call_overridden_by_singleton(self):
         provider = providers.AbstractSingleton(object)
         provider.override(providers.Singleton(Example))
 
-        self.assertIsInstance(provider(), Example)
+        assert isinstance(provider(), Example)
 
     def test_call_overridden_by_delegated_singleton(self):
         provider = providers.AbstractSingleton(object)
         provider.override(providers.DelegatedSingleton(Example))
 
-        self.assertIsInstance(provider(), Example)
+        assert isinstance(provider(), Example)
 
     def test_call_not_overridden(self):
         provider = providers.AbstractSingleton(object)
 
-        with self.assertRaises(errors.Error):
+        with raises(errors.Error):
             provider()
 
     def test_reset_overridden(self):
@@ -165,30 +155,28 @@ class AbstractSingletonTests(unittest.TestCase):
 
         instance2 = provider()
 
-        self.assertIsNot(instance1, instance2)
-        self.assertIsInstance(instance1, Example)
-        self.assertIsInstance(instance2, Example)
+        assert instance1 is not instance2
+        assert isinstance(instance1, Example)
+        assert isinstance(instance2, Example)
 
     def test_reset_not_overridden(self):
         provider = providers.AbstractSingleton(object)
 
-        with self.assertRaises(errors.Error):
+        with raises(errors.Error):
             provider.reset()
 
     def test_override_by_not_singleton(self):
         provider = providers.AbstractSingleton(object)
 
-        with self.assertRaises(errors.Error):
+        with raises(errors.Error):
             provider.override(providers.Factory(object))
 
     def test_repr(self):
         provider = providers.AbstractSingleton(Example)
-
-        self.assertEqual(repr(provider),
-                         "<dependency_injector.providers."
-                         "AbstractSingleton({0}) at {1}>".format(
-                             repr(Example),
-                             hex(id(provider))))
+        assert repr(provider) == (
+            "<dependency_injector.providers."
+            "AbstractSingleton({0}) at {1}>".format(repr(Example), hex(id(provider)))
+        )
 
 
 class SingletonDelegateTests(unittest.TestCase):
@@ -198,9 +186,9 @@ class SingletonDelegateTests(unittest.TestCase):
         self.delegate = providers.SingletonDelegate(self.delegated)
 
     def test_is_delegate(self):
-        self.assertIsInstance(self.delegate, providers.Delegate)
+        assert isinstance(self.delegate, providers.Delegate)
 
     def test_init_with_not_singleton(self):
-        self.assertRaises(errors.Error,
+        raises(errors.Error,
                           providers.SingletonDelegate,
                           providers.Object(object()))

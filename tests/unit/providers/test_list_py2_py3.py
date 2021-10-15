@@ -10,11 +10,11 @@ from dependency_injector import providers
 class ListTests(unittest.TestCase):
 
     def test_is_provider(self):
-        self.assertTrue(providers.is_provider(providers.List()))
+        assert providers.is_provider(providers.List()) is True
 
     def test_provided_instance_provider(self):
         provider = providers.List()
-        self.assertIsInstance(provider.provided, providers.ProvidedInstance)
+        assert isinstance(provider.provided, providers.ProvidedInstance)
 
     def test_call_with_init_positional_args(self):
         provider = providers.List("i1", "i2")
@@ -22,33 +22,30 @@ class ListTests(unittest.TestCase):
         list1 = provider()
         list2 = provider()
 
-        self.assertEqual(list1, ["i1", "i2"])
-        self.assertEqual(list2, ["i1", "i2"])
-
-        self.assertIsNot(list1, list2)
+        assert list1 == ["i1", "i2"]
+        assert list2 == ["i1", "i2"]
+        assert list1 is not list2
 
     def test_call_with_context_args(self):
         provider = providers.List("i1", "i2")
-
-        self.assertEqual(provider("i3", "i4"), ["i1", "i2", "i3", "i4"])
+        assert provider("i3", "i4") == ["i1", "i2", "i3", "i4"]
 
     def test_fluent_interface(self):
         provider = providers.List() \
             .add_args(1, 2)
-
-        self.assertEqual(provider(), [1, 2])
+        assert provider() == [1, 2]
 
     def test_set_args(self):
         provider = providers.List() \
             .add_args(1, 2) \
             .set_args(3, 4)
-        self.assertEqual(provider.args, (3, 4))
+        assert provider.args == (3, 4)
 
     def test_clear_args(self):
         provider = providers.List() \
             .add_args(1, 2) \
             .clear_args()
-        self.assertEqual(provider.args, tuple())
+        assert provider.args == tuple()
 
     def test_call_overridden(self):
         provider = providers.List(1, 2)
@@ -61,27 +58,26 @@ class ListTests(unittest.TestCase):
         instance1 = provider()
         instance2 = provider()
 
-        self.assertIsNot(instance1, instance2)
-        self.assertEqual(instance1, [3, 4])
-        self.assertEqual(instance2, [3, 4])
+        assert instance1 is not instance2
+        assert instance1 == [3, 4]
+        assert instance2 == [3, 4]
 
     def test_deepcopy(self):
         provider = providers.List(1, 2)
 
         provider_copy = providers.deepcopy(provider)
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertEqual(provider.args, provider_copy.args)
-        self.assertIsInstance(provider, providers.List)
+        assert provider is not provider_copy
+        assert provider.args == provider_copy.args
+        assert isinstance(provider, providers.List)
 
     def test_deepcopy_from_memo(self):
         provider = providers.List(1, 2)
         provider_copy_memo = providers.List(1, 2)
 
-        provider_copy = providers.deepcopy(
-            provider, memo={id(provider): provider_copy_memo})
+        provider_copy = providers.deepcopy(provider, memo={id(provider): provider_copy_memo})
 
-        self.assertIs(provider_copy, provider_copy_memo)
+        assert provider_copy is provider_copy_memo
 
     def test_deepcopy_args(self):
         provider = providers.List()
@@ -94,13 +90,13 @@ class ListTests(unittest.TestCase):
         dependent_provider_copy1 = provider_copy.args[0]
         dependent_provider_copy2 = provider_copy.args[1]
 
-        self.assertNotEqual(provider.args, provider_copy.args)
+        assert provider.args != provider_copy.args
 
-        self.assertIs(dependent_provider1.cls, dependent_provider_copy1.cls)
-        self.assertIsNot(dependent_provider1, dependent_provider_copy1)
+        assert dependent_provider1.cls is dependent_provider_copy1.cls
+        assert dependent_provider1 is not dependent_provider_copy1
 
-        self.assertIs(dependent_provider2.cls, dependent_provider_copy2.cls)
-        self.assertIsNot(dependent_provider2, dependent_provider_copy2)
+        assert dependent_provider2.cls is dependent_provider_copy2.cls
+        assert dependent_provider2 is not dependent_provider_copy2
 
     def test_deepcopy_overridden(self):
         provider = providers.List()
@@ -111,12 +107,12 @@ class ListTests(unittest.TestCase):
         provider_copy = providers.deepcopy(provider)
         object_provider_copy = provider_copy.overridden[0]
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertEqual(provider.args, provider_copy.args)
-        self.assertIsInstance(provider, providers.List)
+        assert provider is not provider_copy
+        assert provider.args == provider_copy.args
+        assert isinstance(provider, providers.List)
 
-        self.assertIsNot(object_provider, object_provider_copy)
-        self.assertIsInstance(object_provider_copy, providers.Object)
+        assert object_provider is not object_provider_copy
+        assert isinstance(object_provider_copy, providers.Object)
 
     def test_deepcopy_with_sys_streams(self):
         provider = providers.List()
@@ -124,17 +120,15 @@ class ListTests(unittest.TestCase):
 
         provider_copy = providers.deepcopy(provider)
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertIsInstance(provider_copy, providers.List)
-        self.assertIs(provider.args[0], sys.stdin)
-        self.assertIs(provider.args[1], sys.stdout)
-        self.assertIs(provider.args[2], sys.stderr)
+        assert provider is not provider_copy
+        assert isinstance(provider_copy, providers.List)
+        assert provider.args[0] is sys.stdin
+        assert provider.args[1] is sys.stdout
+        assert provider.args[2] is sys.stderr
 
     def test_repr(self):
         provider = providers.List(1, 2)
-
-        self.assertEqual(repr(provider),
-                         "<dependency_injector.providers."
-                         "List({0}) at {1}>".format(
-                             repr(list(provider.args)),
-                             hex(id(provider))))
+        assert repr(provider) == (
+            "<dependency_injector.providers."
+            "List({0}) at {1}>".format(repr(list(provider.args)), hex(id(provider)))
+        )

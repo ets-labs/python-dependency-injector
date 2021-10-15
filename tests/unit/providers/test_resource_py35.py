@@ -6,6 +6,7 @@ import unittest
 from typing import Any
 
 from dependency_injector import containers, providers, resources, errors
+from pytest import raises
 
 # Runtime import to get asyncutils module
 import os
@@ -28,21 +29,21 @@ def init_fn(*args, **kwargs):
 class ResourceTests(unittest.TestCase):
 
     def test_is_provider(self):
-        self.assertTrue(providers.is_provider(providers.Resource(init_fn)))
+        assert providers.is_provider(providers.Resource(init_fn)) is True
 
     def test_init_optional_provides(self):
         provider = providers.Resource()
         provider.set_provides(init_fn)
-        self.assertIs(provider.provides, init_fn)
-        self.assertEqual(provider(), (tuple(), dict()))
+        assert provider.provides is init_fn
+        assert provider() == (tuple(), dict())
 
     def test_set_provides_returns_self(self):
         provider = providers.Resource()
-        self.assertIs(provider.set_provides(init_fn), provider)
+        assert provider.set_provides(init_fn) is provider
 
     def test_provided_instance_provider(self):
         provider = providers.Resource(init_fn)
-        self.assertIsInstance(provider.provided, providers.ProvidedInstance)
+        assert isinstance(provider.provided, providers.ProvidedInstance)
 
     def test_injection(self):
         resource = object()
@@ -61,13 +62,13 @@ class ResourceTests(unittest.TestCase):
         list1 = container.dependency1()
         list2 = container.dependency2()
 
-        self.assertEqual(list1, [resource])
-        self.assertIs(list1[0], resource)
+        assert list1 == [resource]
+        assert list1[0] is resource
 
-        self.assertEqual(list2, [resource])
-        self.assertIs(list2[0], resource)
+        assert list2 == [resource]
+        assert list2[0] is resource
 
-        self.assertEqual(_init.counter, 1)
+        assert _init.counter == 1
 
     def test_init_function(self):
         def _init():
@@ -77,12 +78,12 @@ class ResourceTests(unittest.TestCase):
         provider = providers.Resource(_init)
 
         result1 = provider()
-        self.assertIsNone(result1)
-        self.assertEqual(_init.counter, 1)
+        assert result1 is None
+        assert _init.counter == 1
 
         result2 = provider()
-        self.assertIsNone(result2)
-        self.assertEqual(_init.counter, 1)
+        assert result2 is None
+        assert _init.counter == 1
 
         provider.shutdown()
 
@@ -98,22 +99,22 @@ class ResourceTests(unittest.TestCase):
         provider = providers.Resource(_init)
 
         result1 = provider()
-        self.assertIsNone(result1)
-        self.assertEqual(_init.init_counter, 1)
-        self.assertEqual(_init.shutdown_counter, 0)
+        assert result1 is None
+        assert _init.init_counter == 1
+        assert _init.shutdown_counter == 0
 
         provider.shutdown()
-        self.assertEqual(_init.init_counter, 1)
-        self.assertEqual(_init.shutdown_counter, 1)
+        assert _init.init_counter == 1
+        assert _init.shutdown_counter == 1
 
         result2 = provider()
-        self.assertIsNone(result2)
-        self.assertEqual(_init.init_counter, 2)
-        self.assertEqual(_init.shutdown_counter, 1)
+        assert result2 is None
+        assert _init.init_counter == 2
+        assert _init.shutdown_counter == 1
 
         provider.shutdown()
-        self.assertEqual(_init.init_counter, 2)
-        self.assertEqual(_init.shutdown_counter, 2)
+        assert _init.init_counter == 2
+        assert _init.shutdown_counter == 2
 
     def test_init_class(self):
         class TestResource(resources.Resource):
@@ -129,22 +130,22 @@ class ResourceTests(unittest.TestCase):
         provider = providers.Resource(TestResource)
 
         result1 = provider()
-        self.assertIsNone(result1)
-        self.assertEqual(TestResource.init_counter, 1)
-        self.assertEqual(TestResource.shutdown_counter, 0)
+        assert result1 is None
+        assert TestResource.init_counter == 1
+        assert TestResource.shutdown_counter == 0
 
         provider.shutdown()
-        self.assertEqual(TestResource.init_counter, 1)
-        self.assertEqual(TestResource.shutdown_counter, 1)
+        assert TestResource.init_counter == 1
+        assert TestResource.shutdown_counter == 1
 
         result2 = provider()
-        self.assertIsNone(result2)
-        self.assertEqual(TestResource.init_counter, 2)
-        self.assertEqual(TestResource.shutdown_counter, 1)
+        assert result2 is None
+        assert TestResource.init_counter == 2
+        assert TestResource.shutdown_counter == 1
 
         provider.shutdown()
-        self.assertEqual(TestResource.init_counter, 2)
-        self.assertEqual(TestResource.shutdown_counter, 2)
+        assert TestResource.init_counter == 2
+        assert TestResource.shutdown_counter == 2
 
     def test_init_class_generic_typing(self):
         # See issue: https://github.com/ets-labs/python-dependency-injector/issues/488
@@ -157,27 +158,27 @@ class ResourceTests(unittest.TestCase):
 
             def shutdown(self, resource: TestDependency) -> None: ...
 
-        self.assertTrue(issubclass(TestResource, resources.Resource))
+        assert issubclass(TestResource, resources.Resource) is True
 
     def test_init_class_abc_init_definition_is_required(self):
         class TestResource(resources.Resource):
             ...
 
-        with self.assertRaises(TypeError) as context:
+        with raises(TypeError) as context:
             TestResource()
 
-        self.assertIn("Can't instantiate abstract class TestResource", str(context.exception))
-        self.assertIn("init", str(context.exception))
+        assert "Can't instantiate abstract class TestResource" in str(context.value)
+        assert "init" in str(context.value)
 
     def test_init_class_abc_shutdown_definition_is_not_required(self):
         class TestResource(resources.Resource):
             def init(self):
                 ...
-        self.assertTrue(hasattr(TestResource(), "shutdown"))
+        assert hasattr(TestResource(), "shutdown") is True
 
     def test_init_not_callable(self):
         provider = providers.Resource(1)
-        with self.assertRaises(errors.Error):
+        with raises(errors.Error):
             provider.init()
 
     def test_init_and_shutdown(self):
@@ -192,22 +193,22 @@ class ResourceTests(unittest.TestCase):
         provider = providers.Resource(_init)
 
         result1 = provider.init()
-        self.assertIsNone(result1)
-        self.assertEqual(_init.init_counter, 1)
-        self.assertEqual(_init.shutdown_counter, 0)
+        assert result1 is None
+        assert _init.init_counter == 1
+        assert _init.shutdown_counter == 0
 
         provider.shutdown()
-        self.assertEqual(_init.init_counter, 1)
-        self.assertEqual(_init.shutdown_counter, 1)
+        assert _init.init_counter == 1
+        assert _init.shutdown_counter == 1
 
         result2 = provider.init()
-        self.assertIsNone(result2)
-        self.assertEqual(_init.init_counter, 2)
-        self.assertEqual(_init.shutdown_counter, 1)
+        assert result2 is None
+        assert _init.init_counter == 2
+        assert _init.shutdown_counter == 1
 
         provider.shutdown()
-        self.assertEqual(_init.init_counter, 2)
-        self.assertEqual(_init.shutdown_counter, 2)
+        assert _init.init_counter == 2
+        assert _init.shutdown_counter == 2
 
     def test_shutdown_of_not_initialized(self):
         def _init():
@@ -216,52 +217,51 @@ class ResourceTests(unittest.TestCase):
         provider = providers.Resource(_init)
 
         result = provider.shutdown()
-        self.assertIsNone(result)
+        assert result is None
 
     def test_initialized(self):
         provider = providers.Resource(init_fn)
-        self.assertFalse(provider.initialized)
+        assert provider.initialized is False
 
         provider.init()
-        self.assertTrue(provider.initialized)
+        assert provider.initialized is True
 
         provider.shutdown()
-        self.assertFalse(provider.initialized)
+        assert provider.initialized is False
 
     def test_call_with_context_args(self):
         provider = providers.Resource(init_fn, "i1", "i2")
-        self.assertEqual(provider("i3", i4=4), (("i1", "i2", "i3"), {"i4": 4}))
+        assert provider("i3", i4=4) == (("i1", "i2", "i3"), {"i4": 4})
 
     def test_fluent_interface(self):
         provider = providers.Resource(init_fn) \
             .add_args(1, 2) \
             .add_kwargs(a3=3, a4=4)
-
-        self.assertEqual(provider(), ((1, 2), {"a3": 3, "a4": 4}))
+        assert provider() == ((1, 2), {"a3": 3, "a4": 4})
 
     def test_set_args(self):
         provider = providers.Resource(init_fn) \
             .add_args(1, 2) \
             .set_args(3, 4)
-        self.assertEqual(provider.args, (3, 4))
+        assert provider.args == (3, 4)
 
     def test_clear_args(self):
         provider = providers.Resource(init_fn) \
             .add_args(1, 2) \
             .clear_args()
-        self.assertEqual(provider.args, tuple())
+        assert provider.args == tuple()
 
     def test_set_kwargs(self):
         provider = providers.Resource(init_fn) \
             .add_kwargs(a1="i1", a2="i2") \
             .set_kwargs(a3="i3", a4="i4")
-        self.assertEqual(provider.kwargs, {"a3": "i3", "a4": "i4"})
+        assert provider.kwargs == {"a3": "i3", "a4": "i4"}
 
     def test_clear_kwargs(self):
         provider = providers.Resource(init_fn) \
             .add_kwargs(a1="i1", a2="i2") \
             .clear_kwargs()
-        self.assertEqual(provider.kwargs, {})
+        assert provider.kwargs == {}
 
     def test_call_overridden(self):
         provider = providers.Resource(init_fn, 1)
@@ -274,25 +274,25 @@ class ResourceTests(unittest.TestCase):
         instance1 = provider()
         instance2 = provider()
 
-        self.assertIs(instance1, instance2)
-        self.assertEqual(instance1, ((3,), {}))
-        self.assertEqual(instance2, ((3,), {}))
+        assert instance1 is instance2
+        assert instance1 == ((3,), {})
+        assert instance2 == ((3,), {})
 
     def test_deepcopy(self):
         provider = providers.Resource(init_fn, 1, 2, a3=3, a4=4)
 
         provider_copy = providers.deepcopy(provider)
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertEqual(provider.args, provider_copy.args)
-        self.assertEqual(provider.kwargs, provider_copy.kwargs)
-        self.assertIsInstance(provider, providers.Resource)
+        assert provider is not provider_copy
+        assert provider.args == provider_copy.args
+        assert provider.kwargs == provider_copy.kwargs
+        assert isinstance(provider, providers.Resource)
 
     def test_deepcopy_initialized(self):
         provider = providers.Resource(init_fn)
         provider.init()
 
-        with self.assertRaises(errors.Error):
+        with raises(errors.Error):
             providers.deepcopy(provider)
 
     def test_deepcopy_from_memo(self):
@@ -304,7 +304,7 @@ class ResourceTests(unittest.TestCase):
             memo={id(provider): provider_copy_memo},
         )
 
-        self.assertIs(provider_copy, provider_copy_memo)
+        assert provider_copy is provider_copy_memo
 
     def test_deepcopy_args(self):
         provider = providers.Resource(init_fn)
@@ -317,13 +317,13 @@ class ResourceTests(unittest.TestCase):
         dependent_provider_copy1 = provider_copy.args[0]
         dependent_provider_copy2 = provider_copy.args[1]
 
-        self.assertNotEqual(provider.args, provider_copy.args)
+        assert provider.args != provider_copy.args
 
-        self.assertIs(dependent_provider1.cls, dependent_provider_copy1.cls)
-        self.assertIsNot(dependent_provider1, dependent_provider_copy1)
+        assert dependent_provider1.cls is dependent_provider_copy1.cls
+        assert dependent_provider1 is not dependent_provider_copy1
 
-        self.assertIs(dependent_provider2.cls, dependent_provider_copy2.cls)
-        self.assertIsNot(dependent_provider2, dependent_provider_copy2)
+        assert dependent_provider2.cls is dependent_provider_copy2.cls
+        assert dependent_provider2 is not dependent_provider_copy2
 
     def test_deepcopy_kwargs(self):
         provider = providers.Resource(init_fn)
@@ -336,13 +336,13 @@ class ResourceTests(unittest.TestCase):
         dependent_provider_copy1 = provider_copy.kwargs["d1"]
         dependent_provider_copy2 = provider_copy.kwargs["d2"]
 
-        self.assertNotEqual(provider.kwargs, provider_copy.kwargs)
+        assert provider.kwargs != provider_copy.kwargs
 
-        self.assertIs(dependent_provider1.cls, dependent_provider_copy1.cls)
-        self.assertIsNot(dependent_provider1, dependent_provider_copy1)
+        assert dependent_provider1.cls is dependent_provider_copy1.cls
+        assert dependent_provider1 is not dependent_provider_copy1
 
-        self.assertIs(dependent_provider2.cls, dependent_provider_copy2.cls)
-        self.assertIsNot(dependent_provider2, dependent_provider_copy2)
+        assert dependent_provider2.cls is dependent_provider_copy2.cls
+        assert dependent_provider2 is not dependent_provider_copy2
 
     def test_deepcopy_overridden(self):
         provider = providers.Resource(init_fn)
@@ -353,12 +353,12 @@ class ResourceTests(unittest.TestCase):
         provider_copy = providers.deepcopy(provider)
         object_provider_copy = provider_copy.overridden[0]
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertEqual(provider.args, provider_copy.args)
-        self.assertIsInstance(provider, providers.Resource)
+        assert provider is not provider_copy
+        assert provider.args == provider_copy.args
+        assert isinstance(provider, providers.Resource)
 
-        self.assertIsNot(object_provider, object_provider_copy)
-        self.assertIsInstance(object_provider_copy, providers.Object)
+        assert object_provider is not object_provider_copy
+        assert isinstance(object_provider_copy, providers.Object)
 
     def test_deepcopy_with_sys_streams(self):
         provider = providers.Resource(init_fn)
@@ -366,17 +366,16 @@ class ResourceTests(unittest.TestCase):
 
         provider_copy = providers.deepcopy(provider)
 
-        self.assertIsNot(provider, provider_copy)
-        self.assertIsInstance(provider_copy, providers.Resource)
-        self.assertIs(provider.args[0], sys.stdin)
-        self.assertIs(provider.args[1], sys.stdout)
-        self.assertIs(provider.args[2], sys.stderr)
+        assert provider is not provider_copy
+        assert isinstance(provider_copy, providers.Resource)
+        assert provider.args[0] is sys.stdin
+        assert provider.args[1] is sys.stdout
+        assert provider.args[2] is sys.stderr
 
     def test_repr(self):
         provider = providers.Resource(init_fn)
 
-        self.assertEqual(
-            repr(provider),
+        assert repr(provider) == (
             "<dependency_injector.providers.Resource({0}) at {1}>".format(
                 repr(init_fn),
                 hex(id(provider)),
@@ -398,12 +397,12 @@ class AsyncResourceTest(AsyncTestCase):
         provider = providers.Resource(_init)
 
         result1 = self._run(provider())
-        self.assertIs(result1, resource)
-        self.assertEqual(_init.counter, 1)
+        assert result1 is resource
+        assert _init.counter == 1
 
         result2 = self._run(provider())
-        self.assertIs(result2, resource)
-        self.assertEqual(_init.counter, 1)
+        assert result2 is resource
+        assert _init.counter == 1
 
         self._run(provider.shutdown())
 
@@ -425,22 +424,22 @@ class AsyncResourceTest(AsyncTestCase):
         provider = providers.Resource(_init)
 
         result1 = self._run(provider())
-        self.assertIs(result1, resource)
-        self.assertEqual(_init.init_counter, 1)
-        self.assertEqual(_init.shutdown_counter, 0)
+        assert result1 is resource
+        assert _init.init_counter == 1
+        assert _init.shutdown_counter == 0
 
         self._run(provider.shutdown())
-        self.assertEqual(_init.init_counter, 1)
-        self.assertEqual(_init.shutdown_counter, 1)
+        assert _init.init_counter == 1
+        assert _init.shutdown_counter == 1
 
         result2 = self._run(provider())
-        self.assertIs(result2, resource)
-        self.assertEqual(_init.init_counter, 2)
-        self.assertEqual(_init.shutdown_counter, 1)
+        assert result2 is resource
+        assert _init.init_counter == 2
+        assert _init.shutdown_counter == 1
 
         self._run(provider.shutdown())
-        self.assertEqual(_init.init_counter, 2)
-        self.assertEqual(_init.shutdown_counter, 2)
+        assert _init.init_counter == 2
+        assert _init.shutdown_counter == 2
 
     def test_init_async_class(self):
         resource = object()
@@ -462,22 +461,22 @@ class AsyncResourceTest(AsyncTestCase):
         provider = providers.Resource(TestResource)
 
         result1 = self._run(provider())
-        self.assertIs(result1, resource)
-        self.assertEqual(TestResource.init_counter, 1)
-        self.assertEqual(TestResource.shutdown_counter, 0)
+        assert result1 is resource
+        assert TestResource.init_counter == 1
+        assert TestResource.shutdown_counter == 0
 
         self._run(provider.shutdown())
-        self.assertEqual(TestResource.init_counter, 1)
-        self.assertEqual(TestResource.shutdown_counter, 1)
+        assert TestResource.init_counter == 1
+        assert TestResource.shutdown_counter == 1
 
         result2 = self._run(provider())
-        self.assertIs(result2, resource)
-        self.assertEqual(TestResource.init_counter, 2)
-        self.assertEqual(TestResource.shutdown_counter, 1)
+        assert result2 is resource
+        assert TestResource.init_counter == 2
+        assert TestResource.shutdown_counter == 1
 
         self._run(provider.shutdown())
-        self.assertEqual(TestResource.init_counter, 2)
-        self.assertEqual(TestResource.shutdown_counter, 2)
+        assert TestResource.init_counter == 2
+        assert TestResource.shutdown_counter == 2
 
     def test_init_async_class_generic_typing(self):
         # See issue: https://github.com/ets-labs/python-dependency-injector/issues/488
@@ -490,24 +489,24 @@ class AsyncResourceTest(AsyncTestCase):
 
             async def shutdown(self, resource: TestDependency) -> None: ...
 
-        self.assertTrue(issubclass(TestAsyncResource, resources.AsyncResource))
+        assert issubclass(TestAsyncResource, resources.AsyncResource) is True
 
     def test_init_async_class_abc_init_definition_is_required(self):
         class TestAsyncResource(resources.AsyncResource):
             ...
 
-        with self.assertRaises(TypeError) as context:
+        with raises(TypeError) as context:
             TestAsyncResource()
 
-        self.assertIn("Can't instantiate abstract class TestAsyncResource", str(context.exception))
-        self.assertIn("init", str(context.exception))
+        assert "Can't instantiate abstract class TestAsyncResource" in str(context.value)
+        assert "init" in str(context.value)
 
     def test_init_async_class_abc_shutdown_definition_is_not_required(self):
         class TestAsyncResource(resources.AsyncResource):
             async def init(self):
                 ...
-        self.assertTrue(hasattr(TestAsyncResource(), "shutdown"))
-        self.assertTrue(inspect.iscoroutinefunction(TestAsyncResource.shutdown))
+        assert hasattr(TestAsyncResource(), "shutdown") is True
+        assert inspect.iscoroutinefunction(TestAsyncResource.shutdown) is True
 
     def test_init_with_error(self):
         async def _init():
@@ -516,14 +515,14 @@ class AsyncResourceTest(AsyncTestCase):
         provider = providers.Resource(_init)
 
         future = provider()
-        self.assertTrue(provider.initialized)
-        self.assertTrue(provider.is_async_mode_enabled())
+        assert provider.initialized is True
+        assert provider.is_async_mode_enabled() is True
 
-        with self.assertRaises(RuntimeError):
+        with raises(RuntimeError):
             self._run(future)
 
-        self.assertFalse(provider.initialized)
-        self.assertTrue(provider.is_async_mode_enabled())
+        assert provider.initialized is False
+        assert provider.is_async_mode_enabled() is True
 
     def test_init_async_gen_with_error(self):
         async def _init():
@@ -533,14 +532,14 @@ class AsyncResourceTest(AsyncTestCase):
         provider = providers.Resource(_init)
 
         future = provider()
-        self.assertTrue(provider.initialized)
-        self.assertTrue(provider.is_async_mode_enabled())
+        assert provider.initialized is True
+        assert provider.is_async_mode_enabled() is True
 
-        with self.assertRaises(RuntimeError):
+        with raises(RuntimeError):
             self._run(future)
 
-        self.assertFalse(provider.initialized)
-        self.assertTrue(provider.is_async_mode_enabled())
+        assert provider.initialized is False
+        assert provider.is_async_mode_enabled() is True
 
     def test_init_async_subclass_with_error(self):
         class _Resource(resources.AsyncResource):
@@ -553,24 +552,24 @@ class AsyncResourceTest(AsyncTestCase):
         provider = providers.Resource(_Resource)
 
         future = provider()
-        self.assertTrue(provider.initialized)
-        self.assertTrue(provider.is_async_mode_enabled())
+        assert provider.initialized is True
+        assert provider.is_async_mode_enabled() is True
 
-        with self.assertRaises(RuntimeError):
+        with raises(RuntimeError):
             self._run(future)
 
-        self.assertFalse(provider.initialized)
-        self.assertTrue(provider.is_async_mode_enabled())
+        assert provider.initialized is False
+        assert provider.is_async_mode_enabled() is True
 
     def test_init_with_dependency_to_other_resource(self):
         # See: https://github.com/ets-labs/python-dependency-injector/issues/361
         async def init_db_connection(db_url: str):
             await asyncio.sleep(0.001)
-            yield {"connection": "ok", "url": db_url}
+            yield {"connection": "OK", "url": db_url}
 
         async def init_user_session(db):
             await asyncio.sleep(0.001)
-            yield {"session": "ok", "db": db}
+            yield {"session": "OK", "db": db}
 
         class Container(containers.DeclarativeContainer):
             config = providers.Configuration()
@@ -593,11 +592,7 @@ class AsyncResourceTest(AsyncTestCase):
                 await container.shutdown_resources()
 
         result = self._run(main())
-
-        self.assertEqual(
-            result,
-            {"session": "ok", "db": {"connection": "ok", "url": "postgres://..."}},
-        )
+        assert result == {"session": "OK", "db": {"connection": "OK", "url": "postgres://..."}}
 
     def test_init_and_shutdown_methods(self):
         async def _init():
@@ -615,20 +610,20 @@ class AsyncResourceTest(AsyncTestCase):
         provider = providers.Resource(_init)
 
         self._run(provider.init())
-        self.assertEqual(_init.init_counter, 1)
-        self.assertEqual(_init.shutdown_counter, 0)
+        assert _init.init_counter == 1
+        assert _init.shutdown_counter == 0
 
         self._run(provider.shutdown())
-        self.assertEqual(_init.init_counter, 1)
-        self.assertEqual(_init.shutdown_counter, 1)
+        assert _init.init_counter == 1
+        assert _init.shutdown_counter == 1
 
         self._run(provider.init())
-        self.assertEqual(_init.init_counter, 2)
-        self.assertEqual(_init.shutdown_counter, 1)
+        assert _init.init_counter == 2
+        assert _init.shutdown_counter == 1
 
         self._run(provider.shutdown())
-        self.assertEqual(_init.init_counter, 2)
-        self.assertEqual(_init.shutdown_counter, 2)
+        assert _init.init_counter == 2
+        assert _init.shutdown_counter == 2
 
     def test_shutdown_of_not_initialized(self):
         async def _init():
@@ -638,7 +633,7 @@ class AsyncResourceTest(AsyncTestCase):
         provider.enable_async_mode()
 
         result = self._run(provider.shutdown())
-        self.assertIsNone(result)
+        assert result is None
 
     def test_concurrent_init(self):
         resource = object()
@@ -658,8 +653,8 @@ class AsyncResourceTest(AsyncTestCase):
             ),
         )
 
-        self.assertIs(result1, resource)
-        self.assertEqual(_init.counter, 1)
+        assert result1 is resource
+        assert _init.counter == 1
 
-        self.assertIs(result2, resource)
-        self.assertEqual(_init.counter, 1)
+        assert result2 is resource
+        assert _init.counter == 1

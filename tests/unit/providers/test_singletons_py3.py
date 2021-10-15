@@ -12,24 +12,23 @@ class ContextLocalSingletonTests(_BaseSingletonTestCase, unittest.TestCase):
     def test_repr(self):
         provider = providers.ContextLocalSingleton(Example)
 
-        self.assertEqual(repr(provider),
-                         "<dependency_injector.providers."
-                         "ContextLocalSingleton({0}) at {1}>".format(
-                             repr(Example),
-                             hex(id(provider))))
+        assert repr(provider) == (
+            "<dependency_injector.providers."
+            "ContextLocalSingleton({0}) at {1}>".format(repr(Example), hex(id(provider)))
+        )
 
     def test_reset(self):
         provider = providers.ContextLocalSingleton(Example)
 
         instance1 = provider()
-        self.assertIsInstance(instance1, Example)
+        assert isinstance(instance1, Example)
 
         provider.reset()
 
         instance2 = provider()
-        self.assertIsInstance(instance2, Example)
+        assert isinstance(instance2, Example)
 
-        self.assertIsNot(instance1, instance2)
+        assert instance1 is not instance2
 
     def test_reset_clean(self):
         provider = providers.ContextLocalSingleton(Example)
@@ -39,4 +38,4 @@ class ContextLocalSingletonTests(_BaseSingletonTestCase, unittest.TestCase):
         provider.reset()
 
         instance2 = provider()
-        self.assertIsNot(instance1, instance2)
+        assert instance1 is not instance2

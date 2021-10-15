@@ -771,7 +771,7 @@ cdef class Dependency(Provider):
     @property
     def is_defined(self):
         """Return True if dependency is defined."""
-        return self.__last_overriding or self.__default
+        return self.__last_overriding is not None or self.__default is not None
 
     def provided_by(self, provider):
         """Set external dependency provider.
