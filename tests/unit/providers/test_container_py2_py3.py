@@ -31,25 +31,25 @@ def _copied(value):
     return copy.deepcopy(value)
 
 
-class TestCore(containers.DeclarativeContainer):
+class Core(containers.DeclarativeContainer):
     config = providers.Configuration("core")
     value_getter = providers.Callable(lambda _: _, config.section.value)
 
 
-class TestApplication(containers.DeclarativeContainer):
+class Application(containers.DeclarativeContainer):
     config = providers.Configuration("config")
-    core = providers.Container(TestCore, config=config.core)
+    core = providers.Container(Core, config=config.core)
     dict_factory = providers.Factory(dict, value=core.value_getter)
 
 
 class ContainerTests(unittest.TestCase):
 
     def test(self):
-        application = TestApplication(config=_copied(TEST_CONFIG_1))
+        application = Application(config=_copied(TEST_CONFIG_1))
         assert application.dict_factory() == {"value": TEST_VALUE_1}
 
     def test_double_override(self):
-        application = TestApplication()
+        application = Application()
         application.config.override(_copied(TEST_CONFIG_1))
         application.config.override(_copied(TEST_CONFIG_2))
         assert application.dict_factory() == {"value": TEST_VALUE_2}
@@ -117,7 +117,7 @@ class ContainerTests(unittest.TestCase):
         assert container_using_container.not_root_container().print_settings() == {"container": "using_container", "foo": "bar"}
 
     def test_override_by_not_a_container(self):
-        provider = providers.Container(TestCore)
+        provider = providers.Container(Core)
 
         with raises(errors.Error):
             provider.override(providers.Object("foo"))
@@ -165,15 +165,15 @@ class ContainerTests(unittest.TestCase):
         assert result == "foo++"
 
     def test_reset_last_overriding(self):
-        application = TestApplication(config=_copied(TEST_CONFIG_1))
-        application.core.override(TestCore(config=_copied(TEST_CONFIG_2["core"])))
+        application = Application(config=_copied(TEST_CONFIG_1))
+        application.core.override(Core(config=_copied(TEST_CONFIG_2["core"])))
 
         application.core.reset_last_overriding()
 
         assert application.dict_factory() == {"value": TEST_VALUE_1}
 
     def test_reset_last_overriding_only_overridden(self):
-        application = TestApplication(config=_copied(TEST_CONFIG_1))
+        application = Application(config=_copied(TEST_CONFIG_1))
         application.core.override(providers.DependenciesContainer(config=_copied(TEST_CONFIG_2["core"])))
 
         application.core.reset_last_overriding()
@@ -181,8 +181,8 @@ class ContainerTests(unittest.TestCase):
         assert application.dict_factory() == {"value": TEST_VALUE_1}
 
     def test_override_context_manager(self):
-        application = TestApplication(config=_copied(TEST_CONFIG_1))
-        overriding_core = TestCore(config=_copied(TEST_CONFIG_2["core"]))
+        application = Application(config=_copied(TEST_CONFIG_1))
+        overriding_core = Core(config=_copied(TEST_CONFIG_2["core"]))
 
         with application.core.override(overriding_core) as context_core:
             assert application.dict_factory() == {"value": TEST_VALUE_2}
@@ -191,15 +191,15 @@ class ContainerTests(unittest.TestCase):
         assert application.dict_factory() == {"value": TEST_VALUE_1}
 
     def test_reset_override(self):
-        application = TestApplication(config=_copied(TEST_CONFIG_1))
-        application.core.override(TestCore(config=_copied(TEST_CONFIG_2["core"])))
+        application = Application(config=_copied(TEST_CONFIG_1))
+        application.core.override(Core(config=_copied(TEST_CONFIG_2["core"])))
 
         application.core.reset_override()
 
         assert application.dict_factory() == {"value": None}
 
     def test_reset_override_only_overridden(self):
-        application = TestApplication(config=_copied(TEST_CONFIG_1))
+        application = Application(config=_copied(TEST_CONFIG_1))
         application.core.override(providers.DependenciesContainer(config=_copied(TEST_CONFIG_2["core"])))
 
         application.core.reset_override()
@@ -208,7 +208,7 @@ class ContainerTests(unittest.TestCase):
 
     def test_assign_parent(self):
         parent = providers.DependenciesContainer()
-        provider = providers.Container(TestCore)
+        provider = providers.Container(Core)
 
         provider.assign_parent(parent)
 
@@ -216,23 +216,23 @@ class ContainerTests(unittest.TestCase):
 
     def test_parent_name(self):
         container = containers.DynamicContainer()
-        provider = providers.Container(TestCore)
+        provider = providers.Container(Core)
         container.name = provider
         assert provider.parent_name == "name"
 
     def test_parent_name_with_deep_parenting(self):
-        provider = providers.Container(TestCore)
+        provider = providers.Container(Core)
         container = providers.DependenciesContainer(name=provider)
         _ = providers.DependenciesContainer(container=container)
         assert provider.parent_name == "container.name"
 
     def test_parent_name_is_none(self):
-        provider = providers.Container(TestCore)
+        provider = providers.Container(Core)
         assert provider.parent_name is None
 
     def test_parent_deepcopy(self):
         container = containers.DynamicContainer()
-        provider = providers.Container(TestCore)
+        provider = providers.Container(Core)
         container.name = provider
 
         copied = providers.deepcopy(container)
@@ -245,10 +245,10 @@ class ContainerTests(unittest.TestCase):
         assert container.name.parent is not copied.name.parent
 
     def test_resolve_provider_name(self):
-        container = providers.Container(TestCore)
+        container = providers.Container(Core)
         assert container.resolve_provider_name(container.value_getter) == "value_getter"
 
     def test_resolve_provider_name_no_provider(self):
-        container = providers.Container(TestCore)
+        container = providers.Container(Core)
         with raises(errors.Error):
             container.resolve_provider_name(providers.Provider())

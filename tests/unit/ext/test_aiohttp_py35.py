@@ -70,6 +70,7 @@ async def client(app):
 
 
 @mark.asyncio
+@mark.filterwarnings("ignore:The loop argument is deprecated:DeprecationWarning")
 async def test_index(client):
     response = await client.get("/")
 
@@ -78,6 +79,7 @@ async def test_index(client):
 
 
 @mark.asyncio
+@mark.filterwarnings("ignore:The loop argument is deprecated:DeprecationWarning")
 async def test_second(client):
     response = await client.get("/second")
 
@@ -86,6 +88,7 @@ async def test_second(client):
 
 
 @mark.asyncio
+@mark.filterwarnings("ignore:The loop argument is deprecated:DeprecationWarning")
 async def test_class_based(client):
     response = await client.get("/class-based")
 
