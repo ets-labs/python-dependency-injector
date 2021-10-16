@@ -154,43 +154,6 @@ class ProviderTests(unittest.TestCase):
         )
 
 
-class DelegateTests(unittest.TestCase):
-
-    def setUp(self):
-        self.delegated = providers.Provider()
-        self.delegate = providers.Delegate(self.delegated)
-
-    def test_is_provider(self):
-        assert providers.is_provider(self.delegate) is True
-
-    def test_init_optional_provides(self):
-        provider = providers.Delegate()
-        provider.set_provides(self.delegated)
-        assert provider.provides is self.delegated
-        assert provider() is self.delegated
-
-    def test_set_provides_returns_self(self):
-        provider = providers.Delegate()
-        assert provider.set_provides(self.delegated) is provider
-
-    def test_init_with_not_provider(self):
-        with raises(errors.Error):
-            providers.Delegate(object())
-
-    def test_call(self):
-        delegated1 = self.delegate()
-        delegated2 = self.delegate()
-
-        assert delegated1 is self.delegated
-        assert delegated2 is self.delegated
-
-    def test_repr(self):
-        assert repr(self.delegate) == (
-            "<dependency_injector.providers."
-            "Delegate({0}) at {1}>".format(repr(self.delegated), hex(id(self.delegate)))
-        )
-
-
 class DependencyTests(unittest.TestCase):
 
     def setUp(self):
