@@ -1,4 +1,4 @@
-"""Dependency injector list provider unit tests."""
+"""List provider tests."""
 
 import sys
 
