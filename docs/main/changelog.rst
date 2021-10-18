@@ -15,7 +15,9 @@ Develop
 - Add support of ``with`` statement for ``container.override_providers()`` method.
 - Drop support of Python 3.4. There are no immediate breaking changes, but Dependency Injector
   will no longer be tested on Python 3.4 and any bugs will not be fixed.
+- Fix ``Dependency.is_defined`` attribute to always return boolean value.
 - Update documentation and fix typos.
+- Migrate tests to ``pytest``.
 
 4.36.2
 ------
