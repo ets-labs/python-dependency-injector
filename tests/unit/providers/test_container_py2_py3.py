@@ -2,8 +2,6 @@
 
 import copy
 
-import unittest
-
 from dependency_injector import containers, providers, errors
 from pytest import raises
 

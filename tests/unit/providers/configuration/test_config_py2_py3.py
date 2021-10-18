@@ -112,8 +112,6 @@ def test_as_(config):
     assert value == decimal.Decimal("123.123")
 
 
-# TODO: do we really need to skip it?
-# @unittest.skipIf(sys.version_info[:2] == (2, 7), "Python 2.7 does not support this assert")
 def test_required(config):
     provider = providers.Callable(
         lambda value: value,
@@ -233,16 +231,12 @@ def test_value_of_undefined_option(config):
     assert config.option() is None
 
 
-# TODO: do we really need to skip it?
-# @unittest.skipIf(sys.version_info[:2] == (2, 7), "Python 2.7 does not support this assert")
 @mark.parametrize("config_type", ["strict"])
 def test_value_of_undefined_option_in_strict_mode(config):
     with raises(errors.Error, match="Undefined configuration option \"config.option\""):
         config.option()
 
 
-# TODO: do we really need to skip it?
-# @unittest.skipIf(sys.version_info[:2] == (2, 7), "Python 2.7 does not support this assert")
 @mark.parametrize("config_type", ["strict"])
 def test_value_of_undefined_option_with_root_none_in_strict_mode(config):
     config.override(None)

@@ -1,4 +1,4 @@
-"""Provider utils unit tests."""
+"""Provider utils tests."""
 
 from dependency_injector import providers
 
