@@ -771,7 +771,7 @@ cdef class Dependency(Provider):
     @property
     def is_defined(self):
         """Return True if dependency is defined."""
-        return self.__last_overriding or self.__default
+        return self.__last_overriding is not None or self.__default is not None
 
     def provided_by(self, provider):
         """Set external dependency provider.
@@ -4743,10 +4743,7 @@ def traverse(*providers, types=None):
 
 
 def isawaitable(obj):
-    """Check if object is a coroutine function.
-
-    Return False for any object in Python 3.4 or below.
-    """
+    """Check if object is a coroutine function."""
     try:
         return inspect.isawaitable(obj)
     except AttributeError:
@@ -4754,10 +4751,7 @@ def isawaitable(obj):
 
 
 def iscoroutinefunction(obj):
-    """Check if object is a coroutine function.
-
-    Return False for any object in Python 3.4 or below.
-    """
+    """Check if object is a coroutine function."""
     try:
         return inspect.iscoroutinefunction(obj)
     except AttributeError:
@@ -4765,10 +4759,7 @@ def iscoroutinefunction(obj):
 
 
 def isasyncgenfunction(obj):
-    """Check if object is an asynchronous generator function.
-
-    Return False for any object in Python 3.4 or below.
-    """
+    """Check if object is an asynchronous generator function."""
     try:
         return inspect.isasyncgenfunction(obj)
     except AttributeError:

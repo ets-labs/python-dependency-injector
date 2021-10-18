@@ -10,7 +10,7 @@ _request_ctx_stack, _app_ctx_stack  # noqa
 
 class Service:
     def process(self) -> str:
-        return "Ok"
+        return "OK"
 
 
 class Container(containers.DeclarativeContainer):

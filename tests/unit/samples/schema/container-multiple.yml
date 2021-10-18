@@ -1,0 +1,43 @@
+version: "1"
+
+container:
+
+  core:
+    config:
+      provider: Configuration
+
+  gateways:
+    database_client:
+      provider: Singleton
+      provides: sqlite3.connect
+      args:
+        - container.core.config.database.dsn
+
+    s3_client:
+      provider: Singleton
+      provides: boto3.client
+      kwargs:
+        service_name: s3
+        aws_access_key_id: container.core.config.aws.access_key_id
+        aws_secret_access_key: container.core.config.aws.secret_access_key
+
+  services:
+    user:
+      provider: Factory
+      provides: samples.schema.services.UserService
+      kwargs:
+        db: container.gateways.database_client
+
+    auth:
+      provider: Factory
+      provides: samples.schema.services.AuthService
+      kwargs:
+        db: container.gateways.database_client
+        token_ttl: container.core.config.auth.token_ttl.as_int()
+
+    photo:
+      provider: Factory
+      provides: samples.schema.services.PhotoService
+      kwargs:
+        db: container.gateways.database_client
+        s3: container.gateways.s3_client

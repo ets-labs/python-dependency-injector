@@ -1,1 +1,1 @@
-"""Dependency injector unit tests."""
+"""Tests package."""
