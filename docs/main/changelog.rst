@@ -17,6 +17,7 @@ Develop
   will no longer be tested on Python 3.4 and any bugs will not be fixed.
 - Fix ``Dependency.is_defined`` attribute to always return boolean value.
 - Update documentation and fix typos.
+- Migrate tests to ``pytest``.
 
 4.36.2
 ------
