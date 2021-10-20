@@ -9,6 +9,7 @@ follows `Semantic versioning`_
 
 Develop
 -------
+- Add support of Python 3.10.
 - Improve wiring with adding importing modules and packages from a string
   ``container.wire(modules=["yourapp.module1"])``.
 - Add container wiring configuration ``wiring_config = containers.WiringConfiguration()``.
