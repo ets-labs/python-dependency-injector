@@ -1,4 +1,4 @@
-"""Tests for container self provier."""
+"""Tests for container self provider."""
 
 from dependency_injector import containers, providers, errors
 from pytest import raises
