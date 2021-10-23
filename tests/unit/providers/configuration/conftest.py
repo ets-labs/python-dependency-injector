@@ -1,5 +1,7 @@
 """Fixtures module."""
 
+import os
+
 from dependency_injector import providers
 from pytest import fixture
 
@@ -17,6 +19,46 @@ def config(config_type):
         return providers.Configuration()
     else:
         raise ValueError("Undefined config type \"{0}\"".format(config_type))
+
+
+@fixture
+def ini_config_file_1(tmp_path):
+    config_file = str(tmp_path / "config_1.ini")
+    with open(config_file, "w") as file:
+        file.write(
+            "[section1]\n"
+            "value1=1\n"
+            "\n"
+            "[section2]\n"
+            "value2=2\n"
+        )
+    return config_file
+
+
+@fixture
+def ini_config_file_2(tmp_path):
+    config_file = str(tmp_path / "config_2.ini")
+    with open(config_file, "w") as file:
+        file.write(
+            "[section1]\n"
+            "value1=11\n"
+            "value11=11\n"
+            "[section3]\n"
+            "value3=3\n"
+        )
+    return config_file
+
+
+@fixture
+def ini_config_file_3(tmp_path):
+    ini_config_file_3 = str(tmp_path / "config_1.ini")
+    with open(ini_config_file_3, "w") as file:
+        file.write(
+            "[section1]\n"
+            "value1=${CONFIG_TEST_ENV}\n"
+            "value2=${CONFIG_TEST_PATH}/path\n"
+        )
+    return ini_config_file_3
 
 
 @fixture
@@ -57,3 +99,14 @@ def yaml_config_file_3(tmp_path):
             "  value2: ${CONFIG_TEST_PATH}/path\n"
         )
     return yaml_config_file_3
+
+
+@fixture(autouse=True)
+def environment_variables():
+    os.environ["CONFIG_TEST_ENV"] = "test-value"
+    os.environ["CONFIG_TEST_PATH"] = "test-path"
+    os.environ["DEFINED"] = "defined"
+    yield
+    os.environ.pop("CONFIG_TEST_ENV", None)
+    os.environ.pop("CONFIG_TEST_PATH", None)
+    os.environ.pop("DEFINED", None)

@@ -1,39 +1,11 @@
 """Configuration.from_ini() tests."""
 
 from dependency_injector import errors
-from pytest import fixture, mark, raises
+from pytest import mark, raises
 
 
-@fixture
-def config_file_1(tmp_path):
-    config_file = str(tmp_path / "config_1.ini")
-    with open(config_file, "w") as file:
-        file.write(
-            "[section1]\n"
-            "value1=1\n"
-            "\n"
-            "[section2]\n"
-            "value2=2\n"
-        )
-    return config_file
-
-
-@fixture
-def config_file_2(tmp_path):
-    config_file = str(tmp_path / "config_2.ini")
-    with open(config_file, "w") as file:
-        file.write(
-            "[section1]\n"
-            "value1=11\n"
-            "value11=11\n"
-            "[section3]\n"
-            "value3=3\n"
-        )
-    return config_file
-
-
-def test(config, config_file_1):
-    config.from_ini(config_file_1)
+def test(config, ini_config_file_1):
+    config.from_ini(ini_config_file_1)
 
     assert config() == {"section1": {"value1": "1"}, "section2": {"value2": "2"}}
     assert config.section1() == {"value1": "1"}
@@ -42,8 +14,8 @@ def test(config, config_file_1):
     assert config.section2.value2() == "2"
 
 
-def test_option(config, config_file_1):
-    config.option.from_ini(config_file_1)
+def test_option(config, ini_config_file_1):
+    config.option.from_ini(ini_config_file_1)
 
     assert config() == {"option": {"section1": {"value1": "1"}, "section2": {"value2": "2"}}}
     assert config.option() == {"section1": {"value1": "1"}, "section2": {"value2": "2"}}
@@ -53,9 +25,9 @@ def test_option(config, config_file_1):
     assert config.option.section2.value2() == "2"
 
 
-def test_merge(config, config_file_1, config_file_2):
-    config.from_ini(config_file_1)
-    config.from_ini(config_file_2)
+def test_merge(config, ini_config_file_1, ini_config_file_2):
+    config.from_ini(ini_config_file_1)
+    config.from_ini(ini_config_file_2)
 
     assert config() == {
         "section1": {

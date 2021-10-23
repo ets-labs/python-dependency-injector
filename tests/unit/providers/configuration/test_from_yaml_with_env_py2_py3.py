@@ -3,18 +3,7 @@
 import os
 
 import yaml
-from pytest import fixture, mark, raises
-
-
-@fixture(autouse=True)
-def environment_variables():
-    os.environ["CONFIG_TEST_ENV"] = "test-value"
-    os.environ["CONFIG_TEST_PATH"] = "test-path"
-    os.environ["DEFINED"] = "defined"
-    yield
-    os.environ.pop("CONFIG_TEST_ENV", None)
-    os.environ.pop("CONFIG_TEST_PATH", None)
-    os.environ.pop("DEFINED", None)
+from pytest import mark, raises
 
 
 def test_env_variable_interpolation(config, yaml_config_file_3):
