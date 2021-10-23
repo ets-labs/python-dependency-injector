@@ -72,3 +72,26 @@ def test_not_required_file_does_not_exist_strict_mode(config):
     config.set_yaml_files(["./does_not_exist.yml"])
     config.load(required=False)
     assert config() == {}
+
+
+def test_missing_envs_required(config, yaml_config_file_3):
+    with open(yaml_config_file_3, "w") as file:
+        file.write(
+            "section:\n"
+            "  undefined: ${UNDEFINED}\n"
+        )
+    config.set_yaml_files([yaml_config_file_3])
+    with raises(ValueError, match="Missing required environment variable \"UNDEFINED\""):
+        config.load(envs_required=True)
+
+
+@mark.parametrize("config_type", ["strict"])
+def test_missing_envs_not_required_in_strict_mode(config, yaml_config_file_3):
+    with open(yaml_config_file_3, "w") as file:
+        file.write(
+            "section:\n"
+            "  undefined: ${UNDEFINED}\n"
+        )
+    config.set_yaml_files([yaml_config_file_3])
+    config.load(envs_required=False)
+    assert config.section.undefined() is None

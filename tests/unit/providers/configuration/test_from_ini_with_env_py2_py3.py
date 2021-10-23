@@ -63,6 +63,17 @@ def test_missing_envs_strict_mode(config, ini_config_file_3):
         config.from_ini(ini_config_file_3)
 
 
+@mark.parametrize("config_type", ["strict"])
+def test_missing_envs_not_required_in_strict_mode(config, ini_config_file_3):
+    with open(ini_config_file_3, "w") as file:
+        file.write(
+            "[section]\n"
+            "undefined=${UNDEFINED}\n"
+        )
+    config.from_ini(ini_config_file_3, envs_required=False)
+    assert config.section.undefined() == ""
+
+
 def test_option_missing_envs_not_required(config, ini_config_file_3):
     del os.environ["CONFIG_TEST_ENV"]
     del os.environ["CONFIG_TEST_PATH"]
@@ -91,6 +102,18 @@ def test_option_missing_envs_required(config, ini_config_file_3):
         )
     with raises(ValueError, match="Missing required environment variable \"UNDEFINED\""):
         config.option.from_ini(ini_config_file_3, envs_required=True)
+
+
+@mark.parametrize("config_type", ["strict"])
+def test_option_missing_envs_not_required_in_strict_mode(config, ini_config_file_3):
+    config.override({"option": {}})
+    with open(ini_config_file_3, "w") as file:
+        file.write(
+            "[section]\n"
+            "undefined=${UNDEFINED}\n"
+        )
+    config.option.from_ini(ini_config_file_3, envs_required=False)
+    assert config.option.section.undefined() == ""
 
 
 @mark.parametrize("config_type", ["strict"])

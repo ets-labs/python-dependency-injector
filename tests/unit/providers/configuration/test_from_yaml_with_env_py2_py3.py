@@ -64,6 +64,17 @@ def test_missing_envs_strict_mode(config, yaml_config_file_3):
         config.from_yaml(yaml_config_file_3)
 
 
+@mark.parametrize("config_type", ["strict"])
+def test_missing_envs_not_required_in_strict_mode(config, yaml_config_file_3):
+    with open(yaml_config_file_3, "w") as file:
+        file.write(
+            "section:\n"
+            "  undefined: ${UNDEFINED}\n"
+        )
+    config.from_yaml(yaml_config_file_3, envs_required=False)
+    assert config.section.undefined() is None
+
+
 def test_option_missing_envs_not_required(config, yaml_config_file_3):
     del os.environ["CONFIG_TEST_ENV"]
     del os.environ["CONFIG_TEST_PATH"]
@@ -92,6 +103,18 @@ def test_option_missing_envs_required(config, yaml_config_file_3):
         )
     with raises(ValueError, match="Missing required environment variable \"UNDEFINED\""):
         config.option.from_yaml(yaml_config_file_3, envs_required=True)
+
+
+@mark.parametrize("config_type", ["strict"])
+def test_option_missing_envs_not_required_in_strict_mode(config, yaml_config_file_3):
+    config.override({"option": {}})
+    with open(yaml_config_file_3, "w") as file:
+        file.write(
+            "section:\n"
+            "  undefined: ${UNDEFINED}\n"
+        )
+    config.option.from_yaml(yaml_config_file_3, envs_required=False)
+    assert config.option.section.undefined() is None
 
 
 @mark.parametrize("config_type", ["strict"])

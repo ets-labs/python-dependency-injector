@@ -3,7 +3,7 @@
 import os
 
 from dependency_injector import providers
-from pytest import fixture
+from pytest import fixture, mark
 
 
 @fixture
@@ -51,7 +51,7 @@ def ini_config_file_2(tmp_path):
 
 @fixture
 def ini_config_file_3(tmp_path):
-    ini_config_file_3 = str(tmp_path / "config_1.ini")
+    ini_config_file_3 = str(tmp_path / "config_3.ini")
     with open(ini_config_file_3, "w") as file:
         file.write(
             "[section1]\n"
@@ -91,7 +91,7 @@ def yaml_config_file_2(tmp_path):
 
 @fixture
 def yaml_config_file_3(tmp_path):
-    yaml_config_file_3 = str(tmp_path / "config_1.yml")
+    yaml_config_file_3 = str(tmp_path / "config_3.yml")
     with open(yaml_config_file_3, "w") as file:
         file.write(
             "section1:\n"
