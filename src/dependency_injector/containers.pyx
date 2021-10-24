@@ -729,11 +729,11 @@ class DeclarativeContainer(Container):
         for name, provider in copied_providers.items():
             container.set_provider(name, provider)
 
-        container.override_providers(**overriding_providers)
-        container.apply_container_providers_overridings()
-
         if cls.auto_load_config:
             container.load_config()
+
+        container.override_providers(**overriding_providers)
+        container.apply_container_providers_overridings()
 
         if container.is_auto_wiring_enabled():
             container.wire()
