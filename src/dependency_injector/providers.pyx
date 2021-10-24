@@ -1527,7 +1527,7 @@ cdef class ConfigurationOption(Provider):
         """
         self.override(value)
 
-    def from_ini(self, filepath, required=UNDEFINED, envs_required=False):
+    def from_ini(self, filepath, required=UNDEFINED, envs_required=UNDEFINED):
         """Load configuration from the ini file.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -1546,7 +1546,7 @@ cdef class ConfigurationOption(Provider):
         try:
             parser = _parse_ini_file(
                 filepath,
-                envs_required=envs_required or self._is_strict_mode_enabled(),
+                envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
             )
         except IOError as exception:
             if required is not False \
@@ -1565,7 +1565,7 @@ cdef class ConfigurationOption(Provider):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    def from_yaml(self, filepath, required=UNDEFINED, loader=None, envs_required=False):
+    def from_yaml(self, filepath, required=UNDEFINED, loader=None, envs_required=UNDEFINED):
         """Load configuration from the yaml file.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -1607,7 +1607,7 @@ cdef class ConfigurationOption(Provider):
 
         config_content = _resolve_config_env_markers(
             config_content,
-            envs_required=envs_required or self._is_strict_mode_enabled(),
+            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
         )
         config = yaml.load(config_content, loader)
 
@@ -1755,13 +1755,18 @@ cdef class Configuration(Object):
 
     DEFAULT_NAME = 'config'
 
-    def __init__(self, name=DEFAULT_NAME, default=None, strict=False):
+    def __init__(self, name=DEFAULT_NAME, default=None, strict=False, yaml_files=None):
         self.__name = name
         self.__strict = strict
         self.__children = {}
+        self.__yaml_files = []
 
         super().__init__(provides={})
         self.set_default(default)
+
+        if yaml_files is None:
+            yaml_files = []
+        self.set_yaml_files(yaml_files)
 
     def __deepcopy__(self, memo):
         copied = memo.get(id(self))
@@ -1773,6 +1778,7 @@ cdef class Configuration(Object):
         copied.set_default(self.get_default())
         copied.set_strict(self.get_strict())
         copied.set_children(deepcopy(self.get_children(), memo))
+        copied.set_yaml_files(self.get_yaml_files())
 
         self._copy_overridings(copied, memo)
         return copied
@@ -1845,6 +1851,35 @@ cdef class Configuration(Object):
         """Set children options."""
         self.__children = children
         return self
+
+    def get_yaml_files(self):
+        """Return list of YAML files."""
+        return self.__yaml_files
+
+    def set_yaml_files(self, files):
+        """Set list of YAML files."""
+        self.__yaml_files = list(files)
+        return self
+
+    def load(self, required=UNDEFINED, envs_required=UNDEFINED):
+        """Load configuration.
+
+        This method loads configuration from configuration files or pydantic settings that
+        were set earlier with set_*() methods or provided to the __init__(), e.g.:
+
+        .. code-block:: python
+
+           config = providers.Configuration(yaml_files=[file1, file2])
+           config.load()
+
+        :param required: When required is True, raise an exception if file does not exist.
+        :type required: bool
+
+        :param envs_required: When True, raises an error on undefined environment variable.
+        :type envs_required: bool
+        """
+        for file in self.get_yaml_files():
+            self.from_yaml(file, required=required, envs_required=envs_required)
 
     def get(self, selector, required=False):
         """Return configuration option.
@@ -1963,7 +1998,7 @@ cdef class Configuration(Object):
         """
         self.override(value)
 
-    def from_ini(self, filepath, required=UNDEFINED, envs_required=False):
+    def from_ini(self, filepath, required=UNDEFINED, envs_required=UNDEFINED):
         """Load configuration from the ini file.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -1982,7 +2017,7 @@ cdef class Configuration(Object):
         try:
             parser = _parse_ini_file(
                 filepath,
-                envs_required=envs_required or self._is_strict_mode_enabled(),
+                envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
             )
         except IOError as exception:
             if required is not False \
@@ -2001,7 +2036,7 @@ cdef class Configuration(Object):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
-    def from_yaml(self, filepath, required=UNDEFINED, loader=None, envs_required=False):
+    def from_yaml(self, filepath, required=UNDEFINED, loader=None, envs_required=UNDEFINED):
         """Load configuration from the yaml file.
 
         Loaded configuration is merged recursively over existing configuration.
@@ -2043,7 +2078,7 @@ cdef class Configuration(Object):
 
         config_content = _resolve_config_env_markers(
             config_content,
-            envs_required=envs_required or self._is_strict_mode_enabled(),
+            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
         )
         config = yaml.load(config_content, loader)
 

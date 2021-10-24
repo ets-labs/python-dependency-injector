@@ -5,34 +5,6 @@ from pytest import fixture, mark, raises
 
 
 @fixture
-def config_file_1(tmp_path):
-    config_file = str(tmp_path / "config_1.ini")
-    with open(config_file, "w") as file:
-        file.write(
-            "section1:\n"
-            "  value1: 1\n"
-            "\n"
-            "section2:\n"
-            "  value2: 2\n"
-        )
-    return config_file
-
-
-@fixture
-def config_file_2(tmp_path):
-    config_file = str(tmp_path / "config_2.ini")
-    with open(config_file, "w") as file:
-        file.write(
-            "section1:\n"
-            "  value1: 11\n"
-            "  value11: 11\n"
-            "section3:\n"
-            "  value3: 3\n"
-        )
-    return config_file
-
-
-@fixture
 def no_yaml_module_installed():
     yaml = providers.yaml
     providers.yaml = None
@@ -40,8 +12,8 @@ def no_yaml_module_installed():
     providers.yaml = yaml
 
 
-def test(config, config_file_1):
-    config.from_yaml(config_file_1)
+def test(config, yaml_config_file_1):
+    config.from_yaml(yaml_config_file_1)
 
     assert config() == {"section1": {"value1": 1}, "section2": {"value2": 2}}
     assert config.section1() == {"value1": 1}
@@ -50,9 +22,9 @@ def test(config, config_file_1):
     assert config.section2.value2() == 2
 
 
-def test_merge(config, config_file_1, config_file_2):
-    config.from_yaml(config_file_1)
-    config.from_yaml(config_file_2)
+def test_merge(config, yaml_config_file_1, yaml_config_file_2):
+    config.from_yaml(yaml_config_file_1)
+    config.from_yaml(yaml_config_file_2)
 
     assert config() == {
         "section1": {
@@ -121,9 +93,9 @@ def test_not_required_option_file_does_not_exist_strict_mode(config):
 
 
 @mark.usefixtures("no_yaml_module_installed")
-def test_no_yaml_installed(config, config_file_1):
+def test_no_yaml_installed(config, yaml_config_file_1):
     with raises(errors.Error) as error:
-        config.from_yaml(config_file_1)
+        config.from_yaml(yaml_config_file_1)
     assert error.value.args[0] == (
         "Unable to load yaml configuration - PyYAML is not installed. "
         "Install PyYAML or install Dependency Injector with yaml extras: "
@@ -132,9 +104,9 @@ def test_no_yaml_installed(config, config_file_1):
 
 
 @mark.usefixtures("no_yaml_module_installed")
-def test_option_no_yaml_installed(config, config_file_1):
+def test_option_no_yaml_installed(config, yaml_config_file_1):
     with raises(errors.Error) as error:
-        config.option.from_yaml(config_file_1)
+        config.option.from_yaml(yaml_config_file_1)
     assert error.value.args[0] == (
         "Unable to load yaml configuration - PyYAML is not installed. "
         "Install PyYAML or install Dependency Injector with yaml extras: "

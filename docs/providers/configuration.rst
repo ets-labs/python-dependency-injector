@@ -72,6 +72,20 @@ where ``examples/providers/configuration/config.yml`` is:
 .. literalinclude:: ../../examples/providers/configuration/config.yml
    :language: ini
 
+Alternatively, you can provide a path to the YAML file over the configuration provider argument. In that case,
+the container will call ``config.from_yaml()`` automatically:
+
+.. code-block:: python
+   :emphasize-lines: 3
+
+   class Container(containers.DeclarativeContainer):
+
+       config = providers.Configuration(yaml_files=["./config.yml"])
+
+
+   if __name__ == "__main__":
+       container = Container()  # Config is loaded from ./config.yml
+
 :py:meth:`Configuration.from_yaml` method supports environment variables interpolation.
 
 .. code-block:: ini

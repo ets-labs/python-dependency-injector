@@ -1,15 +1,6 @@
 """Configuration.from_env() tests."""
 
-import os
-
-from pytest import fixture, mark, raises
-
-
-@fixture(autouse=True)
-def environment_variables():
-    os.environ["CONFIG_TEST_ENV"] = "test-value"
-    yield
-    os.environ.pop("CONFIG_TEST_ENV", None)
+from pytest import mark, raises
 
 
 def test(config):

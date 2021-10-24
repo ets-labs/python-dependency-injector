@@ -377,6 +377,12 @@ class DynamicContainer(Container):
         else:
             return _sync_ordered_shutdown(resources)
 
+    def load_config(self):
+        """Load configuration."""
+        config: providers.Configuration
+        for config in self.traverse(types=[providers.Configuration]):
+            config.load()
+
     def apply_container_providers_overridings(self):
         """Apply container providers' overridings."""
         for provider in self.traverse(types=[providers.Container]):
@@ -671,6 +677,12 @@ class DeclarativeContainer(Container):
     :type: WiringConfiguration
     """
 
+    auto_load_config = True
+    """Automatically load configuration when the container is created.
+
+    :type: bool
+    """
+
     cls_providers = dict()
     """Read-only dictionary of current container providers.
 
@@ -716,6 +728,9 @@ class DeclarativeContainer(Container):
 
         for name, provider in copied_providers.items():
             container.set_provider(name, provider)
+
+        if cls.auto_load_config:
+            container.load_config()
 
         container.override_providers(**overriding_providers)
         container.apply_container_providers_overridings()
