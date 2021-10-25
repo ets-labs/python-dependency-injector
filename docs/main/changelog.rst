@@ -15,11 +15,11 @@ Develop
 - Add container wiring configuration ``wiring_config = containers.WiringConfiguration()``.
 - Add support of ``with`` statement for ``container.override_providers()`` method.
 - Add ``Configuration(yaml_files=[...])`` argument.
-- Fix ``envs_required=False`` behavior in ``Configuration.from_*()`` methods
-  to give a priority to the explicitly provided value.
 - Drop support of Python 3.4. There are no immediate breaking changes, but Dependency Injector
   will no longer be tested on Python 3.4 and any bugs will not be fixed.
 - Fix ``Dependency.is_defined`` attribute to always return boolean value.
+- Fix ``envs_required=False`` behavior in ``Configuration.from_*()`` methods
+  to give a priority to the explicitly provided value.
 - Update documentation and fix typos.
 - Migrate tests to ``pytest``.
 
