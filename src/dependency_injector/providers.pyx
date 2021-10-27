@@ -1755,11 +1755,12 @@ cdef class Configuration(Object):
 
     DEFAULT_NAME = 'config'
 
-    def __init__(self, name=DEFAULT_NAME, default=None, strict=False, yaml_files=None):
+    def __init__(self, name=DEFAULT_NAME, default=None, strict=False, yaml_files=None, ini_files=None):
         self.__name = name
         self.__strict = strict
         self.__children = {}
         self.__yaml_files = []
+        self.__ini_files = []
 
         super().__init__(provides={})
         self.set_default(default)
@@ -1767,6 +1768,10 @@ cdef class Configuration(Object):
         if yaml_files is None:
             yaml_files = []
         self.set_yaml_files(yaml_files)
+
+        if ini_files is None:
+            ini_files = []
+        self.set_ini_files(ini_files)
 
     def __deepcopy__(self, memo):
         copied = memo.get(id(self))
@@ -1779,6 +1784,7 @@ cdef class Configuration(Object):
         copied.set_strict(self.get_strict())
         copied.set_children(deepcopy(self.get_children(), memo))
         copied.set_yaml_files(self.get_yaml_files())
+        copied.set_ini_files(self.get_ini_files())
 
         self._copy_overridings(copied, memo)
         return copied
@@ -1861,6 +1867,15 @@ cdef class Configuration(Object):
         self.__yaml_files = list(files)
         return self
 
+    def get_ini_files(self):
+        """Return list of INI files."""
+        return self.__ini_files
+
+    def set_ini_files(self, files):
+        """Set list of INI files."""
+        self.__ini_files = list(files)
+        return self
+
     def load(self, required=UNDEFINED, envs_required=UNDEFINED):
         """Load configuration.
 
@@ -1880,6 +1895,9 @@ cdef class Configuration(Object):
         """
         for file in self.get_yaml_files():
             self.from_yaml(file, required=required, envs_required=envs_required)
+
+        for file in self.get_ini_files():
+            self.from_ini(file, required=required, envs_required=envs_required)
 
     def get(self, selector, required=False):
         """Return configuration option.

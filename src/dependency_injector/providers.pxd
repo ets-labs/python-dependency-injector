@@ -115,6 +115,7 @@ cdef class Configuration(Object):
     cdef bint __strict
     cdef dict __children
     cdef list __yaml_files
+    cdef list __ini_files
     cdef object __weakref__
 
 
