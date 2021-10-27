@@ -35,7 +35,6 @@ def main(
 
 if __name__ == "__main__":
     application = ApplicationContainer()
-    application.config.from_ini("config.ini")
     application.wire(modules=[__name__])
 
     main()
