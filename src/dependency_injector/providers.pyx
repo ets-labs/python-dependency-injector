@@ -1790,6 +1790,7 @@ cdef class Configuration(Object):
         copied.set_children(deepcopy(self.get_children(), memo))
         copied.set_yaml_files(self.get_yaml_files())
         copied.set_ini_files(self.get_ini_files())
+        copied.set_pydantic_settings(self.get_pydantic_settings())
 
         self._copy_overridings(copied, memo)
         return copied
