@@ -3,7 +3,7 @@
 import os
 
 from dependency_injector import providers
-from pytest import fixture, mark
+from pytest import fixture
 
 
 @fixture

@@ -16,6 +16,7 @@ Develop
 - Add support of ``with`` statement for ``container.override_providers()`` method.
 - Add ``Configuration(yaml_files=[...])`` argument.
 - Add ``Configuration(ini_files=[...])`` argument.
+- Add ``Configuration(pydantic_settings=[...])`` argument.
 - Drop support of Python 3.4. There are no immediate breaking changes, but Dependency Injector
   will no longer be tested on Python 3.4 and any bugs will not be fixed.
 - Fix ``Dependency.is_defined`` attribute to always return boolean value.

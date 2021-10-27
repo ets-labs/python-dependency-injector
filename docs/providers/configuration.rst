@@ -154,6 +154,21 @@ If you need to pass an argument to this call, use ``.from_pydantic()`` keyword a
 
    container.config.from_pydantic(Settings(), exclude={"optional"})
 
+Alternatively, you can provide a ``pydantic`` settings object over the configuration provider argument. In that case,
+the container will call ``config.from_pydantic()`` automatically:
+
+.. code-block:: python
+   :emphasize-lines: 3
+
+   class Container(containers.DeclarativeContainer):
+
+       config = providers.Configuration(pydantic_settings=[Settings()])
+
+
+   if __name__ == "__main__":
+       container = Container()  # Config is loaded from Settings()
+
+
 .. note::
 
    ``Dependency Injector`` doesn't install ``pydantic`` by default.
