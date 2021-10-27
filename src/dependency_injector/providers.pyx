@@ -1755,12 +1755,13 @@ cdef class Configuration(Object):
 
     DEFAULT_NAME = 'config'
 
-    def __init__(self, name=DEFAULT_NAME, default=None, strict=False, yaml_files=None, ini_files=None):
+    def __init__(self, name=DEFAULT_NAME, default=None, strict=False, yaml_files=None, ini_files=None, pydantic_settings=None):
         self.__name = name
         self.__strict = strict
         self.__children = {}
         self.__yaml_files = []
         self.__ini_files = []
+        self.__pydantic_settings = []
 
         super().__init__(provides={})
         self.set_default(default)
@@ -1772,6 +1773,10 @@ cdef class Configuration(Object):
         if ini_files is None:
             ini_files = []
         self.set_ini_files(ini_files)
+
+        if pydantic_settings is None:
+            pydantic_settings = []
+        self.set_pydantic_settings(pydantic_settings)
 
     def __deepcopy__(self, memo):
         copied = memo.get(id(self))
@@ -1860,7 +1865,7 @@ cdef class Configuration(Object):
 
     def get_yaml_files(self):
         """Return list of YAML files."""
-        return self.__yaml_files
+        return list(self.__yaml_files)
 
     def set_yaml_files(self, files):
         """Set list of YAML files."""
@@ -1869,11 +1874,20 @@ cdef class Configuration(Object):
 
     def get_ini_files(self):
         """Return list of INI files."""
-        return self.__ini_files
+        return list(self.__ini_files)
 
     def set_ini_files(self, files):
         """Set list of INI files."""
         self.__ini_files = list(files)
+        return self
+
+    def get_pydantic_settings(self):
+        """Return list of Pydantic settings."""
+        return list(self.__pydantic_settings)
+
+    def set_pydantic_settings(self, settings):
+        """Set list of Pydantic settings."""
+        self.__pydantic_settings = list(settings)
         return self
 
     def load(self, required=UNDEFINED, envs_required=UNDEFINED):
@@ -1898,6 +1912,9 @@ cdef class Configuration(Object):
 
         for file in self.get_ini_files():
             self.from_ini(file, required=required, envs_required=envs_required)
+
+        for settings in self.get_pydantic_settings():
+            self.from_pydantic(settings, required=required)
 
     def get(self, selector, required=False):
         """Return configuration option.
