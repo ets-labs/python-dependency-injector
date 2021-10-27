@@ -61,7 +61,7 @@ class Services(containers.DeclarativeContainer):
 
 class Application(containers.DeclarativeContainer):
 
-    config = providers.Configuration()
+    config = providers.Configuration(yaml_files=["config.yml"])
 
     core = providers.Container(
         Core,
