@@ -7,7 +7,7 @@ from . import giphy, services
 
 class Container(containers.DeclarativeContainer):
 
-    config = providers.Configuration()
+    config = providers.Configuration(yaml_files=["config.yml"])
 
     giphy_client = providers.Factory(
         giphy.GiphyClient,
