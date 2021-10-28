@@ -428,7 +428,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        movie = providers.Factory(entities.Movie)
 
@@ -445,15 +445,9 @@ This is also called the delegation of the provider. If we just pass the movie fa
 as the dependency, it will be called when csv finder is created and the ``Movie`` instance will
 be injected. With the ``.provider`` attribute the provider itself will be injected.
 
-The csv finder also has a few dependencies on the configuration options. We added configuration
-provider to provide these dependencies.
-
-.. note::
-
-   We have used the configuration value before it was defined. That's the principle how the
-   Configuration provider works.
-
-   Use first, define later.
+The csv finder also has a few dependencies on the configuration options. We added a configuration
+provider to provide these dependencies and specified the location of the configuration file.
+The configuration provider will parse the configuration file when we create a container instance.
 
 Not let's define the configuration values.
 
@@ -467,29 +461,7 @@ Edit ``config.yml``:
        path: "data/movies.csv"
        delimiter: ","
 
-The configuration file is ready. Now let's update the  ``main()`` function to specify its location.
-
-Edit ``__main__.py``:
-
-.. code-block:: python
-   :emphasize-lines: 12
-
-   """Main module."""
-
-   from .containers import Container
-
-
-   def main() -> None:
-       ...
-
-
-   if __name__ == "__main__":
-       container = Container()
-       container.config.from_yaml("config.yml")
-
-       main()
-
-Move on to the lister.
+The configuration file is ready. Move on to the lister.
 
 Create the ``listers.py`` in the ``movies`` package:
 
@@ -552,7 +524,7 @@ and edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        movie = providers.Factory(entities.Movie)
 
@@ -575,7 +547,7 @@ Let's inject the ``lister`` into the  ``main()`` function.
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 3-5,9-10,17
+   :emphasize-lines: 3-5,9-10,16
 
    """Main module."""
 
@@ -592,7 +564,6 @@ Edit ``__main__.py``:
 
    if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml("config.yml")
        container.wire(modules=[__name__])
 
        main()
@@ -628,7 +599,6 @@ Edit ``__main__.py``:
 
    if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml("config.yml")
        container.wire(modules=[__name__])
 
        main()
@@ -733,7 +703,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        movie = providers.Factory(entities.Movie)
 
@@ -822,7 +792,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        movie = providers.Factory(entities.Movie)
 
@@ -859,7 +829,7 @@ Now we need to read the value of the ``config.finder.type`` option from the envi
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 23
+   :emphasize-lines: 22
 
    """Main module."""
 
@@ -882,7 +852,6 @@ Edit ``__main__.py``:
 
    if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml("config.yml")
        container.config.finder.type.from_env("MOVIE_FINDER_TYPE")
        container.wire(modules=[sys.modules[__name__]])
 
@@ -942,7 +911,7 @@ Create ``tests.py`` in the ``movies`` package:
 and put next into it:
 
 .. code-block:: python
-   :emphasize-lines: 35,50
+   :emphasize-lines: 36,51
 
    """Tests module."""
 
@@ -955,19 +924,20 @@ and put next into it:
 
    @pytest.fixture
    def container():
-       container = Container()
-       container.config.from_dict({
-           "finder": {
-               "type": "csv",
-               "csv": {
-                   "path": "/fake-movies.csv",
-                   "delimiter": ",",
-               },
-               "sqlite": {
-                   "path": "/fake-movies.db",
+       container = Container(
+           config={
+               "finder": {
+                   "type": "csv",
+                   "csv": {
+                       "path": "/fake-movies.csv",
+                       "delimiter": ",",
+                   },
+                   "sqlite": {
+                       "path": "/fake-movies.db",
+                   },
                },
            },
-       })
+       )
        return container
 
 
@@ -1010,24 +980,24 @@ You should see:
 
 .. code-block::
 
-   platform darwin -- Python 3.9, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
-   plugins: cov-2.10.0
+   platform darwin -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
+   plugins: cov-3.0.0
    collected 2 items
 
    movies/tests.py ..                                              [100%]
 
-   ---------- coverage: platform darwin, python 3.9 -----------
+   ---------- coverage: platform darwin, python 3.10 -----------
    Name                   Stmts   Miss  Cover
    ------------------------------------------
    movies/__init__.py         0      0   100%
-   movies/__main__.py        18     18     0%
+   movies/__main__.py        16     16     0%
    movies/containers.py       9      0   100%
    movies/entities.py         7      1    86%
    movies/finders.py         26     13    50%
    movies/listers.py          8      0   100%
-   movies/tests.py           24      0   100%
+   movies/tests.py           23      0   100%
    ------------------------------------------
-   TOTAL                     92     32    65%
+   TOTAL                     89     30    66%
 
 .. note::
 
@@ -1047,7 +1017,7 @@ We've used the ``Dependency Injector`` as a dependency injection framework.
 With a help of :ref:`containers` and :ref:`providers` we have defined how to assemble application components.
 
 ``Selector`` provider served as a switch for selecting the database format based on a configuration.
-:ref:`configuration-provider` helped to deal with reading YAML file and environment variable.
+:ref:`configuration-provider` helped to deal with reading a YAML file and environment variables.
 
 We used :ref:`wiring` feature to inject the dependencies into the ``main()`` function.
 :ref:`provider-overriding` feature helped in testing.
