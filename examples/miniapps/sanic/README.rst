@@ -104,13 +104,13 @@ The output should be something like:
 
    giphynavigator/tests.py ...                                     [100%]
 
-   ---------- coverage: platform darwin, python 3.9 -----------
+   ---------- coverage: platform darwin, python 3.10.0-final-0 ----------
    Name                            Stmts   Miss  Cover
    ---------------------------------------------------
    giphynavigator/__init__.py          0      0   100%
    giphynavigator/__main__.py          4      4     0%
-   giphynavigator/application.py      11      0   100%
-   giphynavigator/containers.py        6      0   100%
+   giphynavigator/application.py      10      0   100%
+   giphynavigator/containers.py        7      0   100%
    giphynavigator/giphy.py            14      9    36%
    giphynavigator/handlers.py         11      0   100%
    giphynavigator/services.py          9      1    89%
