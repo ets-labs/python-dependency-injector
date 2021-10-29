@@ -112,7 +112,7 @@ You should see something like:
    (venv) $ python -c "import dependency_injector; print(dependency_injector.__version__)"
    4.37.0
    (venv) $ python -c "import flask; print(flask.__version__)"
-   1.1.2
+   2.0.2
 
 *Versions can be different. That's fine.*
 
@@ -444,9 +444,10 @@ and run in the terminal:
 Now we need to add Github API client the container. We will need to add two more providers from
 the ``dependency_injector.providers`` module:
 
-- ``Factory`` provider that will create ``Github`` client.
-- ``Configuration`` provider that will be used for providing the API token and the request timeout
-  for the ``Github`` client.
+- ``Factory`` provider. It will create a ``Github`` client.
+- ``Configuration`` provider. It will provide an API token and a request timeout for the ``Github`` client.
+  We will specify the location of the configuration file. The configuration provider will parse
+  the configuration file when we create a container instance.
 
 Edit ``containers.py``:
 
@@ -461,7 +462,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        github_client = providers.Factory(
            Github,
@@ -469,23 +470,14 @@ Edit ``containers.py``:
            timeout=config.github.request_timeout,
        )
 
-.. note::
-
-   We have used the configuration value before it was defined. That's the principle how
-   ``Configuration`` provider works.
-
-   Use first, define later.
 
 .. note::
 
    Don't forget to remove the Ellipsis ``...`` from the container. We don't need it anymore
    since we container is not empty.
 
-Now let's add the configuration file.
-
-We will use YAML.
-
-Create an empty file ``config.yml`` in the root of the project:
+Now let's add the configuration file. We will use YAML. Create an empty file ``config.yml``
+in the root of the project:
 
 .. code-block:: bash
    :emphasize-lines: 11
@@ -530,17 +522,13 @@ and install it:
 
    pip install -r requirements.txt
 
-We will use environment variable ``GITHUB_TOKEN`` to provide the API token.
-
-Now we need to edit ``create_app()`` to make two things when application starts:
-
-- Load the configuration file the ``config.yml``.
-- Load the API token from the ``GITHUB_TOKEN`` environment variable.
+We will use the ``GITHUB_TOKEN`` environment variable to provide the API token. Let's edit
+``create_app()`` to fetch the token value from it.
 
 Edit ``application.py``:
 
 .. code-block:: python
-   :emphasize-lines: 12-13
+   :emphasize-lines: 12
 
    """Application module."""
 
@@ -553,7 +541,6 @@ Edit ``application.py``:
 
    def create_app() -> Flask:
        container = Container()
-       container.config.from_yaml("config.yml")
        container.config.github.auth_token.from_env("GITHUB_TOKEN")
 
        app = Flask(__name__)
@@ -684,7 +671,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        github_client = providers.Factory(
            Github,
@@ -732,38 +719,39 @@ Edit ``views.py``:
            repositories=repositories,
        )
 
-To make the injection work we need to wire the container instance with the ``views`` module.
-This needs to be done once. After it's done we can use ``Provide`` markers to specify as many
-injections as needed for any view.
+To make the injection work we need to wire the container with the ``views`` module.
+Let's configure the container to automatically make wiring with the ``views`` module when we
+create a container instance.
 
-Edit ``application.py``:
+Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 14
+   :emphasize-lines: 11
 
-   """Application module."""
+   """Containers module."""
 
-   from flask import Flask
-   from flask_bootstrap import Bootstrap
+   from dependency_injector import containers, providers
+   from github import Github
 
-   from .containers import Container
-   from . import views
+   from . import services
 
 
-   def create_app() -> Flask:
-       container = Container()
-       container.config.from_yaml("config.yml")
-       container.config.github.auth_token.from_env("GITHUB_TOKEN")
-       container.wire(modules=[views])
+   class Container(containers.DeclarativeContainer):
 
-       app = Flask(__name__)
-       app.container = container
-       app.add_url_rule("/", "index", views.index)
+       wiring_config = containers.WiringConfiguration(modules=[".views"])
 
-       bootstrap = Bootstrap()
-       bootstrap.init_app(app)
+       config = providers.Configuration(yaml_files=["config.yml"])
 
-       return app
+       github_client = providers.Factory(
+           Github,
+           login_or_token=config.github.auth_token,
+           timeout=config.github.request_timeout,
+       )
+
+       search_service = providers.Factory(
+           services.SearchService,
+           github_client=github_client,
+       )
 
 Make sure the app is running or use ``flask run`` and open ``http://127.0.0.1:5000/``.
 
@@ -960,23 +948,23 @@ You should see:
 
 .. code-block:: bash
 
-   platform darwin -- Python 3.9, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
-   plugins: flask-1.0.0, cov-2.10.0
+   platform darwin -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
+   plugins: cov-3.0.0, flask-1.2.0
    collected 2 items
 
    githubnavigator/tests.py ..                                     [100%]
 
-   ---------- coverage: platform darwin, python 3.9 -----------
+   ---------- coverage: platform darwin, python 3.10.0-final-0 ----------
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
    githubnavigator/__init__.py          0      0   100%
-   githubnavigator/application.py      15      0   100%
-   githubnavigator/containers.py        7      0   100%
+   githubnavigator/application.py      13      0   100%
+   githubnavigator/containers.py        8      0   100%
    githubnavigator/services.py         14      0   100%
    githubnavigator/tests.py            34      0   100%
    githubnavigator/views.py            10      0   100%
    ----------------------------------------------------
-   TOTAL                               80      0   100%
+   TOTAL                               79      0   100%
 
 .. note::
 
