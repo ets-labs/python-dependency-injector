@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Develop
--------
+4.37.0
+------
 - Add support of Python 3.10.
 - Improve wiring with adding importing modules and packages from a string
   ``container.wire(modules=["yourapp.module1"])``.
