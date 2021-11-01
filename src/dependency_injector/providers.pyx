@@ -204,7 +204,11 @@ cdef class Provider(object):
         if self.__last_overriding is not None:
             result = self.__last_overriding(*args, **kwargs)
         else:
-            result = self._provide(args, kwargs)
+            try:
+                result = self._provide(args, kwargs)
+            except Exception as exc:
+                print(self)
+                raise exc
 
         if self.is_async_mode_disabled():
             return result
