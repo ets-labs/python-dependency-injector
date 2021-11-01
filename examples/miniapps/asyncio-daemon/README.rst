@@ -65,22 +65,22 @@ The output should be something like:
 
 .. code-block::
 
-   platform linux -- Python 3.9, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
+   platform linux -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
    rootdir: /code
-   plugins: asyncio-0.14.0, cov-2.10.0
+   plugins: asyncio-0.16.0, cov-3.0.0
    collected 2 items
 
    monitoringdaemon/tests.py ..                                    [100%]
 
-   ----------- coverage: platform linux, python 3.9 -----------
+   ---------- coverage: platform linux, python 3.10.0-final-0 -----------
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
    monitoringdaemon/__init__.py         0      0   100%
-   monitoringdaemon/__main__.py        13     13     0%
+   monitoringdaemon/__main__.py        11     11     0%
    monitoringdaemon/containers.py      11      0   100%
-   monitoringdaemon/dispatcher.py      44      5    89%
+   monitoringdaemon/dispatcher.py      45      5    89%
    monitoringdaemon/http.py             6      3    50%
    monitoringdaemon/monitors.py        23      1    96%
-   monitoringdaemon/tests.py           37      0   100%
+   monitoringdaemon/tests.py           35      0   100%
    ----------------------------------------------------
-   TOTAL                              134     22    84%
+   TOTAL                              131     20    85%

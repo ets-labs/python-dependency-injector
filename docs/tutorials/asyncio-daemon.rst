@@ -135,7 +135,7 @@ Put next lines into the ``Dockerfile`` file:
 
 .. code-block:: bash
 
-   FROM python:3.9-buster
+   FROM python:3.10-buster
 
    ENV PYTHONUNBUFFERED=1
 
@@ -204,11 +204,11 @@ Logging and configuration
 
 In this section we will configure the logging and configuration file parsing.
 
-Let's start with the the main part of our application - the container. Container will keep all of
+Let's start with the the main part of our application – the container. Container will keep all of
 the application components and their dependencies.
 
-First two components that we're going to add are the config object and the provider for
-configuring the logging.
+First two components that we're going to add are the configuration provider and the resource provider
+for configuring the logging.
 
 Put next lines into the ``containers.py`` file:
 
@@ -224,7 +224,7 @@ Put next lines into the ``containers.py`` file:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        logging = providers.Resource(
            logging.basicConfig,
@@ -233,16 +233,7 @@ Put next lines into the ``containers.py`` file:
            format=config.log.format,
        )
 
-.. note::
-
-   We have used the configuration value before it was defined. That's the principle how the
-   ``Configuration`` provider works.
-
-   Use first, define later.
-
-The configuration file will keep the logging settings.
-
-Put next lines into the ``config.yml`` file:
+The configuration file will keep the logging settings. Put next lines into the ``config.yml`` file:
 
 .. code-block:: yaml
 
@@ -250,9 +241,10 @@ Put next lines into the ``config.yml`` file:
      level: "INFO"
      format: "[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s"
 
-Now let's create the function that will run our daemon. It's traditionally called
-``main()``. The ``main()`` function will create the container. Then it will use the container
-to parse the ``config.yml`` file and call the logging configuration provider.
+Now let's create the function that will run our daemon. It's traditionally called ``main()``.
+The ``main()`` function will start the dispatcher, but we will keep it empty for now.
+We will create the container instance before calling ``main()`` in ``if __name__ == "__main__"``.
+Container instance will parse ``config.yml`` and then we will call the logging configuration provider.
 
 Put next lines into the ``__main__.py`` file:
 
@@ -269,7 +261,6 @@ Put next lines into the ``__main__.py`` file:
 
    if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml("config.yml")
        container.init_resources()
 
        main()
@@ -419,7 +410,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        logging = providers.Resource(
            logging.basicConfig,
@@ -442,7 +433,7 @@ and call the ``run()`` method. We will use :ref:`wiring` feature.
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 3-5,9-11,18
+   :emphasize-lines: 3-5,9-11,17
 
    """Main module."""
 
@@ -459,7 +450,6 @@ Edit ``__main__.py``:
 
    if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml("config.yml")
        container.init_resources()
        container.wire(modules=[__name__])
 
@@ -559,7 +549,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        logging = providers.Resource(
            logging.basicConfig,
@@ -664,7 +654,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        logging = providers.Resource(
            logging.basicConfig,
@@ -763,7 +753,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        logging = providers.Resource(
            logging.basicConfig,
@@ -888,7 +878,7 @@ Create ``tests.py`` in the ``monitoringdaemon`` package:
 and put next into it:
 
 .. code-block:: python
-   :emphasize-lines: 54,70-71
+   :emphasize-lines: 54,70-73
 
    """Tests module."""
 
@@ -909,28 +899,28 @@ and put next into it:
 
    @pytest.fixture
    def container():
-       container = Container()
-       container.config.from_dict({
-           "log": {
-               "level": "INFO",
-               "formant": "[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s",
-           },
-           "monitors": {
-               "example": {
-                   "method": "GET",
-                   "url": "http://fake-example.com",
-                   "timeout": 1,
-                   "check_every": 1,
+       return Container(
+           config={
+               "log": {
+                   "level": "INFO",
+                   "formant": "[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s",
                },
-               "httpbin": {
-                   "method": "GET",
-                   "url": "https://fake-httpbin.org/get",
-                   "timeout": 1,
-                   "check_every": 1,
+               "monitors": {
+                   "example": {
+                       "method": "GET",
+                       "url": "http://fake-example.com",
+                       "timeout": 1,
+                       "check_every": 1,
+                   },
+                   "httpbin": {
+                       "method": "GET",
+                       "url": "https://fake-httpbin.org/get",
+                       "timeout": 1,
+                       "check_every": 1,
+                   },
                },
-           },
-       })
-       return container
+           }
+       )
 
 
    @pytest.mark.asyncio
@@ -959,9 +949,10 @@ and put next into it:
        example_monitor_mock = mock.AsyncMock()
        httpbin_monitor_mock = mock.AsyncMock()
 
-       with container.example_monitor.override(example_monitor_mock), \
-               container.httpbin_monitor.override(httpbin_monitor_mock):
-
+       with container.override_providers(
+               example_monitor=example_monitor_mock,
+               httpbin_monitor=httpbin_monitor_mock,
+       ):
            dispatcher = container.dispatcher()
            event_loop.create_task(dispatcher.start())
            await asyncio.sleep(0.1)
@@ -980,25 +971,25 @@ You should see:
 
 .. code-block:: bash
 
-   platform linux -- Python 3.9, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
+   platform linux -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
    rootdir: /code
-   plugins: asyncio-0.14.0, cov-2.10.0
+   plugins: asyncio-0.16.0, cov-3.0.0
    collected 2 items
 
    monitoringdaemon/tests.py ..                                    [100%]
 
-   ----------- coverage: platform linux, python 3.9 -----------
+   ---------- coverage: platform linux, python 3.10.0-final-0 -----------
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
    monitoringdaemon/__init__.py         0      0   100%
-   monitoringdaemon/__main__.py        13     13     0%
+   monitoringdaemon/__main__.py        11     11     0%
    monitoringdaemon/containers.py      11      0   100%
-   monitoringdaemon/dispatcher.py      44      5    89%
+   monitoringdaemon/dispatcher.py      45      5    89%
    monitoringdaemon/http.py             6      3    50%
    monitoringdaemon/monitors.py        23      1    96%
-   monitoringdaemon/tests.py           37      0   100%
+   monitoringdaemon/tests.py           35      0   100%
    ----------------------------------------------------
-   TOTAL                              134     22    84%
+   TOTAL                              131     20    85%
 
 .. note::
 
