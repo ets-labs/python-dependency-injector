@@ -19,6 +19,7 @@ follows `Semantic versioning`_
 - Add ``Configuration(pydantic_settings=[...])`` argument.
 - Drop support of Python 3.4. There are no immediate breaking changes, but Dependency Injector
   will no longer be tested on Python 3.4 and any bugs will not be fixed.
+- Announce the date of dropping Python 3.5 support (Jan 1st 2022).
 - Fix ``Dependency.is_defined`` attribute to always return boolean value.
 - Fix ``envs_required=False`` behavior in ``Configuration.from_*()`` methods
   to give a priority to the explicitly provided value.

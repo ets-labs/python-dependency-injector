@@ -6,6 +6,7 @@ import json
 import sys
 import importlib
 import inspect
+import warnings
 
 try:
     import asyncio
@@ -31,6 +32,14 @@ else:
 
     def unwire(*args, **kwargs):
         raise NotImplementedError('Wiring requires Python 3.6 or above')
+
+if sys.version_info[:2] == (3, 5):
+    warnings.warn(
+        "Dependency Injector will drop support of Python 3.5 after Jan 1st of 2022. "
+        "This does not mean that there will be any immediate breaking changes, "
+        "but tests will no longer be executed on Python 3.5, and bugs will not be addressed.",
+        category=DeprecationWarning,
+    )
 
 
 class WiringConfiguration:
