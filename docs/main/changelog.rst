@@ -23,6 +23,7 @@ Develop
 - Fix ``envs_required=False`` behavior in ``Configuration.from_*()`` methods
   to give a priority to the explicitly provided value.
 - Update documentation and fix typos.
+- Regenerate C sources using Cython 0.29.24.
 - Migrate tests to ``pytest``.
 
 4.36.2
