@@ -19,7 +19,6 @@ def main(lister: MovieLister = Provide[Container.lister]) -> None:
 
 if __name__ == "__main__":
     container = Container()
-    container.config.from_yaml("config.yml")
     container.config.finder.type.from_env("MOVIE_FINDER_TYPE")
     container.wire(modules=[__name__])
 

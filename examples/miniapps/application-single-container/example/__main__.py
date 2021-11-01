@@ -25,7 +25,6 @@ def main(
 if __name__ == "__main__":
     container = Container()
     container.init_resources()
-    container.config.from_ini("config.ini")
     container.wire(modules=[__name__])
 
     main(*sys.argv[1:])

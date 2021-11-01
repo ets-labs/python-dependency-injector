@@ -10,10 +10,9 @@ from giphynavigator.giphy import GiphyClient
 
 
 @pytest.fixture
-def client(event_loop):
-    client = AsyncClient(app=app, base_url="http://test")
-    yield client
-    event_loop.run_until_complete(client.aclose())
+async def client():
+    async with AsyncClient(app=app, base_url="http://test") as client:
+        yield client
 
 
 @pytest.mark.asyncio

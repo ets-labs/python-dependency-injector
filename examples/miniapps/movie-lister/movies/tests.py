@@ -9,19 +9,20 @@ from .containers import Container
 
 @pytest.fixture
 def container():
-    container = Container()
-    container.config.from_dict({
-        "finder": {
-            "type": "csv",
-            "csv": {
-                "path": "/fake-movies.csv",
-                "delimiter": ",",
-            },
-            "sqlite": {
-                "path": "/fake-movies.db",
+    container = Container(
+        config={
+            "finder": {
+                "type": "csv",
+                "csv": {
+                    "path": "/fake-movies.csv",
+                    "delimiter": ",",
+                },
+                "sqlite": {
+                    "path": "/fake-movies.db",
+                },
             },
         },
-    })
+    )
     return container
 
 

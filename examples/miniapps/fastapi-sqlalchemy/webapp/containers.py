@@ -9,7 +9,9 @@ from .services import UserService
 
 class Container(containers.DeclarativeContainer):
 
-    config = providers.Configuration()
+    wiring_config = containers.WiringConfiguration(modules=[".endpoints"])
+
+    config = providers.Configuration(yaml_files=["config.yml"])
 
     db = providers.Singleton(Database, db_url=config.db.url)
 

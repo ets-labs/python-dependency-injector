@@ -11,7 +11,7 @@ from . import services
 
 class Container(containers.DeclarativeContainer):
 
-    config = providers.Configuration()
+    config = providers.Configuration(ini_files=["config.ini"])
 
     logging = providers.Resource(
         logging.config.fileConfig,

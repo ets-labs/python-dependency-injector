@@ -73,19 +73,19 @@ The output should be something like:
 
 .. code-block::
 
-   platform linux -- Python 3.9.1, pytest-6.2.2, py-1.10.0, pluggy-0.13.1
+   platform linux -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
    rootdir: /code
-   plugins: cov-2.11.1
+   plugins: cov-3.0.0
    collected 7 items
 
    webapp/tests.py .......                                         [100%]
 
-   ----------- coverage: platform linux, python 3.9.1-final-0 -----------
+   ---------- coverage: platform linux, python 3.10.0-final-0 ----------
    Name                     Stmts   Miss  Cover
    --------------------------------------------
    webapp/__init__.py           0      0   100%
-   webapp/application.py       14      0   100%
-   webapp/containers.py         9      0   100%
+   webapp/application.py       12      0   100%
+   webapp/containers.py        10      0   100%
    webapp/database.py          24      8    67%
    webapp/endpoints.py         32      0   100%
    webapp/models.py            10      1    90%
@@ -93,4 +93,4 @@ The output should be something like:
    webapp/services.py          16      0   100%
    webapp/tests.py             59      0   100%
    --------------------------------------------
-   TOTAL                      200     29    86%
+   TOTAL                      199     29    85%

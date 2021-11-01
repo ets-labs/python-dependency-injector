@@ -12,7 +12,7 @@ from .analytics.containers import AnalyticsContainer
 
 class ApplicationContainer(containers.DeclarativeContainer):
 
-    config = providers.Configuration()
+    config = providers.Configuration(ini_files=["config.ini"])
 
     sqlite = providers.Singleton(sqlite3.connect, config.database.dsn)
 

@@ -7,10 +7,9 @@ from fastapi_di_example import app, container, Service
 
 
 @pytest.fixture
-def client(event_loop):
-    client = AsyncClient(app=app, base_url="http://test")
-    yield client
-    event_loop.run_until_complete(client.aclose())
+async def client(event_loop):
+    async with AsyncClient(app=app, base_url="http://test") as client:
+        yield client
 
 
 @pytest.mark.asyncio
