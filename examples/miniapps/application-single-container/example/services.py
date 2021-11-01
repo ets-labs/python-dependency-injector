@@ -11,7 +11,7 @@ class BaseService:
 
     def __init__(self) -> None:
         self.logger = logging.getLogger(
-            f'{__name__}.{self.__class__.__name__}',
+            f"{__name__}.{self.__class__.__name__}",
         )
 
 
@@ -22,8 +22,8 @@ class UserService(BaseService):
         super().__init__()
 
     def get_user(self, email: str) -> Dict[str, str]:
-        self.logger.debug('User %s has been found in database', email)
-        return {'email': email, 'password_hash': '...'}
+        self.logger.debug("User %s has been found in database", email)
+        return {"email": email, "password_hash": "..."}
 
 
 class AuthService(BaseService):
@@ -36,8 +36,8 @@ class AuthService(BaseService):
     def authenticate(self, user: Dict[str, str], password: str) -> None:
         assert password is not None
         self.logger.debug(
-            'User %s has been successfully authenticated',
-            user['email'],
+            "User %s has been successfully authenticated",
+            user["email"],
         )
 
 
@@ -50,7 +50,7 @@ class PhotoService(BaseService):
 
     def upload_photo(self, user: Dict[str, str], photo_path: str) -> None:
         self.logger.debug(
-            'Photo %s has been successfully uploaded by user %s',
+            "Photo %s has been successfully uploaded by user %s",
             photo_path,
-            user['email'],
+            user["email"],
         )

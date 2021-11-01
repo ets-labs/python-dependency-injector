@@ -81,20 +81,20 @@ The output should be something like:
 
 .. code-block::
 
-   platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
-   plugins: flask-1.0.0, cov-2.10.0
+   platform darwin -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
+   plugins: cov-3.0.0, flask-1.2.0
    collected 2 items
 
    githubnavigator/tests.py ..                                     [100%]
 
-   ---------- coverage: platform darwin, python 3.8.3-final-0 -----------
+   ---------- coverage: platform darwin, python 3.10.0-final-0 ----------
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
    githubnavigator/__init__.py          0      0   100%
-   githubnavigator/application.py      15      0   100%
-   githubnavigator/containers.py        7      0   100%
+   githubnavigator/application.py      13      0   100%
+   githubnavigator/containers.py        8      0   100%
    githubnavigator/services.py         14      0   100%
    githubnavigator/tests.py            34      0   100%
    githubnavigator/views.py            10      0   100%
    ----------------------------------------------------
-   TOTAL                               80      0   100%
+   TOTAL                               79      0   100%

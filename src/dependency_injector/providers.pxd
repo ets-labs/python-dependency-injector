@@ -114,6 +114,9 @@ cdef class Configuration(Object):
     cdef str __name
     cdef bint __strict
     cdef dict __children
+    cdef list __yaml_files
+    cdef list __ini_files
+    cdef list __pydantic_settings
     cdef object __weakref__
 
 

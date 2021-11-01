@@ -18,5 +18,5 @@ class SignupUseCase:
         self.email_sender = email_sender
 
     def execute(self, email: str) -> None:
-        print(f'Sign up user {email}')
-        self.email_sender.send(email, f'Welcome, {email}')
+        print(f"Sign up user {email}")
+        self.email_sender.send(email, f"Welcome, {email}")

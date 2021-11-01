@@ -30,7 +30,7 @@ IDE.
    provider = providers.Factory(Cat)
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        animal = provider()  # mypy knows that animal is of type "Cat"
 
 
@@ -54,5 +54,7 @@ function or method.
    provider: providers.Provider[Animal] = providers.Factory(Cat)
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        animal = provider()  # mypy knows that animal is of type "Animal"
+
+.. disqus::

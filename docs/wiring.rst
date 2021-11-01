@@ -95,17 +95,17 @@ Also you can use ``Provide`` marker to inject a container.
 
 .. literalinclude:: ../examples/wiring/example_container.py
    :language: python
-   :emphasize-lines: 16-19
+   :emphasize-lines: 14-17
    :lines: 3-
 
-Strings identifiers
--------------------
+String identifiers
+------------------
 
 You can use wiring with string identifiers. String identifier should match provider name in the container:
 
 .. literalinclude:: ../examples/wiring/example_string_id.py
    :language: python
-   :emphasize-lines: 17
+   :emphasize-lines: 15
    :lines: 3-
 
 With string identifiers you don't need to use a container to specify an injection.
@@ -115,7 +115,7 @@ To specify an injection from a nested container use point ``.`` as a separator:
 .. code-block:: python
 
    @inject
-   def foo(service: UserService = Provide['services.user']) -> None:
+   def foo(service: UserService = Provide["services.user"]) -> None:
        ...
 
 You can also use injection modifiers:
@@ -135,34 +135,34 @@ You can also use injection modifiers:
 
 
    @inject
-   def foo(value: int = Provide['config.option', as_int()]) -> None:
+   def foo(value: int = Provide["config.option", as_int()]) -> None:
        ...
 
 
    @inject
-   def foo(value: float = Provide['config.option', as_float()]) -> None:
+   def foo(value: float = Provide["config.option", as_float()]) -> None:
        ...
 
 
    @inject
-   def foo(value: Decimal = Provide['config.option', as_(Decimal)]) -> None:
+   def foo(value: Decimal = Provide["config.option", as_(Decimal)]) -> None:
        ...
 
    @inject
-   def foo(value: str = Provide['config.option', required()]) -> None:
+   def foo(value: str = Provide["config.option", required()]) -> None:
        ...
 
    @inject
-   def foo(value: int = Provide['config.option', required().as_int()]) -> None:
+   def foo(value: int = Provide["config.option", required().as_int()]) -> None:
        ...
 
 
    @inject
-   def foo(value: int = Provide['config.option', invariant('config.switch')]) -> None:
+   def foo(value: int = Provide["config.option", invariant("config.switch")]) -> None:
        ...
 
    @inject
-   def foo(value: int = Provide['service', provided().foo['bar'].call()]) -> None:
+   def foo(value: int = Provide["service", provided().foo["bar"].call()]) -> None:
        ...
 
 
@@ -171,7 +171,7 @@ To inject a container use special identifier ``<container>``:
 .. code-block:: python
 
    @inject
-   def foo(container: Container = Provide['<container>']) -> None:
+   def foo(container: Container = Provide["<container>"]) -> None:
        ...
 
 
@@ -183,25 +183,63 @@ You can use wiring to make injections into modules and class attributes.
 .. literalinclude:: ../examples/wiring/example_attribute.py
    :language: python
    :lines: 3-
-   :emphasize-lines: 16,21
+   :emphasize-lines: 14,19
 
 You could also use string identifiers to avoid a dependency on a container:
 
 .. code-block:: python
    :emphasize-lines: 1,6
 
-   service: Service = Provide['service']
+   service: Service = Provide["service"]
 
 
    class Main:
 
-       service: Service = Provide['service']
+       service: Service = Provide["service"]
 
 Wiring with modules and packages
 --------------------------------
 
-To wire a container with a module you need to call ``container.wire(modules=[...])`` method. Argument
-``modules`` is an iterable of the module objects.
+To wire a container with the modules you need to call ``container.wire()`` method:
+
+.. code-block:: python
+
+   container.wire(
+       modules=[
+           "yourapp.module1",
+           "yourapp.module2",
+       ],
+   )
+
+Method ``container.wire()`` can resolve relative imports:
+
+.. code-block:: python
+
+   # In module "yourapp.main":
+
+   container.wire(
+       modules=[
+           ".module1",  # Resolved to: "yourapp.module1"
+           ".module2",  # Resolved to: "yourapp.module2"
+       ],
+   )
+
+You can also manually specify a base package for resolving relative imports with
+the ``from_package`` argument:
+
+.. code-block:: python
+
+   # In module "yourapp.main":
+
+   container.wire(
+       modules=[
+           ".module1",  # Resolved to: "anotherapp.module1"
+           ".module2",  # Resolved to: "anotherapp.module2"
+       ],
+       from_package="anotherapp",
+   )
+
+Argument ``modules`` can also take already imported modules:
 
 .. code-block:: python
 
@@ -211,15 +249,16 @@ To wire a container with a module you need to call ``container.wire(modules=[...
    container = Container()
    container.wire(modules=[module1, module2])
 
-You can wire container with a package. Container walks recursively over package modules.
+You can wire container with a package. Container walks recursively over the package modules:
 
 .. code-block:: python
 
-   from yourapp import package1, package2
-
-
-   container = Container()
-   container.wire(packages=[package1, package2])
+   container.wire(
+       packages=[
+           "yourapp.package1",
+           "yourapp.package2",
+       ],
+   )
 
 Arguments ``modules`` and ``packages`` can be used together.
 
@@ -233,7 +272,7 @@ When wiring is done functions and methods with the markers are patched to provid
 
 
    container = Container()
-   container.wire(modules=[sys.modules[__name__]])
+   container.wire(modules=[__name__])
 
    foo()  # <--- Argument "bar" is injected
 
@@ -267,7 +306,7 @@ You can use that in testing to re-create and re-wire a container before each tes
 
        def setUp(self):
            self.container = Container()
-           self.container.wire(modules=[module1, module2])
+           self.container.wire(modules=["yourapp.module1", "yourapp.module2"])
            self.addCleanup(self.container.unwire)
 
 .. code-block:: python
@@ -278,7 +317,7 @@ You can use that in testing to re-create and re-wire a container before each tes
    @pytest.fixture
    def container():
        container = Container()
-       container.wire(modules=[module1, module2])
+       container.wire(modules=["yourapp.module1", "yourapp.module2"])
        yield container
        container.unwire()
 
@@ -308,6 +347,76 @@ You can use that in testing to re-create and re-wire a container before each tes
       from . import module
 
       module.fn()
+
+Wiring configuration
+--------------------
+
+You can specify wiring configuration in the container. When wiring configuration is defined,
+container will call method ``.wire()`` automatically when you create an instance:
+
+.. code-block:: python
+
+   class Container(containers.DeclarativeContainer):
+
+       wiring_config = containers.WiringConfiguration(
+           modules=[
+               "yourapp.module1",
+               "yourapp.module2",
+           ],
+           packages=[
+               "yourapp.package1",
+               "yourapp.package2",
+           ],
+       )
+
+       ...
+
+
+   if __name__ == "__main__":
+       container = Container()  # container.wire() is called automatically
+       ...
+
+You can also use relative imports. Container will resolve them corresponding
+to the module of the container class:
+
+.. code-block:: python
+
+   # In module "yourapp.container":
+
+   class Container(containers.DeclarativeContainer):
+
+       wiring_config = containers.WiringConfiguration(
+           modules=[
+              ".module1",  # Resolved to: "yourapp.module1"
+              ".module2",  # Resolved to: "yourapp.module2"
+           ],
+       )
+   )
+
+
+   # In module "yourapp.foo.bar.main":
+
+   if __name__ == "__main__":
+       container = Container()  # wire to "yourapp.module1" and "yourapp.module2"
+       ...
+
+To use wiring configuration and call method ``.wire()`` manually, set flag ``auto_wire=False``:
+
+.. code-block:: python
+   :emphasize-lines: 5
+
+   class Container(containers.DeclarativeContainer):
+
+       wiring_config = containers.WiringConfiguration(
+           modules=["yourapp.module1"],
+           auto_wire=False,
+       )
+
+
+   if __name__ == "__main__":
+       container = Container()  # container.wire() is NOT called automatically
+       container.wire()         # wire to "yourapp.module1"
+       ...
 
 .. _async-injections-wiring:
 
@@ -402,11 +511,11 @@ This is useful when you import modules dynamically.
    from .containers import Container
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
        register_loader_containers(container)  # <--- installs import hook
 
-       module = importlib.import_module('package.module')
+       module = importlib.import_module("package.module")
        module.foo()
 
 You can register multiple containers in the import hook. For doing this call register function

@@ -1,13 +1,11 @@
-import sys
-
 from fastapi import FastAPI, Depends
 from dependency_injector import containers, providers
-from dependency_injector.wiring import inject, Provide
+from dependency_injector.wiring import Provide, inject
 
 
 class Service:
     async def process(self) -> str:
-        return 'Ok'
+        return "OK"
 
 
 class Container(containers.DeclarativeContainer):
@@ -18,12 +16,12 @@ class Container(containers.DeclarativeContainer):
 app = FastAPI()
 
 
-@app.api_route('/')
+@app.api_route("/")
 @inject
 async def index(service: Service = Depends(Provide[Container.service])):
     result = await service.process()
-    return {'result': result}
+    return {"result": result}
 
 
 container = Container()
-container.wire(modules=[sys.modules[__name__]])
+container.wire(modules=[__name__])

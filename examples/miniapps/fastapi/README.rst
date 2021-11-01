@@ -101,21 +101,21 @@ The output should be something like:
 
 .. code-block::
 
-   platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
-   plugins: cov-2.10.0, asyncio-0.14.0
+   platform darwin -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
+   plugins: asyncio-0.16.0, cov-3.0.0
    collected 3 items
 
    giphynavigator/tests.py ...                                     [100%]
 
-   ---------- coverage: platform darwin, python 3.8.3-final-0 -----------
+   ---------- coverage: platform darwin, python 3.10.0-final-0 ----------
    Name                            Stmts   Miss  Cover
    ---------------------------------------------------
    giphynavigator/__init__.py          0      0   100%
-   giphynavigator/application.py      13      0   100%
-   giphynavigator/containers.py        6      0   100%
+   giphynavigator/application.py      11      0   100%
+   giphynavigator/containers.py        7      0   100%
    giphynavigator/endpoints.py        20      0   100%
    giphynavigator/giphy.py            14      9    36%
    giphynavigator/services.py          9      1    89%
-   giphynavigator/tests.py            38      0   100%
+   giphynavigator/tests.py            37      0   100%
    ---------------------------------------------------
-   TOTAL                             100     10    90%
+   TOTAL                              98     10    90%

@@ -10,7 +10,7 @@ from . import http, monitors, dispatcher
 
 class Container(containers.DeclarativeContainer):
 
-    config = providers.Configuration()
+    config = providers.Configuration(yaml_files=["config.yml"])
 
     logging = providers.Resource(
         logging.basicConfig,

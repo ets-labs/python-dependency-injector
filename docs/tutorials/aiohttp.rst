@@ -127,8 +127,6 @@ Now it's time to install the project requirements. We will use next packages:
 
 - ``dependency-injector`` - the dependency injection framework
 - ``aiohttp`` - the web framework
-- ``aiohttp-devtools`` - the helper library that will provide a development server with live
-  reloading
 - ``pyyaml`` - the YAML files parsing library, used for the reading of the configuration files
 - ``pytest-aiohttp`` - the helper library for the testing of the ``aiohttp`` application
 - ``pytest-cov`` - the helper library for measuring the test coverage
@@ -139,7 +137,6 @@ Put next lines into the ``requirements.txt`` file:
 
    dependency-injector
    aiohttp
-   aiohttp-devtools
    pyyaml
    pytest-aiohttp
    pytest-cov
@@ -177,16 +174,16 @@ Edit ``handlers.py``:
 
 
    async def index(request: web.Request) -> web.Response:
-       query = request.query.get('query', 'Dependency Injector')
-       limit = int(request.query.get('limit', 10))
+       query = request.query.get("query", "Dependency Injector")
+       limit = int(request.query.get("limit", 10))
 
        gifs = []
 
        return web.json_response(
            {
-               'query': query,
-               'limit': limit,
-               'gifs': gifs,
+               "query": query,
+               "limit": limit,
+               "gifs": gifs,
            },
        )
 
@@ -228,9 +225,14 @@ Put next into the ``application.py``:
        app = web.Application()
        app.container = container
        app.add_routes([
-           web.get('/', handlers.index),
+           web.get("/", handlers.index),
        ])
        return app
+
+
+   if __name__ == "__main__":
+       app = create_app()
+       web.run_app(app)
 
 Now we're ready to run our application
 
@@ -238,20 +240,20 @@ Do next in the terminal:
 
 .. code-block:: bash
 
-   adev runserver giphynavigator/application.py --livereload
+   python -m giphynavigator.application
 
 The output should be something like:
 
 .. code-block:: bash
 
-   [18:52:59] Starting aux server at http://localhost:8001 ◆
-   [18:52:59] Starting dev server at http://localhost:8000 ●
+   ======== Running on http://0.0.0.0:8080 ========
+   (Press CTRL+C to quit)
 
 Let's check that it works. Open another terminal session and use ``httpie``:
 
 .. code-block:: bash
 
-   http http://127.0.0.1:8000/
+   http http://0.0.0.0:8080/
 
 You should see:
 
@@ -261,7 +263,7 @@ You should see:
    Content-Length: 844
    Content-Type: application/json; charset=utf-8
    Date: Wed, 29 Jul 2020 21:01:50 GMT
-   Server: Python/3.8 aiohttp/3.6.2
+   Server: Python/3.10 aiohttp/3.6.2
 
    {
        "gifs": [],
@@ -304,7 +306,7 @@ and put next into it:
 
    class GiphyClient:
 
-       API_URL = 'https://api.giphy.com/v1'
+       API_URL = "https://api.giphy.com/v1"
 
        def __init__(self, api_key, timeout):
            self._api_key = api_key
@@ -312,11 +314,11 @@ and put next into it:
 
        async def search(self, query, limit):
            """Make search API call and return result."""
-           url = f'{self.API_URL}/gifs/search'
+           url = f"{self.API_URL}/gifs/search"
            params = {
-               'q': query,
-               'api_key': self._api_key,
-               'limit': limit,
+               "q": query,
+               "api_key": self._api_key,
+               "limit": limit,
            }
            async with ClientSession(timeout=self._timeout) as session:
                async with session.get(url, params=params) as response:
@@ -328,8 +330,10 @@ Now we need to add ``GiphyClient`` into the container. The ``GiphyClient`` has t
 that have to be injected: the API key and the request timeout. We will need to use two more
 providers from the ``dependency_injector.providers`` module:
 
-- ``Factory`` provider that will create the ``GiphyClient`` client.
-- ``Configuration`` provider that will provide the API key and the request timeout.
+- ``Factory`` provider. It will create a ``GiphyClient`` client.
+- ``Configuration`` provider. It will provide an API key and a request timeout for the ``GiphyClient``
+  client. We will specify the location of the configuration file. The configuration provider will parse
+  the configuration file when we create a container instance.
 
 Edit ``containers.py``:
 
@@ -345,7 +349,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        giphy_client = providers.Factory(
            giphy.GiphyClient,
@@ -353,18 +357,8 @@ Edit ``containers.py``:
            timeout=config.giphy.request_timeout,
        )
 
-.. note::
-
-   We have used the configuration value before it was defined. That's the principle how the
-   ``Configuration`` provider works.
-
-   Use first, define later.
-
-Now let's add the configuration file.
-
-We will use YAML.
-
-Create an empty file ``config.yml`` in the root root of the project:
+Now let's add the configuration file. We will use YAML. Create an empty file ``config.yml`` in
+the root root of the project:
 
 .. code-block:: bash
    :emphasize-lines: 9
@@ -387,17 +381,14 @@ and put next into it:
    giphy:
      request_timeout: 10
 
-We will use an environment variable ``GIPHY_API_KEY`` to provide the API key.
 
-Now we need to edit ``create_app()`` to make two things when application starts:
-
-- Load the configuration file the ``config.yml``.
-- Load the API key from the ``GIPHY_API_KEY`` environment variable.
+We will use the ``GIPHY_API_KEY`` environment variable to provide the API key. Let’s edit
+``create_app()`` to fetch the key value from it.
 
 Edit ``application.py``:
 
 .. code-block:: python
-   :emphasize-lines: 11-12
+   :emphasize-lines: 11
 
    """Application module."""
 
@@ -409,16 +400,19 @@ Edit ``application.py``:
 
    def create_app() -> web.Application:
        container = Container()
-       container.config.from_yaml('config.yml')
-       container.config.giphy.api_key.from_env('GIPHY_API_KEY')
+       container.config.giphy.api_key.from_env("GIPHY_API_KEY")
 
        app = web.Application()
        app.container = container
        app.add_routes([
-           web.get('/', handlers.index),
+           web.get("/", handlers.index),
        ])
        return app
 
+
+   if __name__ == "__main__":
+       app = create_app()
+       web.run_app(app)
 
 Now we need to create an API key and set it to the environment variable.
 
@@ -483,7 +477,7 @@ and put next into it:
 
            result = await self._giphy_client.search(query, limit)
 
-           return [{'url': gif['url']} for gif in result['data']]
+           return [{"url": gif["url"]} for gif in result["data"]]
 
 The ``SearchService`` has a dependency on the ``GiphyClient``. This dependency will be
 injected when we add ``SearchService`` to the container.
@@ -502,7 +496,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        giphy_client = providers.Factory(
            giphy.GiphyClient,
@@ -531,7 +525,7 @@ Edit ``handlers.py``:
    """Handlers module."""
 
    from aiohttp import web
-   from dependency_injector.wiring import inject, Provide
+   from dependency_injector.wiring import Provide, inject
 
    from .services import SearchService
    from .containers import Container
@@ -542,60 +536,63 @@ Edit ``handlers.py``:
            request: web.Request,
            search_service: SearchService = Provide[Container.search_service],
    ) -> web.Response:
-       query = request.query.get('query', 'Dependency Injector')
-       limit = int(request.query.get('limit', 10))
+       query = request.query.get("query", "Dependency Injector")
+       limit = int(request.query.get("limit", 10))
 
        gifs = await search_service.search(query, limit)
 
        return web.json_response(
            {
-               'query': query,
-               'limit': limit,
-               'gifs': gifs,
+               "query": query,
+               "limit": limit,
+               "gifs": gifs,
            },
        )
 
-To make the injection work we need to wire the container instance with the ``handlers`` module.
-This needs to be done once. After it's done we can use ``Provide`` markers to specify as many
-injections as needed for any handler.
+To make the injection work we need to wire the container with the ``handlers`` module.
+Let's configure the container to automatically make wiring with the ``handlers`` module when we
+create a container instance.
 
-Edit ``application.py``:
+Edit ``containers.py``:
 
 .. code-block:: python
-   :emphasize-lines: 13
+   :emphasize-lines: 10
 
-   """Application module."""
+   """Containers module."""
 
-   from aiohttp import web
+   from dependency_injector import containers, providers
 
-   from .containers import Container
-   from . import handlers
+   from . import giphy, services
 
 
-   def create_app() -> web.Application:
-       container = Container()
-       container.config.from_yaml('config.yml')
-       container.config.giphy.api_key.from_env('GIPHY_API_KEY')
-       container.wire(modules=[handlers])
+   class Container(containers.DeclarativeContainer):
 
-       app = web.Application()
-       app.container = container
-       app.add_routes([
-           web.get('/', handlers.index),
-       ])
-       return app
+       wiring_config = containers.WiringConfiguration(modules=[".handlers"])
 
-Make sure the app is running or use:
+       config = providers.Configuration(yaml_files=["config.yml"])
+
+       giphy_client = providers.Factory(
+           giphy.GiphyClient,
+           api_key=config.giphy.api_key,
+           timeout=config.giphy.request_timeout,
+       )
+
+       search_service = providers.Factory(
+           services.SearchService,
+           giphy_client=giphy_client,
+       )
+
+Make sure the app is running:
 
 .. code-block:: bash
 
-   adev runserver giphynavigator/application.py --livereload
+   python -m giphynavigator.application
 
 and make a request to the API in the terminal:
 
 .. code-block:: bash
 
-   http http://localhost:8000/ query=="wow,it works" limit==5
+   http http://0.0.0.0:8080/ query=="wow,it works" limit==5
 
 You should see:
 
@@ -605,7 +602,7 @@ You should see:
    Content-Length: 492
    Content-Type: application/json; charset=utf-8
    Date: Fri, 09 Oct 2020 01:35:48 GMT
-   Server: Python/3.8 aiohttp/3.6.2
+   Server: Python/3.10 aiohttp/3.6.2
 
    {
        "gifs": [
@@ -651,7 +648,7 @@ Edit ``handlers.py``:
    """Handlers module."""
 
    from aiohttp import web
-   from dependency_injector.wiring import inject, Provide
+   from dependency_injector.wiring import Provide, inject
 
    from .services import SearchService
    from .containers import Container
@@ -664,16 +661,16 @@ Edit ``handlers.py``:
            default_query: str = Provide[Container.config.default.query],
            default_limit: int = Provide[Container.config.default.limit.as_int()],
    ) -> web.Response:
-       query = request.query.get('query', default_query)
-       limit = int(request.query.get('limit', default_limit))
+       query = request.query.get("query", default_query)
+       limit = int(request.query.get("limit", default_limit))
 
        gifs = await search_service.search(query, limit)
 
        return web.json_response(
            {
-               'query': query,
-               'limit': limit,
-               'gifs': gifs,
+               "query": query,
+               "limit": limit,
+               "gifs": gifs,
            },
        )
 
@@ -745,29 +742,29 @@ and put next into it:
    async def test_index(client, app):
        giphy_client_mock = mock.AsyncMock(spec=GiphyClient)
        giphy_client_mock.search.return_value = {
-           'data': [
-               {'url': 'https://giphy.com/gif1.gif'},
-               {'url': 'https://giphy.com/gif2.gif'},
+           "data": [
+               {"url": "https://giphy.com/gif1.gif"},
+               {"url": "https://giphy.com/gif2.gif"},
            ],
        }
 
        with app.container.giphy_client.override(giphy_client_mock):
            response = await client.get(
-               '/',
+               "/",
                params={
-                   'query': 'test',
-                   'limit': 10,
+                   "query": "test",
+                   "limit": 10,
                },
            )
 
        assert response.status == 200
        data = await response.json()
        assert data == {
-           'query': 'test',
-           'limit': 10,
-           'gifs': [
-               {'url': 'https://giphy.com/gif1.gif'},
-               {'url': 'https://giphy.com/gif2.gif'},
+           "query": "test",
+           "limit": 10,
+           "gifs": [
+               {"url": "https://giphy.com/gif1.gif"},
+               {"url": "https://giphy.com/gif2.gif"},
            ],
        }
 
@@ -775,30 +772,30 @@ and put next into it:
    async def test_index_no_data(client, app):
        giphy_client_mock = mock.AsyncMock(spec=GiphyClient)
        giphy_client_mock.search.return_value = {
-           'data': [],
+           "data": [],
        }
 
        with app.container.giphy_client.override(giphy_client_mock):
-           response = await client.get('/')
+           response = await client.get("/")
 
        assert response.status == 200
        data = await response.json()
-       assert data['gifs'] == []
+       assert data["gifs"] == []
 
 
    async def test_index_default_params(client, app):
        giphy_client_mock = mock.AsyncMock(spec=GiphyClient)
        giphy_client_mock.search.return_value = {
-           'data': [],
+           "data": [],
        }
 
        with app.container.giphy_client.override(giphy_client_mock):
-           response = await client.get('/')
+           response = await client.get("/")
 
        assert response.status == 200
        data = await response.json()
-       assert data['query'] == app.container.config.default.query()
-       assert data['limit'] == app.container.config.default.limit()
+       assert data["query"] == app.container.config.default.query()
+       assert data["limit"] == app.container.config.default.limit()
 
 Now let's run it and check the coverage:
 
@@ -810,24 +807,24 @@ You should see:
 
 .. code-block::
 
-   platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
-   plugins: cov-2.10.0, aiohttp-0.3.0, asyncio-0.14.0
+   platform darwin -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
+   plugins: asyncio-0.16.0, anyio-3.3.4, aiohttp-0.3.0, cov-3.0.0
    collected 3 items
 
    giphynavigator/tests.py ...                                     [100%]
 
-   ---------- coverage: platform darwin, python 3.8.3-final-0 -----------
+   ---------- coverage: platform darwin, python 3.10.0-final-0 ----------
    Name                            Stmts   Miss  Cover
    ---------------------------------------------------
    giphynavigator/__init__.py          0      0   100%
-   giphynavigator/application.py      12      0   100%
-   giphynavigator/containers.py        6      0   100%
+   giphynavigator/application.py      13      2    85%
+   giphynavigator/containers.py        7      0   100%
    giphynavigator/giphy.py            14      9    36%
    giphynavigator/handlers.py         10      0   100%
    giphynavigator/services.py          9      1    89%
    giphynavigator/tests.py            37      0   100%
    ---------------------------------------------------
-   TOTAL                              88     10    89%
+   TOTAL                              90     12    87%
 
 .. note::
 

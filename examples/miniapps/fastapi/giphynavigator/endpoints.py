@@ -23,7 +23,7 @@ class Response(BaseModel):
 router = APIRouter()
 
 
-@router.get('/', response_model=Response)
+@router.get("/", response_model=Response)
 @inject
 async def index(
         query: Optional[str] = None,
@@ -38,7 +38,7 @@ async def index(
     gifs = await search_service.search(query, limit)
 
     return {
-        'query': query,
-        'limit': limit,
-        'gifs': gifs,
+        "query": query,
+        "limit": limit,
+        "gifs": gifs,
     }

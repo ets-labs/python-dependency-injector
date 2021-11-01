@@ -59,8 +59,8 @@ The output should look something like:
 
 .. code-block:: bash
 
-   Docker version 19.03.12, build 48a66213fe
-   docker-compose version 1.26.2, build eefe0d31
+   Docker version 20.10.5, build 55c4c88
+   docker-compose version 1.29.0, build 07737305
 
 .. note::
 
@@ -129,13 +129,13 @@ Put next lines into the ``requirements.txt`` file:
    pytest-cov
 
 Second, we need to create the ``Dockerfile``. It will describe the daemon's build process and
-specify how to run it. We will use ``python:3.8-buster`` as a base image.
+specify how to run it. We will use ``python:3.9-buster`` as a base image.
 
 Put next lines into the ``Dockerfile`` file:
 
 .. code-block:: bash
 
-   FROM python:3.8-buster
+   FROM python:3.10-buster
 
    ENV PYTHONUNBUFFERED=1
 
@@ -204,11 +204,11 @@ Logging and configuration
 
 In this section we will configure the logging and configuration file parsing.
 
-Let's start with the the main part of our application - the container. Container will keep all of
+Let's start with the the main part of our application – the container. Container will keep all of
 the application components and their dependencies.
 
-First two components that we're going to add are the config object and the provider for
-configuring the logging.
+First two components that we're going to add are the configuration provider and the resource provider
+for configuring the logging.
 
 Put next lines into the ``containers.py`` file:
 
@@ -224,7 +224,7 @@ Put next lines into the ``containers.py`` file:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        logging = providers.Resource(
            logging.basicConfig,
@@ -233,16 +233,7 @@ Put next lines into the ``containers.py`` file:
            format=config.log.format,
        )
 
-.. note::
-
-   We have used the configuration value before it was defined. That's the principle how the
-   ``Configuration`` provider works.
-
-   Use first, define later.
-
-The configuration file will keep the logging settings.
-
-Put next lines into the ``config.yml`` file:
+The configuration file will keep the logging settings. Put next lines into the ``config.yml`` file:
 
 .. code-block:: yaml
 
@@ -250,9 +241,10 @@ Put next lines into the ``config.yml`` file:
      level: "INFO"
      format: "[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s"
 
-Now let's create the function that will run our daemon. It's traditionally called
-``main()``. The ``main()`` function will create the container. Then it will use the container
-to parse the ``config.yml`` file and call the logging configuration provider.
+Now let's create the function that will run our daemon. It's traditionally called ``main()``.
+The ``main()`` function will start the dispatcher, but we will keep it empty for now.
+We will create the container instance before calling ``main()`` in ``if __name__ == "__main__"``.
+Container instance will parse ``config.yml`` and then we will call the logging configuration provider.
 
 Put next lines into the ``__main__.py`` file:
 
@@ -267,9 +259,8 @@ Put next lines into the ``__main__.py`` file:
        ...
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml('config.yml')
        container.init_resources()
 
        main()
@@ -356,7 +347,7 @@ and next into the ``dispatcher.py``:
            asyncio.run(self.start())
 
        async def start(self) -> None:
-           self._logger.info('Starting up')
+           self._logger.info("Starting up")
 
            for monitor in self._monitors:
                self._monitor_tasks.append(
@@ -376,11 +367,11 @@ and next into the ``dispatcher.py``:
 
            self._stopping = True
 
-           self._logger.info('Shutting down')
+           self._logger.info("Shutting down")
            for task, monitor in zip(self._monitor_tasks, self._monitors):
                task.cancel()
            self._monitor_tasks.clear()
-           self._logger.info('Shutdown finished successfully')
+           self._logger.info("Shutdown finished successfully")
 
        @staticmethod
        async def _run_monitor(monitor: Monitor) -> None:
@@ -396,7 +387,7 @@ and next into the ``dispatcher.py``:
                except asyncio.CancelledError:
                    break
                except Exception:
-                   monitor.logger.exception('Error executing monitor check')
+                   monitor.logger.exception("Error executing monitor check")
 
                await asyncio.sleep(_until_next(last=time_start))
 
@@ -419,7 +410,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        logging = providers.Resource(
            logging.basicConfig,
@@ -442,13 +433,11 @@ and call the ``run()`` method. We will use :ref:`wiring` feature.
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 3-7,11-13,20
+   :emphasize-lines: 3-5,9-11,17
 
    """Main module."""
 
-   import sys
-
-   from dependency_injector.wiring import inject, Provide
+   from dependency_injector.wiring import Provide, inject
 
    from .dispatcher import Dispatcher
    from .containers import Container
@@ -459,11 +448,10 @@ Edit ``__main__.py``:
        dispatcher.run()
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml('config.yml')
        container.init_resources()
-       container.wire(modules=[sys.modules[__name__]])
+       container.wire(modules=[__name__])
 
        main()
 
@@ -561,7 +549,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        logging = providers.Resource(
            logging.basicConfig,
@@ -613,10 +601,10 @@ Edit ``monitors.py``:
                options: Dict[str, Any],
        ) -> None:
            self._client = http_client
-           self._method = options.pop('method')
-           self._url = options.pop('url')
-           self._timeout = options.pop('timeout')
-           super().__init__(check_every=options.pop('check_every'))
+           self._method = options.pop("method")
+           self._url = options.pop("url")
+           self._timeout = options.pop("timeout")
+           super().__init__(check_every=options.pop("check_every"))
 
        async def check(self) -> None:
            time_start = time.time()
@@ -631,11 +619,11 @@ Edit ``monitors.py``:
            time_took = time_end - time_start
 
            self.logger.info(
-               'Check\n'
-               '    %s %s\n'
-               '    response code: %s\n'
-               '    content length: %s\n'
-               '    request took: %s seconds',
+               "Check\n"
+               "    %s %s\n"
+               "    response code: %s\n"
+               "    content length: %s\n"
+               "    request took: %s seconds",
                self._method,
                self._url,
                response.status,
@@ -666,7 +654,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        logging = providers.Resource(
            logging.basicConfig,
@@ -765,7 +753,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        logging = providers.Resource(
            logging.basicConfig,
@@ -890,7 +878,7 @@ Create ``tests.py`` in the ``monitoringdaemon`` package:
 and put next into it:
 
 .. code-block:: python
-   :emphasize-lines: 54,70-71
+   :emphasize-lines: 54,70-73
 
    """Tests module."""
 
@@ -911,33 +899,33 @@ and put next into it:
 
    @pytest.fixture
    def container():
-       container = Container()
-       container.config.from_dict({
-           'log': {
-               'level': 'INFO',
-               'formant': '[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s',
-           },
-           'monitors': {
-               'example': {
-                   'method': 'GET',
-                   'url': 'http://fake-example.com',
-                   'timeout': 1,
-                   'check_every': 1,
+       return Container(
+           config={
+               "log": {
+                   "level": "INFO",
+                   "formant": "[%(asctime)s] [%(levelname)s] [%(name)s]: %(message)s",
                },
-               'httpbin': {
-                   'method': 'GET',
-                   'url': 'https://fake-httpbin.org/get',
-                   'timeout': 1,
-                   'check_every': 1,
+               "monitors": {
+                   "example": {
+                       "method": "GET",
+                       "url": "http://fake-example.com",
+                       "timeout": 1,
+                       "check_every": 1,
+                   },
+                   "httpbin": {
+                       "method": "GET",
+                       "url": "https://fake-httpbin.org/get",
+                       "timeout": 1,
+                       "check_every": 1,
+                   },
                },
-           },
-       })
-       return container
+           }
+       )
 
 
    @pytest.mark.asyncio
    async def test_example_monitor(container, caplog):
-       caplog.set_level('INFO')
+       caplog.set_level("INFO")
 
        http_client_mock = mock.AsyncMock()
        http_client_mock.request.return_value = RequestStub(
@@ -949,21 +937,22 @@ and put next into it:
            example_monitor = container.example_monitor()
            await example_monitor.check()
 
-       assert 'http://fake-example.com' in caplog.text
-       assert 'response code: 200' in caplog.text
-       assert 'content length: 635' in caplog.text
+       assert "http://fake-example.com" in caplog.text
+       assert "response code: 200" in caplog.text
+       assert "content length: 635" in caplog.text
 
 
    @pytest.mark.asyncio
    async def test_dispatcher(container, caplog, event_loop):
-       caplog.set_level('INFO')
+       caplog.set_level("INFO")
 
        example_monitor_mock = mock.AsyncMock()
        httpbin_monitor_mock = mock.AsyncMock()
 
-       with container.example_monitor.override(example_monitor_mock), \
-               container.httpbin_monitor.override(httpbin_monitor_mock):
-
+       with container.override_providers(
+               example_monitor=example_monitor_mock,
+               httpbin_monitor=httpbin_monitor_mock,
+       ):
            dispatcher = container.dispatcher()
            event_loop.create_task(dispatcher.start())
            await asyncio.sleep(0.1)
@@ -982,25 +971,25 @@ You should see:
 
 .. code-block:: bash
 
-   platform linux -- Python 3.8.3, pytest-6.0.1, py-1.9.0, pluggy-0.13.1
+   platform linux -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
    rootdir: /code
-   plugins: asyncio-0.14.0, cov-2.10.0
+   plugins: asyncio-0.16.0, cov-3.0.0
    collected 2 items
 
    monitoringdaemon/tests.py ..                                    [100%]
 
-   ----------- coverage: platform linux, python 3.8.3-final-0 -----------
+   ---------- coverage: platform linux, python 3.10.0-final-0 -----------
    Name                             Stmts   Miss  Cover
    ----------------------------------------------------
    monitoringdaemon/__init__.py         0      0   100%
-   monitoringdaemon/__main__.py        13     13     0%
+   monitoringdaemon/__main__.py        11     11     0%
    monitoringdaemon/containers.py      11      0   100%
-   monitoringdaemon/dispatcher.py      44      5    89%
+   monitoringdaemon/dispatcher.py      45      5    89%
    monitoringdaemon/http.py             6      3    50%
    monitoringdaemon/monitors.py        23      1    96%
-   monitoringdaemon/tests.py           37      0   100%
+   monitoringdaemon/tests.py           35      0   100%
    ----------------------------------------------------
-   TOTAL                              134     22    84%
+   TOTAL                              131     20    85%
 
 .. note::
 

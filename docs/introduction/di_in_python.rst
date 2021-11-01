@@ -67,8 +67,8 @@ Before:
    class ApiClient:
 
        def __init__(self):
-           self.api_key = os.getenv('API_KEY')  # <-- dependency
-           self.timeout = os.getenv('TIMEOUT')  # <-- dependency
+           self.api_key = os.getenv("API_KEY")  # <-- dependency
+           self.timeout = os.getenv("TIMEOUT")  # <-- dependency
 
 
    class Service:
@@ -82,7 +82,7 @@ Before:
        ...
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        main()
 
 After:
@@ -109,12 +109,12 @@ After:
        ...
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        main(
            service=Service(
                api_client=ApiClient(
-                   api_key=os.getenv('API_KEY'),
-                   timeout=os.getenv('TIMEOUT'),
+                   api_key=os.getenv("API_KEY"),
+                   timeout=os.getenv("TIMEOUT"),
                ),
            ),
        )
@@ -136,8 +136,8 @@ Now you need to assemble and inject the objects like this:
    main(
        service=Service(
            api_client=ApiClient(
-               api_key=os.getenv('API_KEY'),
-               timeout=os.getenv('TIMEOUT'),
+               api_key=os.getenv("API_KEY"),
+               timeout=os.getenv("TIMEOUT"),
            ),
        ),
    )
@@ -162,7 +162,7 @@ the dependency.
 .. code-block:: python
 
    from dependency_injector import containers, providers
-   from dependency_injector.wiring import inject, Provide
+   from dependency_injector.wiring import Provide, inject
 
 
    class Container(containers.DeclarativeContainer):
@@ -186,11 +186,11 @@ the dependency.
        ...
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
-       container.config.api_key.from_env('API_KEY')
-       container.config.timeout.from_env('TIMEOUT')
-       container.wire(modules=[sys.modules[__name__]])
+       container.config.api_key.from_env("API_KEY")
+       container.config.timeout.from_env("TIMEOUT")
+       container.wire(modules=[__name__])
 
        main()  # <-- dependency is injected automatically
 

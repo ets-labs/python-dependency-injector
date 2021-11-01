@@ -6,6 +6,7 @@ import inspect
 import importlib
 import importlib.machinery
 import pkgutil
+import warnings
 import sys
 from types import ModuleType
 from typing import (
@@ -57,6 +58,14 @@ except ImportError:
 
 from . import providers
 
+
+if sys.version_info[:2] == (3, 5):
+    warnings.warn(
+        "Dependency Injector will drop support of Python 3.5 after Jan 1st of 2022. "
+        "This does not mean that there will be any immediate breaking changes, "
+        "but tests will no longer be executed on Python 3.5, and bugs will not be addressed.",
+        category=DeprecationWarning,
+    )
 
 __all__ = (
     'wire',
@@ -325,8 +334,7 @@ def wire(  # noqa: C901
         packages: Optional[Iterable[ModuleType]] = None,
 ) -> None:
     """Wire container providers with provided packages and modules."""
-    if not modules:
-        modules = []
+    modules = [*modules] if modules else []
 
     if packages:
         for package in packages:
@@ -367,8 +375,7 @@ def unwire(  # noqa: C901
         packages: Optional[Iterable[ModuleType]] = None,
 ) -> None:
     """Wire provided packages and modules with previous wired providers."""
-    if not modules:
-        modules = []
+    modules = [*modules] if modules else []
 
     if packages:
         for package in packages:

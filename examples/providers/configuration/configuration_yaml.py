@@ -8,20 +8,20 @@ class Container(containers.DeclarativeContainer):
     config = providers.Configuration()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
-    container.config.from_yaml('examples/providers/configuration/config.yml')
+    container.config.from_yaml("./config.yml")
 
     assert container.config() == {
-        'aws': {
-            'access_key_id': 'KEY',
-            'secret_access_key': 'SECRET',
+        "aws": {
+            "access_key_id": "KEY",
+            "secret_access_key": "SECRET",
         },
     }
     assert container.config.aws() == {
-        'access_key_id': 'KEY',
-        'secret_access_key': 'SECRET',
+        "access_key_id": "KEY",
+        "secret_access_key": "SECRET",
     }
-    assert container.config.aws.access_key_id() == 'KEY'
-    assert container.config.aws.secret_access_key() == 'SECRET'
+    assert container.config.aws.access_key_id() == "KEY"
+    assert container.config.aws.secret_access_key() == "SECRET"

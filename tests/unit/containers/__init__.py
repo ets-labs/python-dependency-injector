@@ -1,1 +1,1 @@
-"""Dependency injector container unit tests."""
+"""Container tests."""

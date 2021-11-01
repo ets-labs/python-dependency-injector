@@ -160,19 +160,19 @@ Second put next in the ``fixtures.py``:
 
 
    SAMPLE_DATA = [
-       ('The Hunger Games: Mockingjay - Part 2', 2015, 'Francis Lawrence'),
-       ('Rogue One: A Star Wars Story', 2016, 'Gareth Edwards'),
-       ('The Jungle Book', 2016, 'Jon Favreau'),
+       ("The Hunger Games: Mockingjay - Part 2", 2015, "Francis Lawrence"),
+       ("Rogue One: A Star Wars Story", 2016, "Gareth Edwards"),
+       ("The Jungle Book", 2016, "Jon Favreau"),
    ]
 
    FILE = pathlib.Path(__file__)
    DIR = FILE.parent
-   CSV_FILE = DIR / 'movies.csv'
-   SQLITE_FILE = DIR / 'movies.db'
+   CSV_FILE = DIR / "movies.csv"
+   SQLITE_FILE = DIR / "movies.db"
 
 
    def create_csv(movies_data, path):
-       with open(path, 'w') as opened_file:
+       with open(path, "w") as opened_file:
            writer = csv.writer(opened_file)
            for row in movies_data:
                writer.writerow(row)
@@ -181,20 +181,20 @@ Second put next in the ``fixtures.py``:
    def create_sqlite(movies_data, path):
        with sqlite3.connect(path) as db:
            db.execute(
-               'CREATE TABLE IF NOT EXISTS movies '
-               '(title text, year int, director text)'
+               "CREATE TABLE IF NOT EXISTS movies "
+               "(title text, year int, director text)"
            )
-           db.execute('DELETE FROM movies')
-           db.executemany('INSERT INTO movies VALUES (?,?,?)', movies_data)
+           db.execute("DELETE FROM movies")
+           db.executemany("INSERT INTO movies VALUES (?,?,?)", movies_data)
 
 
    def main():
        create_csv(SAMPLE_DATA, CSV_FILE)
        create_sqlite(SAMPLE_DATA, SQLITE_FILE)
-       print('OK')
+       print("OK")
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        main()
 
 Now run in the terminal:
@@ -266,7 +266,7 @@ Edit ``__main__.py``:
        ...
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
 
        main()
@@ -321,7 +321,7 @@ and put next into it:
            self.director = str(director)
 
        def __repr__(self):
-           return '{0}(title={1}, year={2}, director={3})'.format(
+           return "{0}(title={1}, year={2}, director={3})".format(
                self.__class__.__name__,
                repr(self.title),
                repr(self.year),
@@ -428,7 +428,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        movie = providers.Factory(entities.Movie)
 
@@ -445,15 +445,9 @@ This is also called the delegation of the provider. If we just pass the movie fa
 as the dependency, it will be called when csv finder is created and the ``Movie`` instance will
 be injected. With the ``.provider`` attribute the provider itself will be injected.
 
-The csv finder also has a few dependencies on the configuration options. We added configuration
-provider to provide these dependencies.
-
-.. note::
-
-   We have used the configuration value before it was defined. That's the principle how the
-   Configuration provider works.
-
-   Use first, define later.
+The csv finder also has a few dependencies on the configuration options. We added a configuration
+provider to provide these dependencies and specified the location of the configuration file.
+The configuration provider will parse the configuration file when we create a container instance.
 
 Not let's define the configuration values.
 
@@ -467,29 +461,7 @@ Edit ``config.yml``:
        path: "data/movies.csv"
        delimiter: ","
 
-The configuration file is ready. Now let's update the  ``main()`` function to specify its location.
-
-Edit ``__main__.py``:
-
-.. code-block:: python
-   :emphasize-lines: 12
-
-   """Main module."""
-
-   from .containers import Container
-
-
-   def main() -> None:
-       ...
-
-
-   if __name__ == '__main__':
-       container = Container()
-       container.config.from_yaml('config.yml')
-
-       main()
-
-Move on to the lister.
+The configuration file is ready. Move on to the lister.
 
 Create the ``listers.py`` in the ``movies`` package:
 
@@ -552,7 +524,7 @@ and edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        movie = providers.Factory(entities.Movie)
 
@@ -575,13 +547,11 @@ Let's inject the ``lister`` into the  ``main()`` function.
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 3-7,11-12,19
+   :emphasize-lines: 3-5,9-10,16
 
    """Main module."""
 
-   import sys
-
-   from dependency_injector.wiring import inject, Provide
+   from dependency_injector.wiring import Provide, inject
 
    from .listers import MovieLister
    from .containers import Container
@@ -592,10 +562,9 @@ Edit ``__main__.py``:
        ...
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml('config.yml')
-       container.wire(modules=[sys.modules[__name__]])
+       container.wire(modules=[__name__])
 
        main()
 
@@ -607,13 +576,11 @@ Francis Lawrence and movies released in 2016.
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 13-19
+   :emphasize-lines: 11-17
 
    """Main module."""
 
-   import sys
-
-   from dependency_injector.wiring import inject, Provide
+   from dependency_injector.wiring import Provide, inject
 
    from .listers import MovieLister
    from .containers import Container
@@ -621,19 +588,18 @@ Edit ``__main__.py``:
 
    @inject
    def main(lister: MovieLister = Provide[Container.lister]) -> None:
-       print('Francis Lawrence movies:')
-       for movie in lister.movies_directed_by('Francis Lawrence'):
-           print('\t-', movie)
+       print("Francis Lawrence movies:")
+       for movie in lister.movies_directed_by("Francis Lawrence"):
+           print("\t-", movie)
 
-       print('2016 movies:')
+       print("2016 movies:")
        for movie in lister.movies_released_in(2016):
-           print('\t-', movie)
+           print("\t-", movie)
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml('config.yml')
-       container.wire(modules=[sys.modules[__name__]])
+       container.wire(modules=[__name__])
 
        main()
 
@@ -718,7 +684,7 @@ Edit ``finders.py``:
 
        def find_all(self) -> List[Movie]:
            with self._database as db:
-               rows = db.execute('SELECT title, year, director FROM movies')
+               rows = db.execute("SELECT title, year, director FROM movies")
                return [self._movie_factory(*row) for row in rows]
 
 Now we need to add the sqlite finder to the container and update lister's dependency to use it.
@@ -737,7 +703,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        movie = providers.Factory(entities.Movie)
 
@@ -826,7 +792,7 @@ Edit ``containers.py``:
 
    class Container(containers.DeclarativeContainer):
 
-       config = providers.Configuration()
+       config = providers.Configuration(yaml_files=["config.yml"])
 
        movie = providers.Factory(entities.Movie)
 
@@ -863,13 +829,11 @@ Now we need to read the value of the ``config.finder.type`` option from the envi
 Edit ``__main__.py``:
 
 .. code-block:: python
-   :emphasize-lines: 25
+   :emphasize-lines: 22
 
    """Main module."""
 
-   import sys
-
-   from dependency_injector.wiring import inject, Provide
+   from dependency_injector.wiring import Provide, inject
 
    from .listers import MovieLister
    from .containers import Container
@@ -877,19 +841,18 @@ Edit ``__main__.py``:
 
    @inject
    def main(lister: MovieLister = Provide[Container.lister]) -> None:
-       print('Francis Lawrence movies:')
-       for movie in lister.movies_directed_by('Francis Lawrence'):
-           print('\t-', movie)
+       print("Francis Lawrence movies:")
+       for movie in lister.movies_directed_by("Francis Lawrence"):
+           print("\t-", movie)
 
-       print('2016 movies:')
+       print("2016 movies:")
        for movie in lister.movies_released_in(2016):
-           print('\t-', movie)
+           print("\t-", movie)
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
-       container.config.from_yaml('config.yml')
-       container.config.finder.type.from_env('MOVIE_FINDER_TYPE')
+       container.config.finder.type.from_env("MOVIE_FINDER_TYPE")
        container.wire(modules=[sys.modules[__name__]])
 
        main()
@@ -948,7 +911,7 @@ Create ``tests.py`` in the ``movies`` package:
 and put next into it:
 
 .. code-block:: python
-   :emphasize-lines: 35,50
+   :emphasize-lines: 36,51
 
    """Tests module."""
 
@@ -961,42 +924,43 @@ and put next into it:
 
    @pytest.fixture
    def container():
-       container = Container()
-       container.config.from_dict({
-           'finder': {
-               'type': 'csv',
-               'csv': {
-                   'path': '/fake-movies.csv',
-                   'delimiter': ',',
-               },
-               'sqlite': {
-                   'path': '/fake-movies.db',
+       container = Container(
+           config={
+               "finder": {
+                   "type": "csv",
+                   "csv": {
+                       "path": "/fake-movies.csv",
+                       "delimiter": ",",
+                   },
+                   "sqlite": {
+                       "path": "/fake-movies.db",
+                   },
                },
            },
-       })
+       )
        return container
 
 
    def test_movies_directed_by(container):
        finder_mock = mock.Mock()
        finder_mock.find_all.return_value = [
-           container.movie('The 33', 2015, 'Patricia Riggen'),
-           container.movie('The Jungle Book', 2016, 'Jon Favreau'),
+           container.movie("The 33", 2015, "Patricia Riggen"),
+           container.movie("The Jungle Book", 2016, "Jon Favreau"),
        ]
 
        with container.finder.override(finder_mock):
            lister = container.lister()
-           movies = lister.movies_directed_by('Jon Favreau')
+           movies = lister.movies_directed_by("Jon Favreau")
 
        assert len(movies) == 1
-       assert movies[0].title == 'The Jungle Book'
+       assert movies[0].title == "The Jungle Book"
 
 
    def test_movies_released_in(container):
        finder_mock = mock.Mock()
        finder_mock.find_all.return_value = [
-           container.movie('The 33', 2015, 'Patricia Riggen'),
-           container.movie('The Jungle Book', 2016, 'Jon Favreau'),
+           container.movie("The 33", 2015, "Patricia Riggen"),
+           container.movie("The Jungle Book", 2016, "Jon Favreau"),
        ]
 
        with container.finder.override(finder_mock):
@@ -1004,7 +968,7 @@ and put next into it:
            movies = lister.movies_released_in(2015)
 
        assert len(movies) == 1
-       assert movies[0].title == 'The 33'
+       assert movies[0].title == "The 33"
 
 Run in the terminal:
 
@@ -1016,24 +980,24 @@ You should see:
 
 .. code-block::
 
-   platform darwin -- Python 3.8.3, pytest-5.4.3, py-1.9.0, pluggy-0.13.1
-   plugins: cov-2.10.0
+   platform darwin -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
+   plugins: cov-3.0.0
    collected 2 items
 
    movies/tests.py ..                                              [100%]
 
-   ---------- coverage: platform darwin, python 3.8.5-final-0 -----------
+   ---------- coverage: platform darwin, python 3.10 -----------
    Name                   Stmts   Miss  Cover
    ------------------------------------------
    movies/__init__.py         0      0   100%
-   movies/__main__.py        18     18     0%
+   movies/__main__.py        16     16     0%
    movies/containers.py       9      0   100%
    movies/entities.py         7      1    86%
    movies/finders.py         26     13    50%
    movies/listers.py          8      0   100%
-   movies/tests.py           24      0   100%
+   movies/tests.py           23      0   100%
    ------------------------------------------
-   TOTAL                     92     32    65%
+   TOTAL                     89     30    66%
 
 .. note::
 
@@ -1053,7 +1017,7 @@ We've used the ``Dependency Injector`` as a dependency injection framework.
 With a help of :ref:`containers` and :ref:`providers` we have defined how to assemble application components.
 
 ``Selector`` provider served as a switch for selecting the database format based on a configuration.
-:ref:`configuration-provider` helped to deal with reading YAML file and environment variable.
+:ref:`configuration-provider` helped to deal with reading a YAML file and environment variables.
 
 We used :ref:`wiring` feature to inject the dependencies into the ``main()`` function.
 :ref:`provider-overriding` feature helped in testing.

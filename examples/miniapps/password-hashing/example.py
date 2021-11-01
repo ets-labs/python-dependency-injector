@@ -15,8 +15,8 @@ class UserService:
     def create_user(self, name: str, password: str) -> Dict[str, str]:
         hashed_password = self._password_hasher(password)
         return {
-            'name': name,
-            'password': hashed_password,
+            "name": name,
+            "password": hashed_password,
         }
 
 
@@ -36,15 +36,15 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container(
         config={
-            'salt_size': 16,
-            'rounds': 10000,
+            "salt_size": 16,
+            "rounds": 10000,
         },
     )
 
     user_service = container.user_service()
 
-    user = user_service.create_user(name='Roman', password='secret1')
+    user = user_service.create_user(name="Roman", password="secret1")
     print(user)

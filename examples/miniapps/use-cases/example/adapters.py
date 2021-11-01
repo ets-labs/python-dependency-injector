@@ -13,10 +13,10 @@ class EmailSender(metaclass=abc.ABCMeta):
 class SmtpEmailSender:
 
     def send(self, to: str, body: str) -> None:
-        print(f'Sending an email to {to} over SMTP, body="{body}"')
+        print(f"Sending an email to {to} over SMTP, body=\"{body}\"")
 
 
 class EchoEmailSender:
 
     def send(self, to: str, body: str) -> None:
-        print(f'Fake sending an email to {to}, body="{body}"')
+        print(f"Fake sending an email to {to}, body=\"{body}\"")

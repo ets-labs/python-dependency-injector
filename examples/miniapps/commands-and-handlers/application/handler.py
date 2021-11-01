@@ -8,7 +8,7 @@ class CommandHandler:
         self.rating_repo = rating_repo
 
     def save_rating(self):
-        print('Saving rating')
+        print("Saving rating")
 
     def something_else(self):
-        print('Doing something else')
+        print("Doing something else")

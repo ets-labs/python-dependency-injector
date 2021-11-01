@@ -9,7 +9,7 @@ class Container(containers.DeclarativeContainer):
     service2 = providers.Dependency()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
     container.check_dependencies()  # <-- raises error:
     # Container has undefined dependencies: "Container.service1", "Container.service2"

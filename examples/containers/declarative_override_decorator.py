@@ -8,7 +8,7 @@ from dependency_injector import containers, providers
 
 class Container(containers.DeclarativeContainer):
 
-    database = providers.Singleton(sqlite3.connect, ':memory:')
+    database = providers.Singleton(sqlite3.connect, ":memory:")
 
 
 # Overriding ``Container`` with ``OverridingContainer``:
@@ -18,7 +18,7 @@ class OverridingContainer(containers.DeclarativeContainer):
     database = providers.Singleton(mock.Mock)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     database = container.database()

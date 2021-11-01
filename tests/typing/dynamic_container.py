@@ -14,6 +14,8 @@ container2.override(containers.DynamicContainer())
 # Test 3: to check override_providers()
 container3 = containers.DynamicContainer()
 container3.override_providers(a=providers.Provider())
+with container3.override_providers(a=providers.Provider()):
+    ...
 
 # Test 4: to check set_providers()
 container4 = containers.DynamicContainer()

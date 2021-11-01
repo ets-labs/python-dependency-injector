@@ -8,7 +8,9 @@ from . import services
 
 class Container(containers.DeclarativeContainer):
 
-    config = providers.Configuration()
+    wiring_config = containers.WiringConfiguration(packages=[".blueprints"])
+
+    config = providers.Configuration(yaml_files=["config.yml"])
 
     github_client = providers.Factory(
         Github,

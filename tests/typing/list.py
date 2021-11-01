@@ -25,7 +25,7 @@ provider3 = providers.List(
 )
 provided3: providers.ProvidedInstance = provider3.provided
 attr_getter3: providers.AttributeGetter = provider3.provided.attr
-item_getter3: providers.ItemGetter = provider3.provided['item']
+item_getter3: providers.ItemGetter = provider3.provided["item"]
 method_caller3: providers.MethodCaller = provider3.provided.method.call(123, arg=324)
 
 # Test 4: to check the return type with await

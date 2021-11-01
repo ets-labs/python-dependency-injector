@@ -34,15 +34,15 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     for provider in container.traverse():
         print(provider)
 
-    # <dependency_injector.providers.Configuration('config') at 0x10d37d200>
-    # <dependency_injector.providers.Factory(<class '__main__.Service'>) at 0x10d3a2820>
+    # <dependency_injector.providers.Configuration("config") at 0x10d37d200>
+    # <dependency_injector.providers.Factory(<class "__main__.Service">) at 0x10d3a2820>
     # <dependency_injector.providers.Resource(<function init_database at 0x10bd2cb80>) at 0x10d346b40>
-    # <dependency_injector.providers.ConfigurationOption('config.cache_hosts') at 0x10d37d350>
+    # <dependency_injector.providers.ConfigurationOption("config.cache_hosts") at 0x10d37d350>
     # <dependency_injector.providers.Resource(<function init_cache at 0x10be373a0>) at 0x10d346bc0>
-    # <dependency_injector.providers.ConfigurationOption('config.database_url') at 0x10d37d2e0>
+    # <dependency_injector.providers.ConfigurationOption("config.database_url") at 0x10d37d2e0>

@@ -12,7 +12,7 @@ class Container(containers.DeclarativeContainer):
     user_service_provider = providers.Singleton(UserService)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container1 = Container()
     user_service1 = container1.user_service_provider()
     assert user_service1 is container1.user_service_provider()

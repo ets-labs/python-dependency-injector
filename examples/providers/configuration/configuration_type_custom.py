@@ -21,14 +21,14 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     # Emulate environment variables
-    os.environ['PI'] = '3.1415926535897932384626433832'
+    os.environ["PI"] = "3.1415926535897932384626433832"
 
-    container.config.pi.from_env('PI')
+    container.config.pi.from_env("PI")
 
     calculator = container.calculator_factory()
 
-    assert calculator.pi == decimal.Decimal('3.1415926535897932384626433832')
+    assert calculator.pi == decimal.Decimal("3.1415926535897932384626433832")

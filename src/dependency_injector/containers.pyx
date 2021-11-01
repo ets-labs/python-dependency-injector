@@ -1,7 +1,12 @@
 """Containers module."""
 
+import contextlib
+import copy as copy_module
 import json
 import sys
+import importlib
+import inspect
+import warnings
 
 try:
     import asyncio
@@ -27,6 +32,27 @@ else:
 
     def unwire(*args, **kwargs):
         raise NotImplementedError('Wiring requires Python 3.6 or above')
+
+if sys.version_info[:2] == (3, 5):
+    warnings.warn(
+        "Dependency Injector will drop support of Python 3.5 after Jan 1st of 2022. "
+        "This does not mean that there will be any immediate breaking changes, "
+        "but tests will no longer be executed on Python 3.5, and bugs will not be addressed.",
+        category=DeprecationWarning,
+    )
+
+
+class WiringConfiguration:
+    """Container wiring configuration."""
+
+    def __init__(self, modules=None, packages=None, from_package=None, auto_wire=True):
+        self.modules = [*modules] if modules else []
+        self.packages = [*packages] if packages else []
+        self.from_package = from_package
+        self.auto_wire = auto_wire
+
+    def __deepcopy__(self, memo=None):
+        return self.__class__(self.modules, self.packages, self.from_package, self.auto_wire)
 
 
 class Container(object):
@@ -74,6 +100,7 @@ class DynamicContainer(Container):
         self.overridden = tuple()
         self.parent = None
         self.declarative_parent = None
+        self.wiring_config = WiringConfiguration()
         self.wired_to_modules = []
         self.wired_to_packages = []
         self.__self__ = providers.Self(self)
@@ -94,6 +121,7 @@ class DynamicContainer(Container):
 
         copied.provider_type = providers.Provider
         copied.overridden = providers.deepcopy(self.overridden, memo)
+        copied.wiring_config = copy_module.deepcopy(self.wiring_config, memo)
         copied.declarative_parent = self.declarative_parent
 
         for name, provider in providers.deepcopy(self.providers, memo).items():
@@ -221,9 +249,12 @@ class DynamicContainer(Container):
 
         :rtype: None
         """
+        overridden_providers = []
         for name, overriding_provider in six.iteritems(overriding_providers):
             container_provider = getattr(self, name)
             container_provider.override(overriding_provider)
+            overridden_providers.append(container_provider)
+        return ProvidersOverridingContext(self, overridden_providers)
 
     def reset_last_overriding(self):
         """Reset last overriding provider for each container providers.
@@ -248,11 +279,41 @@ class DynamicContainer(Container):
         for provider in six.itervalues(self.providers):
             provider.reset_override()
 
-    def wire(self, modules=None, packages=None):
+    def is_auto_wiring_enabled(self):
+        """Check if auto wiring is needed."""
+        return self.wiring_config.auto_wire is True
+
+    def wire(self, modules=None, packages=None, from_package=None):
         """Wire container providers with provided packages and modules.
 
         :rtype: None
         """
+        if modules is None and self.wiring_config.modules:
+            modules = self.wiring_config.modules
+        if packages is None and self.wiring_config.packages:
+            packages = self.wiring_config.packages
+
+        modules = [*modules] if modules else []
+        packages = [*packages] if packages else []
+
+        if _any_relative_string_imports_in(modules) or _any_relative_string_imports_in(packages):
+            if from_package is None:
+                if self.wiring_config.from_package is not None:
+                    from_package = self.wiring_config.from_package
+                elif self.declarative_parent is not None \
+                        and (self.wiring_config.modules or self.wiring_config.packages):
+                    with contextlib.suppress(Exception):
+                        from_package = _resolve_package_name_from_cls(self.declarative_parent)
+                else:
+                    with contextlib.suppress(Exception):
+                        from_package = _resolve_calling_package_name()
+
+        modules = _resolve_string_imports(modules, from_package)
+        packages = _resolve_string_imports(packages, from_package)
+
+        if not modules and not packages:
+            return
+
         wire(
             container=self,
             modules=modules,
@@ -261,7 +322,6 @@ class DynamicContainer(Container):
 
         if modules:
             self.wired_to_modules.extend(modules)
-
         if packages:
             self.wired_to_packages.extend(packages)
 
@@ -325,6 +385,12 @@ class DynamicContainer(Container):
             return _async_ordered_shutdown(resources)
         else:
             return _sync_ordered_shutdown(resources)
+
+    def load_config(self):
+        """Load configuration."""
+        config: providers.Configuration
+        for config in self.traverse(types=[providers.Configuration]):
+            config.load()
 
     def apply_container_providers_overridings(self):
         """Apply container providers' overridings."""
@@ -450,10 +516,20 @@ class DeclarativeContainerMetaClass(type):
         all_providers.update(inherited_providers)
         all_providers.update(cls_providers)
 
+        wiring_config = attributes.get("wiring_config")
+        if wiring_config is None:
+            wiring_config = WiringConfiguration()
+        if wiring_config is not None and not isinstance(wiring_config, WiringConfiguration):
+            raise errors.Error(
+                "Wiring configuration should be an instance of WiringConfiguration, "
+                "instead got {0}".format(wiring_config)
+            )
+
         attributes['containers'] = containers
         attributes['inherited_providers'] = inherited_providers
         attributes['cls_providers'] = cls_providers
         attributes['providers'] = all_providers
+        attributes['wiring_config'] = wiring_config
 
         cls = <type>type.__new__(mcs, class_name, bases, attributes)
 
@@ -604,6 +680,18 @@ class DeclarativeContainer(Container):
     :type: dict[str, :py:class:`dependency_injector.providers.Provider`]
     """
 
+    wiring_config = WiringConfiguration()
+    """Wiring configuration.
+
+    :type: WiringConfiguration
+    """
+
+    auto_load_config = True
+    """Automatically load configuration when the container is created.
+
+    :type: bool
+    """
+
     cls_providers = dict()
     """Read-only dictionary of current container providers.
 
@@ -636,6 +724,7 @@ class DeclarativeContainer(Container):
         """
         container = cls.instance_type()
         container.provider_type = cls.provider_type
+        container.wiring_config = copy_module.deepcopy(cls.wiring_config)
         container.declarative_parent = cls
 
         copied_providers = providers.deepcopy({ **cls.providers, **{'@@self@@': cls.__self__}})
@@ -649,8 +738,14 @@ class DeclarativeContainer(Container):
         for name, provider in copied_providers.items():
             container.set_provider(name, provider)
 
+        if cls.auto_load_config:
+            container.load_config()
+
         container.override_providers(**overriding_providers)
         container.apply_container_providers_overridings()
+
+        if container.is_auto_wiring_enabled():
+            container.wire()
 
         return container
 
@@ -714,6 +809,21 @@ class SingletonResetContext:
 
     def __exit__(self, *_):
         self._container.reset_singletons()
+
+
+
+class ProvidersOverridingContext:
+
+    def __init__(self, container, overridden_providers):
+        self._container = container
+        self._overridden_providers = overridden_providers
+
+    def __enter__(self):
+        return self._container
+
+    def __exit__(self, *_):
+        for provider in self._overridden_providers:
+            provider.reset_last_overriding()
 
 
 def override(object container):
@@ -789,3 +899,32 @@ cpdef object _check_provider_type(object container, object provider):
     if not isinstance(provider, container.provider_type):
         raise errors.Error('{0} can contain only {1} '
                            'instances'.format(container, container.provider_type))
+
+
+cpdef bint _any_relative_string_imports_in(object modules):
+    for module in modules:
+        if not isinstance(module, str):
+            continue
+        if module.startswith("."):
+            return True
+    else:
+        return False
+
+
+cpdef list _resolve_string_imports(object modules, object from_package):
+    return [
+        importlib.import_module(module, from_package) if isinstance(module, str) else module
+        for module in modules
+    ]
+
+
+cpdef object _resolve_calling_package_name():
+    stack = inspect.stack()
+    pre_last_frame = stack[0]
+    module = inspect.getmodule(pre_last_frame[0])
+    return module.__package__
+
+
+cpdef object _resolve_package_name_from_cls(cls):
+    module = importlib.import_module(cls.__module__)
+    return module.__package__

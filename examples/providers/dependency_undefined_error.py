@@ -25,7 +25,7 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
     container.user_service()  # <-- raises error:
     # Dependency "Container.database" is not defined

@@ -23,7 +23,7 @@ To verify the installed version:
 
     >>> import dependency_injector
     >>> dependency_injector.__version__
-    '4.0.0'
+    '4.37.0'
 
 .. note::
     When add ``Dependency Injector`` to the ``requirements.txt`` don't forget to pin version

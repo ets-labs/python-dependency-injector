@@ -18,7 +18,7 @@ class AuthService:
 
 class Container(containers.DeclarativeContainer):
 
-    database = providers.Singleton(sqlite3.connect, ':memory:')
+    database = providers.Singleton(sqlite3.connect, ":memory:")
 
     user_service = providers.Factory(
         UserService,
@@ -32,7 +32,7 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     user_service = container.user_service()

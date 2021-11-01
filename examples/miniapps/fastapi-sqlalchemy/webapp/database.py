@@ -34,7 +34,7 @@ class Database:
         try:
             yield session
         except Exception:
-            logger.exception('Session rollback because of exception')
+            logger.exception("Session rollback because of exception")
             session.rollback()
             raise
         finally:

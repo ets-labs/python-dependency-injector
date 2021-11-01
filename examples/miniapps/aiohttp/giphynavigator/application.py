@@ -8,13 +8,16 @@ from . import handlers
 
 def create_app() -> web.Application:
     container = Container()
-    container.config.from_yaml('config.yml')
-    container.config.giphy.api_key.from_env('GIPHY_API_KEY')
-    container.wire(modules=[handlers])
+    container.config.giphy.api_key.from_env("GIPHY_API_KEY")
 
     app = web.Application()
     app.container = container
     app.add_routes([
-        web.get('/', handlers.index),
+        web.get("/", handlers.index),
     ])
     return app
+
+
+if __name__ == "__main__":
+    app = create_app()
+    web.run_app(app)

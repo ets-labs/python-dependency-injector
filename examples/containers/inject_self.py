@@ -21,14 +21,14 @@ class Container(containers.DeclarativeContainer):
 
     __self__ = providers.Self()
 
-    service1 = providers.Factory(Service, name='Service 1')
-    service2 = providers.Factory(Service, name='Service 2')
-    service3 = providers.Factory(Service, name='Service 3')
+    service1 = providers.Factory(Service, name="Service 1")
+    service2 = providers.Factory(Service, name="Service 2")
+    service3 = providers.Factory(Service, name="Service 3")
 
     dispatcher = providers.Singleton(ServiceDispatcher, __self__)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     dispatcher = container.dispatcher()

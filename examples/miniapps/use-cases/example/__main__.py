@@ -6,12 +6,12 @@ from .containers import UseCases, Adapters, TestAdapters
 
 
 def main(environment: str, email: str) -> None:
-    if environment == 'prod':
+    if environment == "prod":
         adapters = Adapters()
-    elif environment == 'test':
+    elif environment == "test":
         adapters = TestAdapters()
     else:
-        raise RuntimeError('Unknown environment')
+        raise RuntimeError("Unknown environment")
 
     use_cases = UseCases(adapters=adapters)
 
@@ -19,5 +19,5 @@ def main(environment: str, email: str) -> None:
     use_case.execute(email)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main(*sys.argv[1:])

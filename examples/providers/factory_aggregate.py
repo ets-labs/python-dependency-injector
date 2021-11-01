@@ -13,8 +13,8 @@ class Game:
 
     def play(self):
         print(
-            f'{self.player1} and {self.player2} are '
-            f'playing {self.__class__.__name__.lower()}'
+            f"{self.player1} and {self.player2} are "
+            f"playing {self.__class__.__name__.lower()}"
         )
 
 
@@ -39,7 +39,7 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     game_type = sys.argv[1].lower()
     player1 = sys.argv[2].capitalize()
     player2 = sys.argv[3].capitalize()

@@ -5,7 +5,7 @@ from dependency_injector import containers, providers
 
 class CustomFactory(providers.Provider):
 
-    __slots__ = ('_factory',)
+    __slots__ = ("_factory",)
 
     def __init__(self, provides, *args, **kwargs):
         self._factory = providers.Factory(provides, *args, **kwargs)
@@ -40,7 +40,7 @@ class Container(containers.DeclarativeContainer):
     factory = CustomFactory(object)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     object1 = container.factory()

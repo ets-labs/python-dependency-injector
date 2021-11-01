@@ -45,6 +45,21 @@ where ``examples/providers/configuration/config.ini`` is:
 .. literalinclude:: ../../examples/providers/configuration/config.ini
    :language: ini
 
+Alternatively, you can provide a path to the INI file over the configuration provider argument. In that case,
+the container will call ``config.from_ini()`` automatically:
+
+.. code-block:: python
+   :emphasize-lines: 3
+
+   class Container(containers.DeclarativeContainer):
+
+       config = providers.Configuration(ini_files=["./config.ini"])
+
+
+   if __name__ == "__main__":
+       container = Container()  # Config is loaded from ./config.ini
+
+
 :py:meth:`Configuration.from_ini` method supports environment variables interpolation.
 
 .. code-block:: ini
@@ -72,6 +87,20 @@ where ``examples/providers/configuration/config.yml`` is:
 .. literalinclude:: ../../examples/providers/configuration/config.yml
    :language: ini
 
+Alternatively, you can provide a path to the YAML file over the configuration provider argument. In that case,
+the container will call ``config.from_yaml()`` automatically:
+
+.. code-block:: python
+   :emphasize-lines: 3
+
+   class Container(containers.DeclarativeContainer):
+
+       config = providers.Configuration(yaml_files=["./config.yml"])
+
+
+   if __name__ == "__main__":
+       container = Container()  # Config is loaded from ./config.yml
+
 :py:meth:`Configuration.from_yaml` method supports environment variables interpolation.
 
 .. code-block:: ini
@@ -91,7 +120,7 @@ To use another loader use ``loader`` argument:
    import yaml
 
 
-   container.config.from_yaml('config.yml', loader=yaml.UnsafeLoader)
+   container.config.from_yaml("config.yml", loader=yaml.UnsafeLoader)
 
 .. note::
 
@@ -123,7 +152,22 @@ If you need to pass an argument to this call, use ``.from_pydantic()`` keyword a
 
 .. code-block:: python
 
-   container.config.from_pydantic(Settings(), exclude={'optional'})
+   container.config.from_pydantic(Settings(), exclude={"optional"})
+
+Alternatively, you can provide a ``pydantic`` settings object over the configuration provider argument. In that case,
+the container will call ``config.from_pydantic()`` automatically:
+
+.. code-block:: python
+   :emphasize-lines: 3
+
+   class Container(containers.DeclarativeContainer):
+
+       config = providers.Configuration(pydantic_settings=[Settings()])
+
+
+   if __name__ == "__main__":
+       container = Container()  # Config is loaded from Settings()
+
 
 .. note::
 
@@ -225,7 +269,7 @@ undefined environment variable that doesn't have a default value, pass argument
 
 .. code-block:: python
 
-   container.config.from_yaml('config.yml', envs_required=True)
+   container.config.from_yaml("config.yml", envs_required=True)
 
 See also: :ref:`configuration-strict-mode`.
 
@@ -270,13 +314,13 @@ Mandatory YAML file:
 
 .. code-block:: python
 
-   container.config.from_yaml('config.yaml', required=True)
+   container.config.from_yaml("config.yaml", required=True)
 
 Mandatory INI file:
 
 .. code-block:: python
 
-   container.config.from_ini('config.ini', required=True)
+   container.config.from_ini("config.ini", required=True)
 
 Mandatory dictionary:
 
@@ -288,7 +332,7 @@ Mandatory environment variable:
 
 .. code-block:: python
 
-   container.config.api_key.from_env('API_KEY', required=True)
+   container.config.api_key.from_env("API_KEY", required=True)
 
 See also: :ref:`configuration-strict-mode`.
 
@@ -346,16 +390,16 @@ configuration data is undefined:
        config = providers.Configuration(strict=True)
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
 
        try:
-           container.config.from_yaml('does-not_exist.yml')  # raise exception
+           container.config.from_yaml("does-not_exist.yml")  # raise exception
        except FileNotFoundError:
            ...
 
        try:
-           container.config.from_ini('does-not_exist.ini')  # raise exception
+           container.config.from_ini("does-not_exist.ini")  # raise exception
        except FileNotFoundError:
            ...
 
@@ -365,7 +409,7 @@ configuration data is undefined:
            ...
 
        try:
-           container.config.from_env('UNDEFINED_ENV_VAR')  # raise exception
+           container.config.from_env("UNDEFINED_ENV_VAR")  # raise exception
        except ValueError:
            ...
 
@@ -385,7 +429,7 @@ an undefined environment variable without a default value.
 .. code-block:: python
 
        try:
-           container.config.from_yaml('undefined_env.yml')  # raise exception
+           container.config.from_yaml("undefined_env.yml")  # raise exception
        except ValueError:
            ...
 
@@ -398,11 +442,11 @@ You can override ``.from_*()`` methods behaviour in strict mode using ``required
        config = providers.Configuration(strict=True)
 
 
-   if __name__ == '__main__':
+   if __name__ == "__main__":
        container = Container()
 
-       container.config.from_yaml('config.yml')
-       container.config.from_yaml('config.local.yml', required=False)
+       container.config.from_yaml("config.yml")
+       container.config.from_yaml("config.local.yml", required=False)
 
 You can also use ``.required()`` option modifier when making an injection. It does not require to switch
 configuration provider to strict mode.

@@ -21,7 +21,7 @@ class Dispatcher:
         asyncio.run(self.start())
 
     async def start(self) -> None:
-        self._logger.info('Starting up')
+        self._logger.info("Starting up")
 
         for monitor in self._monitors:
             self._monitor_tasks.append(
@@ -41,11 +41,11 @@ class Dispatcher:
 
         self._stopping = True
 
-        self._logger.info('Shutting down')
+        self._logger.info("Shutting down")
         for task, monitor in zip(self._monitor_tasks, self._monitors):
             task.cancel()
         self._monitor_tasks.clear()
-        self._logger.info('Shutdown finished successfully')
+        self._logger.info("Shutdown finished successfully")
 
     @staticmethod
     async def _run_monitor(monitor: Monitor) -> None:
@@ -61,6 +61,6 @@ class Dispatcher:
             except asyncio.CancelledError:
                 break
             except Exception:
-                monitor.logger.exception('Error executing monitor check')
+                monitor.logger.exception("Error executing monitor check")
 
             await asyncio.sleep(_until_next(last=time_start))

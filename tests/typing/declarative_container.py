@@ -58,9 +58,11 @@ class Container6(containers.DeclarativeContainer):
 container6: containers.Container = Container6()
 
 
-# Test 7: to override()
+# Test 7: to override_providers()
 class Container7(containers.DeclarativeContainer):
     provider = providers.Factory(str)
 
 container7 = Container7()
-container7.override_providers(provider='new_value')
+container7.override_providers(provider="new_value")
+with container7.override_providers(a=providers.Provider()):
+    ...

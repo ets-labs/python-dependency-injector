@@ -33,7 +33,7 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container1 = Container(database=providers.Singleton(SqliteDbAdapter))
     container2 = Container(database=providers.Singleton(PostgresDbAdapter))
 

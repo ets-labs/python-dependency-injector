@@ -20,7 +20,7 @@ class UserService:
 
     def create_user(self) -> User:
         uid = uuid4()
-        return self._repository.add(email=f'{uid}@email.com', password='pwd')
+        return self._repository.add(email=f"{uid}@email.com", password="pwd")
 
     def delete_user_by_id(self, user_id: int) -> None:
         return self._repository.delete_by_id(user_id)

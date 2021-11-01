@@ -6,4 +6,4 @@ class ConfigService:
         self._config = config
 
     def build(self):
-        self._config.from_dict({'default': {'db_path': '~/test'}})
+        self._config.from_dict({"default": {"db_path": "~/test"}})

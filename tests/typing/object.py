@@ -11,7 +11,7 @@ var1: int = provider1()
 provider2 = providers.Object(int)
 provided2: providers.ProvidedInstance = provider2.provided
 attr_getter2: providers.AttributeGetter = provider2.provided.attr
-item_getter2: providers.ItemGetter = provider2.provided['item']
+item_getter2: providers.ItemGetter = provider2.provided["item"]
 method_caller2: providers.MethodCaller = provider2.provided.method.call(123, arg=324)
 
 # Test 3: to check the return type with await
@@ -21,5 +21,5 @@ async def _async3() -> None:
     var2: int = await provider3.async_()
 
 # Test 4: to check class type from provider
-provider4 = providers.Object(int('1'))
+provider4 = providers.Object(int("1"))
 provided_provides: Optional[int] = provider4.provides

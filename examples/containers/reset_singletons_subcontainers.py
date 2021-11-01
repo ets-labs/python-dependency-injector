@@ -14,7 +14,7 @@ class Container(containers.DeclarativeContainer):
     sub = providers.Container(SubContainer)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     service1 = container.service()

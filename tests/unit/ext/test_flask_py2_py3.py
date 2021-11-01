@@ -1,24 +1,23 @@
-"""Dependency injector Flask extension unit tests."""
-
-import unittest
-from flask import Flask, url_for
-from flask.views import MethodView
+"""Flask extension tests."""
 
 from dependency_injector import containers
 from dependency_injector.ext import flask
+from flask import Flask, url_for
+from flask.views import MethodView
+from pytest import fixture
 
 
 def index():
-    return 'Hello World!'
+    return "Hello World!"
 
 
 def test():
-    return 'Test!'
+    return "Test!"
 
 
 class Test(MethodView):
     def get(self):
-        return 'Test class-based!'
+        return "Test class-based!"
 
 
 class ApplicationContainer(containers.DeclarativeContainer):
@@ -30,47 +29,47 @@ class ApplicationContainer(containers.DeclarativeContainer):
     test_class_view = flask.ClassBasedView(Test)
 
 
-def create_app():
+@fixture
+def app():
     container = ApplicationContainer()
     app = container.app()
     app.container = container
-    app.add_url_rule('/', view_func=container.index_view.as_view())
-    app.add_url_rule('/test', 'test-test', view_func=container.test_view.as_view())
-    app.add_url_rule('/test-class', view_func=container.test_class_view.as_view('test-class'))
+    app.config["SERVER_NAME"] = "test-server.com"
+    app.add_url_rule("/", view_func=container.index_view.as_view())
+    app.add_url_rule("/test", "test-test", view_func=container.test_view.as_view())
+    app.add_url_rule("/test-class", view_func=container.test_class_view.as_view("test-class"))
     return app
 
 
-class ApplicationTests(unittest.TestCase):
+@fixture
+def client(app):
+    with app.test_client() as client:
+        yield client
 
-    def setUp(self):
-        self.app = create_app()
-        self.app.config['SERVER_NAME'] = 'test-server.com'
-        self.client = self.app.test_client()
-        self.client.__enter__()
 
-    def tearDown(self):
-        self.client.__exit__(None, None, None)
+def test_index(client):
+    response = client.get("/")
 
-    def test_index(self):
-        response = self.client.get('/')
+    assert response.status_code == 200
+    assert response.data == b"Hello World!"
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data, b'Hello World!')
 
-    def test_test(self):
-        response = self.client.get('/test')
+def test_test(client):
+    response = client.get("/test")
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data, b'Test!')
+    assert response.status_code == 200
+    assert response.data == b"Test!"
 
-    def test_test_class_based(self):
-        response = self.client.get('/test-class')
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data, b'Test class-based!')
+def test_test_class_based(client):
+    response = client.get("/test-class")
 
-    def test_endpoints(self):
-        with self.app.app_context():
-            self.assertEqual(url_for('index'), 'http://test-server.com/')
-            self.assertEqual(url_for('test-test'), 'http://test-server.com/test')
-            self.assertEqual(url_for('test-class'), 'http://test-server.com/test-class')
+    assert response.status_code == 200
+    assert response.data == b"Test class-based!"
+
+
+def test_endpoints(app):
+    with app.app_context():
+        assert url_for("index") == "http://test-server.com/"
+        assert url_for("test-test") == "http://test-server.com/test"
+        assert url_for("test-class") == "http://test-server.com/test-class"

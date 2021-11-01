@@ -14,15 +14,15 @@ class Foo:
 class Container(containers.DeclarativeContainer):
 
     config = providers.Configuration(default={
-        'target': 'A',
-        'items': {
-            'A': {
-                'option1': 60,
-                'option2': 80,
+        "target": "A",
+        "items": {
+            "A": {
+                "option1": 60,
+                "option2": 80,
             },
-            'B': {
-                'option1': 10,
-                'option2': 20,
+            "B": {
+                "option1": 10,
+                "option2": 20,
             },
         },
     })
@@ -34,10 +34,10 @@ class Container(containers.DeclarativeContainer):
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
-    container.config.target.from_env('TARGET')
+    container.config.target.from_env("TARGET")
     foo = container.foo_factory()
     print(foo.option1, foo.option2)
 

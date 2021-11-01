@@ -18,7 +18,7 @@ class Container(containers.DeclarativeContainer):
     cache = providers.Dependency(instance_of=Cache, default=InMemoryCache())
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
     cache = container.cache()  # provides InMemoryCache()
 

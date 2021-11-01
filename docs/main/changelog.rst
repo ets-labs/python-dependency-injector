@@ -7,6 +7,25 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.37.0
+------
+- Add support of Python 3.10.
+- Improve wiring with adding importing modules and packages from a string
+  ``container.wire(modules=["yourapp.module1"])``.
+- Add container wiring configuration ``wiring_config = containers.WiringConfiguration()``.
+- Add support of ``with`` statement for ``container.override_providers()`` method.
+- Add ``Configuration(yaml_files=[...])`` argument.
+- Add ``Configuration(ini_files=[...])`` argument.
+- Add ``Configuration(pydantic_settings=[...])`` argument.
+- Drop support of Python 3.4. There are no immediate breaking changes, but Dependency Injector
+  will no longer be tested on Python 3.4 and any bugs will not be fixed.
+- Announce the date of dropping Python 3.5 support (Jan 1st 2022).
+- Fix ``Dependency.is_defined`` attribute to always return boolean value.
+- Fix ``envs_required=False`` behavior in ``Configuration.from_*()`` methods
+  to give a priority to the explicitly provided value.
+- Update documentation and fix typos.
+- Regenerate C sources using Cython 0.29.24.
+- Migrate tests to ``pytest``.
 
 4.36.2
 ------

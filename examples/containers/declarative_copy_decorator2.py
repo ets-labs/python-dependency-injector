@@ -9,21 +9,21 @@ class Service:
 
 
 class Base(containers.DeclarativeContainer):
-    dependency = providers.Dependency(instance_of=str, default='Default value')
+    dependency = providers.Dependency(instance_of=str, default="Default value")
     service = providers.Factory(Service, dependency=dependency)
 
 
 @containers.copy(Base)
 class Derived1(Base):
-    dependency = providers.Dependency(instance_of=str, default='Derived 1')
+    dependency = providers.Dependency(instance_of=str, default="Derived 1")
 
 
 # @containers.copy(Base)  # <-- No @copy decorator
 class Derived2(Base):
-    dependency = providers.Dependency(instance_of=str, default='Derived 2')
+    dependency = providers.Dependency(instance_of=str, default="Derived 2")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container1 = Derived1()
     service1 = container1.service()
     print(service1.dependency)  # Derived 1

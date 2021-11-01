@@ -7,7 +7,7 @@ from . import finders, listers, entities
 
 class Container(containers.DeclarativeContainer):
 
-    config = providers.Configuration()
+    config = providers.Configuration(yaml_files=["config.yml"])
 
     movie = providers.Factory(entities.Movie)
 

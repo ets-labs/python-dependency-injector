@@ -9,7 +9,7 @@ class Container(containers.DeclarativeContainer):
     service2 = providers.Singleton(object)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     container = Container()
 
     service1 = container.service1()
