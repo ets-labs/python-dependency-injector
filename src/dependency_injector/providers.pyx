@@ -6,6 +6,7 @@ import copy
 import errno
 import functools
 import inspect
+import logging
 import os
 import re
 import sys
@@ -207,7 +208,7 @@ cdef class Provider(object):
             try:
                 result = self._provide(args, kwargs)
             except Exception as exc:
-                print(self)
+                logging.debug(str(self))
                 raise exc
 
         if self.is_async_mode_disabled():
