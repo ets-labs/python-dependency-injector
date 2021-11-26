@@ -2558,17 +2558,17 @@ cdef class FactoryAggregate(Provider):
     :py:class:`FactoryAggregate` is a delegated provider, meaning that it is
     injected "as is".
 
-    All aggregated factories could be retrieved as a read-only
-    dictionary :py:attr:`FactoryAggregate.factories` or just as an attribute of
+    All aggregated providers can be retrieved as a read-only
+    dictionary :py:attr:`FactoryAggregate.providers` or as an attribute of
     :py:class:`FactoryAggregate`.
     """
 
     __IS_DELEGATED__ = True
 
-    def __init__(self, factories_dict_=None, **factories_kwargs):
+    def __init__(self, provider_dict=None, **provider_kwargs):
         """Initialize provider."""
-        self.__factories = {}
-        self.set_factories(factories_dict_, **factories_kwargs)
+        self.__providers = {}
+        self.set_providers(provider_dict, **provider_kwargs)
         super(FactoryAggregate, self).__init__()
 
     def __deepcopy__(self, memo):
@@ -2578,47 +2578,68 @@ cdef class FactoryAggregate(Provider):
             return copied
 
         copied = _memorized_duplicate(self, memo)
-        copied.set_factories(deepcopy(self.factories, memo))
+        copied.set_providers(deepcopy(self.providers, memo))
 
         self._copy_overridings(copied, memo)
 
         return copied
 
     def __getattr__(self, factory_name):
-        """Return aggregated factory."""
-        return self.__get_factory(factory_name)
+        """Return aggregated provider."""
+        return self.__get_provider(factory_name)
 
     def __str__(self):
         """Return string representation of provider.
 
         :rtype: str
         """
-        return represent_provider(provider=self, provides=self.factories)
+        return represent_provider(provider=self, provides=self.providers)
 
     @property
-    def factories(self):
-        """Return dictionary of factories, read-only."""
-        return self.__factories
+    def providers(self):
+        """Return dictionary of providers, read-only.
 
-    def set_factories(self, factories_dict_=None, **factories_kwargs):
-        """Set factories."""
-        factories = {}
-        factories.update(factories_kwargs)
-        if factories_dict_:
-            factories.update(factories_dict_)
+        Alias for ``.factories`` attribute.
+        """
+        return dict(self.__providers)
 
-        for factory in factories.values():
-            if isinstance(factory, Factory) is False:
+    def set_providers(self, provider_dict=None, **provider_kwargs):
+        """Set providers.
+
+        Alias for ``.set_factories()`` method.
+        """
+        providers = {}
+        providers.update(provider_kwargs)
+        if provider_dict:
+            providers.update(provider_dict)
+
+        for provider in providers.values():
+            if not is_provider(provider):
                 raise Error(
                     '{0} can aggregate only instances of {1}, given - {2}'.format(
                         self.__class__,
-                        Factory,
-                        factory,
+                        Provider,
+                        provider,
                     ),
                 )
 
-        self.__factories = factories
+        self.__providers = providers
         return self
+
+    @property
+    def factories(self):
+        """Return dictionary of factories, read-only.
+
+        Alias for ``.providers()`` attribute.
+        """
+        return self.providers
+
+    def set_factories(self, factory_dict=None, **factory_kwargs):
+        """Set factories.
+
+        Alias for ``.set_providers()`` method.
+        """
+        return self.set_providers(factory_dict, **factory_kwargs)
 
     def override(self, _):
         """Override provider with another provider.
@@ -2633,26 +2654,26 @@ cdef class FactoryAggregate(Provider):
     @property
     def related(self):
         """Return related providers generator."""
-        yield from self.__factories.values()
+        yield from self.__providers.values()
         yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
         try:
-            factory_name = args[0]
+            provider_name = args[0]
         except IndexError:
             try:
-                factory_name = kwargs.pop('factory_name')
+                provider_name = kwargs.pop("factory_name")
             except KeyError:
-                raise TypeError('Factory missing 1 required positional argument: \'factory_name\'')
+                raise TypeError("Missing 1st required positional argument: \"provider_name\"")
         else:
             args = args[1:]
 
-        return self.__get_factory(factory_name)(*args, **kwargs)
+        return self.__get_provider(provider_name)(*args, **kwargs)
 
-    cdef Factory __get_factory(self, object factory_key):
-        if factory_key not in self.__factories:
-            raise NoSuchProviderError('{0} does not contain factory with name {1}'.format(self, factory_key))
-        return <Factory> self.__factories[factory_key]
+    cdef Provider __get_provider(self, object provider_name):
+        if provider_name not in self.__providers:
+            raise NoSuchProviderError("{0} does not contain provider with name {1}".format(self, provider_name))
+        return <Provider> self.__providers[provider_name]
 
 
 cdef class BaseSingleton(Provider):

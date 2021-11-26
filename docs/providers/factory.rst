@@ -163,9 +163,9 @@ The aggregated factories are associated with the string keys. When you call the
    :lines: 3-
    :emphasize-lines: 33-37,47
 
-You can get a dictionary of the aggregated factories using the ``.factories`` attribute.
-To get a game factories dictionary from the previous example you can use
-``game_factory.factories`` attribute.
+You can get a dictionary of the aggregated providers using ``.providers`` attribute.
+To get a game provider dictionary from the previous example you can use
+``game_factory.providers`` attribute.
 
 You can also access an aggregated factory as an attribute. To create the ``Chess`` object from the
 previous example you can do ``chess = game_factory.chess("John", "Jane")``.
@@ -176,7 +176,7 @@ previous example you can do ``chess = game_factory.chess("John", "Jane")``.
 .. note::
    When you inject the ``FactoryAggregate`` provider it is passed "as is".
 
-To use non-string keys or keys with ``.`` and ``-`` you can provide a dictionary as a positional argument:
+To use non-string keys or string keys with ``.`` and ``-``, you can provide a dictionary as a positional argument:
 
 .. code-block:: python
 

@@ -7,6 +7,14 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Add ``.providers`` attribute to the ``FactoryAggregate`` provider. It is an alias for
+  ``FactoryAggregate.factories`` attribute.
+- Add ``.set_providers()`` method to the ``FactoryAggregate`` provider. It is an alias for
+  ``FactoryAggregate.set_factories()`` method.
+- Refactor ``FactoryAggregate`` provider internals.
+
 4.37.0
 ------
 - Add support of Python 3.10.

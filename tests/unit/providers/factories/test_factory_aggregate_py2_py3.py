@@ -79,6 +79,52 @@ def test_init_with_not_a_factory():
 
 
 @mark.parametrize("factory_type", ["empty"])
+def test_init_optional_providers(factory_aggregate, factory_a, factory_b):
+    factory_aggregate.set_providers(
+        example_a=factory_a,
+        example_b=factory_b,
+    )
+    assert factory_aggregate.providers == {
+        "example_a": factory_a,
+        "example_b": factory_b,
+    }
+    assert isinstance(factory_aggregate("example_a"), ExampleA)
+    assert isinstance(factory_aggregate("example_b"), ExampleB)
+
+
+@mark.parametrize("factory_type", ["non-string-keys"])
+def test_set_factories_with_non_string_keys(factory_aggregate, factory_a, factory_b):
+    factory_aggregate.set_providers({
+        ExampleA: factory_a,
+        ExampleB: factory_b,
+    })
+
+    object_a = factory_aggregate(ExampleA, 1, 2, init_arg3=3, init_arg4=4)
+    object_b = factory_aggregate(ExampleB, 11, 22, init_arg3=33, init_arg4=44)
+
+    assert isinstance(object_a, ExampleA)
+    assert object_a.init_arg1 == 1
+    assert object_a.init_arg2 == 2
+    assert object_a.init_arg3 == 3
+    assert object_a.init_arg4 == 4
+
+    assert isinstance(object_b, ExampleB)
+    assert object_b.init_arg1 == 11
+    assert object_b.init_arg2 == 22
+    assert object_b.init_arg3 == 33
+    assert object_b.init_arg4 == 44
+
+    assert factory_aggregate.providers == {
+        ExampleA: factory_a,
+        ExampleB: factory_b,
+    }
+
+
+def test_set_providers_returns_self(factory_aggregate, factory_a):
+    assert factory_aggregate.set_providers(example_a=factory_a) is factory_aggregate
+
+
+@mark.parametrize("factory_type", ["empty"])
 def test_init_optional_factories(factory_aggregate, factory_a, factory_b):
     factory_aggregate.set_factories(
         example_a=factory_a,

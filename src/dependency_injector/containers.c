@@ -1209,12 +1209,12 @@ struct __pyx_obj_19dependency_injector_9providers_FactoryDelegate {
  * 
  * 
  * cdef class FactoryAggregate(Provider):             # <<<<<<<<<<<<<<
- *     cdef dict __factories
+ *     cdef dict __providers
  * 
  */
 struct __pyx_obj_19dependency_injector_9providers_FactoryAggregate {
   struct __pyx_obj_19dependency_injector_9providers_Provider __pyx_base;
-  PyObject *__pyx___factories;
+  PyObject *__pyx___providers;
 };
 
 
@@ -2077,13 +2077,13 @@ static struct __pyx_vtabstruct_19dependency_injector_9providers_FactoryDelegate 
  * 
  * 
  * cdef class FactoryAggregate(Provider):             # <<<<<<<<<<<<<<
- *     cdef dict __factories
+ *     cdef dict __providers
  * 
  */
 
 struct __pyx_vtabstruct_19dependency_injector_9providers_FactoryAggregate {
   struct __pyx_vtabstruct_19dependency_injector_9providers_Provider __pyx_base;
-  struct __pyx_obj_19dependency_injector_9providers_Factory *(*__pyx___get_factory)(struct __pyx_obj_19dependency_injector_9providers_FactoryAggregate *, PyObject *);
+  struct __pyx_obj_19dependency_injector_9providers_Provider *(*__pyx___get_provider)(struct __pyx_obj_19dependency_injector_9providers_FactoryAggregate *, PyObject *);
 };
 static struct __pyx_vtabstruct_19dependency_injector_9providers_FactoryAggregate *__pyx_vtabptr_19dependency_injector_9providers_FactoryAggregate;
 
