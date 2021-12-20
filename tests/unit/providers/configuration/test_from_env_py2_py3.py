@@ -31,6 +31,42 @@ def test_option_default_none(config):
     assert config.option() is None
 
 
+def test_as_(config):
+    config.from_env("CONFIG_INT", as_=int)
+    assert config() == 42
+    assert isinstance(config(), int)
+
+
+def test_as__default(config):
+    config.from_env("UNDEFINED", as_=int, default="33")
+    assert config() == 33
+    assert isinstance(config(), int)
+
+
+def test_as__undefined_required(config):
+    with raises(ValueError):
+        config.from_env("UNDEFINED", as_=int, required=True)
+    assert config() == {}
+
+
+def test_option_as_(config):
+    config.option.from_env("CONFIG_INT", as_=int)
+    assert config.option() == 42
+    assert isinstance(config.option(), int)
+
+
+def test_option_as__default(config):
+    config.option.from_env("UNDEFINED", as_=int, default="33")
+    assert config.option() == 33
+    assert isinstance(config.option(), int)
+
+
+def test_option_as__undefined_required(config):
+    with raises(ValueError):
+        config.option.from_env("UNDEFINED", as_=int, required=True)
+    assert config.option() is None
+
+
 @mark.parametrize("config_type", ["strict"])
 def test_undefined_in_strict_mode(config):
     with raises(ValueError):
