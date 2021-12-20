@@ -49,6 +49,12 @@ def test_as__undefined_required(config):
     assert config() == {}
 
 
+def test_as__defined_empty(config):
+    with raises(ValueError):
+        config.from_env("EMPTY", as_=int)
+    assert config() == {}
+
+
 def test_option_as_(config):
     config.option.from_env("CONFIG_INT", as_=int)
     assert config.option() == 42
@@ -64,6 +70,12 @@ def test_option_as__default(config):
 def test_option_as__undefined_required(config):
     with raises(ValueError):
         config.option.from_env("UNDEFINED", as_=int, required=True)
+    assert config.option() is None
+
+
+def test_option_as__defined_empty(config):
+    with raises(ValueError):
+        config.option.from_env("EMPTY", as_=int)
     assert config.option() is None
 
 

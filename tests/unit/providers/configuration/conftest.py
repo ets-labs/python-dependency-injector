@@ -106,9 +106,11 @@ def environment_variables():
     os.environ["CONFIG_TEST_ENV"] = "test-value"
     os.environ["CONFIG_TEST_PATH"] = "test-path"
     os.environ["DEFINED"] = "defined"
+    os.environ["EMPTY"] = ""
     os.environ["CONFIG_INT"] = "42"
     yield
     os.environ.pop("CONFIG_TEST_ENV", None)
     os.environ.pop("CONFIG_TEST_PATH", None)
     os.environ.pop("DEFINED", None)
+    os.environ.pop("EMPTY", None)
     os.environ.pop("CONFIG_INT", None)
