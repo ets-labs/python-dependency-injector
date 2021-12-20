@@ -9,6 +9,8 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Add argument ``as_`` to the ``config.from_env()`` method for the explicit type conversion
+  after reading an environment variable value, e.g.: ``config.timeout.from_env("TIMEOUT", as_=int)``.
 - Add ``.providers`` attribute to the ``FactoryAggregate`` provider. It is an alias for
   ``FactoryAggregate.factories`` attribute.
 - Add ``.set_providers()`` method to the ``FactoryAggregate`` provider. It is an alias for
