@@ -1701,7 +1701,7 @@ cdef class ConfigurationOption(Provider):
         :param required: When required is True, raise an exception if environment variable is undefined.
         :type required: bool
 
-        :param as_: Type converter (int, float, etc).
+        :param as_: Callable used for type casting (int, float, etc).
         :type as_: object
 
         :rtype: None
@@ -2209,7 +2209,7 @@ cdef class Configuration(Object):
         :param required: When required is True, raise an exception if environment variable is undefined.
         :type required: bool
 
-        :param as_: Type converter (int, float, etc).
+        :param as_: Callable used for type casting (int, float, etc).
         :type as_: object
 
         :rtype: None
