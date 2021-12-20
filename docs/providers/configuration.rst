@@ -205,7 +205,7 @@ Loading from an environment variable
    :lines: 3-
    :emphasize-lines: 18-20
 
-You can use ``as_`` argument to convert the type of an environment variable:
+You can use ``as_`` argument for the type casting of an environment variable value:
 
 .. code-block:: python
    :emphasize-lines: 2,6,10
