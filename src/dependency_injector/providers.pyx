@@ -1689,7 +1689,7 @@ cdef class ConfigurationOption(Provider):
 
         self.override(merge_dicts(current_config, options))
 
-    def from_env(self, name, default=UNDEFINED, required=UNDEFINED):
+    def from_env(self, name, default=UNDEFINED, required=UNDEFINED, as_=UNDEFINED):
         """Load configuration value from the environment variable.
 
         :param name: Name of the environment variable.
@@ -1701,6 +1701,9 @@ cdef class ConfigurationOption(Provider):
         :param required: When required is True, raise an exception if environment variable is undefined.
         :type required: bool
 
+        :param as_: Callable used for type casting (int, float, etc).
+        :type as_: object
+
         :rtype: None
         """
         value = os.environ.get(name, default)
@@ -1710,6 +1713,9 @@ cdef class ConfigurationOption(Provider):
                     and (self._is_strict_mode_enabled() or required is True):
                 raise ValueError('Environment variable "{0}" is undefined'.format(name))
             value = None
+
+        if as_ is not UNDEFINED:
+            value = as_(value)
 
         self.override(value)
 
@@ -2191,7 +2197,7 @@ cdef class Configuration(Object):
             current_config = {}
         self.override(merge_dicts(current_config, options))
 
-    def from_env(self, name, default=UNDEFINED, required=UNDEFINED):
+    def from_env(self, name, default=UNDEFINED, required=UNDEFINED, as_=UNDEFINED):
         """Load configuration value from the environment variable.
 
         :param name: Name of the environment variable.
@@ -2203,6 +2209,9 @@ cdef class Configuration(Object):
         :param required: When required is True, raise an exception if environment variable is undefined.
         :type required: bool
 
+        :param as_: Callable used for type casting (int, float, etc).
+        :type as_: object
+
         :rtype: None
         """
         value = os.environ.get(name, default)
@@ -2212,6 +2221,9 @@ cdef class Configuration(Object):
                     and (self._is_strict_mode_enabled() or required is True):
                 raise ValueError('Environment variable "{0}" is undefined'.format(name))
             value = None
+
+        if as_ is not UNDEFINED:
+            value = as_(value)
 
         self.override(value)
 
