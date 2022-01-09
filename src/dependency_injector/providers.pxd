@@ -148,10 +148,8 @@ cdef class FactoryDelegate(Delegate):
     pass
 
 
-cdef class FactoryAggregate(Provider):
-    cdef dict __providers
-
-    cdef Provider __get_provider(self, object provider_name)
+cdef class FactoryAggregate(Aggregate):
+    pass
 
 
 # Singleton providers
