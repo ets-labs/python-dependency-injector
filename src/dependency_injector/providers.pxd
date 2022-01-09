@@ -38,6 +38,12 @@ cdef class Delegate(Provider):
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
+cdef class Aggregate(Provider):
+    cdef dict __providers
+
+    cdef Provider __get_provider(self, object provider_name)
+
+
 cdef class Dependency(Provider):
     cdef object __instance_of
     cdef object __default
