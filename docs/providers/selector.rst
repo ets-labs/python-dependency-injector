@@ -31,6 +31,6 @@ the provider with a matching name. The ``selector`` callable works as a switch: 
 value is changed the ``Selector`` provider will delegate the work to another provider.
 
 .. seealso::
-   :ref:`aggregate-provider` to work with a group of providers.
+   :ref:`aggregate-provider` to inject a group of providers.
 
 .. disqus::
