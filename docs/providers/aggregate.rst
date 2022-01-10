@@ -58,14 +58,14 @@ To use non-string keys or string keys with ``.`` and ``-``, provide a dictionary
        "key-with-dashes": providers.Factory(...),
    })
 
-``Aggregate`` provider is a successor of :ref:`factory-aggregate-provider` provider. ``Aggregate`` provider doesn't have
-a restriction on the provider type, while ``FactoryAggregate`` can aggregate only ``Factory`` providers.
+.. seealso::
+   :ref:`selector-provider` to inject selected provider based on a configuration value or other callable.
 
-``Aggregate`` provider is different from the :ref:`selector-provider`. ``Aggregate`` provider doesn't select which provider
-to inject and doesn't have a selector. It is always injected "as is". The rest of the interface of both providers is similar.
+   ``Aggregate`` provider is different from the :ref:`selector-provider`. ``Aggregate`` provider doesn't select which provider
+   to inject and doesn't have a selector. It is always injected "as is". The rest of the interface of both providers is similar.
 
-
-
-
+.. note::
+   ``Aggregate`` provider is a successor of :ref:`factory-aggregate-provider` provider. ``Aggregate`` provider doesn't have
+   a restriction on the provider type, while ``FactoryAggregate`` can aggregate only ``Factory`` providers.
 
 .. disqus::

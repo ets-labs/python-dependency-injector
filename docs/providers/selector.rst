@@ -30,4 +30,7 @@ When a ``Selector`` provider is called, it gets a ``selector`` value and delegat
 the provider with a matching name. The ``selector`` callable works as a switch: when the returned
 value is changed the ``Selector`` provider will delegate the work to another provider.
 
+.. seealso::
+   :ref:`aggregate-provider` to work with a group of providers.
+
 .. disqus::
