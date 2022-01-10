@@ -9,8 +9,14 @@ follows `Semantic versioning`_
 
 Development version
 -------------------
+- Add new provider ``Aggregate``. It is a generalized version of ``FactoryAggregate`` that
+  can contain providers of any type, not only ``Factory``. See issue
+  `#530 <https://github.com/ets-labs/python-dependency-injector/issues/530>`_. Thanks to
+  `@zerlok (Danil Troshnev) <https://github.com/zerlok>`_ for suggesting the feature.
 - Add argument ``as_`` to the ``config.from_env()`` method for the explicit type casting
   of an environment variable value, e.g.: ``config.timeout.from_env("TIMEOUT", as_=int)``.
+  See issue `#533 <https://github.com/ets-labs/python-dependency-injector/issues/533>`_. Thanks to
+  `@gtors (Andrey Torsunov) <https://github.com/gtors>`_ for suggesting the feature.
 - Add ``.providers`` attribute to the ``FactoryAggregate`` provider. It is an alias for
   ``FactoryAggregate.factories`` attribute.
 - Add ``.set_providers()`` method to the ``FactoryAggregate`` provider. It is an alias for

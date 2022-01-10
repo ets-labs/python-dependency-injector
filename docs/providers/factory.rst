@@ -145,10 +145,16 @@ provider with two peculiarities:
    :lines: 3-
    :emphasize-lines: 34
 
+.. _factory-aggregate-provider:
+
 Factory aggregate
 -----------------
 
 :py:class:`FactoryAggregate` provider aggregates multiple factories.
+
+.. seealso::
+   :ref:`aggregate-provider` – it's a successor of ``FactoryAggregate`` provider that can aggregate
+   any type of provider, not only ``Factory``.
 
 The aggregated factories are associated with the string keys. When you call the
 ``FactoryAggregate`` you have to provide one of the these keys as a first argument.
