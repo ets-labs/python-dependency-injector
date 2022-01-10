@@ -145,6 +145,8 @@ provider with two peculiarities:
    :lines: 3-
    :emphasize-lines: 34
 
+.. _factory-aggregate-provider:
+
 Factory aggregate
 -----------------
 

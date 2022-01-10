@@ -46,6 +46,7 @@ Providers module API docs - :py:mod:`dependency_injector.providers`
     dict
     configuration
     resource
+    aggregate
     selector
     dependency
     overriding
