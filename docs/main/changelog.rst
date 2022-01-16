@@ -22,6 +22,7 @@ Development version
 - Add ``.set_providers()`` method to the ``FactoryAggregate`` provider. It is an alias for
   ``FactoryAggregate.set_factories()`` method.
 - Refactor ``FactoryAggregate`` provider internals.
+- Update logo on Github and in docs to support dark themes and remove some imperfections.
 
 4.37.0
 ------
