@@ -363,11 +363,11 @@ cdef inline tuple __separate_prefixed_kwargs(dict kwargs):
     cdef dict prefixed_kwargs = {}
 
     for key, value in kwargs.items():
-        if '__' not in key:
+        if "__" not in key:
             plain_kwargs[key] = value
             continue
 
-        index = key.index('__')
+        index = key.index("__")
         prefix, name = key[:index], key[index+2:]
 
         if prefix not in prefixed_kwargs:

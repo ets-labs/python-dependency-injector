@@ -4222,7 +4222,7 @@ static PyObject *__pyx_codeobj__143;
  *     from .wiring import wire, unwire
  * else:
  *     def wire(*args, **kwargs):             # <<<<<<<<<<<<<<
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")
  * 
  */
 
@@ -4259,7 +4259,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_wire(CYTHON_UNUSED 
   /* "dependency_injector/containers.pyx":31
  * else:
  *     def wire(*args, **kwargs):
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')             # <<<<<<<<<<<<<<
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")             # <<<<<<<<<<<<<<
  * 
  *     def unwire(*args, **kwargs):
  */
@@ -4273,7 +4273,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_wire(CYTHON_UNUSED 
  *     from .wiring import wire, unwire
  * else:
  *     def wire(*args, **kwargs):             # <<<<<<<<<<<<<<
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")
  * 
  */
 
@@ -4288,10 +4288,10 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_wire(CYTHON_UNUSED 
 }
 
 /* "dependency_injector/containers.pyx":33
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")
  * 
  *     def unwire(*args, **kwargs):             # <<<<<<<<<<<<<<
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")
  * 
  */
 
@@ -4328,7 +4328,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_2unwire(CYTHON_UNUS
   /* "dependency_injector/containers.pyx":34
  * 
  *     def unwire(*args, **kwargs):
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')             # <<<<<<<<<<<<<<
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")             # <<<<<<<<<<<<<<
  * 
  * if sys.version_info[:2] == (3, 5):
  */
@@ -4339,10 +4339,10 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_2unwire(CYTHON_UNUS
   __PYX_ERR(0, 34, __pyx_L1_error)
 
   /* "dependency_injector/containers.pyx":33
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")
  * 
  *     def unwire(*args, **kwargs):             # <<<<<<<<<<<<<<
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")
  * 
  */
 
@@ -5894,7 +5894,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_5__setattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_4__setattr__[] = "Set instance attribute.\n\n        If value of attribute is provider, it will be added into providers\n        dictionary.\n\n        :param name: Attribute's name\n        :type name: object\n\n        :param value: Attribute's value\n        :type value: object\n\n        :rtype: None\n        ";
+static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_4__setattr__[] = "Set instance attribute.\n\n        If value of attribute is provider, it will be added into providers\n        dictionary.\n\n        :param name: Attribute name\n        :type name: object\n\n        :param value: Attribute value\n        :type value: object\n\n        :rtype: None\n        ";
 static PyMethodDef __pyx_mdef_19dependency_injector_10containers_16DynamicContainer_5__setattr__ = {"__setattr__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_10containers_16DynamicContainer_5__setattr__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_19dependency_injector_10containers_16DynamicContainer_4__setattr__};
 static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_5__setattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
@@ -5990,7 +5990,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *         """
  *         if isinstance(value, providers.Provider) \             # <<<<<<<<<<<<<<
  *                 and not isinstance(value, providers.Self) \
- *                 and name != 'parent':
+ *                 and name != "parent":
  */
   __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_providers); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 148, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -6010,7 +6010,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *         """
  *         if isinstance(value, providers.Provider) \
  *                 and not isinstance(value, providers.Self) \             # <<<<<<<<<<<<<<
- *                 and name != 'parent':
+ *                 and name != "parent":
  *             _check_provider_type(self, value)
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_providers); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 149, __pyx_L1_error)
@@ -6030,7 +6030,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
   /* "dependency_injector/containers.pyx":150
  *         if isinstance(value, providers.Provider) \
  *                 and not isinstance(value, providers.Self) \
- *                 and name != 'parent':             # <<<<<<<<<<<<<<
+ *                 and name != "parent":             # <<<<<<<<<<<<<<
  *             _check_provider_type(self, value)
  * 
  */
@@ -6043,13 +6043,13 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *         """
  *         if isinstance(value, providers.Provider) \             # <<<<<<<<<<<<<<
  *                 and not isinstance(value, providers.Self) \
- *                 and name != 'parent':
+ *                 and name != "parent":
  */
   if (__pyx_t_1) {
 
     /* "dependency_injector/containers.pyx":151
  *                 and not isinstance(value, providers.Self) \
- *                 and name != 'parent':
+ *                 and name != "parent":
  *             _check_provider_type(self, value)             # <<<<<<<<<<<<<<
  * 
  *             self.providers[name] = value
@@ -6127,7 +6127,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *         """
  *         if isinstance(value, providers.Provider) \             # <<<<<<<<<<<<<<
  *                 and not isinstance(value, providers.Self) \
- *                 and name != 'parent':
+ *                 and name != "parent":
  */
   }
 
@@ -6235,7 +6235,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_7__delattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_6__delattr__[] = "Delete instance attribute.\n\n        If value of attribute is provider, it will be deleted from providers\n        dictionary.\n\n        :param name: Attribute's name\n        :type name: object\n\n        :rtype: None\n        ";
+static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_6__delattr__[] = "Delete instance attribute.\n\n        If value of attribute is provider, it will be deleted from providers\n        dictionary.\n\n        :param name: Attribute name\n        :type name: object\n\n        :rtype: None\n        ";
 static PyMethodDef __pyx_mdef_19dependency_injector_10containers_16DynamicContainer_7__delattr__ = {"__delattr__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_10containers_16DynamicContainer_7__delattr__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_19dependency_injector_10containers_16DynamicContainer_6__delattr__};
 static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_7__delattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
@@ -7393,8 +7393,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *         :rtype: None
  *         """
  *         if overriding is self:             # <<<<<<<<<<<<<<
- *             raise errors.Error('Container {0} could not be overridden '
- *                                'with itself'.format(self))
+ *             raise errors.Error("Container {0} could not be overridden "
+ *                                "with itself".format(self))
  */
   __pyx_t_1 = (__pyx_v_overriding == __pyx_v_self);
   __pyx_t_2 = (__pyx_t_1 != 0);
@@ -7403,8 +7403,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
     /* "dependency_injector/containers.pyx":232
  *         """
  *         if overriding is self:
- *             raise errors.Error('Container {0} could not be overridden '             # <<<<<<<<<<<<<<
- *                                'with itself'.format(self))
+ *             raise errors.Error("Container {0} could not be overridden "             # <<<<<<<<<<<<<<
+ *                                "with itself".format(self))
  * 
  */
     __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_errors); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 232, __pyx_L1_error)
@@ -7415,8 +7415,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 
     /* "dependency_injector/containers.pyx":233
  *         if overriding is self:
- *             raise errors.Error('Container {0} could not be overridden '
- *                                'with itself'.format(self))             # <<<<<<<<<<<<<<
+ *             raise errors.Error("Container {0} could not be overridden "
+ *                                "with itself".format(self))             # <<<<<<<<<<<<<<
  * 
  *         self.overridden += (overriding,)
  */
@@ -7461,13 +7461,13 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *         :rtype: None
  *         """
  *         if overriding is self:             # <<<<<<<<<<<<<<
- *             raise errors.Error('Container {0} could not be overridden '
- *                                'with itself'.format(self))
+ *             raise errors.Error("Container {0} could not be overridden "
+ *                                "with itself".format(self))
  */
   }
 
   /* "dependency_injector/containers.pyx":235
- *                                'with itself'.format(self))
+ *                                "with itself".format(self))
  * 
  *         self.overridden += (overriding,)             # <<<<<<<<<<<<<<
  * 
@@ -8151,7 +8151,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *         :rtype: None
  *         """
  *         if not self.overridden:             # <<<<<<<<<<<<<<
- *             raise errors.Error('Container {0} is not overridden'.format(self))
+ *             raise errors.Error("Container {0} is not overridden".format(self))
  * 
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_overridden); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 264, __pyx_L1_error)
@@ -8164,7 +8164,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
     /* "dependency_injector/containers.pyx":265
  *         """
  *         if not self.overridden:
- *             raise errors.Error('Container {0} is not overridden'.format(self))             # <<<<<<<<<<<<<<
+ *             raise errors.Error("Container {0} is not overridden".format(self))             # <<<<<<<<<<<<<<
  * 
  *         self.overridden = self.overridden[:-1]
  */
@@ -8214,13 +8214,13 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *         :rtype: None
  *         """
  *         if not self.overridden:             # <<<<<<<<<<<<<<
- *             raise errors.Error('Container {0} is not overridden'.format(self))
+ *             raise errors.Error("Container {0} is not overridden".format(self))
  * 
  */
   }
 
   /* "dependency_injector/containers.pyx":267
- *             raise errors.Error('Container {0} is not overridden'.format(self))
+ *             raise errors.Error("Container {0} is not overridden".format(self))
  * 
  *         self.overridden = self.overridden[:-1]             # <<<<<<<<<<<<<<
  * 
@@ -10666,7 +10666,7 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_16DynamicContainer_
  *             while any(resource.initialized for resource in resources):
  *                 resources_to_shutdown = list(_independent_resources(resources))             # <<<<<<<<<<<<<<
  *                 if not resources_to_shutdown:
- *                     raise RuntimeError('Unable to resolve resources shutdown order')
+ *                     raise RuntimeError("Unable to resolve resources shutdown order")
  */
     __pyx_t_2 = __pyx_cur_scope->__pyx_v_resources;
     __Pyx_INCREF(__pyx_t_2);
@@ -10686,7 +10686,7 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_16DynamicContainer_
  *             while any(resource.initialized for resource in resources):
  *                 resources_to_shutdown = list(_independent_resources(resources))
  *                 if not resources_to_shutdown:             # <<<<<<<<<<<<<<
- *                     raise RuntimeError('Unable to resolve resources shutdown order')
+ *                     raise RuntimeError("Unable to resolve resources shutdown order")
  *                 futures = []
  */
     __pyx_t_3 = (PyList_GET_SIZE(__pyx_cur_scope->__pyx_v_resources_to_shutdown) != 0);
@@ -10696,7 +10696,7 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_16DynamicContainer_
       /* "dependency_injector/containers.pyx":367
  *                 resources_to_shutdown = list(_independent_resources(resources))
  *                 if not resources_to_shutdown:
- *                     raise RuntimeError('Unable to resolve resources shutdown order')             # <<<<<<<<<<<<<<
+ *                     raise RuntimeError("Unable to resolve resources shutdown order")             # <<<<<<<<<<<<<<
  *                 futures = []
  *                 for resource in resources_to_shutdown:
  */
@@ -10710,14 +10710,14 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_16DynamicContainer_
  *             while any(resource.initialized for resource in resources):
  *                 resources_to_shutdown = list(_independent_resources(resources))
  *                 if not resources_to_shutdown:             # <<<<<<<<<<<<<<
- *                     raise RuntimeError('Unable to resolve resources shutdown order')
+ *                     raise RuntimeError("Unable to resolve resources shutdown order")
  *                 futures = []
  */
     }
 
     /* "dependency_injector/containers.pyx":368
  *                 if not resources_to_shutdown:
- *                     raise RuntimeError('Unable to resolve resources shutdown order')
+ *                     raise RuntimeError("Unable to resolve resources shutdown order")
  *                 futures = []             # <<<<<<<<<<<<<<
  *                 for resource in resources_to_shutdown:
  *                     result = resource.shutdown()
@@ -10730,7 +10730,7 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_16DynamicContainer_
     __pyx_t_2 = 0;
 
     /* "dependency_injector/containers.pyx":369
- *                     raise RuntimeError('Unable to resolve resources shutdown order')
+ *                     raise RuntimeError("Unable to resolve resources shutdown order")
  *                 futures = []
  *                 for resource in resources_to_shutdown:             # <<<<<<<<<<<<<<
  *                     result = resource.shutdown()
@@ -10808,7 +10808,7 @@ static PyObject *__pyx_gb_19dependency_injector_10containers_16DynamicContainer_
       }
 
       /* "dependency_injector/containers.pyx":369
- *                     raise RuntimeError('Unable to resolve resources shutdown order')
+ *                     raise RuntimeError("Unable to resolve resources shutdown order")
  *                 futures = []
  *                 for resource in resources_to_shutdown:             # <<<<<<<<<<<<<<
  *                     result = resource.shutdown()
@@ -11120,7 +11120,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *             while any(resource.initialized for resource in resources):
  *                 resources_to_shutdown = list(_independent_resources(resources))             # <<<<<<<<<<<<<<
  *                 if not resources_to_shutdown:
- *                     raise RuntimeError('Unable to resolve resources shutdown order')
+ *                     raise RuntimeError("Unable to resolve resources shutdown order")
  */
     __pyx_t_2 = __pyx_cur_scope->__pyx_v_resources;
     __Pyx_INCREF(__pyx_t_2);
@@ -11138,7 +11138,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *             while any(resource.initialized for resource in resources):
  *                 resources_to_shutdown = list(_independent_resources(resources))
  *                 if not resources_to_shutdown:             # <<<<<<<<<<<<<<
- *                     raise RuntimeError('Unable to resolve resources shutdown order')
+ *                     raise RuntimeError("Unable to resolve resources shutdown order")
  *                 for resource in resources_to_shutdown:
  */
     __pyx_t_3 = (PyList_GET_SIZE(__pyx_v_resources_to_shutdown) != 0);
@@ -11148,7 +11148,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
       /* "dependency_injector/containers.pyx":379
  *                 resources_to_shutdown = list(_independent_resources(resources))
  *                 if not resources_to_shutdown:
- *                     raise RuntimeError('Unable to resolve resources shutdown order')             # <<<<<<<<<<<<<<
+ *                     raise RuntimeError("Unable to resolve resources shutdown order")             # <<<<<<<<<<<<<<
  *                 for resource in resources_to_shutdown:
  *                     resource.shutdown()
  */
@@ -11162,14 +11162,14 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *             while any(resource.initialized for resource in resources):
  *                 resources_to_shutdown = list(_independent_resources(resources))
  *                 if not resources_to_shutdown:             # <<<<<<<<<<<<<<
- *                     raise RuntimeError('Unable to resolve resources shutdown order')
+ *                     raise RuntimeError("Unable to resolve resources shutdown order")
  *                 for resource in resources_to_shutdown:
  */
     }
 
     /* "dependency_injector/containers.pyx":380
  *                 if not resources_to_shutdown:
- *                     raise RuntimeError('Unable to resolve resources shutdown order')
+ *                     raise RuntimeError("Unable to resolve resources shutdown order")
  *                 for resource in resources_to_shutdown:             # <<<<<<<<<<<<<<
  *                     resource.shutdown()
  * 
@@ -11187,7 +11187,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
       __pyx_t_1 = 0;
 
       /* "dependency_injector/containers.pyx":381
- *                     raise RuntimeError('Unable to resolve resources shutdown order')
+ *                     raise RuntimeError("Unable to resolve resources shutdown order")
  *                 for resource in resources_to_shutdown:
  *                     resource.shutdown()             # <<<<<<<<<<<<<<
  * 
@@ -11214,7 +11214,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 
       /* "dependency_injector/containers.pyx":380
  *                 if not resources_to_shutdown:
- *                     raise RuntimeError('Unable to resolve resources shutdown order')
+ *                     raise RuntimeError("Unable to resolve resources shutdown order")
  *                 for resource in resources_to_shutdown:             # <<<<<<<<<<<<<<
  *                     resource.shutdown()
  * 
@@ -11761,13 +11761,13 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *             config.load()
  * 
  *     def apply_container_providers_overridings(self):             # <<<<<<<<<<<<<<
- *         """Apply container providers' overridings."""
+ *         """Apply container providers overridings."""
  *         for provider in self.traverse(types=[providers.Container]):
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_38apply_container_providers_overridings(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_37apply_container_providers_overridings[] = "Apply container providers' overridings.";
+static char __pyx_doc_19dependency_injector_10containers_16DynamicContainer_37apply_container_providers_overridings[] = "Apply container providers overridings.";
 static PyMethodDef __pyx_mdef_19dependency_injector_10containers_16DynamicContainer_38apply_container_providers_overridings = {"apply_container_providers_overridings", (PyCFunction)__pyx_pw_19dependency_injector_10containers_16DynamicContainer_38apply_container_providers_overridings, METH_O, __pyx_doc_19dependency_injector_10containers_16DynamicContainer_37apply_container_providers_overridings};
 static PyObject *__pyx_pw_19dependency_injector_10containers_16DynamicContainer_38apply_container_providers_overridings(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
@@ -11797,7 +11797,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 
   /* "dependency_injector/containers.pyx":397
  *     def apply_container_providers_overridings(self):
- *         """Apply container providers' overridings."""
+ *         """Apply container providers overridings."""
  *         for provider in self.traverse(types=[providers.Container]):             # <<<<<<<<<<<<<<
  *             provider.apply_overridings()
  * 
@@ -11866,7 +11866,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
     __pyx_t_3 = 0;
 
     /* "dependency_injector/containers.pyx":398
- *         """Apply container providers' overridings."""
+ *         """Apply container providers overridings."""
  *         for provider in self.traverse(types=[providers.Container]):
  *             provider.apply_overridings()             # <<<<<<<<<<<<<<
  * 
@@ -11893,7 +11893,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 
     /* "dependency_injector/containers.pyx":397
  *     def apply_container_providers_overridings(self):
- *         """Apply container providers' overridings."""
+ *         """Apply container providers overridings."""
  *         for provider in self.traverse(types=[providers.Container]):             # <<<<<<<<<<<<<<
  *             provider.apply_overridings()
  * 
@@ -11905,7 +11905,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *             config.load()
  * 
  *     def apply_container_providers_overridings(self):             # <<<<<<<<<<<<<<
- *         """Apply container providers' overridings."""
+ *         """Apply container providers overridings."""
  *         for provider in self.traverse(types=[providers.Container]):
  */
 
@@ -12328,7 +12328,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  * 
  *         container_name = self.parent_name if self.parent_name else self.__class__.__name__             # <<<<<<<<<<<<<<
  *         undefined_names = [
- *             f'"{dependency.parent_name if dependency.parent_name else dependency}"'
+ *             f"\"{dependency.parent_name if dependency.parent_name else dependency}\""
  */
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_parent_name); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 420, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -12355,7 +12355,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  * 
  *         container_name = self.parent_name if self.parent_name else self.__class__.__name__
  *         undefined_names = [             # <<<<<<<<<<<<<<
- *             f'"{dependency.parent_name if dependency.parent_name else dependency}"'
+ *             f"\"{dependency.parent_name if dependency.parent_name else dependency}\""
  *             for dependency in undefined
  */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 421, __pyx_L1_error)
@@ -12363,7 +12363,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 
   /* "dependency_injector/containers.pyx":423
  *         undefined_names = [
- *             f'"{dependency.parent_name if dependency.parent_name else dependency}"'
+ *             f"\"{dependency.parent_name if dependency.parent_name else dependency}\""
  *             for dependency in undefined             # <<<<<<<<<<<<<<
  *         ]
  *         raise errors.Error(
@@ -12383,7 +12383,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
     /* "dependency_injector/containers.pyx":422
  *         container_name = self.parent_name if self.parent_name else self.__class__.__name__
  *         undefined_names = [
- *             f'"{dependency.parent_name if dependency.parent_name else dependency}"'             # <<<<<<<<<<<<<<
+ *             f"\"{dependency.parent_name if dependency.parent_name else dependency}\""             # <<<<<<<<<<<<<<
  *             for dependency in undefined
  *         ]
  */
@@ -12428,7 +12428,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 
     /* "dependency_injector/containers.pyx":423
  *         undefined_names = [
- *             f'"{dependency.parent_name if dependency.parent_name else dependency}"'
+ *             f"\"{dependency.parent_name if dependency.parent_name else dependency}\""
  *             for dependency in undefined             # <<<<<<<<<<<<<<
  *         ]
  *         raise errors.Error(
@@ -12442,8 +12442,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *             for dependency in undefined
  *         ]
  *         raise errors.Error(             # <<<<<<<<<<<<<<
- *             f'Container "{container_name}" has undefined dependencies: '
- *             f'{", ".join(undefined_names)}',
+ *             f"Container \"{container_name}\" has undefined dependencies: "
+ *             f"{', '.join(undefined_names)}",
  */
   __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_errors); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 425, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
@@ -12454,8 +12454,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
   /* "dependency_injector/containers.pyx":426
  *         ]
  *         raise errors.Error(
- *             f'Container "{container_name}" has undefined dependencies: '             # <<<<<<<<<<<<<<
- *             f'{", ".join(undefined_names)}',
+ *             f"Container \"{container_name}\" has undefined dependencies: "             # <<<<<<<<<<<<<<
+ *             f"{', '.join(undefined_names)}",
  *         )
  */
   __pyx_t_4 = PyTuple_New(4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 426, __pyx_L1_error)
@@ -12480,8 +12480,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
 
   /* "dependency_injector/containers.pyx":427
  *         raise errors.Error(
- *             f'Container "{container_name}" has undefined dependencies: '
- *             f'{", ".join(undefined_names)}',             # <<<<<<<<<<<<<<
+ *             f"Container \"{container_name}\" has undefined dependencies: "
+ *             f"{', '.join(undefined_names)}",             # <<<<<<<<<<<<<<
  *         )
  * 
  */
@@ -12499,8 +12499,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
   /* "dependency_injector/containers.pyx":426
  *         ]
  *         raise errors.Error(
- *             f'Container "{container_name}" has undefined dependencies: '             # <<<<<<<<<<<<<<
- *             f'{", ".join(undefined_names)}',
+ *             f"Container \"{container_name}\" has undefined dependencies: "             # <<<<<<<<<<<<<<
+ *             f"{', '.join(undefined_names)}",
  *         )
  */
   __pyx_t_2 = __Pyx_PyUnicode_Join(__pyx_t_4, 4, __pyx_t_6, __pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 426, __pyx_L1_error)
@@ -13012,7 +13012,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *         """
  *         if yaml is None:             # <<<<<<<<<<<<<<
  *             raise errors.Error(
- *                 'Unable to load yaml schema - PyYAML is not installed. '
+ *                 "Unable to load yaml schema - PyYAML is not installed. "
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_yaml); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 442, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -13025,8 +13025,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *         """
  *         if yaml is None:
  *             raise errors.Error(             # <<<<<<<<<<<<<<
- *                 'Unable to load yaml schema - PyYAML is not installed. '
- *                 'Install PyYAML or install Dependency Injector with yaml extras: '
+ *                 "Unable to load yaml schema - PyYAML is not installed. "
+ *                 "Install PyYAML or install Dependency Injector with yaml extras: "
  */
     __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_errors); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 443, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
@@ -13057,7 +13057,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *         """
  *         if yaml is None:             # <<<<<<<<<<<<<<
  *             raise errors.Error(
- *                 'Unable to load yaml schema - PyYAML is not installed. '
+ *                 "Unable to load yaml schema - PyYAML is not installed. "
  */
   }
 
@@ -13868,7 +13868,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
  *             if container_provider is provider:
  *                 return provider_name             # <<<<<<<<<<<<<<
  *         else:
- *             raise errors.Error(f'Can not resolve name for provider "{provider}"')
+ *             raise errors.Error(f"Can not resolve name for provider \"{provider}\"")
  */
       __Pyx_XDECREF(__pyx_r);
       __Pyx_INCREF(__pyx_v_provider_name);
@@ -13898,7 +13898,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_16DynamicContainer_
     /* "dependency_injector/containers.pyx":469
  *                 return provider_name
  *         else:
- *             raise errors.Error(f'Can not resolve name for provider "{provider}"')             # <<<<<<<<<<<<<<
+ *             raise errors.Error(f"Can not resolve name for provider \"{provider}\"")             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
@@ -15252,9 +15252,9 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
   /* "dependency_injector/containers.pyx":528
  *             )
  * 
- *         attributes['containers'] = containers             # <<<<<<<<<<<<<<
- *         attributes['inherited_providers'] = inherited_providers
- *         attributes['cls_providers'] = cls_providers
+ *         attributes["containers"] = containers             # <<<<<<<<<<<<<<
+ *         attributes["inherited_providers"] = inherited_providers
+ *         attributes["cls_providers"] = cls_providers
  */
   if (unlikely(__pyx_v_attributes == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -15264,10 +15264,10 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
 
   /* "dependency_injector/containers.pyx":529
  * 
- *         attributes['containers'] = containers
- *         attributes['inherited_providers'] = inherited_providers             # <<<<<<<<<<<<<<
- *         attributes['cls_providers'] = cls_providers
- *         attributes['providers'] = all_providers
+ *         attributes["containers"] = containers
+ *         attributes["inherited_providers"] = inherited_providers             # <<<<<<<<<<<<<<
+ *         attributes["cls_providers"] = cls_providers
+ *         attributes["providers"] = all_providers
  */
   if (unlikely(__pyx_v_attributes == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -15276,11 +15276,11 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
   if (unlikely(PyDict_SetItem(__pyx_v_attributes, __pyx_n_s_inherited_providers, __pyx_v_inherited_providers) < 0)) __PYX_ERR(0, 529, __pyx_L1_error)
 
   /* "dependency_injector/containers.pyx":530
- *         attributes['containers'] = containers
- *         attributes['inherited_providers'] = inherited_providers
- *         attributes['cls_providers'] = cls_providers             # <<<<<<<<<<<<<<
- *         attributes['providers'] = all_providers
- *         attributes['wiring_config'] = wiring_config
+ *         attributes["containers"] = containers
+ *         attributes["inherited_providers"] = inherited_providers
+ *         attributes["cls_providers"] = cls_providers             # <<<<<<<<<<<<<<
+ *         attributes["providers"] = all_providers
+ *         attributes["wiring_config"] = wiring_config
  */
   if (unlikely(__pyx_v_attributes == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -15289,10 +15289,10 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
   if (unlikely(PyDict_SetItem(__pyx_v_attributes, __pyx_n_s_cls_providers, __pyx_v_cls_providers) < 0)) __PYX_ERR(0, 530, __pyx_L1_error)
 
   /* "dependency_injector/containers.pyx":531
- *         attributes['inherited_providers'] = inherited_providers
- *         attributes['cls_providers'] = cls_providers
- *         attributes['providers'] = all_providers             # <<<<<<<<<<<<<<
- *         attributes['wiring_config'] = wiring_config
+ *         attributes["inherited_providers"] = inherited_providers
+ *         attributes["cls_providers"] = cls_providers
+ *         attributes["providers"] = all_providers             # <<<<<<<<<<<<<<
+ *         attributes["wiring_config"] = wiring_config
  * 
  */
   if (unlikely(__pyx_v_attributes == Py_None)) {
@@ -15302,9 +15302,9 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
   if (unlikely(PyDict_SetItem(__pyx_v_attributes, __pyx_n_s_providers, __pyx_v_all_providers) < 0)) __PYX_ERR(0, 531, __pyx_L1_error)
 
   /* "dependency_injector/containers.pyx":532
- *         attributes['cls_providers'] = cls_providers
- *         attributes['providers'] = all_providers
- *         attributes['wiring_config'] = wiring_config             # <<<<<<<<<<<<<<
+ *         attributes["cls_providers"] = cls_providers
+ *         attributes["providers"] = all_providers
+ *         attributes["wiring_config"] = wiring_config             # <<<<<<<<<<<<<<
  * 
  *         cls = <type>type.__new__(mcs, class_name, bases, attributes)
  */
@@ -15315,7 +15315,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
   if (unlikely(PyDict_SetItem(__pyx_v_attributes, __pyx_n_s_wiring_config, __pyx_v_wiring_config) < 0)) __PYX_ERR(0, 532, __pyx_L1_error)
 
   /* "dependency_injector/containers.pyx":534
- *         attributes['wiring_config'] = wiring_config
+ *         attributes["wiring_config"] = wiring_config
  * 
  *         cls = <type>type.__new__(mcs, class_name, bases, attributes)             # <<<<<<<<<<<<<<
  * 
@@ -15706,7 +15706,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_3__setattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_2__setattr__[] = "Set class attribute.\n\n        If value of attribute is provider, it will be added into providers\n        dictionary.\n\n        :param name: Attribute's name\n        :type name: object\n\n        :param value: Attribute's value\n        :type value: object\n\n        :rtype: None\n        ";
+static char __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_2__setattr__[] = "Set class attribute.\n\n        If value of attribute is provider, it will be added into providers\n        dictionary.\n\n        :param name: Attribute name\n        :type name: object\n\n        :param value: Attribute value\n        :type value: object\n\n        :rtype: None\n        ";
 static PyMethodDef __pyx_mdef_19dependency_injector_10containers_29DeclarativeContainerMetaClass_3__setattr__ = {"__setattr__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_3__setattr__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_2__setattr__};
 static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_3__setattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_cls = 0;
@@ -15800,7 +15800,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
   /* "dependency_injector/containers.pyx":562
  *         :rtype: None
  *         """
- *         if isinstance(value, providers.Provider) and name != '__self__':             # <<<<<<<<<<<<<<
+ *         if isinstance(value, providers.Provider) and name != "__self__":             # <<<<<<<<<<<<<<
  *             _check_provider_type(cls, value)
  * 
  */
@@ -15824,7 +15824,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
 
     /* "dependency_injector/containers.pyx":563
  *         """
- *         if isinstance(value, providers.Provider) and name != '__self__':
+ *         if isinstance(value, providers.Provider) and name != "__self__":
  *             _check_provider_type(cls, value)             # <<<<<<<<<<<<<<
  * 
  *             if isinstance(value, providers.CHILD_PROVIDERS):
@@ -15912,7 +15912,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
     /* "dependency_injector/containers.pyx":562
  *         :rtype: None
  *         """
- *         if isinstance(value, providers.Provider) and name != '__self__':             # <<<<<<<<<<<<<<
+ *         if isinstance(value, providers.Provider) and name != "__self__":             # <<<<<<<<<<<<<<
  *             _check_provider_type(cls, value)
  * 
  */
@@ -16022,7 +16022,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_5__delattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_4__delattr__[] = "Delete class attribute.\n\n        If value of attribute is provider, it will be deleted from providers\n        dictionary.\n\n        :param name: Attribute's name\n        :type name: object\n\n        :rtype: None\n        ";
+static char __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_4__delattr__[] = "Delete class attribute.\n\n        If value of attribute is provider, it will be deleted from providers\n        dictionary.\n\n        :param name: Attribute name\n        :type name: object\n\n        :rtype: None\n        ";
 static PyMethodDef __pyx_mdef_19dependency_injector_10containers_29DeclarativeContainerMetaClass_5__delattr__ = {"__delattr__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_5__delattr__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_19dependency_injector_10containers_29DeclarativeContainerMetaClass_4__delattr__};
 static PyObject *__pyx_pw_19dependency_injector_10containers_29DeclarativeContainerMetaClass_5__delattr__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_cls = 0;
@@ -16959,7 +16959,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
  *             if container_provider is provider:
  *                 return provider_name             # <<<<<<<<<<<<<<
  *         else:
- *             raise errors.Error(f'Can not resolve name for provider "{provider}"')
+ *             raise errors.Error(f"Can not resolve name for provider \"{provider}\"")
  */
       __Pyx_XDECREF(__pyx_r);
       __Pyx_INCREF(__pyx_v_provider_name);
@@ -16989,7 +16989,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
     /* "dependency_injector/containers.pyx":614
  *                 return provider_name
  *         else:
- *             raise errors.Error(f'Can not resolve name for provider "{provider}"')             # <<<<<<<<<<<<<<
+ *             raise errors.Error(f"Can not resolve name for provider \"{provider}\"")             # <<<<<<<<<<<<<<
  * 
  *     @property
  */
@@ -17362,7 +17362,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
  *                 continue
  * 
  *             if self is not None and value is not self:             # <<<<<<<<<<<<<<
- *                 raise errors.Error('Container can have only one "Self" provider')
+ *                 raise errors.Error("Container can have only one \"Self\" provider")
  * 
  */
     __pyx_t_9 = (__pyx_v_self != Py_None);
@@ -17381,9 +17381,9 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
       /* "dependency_injector/containers.pyx":631
  * 
  *             if self is not None and value is not self:
- *                 raise errors.Error('Container can have only one "Self" provider')             # <<<<<<<<<<<<<<
+ *                 raise errors.Error("Container can have only one \"Self\" provider")             # <<<<<<<<<<<<<<
  * 
- *             if name != '__self__':
+ *             if name != "__self__":
  */
       __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_errors); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 631, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
@@ -17413,15 +17413,15 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
  *                 continue
  * 
  *             if self is not None and value is not self:             # <<<<<<<<<<<<<<
- *                 raise errors.Error('Container can have only one "Self" provider')
+ *                 raise errors.Error("Container can have only one \"Self\" provider")
  * 
  */
     }
 
     /* "dependency_injector/containers.pyx":633
- *                 raise errors.Error('Container can have only one "Self" provider')
+ *                 raise errors.Error("Container can have only one \"Self\" provider")
  * 
- *             if name != '__self__':             # <<<<<<<<<<<<<<
+ *             if name != "__self__":             # <<<<<<<<<<<<<<
  *                 alt_names.append(name)
  * 
  */
@@ -17430,7 +17430,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
 
       /* "dependency_injector/containers.pyx":634
  * 
- *             if name != '__self__':
+ *             if name != "__self__":
  *                 alt_names.append(name)             # <<<<<<<<<<<<<<
  * 
  *             self = value
@@ -17438,9 +17438,9 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_29DeclarativeContai
       __pyx_t_12 = __Pyx_PyList_Append(__pyx_v_alt_names, __pyx_v_name); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 634, __pyx_L1_error)
 
       /* "dependency_injector/containers.pyx":633
- *                 raise errors.Error('Container can have only one "Self" provider')
+ *                 raise errors.Error("Container can have only one \"Self\" provider")
  * 
- *             if name != '__self__':             # <<<<<<<<<<<<<<
+ *             if name != "__self__":             # <<<<<<<<<<<<<<
  *                 alt_names.append(name)
  * 
  */
@@ -17719,15 +17719,15 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContai
  *         container.wiring_config = copy_module.deepcopy(cls.wiring_config)
  *         container.declarative_parent = cls             # <<<<<<<<<<<<<<
  * 
- *         copied_providers = providers.deepcopy({ **cls.providers, **{'@@self@@': cls.__self__}})
+ *         copied_providers = providers.deepcopy({ **cls.providers, **{"@@self@@": cls.__self__}})
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_container, __pyx_n_s_declarative_parent, __pyx_v_cls) < 0) __PYX_ERR(0, 728, __pyx_L1_error)
 
   /* "dependency_injector/containers.pyx":730
  *         container.declarative_parent = cls
  * 
- *         copied_providers = providers.deepcopy({ **cls.providers, **{'@@self@@': cls.__self__}})             # <<<<<<<<<<<<<<
- *         copied_self = copied_providers.pop('@@self@@')
+ *         copied_providers = providers.deepcopy({ **cls.providers, **{"@@self@@": cls.__self__}})             # <<<<<<<<<<<<<<
+ *         copied_self = copied_providers.pop("@@self@@")
  *         copied_self.set_container(container)
  */
   __Pyx_GetModuleGlobalName(__pyx_t_3, __pyx_n_s_providers); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 730, __pyx_L1_error)
@@ -17775,8 +17775,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContai
 
   /* "dependency_injector/containers.pyx":731
  * 
- *         copied_providers = providers.deepcopy({ **cls.providers, **{'@@self@@': cls.__self__}})
- *         copied_self = copied_providers.pop('@@self@@')             # <<<<<<<<<<<<<<
+ *         copied_providers = providers.deepcopy({ **cls.providers, **{"@@self@@": cls.__self__}})
+ *         copied_self = copied_providers.pop("@@self@@")             # <<<<<<<<<<<<<<
  *         copied_self.set_container(container)
  * 
  */
@@ -17801,8 +17801,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContai
   __pyx_t_1 = 0;
 
   /* "dependency_injector/containers.pyx":732
- *         copied_providers = providers.deepcopy({ **cls.providers, **{'@@self@@': cls.__self__}})
- *         copied_self = copied_providers.pop('@@self@@')
+ *         copied_providers = providers.deepcopy({ **cls.providers, **{"@@self@@": cls.__self__}})
+ *         copied_self = copied_providers.pop("@@self@@")
  *         copied_self.set_container(container)             # <<<<<<<<<<<<<<
  * 
  *         container.__self__ = copied_self
@@ -18430,8 +18430,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContai
  *         :rtype: None
  *         """
  *         if issubclass(cls, overriding):             # <<<<<<<<<<<<<<
- *             raise errors.Error('Container {0} could not be overridden '
- *                                'with itself or its subclasses'.format(cls))
+ *             raise errors.Error("Container {0} could not be overridden "
+ *                                "with itself or its subclasses".format(cls))
  */
   __pyx_t_1 = PyObject_IsSubclass(__pyx_v_cls, __pyx_v_overriding); if (unlikely(__pyx_t_1 == ((int)-1))) __PYX_ERR(0, 764, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_1 != 0);
@@ -18440,8 +18440,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContai
     /* "dependency_injector/containers.pyx":765
  *         """
  *         if issubclass(cls, overriding):
- *             raise errors.Error('Container {0} could not be overridden '             # <<<<<<<<<<<<<<
- *                                'with itself or its subclasses'.format(cls))
+ *             raise errors.Error("Container {0} could not be overridden "             # <<<<<<<<<<<<<<
+ *                                "with itself or its subclasses".format(cls))
  * 
  */
     __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_errors); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 765, __pyx_L1_error)
@@ -18452,8 +18452,8 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContai
 
     /* "dependency_injector/containers.pyx":766
  *         if issubclass(cls, overriding):
- *             raise errors.Error('Container {0} could not be overridden '
- *                                'with itself or its subclasses'.format(cls))             # <<<<<<<<<<<<<<
+ *             raise errors.Error("Container {0} could not be overridden "
+ *                                "with itself or its subclasses".format(cls))             # <<<<<<<<<<<<<<
  * 
  *         cls.overridden += (overriding,)
  */
@@ -18498,13 +18498,13 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContai
  *         :rtype: None
  *         """
  *         if issubclass(cls, overriding):             # <<<<<<<<<<<<<<
- *             raise errors.Error('Container {0} could not be overridden '
- *                                'with itself or its subclasses'.format(cls))
+ *             raise errors.Error("Container {0} could not be overridden "
+ *                                "with itself or its subclasses".format(cls))
  */
   }
 
   /* "dependency_injector/containers.pyx":768
- *                                'with itself or its subclasses'.format(cls))
+ *                                "with itself or its subclasses".format(cls))
  * 
  *         cls.overridden += (overriding,)             # <<<<<<<<<<<<<<
  * 
@@ -18825,7 +18825,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContai
  *         :rtype: None
  *         """
  *         if not cls.overridden:             # <<<<<<<<<<<<<<
- *             raise errors.Error('Container {0} is not overridden'.format(cls))
+ *             raise errors.Error("Container {0} is not overridden".format(cls))
  * 
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_cls, __pyx_n_s_overridden); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 782, __pyx_L1_error)
@@ -18838,7 +18838,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContai
     /* "dependency_injector/containers.pyx":783
  *         """
  *         if not cls.overridden:
- *             raise errors.Error('Container {0} is not overridden'.format(cls))             # <<<<<<<<<<<<<<
+ *             raise errors.Error("Container {0} is not overridden".format(cls))             # <<<<<<<<<<<<<<
  * 
  *         cls.overridden = cls.overridden[:-1]
  */
@@ -18888,13 +18888,13 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_20DeclarativeContai
  *         :rtype: None
  *         """
  *         if not cls.overridden:             # <<<<<<<<<<<<<<
- *             raise errors.Error('Container {0} is not overridden'.format(cls))
+ *             raise errors.Error("Container {0} is not overridden".format(cls))
  * 
  */
   }
 
   /* "dependency_injector/containers.pyx":785
- *             raise errors.Error('Container {0} is not overridden'.format(cls))
+ *             raise errors.Error("Container {0} is not overridden".format(cls))
  * 
  *         cls.overridden = cls.overridden[:-1]             # <<<<<<<<<<<<<<
  * 
@@ -19948,7 +19948,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_26ProvidersOverridi
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_10containers_5override(PyObject *__pyx_self, PyObject *__pyx_v_container); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_4override[] = ":py:class:`DeclarativeContainer` overriding decorator.\n\n    :param container: Container that should be overridden by decorated\n                      container.\n    :type container: :py:class:`DeclarativeContainer`\n\n    :return: Declarative container's overriding decorator.\n    :rtype: callable(:py:class:`DeclarativeContainer`)\n    ";
+static char __pyx_doc_19dependency_injector_10containers_4override[] = ":py:class:`DeclarativeContainer` overriding decorator.\n\n    :param container: Container that should be overridden by decorated\n                      container.\n    :type container: :py:class:`DeclarativeContainer`\n\n    :return: Declarative container overriding decorator.\n    :rtype: callable(:py:class:`DeclarativeContainer`)\n    ";
 static PyMethodDef __pyx_mdef_19dependency_injector_10containers_5override = {"override", (PyCFunction)__pyx_pw_19dependency_injector_10containers_5override, METH_O, __pyx_doc_19dependency_injector_10containers_4override};
 static PyObject *__pyx_pw_19dependency_injector_10containers_5override(PyObject *__pyx_self, PyObject *__pyx_v_container) {
   PyObject *__pyx_r = 0;
@@ -20144,7 +20144,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_4override(CYTHON_UN
 
 /* Python wrapper */
 static PyObject *__pyx_pw_19dependency_injector_10containers_7copy(PyObject *__pyx_self, PyObject *__pyx_v_base_container); /*proto*/
-static char __pyx_doc_19dependency_injector_10containers_6copy[] = ":py:class:`DeclarativeContainer` copying decorator.\n\n    This decorator copies all providers from provided container to decorated one.\n    If one of the decorated container providers matches to source container\n    providers by name, it would be replaced by reference.\n\n    :param base_container: Container that should be copied by decorated container.\n    :type base_container: :py:class:`DeclarativeContainer`\n\n    :return: Declarative container's copying decorator.\n    :rtype: callable(:py:class:`DeclarativeContainer`)\n    ";
+static char __pyx_doc_19dependency_injector_10containers_6copy[] = ":py:class:`DeclarativeContainer` copying decorator.\n\n    This decorator copies all providers from provided container to decorated one.\n    If one of the decorated container providers matches to source container\n    providers by name, it would be replaced by reference.\n\n    :param base_container: Container that should be copied by decorated container.\n    :type base_container: :py:class:`DeclarativeContainer`\n\n    :return: Declarative container copying decorator.\n    :rtype: callable(:py:class:`DeclarativeContainer`)\n    ";
 static PyMethodDef __pyx_mdef_19dependency_injector_10containers_7copy = {"copy", (PyCFunction)__pyx_pw_19dependency_injector_10containers_7copy, METH_O, __pyx_doc_19dependency_injector_10containers_6copy};
 static PyObject *__pyx_pw_19dependency_injector_10containers_7copy(PyObject *__pyx_self, PyObject *__pyx_v_base_container) {
   PyObject *__pyx_r = 0;
@@ -20434,7 +20434,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_4copy__get_memo_for
  *             source_provider = base_providers[new_provider_name]
  *             memo[id(source_provider)] = new_provider             # <<<<<<<<<<<<<<
  * 
- *             if hasattr(new_provider, 'providers') and hasattr(source_provider, 'providers'):
+ *             if hasattr(new_provider, "providers") and hasattr(source_provider, "providers"):
  */
     __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_id, __pyx_v_source_provider); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 865, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
@@ -20444,7 +20444,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_4copy__get_memo_for
     /* "dependency_injector/containers.pyx":867
  *             memo[id(source_provider)] = new_provider
  * 
- *             if hasattr(new_provider, 'providers') and hasattr(source_provider, 'providers'):             # <<<<<<<<<<<<<<
+ *             if hasattr(new_provider, "providers") and hasattr(source_provider, "providers"):             # <<<<<<<<<<<<<<
  *                 sub_memo = _get_memo_for_matching_names(new_provider.providers, source_provider.providers)
  *                 memo.update(sub_memo)
  */
@@ -20463,7 +20463,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_4copy__get_memo_for
 
       /* "dependency_injector/containers.pyx":868
  * 
- *             if hasattr(new_provider, 'providers') and hasattr(source_provider, 'providers'):
+ *             if hasattr(new_provider, "providers") and hasattr(source_provider, "providers"):
  *                 sub_memo = _get_memo_for_matching_names(new_provider.providers, source_provider.providers)             # <<<<<<<<<<<<<<
  *                 memo.update(sub_memo)
  *         return memo
@@ -20481,7 +20481,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_4copy__get_memo_for
       __pyx_t_2 = 0;
 
       /* "dependency_injector/containers.pyx":869
- *             if hasattr(new_provider, 'providers') and hasattr(source_provider, 'providers'):
+ *             if hasattr(new_provider, "providers") and hasattr(source_provider, "providers"):
  *                 sub_memo = _get_memo_for_matching_names(new_provider.providers, source_provider.providers)
  *                 memo.update(sub_memo)             # <<<<<<<<<<<<<<
  *         return memo
@@ -20494,7 +20494,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_4copy__get_memo_for
       /* "dependency_injector/containers.pyx":867
  *             memo[id(source_provider)] = new_provider
  * 
- *             if hasattr(new_provider, 'providers') and hasattr(source_provider, 'providers'):             # <<<<<<<<<<<<<<
+ *             if hasattr(new_provider, "providers") and hasattr(source_provider, "providers"):             # <<<<<<<<<<<<<<
  *                 sub_memo = _get_memo_for_matching_names(new_provider.providers, source_provider.providers)
  *                 memo.update(sub_memo)
  */
@@ -21064,7 +21064,7 @@ static int __pyx_f_19dependency_injector_10containers_is_container(PyObject *__p
   /* "dependency_injector/containers.pyx":895
  *     :rtype: bool
  *     """
- *     return getattr(instance, '__IS_CONTAINER__', False) is True             # <<<<<<<<<<<<<<
+ *     return getattr(instance, "__IS_CONTAINER__", False) is True             # <<<<<<<<<<<<<<
  * 
  * 
  */
@@ -21138,7 +21138,7 @@ static PyObject *__pyx_pf_19dependency_injector_10containers_8is_container(CYTHO
  * 
  * cpdef object _check_provider_type(object container, object provider):             # <<<<<<<<<<<<<<
  *     if not isinstance(provider, container.provider_type):
- *         raise errors.Error('{0} can contain only {1} '
+ *         raise errors.Error("{0} can contain only {1} "
  */
 
 static PyObject *__pyx_pw_19dependency_injector_10containers_11_check_provider_type(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
@@ -21164,8 +21164,8 @@ static PyObject *__pyx_f_19dependency_injector_10containers__check_provider_type
  * 
  * cpdef object _check_provider_type(object container, object provider):
  *     if not isinstance(provider, container.provider_type):             # <<<<<<<<<<<<<<
- *         raise errors.Error('{0} can contain only {1} '
- *                            'instances'.format(container, container.provider_type))
+ *         raise errors.Error("{0} can contain only {1} "
+ *                            "instances".format(container, container.provider_type))
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_container, __pyx_n_s_provider_type); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 899, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -21177,8 +21177,8 @@ static PyObject *__pyx_f_19dependency_injector_10containers__check_provider_type
     /* "dependency_injector/containers.pyx":900
  * cpdef object _check_provider_type(object container, object provider):
  *     if not isinstance(provider, container.provider_type):
- *         raise errors.Error('{0} can contain only {1} '             # <<<<<<<<<<<<<<
- *                            'instances'.format(container, container.provider_type))
+ *         raise errors.Error("{0} can contain only {1} "             # <<<<<<<<<<<<<<
+ *                            "instances".format(container, container.provider_type))
  * 
  */
     __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_errors); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 900, __pyx_L1_error)
@@ -21189,8 +21189,8 @@ static PyObject *__pyx_f_19dependency_injector_10containers__check_provider_type
 
     /* "dependency_injector/containers.pyx":901
  *     if not isinstance(provider, container.provider_type):
- *         raise errors.Error('{0} can contain only {1} '
- *                            'instances'.format(container, container.provider_type))             # <<<<<<<<<<<<<<
+ *         raise errors.Error("{0} can contain only {1} "
+ *                            "instances".format(container, container.provider_type))             # <<<<<<<<<<<<<<
  * 
  * 
  */
@@ -21269,8 +21269,8 @@ static PyObject *__pyx_f_19dependency_injector_10containers__check_provider_type
  * 
  * cpdef object _check_provider_type(object container, object provider):
  *     if not isinstance(provider, container.provider_type):             # <<<<<<<<<<<<<<
- *         raise errors.Error('{0} can contain only {1} '
- *                            'instances'.format(container, container.provider_type))
+ *         raise errors.Error("{0} can contain only {1} "
+ *                            "instances".format(container, container.provider_type))
  */
   }
 
@@ -21279,7 +21279,7 @@ static PyObject *__pyx_f_19dependency_injector_10containers__check_provider_type
  * 
  * cpdef object _check_provider_type(object container, object provider):             # <<<<<<<<<<<<<<
  *     if not isinstance(provider, container.provider_type):
- *         raise errors.Error('{0} can contain only {1} '
+ *         raise errors.Error("{0} can contain only {1} "
  */
 
   /* function exit code */
@@ -22519,7 +22519,7 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers___separa
  *     cdef dict prefixed_kwargs = {}
  * 
  *     for key, value in kwargs.items():             # <<<<<<<<<<<<<<
- *         if '__' not in key:
+ *         if "__" not in key:
  *             plain_kwargs[key] = value
  */
   if (unlikely(__pyx_v_kwargs == Py_None)) {
@@ -22622,7 +22622,7 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers___separa
     /* "providers.pxd":366
  * 
  *     for key, value in kwargs.items():
- *         if '__' not in key:             # <<<<<<<<<<<<<<
+ *         if "__" not in key:             # <<<<<<<<<<<<<<
  *             plain_kwargs[key] = value
  *             continue
  */
@@ -22632,7 +22632,7 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers___separa
 
       /* "providers.pxd":367
  *     for key, value in kwargs.items():
- *         if '__' not in key:
+ *         if "__" not in key:
  *             plain_kwargs[key] = value             # <<<<<<<<<<<<<<
  *             continue
  * 
@@ -22640,18 +22640,18 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers___separa
       if (unlikely(PyDict_SetItem(__pyx_v_plain_kwargs, __pyx_v_key, __pyx_v_value) < 0)) __PYX_ERR(1, 367, __pyx_L1_error)
 
       /* "providers.pxd":368
- *         if '__' not in key:
+ *         if "__" not in key:
  *             plain_kwargs[key] = value
  *             continue             # <<<<<<<<<<<<<<
  * 
- *         index = key.index('__')
+ *         index = key.index("__")
  */
       goto __pyx_L3_continue;
 
       /* "providers.pxd":366
  * 
  *     for key, value in kwargs.items():
- *         if '__' not in key:             # <<<<<<<<<<<<<<
+ *         if "__" not in key:             # <<<<<<<<<<<<<<
  *             plain_kwargs[key] = value
  *             continue
  */
@@ -22660,7 +22660,7 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers___separa
     /* "providers.pxd":370
  *             continue
  * 
- *         index = key.index('__')             # <<<<<<<<<<<<<<
+ *         index = key.index("__")             # <<<<<<<<<<<<<<
  *         prefix, name = key[:index], key[index+2:]
  * 
  */
@@ -22686,7 +22686,7 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers___separa
 
     /* "providers.pxd":371
  * 
- *         index = key.index('__')
+ *         index = key.index("__")
  *         prefix, name = key[:index], key[index+2:]             # <<<<<<<<<<<<<<
  * 
  *         if prefix not in prefixed_kwargs:
@@ -22751,7 +22751,7 @@ static CYTHON_INLINE PyObject *__pyx_f_19dependency_injector_9providers___separa
  *     cdef dict prefixed_kwargs = {}
  * 
  *     for key, value in kwargs.items():             # <<<<<<<<<<<<<<
- *         if '__' not in key:
+ *         if "__" not in key:
  *             plain_kwargs[key] = value
  */
     __pyx_L3_continue:;
@@ -29840,7 +29840,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "dependency_injector/containers.pyx":31
  * else:
  *     def wire(*args, **kwargs):
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')             # <<<<<<<<<<<<<<
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")             # <<<<<<<<<<<<<<
  * 
  *     def unwire(*args, **kwargs):
  */
@@ -29849,7 +29849,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple_);
 
   /* "dependency_injector/containers.pyx":267
- *             raise errors.Error('Container {0} is not overridden'.format(self))
+ *             raise errors.Error("Container {0} is not overridden".format(self))
  * 
  *         self.overridden = self.overridden[:-1]             # <<<<<<<<<<<<<<
  * 
@@ -29873,7 +29873,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "dependency_injector/containers.pyx":367
  *                 resources_to_shutdown = list(_independent_resources(resources))
  *                 if not resources_to_shutdown:
- *                     raise RuntimeError('Unable to resolve resources shutdown order')             # <<<<<<<<<<<<<<
+ *                     raise RuntimeError("Unable to resolve resources shutdown order")             # <<<<<<<<<<<<<<
  *                 futures = []
  *                 for resource in resources_to_shutdown:
  */
@@ -29995,7 +29995,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     from .wiring import wire, unwire
  * else:
  *     def wire(*args, **kwargs):             # <<<<<<<<<<<<<<
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")
  * 
  */
   __pyx_tuple__34 = PyTuple_Pack(2, __pyx_n_s_args, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 30, __pyx_L1_error)
@@ -30004,10 +30004,10 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_codeobj__35 = (PyObject*)__Pyx_PyCode_New(0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__34, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector_containe, __pyx_n_s_wire, 30, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__35)) __PYX_ERR(0, 30, __pyx_L1_error)
 
   /* "dependency_injector/containers.pyx":33
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")
  * 
  *     def unwire(*args, **kwargs):             # <<<<<<<<<<<<<<
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")
  * 
  */
   __pyx_tuple__36 = PyTuple_Pack(2, __pyx_n_s_args, __pyx_n_s_kwargs); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(0, 33, __pyx_L1_error)
@@ -30016,7 +30016,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_codeobj__37 = (PyObject*)__Pyx_PyCode_New(0, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__36, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector_containe, __pyx_n_s_unwire, 33, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__37)) __PYX_ERR(0, 33, __pyx_L1_error)
 
   /* "dependency_injector/containers.pyx":36
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")
  * 
  * if sys.version_info[:2] == (3, 5):             # <<<<<<<<<<<<<<
  *     warnings.warn(
@@ -30304,7 +30304,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *             config.load()
  * 
  *     def apply_container_providers_overridings(self):             # <<<<<<<<<<<<<<
- *         """Apply container providers' overridings."""
+ *         """Apply container providers overridings."""
  *         for provider in self.traverse(types=[providers.Container]):
  */
   __pyx_tuple__84 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_provider); if (unlikely(!__pyx_tuple__84)) __PYX_ERR(0, 395, __pyx_L1_error)
@@ -31628,7 +31628,7 @@ if (!__Pyx_RefNanny) {
  *     from .wiring import wire, unwire
  * else:
  *     def wire(*args, **kwargs):             # <<<<<<<<<<<<<<
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")
  * 
  */
   /*else*/ {
@@ -31638,10 +31638,10 @@ if (!__Pyx_RefNanny) {
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
     /* "dependency_injector/containers.pyx":33
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")
  * 
  *     def unwire(*args, **kwargs):             # <<<<<<<<<<<<<<
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")
  * 
  */
     __pyx_t_6 = PyCFunction_NewEx(&__pyx_mdef_19dependency_injector_10containers_3unwire, NULL, __pyx_n_s_dependency_injector_containers); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 33, __pyx_L1_error)
@@ -31652,7 +31652,7 @@ if (!__Pyx_RefNanny) {
   __pyx_L18:;
 
   /* "dependency_injector/containers.pyx":36
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")
  * 
  * if sys.version_info[:2] == (3, 5):             # <<<<<<<<<<<<<<
  *     warnings.warn(
@@ -31710,7 +31710,7 @@ if (!__Pyx_RefNanny) {
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
     /* "dependency_injector/containers.pyx":36
- *         raise NotImplementedError('Wiring requires Python 3.6 or above')
+ *         raise NotImplementedError("Wiring requires Python 3.6 or above")
  * 
  * if sys.version_info[:2] == (3, 5):             # <<<<<<<<<<<<<<
  *     warnings.warn(
@@ -32046,7 +32046,7 @@ if (!__Pyx_RefNanny) {
  *             config.load()
  * 
  *     def apply_container_providers_overridings(self):             # <<<<<<<<<<<<<<
- *         """Apply container providers' overridings."""
+ *         """Apply container providers overridings."""
  *         for provider in self.traverse(types=[providers.Container]):
  */
   __pyx_t_10 = __Pyx_CyFunction_New(&__pyx_mdef_19dependency_injector_10containers_16DynamicContainer_38apply_container_providers_overridings, 0, __pyx_n_s_DynamicContainer_apply_container, NULL, __pyx_n_s_dependency_injector_containers, __pyx_d, ((PyObject *)__pyx_codeobj__85)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 395, __pyx_L1_error)
@@ -32138,7 +32138,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_GOTREF(__pyx_t_10);
 
   /* "dependency_injector/containers.pyx":471
- *             raise errors.Error(f'Can not resolve name for provider "{provider}"')
+ *             raise errors.Error(f"Can not resolve name for provider \"{provider}\"")
  * 
  *     @property             # <<<<<<<<<<<<<<
  *     def parent_name(self):
@@ -32289,7 +32289,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_GOTREF(__pyx_t_10);
 
   /* "dependency_injector/containers.pyx":616
- *             raise errors.Error(f'Can not resolve name for provider "{provider}"')
+ *             raise errors.Error(f"Can not resolve name for provider \"{provider}\"")
  * 
  *     @property             # <<<<<<<<<<<<<<
  *     def parent_name(cls):

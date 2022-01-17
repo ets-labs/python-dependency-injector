@@ -68,27 +68,27 @@ if sys.version_info[:2] == (3, 5):
     )
 
 __all__ = (
-    'wire',
-    'unwire',
-    'inject',
-    'as_int',
-    'as_float',
-    'as_',
-    'required',
-    'invariant',
-    'provided',
-    'Provide',
-    'Provider',
-    'Closing',
-    'register_loader_containers',
-    'unregister_loader_containers',
-    'install_loader',
-    'uninstall_loader',
-    'is_loader_installed',
+    "wire",
+    "unwire",
+    "inject",
+    "as_int",
+    "as_float",
+    "as_",
+    "required",
+    "invariant",
+    "provided",
+    "Provide",
+    "Provider",
+    "Closing",
+    "register_loader_containers",
+    "unregister_loader_containers",
+    "install_loader",
+    "uninstall_loader",
+    "is_loader_installed",
 )
 
-T = TypeVar('T')
-F = TypeVar('F', bound=Callable[..., Any])
+T = TypeVar("T")
+F = TypeVar("F", bound=Callable[..., Any])
 Container = Any
 
 
@@ -107,10 +107,10 @@ class PatchedRegistry:
                 continue
             yield patched
 
-    def add_attribute(self, patched: 'PatchedAttribute'):
+    def add_attribute(self, patched: "PatchedAttribute"):
         self._attributes.add(patched)
 
-    def get_attributes_from_module(self, module: ModuleType) -> Iterator['PatchedAttribute']:
+    def get_attributes_from_module(self, module: ModuleType) -> Iterator["PatchedAttribute"]:
         for attribute in self._attributes:
             if not attribute.is_in_module(module):
                 continue
@@ -125,7 +125,7 @@ class PatchedRegistry:
 
 class PatchedAttribute:
 
-    def __init__(self, member: Any, name: str, marker: '_Marker'):
+    def __init__(self, member: Any, name: str, marker: "_Marker"):
         self.member = member
         self.name = name
         self.marker = marker
@@ -143,7 +143,7 @@ class PatchedAttribute:
 
 class ProvidersMap:
 
-    CONTAINER_STRING_ID = '<container>'
+    CONTAINER_STRING_ID = "<container>"
 
     def __init__(self, container):
         self._container = container
@@ -159,7 +159,7 @@ class ProvidersMap:
     def resolve_provider(
             self,
             provider: Union[providers.Provider, str],
-            modifier: Optional['Modifier'] = None,
+            modifier: Optional["Modifier"] = None,
     ) -> Optional[providers.Provider]:
         if isinstance(provider, providers.Delegate):
             return self._resolve_delegate(provider)
@@ -182,13 +182,13 @@ class ProvidersMap:
     def _resolve_string_id(
             self,
             id: str,
-            modifier: Optional['Modifier'] = None,
+            modifier: Optional["Modifier"] = None,
     ) -> Optional[providers.Provider]:
         if id == self.CONTAINER_STRING_ID:
             return self._container.__self__
 
         provider = self._container
-        for segment in id.split('.'):
+        for segment in id.split("."):
             try:
                 provider = getattr(provider, segment)
             except AttributeError:
@@ -282,10 +282,10 @@ class ProvidersMap:
             original_container: Container,
     ) -> Dict[providers.Provider, providers.Provider]:
         current_providers = current_container.providers
-        current_providers['__self__'] = current_container.__self__
+        current_providers["__self__"] = current_container.__self__
 
         original_providers = original_container.providers
-        original_providers['__self__'] = original_container.__self__
+        original_providers["__self__"] = original_container.__self__
 
         providers_map = {}
         for provider_name, current_provider in current_providers.items():
@@ -429,7 +429,7 @@ def _patch_method(
         method: Callable[..., Any],
         providers_map: ProvidersMap,
 ) -> None:
-    if hasattr(cls, '__dict__') \
+    if hasattr(cls, "__dict__") \
             and name in cls.__dict__ \
             and isinstance(cls.__dict__[name], (classmethod, staticmethod)):
         method = cls.__dict__[name]
@@ -457,7 +457,7 @@ def _unpatch(
         name: str,
         fn: Callable[..., Any],
 ) -> None:
-    if hasattr(module, '__dict__') \
+    if hasattr(module, "__dict__") \
             and name in module.__dict__ \
             and isinstance(module.__dict__[name], (classmethod, staticmethod)):
         method = module.__dict__[name]
@@ -472,7 +472,7 @@ def _unpatch(
 def _patch_attribute(
         member: Any,
         name: str,
-        marker: '_Marker',
+        marker: "_Marker",
         providers_map: ProvidersMap,
 ) -> None:
     provider = providers_map.resolve_provider(marker.provider, marker.modifier)
@@ -487,7 +487,7 @@ def _patch_attribute(
     elif isinstance(marker, Provider):
         setattr(member, name, provider)
     else:
-        raise Exception(f'Unknown type of marker {marker}')
+        raise Exception(f"Unknown type of marker {marker}")
 
 
 def _unpatch_attribute(patched: PatchedAttribute) -> None:
@@ -502,16 +502,16 @@ def _fetch_reference_injections(  # noqa: C901
     # - https://github.com/ets-labs/python-dependency-injector/issues/398
     if GenericAlias and any((
                 fn is GenericAlias,
-                getattr(fn, '__func__', None) is GenericAlias
+                getattr(fn, "__func__", None) is GenericAlias
             )):
         fn = fn.__init__
 
     try:
         signature = inspect.signature(fn)
     except ValueError as exception:
-        if 'no signature found' in str(exception):
+        if "no signature found" in str(exception):
             return {}, {}
-        elif 'not supported by signature' in str(exception):
+        elif "not supported by signature" in str(exception):
             return {}, {}
         else:
             raise exception
@@ -565,11 +565,11 @@ def _unbind_injections(fn: Callable[..., Any]) -> None:
 
 def _fetch_modules(package):
     modules = [package]
-    if not hasattr(package, '__path__') or not hasattr(package, '__name__'):
+    if not hasattr(package, "__path__") or not hasattr(package, "__name__"):
         return modules
     for module_info in pkgutil.walk_packages(
             path=package.__path__,
-            prefix=package.__name__ + '.',
+            prefix=package.__name__ + ".",
     ):
         module = importlib.import_module(module_info.name)
         modules.append(module)
@@ -670,13 +670,13 @@ def _is_fastapi_depends(param: Any) -> bool:
 
 
 def _is_patched(fn):
-    return getattr(fn, '__wired__', False) is True
+    return getattr(fn, "__wired__", False) is True
 
 
 def _is_declarative_container(instance: Any) -> bool:
     return (isinstance(instance, type)
-            and getattr(instance, '__IS_CONTAINER__', False) is True
-            and getattr(instance, 'declarative_parent', None) is None)
+            and getattr(instance, "__IS_CONTAINER__", False) is True
+            and getattr(instance, "declarative_parent", None) is None)
 
 
 class Modifier:
@@ -722,15 +722,15 @@ class RequiredModifier(Modifier):
     def __init__(self):
         self.type_modifier = None
 
-    def as_int(self) -> 'RequiredModifier':
+    def as_int(self) -> "RequiredModifier":
         self.type_modifier = TypeModifier(int)
         return self
 
-    def as_float(self) -> 'RequiredModifier':
+    def as_float(self) -> "RequiredModifier":
         self.type_modifier = TypeModifier(float)
         return self
 
-    def as_(self, type_: Type) -> 'RequiredModifier':
+    def as_(self, type_: Type) -> "RequiredModifier":
         self.type_modifier = TypeModifier(type_)
         return self
 
@@ -771,9 +771,9 @@ def invariant(id: str) -> InvariantModifier:
 
 class ProvidedInstance(Modifier):
 
-    TYPE_ATTRIBUTE = 'attr'
-    TYPE_ITEM = 'item'
-    TYPE_CALL = 'call'
+    TYPE_ATTRIBUTE = "attr"
+    TYPE_ITEM = "item"
+    TYPE_CALL = "call"
 
     def __init__(self):
         self.segments = []
