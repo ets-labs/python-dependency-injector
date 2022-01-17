@@ -35,11 +35,11 @@ from . import resources
 
 
 Injection = Any
-ProviderParent = Union['Provider', Any]
-T = TypeVar('T')
-TT = TypeVar('TT')
-P = TypeVar('P', bound='Provider')
-BS = TypeVar('BS', bound='BaseSingleton')
+ProviderParent = Union["Provider", Any]
+T = TypeVar("T")
+TT = TypeVar("TT")
+P = TypeVar("P", bound="Provider")
+BS = TypeVar("BS", bound="BaseSingleton")
 
 
 class Provider(Generic[T]):
@@ -230,7 +230,7 @@ class TypedConfigurationOption(Callable[T]):
 
 
 class Configuration(Object[Any]):
-    DEFAULT_NAME: str = 'config'
+    DEFAULT_NAME: str = "config"
     def __init__(
             self,
             name: str = DEFAULT_NAME,
