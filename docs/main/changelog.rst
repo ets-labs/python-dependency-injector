@@ -21,6 +21,10 @@ Development version
   ``FactoryAggregate.factories`` attribute.
 - Add ``.set_providers()`` method to the ``FactoryAggregate`` provider. It is an alias for
   ``FactoryAggregate.set_factories()`` method.
+- Fix ``Dependency`` provider to don't raise "Dependency is not defined" error when the ``default``
+  is a falsy value of proper type.
+  See issue `#550 <https://github.com/ets-labs/python-dependency-injector/issues/550>`_. Thanks to
+  `@approxit <https://github.com/approxit>`_ for reporting the issue.
 - Refactor ``FactoryAggregate`` provider internals.
 - Update logo on Github and in docs to support dark themes and remove some imperfections.
 

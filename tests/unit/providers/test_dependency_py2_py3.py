@@ -77,6 +77,22 @@ def test_default_attribute_provider():
     assert provider.default is default
 
 
+def test_default_with_empty_dict():
+    # See: https://github.com/ets-labs/python-dependency-injector/issues/550
+    default = {}
+    provider = providers.Dependency(instance_of=dict, default=default)
+    assert provider() == default
+    assert provider.default() == default
+
+
+def test_default_with_empty_string():
+    # See: https://github.com/ets-labs/python-dependency-injector/issues/550
+    default = ""
+    provider = providers.Dependency(instance_of=str, default=default)
+    assert provider() == default
+    assert provider.default() == default
+
+
 def test_is_defined(provider):
     assert provider.is_defined is False
 

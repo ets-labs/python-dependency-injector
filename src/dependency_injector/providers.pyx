@@ -879,7 +879,7 @@ cdef class Dependency(Provider):
 
     def set_default(self, default):
         """Set type."""
-        if default and not isinstance(default, Provider):
+        if default is not None and not isinstance(default, Provider):
             default = Object(default)
         self.__default = default
         return self
