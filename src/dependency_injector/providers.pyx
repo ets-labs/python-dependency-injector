@@ -6,6 +6,7 @@ import copy
 import errno
 import functools
 import inspect
+import importlib
 import os
 import re
 import sys
@@ -18,6 +19,11 @@ try:
 except ImportError:
     contextvars = None
 
+try:
+    import builtins
+except ImportError:
+    # Python 2.7
+    import __builtin__ as builtins
 
 try:
     import asyncio
@@ -1221,6 +1227,7 @@ cdef class Callable(Provider):
 
     def set_provides(self, provides):
         """Set provider provides."""
+        provides = _resolve_provides(provides)
         if provides and not callable(provides):
             raise Error(
                 "Provider {0} expected to get callable, got {1} instead".format(
@@ -1426,9 +1433,10 @@ cdef class Coroutine(Callable):
     _is_coroutine = _is_coroutine_marker
 
     def set_provides(self, provides):
-        """Set provider"s provides."""
+        """Set provider provides."""
         if not asyncio:
             raise Error("Package asyncio is not available")
+        provides = _resolve_provides(provides)
         if provides and not asyncio.iscoroutinefunction(provides):
             raise Error(f"Provider {_class_qualname(self)} expected to get coroutine function, "
                         f"got {provides} instead")
@@ -2452,6 +2460,7 @@ cdef class Factory(Provider):
 
     def set_provides(self, provides):
         """Set provider provides."""
+        provides = _resolve_provides(provides)
         if (provides
                 and self.__class__.provided_type and
                 not issubclass(provides, self.__class__.provided_type)):
@@ -2742,6 +2751,7 @@ cdef class BaseSingleton(Provider):
 
     def set_provides(self, provides):
         """Set provider provides."""
+        provides = _resolve_provides(provides)
         if (provides
                 and self.__class__.provided_type and
                 not issubclass(provides, self.__class__.provided_type)):
@@ -3580,6 +3590,7 @@ cdef class Resource(Provider):
 
     def set_provides(self, provides):
         """Set provider provides."""
+        provides = _resolve_provides(provides)
         self.__provides = provides
         return self
 
@@ -4880,6 +4891,45 @@ def isasyncgenfunction(obj):
         return inspect.isasyncgenfunction(obj)
     except AttributeError:
         return False
+
+
+def _resolve_provides(provides):
+    if provides is None:
+        return provides
+    elif not isinstance(provides, str):
+        return provides
+    else:
+        segments = provides.split(".")
+        member_name = segments[-1]
+
+        if len(segments) == 1:
+            if  member_name in dir(builtins):
+                module = builtins
+            else:
+                module = _resolve_calling_module()
+            return getattr(module, member_name)
+
+        module_name = ".".join(segments[:-1])
+
+        package_name = None
+        if module_name.startswith("."):
+            package_name = _resolve_calling_package_name()
+            if package_name is None:
+                raise ImportError("attempted relative import with no known parent package")
+
+        module = importlib.import_module(module_name, package=package_name)
+        return getattr(module, member_name)
+
+
+def _resolve_calling_module():
+    stack = inspect.stack()
+    pre_last_frame = stack[0]
+    return inspect.getmodule(pre_last_frame[0])
+
+
+def _resolve_calling_package_name():
+    module = _resolve_calling_module()
+    return module.__package__
 
 
 cpdef _copy_parent(object from_, object to, dict memo):
