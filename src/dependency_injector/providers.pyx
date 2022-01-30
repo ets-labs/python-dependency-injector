@@ -4896,29 +4896,28 @@ def isasyncgenfunction(obj):
 def _resolve_provides(provides):
     if provides is None:
         return provides
-    elif not isinstance(provides, str):
+
+    if not isinstance(provides, str):
         return provides
-    else:
-        segments = provides.split(".")
-        member_name = segments[-1]
 
-        if len(segments) == 1:
-            if  member_name in dir(builtins):
-                module = builtins
-            else:
-                module = _resolve_calling_module()
-            return getattr(module, member_name)
+    segments = provides.split(".")
+    member_name = segments[-1]
 
-        module_name = ".".join(segments[:-1])
-
-        package_name = None
-        if module_name.startswith("."):
-            package_name = _resolve_calling_package_name()
-            if package_name is None:
-                raise ImportError("attempted relative import with no known parent package")
-
-        module = importlib.import_module(module_name, package=package_name)
+    if len(segments) == 1:
+        if  member_name in dir(builtins):
+            module = builtins
+        else:
+            module = _resolve_calling_module()
         return getattr(module, member_name)
+
+    module_name = ".".join(segments[:-1])
+
+    package_name = _resolve_calling_package_name()
+    if module_name.startswith(".") and package_name is None:
+        raise ImportError("Attempted relative import with no known parent package")
+
+    module = importlib.import_module(module_name, package=package_name)
+    return getattr(module, member_name)
 
 
 def _resolve_calling_module():
