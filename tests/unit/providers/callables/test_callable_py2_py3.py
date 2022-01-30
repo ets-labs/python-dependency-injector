@@ -3,7 +3,7 @@
 import sys
 
 from dependency_injector import providers, errors
-from pytest import raises
+from pytest import raises, mark
 
 from .common import example
 
@@ -27,6 +27,20 @@ def test_init_optional_provides():
 def test_set_provides_returns_():
     provider = providers.Callable()
     assert provider.set_provides(object) is provider
+
+
+@mark.parametrize(
+    "str_name,cls",
+    [
+        ("dependency_injector.providers.Factory", providers.Factory),
+        ("builtins.list", list),
+        ("list", list),
+        (".common.example", example),
+        ("test_is_provider", test_is_provider),
+    ],
+)
+def test_set_provides_string_imports(str_name, cls):
+    assert providers.Callable(str_name).provides is cls
 
 
 def test_provided_instance_provider():

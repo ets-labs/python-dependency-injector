@@ -3,7 +3,7 @@
 import sys
 
 from dependency_injector import providers, errors
-from pytest import fixture, raises
+from pytest import fixture, raises, mark
 
 from .common import Example
 
@@ -47,6 +47,20 @@ def test_init_optional_provides(provider):
 
 def test_set_provides_returns_self(provider):
     assert provider.set_provides(object) is provider
+
+
+@mark.parametrize(
+    "str_name,cls",
+    [
+        ("dependency_injector.providers.Factory", providers.Factory),
+        ("builtins.list", list),
+        ("list", list),
+        (".common.Example", Example),
+        ("test_is_provider", test_is_provider),
+    ],
+)
+def test_set_provides_string_imports(str_name, cls):
+    assert providers.Singleton(str_name).provides is cls
 
 
 def test_init_with_valid_provided_type(singleton_cls):

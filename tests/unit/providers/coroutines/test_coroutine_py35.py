@@ -31,6 +31,17 @@ def test_set_provides_returns_self():
     assert provider.set_provides(example) is provider
 
 
+@mark.parametrize(
+    "str_name,cls",
+    [
+        (".common.example", example),
+        ("example", example),
+    ],
+)
+def test_set_provides_string_imports(str_name, cls):
+    assert providers.Coroutine(str_name).provides is cls
+
+
 @mark.asyncio
 async def test_call_with_positional_args():
     provider = providers.Coroutine(example, 1, 2, 3, 4)

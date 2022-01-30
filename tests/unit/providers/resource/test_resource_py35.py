@@ -4,7 +4,7 @@ import sys
 from typing import Any
 
 from dependency_injector import containers, providers, resources, errors
-from pytest import raises
+from pytest import raises, mark
 
 
 def init_fn(*args, **kwargs):
@@ -25,6 +25,20 @@ def test_init_optional_provides():
 def test_set_provides_returns_():
     provider = providers.Resource()
     assert provider.set_provides(init_fn) is provider
+
+
+@mark.parametrize(
+    "str_name,cls",
+    [
+        ("dependency_injector.providers.Factory", providers.Factory),
+        ("builtins.list", list),
+        ("list", list),
+        (".test_resource_py35.test_is_provider", test_is_provider),
+        ("test_is_provider", test_is_provider),
+    ],
+)
+def test_set_provides_string_imports(str_name, cls):
+    assert providers.Resource(str_name).provides is cls
 
 
 def test_provided_instance_provider():
