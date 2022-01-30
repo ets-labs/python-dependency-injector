@@ -1,5 +1,6 @@
 """Resource provider tests."""
 
+import decimal
 import sys
 from typing import Any
 
@@ -31,7 +32,7 @@ def test_set_provides_returns_():
     "str_name,cls",
     [
         ("dependency_injector.providers.Factory", providers.Factory),
-        ("builtins.list", list),
+        ("decimal.Decimal", decimal.Decimal),
         ("list", list),
         (".test_resource_py35.test_is_provider", test_is_provider),
         ("test_is_provider", test_is_provider),

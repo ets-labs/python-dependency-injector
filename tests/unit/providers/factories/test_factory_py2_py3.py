@@ -1,5 +1,6 @@
 """Factory provider tests."""
 
+import decimal
 import sys
 
 from dependency_injector import providers, errors
@@ -33,7 +34,7 @@ def test_set_provides_returns_():
     "str_name,cls",
     [
         ("dependency_injector.providers.Factory", providers.Factory),
-        ("builtins.list", list),
+        ("decimal.Decimal", decimal.Decimal),
         ("list", list),
         (".common.Example", Example),
         ("test_is_provider", test_is_provider),
