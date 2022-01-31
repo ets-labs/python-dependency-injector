@@ -1227,7 +1227,7 @@ cdef class Callable(Provider):
 
     def set_provides(self, provides):
         """Set provider provides."""
-        provides = _resolve_provides(provides)
+        provides = _resolve_string_import(provides)
         if provides and not callable(provides):
             raise Error(
                 "Provider {0} expected to get callable, got {1} instead".format(
@@ -1436,7 +1436,7 @@ cdef class Coroutine(Callable):
         """Set provider provides."""
         if not asyncio:
             raise Error("Package asyncio is not available")
-        provides = _resolve_provides(provides)
+        provides = _resolve_string_import(provides)
         if provides and not asyncio.iscoroutinefunction(provides):
             raise Error(f"Provider {_class_qualname(self)} expected to get coroutine function, "
                         f"got {provides} instead")
@@ -2460,7 +2460,7 @@ cdef class Factory(Provider):
 
     def set_provides(self, provides):
         """Set provider provides."""
-        provides = _resolve_provides(provides)
+        provides = _resolve_string_import(provides)
         if (provides
                 and self.__class__.provided_type and
                 not issubclass(provides, self.__class__.provided_type)):
@@ -2751,7 +2751,7 @@ cdef class BaseSingleton(Provider):
 
     def set_provides(self, provides):
         """Set provider provides."""
-        provides = _resolve_provides(provides)
+        provides = _resolve_string_import(provides)
         if (provides
                 and self.__class__.provided_type and
                 not issubclass(provides, self.__class__.provided_type)):
@@ -3590,7 +3590,7 @@ cdef class Resource(Provider):
 
     def set_provides(self, provides):
         """Set provider provides."""
-        provides = _resolve_provides(provides)
+        provides = _resolve_string_import(provides)
         self.__provides = provides
         return self
 
@@ -4893,7 +4893,7 @@ def isasyncgenfunction(obj):
         return False
 
 
-def _resolve_provides(provides):
+def _resolve_string_import(provides):
     if provides is None:
         return provides
 
