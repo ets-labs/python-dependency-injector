@@ -110,6 +110,45 @@ attribute of the provider that you're going to inject.
 
 .. note:: Any provider has a ``.provider`` attribute.
 
+.. _factory-string-imports:
+
+String imports
+--------------
+
+``Factory`` provider can handle string imports:
+
+.. code-block:: python
+
+   class Container(containers.DeclarativeContainer):
+
+       service = providers.Factory("myapp.mypackage.mymodule.Service")
+
+You can also make a relative import:
+
+.. code-block:: python
+
+   # in myapp/container.py
+
+   class Container(containers.DeclarativeContainer):
+
+       service = providers.Factory(".mypackage.mymodule.Service")
+
+or import a member of the current module just specifying its name:
+
+.. code-block:: python
+
+   class Service:
+       ...
+
+
+   class Container(containers.DeclarativeContainer):
+
+       service = providers.Factory("Service")
+
+.. note::
+   ``Singleton``, ``Callable``, ``Resource``, and ``Coroutine`` providers handle string imports
+   the same way as a ``Factory`` provider.
+
 .. _factory-specialize-provided-type:
 
 Specializing the provided type

@@ -21,6 +21,10 @@ Development version
   ``FactoryAggregate.factories`` attribute.
 - Add ``.set_providers()`` method to the ``FactoryAggregate`` provider. It is an alias for
   ``FactoryAggregate.set_factories()`` method.
+- Add string imports for ``Factory``, ``Singleton``, ``Callable``, ``Resource``, and ``Coroutine``
+  providers, e.g. ``Factory("module.Class")``.
+  See issue `#531 <https://github.com/ets-labs/python-dependency-injector/issues/531>`_.
+  Thanks to `@al-stefanitsky-mozdor <https://github.com/al-stefanitsky-mozdor>`_ for suggesting the feature.
 - Fix ``Dependency`` provider to don't raise "Dependency is not defined" error when the ``default``
   is a falsy value of proper type.
   See issue `#550 <https://github.com/ets-labs/python-dependency-injector/issues/550>`_. Thanks to
