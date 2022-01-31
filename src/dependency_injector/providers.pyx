@@ -6,6 +6,7 @@ import copy
 import errno
 import functools
 import inspect
+import importlib
 import os
 import re
 import sys
@@ -18,6 +19,11 @@ try:
 except ImportError:
     contextvars = None
 
+try:
+    import builtins
+except ImportError:
+    # Python 2.7
+    import __builtin__ as builtins
 
 try:
     import asyncio
@@ -73,7 +79,7 @@ if sys.version_info[:2] == (3, 5):
     )
 
 config_env_marker_pattern = re.compile(
-    r'\${(?P<name>[^}^{:]+)(?P<separator>:?)(?P<default>.*?)}',
+    r"\${(?P<name>[^}^{:]+)(?P<separator>:?)(?P<default>.*?)}",
 )
 
 def _resolve_config_env_markers(config_content, envs_required=False):
@@ -81,17 +87,17 @@ def _resolve_config_env_markers(config_content, envs_required=False):
     findings = list(config_env_marker_pattern.finditer(config_content))
 
     for match in reversed(findings):
-        env_name = match.group('name')
-        has_default = match.group('separator') == ':'
+        env_name = match.group("name")
+        has_default = match.group("separator") == ":"
 
         value = os.getenv(env_name)
         if value is None:
             if not has_default and envs_required:
-                raise ValueError(f'Missing required environment variable "{env_name}"')
-            value = match.group('default')
+                raise ValueError(f"Missing required environment variable \"{env_name}\"")
+            value = match.group("default")
 
         span_min, span_max = match.span()
-        config_content = f'{config_content[:span_min]}{value}{config_content[span_max:]}'
+        config_content = f"{config_content[:span_min]}{value}{config_content[span_max:]}"
     return config_content
 
 
@@ -146,7 +152,7 @@ cdef class Provider(object):
     :py:class:`Provider` is callable (implements ``__call__`` method). Every
     call to provider object returns provided result, according to the providing
     strategy of particular provider. This ``callable`` functionality is a
-    regular part of providers API and it should be the same for all provider's
+    regular part of providers API and it should be the same for all provider
     subclasses.
 
     Implementation of particular providing strategy should be done in
@@ -281,8 +287,7 @@ cdef class Provider(object):
         :rtype: :py:class:`OverridingContext`
         """
         if provider is self:
-            raise Error('Provider {0} could not be overridden '
-                        'with itself'.format(self))
+            raise Error("Provider {0} could not be overridden with itself".format(self))
 
         if not is_provider(provider):
             provider = Object(provider)
@@ -304,7 +309,7 @@ cdef class Provider(object):
         """
         with self.overriding_lock:
             if len(self.__overridden) == 0:
-                raise Error('Provider {0} is not overridden'.format(str(self)))
+                raise Error("Provider {0} is not overridden".format(str(self)))
 
             self.__last_overriding.unregister_overrides(self)
 
@@ -359,20 +364,20 @@ cdef class Provider(object):
         return self.__call__(*args, **kwargs)
 
     def delegate(self):
-        """Return provider's delegate.
+        """Return provider delegate.
 
         :rtype: :py:class:`Delegate`
         """
         warnings.warn(
-            'Method ".delegate()" is deprecated since version 4.0.0. '
-            'Use ".provider" attribute instead.',
+            "Method \".delegate()\" is deprecated since version 4.0.0. "
+            "Use \".provider\" attribute instead.",
             category=DeprecationWarning,
         )
         return Delegate(self)
 
     @property
     def provider(self):
-        """Return provider's delegate.
+        """Return provider"s delegate.
 
         :rtype: :py:class:`Delegate`
         """
@@ -480,11 +485,11 @@ cdef class Object(Provider):
 
     @property
     def provides(self):
-        """Return provider's provides."""
+        """Return provider provides."""
         return self.__provides
 
     def set_provides(self, provides):
-        """Set provider's provides."""
+        """Set provider provides."""
         self.__provides = provides
         return self
 
@@ -602,11 +607,11 @@ cdef class Delegate(Provider):
 
     @property
     def provides(self):
-        """Return provider's provides."""
+        """Return provider provides."""
         return self.__provides
 
     def set_provides(self, provides):
-        """Set provider's provides."""
+        """Set provider provides."""
         if provides:
             provides = ensure_is_provider(provides)
         self.__provides = provides
@@ -632,18 +637,127 @@ cdef class Delegate(Provider):
         return self.__provides
 
 
+cdef class Aggregate(Provider):
+    """Providers aggregate.
+
+    :py:class:`Aggregate` is a delegated provider, meaning that it is
+    injected "as is".
+
+    All aggregated providers can be retrieved as a read-only
+    dictionary :py:attr:`Aggregate.providers` or as an attribute of
+    :py:class:`Aggregate`, e.g. ``aggregate.provider``.
+    """
+
+    __IS_DELEGATED__ = True
+
+    def __init__(self, provider_dict=None, **provider_kwargs):
+        """Initialize provider."""
+        self.__providers = {}
+        self.set_providers(provider_dict, **provider_kwargs)
+        super().__init__()
+
+    def __deepcopy__(self, memo):
+        """Create and return full copy of provider."""
+        copied = memo.get(id(self))
+        if copied is not None:
+            return copied
+
+        copied = _memorized_duplicate(self, memo)
+        copied.set_providers(deepcopy(self.providers, memo))
+
+        self._copy_overridings(copied, memo)
+
+        return copied
+
+    def __getattr__(self, factory_name):
+        """Return aggregated provider."""
+        return self.__get_provider(factory_name)
+
+    def __str__(self):
+        """Return string representation of provider.
+
+        :rtype: str
+        """
+        return represent_provider(provider=self, provides=self.providers)
+
+    @property
+    def providers(self):
+        """Return dictionary of providers, read-only.
+
+        Alias for ``.factories`` attribute.
+        """
+        return dict(self.__providers)
+
+    def set_providers(self, provider_dict=None, **provider_kwargs):
+        """Set providers.
+
+        Alias for ``.set_factories()`` method.
+        """
+        providers = {}
+        providers.update(provider_kwargs)
+        if provider_dict:
+            providers.update(provider_dict)
+
+        for provider in providers.values():
+            if not is_provider(provider):
+                raise Error(
+                    "{0} can aggregate only instances of {1}, given - {2}".format(
+                        self.__class__,
+                        Provider,
+                        provider,
+                    ),
+                )
+
+        self.__providers = providers
+        return self
+
+    def override(self, _):
+        """Override provider with another provider.
+
+        :raise: :py:exc:`dependency_injector.errors.Error`
+
+        :return: Overriding context.
+        :rtype: :py:class:`OverridingContext`
+        """
+        raise Error("{0} providers could not be overridden".format(self.__class__))
+
+    @property
+    def related(self):
+        """Return related providers generator."""
+        yield from self.__providers.values()
+        yield from super().related
+
+    cpdef object _provide(self, tuple args, dict kwargs):
+        try:
+            provider_name = args[0]
+        except IndexError:
+            try:
+                provider_name = kwargs.pop("factory_name")
+            except KeyError:
+                raise TypeError("Missing 1st required positional argument: \"provider_name\"")
+        else:
+            args = args[1:]
+
+        return self.__get_provider(provider_name)(*args, **kwargs)
+
+    cdef Provider __get_provider(self, object provider_name):
+        if provider_name not in self.__providers:
+            raise NoSuchProviderError("{0} does not contain provider with name {1}".format(self, provider_name))
+        return <Provider> self.__providers[provider_name]
+
+
 cdef class Dependency(Provider):
     """:py:class:`Dependency` provider describes dependency interface.
 
     This provider is used for description of dependency interface. That might
-    be useful when dependency could be provided in the client's code only,
-    but it's interface is known. Such situations could happen when required
+    be useful when dependency could be provided in the client"s code only,
+    but its interface is known. Such situations could happen when required
     dependency has non-deterministic list of dependencies itself.
 
     .. code-block:: python
 
         database_provider = Dependency(sqlite3.dbapi2.Connection)
-        database_provider.override(Factory(sqlite3.connect, ':memory:'))
+        database_provider.override(Factory(sqlite3.connect, ":memory:"))
 
         database = database_provider()
 
@@ -726,18 +840,18 @@ cdef class Dependency(Provider):
             return getattr(self.__last_overriding, name)
         elif self.__default:
             return getattr(self.__default, name)
-        raise AttributeError(f'Provider "{self.__class__.__name__}" has no attribute "{name}"')
+        raise AttributeError(f"Provider \"{self.__class__.__name__}\" has no attribute \"{name}\"")
 
     def __str__(self):
         """Return string representation of provider.
 
         :rtype: str
         """
-        name = f'<{self.__class__.__module__}.{self.__class__.__name__}'
-        name += f'({repr(self.__instance_of)}) at {hex(id(self))}'
+        name = f"<{self.__class__.__module__}.{self.__class__.__name__}"
+        name += f"({repr(self.__instance_of)}) at {hex(id(self))}"
         if self.parent_name:
-            name += f', container name: "{self.parent_name}"'
-        name += f'>'
+            name += f", container name: \"{self.parent_name}\""
+        name += f">"
         return name
 
     def __repr__(self):
@@ -756,7 +870,7 @@ cdef class Dependency(Provider):
         """Set type."""
         if not isinstance(instance_of, CLASS_TYPES):
             raise TypeError(
-                '"instance_of" has incorrect type (expected {0}, got {1}))'.format(
+                "\"instance_of\" has incorrect type (expected {0}, got {1}))".format(
                     CLASS_TYPES,
                     instance_of,
                 ),
@@ -771,7 +885,7 @@ cdef class Dependency(Provider):
 
     def set_default(self, default):
         """Set type."""
-        if default and not isinstance(default, Provider):
+        if default is not None and not isinstance(default, Provider):
             default = Object(default)
         self.__default = default
         return self
@@ -809,10 +923,10 @@ cdef class Dependency(Provider):
         if not self.__parent:
             return None
 
-        name = ''
+        name = ""
         if self.__parent.parent_name:
-            name += f'{self.__parent.parent_name}.'
-        name += f'{self.__parent.resolve_provider_name(self)}'
+            name += f"{self.__parent.parent_name}."
+        name += f"{self.__parent.resolve_provider_name(self)}"
 
         return name
 
@@ -834,26 +948,26 @@ cdef class Dependency(Provider):
 
     def _check_instance_type(self, instance):
         if not isinstance(instance, self.instance_of):
-            raise Error('{0} is not an instance of {1}'.format(instance, self.instance_of))
+            raise Error("{0} is not an instance of {1}".format(instance, self.instance_of))
 
     def _raise_undefined_error(self):
         if self.parent_name:
-            raise Error(f'Dependency "{self.parent_name}" is not defined')
-        raise Error('Dependency is not defined')
+            raise Error(f"Dependency \"{self.parent_name}\" is not defined")
+        raise Error("Dependency is not defined")
 
 
 cdef class ExternalDependency(Dependency):
     """:py:class:`ExternalDependency` provider describes dependency interface.
 
     This provider is used for description of dependency interface. That might
-    be useful when dependency could be provided in the client's code only,
-    but it's interface is known. Such situations could happen when required
+    be useful when dependency could be provided in the client code only,
+    but its interface is known. Such situations could happen when required
     dependency has non-deterministic list of dependencies itself.
 
     .. code-block:: python
 
         database_provider = ExternalDependency(sqlite3.dbapi2.Connection)
-        database_provider.override(Factory(sqlite3.connect, ':memory:'))
+        database_provider.override(Factory(sqlite3.connect, ":memory:"))
 
         database = database_provider()
 
@@ -933,11 +1047,11 @@ cdef class DependenciesContainer(Object):
 
     def __getattr__(self, name):
         """Return dependency provider."""
-        if name.startswith('__') and name.endswith('__'):
+        if name.startswith("__") and name.endswith("__"):
             raise AttributeError(
-                '\'{cls}\' object has no attribute '
-                '\'{attribute_name}\''.format(cls=self.__class__.__name__,
-                                              attribute_name=name))
+                "'{cls}' object has no attribute "
+                "'{attribute_name}'".format(cls=self.__class__.__name__, attribute_name=name)
+            )
 
         provider = self.__providers.get(name)
         if not provider:
@@ -1009,7 +1123,7 @@ cdef class DependenciesContainer(Object):
             if container_provider is provider:
                 return provider_name
         else:
-            raise Error(f'Can not resolve name for provider "{provider}"')
+            raise Error(f"Can not resolve name for provider \"{provider}\"")
 
     @property
     def parent(self):
@@ -1022,10 +1136,10 @@ cdef class DependenciesContainer(Object):
         if not self.__parent:
             return None
 
-        name = ''
+        name = ""
         if self.__parent.parent_name:
-            name += f'{self.__parent.parent_name}.'
-        name += f'{self.__parent.resolve_provider_name(self)}'
+            name += f"{self.__parent.parent_name}."
+        name += f"{self.__parent.resolve_provider_name(self)}"
 
         return name
 
@@ -1055,19 +1169,19 @@ cdef class Callable(Provider):
     .. code-block:: python
 
         some_function = Callable(some_function,
-                                 'positional_arg1', 'positional_arg2',
+                                 "positional_arg1", "positional_arg2",
                                  keyword_argument1=3, keyword_argument=4)
 
         # or
 
         some_function = Callable(some_function) \
-            .add_args('positional_arg1', 'positional_arg2') \
+            .add_args("positional_arg1", "positional_arg2") \
             .add_kwargs(keyword_argument1=3, keyword_argument=4)
 
         # or
 
         some_function = Callable(some_function)
-        some_function.add_args('positional_arg1', 'positional_arg2')
+        some_function.add_args("positional_arg1", "positional_arg2")
         some_function.add_kwargs(keyword_argument1=3, keyword_argument=4)
     """
 
@@ -1108,14 +1222,15 @@ cdef class Callable(Provider):
 
     @property
     def provides(self):
-        """Return provider's provides."""
+        """Return provider provides."""
         return self.__provides
 
     def set_provides(self, provides):
-        """Set provider's provides."""
+        """Set provider provides."""
+        provides = _resolve_string_import(provides)
         if provides and not callable(provides):
             raise Error(
-                'Provider {0} expected to get callable, got {1} instead'.format(
+                "Provider {0} expected to get callable, got {1} instead".format(
                     _class_qualname(self),
                     provides,
                 ),
@@ -1216,7 +1331,7 @@ cdef class Callable(Provider):
         yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
-        """Return result of provided callable's call."""
+        """Return result of provided callable call."""
         return __callable_call(self, args, kwargs)
 
 
@@ -1245,7 +1360,7 @@ cdef class AbstractCallable(Callable):
         Callable interface implementation.
         """
         if self.__last_overriding is None:
-            raise Error('{0} must be overridden before calling'.format(self))
+            raise Error("{0} must be overridden before calling".format(self))
         return super().__call__(*args, **kwargs)
 
     def override(self, provider):
@@ -1260,14 +1375,14 @@ cdef class AbstractCallable(Callable):
         :rtype: :py:class:`OverridingContext`
         """
         if not isinstance(provider, Callable):
-            raise Error('{0} must be overridden only by '
-                        '{1} providers'.format(self, Callable))
+            raise Error("{0} must be overridden only by "
+                        "{1} providers".format(self, Callable))
         return super(AbstractCallable, self).override(provider)
 
     cpdef object _provide(self, tuple args, dict kwargs):
-        """Return result of provided callable's call."""
-        raise NotImplementedError('Abstract provider forward providing logic '
-                                  'to overriding provider')
+        """Return result of provided callable"s call."""
+        raise NotImplementedError("Abstract provider forward providing logic "
+                                  "to overriding provider")
 
 
 cdef class CallableDelegate(Delegate):
@@ -1287,8 +1402,7 @@ cdef class CallableDelegate(Delegate):
         :type callable: object
         """
         if isinstance(callable, Callable) is False:
-            raise Error('{0} can wrap only {1} providers'.format(
-                self.__class__, Callable))
+            raise Error("{0} can wrap only {1} providers".format(self.__class__, Callable))
         super(CallableDelegate, self).__init__(callable)
 
 
@@ -1300,31 +1414,32 @@ cdef class Coroutine(Callable):
     .. code-block:: python
 
         some_coroutine = Coroutine(some_coroutine,
-                                   'positional_arg1', 'positional_arg2',
+                                   "positional_arg1", "positional_arg2",
                                    keyword_argument1=3, keyword_argument=4)
 
         # or
 
         some_coroutine = Coroutine(some_coroutine) \
-            .add_args('positional_arg1', 'positional_arg2') \
+            .add_args("positional_arg1", "positional_arg2") \
             .add_kwargs(keyword_argument1=3, keyword_argument=4)
 
         # or
 
         some_coroutine = Coroutine(some_coroutine)
-        some_coroutine.add_args('positional_arg1', 'positional_arg2')
+        some_coroutine.add_args("positional_arg1", "positional_arg2")
         some_coroutine.add_kwargs(keyword_argument1=3, keyword_argument=4)
     """
 
     _is_coroutine = _is_coroutine_marker
 
     def set_provides(self, provides):
-        """Set provider's provides."""
+        """Set provider provides."""
         if not asyncio:
-            raise Error('Package asyncio is not available')
+            raise Error("Package asyncio is not available")
+        provides = _resolve_string_import(provides)
         if provides and not asyncio.iscoroutinefunction(provides):
-            raise Error(f'Provider {_class_qualname(self)} expected to get coroutine function, '
-                        f'got {provides} instead')
+            raise Error(f"Provider {_class_qualname(self)} expected to get coroutine function, "
+                        f"got {provides} instead")
         return super().set_provides(provides)
 
 
@@ -1353,7 +1468,7 @@ cdef class AbstractCoroutine(Coroutine):
         Callable interface implementation.
         """
         if self.__last_overriding is None:
-            raise Error('{0} must be overridden before calling'.format(self))
+            raise Error("{0} must be overridden before calling".format(self))
         return super().__call__(*args, **kwargs)
 
     def override(self, provider):
@@ -1368,14 +1483,14 @@ cdef class AbstractCoroutine(Coroutine):
         :rtype: :py:class:`OverridingContext`
         """
         if not isinstance(provider, Coroutine):
-            raise Error('{0} must be overridden only by '
-                        '{1} providers'.format(self, Coroutine))
+            raise Error("{0} must be overridden only by "
+                        "{1} providers".format(self, Coroutine))
         return super(AbstractCoroutine, self).override(provider)
 
     cpdef object _provide(self, tuple args, dict kwargs):
-        """Return result of provided callable's call."""
-        raise NotImplementedError('Abstract provider forward providing logic '
-                                  'to overriding provider')
+        """Return result of provided callable"s call."""
+        raise NotImplementedError("Abstract provider forward providing logic "
+                                  "to overriding provider")
 
 
 cdef class CoroutineDelegate(Delegate):
@@ -1395,8 +1510,7 @@ cdef class CoroutineDelegate(Delegate):
         :type coroutine: object
         """
         if isinstance(coroutine, Coroutine) is False:
-            raise Error('{0} can wrap only {1} providers'.format(
-                self.__class__, Callable))
+            raise Error("{0} can wrap only {1} providers".format(self.__class__, Callable))
         super(CoroutineDelegate, self).__init__(coroutine)
 
 
@@ -1440,11 +1554,11 @@ cdef class ConfigurationOption(Provider):
         return represent_provider(provider=self, provides=self.get_name())
 
     def __getattr__(self, item):
-        if item.startswith('__') and item.endswith('__'):
+        if item.startswith("__") and item.endswith("__"):
             raise AttributeError(
-                '\'{cls}\' object has no attribute '
-                '\'{attribute_name}\''.format(cls=self.__class__.__name__,
-                                              attribute_name=item))
+                "'{cls}' object has no attribute "
+                "'{attribute_name}'".format(cls=self.__class__.__name__, attribute_name=item)
+            )
 
         child = self.__children.get(item)
         if child is None:
@@ -1471,7 +1585,7 @@ cdef class ConfigurationOption(Provider):
         return value
 
     def _get_self_name(self):
-        return '.'.join(
+        return ".".join(
             segment() if is_provider(segment) else segment for segment in self.__name
         )
 
@@ -1480,7 +1594,7 @@ cdef class ConfigurationOption(Provider):
         return self.__root
 
     def get_name(self):
-        return '.'.join((self.__root.get_name(), self._get_self_name()))
+        return ".".join((self.__root.get_name(), self._get_self_name()))
 
     def get_name_segments(self):
         return self.__name
@@ -1502,14 +1616,14 @@ cdef class ConfigurationOption(Provider):
 
     def override(self, value):
         if isinstance(value, Provider):
-            raise Error('Configuration option can only be overridden by a value')
+            raise Error("Configuration option can only be overridden by a value")
         return self.__root.set(self._get_self_name(), value)
 
     def reset_last_overriding(self):
-        raise Error('Configuration option does not support this method')
+        raise Error("Configuration option does not support this method")
 
     def reset_override(self):
-        raise Error('Configuration option does not support this method')
+        raise Error("Configuration option does not support this method")
 
     def reset_cache(self):
         self.__cache = UNDEFINED
@@ -1560,7 +1674,7 @@ cdef class ConfigurationOption(Provider):
             if required is not False \
                     and (self._is_strict_mode_enabled() or required is True) \
                     and exception.errno in (errno.ENOENT, errno.EISDIR):
-                exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
+                exception.strerror = "Unable to load configuration file {0}".format(exception.strerror)
                 raise
             return
 
@@ -1594,9 +1708,9 @@ cdef class ConfigurationOption(Provider):
         """
         if yaml is None:
             raise Error(
-                'Unable to load yaml configuration - PyYAML is not installed. '
-                'Install PyYAML or install Dependency Injector with yaml extras: '
-                '"pip install dependency-injector[yaml]"'
+                "Unable to load yaml configuration - PyYAML is not installed. "
+                "Install PyYAML or install Dependency Injector with yaml extras: "
+                "\"pip install dependency-injector[yaml]\""
             )
 
         if loader is None:
@@ -1609,7 +1723,7 @@ cdef class ConfigurationOption(Provider):
             if required is not False \
                     and (self._is_strict_mode_enabled() or required is True) \
                     and exception.errno in (errno.ENOENT, errno.EISDIR):
-                exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
+                exception.strerror = "Unable to load configuration file {0}".format(exception.strerror)
                 raise
             return
 
@@ -1642,21 +1756,21 @@ cdef class ConfigurationOption(Provider):
         """
         if pydantic is None:
             raise Error(
-                'Unable to load pydantic configuration - pydantic is not installed. '
-                'Install pydantic or install Dependency Injector with pydantic extras: '
-                '"pip install dependency-injector[pydantic]"'
+                "Unable to load pydantic configuration - pydantic is not installed. "
+                "Install pydantic or install Dependency Injector with pydantic extras: "
+                "\"pip install dependency-injector[pydantic]\""
             )
 
         if isinstance(settings, CLASS_TYPES) and issubclass(settings, pydantic.BaseSettings):
             raise Error(
-                'Got settings class, but expect instance: '
-                'instead "{0}" use "{0}()"'.format(settings.__name__)
+                "Got settings class, but expect instance: "
+                "instead \"{0}\" use \"{0}()\"".format(settings.__name__)
             )
 
         if not isinstance(settings, pydantic.BaseSettings):
             raise Error(
-                'Unable to recognize settings instance, expect "pydantic.BaseSettings", '
-                'got {0} instead'.format(settings)
+                "Unable to recognize settings instance, expect \"pydantic.BaseSettings\", "
+                "got {0} instead".format(settings)
             )
 
         self.from_dict(settings.dict(**kwargs), required=required)
@@ -1677,7 +1791,7 @@ cdef class ConfigurationOption(Provider):
         if required is not False \
                 and (self._is_strict_mode_enabled() or required is True) \
                 and not options:
-            raise ValueError('Can not use empty dictionary')
+            raise ValueError("Can not use empty dictionary")
 
         try:
             current_config = self.__call__()
@@ -1689,7 +1803,7 @@ cdef class ConfigurationOption(Provider):
 
         self.override(merge_dicts(current_config, options))
 
-    def from_env(self, name, default=UNDEFINED, required=UNDEFINED):
+    def from_env(self, name, default=UNDEFINED, required=UNDEFINED, as_=UNDEFINED):
         """Load configuration value from the environment variable.
 
         :param name: Name of the environment variable.
@@ -1701,6 +1815,9 @@ cdef class ConfigurationOption(Provider):
         :param required: When required is True, raise an exception if environment variable is undefined.
         :type required: bool
 
+        :param as_: Callable used for type casting (int, float, etc).
+        :type as_: object
+
         :rtype: None
         """
         value = os.environ.get(name, default)
@@ -1708,8 +1825,11 @@ cdef class ConfigurationOption(Provider):
         if value is UNDEFINED:
             if required is not False \
                     and (self._is_strict_mode_enabled() or required is True):
-                raise ValueError('Environment variable "{0}" is undefined'.format(name))
+                raise ValueError("Environment variable \"{0}\" is undefined".format(name))
             value = None
+
+        if as_ is not UNDEFINED:
+            value = as_(value)
 
         self.override(value)
 
@@ -1746,14 +1866,14 @@ cdef class Configuration(Object):
 
     .. code-block:: python
 
-        config = Configuration('config')
+        config = Configuration("config")
         print(config.section1.option1())  # None
         print(config.section1.option2())  # None
         config.from_dict(
             {
-                'section1': {
-                    'option1': 1,
-                    'option2': 2,
+                "section1": {
+                    "option1": 1,
+                    "option2": 2,
                 },
             },
         )
@@ -1761,7 +1881,7 @@ cdef class Configuration(Object):
         print(config.section1.option2())  # 2
     """
 
-    DEFAULT_NAME = 'config'
+    DEFAULT_NAME = "config"
 
     def __init__(self, name=DEFAULT_NAME, default=None, strict=False, yaml_files=None, ini_files=None, pydantic_settings=None):
         self.__name = name
@@ -1813,11 +1933,11 @@ cdef class Configuration(Object):
         return represent_provider(provider=self, provides=self.__name)
 
     def __getattr__(self, item):
-        if item.startswith('__') and item.endswith('__'):
+        if item.startswith("__") and item.endswith("__"):
             raise AttributeError(
-                '\'{cls}\' object has no attribute '
-                '\'{attribute_name}\''.format(cls=self.__class__.__name__,
-                                              attribute_name=item))
+                "'{cls}' object has no attribute "
+                "'{attribute_name}'".format(cls=self.__class__.__name__, attribute_name=item)
+            )
 
         child = self.__children.get(item)
         if child is None:
@@ -1941,17 +2061,17 @@ cdef class Configuration(Object):
 
         if value is None:
             if self._is_strict_mode_enabled() or required:
-                raise Error('Undefined configuration option "{0}.{1}"'.format(self.__name, selector))
+                raise Error("Undefined configuration option \"{0}.{1}\"".format(self.__name, selector))
             return None
 
-        keys = selector.split('.')
+        keys = selector.split(".")
         while len(keys) > 0:
             key = keys.pop(0)
             value = value.get(key, UNDEFINED)
 
             if value is UNDEFINED:
                 if self._is_strict_mode_enabled() or required:
-                    raise Error('Undefined configuration option "{0}.{1}"'.format(self.__name, selector))
+                    raise Error("Undefined configuration option \"{0}.{1}\"".format(self.__name, selector))
                 return None
 
         return value
@@ -1970,7 +2090,7 @@ cdef class Configuration(Object):
         """
         original_value = current_value = deepcopy(self.__call__())
 
-        keys = selector.split('.')
+        keys = selector.split(".")
         while len(keys) > 0:
             key = keys.pop(0)
             if len(keys) == 0:
@@ -2067,7 +2187,7 @@ cdef class Configuration(Object):
             if required is not False \
                     and (self._is_strict_mode_enabled() or required is True) \
                     and exception.errno in (errno.ENOENT, errno.EISDIR):
-                exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
+                exception.strerror = "Unable to load configuration file {0}".format(exception.strerror)
                 raise
             return
 
@@ -2101,9 +2221,9 @@ cdef class Configuration(Object):
         """
         if yaml is None:
             raise Error(
-                'Unable to load yaml configuration - PyYAML is not installed. '
-                'Install PyYAML or install Dependency Injector with yaml extras: '
-                '"pip install dependency-injector[yaml]"'
+                "Unable to load yaml configuration - PyYAML is not installed. "
+                "Install PyYAML or install Dependency Injector with yaml extras: "
+                "\"pip install dependency-injector[yaml]\""
             )
 
         if loader is None:
@@ -2116,7 +2236,7 @@ cdef class Configuration(Object):
             if required is not False \
                     and (self._is_strict_mode_enabled() or required is True) \
                     and exception.errno in (errno.ENOENT, errno.EISDIR):
-                exception.strerror = 'Unable to load configuration file {0}'.format(exception.strerror)
+                exception.strerror = "Unable to load configuration file {0}".format(exception.strerror)
                 raise
             return
 
@@ -2149,21 +2269,21 @@ cdef class Configuration(Object):
         """
         if pydantic is None:
             raise Error(
-                'Unable to load pydantic configuration - pydantic is not installed. '
-                'Install pydantic or install Dependency Injector with pydantic extras: '
-                '"pip install dependency-injector[pydantic]"'
+                "Unable to load pydantic configuration - pydantic is not installed. "
+                "Install pydantic or install Dependency Injector with pydantic extras: "
+                "\"pip install dependency-injector[pydantic]\""
             )
 
         if isinstance(settings, CLASS_TYPES) and issubclass(settings, pydantic.BaseSettings):
             raise Error(
-                'Got settings class, but expect instance: '
-                'instead "{0}" use "{0}()"'.format(settings.__name__)
+                "Got settings class, but expect instance: "
+                "instead \"{0}\" use \"{0}()\"".format(settings.__name__)
             )
 
         if not isinstance(settings, pydantic.BaseSettings):
             raise Error(
-                'Unable to recognize settings instance, expect "pydantic.BaseSettings", '
-                'got {0} instead'.format(settings)
+                "Unable to recognize settings instance, expect \"pydantic.BaseSettings\", "
+                "got {0} instead".format(settings)
             )
 
         self.from_dict(settings.dict(**kwargs), required=required)
@@ -2184,14 +2304,14 @@ cdef class Configuration(Object):
         if required is not False \
                 and (self._is_strict_mode_enabled() or required is True) \
                 and not options:
-            raise ValueError('Can not use empty dictionary')
+            raise ValueError("Can not use empty dictionary")
 
         current_config = self.__call__()
         if not current_config:
             current_config = {}
         self.override(merge_dicts(current_config, options))
 
-    def from_env(self, name, default=UNDEFINED, required=UNDEFINED):
+    def from_env(self, name, default=UNDEFINED, required=UNDEFINED, as_=UNDEFINED):
         """Load configuration value from the environment variable.
 
         :param name: Name of the environment variable.
@@ -2203,6 +2323,9 @@ cdef class Configuration(Object):
         :param required: When required is True, raise an exception if environment variable is undefined.
         :type required: bool
 
+        :param as_: Callable used for type casting (int, float, etc).
+        :type as_: object
+
         :rtype: None
         """
         value = os.environ.get(name, default)
@@ -2210,8 +2333,11 @@ cdef class Configuration(Object):
         if value is UNDEFINED:
             if required is not False \
                     and (self._is_strict_mode_enabled() or required is True):
-                raise ValueError('Environment variable "{0}" is undefined'.format(name))
+                raise ValueError("Environment variable \"{0}\" is undefined".format(name))
             value = None
+
+        if as_ is not UNDEFINED:
+            value = as_(value)
 
         self.override(value)
 
@@ -2246,19 +2372,19 @@ cdef class Factory(Provider):
     .. code-block:: python
 
         factory = Factory(SomeClass,
-                          'positional_arg1', 'positional_arg2',
+                          "positional_arg1", "positional_arg2",
                           keyword_argument1=3, keyword_argument=4)
 
         # or
 
         factory = Factory(SomeClass) \
-            .add_args('positional_arg1', 'positional_arg2') \
+            .add_args("positional_arg1", "positional_arg2") \
             .add_kwargs(keyword_argument1=3, keyword_argument=4)
 
         # or
 
         factory = Factory(SomeClass)
-        factory.add_args('positional_arg1', 'positional_arg2')
+        factory.add_args("positional_arg1", "positional_arg2")
         factory.add_kwargs(keyword_argument1=3, keyword_argument=4)
 
 
@@ -2329,16 +2455,17 @@ cdef class Factory(Provider):
 
     @property
     def provides(self):
-        """Return provider's provides."""
+        """Return provider provides."""
         return self.__instantiator.provides
 
     def set_provides(self, provides):
-        """Set provider's provides."""
+        """Set provider provides."""
+        provides = _resolve_string_import(provides)
         if (provides
                 and self.__class__.provided_type and
                 not issubclass(provides, self.__class__.provided_type)):
             raise Error(
-                '{0} can provide only {1} instances'.format(
+                "{0} can provide only {1} instances".format(
                     _class_qualname(self),
                     self.__class__.provided_type,
                 ),
@@ -2502,7 +2629,7 @@ cdef class AbstractFactory(Factory):
         Callable interface implementation.
         """
         if self.__last_overriding is None:
-            raise Error('{0} must be overridden before calling'.format(self))
+            raise Error("{0} must be overridden before calling".format(self))
         return super().__call__(*args, **kwargs)
 
     def override(self, provider):
@@ -2517,14 +2644,13 @@ cdef class AbstractFactory(Factory):
         :rtype: :py:class:`OverridingContext`
         """
         if not isinstance(provider, Factory):
-            raise Error('{0} must be overridden only by '
-                        '{1} providers'.format(self, Factory))
+            raise Error("{0} must be overridden only by "
+                        "{1} providers".format(self, Factory))
         return super(AbstractFactory, self).override(provider)
 
     cpdef object _provide(self, tuple args, dict kwargs):
-        """Return result of provided callable's call."""
-        raise NotImplementedError('Abstract provider forward providing logic '
-                                  'to overriding provider')
+        """Return result of provided callable call."""
+        raise NotImplementedError("Abstract provider forward providing logic to overriding provider")
 
 
 cdef class FactoryDelegate(Delegate):
@@ -2544,12 +2670,11 @@ cdef class FactoryDelegate(Delegate):
         :type factory: object
         """
         if isinstance(factory, Factory) is False:
-            raise Error('{0} can wrap only {1} providers'.format(
-                self.__class__, Factory))
+            raise Error("{0} can wrap only {1} providers".format(self.__class__, Factory))
         super(FactoryDelegate, self).__init__(factory)
 
 
-cdef class FactoryAggregate(Provider):
+cdef class FactoryAggregate(Aggregate):
     """Factory providers aggregate.
 
     :py:class:`FactoryAggregate` is an aggregate of :py:class:`Factory`
@@ -2558,101 +2683,25 @@ cdef class FactoryAggregate(Provider):
     :py:class:`FactoryAggregate` is a delegated provider, meaning that it is
     injected "as is".
 
-    All aggregated factories could be retrieved as a read-only
-    dictionary :py:attr:`FactoryAggregate.factories` or just as an attribute of
+    All aggregated providers can be retrieved as a read-only
+    dictionary :py:attr:`FactoryAggregate.providers` or as an attribute of
     :py:class:`FactoryAggregate`.
     """
 
-    __IS_DELEGATED__ = True
-
-    def __init__(self, factories_dict_=None, **factories_kwargs):
-        """Initialize provider."""
-        self.__factories = {}
-        self.set_factories(factories_dict_, **factories_kwargs)
-        super(FactoryAggregate, self).__init__()
-
-    def __deepcopy__(self, memo):
-        """Create and return full copy of provider."""
-        copied = memo.get(id(self))
-        if copied is not None:
-            return copied
-
-        copied = _memorized_duplicate(self, memo)
-        copied.set_factories(deepcopy(self.factories, memo))
-
-        self._copy_overridings(copied, memo)
-
-        return copied
-
-    def __getattr__(self, factory_name):
-        """Return aggregated factory."""
-        return self.__get_factory(factory_name)
-
-    def __str__(self):
-        """Return string representation of provider.
-
-        :rtype: str
-        """
-        return represent_provider(provider=self, provides=self.factories)
-
     @property
     def factories(self):
-        """Return dictionary of factories, read-only."""
-        return self.__factories
+        """Return dictionary of factories, read-only.
 
-    def set_factories(self, factories_dict_=None, **factories_kwargs):
-        """Set factories."""
-        factories = {}
-        factories.update(factories_kwargs)
-        if factories_dict_:
-            factories.update(factories_dict_)
-
-        for factory in factories.values():
-            if isinstance(factory, Factory) is False:
-                raise Error(
-                    '{0} can aggregate only instances of {1}, given - {2}'.format(
-                        self.__class__,
-                        Factory,
-                        factory,
-                    ),
-                )
-
-        self.__factories = factories
-        return self
-
-    def override(self, _):
-        """Override provider with another provider.
-
-        :raise: :py:exc:`dependency_injector.errors.Error`
-
-        :return: Overriding context.
-        :rtype: :py:class:`OverridingContext`
+        Alias for ``.providers()`` attribute.
         """
-        raise Error('{0} providers could not be overridden'.format(self.__class__))
+        return self.providers
 
-    @property
-    def related(self):
-        """Return related providers generator."""
-        yield from self.__factories.values()
-        yield from super().related
+    def set_factories(self, factory_dict=None, **factory_kwargs):
+        """Set factories.
 
-    cpdef object _provide(self, tuple args, dict kwargs):
-        try:
-            factory_name = args[0]
-        except IndexError:
-            try:
-                factory_name = kwargs.pop('factory_name')
-            except KeyError:
-                raise TypeError('Factory missing 1 required positional argument: \'factory_name\'')
-        else:
-            args = args[1:]
-
-        return self.__get_factory(factory_name)(*args, **kwargs)
-
-    cdef Factory __get_factory(self, object factory_key):
-        if factory_key not in self.__factories:
-            raise NoSuchProviderError('{0} does not contain factory with name {1}'.format(self, factory_key))
-        return <Factory> self.__factories[factory_key]
+        Alias for ``.set_providers()`` method.
+        """
+        return self.set_providers(factory_dict, **factory_kwargs)
 
 
 cdef class BaseSingleton(Provider):
@@ -2697,16 +2746,17 @@ cdef class BaseSingleton(Provider):
 
     @property
     def provides(self):
-        """Return provider's provides."""
+        """Return provider provides."""
         return self.__instantiator.provides
 
     def set_provides(self, provides):
-        """Set provider's provides."""
+        """Set provider provides."""
+        provides = _resolve_string_import(provides)
         if (provides
                 and self.__class__.provided_type and
                 not issubclass(provides, self.__class__.provided_type)):
             raise Error(
-                '{0} can provide only {1} instances'.format(
+                "{0} can provide only {1} instances".format(
                     _class_qualname(self),
                     self.__class__.provided_type,
                 ),
@@ -3108,13 +3158,13 @@ cdef class ContextLocalSingleton(BaseSingleton):
         """
         if not contextvars:
             raise RuntimeError(
-                'Contextvars library not found. This provider '
-                'requires Python 3.7 or a backport of contextvars. '
-                'To install a backport run "pip install contextvars".'
+                "Contextvars library not found. This provider "
+                "requires Python 3.7 or a backport of contextvars. "
+                "To install a backport run \"pip install contextvars\"."
             )
 
         super(ContextLocalSingleton, self).__init__(provides, *args, **kwargs)
-        self.__storage = contextvars.ContextVar('__storage', default=self._none)
+        self.__storage = contextvars.ContextVar("__storage", default=self._none)
 
     def reset(self):
         """Reset cached instance, if any.
@@ -3201,7 +3251,7 @@ cdef class AbstractSingleton(BaseSingleton):
         Callable interface implementation.
         """
         if self.__last_overriding is None:
-            raise Error('{0} must be overridden before calling'.format(self))
+            raise Error("{0} must be overridden before calling".format(self))
         return super().__call__(*args, **kwargs)
 
     def override(self, provider):
@@ -3216,8 +3266,8 @@ cdef class AbstractSingleton(BaseSingleton):
         :rtype: :py:class:`OverridingContext`
         """
         if not isinstance(provider, BaseSingleton):
-            raise Error('{0} must be overridden only by '
-                        '{1} providers'.format(self, BaseSingleton))
+            raise Error("{0} must be overridden only by "
+                        "{1} providers".format(self, BaseSingleton))
         return super(AbstractSingleton, self).override(provider)
 
     def reset(self):
@@ -3226,7 +3276,7 @@ cdef class AbstractSingleton(BaseSingleton):
         :rtype: None
         """
         if self.__last_overriding is None:
-            raise Error('{0} must be overridden before calling'.format(self))
+            raise Error("{0} must be overridden before calling".format(self))
         return self.__last_overriding.reset()
 
 
@@ -3247,7 +3297,7 @@ cdef class SingletonDelegate(Delegate):
         :type singleton: py:class:`BaseSingleton`
         """
         if isinstance(singleton, BaseSingleton) is False:
-            raise Error('{0} can wrap only {1} providers'.format(
+            raise Error("{0} can wrap only {1} providers".format(
                 self.__class__, BaseSingleton))
         super(SingletonDelegate, self).__init__(singleton)
 
@@ -3356,7 +3406,7 @@ cdef class List(Provider):
         yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
-        """Return result of provided callable's call."""
+        """Return result of provided callable call."""
         return __provide_positional_args(args, self.__args, self.__args_len)
 
 
@@ -3384,8 +3434,8 @@ cdef class Dict(Provider):
 
         dispatcher = Dispatcher(
             modules={
-                'module1': ModuleA(dependency_a),
-                'module2': ModuleB(dependency_b),
+                "module1": ModuleA(dependency_a),
+                "module2": ModuleB(dependency_b),
             },
         )
     """
@@ -3482,7 +3532,7 @@ cdef class Dict(Provider):
         copied.set_kwargs(copied_kwargs)
 
     cpdef object _provide(self, tuple args, dict kwargs):
-        """Return result of provided callable's call."""
+        """Return result of provided callable call."""
         return __provide_keyword_args(kwargs, self.__kwargs, self.__kwargs_len)
 
 
@@ -3515,7 +3565,7 @@ cdef class Resource(Provider):
             return copied
 
         if self.__initialized:
-            raise Error('Can not copy initialized resource')
+            raise Error("Can not copy initialized resource")
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
@@ -3535,11 +3585,12 @@ cdef class Resource(Provider):
 
     @property
     def provides(self):
-        """Return provider's provides."""
+        """Return provider provides."""
         return self.__provides
 
     def set_provides(self, provides):
-        """Set provider's provides."""
+        """Set provider provides."""
+        provides = _resolve_string_import(provides)
         self.__provides = provides
         return self
 
@@ -3747,7 +3798,7 @@ cdef class Resource(Provider):
                 self.__kwargs_len,
             )
         else:
-            raise Error('Unknown type of resource initializer')
+            raise Error("Unknown type of resource initializer")
 
         self.__initialized = True
         return self.__resource
@@ -3871,11 +3922,10 @@ cdef class Container(Provider):
 
     def __getattr__(self, name):
         """Return dependency provider."""
-        if name.startswith('__') and name.endswith('__'):
+        if name.startswith("__") and name.endswith("__"):
             raise AttributeError(
-                '\'{cls}\' object has no attribute '
-                '\'{attribute_name}\''.format(cls=self.__class__.__name__,
-                                              attribute_name=name))
+                "'{cls}' object has no attribute "
+                "'{attribute_name}'".format(cls=self.__class__.__name__, attribute_name=name))
         return getattr(self.__container, name)
 
     @property
@@ -3888,8 +3938,8 @@ cdef class Container(Provider):
 
     def override(self, provider):
         """Override provider with another provider."""
-        if not hasattr(provider, 'providers'):
-            raise Error('Container provider {0} can be overridden only by providers container'.format(self))
+        if not hasattr(provider, "providers"):
+            raise Error("Container provider {0} can be overridden only by providers container".format(self))
 
         self.__container.override_providers(**provider.providers)
         return super().override(provider)
@@ -3938,7 +3988,7 @@ cdef class Container(Provider):
             if container_provider is provider:
                 return provider_name
         else:
-            raise Error(f'Can not resolve name for provider "{provider}"')
+            raise Error(f"Can not resolve name for provider \"{provider}\"")
 
     @property
     def parent(self):
@@ -3951,10 +4001,10 @@ cdef class Container(Provider):
         if not self.__parent:
             return None
 
-        name = ''
+        name = ""
         if self.__parent.parent_name:
-            name += f'{self.__parent.parent_name}.'
-        name += f'{self.__parent.resolve_provider_name(self)}'
+            name += f"{self.__parent.parent_name}."
+        name += f"{self.__parent.resolve_provider_name(self)}"
 
         return name
 
@@ -3992,11 +4042,11 @@ cdef class Selector(Provider):
             another=providers.Factory(SomeOtherClass),
         )
 
-        config.override({'one_or_another': 'one'})
+        config.override({"one_or_another": "one"})
         instance_1 = selector()
         assert isinstance(instance_1, SomeClass)
 
-        config.override({'one_or_another': 'another'})
+        config.override({"one_or_another": "another"})
         instance_2 = selector()
         assert isinstance(instance_2, SomeOtherClass)
     """
@@ -4027,13 +4077,12 @@ cdef class Selector(Provider):
 
     def __getattr__(self, name):
         """Return provider."""
-        if name.startswith('__') and name.endswith('__'):
+        if name.startswith("__") and name.endswith("__"):
             raise AttributeError(
-                '\'{cls}\' object has no attribute '
-                '\'{attribute_name}\''.format(cls=self.__class__.__name__,
-                                              attribute_name=name))
+                "'{cls}' object has no attribute "
+                "'{attribute_name}'".format(cls=self.__class__.__name__, attribute_name=name))
         if name not in self.__providers:
-            raise AttributeError('Selector has no "{0}" provider'.format(name))
+            raise AttributeError("Selector has no \"{0}\" provider".format(name))
 
         return self.__providers[name]
 
@@ -4043,11 +4092,11 @@ cdef class Selector(Provider):
         :rtype: str
         """
 
-        return '<{provider}({selector}, {providers}) at {address}>'.format(
-            provider='.'.join(( self.__class__.__module__, self.__class__.__name__)),
+        return "<{provider}({selector}, {providers}) at {address}>".format(
+            provider=".".join(( self.__class__.__module__, self.__class__.__name__)),
             selector=self.__selector,
-            providers=', '.join((
-                '{0}={1}'.format(name, provider)
+            providers=", ".join((
+                "{0}={1}".format(name, provider)
                 for name, provider in self.__providers.items()
             )),
             address=hex(id(self)),
@@ -4085,10 +4134,10 @@ cdef class Selector(Provider):
         selector_value = self.__selector()
 
         if selector_value is None:
-            raise Error('Selector value is undefined')
+            raise Error("Selector value is undefined")
 
         if selector_value not in self.__providers:
-            raise Error('Selector has no "{0}" provider'.format(selector_value))
+            raise Error("Selector has no \"{0}\" provider".format(selector_value))
 
         return self.__providers[selector_value](*args, **kwargs)
 
@@ -4130,7 +4179,7 @@ cdef class ProvidedInstance(Provider):
         super().__init__()
 
     def __repr__(self):
-        return f'{self.__class__.__name__}("{self.__provides}")'
+        return f"{self.__class__.__name__}(\"{self.__provides}\")"
 
     def __deepcopy__(self, memo):
         copied = memo.get(id(self))
@@ -4149,11 +4198,11 @@ cdef class ProvidedInstance(Provider):
 
     @property
     def provides(self):
-        """Return provider's provides."""
+        """Return provider provides."""
         return self.__provides
 
     def set_provides(self, provides):
-        """Set provider's provides."""
+        """Set provider provides."""
         self.__provides = provides
         return self
 
@@ -4186,7 +4235,7 @@ cdef class AttributeGetter(Provider):
         super().__init__()
 
     def __repr__(self):
-        return f'{self.__class__.__name__}("{self.name}")'
+        return f"{self.__class__.__name__}(\"{self.name}\")"
 
     def __deepcopy__(self, memo):
         copied = memo.get(id(self))
@@ -4206,11 +4255,11 @@ cdef class AttributeGetter(Provider):
 
     @property
     def provides(self):
-        """Return provider's provides."""
+        """Return provider provides."""
         return self.__provides
 
     def set_provides(self, provides):
-        """Set provider's provides."""
+        """Set provider provides."""
         self.__provides = provides
         return self
 
@@ -4268,7 +4317,7 @@ cdef class ItemGetter(Provider):
         super().__init__()
 
     def __repr__(self):
-        return f'{self.__class__.__name__}("{self.name}")'
+        return f"{self.__class__.__name__}(\"{self.name}\")"
 
     def __deepcopy__(self, memo):
         copied = memo.get(id(self))
@@ -4288,11 +4337,11 @@ cdef class ItemGetter(Provider):
 
     @property
     def provides(self):
-        """Return provider's provides."""
+        """Return provider"s provides."""
         return self.__provides
 
     def set_provides(self, provides):
-        """Set provider's provides."""
+        """Set provider"s provides."""
         self.__provides = provides
         return self
 
@@ -4356,7 +4405,7 @@ cdef class MethodCaller(Provider):
         super().__init__()
 
     def __repr__(self):
-        return f'{self.__class__.__name__}({self.provides})'
+        return f"{self.__class__.__name__}({self.provides})"
 
     def __deepcopy__(self, memo):
         copied = memo.get(id(self))
@@ -4381,11 +4430,11 @@ cdef class MethodCaller(Provider):
 
     @property
     def provides(self):
-        """Return provider's provides."""
+        """Return provider provides."""
         return self.__provides
 
     def set_provides(self, provides):
-        """Set provider's provides."""
+        """Set provider provides."""
         self.__provides = provides
         return self
 
@@ -4681,7 +4730,7 @@ cpdef bint is_provider(object instance):
     :rtype: bool
     """
     return (not isinstance(instance, CLASS_TYPES) and
-            getattr(instance, '__IS_PROVIDER__', False) is True)
+            getattr(instance, "__IS_PROVIDER__", False) is True)
 
 
 cpdef object ensure_is_provider(object instance):
@@ -4696,8 +4745,7 @@ cpdef object ensure_is_provider(object instance):
     :rtype: :py:class:`dependency_injector.providers.Provider`
     """
     if not is_provider(instance):
-        raise Error('Expected provider instance, '
-                    'got {0}'.format(str(instance)))
+        raise Error("Expected provider instance, got {0}".format(str(instance)))
     return instance
 
 
@@ -4710,7 +4758,7 @@ cpdef bint is_delegated(object instance):
     :rtype: bool
     """
     return (not isinstance(instance, CLASS_TYPES) and
-            getattr(instance, '__IS_DELEGATED__', False) is True)
+            getattr(instance, "__IS_DELEGATED__", False) is True)
 
 
 cpdef str represent_provider(object provider, object provides):
@@ -4725,10 +4773,10 @@ cpdef str represent_provider(object provider, object provides):
     :return: String representation of provider
     :rtype: str
     """
-    return '<{provider}({provides}) at {address}>'.format(
-        provider='.'.join((provider.__class__.__module__,
+    return "<{provider}({provides}) at {address}>".format(
+        provider=".".join((provider.__class__.__module__,
                            provider.__class__.__name__)),
-        provides=repr(provides) if provides is not None else '',
+        provides=repr(provides) if provides is not None else "",
         address=hex(id(provider)))
 
 
@@ -4741,7 +4789,7 @@ cpdef bint is_container_instance(object instance):
     :rtype: bool
     """
     return (not isinstance(instance, CLASS_TYPES) and
-            getattr(instance, '__IS_CONTAINER__', False) is True)
+            getattr(instance, "__IS_CONTAINER__", False) is True)
 
 
 cpdef bint is_container_class(object instance):
@@ -4753,7 +4801,7 @@ cpdef bint is_container_class(object instance):
     :rtype: bool
     """
     return (isinstance(instance, CLASS_TYPES) and
-            getattr(instance, '__IS_CONTAINER__', False) is True)
+            getattr(instance, "__IS_CONTAINER__", False) is True)
 
 
 cpdef object deepcopy(object instance, dict memo=None):
@@ -4845,6 +4893,44 @@ def isasyncgenfunction(obj):
         return False
 
 
+def _resolve_string_import(provides):
+    if provides is None:
+        return provides
+
+    if not isinstance(provides, str):
+        return provides
+
+    segments = provides.split(".")
+    member_name = segments[-1]
+
+    if len(segments) == 1:
+        if  member_name in dir(builtins):
+            module = builtins
+        else:
+            module = _resolve_calling_module()
+        return getattr(module, member_name)
+
+    module_name = ".".join(segments[:-1])
+
+    package_name = _resolve_calling_package_name()
+    if module_name.startswith(".") and package_name is None:
+        raise ImportError("Attempted relative import with no known parent package")
+
+    module = importlib.import_module(module_name, package=package_name)
+    return getattr(module, member_name)
+
+
+def _resolve_calling_module():
+    stack = inspect.stack()
+    pre_last_frame = stack[0]
+    return inspect.getmodule(pre_last_frame[0])
+
+
+def _resolve_calling_package_name():
+    module = _resolve_calling_module()
+    return module.__package__
+
+
 cpdef _copy_parent(object from_, object to, dict memo):
     """Copy and assign provider parent."""
     copied_parent = (
@@ -4868,7 +4954,7 @@ cpdef object _copy_if_provider(object instance, dict memo):
 
 
 cpdef str _class_qualname(object instance):
-    name = getattr(instance.__class__, '__qualname__', None)
+    name = getattr(instance.__class__, "__qualname__", None)
     if not name:
-        name = '.'.join((instance.__class__.__module__, instance.__class__.__name__))
+        name = ".".join((instance.__class__.__module__, instance.__class__.__name__))
     return name

@@ -7,6 +7,31 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.38.0
+------
+- Add new provider ``Aggregate``. It is a generalized version of ``FactoryAggregate`` that
+  can contain providers of any type, not only ``Factory``. See issue
+  `#530 <https://github.com/ets-labs/python-dependency-injector/issues/530>`_. Thanks to
+  `@zerlok (Danil Troshnev) <https://github.com/zerlok>`_ for suggesting the feature.
+- Add argument ``as_`` to the ``config.from_env()`` method for the explicit type casting
+  of an environment variable value, e.g.: ``config.timeout.from_env("TIMEOUT", as_=int)``.
+  See issue `#533 <https://github.com/ets-labs/python-dependency-injector/issues/533>`_. Thanks to
+  `@gtors (Andrey Torsunov) <https://github.com/gtors>`_ for suggesting the feature.
+- Add ``.providers`` attribute to the ``FactoryAggregate`` provider. It is an alias for
+  ``FactoryAggregate.factories`` attribute.
+- Add ``.set_providers()`` method to the ``FactoryAggregate`` provider. It is an alias for
+  ``FactoryAggregate.set_factories()`` method.
+- Add string imports for ``Factory``, ``Singleton``, ``Callable``, ``Resource``, and ``Coroutine``
+  providers, e.g. ``Factory("module.Class")``.
+  See issue `#531 <https://github.com/ets-labs/python-dependency-injector/issues/531>`_.
+  Thanks to `@al-stefanitsky-mozdor <https://github.com/al-stefanitsky-mozdor>`_ for suggesting the feature.
+- Fix ``Dependency`` provider to don't raise "Dependency is not defined" error when the ``default``
+  is a falsy value of proper type.
+  See issue `#550 <https://github.com/ets-labs/python-dependency-injector/issues/550>`_. Thanks to
+  `@approxit <https://github.com/approxit>`_ for reporting the issue.
+- Refactor ``FactoryAggregate`` provider internals.
+- Update logo on Github and in docs to support dark themes and remove some imperfections.
+
 4.37.0
 ------
 - Add support of Python 3.10.

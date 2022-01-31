@@ -4,7 +4,7 @@ import abc
 from typing import TypeVar, Generic, Optional
 
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 class Resource(Generic[T], metaclass=abc.ABCMeta):

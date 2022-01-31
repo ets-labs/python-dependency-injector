@@ -66,3 +66,7 @@ assert provides10 is Cat
 provider11 = providers.Callable[Animal](Cat)
 provides11: Optional[Callable[..., Animal]] = provider11.provides
 assert provides11 is Cat
+
+# Test 12: to check string imports
+provider12: providers.Callable[dict] = providers.Callable("builtins.dict")
+provider12.set_provides("builtins.dict")

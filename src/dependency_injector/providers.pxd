@@ -38,6 +38,12 @@ cdef class Delegate(Provider):
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
+cdef class Aggregate(Provider):
+    cdef dict __providers
+
+    cdef Provider __get_provider(self, object provider_name)
+
+
 cdef class Dependency(Provider):
     cdef object __instance_of
     cdef object __default
@@ -142,10 +148,8 @@ cdef class FactoryDelegate(Delegate):
     pass
 
 
-cdef class FactoryAggregate(Provider):
-    cdef dict __factories
-
-    cdef Factory __get_factory(self, object factory_name)
+cdef class FactoryAggregate(Aggregate):
+    pass
 
 
 # Singleton providers
@@ -359,11 +363,11 @@ cdef inline tuple __separate_prefixed_kwargs(dict kwargs):
     cdef dict prefixed_kwargs = {}
 
     for key, value in kwargs.items():
-        if '__' not in key:
+        if "__" not in key:
             plain_kwargs[key] = value
             continue
 
-        index = key.index('__')
+        index = key.index("__")
         prefix, name = key[:index], key[index+2:]
 
         if prefix not in prefixed_kwargs:

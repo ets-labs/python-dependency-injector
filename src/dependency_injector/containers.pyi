@@ -20,11 +20,11 @@ from typing import (
 from .providers import Provider, Self, ProviderParent
 
 
-C_Base = TypeVar('C_Base', bound='Container')
-C = TypeVar('C', bound='DeclarativeContainer')
-C_Overriding = TypeVar('C_Overriding', bound='DeclarativeContainer')
-T = TypeVar('T')
-TT = TypeVar('TT')
+C_Base = TypeVar("C_Base", bound="Container")
+C = TypeVar("C", bound="DeclarativeContainer")
+C_Overriding = TypeVar("C_Overriding", bound="DeclarativeContainer")
+T = TypeVar("T")
+TT = TypeVar("TT")
 
 
 class WiringConfiguration:

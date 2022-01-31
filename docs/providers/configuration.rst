@@ -205,6 +205,24 @@ Loading from an environment variable
    :lines: 3-
    :emphasize-lines: 18-20
 
+You can use ``as_`` argument for the type casting of an environment variable value:
+
+.. code-block:: python
+   :emphasize-lines: 2,6,10
+
+   # API_KEY=secret
+   container.config.api_key.from_env("API_KEY", as_=str, required=True)
+   assert container.config.api_key() == "secret"
+
+   # SAMPLING_RATIO=0.5
+   container.config.sampling.from_env("SAMPLING_RATIO", as_=float, required=True)
+   assert container.config.sampling() == 0.5
+
+   # TIMEOUT undefined, default is used
+   container.config.timeout.from_env("TIMEOUT", as_=int, default=5)
+   assert container.config.timeout() == 5
+
+
 Loading a value
 ---------------
 

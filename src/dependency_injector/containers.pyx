@@ -28,10 +28,10 @@ if sys.version_info[:2] >= (3, 6):
     from .wiring import wire, unwire
 else:
     def wire(*args, **kwargs):
-        raise NotImplementedError('Wiring requires Python 3.6 or above')
+        raise NotImplementedError("Wiring requires Python 3.6 or above")
 
     def unwire(*args, **kwargs):
-        raise NotImplementedError('Wiring requires Python 3.6 or above')
+        raise NotImplementedError("Wiring requires Python 3.6 or above")
 
 if sys.version_info[:2] == (3, 5):
     warnings.warn(
@@ -137,17 +137,17 @@ class DynamicContainer(Container):
         If value of attribute is provider, it will be added into providers
         dictionary.
 
-        :param name: Attribute's name
+        :param name: Attribute name
         :type name: object
 
-        :param value: Attribute's value
+        :param value: Attribute value
         :type value: object
 
         :rtype: None
         """
         if isinstance(value, providers.Provider) \
                 and not isinstance(value, providers.Self) \
-                and name != 'parent':
+                and name != "parent":
             _check_provider_type(self, value)
 
             self.providers[name] = value
@@ -163,7 +163,7 @@ class DynamicContainer(Container):
         If value of attribute is provider, it will be deleted from providers
         dictionary.
 
-        :param name: Attribute's name
+        :param name: Attribute name
         :type name: object
 
         :rtype: None
@@ -229,8 +229,8 @@ class DynamicContainer(Container):
         :rtype: None
         """
         if overriding is self:
-            raise errors.Error('Container {0} could not be overridden '
-                               'with itself'.format(self))
+            raise errors.Error("Container {0} could not be overridden "
+                               "with itself".format(self))
 
         self.overridden += (overriding,)
 
@@ -262,7 +262,7 @@ class DynamicContainer(Container):
         :rtype: None
         """
         if not self.overridden:
-            raise errors.Error('Container {0} is not overridden'.format(self))
+            raise errors.Error("Container {0} is not overridden".format(self))
 
         self.overridden = self.overridden[:-1]
 
@@ -364,7 +364,7 @@ class DynamicContainer(Container):
             while any(resource.initialized for resource in resources):
                 resources_to_shutdown = list(_independent_resources(resources))
                 if not resources_to_shutdown:
-                    raise RuntimeError('Unable to resolve resources shutdown order')
+                    raise RuntimeError("Unable to resolve resources shutdown order")
                 futures = []
                 for resource in resources_to_shutdown:
                     result = resource.shutdown()
@@ -376,7 +376,7 @@ class DynamicContainer(Container):
             while any(resource.initialized for resource in resources):
                 resources_to_shutdown = list(_independent_resources(resources))
                 if not resources_to_shutdown:
-                    raise RuntimeError('Unable to resolve resources shutdown order')
+                    raise RuntimeError("Unable to resolve resources shutdown order")
                 for resource in resources_to_shutdown:
                     resource.shutdown()
 
@@ -393,7 +393,7 @@ class DynamicContainer(Container):
             config.load()
 
     def apply_container_providers_overridings(self):
-        """Apply container providers' overridings."""
+        """Apply container providers overridings."""
         for provider in self.traverse(types=[providers.Container]):
             provider.apply_overridings()
 
@@ -419,12 +419,12 @@ class DynamicContainer(Container):
 
         container_name = self.parent_name if self.parent_name else self.__class__.__name__
         undefined_names = [
-            f'"{dependency.parent_name if dependency.parent_name else dependency}"'
+            f"\"{dependency.parent_name if dependency.parent_name else dependency}\""
             for dependency in undefined
         ]
         raise errors.Error(
-            f'Container "{container_name}" has undefined dependencies: '
-            f'{", ".join(undefined_names)}',
+            f"Container \"{container_name}\" has undefined dependencies: "
+            f"{', '.join(undefined_names)}",
         )
 
     def from_schema(self, schema):
@@ -441,9 +441,9 @@ class DynamicContainer(Container):
         """
         if yaml is None:
             raise errors.Error(
-                'Unable to load yaml schema - PyYAML is not installed. '
-                'Install PyYAML or install Dependency Injector with yaml extras: '
-                '"pip install dependency-injector[yaml]"'
+                "Unable to load yaml schema - PyYAML is not installed. "
+                "Install PyYAML or install Dependency Injector with yaml extras: "
+                "\"pip install dependency-injector[yaml]\""
             )
 
         if loader is None:
@@ -466,7 +466,7 @@ class DynamicContainer(Container):
             if container_provider is provider:
                 return provider_name
         else:
-            raise errors.Error(f'Can not resolve name for provider "{provider}"')
+            raise errors.Error(f"Can not resolve name for provider \"{provider}\"")
 
     @property
     def parent_name(self):
@@ -525,11 +525,11 @@ class DeclarativeContainerMetaClass(type):
                 "instead got {0}".format(wiring_config)
             )
 
-        attributes['containers'] = containers
-        attributes['inherited_providers'] = inherited_providers
-        attributes['cls_providers'] = cls_providers
-        attributes['providers'] = all_providers
-        attributes['wiring_config'] = wiring_config
+        attributes["containers"] = containers
+        attributes["inherited_providers"] = inherited_providers
+        attributes["cls_providers"] = cls_providers
+        attributes["providers"] = all_providers
+        attributes["wiring_config"] = wiring_config
 
         cls = <type>type.__new__(mcs, class_name, bases, attributes)
 
@@ -551,15 +551,15 @@ class DeclarativeContainerMetaClass(type):
         If value of attribute is provider, it will be added into providers
         dictionary.
 
-        :param name: Attribute's name
+        :param name: Attribute name
         :type name: object
 
-        :param value: Attribute's value
+        :param value: Attribute value
         :type value: object
 
         :rtype: None
         """
-        if isinstance(value, providers.Provider) and name != '__self__':
+        if isinstance(value, providers.Provider) and name != "__self__":
             _check_provider_type(cls, value)
 
             if isinstance(value, providers.CHILD_PROVIDERS):
@@ -575,7 +575,7 @@ class DeclarativeContainerMetaClass(type):
         If value of attribute is provider, it will be deleted from providers
         dictionary.
 
-        :param name: Attribute's name
+        :param name: Attribute name
         :type name: object
 
         :rtype: None
@@ -611,7 +611,7 @@ class DeclarativeContainerMetaClass(type):
             if container_provider is provider:
                 return provider_name
         else:
-            raise errors.Error(f'Can not resolve name for provider "{provider}"')
+            raise errors.Error(f"Can not resolve name for provider \"{provider}\"")
 
     @property
     def parent_name(cls):
@@ -628,9 +628,9 @@ class DeclarativeContainerMetaClass(type):
                 continue
 
             if self is not None and value is not self:
-                raise errors.Error('Container can have only one "Self" provider')
+                raise errors.Error("Container can have only one \"Self\" provider")
 
-            if name != '__self__':
+            if name != "__self__":
                 alt_names.append(name)
 
             self = value
@@ -727,8 +727,8 @@ class DeclarativeContainer(Container):
         container.wiring_config = copy_module.deepcopy(cls.wiring_config)
         container.declarative_parent = cls
 
-        copied_providers = providers.deepcopy({ **cls.providers, **{'@@self@@': cls.__self__}})
-        copied_self = copied_providers.pop('@@self@@')
+        copied_providers = providers.deepcopy({ **cls.providers, **{"@@self@@": cls.__self__}})
+        copied_self = copied_providers.pop("@@self@@")
         copied_self.set_container(container)
 
         container.__self__ = copied_self
@@ -762,8 +762,8 @@ class DeclarativeContainer(Container):
         :rtype: None
         """
         if issubclass(cls, overriding):
-            raise errors.Error('Container {0} could not be overridden '
-                               'with itself or its subclasses'.format(cls))
+            raise errors.Error("Container {0} could not be overridden "
+                               "with itself or its subclasses".format(cls))
 
         cls.overridden += (overriding,)
 
@@ -780,7 +780,7 @@ class DeclarativeContainer(Container):
         :rtype: None
         """
         if not cls.overridden:
-            raise errors.Error('Container {0} is not overridden'.format(cls))
+            raise errors.Error("Container {0} is not overridden".format(cls))
 
         cls.overridden = cls.overridden[:-1]
 
@@ -833,7 +833,7 @@ def override(object container):
                       container.
     :type container: :py:class:`DeclarativeContainer`
 
-    :return: Declarative container's overriding decorator.
+    :return: Declarative container overriding decorator.
     :rtype: callable(:py:class:`DeclarativeContainer`)
     """
     def _decorator(object overriding_container):
@@ -853,7 +853,7 @@ def copy(object base_container):
     :param base_container: Container that should be copied by decorated container.
     :type base_container: :py:class:`DeclarativeContainer`
 
-    :return: Declarative container's copying decorator.
+    :return: Declarative container copying decorator.
     :rtype: callable(:py:class:`DeclarativeContainer`)
     """
     def _get_memo_for_matching_names(new_providers, base_providers):
@@ -864,7 +864,7 @@ def copy(object base_container):
             source_provider = base_providers[new_provider_name]
             memo[id(source_provider)] = new_provider
 
-            if hasattr(new_provider, 'providers') and hasattr(source_provider, 'providers'):
+            if hasattr(new_provider, "providers") and hasattr(source_provider, "providers"):
                 sub_memo = _get_memo_for_matching_names(new_provider.providers, source_provider.providers)
                 memo.update(sub_memo)
         return memo
@@ -892,13 +892,13 @@ cpdef bint is_container(object instance):
 
     :rtype: bool
     """
-    return getattr(instance, '__IS_CONTAINER__', False) is True
+    return getattr(instance, "__IS_CONTAINER__", False) is True
 
 
 cpdef object _check_provider_type(object container, object provider):
     if not isinstance(provider, container.provider_type):
-        raise errors.Error('{0} can contain only {1} '
-                           'instances'.format(container, container.provider_type))
+        raise errors.Error("{0} can contain only {1} "
+                           "instances".format(container, container.provider_type))
 
 
 cpdef bint _any_relative_string_imports_in(object modules):

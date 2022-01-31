@@ -110,6 +110,45 @@ attribute of the provider that you're going to inject.
 
 .. note:: Any provider has a ``.provider`` attribute.
 
+.. _factory-string-imports:
+
+String imports
+--------------
+
+``Factory`` provider can handle string imports:
+
+.. code-block:: python
+
+   class Container(containers.DeclarativeContainer):
+
+       service = providers.Factory("myapp.mypackage.mymodule.Service")
+
+You can also make a relative import:
+
+.. code-block:: python
+
+   # in myapp/container.py
+
+   class Container(containers.DeclarativeContainer):
+
+       service = providers.Factory(".mypackage.mymodule.Service")
+
+or import a member of the current module just specifying its name:
+
+.. code-block:: python
+
+   class Service:
+       ...
+
+
+   class Container(containers.DeclarativeContainer):
+
+       service = providers.Factory("Service")
+
+.. note::
+   ``Singleton``, ``Callable``, ``Resource``, and ``Coroutine`` providers handle string imports
+   the same way as a ``Factory`` provider.
+
 .. _factory-specialize-provided-type:
 
 Specializing the provided type
@@ -145,10 +184,16 @@ provider with two peculiarities:
    :lines: 3-
    :emphasize-lines: 34
 
+.. _factory-aggregate-provider:
+
 Factory aggregate
 -----------------
 
 :py:class:`FactoryAggregate` provider aggregates multiple factories.
+
+.. seealso::
+   :ref:`aggregate-provider` – it's a successor of ``FactoryAggregate`` provider that can aggregate
+   any type of provider, not only ``Factory``.
 
 The aggregated factories are associated with the string keys. When you call the
 ``FactoryAggregate`` you have to provide one of the these keys as a first argument.
@@ -163,9 +208,9 @@ The aggregated factories are associated with the string keys. When you call the
    :lines: 3-
    :emphasize-lines: 33-37,47
 
-You can get a dictionary of the aggregated factories using the ``.factories`` attribute.
-To get a game factories dictionary from the previous example you can use
-``game_factory.factories`` attribute.
+You can get a dictionary of the aggregated providers using ``.providers`` attribute.
+To get a game provider dictionary from the previous example you can use
+``game_factory.providers`` attribute.
 
 You can also access an aggregated factory as an attribute. To create the ``Chess`` object from the
 previous example you can do ``chess = game_factory.chess("John", "Jane")``.
@@ -176,7 +221,7 @@ previous example you can do ``chess = game_factory.chess("John", "Jane")``.
 .. note::
    When you inject the ``FactoryAggregate`` provider it is passed "as is".
 
-To use non-string keys or keys with ``.`` and ``-`` you can provide a dictionary as a positional argument:
+To use non-string keys or string keys with ``.`` and ``-``, you can provide a dictionary as a positional argument:
 
 .. code-block:: python
 
