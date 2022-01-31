@@ -97,3 +97,8 @@ provider8 = providers.Resource(MyResource8)
 async def _provide8() -> None:
     var1: List[int] = await provider8()  # type: ignore
     var2: List[int] = await provider8.async_()
+
+
+# Test 9: to check string imports
+provider9: providers.Resource[dict] = providers.Resource("builtins.dict")
+provider9.set_provides("builtins.dict")

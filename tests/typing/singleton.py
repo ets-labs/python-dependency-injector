@@ -89,3 +89,7 @@ provided_cls15: Type[Animal] = provider15.cls
 assert issubclass(provided_cls15, Animal)
 provided_provides15: Optional[Callable[..., Animal]] = provider15.provides
 assert provided_provides15 is not None and provided_provides15() == Cat()
+
+# Test 16: to check string imports
+provider16: providers.Singleton[dict] = providers.Singleton("builtins.dict")
+provider16.set_provides("builtins.dict")
