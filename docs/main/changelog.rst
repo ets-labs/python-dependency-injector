@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.38.0
+------
 - Add new provider ``Aggregate``. It is a generalized version of ``FactoryAggregate`` that
   can contain providers of any type, not only ``Factory``. See issue
   `#530 <https://github.com/ets-labs/python-dependency-injector/issues/530>`_. Thanks to
