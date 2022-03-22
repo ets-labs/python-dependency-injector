@@ -321,7 +321,7 @@ class InspectFilter:
     def _is_starlette_request_cls(self, instance: object) -> bool:
         return starlette \
                and isinstance(instance, type) \
-               and issubclass(instance, starlette.requests.Request)
+               and isinstance(instance, starlette.requests.Request)
 
     def _is_builtin(self, instance: object) -> bool:
         return inspect.isbuiltin(instance)
