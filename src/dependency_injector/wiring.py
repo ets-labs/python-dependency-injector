@@ -321,11 +321,11 @@ class InspectFilter:
     def _is_starlette_request_cls(self, instance: object) -> bool:
         return starlette \
                and isinstance(instance, type) \
-               and self._is_subclass(instance, starlette.requests.Request)
+               and self._safe_is_subclass(instance, starlette.requests.Request)
 
-    def _is_subclass(self, instance: type, cls: type) -> bool:
+    def _safe_is_subclass(self, instance: type, cls: type) -> bool:
         try:
-            issubclass(instance, cls)
+            return issubclass(instance, cls)
         except TypeError:
             return False
 
