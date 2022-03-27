@@ -3410,7 +3410,7 @@ cdef class List(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable call."""
-        return __provide_positional_args(args, self.__args, self.__args_len)
+        return __provide_positional_args(args, self.__args, self.__args_len, self.__async_mode)
 
 
 cdef class Dict(Provider):
@@ -3536,7 +3536,7 @@ cdef class Dict(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable call."""
-        return __provide_keyword_args(kwargs, self.__kwargs, self.__kwargs_len)
+        return __provide_keyword_args(kwargs, self.__kwargs, self.__kwargs_len, self.__async_mode)
 
 
 
@@ -3739,6 +3739,7 @@ cdef class Resource(Provider):
                 kwargs,
                 self.__kwargs,
                 self.__kwargs_len,
+                self.__async_mode,
             )
             self.__shutdowner = initializer.shutdown
         elif self._is_async_resource_subclass(self.__provides):
@@ -3751,6 +3752,7 @@ cdef class Resource(Provider):
                 kwargs,
                 self.__kwargs,
                 self.__kwargs_len,
+                self.__async_mode,
             )
             self.__initialized = True
             return self._create_init_future(async_init, initializer.shutdown)
@@ -3763,6 +3765,7 @@ cdef class Resource(Provider):
                 kwargs,
                 self.__kwargs,
                 self.__kwargs_len,
+                self.__async_mode,
             )
             self.__resource = next(initializer)
             self.__shutdowner = initializer.send
@@ -3775,6 +3778,7 @@ cdef class Resource(Provider):
                 kwargs,
                 self.__kwargs,
                 self.__kwargs_len,
+                self.__async_mode,
             )
             self.__initialized = True
             return self._create_init_future(initializer)
@@ -3787,6 +3791,7 @@ cdef class Resource(Provider):
                 kwargs,
                 self.__kwargs,
                 self.__kwargs_len,
+                self.__async_mode,
             )
             self.__initialized = True
             return self._create_async_gen_init_future(initializer)
@@ -3799,6 +3804,7 @@ cdef class Resource(Provider):
                 kwargs,
                 self.__kwargs,
                 self.__kwargs_len,
+                self.__async_mode,
             )
         else:
             raise Error("Unknown type of resource initializer")
@@ -4513,6 +4519,7 @@ cdef class MethodCaller(Provider):
             kwargs,
             self.__kwargs,
             self.__kwargs_len,
+            self.__async_mode,
         )
 
     def _async_provide(self, future_result, args, kwargs, future):
@@ -4526,6 +4533,7 @@ cdef class MethodCaller(Provider):
                 kwargs,
                 self.__kwargs,
                 self.__kwargs_len,
+                self.__async_mode,
             )
         except Exception as exception:
             future_result.set_exception(exception)

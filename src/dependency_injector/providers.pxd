@@ -10,6 +10,10 @@ import functools
 cimport cython
 
 
+cdef int ASYNC_MODE_UNDEFINED
+cdef int ASYNC_MODE_ENABLED
+cdef int ASYNC_MODE_DISABLED
+
 cdef set __iscoroutine_typecache
 cdef tuple __COROUTINE_TYPES
 
@@ -387,11 +391,13 @@ cdef inline object __provide_positional_args(
         tuple args,
         tuple inj_args,
         int inj_args_len,
+        int async_mode,
 ):
     cdef int index
     cdef list positional_args = []
     cdef list future_args = []
     cdef PositionalInjection injection
+    cdef object value
 
     if inj_args_len == 0:
         return args
@@ -401,7 +407,7 @@ cdef inline object __provide_positional_args(
         value = __get_value(injection)
         positional_args.append(value)
 
-        if __is_future_or_coroutine(value):
+        if async_mode != ASYNC_MODE_DISABLED and __is_future_or_coroutine(value):
             future_args.append((index, value))
 
     positional_args.extend(args)
@@ -418,6 +424,7 @@ cdef inline object __provide_keyword_args(
         dict kwargs,
         tuple inj_kwargs,
         int inj_kwargs_len,
+        int async_mode,
 ):
     cdef int index
     cdef object name
@@ -432,7 +439,7 @@ cdef inline object __provide_keyword_args(
             name = __get_name(kw_injection)
             value = __get_value(kw_injection)
             kwargs[name] = value
-            if __is_future_or_coroutine(value):
+            if async_mode != ASYNC_MODE_DISABLED and __is_future_or_coroutine(value):
                 future_kwargs.append((name, value))
     else:
         kwargs, prefixed = __separate_prefixed_kwargs(kwargs)
@@ -451,7 +458,7 @@ cdef inline object __provide_keyword_args(
                 value = __get_value(kw_injection)
 
             kwargs[name] = value
-            if __is_future_or_coroutine(value):
+            if async_mode != ASYNC_MODE_DISABLED and __is_future_or_coroutine(value):
                 future_kwargs.append((name, value))
 
     if future_kwargs:
@@ -554,17 +561,23 @@ cdef inline object __call(
         dict context_kwargs,
         tuple injection_kwargs,
         int injection_kwargs_len,
+        int async_mode,
 ):
     cdef object args = __provide_positional_args(
         context_args,
         injection_args,
         injection_args_len,
+        async_mode,
     )
     cdef object kwargs = __provide_keyword_args(
         context_kwargs,
         injection_kwargs,
         injection_kwargs_len,
+        async_mode,
     )
+
+    if async_mode == ASYNC_MODE_DISABLED:
+        return call(*args, **kwargs)
 
     cdef bint is_future_args = __is_future_or_coroutine(args)
     cdef bint is_future_kwargs = __is_future_or_coroutine(kwargs)
@@ -613,7 +626,7 @@ cdef inline object __async_result_callback(object future_result, object future):
         future_result.set_result(result)
 
 
-cdef inline object __callable_call(Callable self, tuple args, dict kwargs):
+cdef inline object __callable_call(Callable self, tuple args, dict kwargs, ):
     return __call(
         self.__provides,
         args,
@@ -622,13 +635,23 @@ cdef inline object __callable_call(Callable self, tuple args, dict kwargs):
         kwargs,
         self.__kwargs,
         self.__kwargs_len,
+        self.__async_mode,
     )
 
 
 cdef inline object __factory_call(Factory self, tuple args, dict kwargs):
     cdef object instance
 
-    instance = __callable_call(self.__instantiator, args, kwargs)
+    instance = __call(
+        self.__instantiator.__provides,
+        args,
+        self.__instantiator.__args,
+        self.__instantiator.__args_len,
+        kwargs,
+        self.__instantiator.__kwargs,
+        self.__instantiator.__kwargs_len,
+        self.__async_mode,
+    )
 
     if self.__attributes_len > 0:
         attributes = __provide_attributes(self.__attributes, self.__attributes_len)
