@@ -321,13 +321,7 @@ class InspectFilter:
     def _is_starlette_request_cls(self, instance: object) -> bool:
         return starlette \
                and isinstance(instance, type) \
-               and self._safe_is_subclass(instance, starlette.requests.Request)
-
-    def _safe_is_subclass(self, instance: type, cls: type) -> bool:
-        try:
-            return issubclass(instance, cls)
-        except TypeError:
-            return False
+               and _safe_is_subclass(instance, starlette.requests.Request)
 
     def _is_builtin(self, instance: object) -> bool:
         return inspect.isbuiltin(instance)
@@ -683,6 +677,13 @@ def _is_declarative_container(instance: Any) -> bool:
     return (isinstance(instance, type)
             and getattr(instance, "__IS_CONTAINER__", False) is True
             and getattr(instance, "declarative_parent", None) is None)
+
+
+def _safe_is_subclass(instance: Any, cls: Type) -> bool:
+    try:
+        return issubclass(instance, cls)
+    except TypeError:
+        return False
 
 
 class Modifier:
