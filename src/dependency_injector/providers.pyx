@@ -145,6 +145,9 @@ cdef int ASYNC_MODE_UNDEFINED = 0
 cdef int ASYNC_MODE_ENABLED = 1
 cdef int ASYNC_MODE_DISABLED = 2
 
+cdef set __iscoroutine_typecache = set()
+cdef tuple __COROUTINE_TYPES = asyncio.coroutines._COROUTINE_TYPES if asyncio else tuple()
+
 
 cdef class Provider(object):
     """Base provider class.
@@ -220,13 +223,13 @@ cdef class Provider(object):
         else:
             result = self._provide(args, kwargs)
 
-        if self.is_async_mode_disabled():
+        if self.__async_mode == ASYNC_MODE_DISABLED:
             return result
-        elif self.is_async_mode_enabled():
+        elif self.__async_mode == ASYNC_MODE_ENABLED:
             if __is_future_or_coroutine(result):
                 return result
             return __future_result(result)
-        elif self.is_async_mode_undefined():
+        elif self.__async_mode == ASYNC_MODE_UNDEFINED:
             if __is_future_or_coroutine(result):
                 self.enable_async_mode()
             else:

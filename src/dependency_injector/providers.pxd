@@ -10,6 +10,10 @@ import functools
 cimport cython
 
 
+cdef set __iscoroutine_typecache
+cdef tuple __COROUTINE_TYPES
+
+
 # Base providers
 cdef class Provider(object):
     cdef tuple __overridden
@@ -551,19 +555,19 @@ cdef inline object __call(
         tuple injection_kwargs,
         int injection_kwargs_len,
 ):
-    args = __provide_positional_args(
+    cdef object args = __provide_positional_args(
         context_args,
         injection_args,
         injection_args_len,
     )
-    kwargs = __provide_keyword_args(
+    cdef object kwargs = __provide_keyword_args(
         context_kwargs,
         injection_kwargs,
         injection_kwargs_len,
     )
 
-    is_future_args = __is_future_or_coroutine(args)
-    is_future_kwargs = __is_future_or_coroutine(kwargs)
+    cdef bint is_future_args = __is_future_or_coroutine(args)
+    cdef bint is_future_kwargs = __is_future_or_coroutine(kwargs)
 
     if is_future_args or is_future_kwargs:
         future_args = args if is_future_args else __future_result(args)
@@ -643,9 +647,26 @@ cdef inline object __factory_call(Factory self, tuple args, dict kwargs):
 
 
 cdef inline bint __is_future_or_coroutine(object instance):
-    if asyncio is None:
+    return __isfuture(instance) or __iscoroutine(instance)
+
+
+cdef inline bint __isfuture(object obj):
+    return hasattr(obj.__class__, "_asyncio_future_blocking") and obj._asyncio_future_blocking is not None
+
+
+cdef inline bint __iscoroutine(object obj):
+    if type(obj) in __iscoroutine_typecache:
+        return True
+
+    if isinstance(obj, __COROUTINE_TYPES):
+        # Just in case we don't want to cache more than 100
+        # positive types.  That shouldn't ever happen, unless
+        # someone stressing the system on purpose.
+        if len(__iscoroutine_typecache) < 100:
+            __iscoroutine_typecache.add(type(obj))
+        return True
+    else:
         return False
-    return asyncio.isfuture(instance) or asyncio.iscoroutine(instance)
 
 
 cdef inline object __future_result(object instance):

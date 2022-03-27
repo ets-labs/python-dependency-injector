@@ -600,27 +600,29 @@ def _get_patched(fn, reference_injections, reference_closing):
     return patched
 
 
-def _get_sync_patched(fn):
-    @functools.wraps(fn)
-    def _patched(*args, **kwargs):
-        to_inject = kwargs.copy()
-        for injection, provider in _patched.__injections__.items():
-            if injection not in kwargs \
-                    or _is_fastapi_default_arg_injection(injection, kwargs):
-                to_inject[injection] = provider()
+from ._cwiring import _get_sync_patched
 
-        result = fn(*args, **to_inject)
-
-        for injection, provider in _patched.__closing__.items():
-            if injection in kwargs \
-                    and not _is_fastapi_default_arg_injection(injection, kwargs):
-                continue
-            if not isinstance(provider, providers.Resource):
-                continue
-            provider.shutdown()
-
-        return result
-    return _patched
+# def _get_sync_patched(fn):
+#     @functools.wraps(fn)
+#     def _patched(*args, **kwargs):
+#         to_inject = kwargs.copy()
+#         for injection, provider in _patched.__injections__.items():
+#             if injection not in kwargs \
+#                     or _is_fastapi_default_arg_injection(injection, kwargs):
+#                 to_inject[injection] = provider()
+#
+#         result = fn(*args, **to_inject)
+#
+#         for injection, provider in _patched.__closing__.items():
+#             if injection in kwargs \
+#                     and not _is_fastapi_default_arg_injection(injection, kwargs):
+#                 continue
+#             if not isinstance(provider, providers.Resource):
+#                 continue
+#             provider.shutdown()
+#
+#         return result
+#     return _patched
 
 
 def _get_async_patched(fn):
@@ -827,6 +829,8 @@ class ClassGetItemMeta(GenericMeta):
 
 
 class _Marker(Generic[T], metaclass=ClassGetItemMeta):
+
+    __IS_MARKER__ = True
 
     def __init__(
             self,
