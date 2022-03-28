@@ -58,7 +58,6 @@ except ImportError:
 
 from . import providers
 
-
 if sys.version_info[:2] == (3, 5):
     warnings.warn(
         "Dependency Injector will drop support of Python 3.5 after Jan 1st of 2022. "
@@ -600,31 +599,6 @@ def _get_patched(fn, reference_injections, reference_closing):
     return patched
 
 
-from ._cwiring import _get_sync_patched
-
-# def _get_sync_patched(fn):
-#     @functools.wraps(fn)
-#     def _patched(*args, **kwargs):
-#         to_inject = kwargs.copy()
-#         for injection, provider in _patched.__injections__.items():
-#             if injection not in kwargs \
-#                     or _is_fastapi_default_arg_injection(injection, kwargs):
-#                 to_inject[injection] = provider()
-#
-#         result = fn(*args, **to_inject)
-#
-#         for injection, provider in _patched.__closing__.items():
-#             if injection in kwargs \
-#                     and not _is_fastapi_default_arg_injection(injection, kwargs):
-#                 continue
-#             if not isinstance(provider, providers.Resource):
-#                 continue
-#             provider.shutdown()
-#
-#         return result
-#     return _patched
-
-
 def _get_async_patched(fn):
     @functools.wraps(fn)
     async def _patched(*args, **kwargs):
@@ -962,3 +936,6 @@ def is_loader_installed() -> bool:
 _patched_registry = PatchedRegistry()
 _inspect_filter = InspectFilter()
 _loader = AutoLoader()
+
+# Optimizations
+from ._cwiring import _get_sync_patched  # noqa

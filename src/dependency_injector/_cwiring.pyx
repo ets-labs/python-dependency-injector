@@ -6,6 +6,7 @@ import sys
 import types
 
 from . import providers
+from .wiring import _Marker
 
 
 if sys.version_info[0] == 3:  # pragma: no cover
@@ -22,7 +23,10 @@ else:  # pragma: no cover
 def _get_sync_patched(fn):
     @functools.wraps(fn)
     def _patched(*args, **kwargs):
-        cdef dict to_inject = kwargs.copy()
+        cdef object result
+        cdef dict to_inject
+
+        to_inject = kwargs.copy()
         for injection, provider in _patched.__injections__.items():
             if injection not in kwargs \
                     or _is_fastapi_default_arg_injection(injection, kwargs):
@@ -30,13 +34,14 @@ def _get_sync_patched(fn):
 
         result = fn(*args, **to_inject)
 
-        for injection, provider in _patched.__closing__.items():
-            if injection in kwargs \
-                    and not _is_fastapi_default_arg_injection(injection, kwargs):
-                continue
-            if not isinstance(provider, providers.Resource):
-                continue
-            provider.shutdown()
+        if _patched.__closing__:
+            for injection, provider in _patched.__closing__.items():
+                if injection in kwargs \
+                        and not _is_fastapi_default_arg_injection(injection, kwargs):
+                    continue
+                if not isinstance(provider, providers.Resource):
+                    continue
+                provider.shutdown()
 
         return result
     return _patched
@@ -44,8 +49,4 @@ def _get_sync_patched(fn):
 
 cdef bint _is_fastapi_default_arg_injection(object injection, dict kwargs):
     """Check if injection is FastAPI injection of the default argument."""
-    return injection in kwargs and _is_marker(kwargs[injection])
-
-
-cdef bint _is_marker(object instance):
-    return getattr(instance, "__IS_MARKER__", False) is True
+    return injection in kwargs and isinstance(kwargs[injection], _Marker)
