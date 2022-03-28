@@ -813,10 +813,10 @@ cdef class Dependency(Provider):
         else:
             self._raise_undefined_error()
 
-        if self.is_async_mode_disabled():
+        if self.__async_mode == ASYNC_MODE_DISABLED:
             self._check_instance_type(result)
             return result
-        elif self.is_async_mode_enabled():
+        elif self.__async_mode == ASYNC_MODE_ENABLED:
             if __is_future_or_coroutine(result):
                 future_result = asyncio.Future()
                 result = asyncio.ensure_future(result)
@@ -825,7 +825,7 @@ cdef class Dependency(Provider):
             else:
                 self._check_instance_type(result)
                 return __future_result(result)
-        elif self.is_async_mode_undefined():
+        elif self.__async_mode == ASYNC_MODE_UNDEFINED:
             if __is_future_or_coroutine(result):
                 self.enable_async_mode()
 
@@ -3693,7 +3693,7 @@ cdef class Resource(Provider):
     def shutdown(self):
         """Shutdown resource."""
         if not self.__initialized:
-            if self.is_async_mode_enabled():
+            if self.__async_mode == ASYNC_MODE_ENABLED:
                 result = asyncio.Future()
                 result.set_result(None)
                 return result
@@ -3712,7 +3712,7 @@ cdef class Resource(Provider):
         self.__initialized = False
         self.__shutdowner = None
 
-        if self.is_async_mode_enabled():
+        if self.__async_mode == ASYNC_MODE_ENABLED:
             result = asyncio.Future()
             result.set_result(None)
             return result
