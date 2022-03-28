@@ -1,7 +1,5 @@
 """Wiring module."""
 
-import asyncio
-import functools
 import inspect
 import importlib
 import importlib.machinery
