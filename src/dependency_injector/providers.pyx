@@ -145,6 +145,9 @@ cdef int ASYNC_MODE_UNDEFINED = 0
 cdef int ASYNC_MODE_ENABLED = 1
 cdef int ASYNC_MODE_DISABLED = 2
 
+cdef set __iscoroutine_typecache = set()
+cdef tuple __COROUTINE_TYPES = asyncio.coroutines._COROUTINE_TYPES if asyncio else tuple()
+
 
 cdef class Provider(object):
     """Base provider class.
@@ -220,13 +223,13 @@ cdef class Provider(object):
         else:
             result = self._provide(args, kwargs)
 
-        if self.is_async_mode_disabled():
+        if self.__async_mode == ASYNC_MODE_DISABLED:
             return result
-        elif self.is_async_mode_enabled():
+        elif self.__async_mode == ASYNC_MODE_ENABLED:
             if __is_future_or_coroutine(result):
                 return result
             return __future_result(result)
-        elif self.is_async_mode_undefined():
+        elif self.__async_mode == ASYNC_MODE_UNDEFINED:
             if __is_future_or_coroutine(result):
                 self.enable_async_mode()
             else:
@@ -810,10 +813,10 @@ cdef class Dependency(Provider):
         else:
             self._raise_undefined_error()
 
-        if self.is_async_mode_disabled():
+        if self.__async_mode == ASYNC_MODE_DISABLED:
             self._check_instance_type(result)
             return result
-        elif self.is_async_mode_enabled():
+        elif self.__async_mode == ASYNC_MODE_ENABLED:
             if __is_future_or_coroutine(result):
                 future_result = asyncio.Future()
                 result = asyncio.ensure_future(result)
@@ -822,7 +825,7 @@ cdef class Dependency(Provider):
             else:
                 self._check_instance_type(result)
                 return __future_result(result)
-        elif self.is_async_mode_undefined():
+        elif self.__async_mode == ASYNC_MODE_UNDEFINED:
             if __is_future_or_coroutine(result):
                 self.enable_async_mode()
 
@@ -3407,7 +3410,7 @@ cdef class List(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable call."""
-        return __provide_positional_args(args, self.__args, self.__args_len)
+        return __provide_positional_args(args, self.__args, self.__args_len, self.__async_mode)
 
 
 cdef class Dict(Provider):
@@ -3533,7 +3536,7 @@ cdef class Dict(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable call."""
-        return __provide_keyword_args(kwargs, self.__kwargs, self.__kwargs_len)
+        return __provide_keyword_args(kwargs, self.__kwargs, self.__kwargs_len, self.__async_mode)
 
 
 
@@ -3690,7 +3693,7 @@ cdef class Resource(Provider):
     def shutdown(self):
         """Shutdown resource."""
         if not self.__initialized:
-            if self.is_async_mode_enabled():
+            if self.__async_mode == ASYNC_MODE_ENABLED:
                 result = asyncio.Future()
                 result.set_result(None)
                 return result
@@ -3709,7 +3712,7 @@ cdef class Resource(Provider):
         self.__initialized = False
         self.__shutdowner = None
 
-        if self.is_async_mode_enabled():
+        if self.__async_mode == ASYNC_MODE_ENABLED:
             result = asyncio.Future()
             result.set_result(None)
             return result
@@ -3736,6 +3739,7 @@ cdef class Resource(Provider):
                 kwargs,
                 self.__kwargs,
                 self.__kwargs_len,
+                self.__async_mode,
             )
             self.__shutdowner = initializer.shutdown
         elif self._is_async_resource_subclass(self.__provides):
@@ -3748,6 +3752,7 @@ cdef class Resource(Provider):
                 kwargs,
                 self.__kwargs,
                 self.__kwargs_len,
+                self.__async_mode,
             )
             self.__initialized = True
             return self._create_init_future(async_init, initializer.shutdown)
@@ -3760,6 +3765,7 @@ cdef class Resource(Provider):
                 kwargs,
                 self.__kwargs,
                 self.__kwargs_len,
+                self.__async_mode,
             )
             self.__resource = next(initializer)
             self.__shutdowner = initializer.send
@@ -3772,6 +3778,7 @@ cdef class Resource(Provider):
                 kwargs,
                 self.__kwargs,
                 self.__kwargs_len,
+                self.__async_mode,
             )
             self.__initialized = True
             return self._create_init_future(initializer)
@@ -3784,6 +3791,7 @@ cdef class Resource(Provider):
                 kwargs,
                 self.__kwargs,
                 self.__kwargs_len,
+                self.__async_mode,
             )
             self.__initialized = True
             return self._create_async_gen_init_future(initializer)
@@ -3796,6 +3804,7 @@ cdef class Resource(Provider):
                 kwargs,
                 self.__kwargs,
                 self.__kwargs_len,
+                self.__async_mode,
             )
         else:
             raise Error("Unknown type of resource initializer")
@@ -4510,6 +4519,7 @@ cdef class MethodCaller(Provider):
             kwargs,
             self.__kwargs,
             self.__kwargs_len,
+            self.__async_mode,
         )
 
     def _async_provide(self, future_result, args, kwargs, future):
@@ -4523,6 +4533,7 @@ cdef class MethodCaller(Provider):
                 kwargs,
                 self.__kwargs,
                 self.__kwargs_len,
+                self.__async_mode,
             )
         except Exception as exception:
             future_result.set_exception(exception)

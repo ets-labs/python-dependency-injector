@@ -1,4 +1,4 @@
-"""Auto loader tests."""
+"""Autoloader tests."""
 
 import contextlib
 import importlib
