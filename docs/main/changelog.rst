@@ -7,9 +7,9 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Develop
--------
-- Optimize synchronous and asynchronous injections and wiring from x1.5 to x7 times depending on the use case.
+4.39.0
+------
+- Optimize injections and wiring from x1.5 to x7 times depending on the use case.
 - Fix bug `#569 <https://github.com/ets-labs/python-dependency-injector/issues/569>`_:
   "numpy.typing.NDArray breaks wiring". Thanks to
   `@VKFisher (Vlad Fisher) <https://github.com/VKFisher>`_ for reporting the issue and providing a fix.
