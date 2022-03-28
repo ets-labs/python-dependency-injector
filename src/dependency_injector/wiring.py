@@ -1,7 +1,5 @@
 """Wiring module."""
 
-import asyncio
-import functools
 import inspect
 import importlib
 import importlib.machinery
@@ -57,7 +55,6 @@ except ImportError:
 
 
 from . import providers
-
 
 if sys.version_info[:2] == (3, 5):
     warnings.warn(
@@ -600,71 +597,6 @@ def _get_patched(fn, reference_injections, reference_closing):
     return patched
 
 
-def _get_sync_patched(fn):
-    @functools.wraps(fn)
-    def _patched(*args, **kwargs):
-        to_inject = kwargs.copy()
-        for injection, provider in _patched.__injections__.items():
-            if injection not in kwargs \
-                    or _is_fastapi_default_arg_injection(injection, kwargs):
-                to_inject[injection] = provider()
-
-        result = fn(*args, **to_inject)
-
-        for injection, provider in _patched.__closing__.items():
-            if injection in kwargs \
-                    and not _is_fastapi_default_arg_injection(injection, kwargs):
-                continue
-            if not isinstance(provider, providers.Resource):
-                continue
-            provider.shutdown()
-
-        return result
-    return _patched
-
-
-def _get_async_patched(fn):
-    @functools.wraps(fn)
-    async def _patched(*args, **kwargs):
-        to_inject = kwargs.copy()
-        to_inject_await = []
-        to_close_await = []
-        for injection, provider in _patched.__injections__.items():
-            if injection not in kwargs \
-                    or _is_fastapi_default_arg_injection(injection, kwargs):
-                provide = provider()
-                if inspect.isawaitable(provide):
-                    to_inject_await.append((injection, provide))
-                else:
-                    to_inject[injection] = provide
-
-        async_to_inject = await asyncio.gather(*[provide for _, provide in to_inject_await])
-        for provide, (injection, _) in zip(async_to_inject, to_inject_await):
-            to_inject[injection] = provide
-
-        result = await fn(*args, **to_inject)
-
-        for injection, provider in _patched.__closing__.items():
-            if injection in kwargs \
-                    and not _is_fastapi_default_arg_injection(injection, kwargs):
-                continue
-            if not isinstance(provider, providers.Resource):
-                continue
-            shutdown = provider.shutdown()
-            if inspect.isawaitable(shutdown):
-                to_close_await.append(shutdown)
-
-        await asyncio.gather(*to_close_await)
-
-        return result
-    return _patched
-
-
-def _is_fastapi_default_arg_injection(injection, kwargs):
-    """Check if injection is FastAPI injection of the default argument."""
-    return injection in kwargs and isinstance(kwargs[injection], _Marker)
-
-
 def _is_fastapi_depends(param: Any) -> bool:
     return fastapi and isinstance(param, fastapi.params.Depends)
 
@@ -828,6 +760,8 @@ class ClassGetItemMeta(GenericMeta):
 
 class _Marker(Generic[T], metaclass=ClassGetItemMeta):
 
+    __IS_MARKER__ = True
+
     def __init__(
             self,
             provider: Union[providers.Provider, Container, str],
@@ -958,3 +892,7 @@ def is_loader_installed() -> bool:
 _patched_registry = PatchedRegistry()
 _inspect_filter = InspectFilter()
 _loader = AutoLoader()
+
+# Optimizations
+from ._cwiring import _get_sync_patched  # noqa
+from ._cwiring import _get_async_patched  # noqa
