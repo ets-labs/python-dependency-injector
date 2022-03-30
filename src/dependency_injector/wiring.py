@@ -1,5 +1,5 @@
 """Wiring module."""
-
+import functools
 import inspect
 import importlib
 import importlib.machinery
@@ -895,4 +895,19 @@ _loader = AutoLoader()
 
 # Optimizations
 from ._cwiring import _get_sync_patched  # noqa
-from ._cwiring import _get_async_patched  # noqa
+from ._cwiring import _async_inject  # noqa
+
+
+# Wiring uses the following Python wrapper because there is
+# no possibility to compile a first-type citizen coroutine in Cython.
+def _get_async_patched(fn):
+    @functools.wraps(fn)
+    async def _patched(*args, **kwargs):
+        return await _async_inject(
+            fn,
+            args,
+            kwargs,
+            _patched.__injections__,
+            _patched.__closing__,
+        )
+    return _patched

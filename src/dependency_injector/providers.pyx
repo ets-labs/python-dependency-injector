@@ -406,15 +406,15 @@ cdef class Provider(object):
         """
         self.__async_mode = ASYNC_MODE_UNDEFINED
 
-    def is_async_mode_enabled(self):
+    cpdef bint is_async_mode_enabled(self):
         """Check if async mode is enabled."""
         return self.__async_mode == ASYNC_MODE_ENABLED
 
-    def is_async_mode_disabled(self):
+    cpdef bint is_async_mode_disabled(self):
         """Check if async mode is disabled."""
         return self.__async_mode == ASYNC_MODE_DISABLED
 
-    def is_async_mode_undefined(self):
+    cpdef bint is_async_mode_undefined(self):
         """Check if async mode is undefined."""
         return self.__async_mode == ASYNC_MODE_UNDEFINED
 

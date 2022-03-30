@@ -25,6 +25,10 @@ cdef class Provider(object):
     cdef tuple __overrides
     cdef int __async_mode
 
+    cpdef bint is_async_mode_enabled(self)
+    cpdef bint is_async_mode_disabled(self)
+    cpdef bint is_async_mode_undefined(self)
+
     cpdef object _provide(self, tuple args, dict kwargs)
     cpdef void _copy_overridings(self, Provider copied, dict memo)
 
