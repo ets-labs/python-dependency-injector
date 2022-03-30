@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.39.1
+------
+- Fix bug `#574 <https://github.com/ets-labs/python-dependency-injector/issues/574>`_:
+  "``@inject`` breaks ``inspect.iscoroutinefunction``". Thanks to
+  `@burritoatspoton (Rafał Burczyński) <https://github.com/burritoatspoton>`_ for reporting the issue.
+
 4.39.0
 ------
 - Optimize injections and wiring from x1.5 to x7 times depending on the use case.

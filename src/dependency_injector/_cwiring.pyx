@@ -9,23 +9,27 @@ import types
 from . import providers
 from .wiring import _Marker
 
+from .providers cimport Provider
+
 
 def _get_sync_patched(fn):
     @functools.wraps(fn)
     def _patched(*args, **kwargs):
         cdef object result
         cdef dict to_inject
+        cdef object arg_key
+        cdef Provider provider
 
         to_inject = kwargs.copy()
-        for injection, provider in _patched.__injections__.items():
-            if injection not in kwargs or isinstance(kwargs[injection], _Marker):
-                to_inject[injection] = provider()
+        for arg_key, provider in _patched.__injections__.items():
+            if arg_key not in kwargs or isinstance(kwargs[arg_key], _Marker):
+                to_inject[arg_key] = provider()
 
         result = fn(*args, **to_inject)
 
         if _patched.__closing__:
-            for injection, provider in _patched.__closing__.items():
-                if injection in kwargs and not isinstance(kwargs[injection], _Marker):
+            for arg_key, provider in _patched.__closing__.items():
+                if arg_key in kwargs and not isinstance(kwargs[arg_key], _Marker):
                     continue
                 if not isinstance(provider, providers.Resource):
                     continue
@@ -35,49 +39,45 @@ def _get_sync_patched(fn):
     return _patched
 
 
-def _get_async_patched(fn):
-    @functools.wraps(fn)
-    async def _patched(*args, **kwargs):
-        cdef object result
-        cdef dict to_inject
-        cdef list to_inject_await = []
-        cdef list to_close_await = []
+async def _async_inject(object fn, tuple args, dict kwargs, dict injections, dict closings):
+    cdef object result
+    cdef dict to_inject
+    cdef list to_inject_await = []
+    cdef list to_close_await = []
+    cdef object arg_key
+    cdef Provider provider
 
-        to_inject = kwargs.copy()
-        for injection, provider in _patched.__injections__.items():
-            if injection not in kwargs or isinstance(kwargs[injection], _Marker):
-                provide = provider()
-                if _isawaitable(provide):
-                    to_inject_await.append((injection, provide))
-                else:
-                    to_inject[injection] = provide
+    to_inject = kwargs.copy()
+    for arg_key, provider in injections.items():
+        if arg_key not in kwargs or isinstance(kwargs[arg_key], _Marker):
+            provide = provider()
+            if provider.is_async_mode_enabled():
+                to_inject_await.append((arg_key, provide))
+            elif _isawaitable(provide):
+                to_inject_await.append((arg_key, provide))
+            else:
+                to_inject[arg_key] = provide
 
-        if to_inject_await:
-            async_to_inject = await asyncio.gather(*(provide for _, provide in to_inject_await))
-            for provide, (injection, _) in zip(async_to_inject, to_inject_await):
-                to_inject[injection] = provide
+    if to_inject_await:
+        async_to_inject = await asyncio.gather(*(provide for _, provide in to_inject_await))
+        for provide, (injection, _) in zip(async_to_inject, to_inject_await):
+            to_inject[injection] = provide
 
-        result = await fn(*args, **to_inject)
+    result = await fn(*args, **to_inject)
 
-        if _patched.__closing__:
-            for injection, provider in _patched.__closing__.items():
-                if injection in kwargs \
-                        and isinstance(kwargs[injection], _Marker):
-                    continue
-                if not isinstance(provider, providers.Resource):
-                    continue
-                shutdown = provider.shutdown()
-                if _isawaitable(shutdown):
-                    to_close_await.append(shutdown)
+    if closings:
+        for arg_key, provider in closings.items():
+            if arg_key in kwargs and isinstance(kwargs[arg_key], _Marker):
+                continue
+            if not isinstance(provider, providers.Resource):
+                continue
+            shutdown = provider.shutdown()
+            if _isawaitable(shutdown):
+                to_close_await.append(shutdown)
 
-            await asyncio.gather(*to_close_await)
+        await asyncio.gather(*to_close_await)
 
-        return result
-
-    # Hotfix for iscoroutinefunction() for Cython < 3.0.0; can be removed after migration to Cython 3.0.0+
-    _patched._is_coroutine = asyncio.coroutines._is_coroutine
-
-    return _patched
+    return result
 
 
 cdef bint _isawaitable(object instance):
