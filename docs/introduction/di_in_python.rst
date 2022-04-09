@@ -66,14 +66,14 @@ Before:
 
    class ApiClient:
 
-       def __init__(self):
+       def __init__(self) -> None:
            self.api_key = os.getenv("API_KEY")  # <-- dependency
            self.timeout = int(os.getenv("TIMEOUT"))  # <-- dependency
 
 
    class Service:
 
-       def __init__(self):
+       def __init__(self) -> None:
            self.api_client = ApiClient()  # <-- dependency
 
 
@@ -94,18 +94,18 @@ After:
 
    class ApiClient:
 
-       def __init__(self, api_key: str, timeout: int):
+       def __init__(self, api_key: str, timeout: int) -> None:
            self.api_key = api_key  # <-- dependency is injected
            self.timeout = timeout  # <-- dependency is injected
 
 
    class Service:
 
-       def __init__(self, api_client: ApiClient):
+       def __init__(self, api_client: ApiClient) -> None:
            self.api_client = api_client  # <-- dependency is injected
 
 
-   def main(service: Service):  # <-- dependency is injected
+   def main(service: Service) -> None:  # <-- dependency is injected
        ...
 
 
@@ -182,7 +182,7 @@ the dependency.
 
 
    @inject
-   def main(service: Service = Provide[Container.service]):
+   def main(service: Service = Provide[Container.service]) -> None:
        ...
 
 
