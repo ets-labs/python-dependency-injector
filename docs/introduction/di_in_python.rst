@@ -68,7 +68,7 @@ Before:
 
        def __init__(self):
            self.api_key = os.getenv("API_KEY")  # <-- dependency
-           self.timeout = os.getenv("TIMEOUT")  # <-- dependency
+           self.timeout = int(os.getenv("TIMEOUT"))  # <-- dependency
 
 
    class Service:
@@ -114,7 +114,7 @@ After:
            service=Service(
                api_client=ApiClient(
                    api_key=os.getenv("API_KEY"),
-                   timeout=os.getenv("TIMEOUT"),
+                   timeout=int(os.getenv("TIMEOUT")),
                ),
            ),
        )
@@ -137,7 +137,7 @@ Now you need to assemble and inject the objects like this:
        service=Service(
            api_client=ApiClient(
                api_key=os.getenv("API_KEY"),
-               timeout=os.getenv("TIMEOUT"),
+               timeout=int(os.getenv("TIMEOUT")),
            ),
        ),
    )
