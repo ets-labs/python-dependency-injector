@@ -49,7 +49,8 @@ Coupling and cohesion are about how tough the components are tied.
 - **High cohesion**. High cohesion is like using the screws. Very easy to disassemble and
   assemble back or assemble a different way. It is an opposite to high coupling.
 
-High cohesion often correlates with loose coupling, and vice versa.
+Cohesion often correlates with coupling. Higher cohesion usually leads to lower coupling, and vice
+versa.
 
 Low coupling brings a flexibility. Your code becomes easier to change and test.
 
