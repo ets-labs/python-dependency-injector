@@ -23,7 +23,7 @@ class Container(containers.DeclarativeContainer):
 
 
 @inject
-def main(service: Service = Provide[Container.service]):
+def main(service: Service = Provide[Container.service]) -> None:
     ...
 
 
