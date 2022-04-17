@@ -7,8 +7,8 @@ Introduction
                  overview of the dependency injection, inversion of
                  control and Dependency Injector framework.
 
-Current section of the documentation provides an overview of the
-dependency injection, inversion of control and the ``Dependency Injector`` framework.
+The current section of the documentation provides an overview of the
+dependency injection, inversion of control, and the ``Dependency Injector`` framework.
 
 ..  toctree::
     :maxdepth: 2

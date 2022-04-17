@@ -11,10 +11,10 @@ Key features
 Key features of the ``Dependency Injector``:
 
 - **Providers**. Provides ``Factory``, ``Singleton``, ``Callable``, ``Coroutine``, ``Object``,
-  ``List``, ``Dict``, ``Configuration``, ``Resource``, ``Dependency`` and ``Selector`` providers
-  that help assembling your objects. See :ref:`providers`.
+  ``List``, ``Dict``, ``Configuration``, ``Resource``, ``Dependency``, and ``Selector`` providers
+  that help assemble your objects. See :ref:`providers`.
 - **Overriding**. Can override any provider by another provider on the fly. This helps in testing
-  and configuring dev / stage environment to replace API clients with stubs etc. See
+  and configuring dev/stage environment to replace API clients with stubs etc. See
   :ref:`provider-overriding`.
 - **Configuration**. Reads configuration from ``yaml`` & ``ini`` files, ``pydantic`` settings,
   environment variables, and dictionaries. See :ref:`configuration-provider`.
@@ -22,12 +22,12 @@ Key features of the ``Dependency Injector``:
   or process pool, etc. Can be used for per-function execution scope in tandem with wiring.
   See :ref:`resource-provider`.
 - **Containers**. Provides declarative and dynamic containers. See :ref:`containers`.
-- **Wiring**. Injects dependencies into functions and methods. Helps integrating with
+- **Wiring**. Injects dependencies into functions and methods. Helps integrate with
   other frameworks: Django, Flask, Aiohttp, Sanic, FastAPI, etc. See :ref:`wiring`.
 - **Asynchronous**. Supports asynchronous injections. See :ref:`async-injections`.
 - **Typing**. Provides typing stubs, ``mypy``-friendly. See :ref:`provider-typing`.
 - **Performance**. Fast. Written in ``Cython``.
-- **Maturity**. Mature and production-ready. Well-tested, documented and supported.
+- **Maturity**. Mature and production-ready. Well-tested, documented, and supported.
 
 The framework stands on the `PEP20 (The Zen of Python) <https://www.python.org/dev/peps/pep-0020/>`_ principle:
 
@@ -37,7 +37,7 @@ The framework stands on the `PEP20 (The Zen of Python) <https://www.python.org/d
 
 You need to specify how to assemble and where to inject the dependencies explicitly.
 
-The power of the framework is in a simplicity.
+The power of the framework is in its simplicity.
 ``Dependency Injector`` is a simple tool for the powerful concept.
 
 .. disqus::

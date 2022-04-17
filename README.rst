@@ -48,26 +48,26 @@ What is ``Dependency Injector``?
 
 ``Dependency Injector`` is a dependency injection framework for Python.
 
-It helps implementing the dependency injection principle.
+It helps implement the dependency injection principle.
 
 Key features of the ``Dependency Injector``:
 
 - **Providers**. Provides ``Factory``, ``Singleton``, ``Callable``, ``Coroutine``, ``Object``,
-  ``List``, ``Dict``, ``Configuration``, ``Resource``, ``Dependency`` and ``Selector`` providers
-  that help assembling your objects.
+  ``List``, ``Dict``, ``Configuration``, ``Resource``, ``Dependency``, and ``Selector`` providers
+  that help assemble your objects.
   See `Providers <https://python-dependency-injector.ets-labs.org/providers/index.html>`_.
 - **Overriding**. Can override any provider by another provider on the fly. This helps in testing
-  and configuring dev / stage environment to replace API clients with stubs etc. See
+  and configuring dev/stage environment to replace API clients with stubs etc. See
   `Provider overriding <https://python-dependency-injector.ets-labs.org/providers/overriding.html>`_.
 - **Configuration**. Reads configuration from ``yaml`` & ``ini`` files, ``pydantic`` settings,
   environment variables, and dictionaries.
   See `Configuration provider <https://python-dependency-injector.ets-labs.org/providers/configuration.html>`_.
-- **Containers**. Provides declarative and dynamic containers.
-  See `Containers <https://python-dependency-injector.ets-labs.org/containers/index.html>`_.
 - **Resources**. Helps with initialization and configuring of logging, event loop, thread
   or process pool, etc. Can be used for per-function execution scope in tandem with wiring.
   See `Resource provider <https://python-dependency-injector.ets-labs.org/providers/resource.html>`_.
-- **Wiring**. Injects dependencies into functions and methods. Helps integrating with
+- **Containers**. Provides declarative and dynamic containers.
+  See `Containers <https://python-dependency-injector.ets-labs.org/containers/index.html>`_.
+- **Wiring**. Injects dependencies into functions and methods. Helps integrate with
   other frameworks: Django, Flask, Aiohttp, Sanic, FastAPI, etc.
   See `Wiring <https://python-dependency-injector.ets-labs.org/wiring.html>`_.
 - **Asynchronous**. Supports asynchronous injections.
@@ -75,7 +75,7 @@ Key features of the ``Dependency Injector``:
 - **Typing**. Provides typing stubs, ``mypy``-friendly.
   See `Typing and mypy <https://python-dependency-injector.ets-labs.org/providers/typing_mypy.html>`_.
 - **Performance**. Fast. Written in ``Cython``.
-- **Maturity**. Mature and production-ready. Well-tested, documented and supported.
+- **Maturity**. Mature and production-ready. Well-tested, documented, and supported.
 
 .. code-block:: python
 
@@ -115,19 +115,18 @@ Key features of the ``Dependency Injector``:
        with container.api_client.override(mock.Mock()):
            main()  # <-- overridden dependency is injected automatically
 
-When you call ``main()`` function the ``Service`` dependency is assembled and injected automatically.
+When you call the ``main()`` function the ``Service`` dependency is assembled and injected automatically.
 
-When doing a testing you call the ``container.api_client.override()`` to replace the real API
-client with a mock. When you call ``main()`` the mock is injected.
+When you do testing, you call the ``container.api_client.override()`` method to replace the real API
+client with a mock. When you call ``main()``, the mock is injected.
 
 You can override any provider with another provider.
 
-It also helps you in configuring project for the different environments: replace an API client
+It also helps you in a re-configuring project for different environments: replace an API client
 with a stub on the dev or stage.
 
-With the ``Dependency Injector`` objects assembling is consolidated in the container.
-Dependency injections are defined explicitly.
-This makes easier to understand and change how application works.
+With the ``Dependency Injector``, object assembling is consolidated in a container. Dependency injections are defined explicitly.
+This makes it easier to understand and change how an application works.
 
 .. figure:: https://raw.githubusercontent.com/wiki/ets-labs/python-dependency-injector/img/di-readme.svg
    :target: https://github.com/ets-labs/python-dependency-injector
@@ -185,27 +184,27 @@ The framework stands on the `PEP20 (The Zen of Python) <https://www.python.org/d
 
 You need to specify how to assemble and where to inject the dependencies explicitly.
 
-The power of the framework is in a simplicity.
+The power of the framework is in its simplicity.
 ``Dependency Injector`` is a simple tool for the powerful concept.
 
 Frequently asked questions
 --------------------------
 
-What is the dependency injection?
+What is dependency injection?
  - dependency injection is a principle that decreases coupling and increases cohesion
 
 Why should I do the dependency injection?
  - your code becomes more flexible, testable, and clear 😎
 
-How do I start doing the dependency injection?
+How do I start applying the dependency injection?
  - you start writing the code following the dependency injection principle
  - you register all of your application components and their dependencies in the container
  - when you need a component, you specify where to inject it or get it from the container
 
 What price do I pay and what do I get?
  - you need to explicitly specify the dependencies
- - it will be an extra work in the beginning
- - it will payoff as the project grows
+ - it will be extra work in the beginning
+ - it will payoff as project grows
 
 Have a question?
  - Open a `Github Issue <https://github.com/ets-labs/python-dependency-injector/issues>`_
