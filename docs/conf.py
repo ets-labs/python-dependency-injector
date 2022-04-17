@@ -52,7 +52,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "Dependency Injector"
-copyright = "2021, Roman Mogylatov"
+copyright = "2022, Roman Mogylatov"
 author = "Roman Mogylatov"
 
 # The version info for the project you"re documenting, acts as replacement for

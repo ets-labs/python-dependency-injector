@@ -29,15 +29,15 @@ The output should be something like:
 
    Starting fastapi-sqlalchemy_webapp_1 ... done
    Attaching to fastapi-sqlalchemy_webapp_1
-   webapp_1  | 2021-02-04 22:07:19,804 INFO sqlalchemy.engine.base.Engine SELECT CAST('test plain returns' AS VARCHAR(60)) AS anon_1
-   webapp_1  | 2021-02-04 22:07:19,804 INFO sqlalchemy.engine.base.Engine ()
-   webapp_1  | 2021-02-04 22:07:19,804 INFO sqlalchemy.engine.base.Engine SELECT CAST('test unicode returns' AS VARCHAR(60)) AS anon_1
-   webapp_1  | 2021-02-04 22:07:19,804 INFO sqlalchemy.engine.base.Engine ()
-   webapp_1  | 2021-02-04 22:07:19,805 INFO sqlalchemy.engine.base.Engine PRAGMA main.table_info("users")
-   webapp_1  | 2021-02-04 22:07:19,805 INFO sqlalchemy.engine.base.Engine ()
-   webapp_1  | 2021-02-04 22:07:19,808 INFO sqlalchemy.engine.base.Engine PRAGMA temp.table_info("users")
-   webapp_1  | 2021-02-04 22:07:19,808 INFO sqlalchemy.engine.base.Engine ()
-   webapp_1  | 2021-02-04 22:07:19,809 INFO sqlalchemy.engine.base.Engine
+   webapp_1  | 2022-02-04 22:07:19,804 INFO sqlalchemy.engine.base.Engine SELECT CAST('test plain returns' AS VARCHAR(60)) AS anon_1
+   webapp_1  | 2022-02-04 22:07:19,804 INFO sqlalchemy.engine.base.Engine ()
+   webapp_1  | 2022-02-04 22:07:19,804 INFO sqlalchemy.engine.base.Engine SELECT CAST('test unicode returns' AS VARCHAR(60)) AS anon_1
+   webapp_1  | 2022-02-04 22:07:19,804 INFO sqlalchemy.engine.base.Engine ()
+   webapp_1  | 2022-02-04 22:07:19,805 INFO sqlalchemy.engine.base.Engine PRAGMA main.table_info("users")
+   webapp_1  | 2022-02-04 22:07:19,805 INFO sqlalchemy.engine.base.Engine ()
+   webapp_1  | 2022-02-04 22:07:19,808 INFO sqlalchemy.engine.base.Engine PRAGMA temp.table_info("users")
+   webapp_1  | 2022-02-04 22:07:19,808 INFO sqlalchemy.engine.base.Engine ()
+   webapp_1  | 2022-02-04 22:07:19,809 INFO sqlalchemy.engine.base.Engine
    webapp_1  | CREATE TABLE users (
    webapp_1  | 	id INTEGER NOT NULL,
    webapp_1  | 	email VARCHAR,
@@ -49,8 +49,8 @@ The output should be something like:
    webapp_1  | )
    webapp_1  |
    webapp_1  |
-   webapp_1  | 2021-02-04 22:07:19,810 INFO sqlalchemy.engine.base.Engine ()
-   webapp_1  | 2021-02-04 22:07:19,821 INFO sqlalchemy.engine.base.Engine COMMIT
+   webapp_1  | 2022-02-04 22:07:19,810 INFO sqlalchemy.engine.base.Engine ()
+   webapp_1  | 2022-02-04 22:07:19,821 INFO sqlalchemy.engine.base.Engine COMMIT
    webapp_1  | INFO:     Started server process [8]
    webapp_1  | INFO:     Waiting for application startup.
    webapp_1  | INFO:     Application startup complete.
