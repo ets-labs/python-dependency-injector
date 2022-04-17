@@ -11,24 +11,24 @@ Dependency injection and inversion of control in Python
                  feature for testing or configuring project in different environments and explains
                  why it's better than monkey-patching.
 
-Originally dependency injection pattern got popular in the languages with a static typing,
-like Java. Dependency injection is a principle that helps to achieve an inversion of control.
-Dependency injection framework can significantly improve a flexibility of the language
-with a static typing. Implementation of a dependency injection framework for a language
-with a static typing is not something that one can do quickly. It will be a quite complex thing
+Originally dependency injection pattern got popular in languages with static typing like Java.
+Dependency injection is a principle that helps to achieve an inversion of control. A
+dependency injection framework can significantly improve the flexibility of a language
+with static typing. Implementation of a dependency injection framework for a language
+with static typing is not something that one can do quickly. It will be a quite complex thing
 to be done well. And will take time.
 
-Python is an interpreted language with a dynamic typing. There is an opinion that dependency
+Python is an interpreted language with dynamic typing. There is an opinion that dependency
 injection doesn't work for it as well as it does for Java. A lot of the flexibility is already
-built in. Also there is an opinion that a dependency injection framework is something that
+built-in. Also, there is an opinion that a dependency injection framework is something that
 Python developer rarely needs. Python developers say that dependency injection can be implemented
 easily using language fundamentals.
 
-This page describes the advantages of the dependency injection usage in Python. It
-contains Python examples that show how to implement dependency injection. It demonstrates a usage
-of the dependency injection framework ``Dependency Injector``, its container, ``Factory``,
-``Singleton`` and ``Configuration`` providers. The example shows how to use ``Dependency Injector``
-providers overriding feature for testing or configuring project in different environments and
+This page describes the advantages of applying dependency injection in Python. It
+contains Python examples that show how to implement dependency injection. It demonstrates the usage
+of the ``Dependency Injector`` framework, its container, ``Factory``, ``Singleton``,
+and ``Configuration`` providers. The example shows how to use providers' overriding feature
+of ``Dependency Injector`` for testing or re-configuring a project in different environments and
 explains why it's better than monkey-patching.
 
 What is dependency injection?
@@ -44,15 +44,14 @@ What is coupling and cohesion?
 
 Coupling and cohesion are about how tough the components are tied.
 
-- **High coupling**. If the coupling is high it's like using a superglue or welding. No easy way
+- **High coupling**. If the coupling is high it's like using superglue or welding. No easy way
   to disassemble.
-- **High cohesion**. High cohesion is like using the screws. Very easy to disassemble and
-  assemble back or assemble a different way. It is an opposite to high coupling.
+- **High cohesion**. High cohesion is like using screws. Quite easy to disassemble and
+  re-assemble in a different way. It is an opposite to high coupling.
 
-Cohesion often correlates with coupling. Higher cohesion usually leads to lower coupling, and vice
-versa.
+Cohesion often correlates with coupling. Higher cohesion usually leads to lower coupling and vice versa.
 
-Low coupling brings a flexibility. Your code becomes easier to change and test.
+Low coupling brings flexibility. Your code becomes easier to change and test.
 
 How to implement the dependency injection?
 
@@ -150,14 +149,14 @@ Here comes the ``Dependency Injector``.
 What does the Dependency Injector do?
 -------------------------------------
 
-With the dependency injection pattern objects loose the responsibility of assembling
+With the dependency injection pattern, objects lose the responsibility of assembling
 the dependencies. The ``Dependency Injector`` absorbs that responsibility.
 
 ``Dependency Injector`` helps to assemble and inject the dependencies.
 
 It provides a container and providers that help you with the objects assembly.
 When you need an object you place a ``Provide`` marker as a default value of a
-function argument. When you call this function framework assembles and injects
+function argument. When you call this function, framework assembles and injects
 the dependency.
 
 .. code-block:: python
@@ -198,79 +197,79 @@ the dependency.
        with container.api_client.override(mock.Mock()):
            main()  # <-- overridden dependency is injected automatically
 
-When you call ``main()`` function the ``Service`` dependency is assembled and injected automatically.
+When you call the ``main()`` function the ``Service`` dependency is assembled and injected automatically.
 
-When doing a testing you call the ``container.api_client.override()`` to replace the real API
-client with a mock. When you call ``main()`` the mock is injected.
+When you do testing, you call the ``container.api_client.override()`` method to replace the real API
+client with a mock. When you call ``main()``, the mock is injected.
 
 You can override any provider with another provider.
 
-It also helps you in configuring project for the different environments: replace an API client
+It also helps you in a re-configuring project for different environments: replace an API client
 with a stub on the dev or stage.
 
-Objects assembling is consolidated in the container. Dependency injections are defined explicitly.
-This makes easier to understand and change how application works.
+Objects assembling is consolidated in a container. Dependency injections are defined explicitly.
+This makes it easier to understand and change how an application works.
 
 Testing, Monkey-patching and dependency injection
 -------------------------------------------------
 
-The testability benefit is opposed to a monkey-patching.
+The testability benefit is opposed to monkey-patching.
 
-In Python you can monkey-patch
-anything, anytime. The problem with a monkey-patching is that it's too fragile. The reason is that
-when you monkey-patch you do something that wasn't intended to be done. You monkey-patch the
-implementation details. When implementation changes the monkey-patching is broken.
+In Python, you can monkey-patch anything, anytime. The problem with monkey-patching is
+that it's too fragile. The cause of it is that when you monkey-patch you do something that
+wasn't intended to be done. You monkey-patch the implementation details. When implementation
+changes the monkey-patching is broken.
 
-With a dependency injection you patch the interface, not an implementation. This is a way more
+With dependency injection, you patch the interface, not an implementation. This is a way more
 stable approach.
 
-Also monkey-patching is a way too dirty to be used outside of the testing code for
-reconfiguring the project for the different environments.
+Also, monkey-patching is way too dirty to be used outside of the testing code for
+re-configuring the project for the different environments.
 
 Conclusion
 ----------
 
-Dependency injection brings you 3 advantages:
+Dependency injection provides you with three advantages:
 
-- **Flexibility**. The components are loosely coupled. You can easily extend or change a
-  functionality of the system by combining the components different way. You even can do it on
+- **Flexibility**. The components are loosely coupled. You can easily extend or change the
+  functionality of a system by combining the components in a different way. You even can do it on
   the fly.
-- **Testability**. Testing is easy because you can easily inject mocks instead of real objects
+- **Testability**. Testing is easier because you can easily inject mocks instead of real objects
   that use API or database, etc.
 - **Clearness and maintainability**. Dependency injection helps you reveal the dependencies.
   Implicit becomes explicit. And "Explicit is better than implicit" (PEP 20 - The Zen of Python).
-  You have all the components and dependencies defined explicitly in the container. This
-  provides an overview and control on the application structure. It is easy to understand and
+  You have all the components and dependencies defined explicitly in a container. This
+  provides an overview and control of the application structure. It is easier to understand and
   change it.
 
-Is it worth to use a dependency injection in Python?
+Is it worth applying dependency injection in Python?
 
 It depends on what you build. The advantages above are not too important if you use Python as a
 scripting language. The picture is different when you use Python to create an application. The
-larger the application the more significant is the benefit.
+larger the application the more significant the benefits.
 
-Is it worth to use a framework for the dependency injection?
+Is it worth using a framework for applying dependency injection?
 
 The complexity of the dependency injection pattern implementation in Python is
-lower than in the other languages but it's still in place. It doesn't mean you have to use a
+lower than in other languages but it's still in place. It doesn't mean you have to use a
 framework but using a framework is beneficial because the framework is:
 
 - Already implemented
 - Tested on all platforms and versions of Python
 - Documented
 - Supported
-- Known to the other engineers
+- Other engineers are familiar with it
 
-Few advices at last:
+An advice at last:
 
 - **Give it a try**. Dependency injection is counter-intuitive. Our nature is that
   when we need something the first thought that comes to our mind is to go and get it. Dependency
-  injection is just like "Wait, I need to state a need instead of getting something right now".
+  injection is just like "Wait, I need to state a need instead of getting something right away".
   It's like a little investment that will pay-off later. The advice is to just give it a try for
   two weeks. This time will be enough for getting your own impression. If you don't like it you
   won't lose too much.
-- **Common sense first**. Use a common sense when apply dependency injection. It is a good
-  principle, but not a silver bullet. If you do it too much you will reveal too much of the
+- **Common sense first**. Use common sense when applying dependency injection. It is a good
+  principle, but not a silver bullet. If you do it too much you will reveal too many of the
   implementation details. Experience comes with practice and time.
 
 What's next?
@@ -304,8 +303,7 @@ Choose one of the following as a next step:
 Useful links
 ------------
 
-There are some useful links related to dependency injection design pattern
-that could be used for further reading:
+A few useful links related to a dependency injection design pattern for further reading:
 
 + https://en.wikipedia.org/wiki/Dependency_injection
 + https://martinfowler.com/articles/injection.html

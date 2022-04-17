@@ -10,11 +10,12 @@ follows `Semantic versioning`_
 
 Development
 -----------
-- Update copyright year.
+- Improve wording on the "Dependency injection and inversion of control in Python" docs page.
 - Update typing in the main example and cohesion/coupling correlation definition in
   "Dependency injection and inversion of control in Python".
   Thanks to `@illia-v (Illia Volochii) <https://github.com/illia-v>`_ for the
   PR (`#580 <https://github.com/ets-labs/python-dependency-injector/pull/580>`_).
+- Update copyright year.
 
 4.39.1
 ------
