@@ -49,7 +49,8 @@ Coupling and cohesion are about how tough the components are tied.
 - **High cohesion**. High cohesion is like using the screws. Very easy to disassemble and
   assemble back or assemble a different way. It is an opposite to high coupling.
 
-When the cohesion is high the coupling is low.
+Cohesion often correlates with coupling. Higher cohesion usually leads to lower coupling, and vice
+versa.
 
 Low coupling brings a flexibility. Your code becomes easier to change and test.
 
@@ -66,14 +67,14 @@ Before:
 
    class ApiClient:
 
-       def __init__(self):
+       def __init__(self) -> None:
            self.api_key = os.getenv("API_KEY")  # <-- dependency
-           self.timeout = os.getenv("TIMEOUT")  # <-- dependency
+           self.timeout = int(os.getenv("TIMEOUT"))  # <-- dependency
 
 
    class Service:
 
-       def __init__(self):
+       def __init__(self) -> None:
            self.api_client = ApiClient()  # <-- dependency
 
 
@@ -94,18 +95,18 @@ After:
 
    class ApiClient:
 
-       def __init__(self, api_key: str, timeout: int):
+       def __init__(self, api_key: str, timeout: int) -> None:
            self.api_key = api_key  # <-- dependency is injected
            self.timeout = timeout  # <-- dependency is injected
 
 
    class Service:
 
-       def __init__(self, api_client: ApiClient):
+       def __init__(self, api_client: ApiClient) -> None:
            self.api_client = api_client  # <-- dependency is injected
 
 
-   def main(service: Service):  # <-- dependency is injected
+   def main(service: Service) -> None:  # <-- dependency is injected
        ...
 
 
@@ -114,7 +115,7 @@ After:
            service=Service(
                api_client=ApiClient(
                    api_key=os.getenv("API_KEY"),
-                   timeout=os.getenv("TIMEOUT"),
+                   timeout=int(os.getenv("TIMEOUT")),
                ),
            ),
        )
@@ -137,7 +138,7 @@ Now you need to assemble and inject the objects like this:
        service=Service(
            api_client=ApiClient(
                api_key=os.getenv("API_KEY"),
-               timeout=os.getenv("TIMEOUT"),
+               timeout=int(os.getenv("TIMEOUT")),
            ),
        ),
    )
@@ -182,7 +183,7 @@ the dependency.
 
 
    @inject
-   def main(service: Service = Provide[Container.service]):
+   def main(service: Service = Provide[Container.service]) -> None:
        ...
 
 

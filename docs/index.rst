@@ -106,7 +106,7 @@ Key features of the ``Dependency Injector``:
 
 
    @inject
-   def main(service: Service = Provide[Container.service]):
+   def main(service: Service = Provide[Container.service]) -> None:
        ...
 
 
