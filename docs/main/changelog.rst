@@ -16,6 +16,7 @@ Development
   Thanks to `@illia-v (Illia Volochii) <https://github.com/illia-v>`_ for the
   PR (`#580 <https://github.com/ets-labs/python-dependency-injector/pull/580>`_).
 - Update copyright year.
+- Update pytest configuration.
 
 4.39.1
 ------
