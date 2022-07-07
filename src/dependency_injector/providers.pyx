@@ -5,13 +5,14 @@ from __future__ import absolute_import
 import copy
 import errno
 import functools
-import inspect
 import importlib
+import inspect
+import json
 import os
 import re
 import sys
-import types
 import threading
+import types
 import warnings
 
 try:
@@ -1741,6 +1742,44 @@ cdef class ConfigurationOption(Provider):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
+    def from_json(self, filepath, required=UNDEFINED, envs_required=UNDEFINED):
+        """Load configuration from a json file.
+
+        Loaded configuration is merged recursively over the existing configuration.
+
+        :param filepath: Path to a configuration file.
+        :type filepath: str
+
+        :param required: When required is True, raise an exception if file does not exist.
+        :type required: bool
+
+        :param envs_required: When True, raises an exception on undefined environment variable.
+        :type envs_required: bool
+
+        :rtype: None
+        """
+        try:
+            with open(filepath) as opened_file:
+                config_content = opened_file.read()
+        except IOError as exception:
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True) \
+                    and exception.errno in (errno.ENOENT, errno.EISDIR):
+                exception.strerror = "Unable to load configuration file {0}".format(exception.strerror)
+                raise
+            return
+
+        config_content = _resolve_config_env_markers(
+            config_content,
+            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+        )
+        config = json.loads(config_content)
+
+        current_config = self.__call__()
+        if not current_config:
+            current_config = {}
+        self.override(merge_dicts(current_config, config))
+
     def from_pydantic(self, settings, required=UNDEFINED, **kwargs):
         """Load configuration from pydantic settings.
 
@@ -2248,6 +2287,44 @@ cdef class Configuration(Object):
             envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
         )
         config = yaml.load(config_content, loader)
+
+        current_config = self.__call__()
+        if not current_config:
+            current_config = {}
+        self.override(merge_dicts(current_config, config))
+
+    def from_json(self, filepath, required=UNDEFINED, envs_required=UNDEFINED):
+        """Load configuration from a json file.
+
+        Loaded configuration is merged recursively over the existing configuration.
+
+        :param filepath: Path to a configuration file.
+        :type filepath: str
+
+        :param required: When required is True, raise an exception if file does not exist.
+        :type required: bool
+
+        :param envs_required: When True, raises an exception on undefined environment variable.
+        :type envs_required: bool
+
+        :rtype: None
+        """
+        try:
+            with open(filepath) as opened_file:
+                config_content = opened_file.read()
+        except IOError as exception:
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True) \
+                    and exception.errno in (errno.ENOENT, errno.EISDIR):
+                exception.strerror = "Unable to load configuration file {0}".format(exception.strerror)
+                raise
+            return
+
+        config_content = _resolve_config_env_markers(
+            config_content,
+            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+        )
+        config = json.loads(config_content)
 
         current_config = self.__call__()
         if not current_config:
