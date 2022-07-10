@@ -1,5 +1,7 @@
 from pathlib import Path
+
 from dependency_injector import providers
+from pydantic import BaseSettings as PydanticSettings
 
 
 # Test 1: to check the getattr
@@ -8,7 +10,19 @@ provider1 = providers.Factory(dict, a=config1.a)
 
 # Test 2: to check the from_*() method
 config2 = providers.Configuration()
+config2_init_args = providers.Configuration(
+    name="config",
+    strict=True,
+    default={},
+    ini_files=["config.ini", Path("config.ini")],
+    yaml_files=["config.yml", Path("config.yml")],
+    json_files=["config.json", Path("config.json")],
+    pydantic_settings=[PydanticSettings()],
+)
+
 config2.from_dict({})
+config2.from_value({})
+
 config2.from_ini("config.ini")
 config2.from_ini(Path("config.ini"))
 
@@ -22,6 +36,8 @@ config2.from_env("ENV", "default")
 config2.from_env("ENV", as_=int, default=123)
 config2.from_env("ENV", as_=float, required=True)
 config2.from_env("ENV", as_=lambda env: str(env))
+
+config2.from_pydantic(PydanticSettings())
 
 # Test 3: to check as_*() methods
 config3 = providers.Configuration()

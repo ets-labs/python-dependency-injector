@@ -80,6 +80,11 @@ def test_get_pydantic_settings(config, pydantic_settings_1, pydantic_settings_2)
     assert config.get_pydantic_settings() == [pydantic_settings_1, pydantic_settings_2]
 
 
+def test_copy(config, pydantic_settings_1, pydantic_settings_2):
+    config_copy = providers.deepcopy(config)
+    assert config_copy.get_pydantic_settings() == [pydantic_settings_1, pydantic_settings_2]
+
+
 def test_set_pydantic_settings(config):
     class Settings3(pydantic.BaseSettings):
         ...

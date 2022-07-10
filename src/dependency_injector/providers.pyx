@@ -1925,24 +1925,29 @@ cdef class Configuration(Object):
 
     DEFAULT_NAME = "config"
 
-    def __init__(self, name=DEFAULT_NAME, default=None, strict=False, yaml_files=None, ini_files=None, pydantic_settings=None):
+    def __init__(self, name=DEFAULT_NAME, default=None, strict=False, ini_files=None, yaml_files=None, json_files=None, pydantic_settings=None):
         self.__name = name
         self.__strict = strict
         self.__children = {}
-        self.__yaml_files = []
         self.__ini_files = []
+        self.__yaml_files = []
+        self.__json_files = []
         self.__pydantic_settings = []
 
         super().__init__(provides={})
         self.set_default(default)
 
+        if ini_files is None:
+            ini_files = []
+        self.set_ini_files(ini_files)
+
         if yaml_files is None:
             yaml_files = []
         self.set_yaml_files(yaml_files)
 
-        if ini_files is None:
-            ini_files = []
-        self.set_ini_files(ini_files)
+        if json_files is None:
+            json_files = []
+        self.set_json_files(json_files)
 
         if pydantic_settings is None:
             pydantic_settings = []
@@ -1958,8 +1963,9 @@ cdef class Configuration(Object):
         copied.set_default(self.get_default())
         copied.set_strict(self.get_strict())
         copied.set_children(deepcopy(self.get_children(), memo))
-        copied.set_yaml_files(self.get_yaml_files())
         copied.set_ini_files(self.get_ini_files())
+        copied.set_yaml_files(self.get_yaml_files())
+        copied.set_json_files(self.get_json_files())
         copied.set_pydantic_settings(self.get_pydantic_settings())
 
         self._copy_overridings(copied, memo)
@@ -2052,6 +2058,15 @@ cdef class Configuration(Object):
         self.__yaml_files = list(files)
         return self
 
+    def get_json_files(self):
+        """Return list of JSON files."""
+        return list(self.__json_files)
+
+    def set_json_files(self, files):
+        """Set list of JSON files."""
+        self.__json_files = list(files)
+        return self
+
     def get_pydantic_settings(self):
         """Return list of Pydantic settings."""
         return list(self.__pydantic_settings)
@@ -2078,11 +2093,14 @@ cdef class Configuration(Object):
         :param envs_required: When True, raises an error on undefined environment variable.
         :type envs_required: bool
         """
+        for file in self.get_ini_files():
+            self.from_ini(file, required=required, envs_required=envs_required)
+
         for file in self.get_yaml_files():
             self.from_yaml(file, required=required, envs_required=envs_required)
 
-        for file in self.get_ini_files():
-            self.from_ini(file, required=required, envs_required=envs_required)
+        for file in self.get_json_files():
+            self.from_json(file, required=required, envs_required=envs_required)
 
         for settings in self.get_pydantic_settings():
             self.from_pydantic(settings, required=required)
