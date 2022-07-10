@@ -15,6 +15,9 @@ config2.from_ini(Path("config.ini"))
 config2.from_yaml("config.yml")
 config2.from_yaml(Path("config.yml"))
 
+config2.from_json("config.json")
+config2.from_json(Path("config.json"))
+
 config2.from_env("ENV", "default")
 config2.from_env("ENV", as_=int, default=123)
 config2.from_env("ENV", as_=float, required=True)
