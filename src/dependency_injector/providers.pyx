@@ -2034,15 +2034,6 @@ cdef class Configuration(Object):
         self.__children = children
         return self
 
-    def get_yaml_files(self):
-        """Return list of YAML files."""
-        return list(self.__yaml_files)
-
-    def set_yaml_files(self, files):
-        """Set list of YAML files."""
-        self.__yaml_files = list(files)
-        return self
-
     def get_ini_files(self):
         """Return list of INI files."""
         return list(self.__ini_files)
@@ -2050,6 +2041,15 @@ cdef class Configuration(Object):
     def set_ini_files(self, files):
         """Set list of INI files."""
         self.__ini_files = list(files)
+        return self
+
+    def get_yaml_files(self):
+        """Return list of YAML files."""
+        return list(self.__yaml_files)
+
+    def set_yaml_files(self, files):
+        """Set list of YAML files."""
+        self.__yaml_files = list(files)
         return self
 
     def get_pydantic_settings(self):
