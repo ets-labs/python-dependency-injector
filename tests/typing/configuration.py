@@ -10,15 +10,6 @@ provider1 = providers.Factory(dict, a=config1.a)
 
 # Test 2: to check the from_*() method
 config2 = providers.Configuration()
-config2_init_args = providers.Configuration(
-    name="config",
-    strict=True,
-    default={},
-    ini_files=["config.ini", Path("config.ini")],
-    yaml_files=["config.yml", Path("config.yml")],
-    json_files=["config.json", Path("config.json")],
-    pydantic_settings=[PydanticSettings()],
-)
 
 config2.from_dict({})
 config2.from_value({})
@@ -48,3 +39,39 @@ int3_custom: providers.Callable[int] = config3.option.as_(int)
 # Test 4: to check required() method
 config4 = providers.Configuration()
 option4: providers.ConfigurationOption = config4.option.required()
+
+# Test 5: to check get/set config files' methods and init arguments
+# Test 5: ini
+config5_ini = providers.Configuration(
+    ini_files=["config.ini", Path("config.ini")],
+)
+config5_ini.set_ini_files(["config.ini", Path("config.ini")])
+config5_ini_files: list[str | Path] = config5_ini.get_ini_files()
+
+# Test 5: yaml
+config5_yaml = providers.Configuration(
+    yaml_files=["config.yml", Path("config.yml")],
+)
+config5_yaml.set_yaml_files(["config.yml", Path("config.yml")])
+config5_yaml_files: list[str | Path] = config5_yaml.get_yaml_files()
+
+# Test 5: json
+config5_json = providers.Configuration(
+    json_files=["config.json", Path("config.json")],
+)
+config5_json.set_json_files(["config.json", Path("config.json")])
+config5_json_files: list[str | Path] = config5_json.get_json_files()
+
+# Test 5: pydantic
+config5_pydantic = providers.Configuration(
+    pydantic_settings=[PydanticSettings()],
+)
+config5_pydantic.set_pydantic_settings([PydanticSettings()])
+config5_pydantic_settings: list[PydanticSettings] = config5_pydantic.get_pydantic_settings()
+
+# Test 6: to check init arguments
+config6 = providers.Configuration(
+    name="config",
+    strict=True,
+    default={},
+)
