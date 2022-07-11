@@ -18,6 +18,7 @@ Development
   PR (`#580 <https://github.com/ets-labs/python-dependency-injector/pull/580>`_).
 - Update copyright year.
 - Update pytest configuration.
+- Regenerate C sources using Cython 0.29.30.
 
 4.39.1
 ------
