@@ -47,6 +47,11 @@ def test_set_files(config):
     assert config.get_ini_files() == ["file1.ini", "file2.ini"]
 
 
+def test_copy(config, ini_config_file_1, ini_config_file_2):
+    config_copy = providers.deepcopy(config)
+    assert config_copy.get_ini_files() == [ini_config_file_1, ini_config_file_2]
+
+
 def test_file_does_not_exist(config):
     config.set_ini_files(["./does_not_exist.ini"])
     config.load()
