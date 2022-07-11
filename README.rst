@@ -59,7 +59,7 @@ Key features of the ``Dependency Injector``:
 - **Overriding**. Can override any provider by another provider on the fly. This helps in testing
   and configuring dev/stage environment to replace API clients with stubs etc. See
   `Provider overriding <https://python-dependency-injector.ets-labs.org/providers/overriding.html>`_.
-- **Configuration**. Reads configuration from ``yaml`` & ``ini`` files, ``pydantic`` settings,
+- **Configuration**. Reads configuration from ``yaml``, ``ini``, and ``json`` files, ``pydantic`` settings,
   environment variables, and dictionaries.
   See `Configuration provider <https://python-dependency-injector.ets-labs.org/providers/configuration.html>`_.
 - **Resources**. Helps with initialization and configuring of logging, event loop, thread
