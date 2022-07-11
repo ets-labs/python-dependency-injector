@@ -10,6 +10,7 @@ follows `Semantic versioning`_
 
 Development
 -----------
+- Add ``Configuration.from_json()`` method to load configuration from a json file.
 - Improve wording on the "Dependency injection and inversion of control in Python" docs page.
 - Update typing in the main example and cohesion/coupling correlation definition in
   "Dependency injection and inversion of control in Python".
