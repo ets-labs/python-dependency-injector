@@ -17,6 +17,7 @@ Development
   Thanks to `@illia-v (Illia Volochii) <https://github.com/illia-v>`_ for the
   PR (`#580 <https://github.com/ets-labs/python-dependency-injector/pull/580>`_).
 - Update copyright year.
+- Enable skipped test ``test_schema_with_boto3_session()``.
 - Update pytest configuration.
 - Regenerate C sources using Cython 0.29.30.
 
