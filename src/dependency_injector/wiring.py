@@ -175,6 +175,12 @@ class PatchedCallable:
 
 class PatchedAttribute:
 
+    __slots__ = (
+        "member",
+        "name",
+        "marker",
+    )
+
     def __init__(self, member: Any, name: str, marker: "_Marker") -> None:
         self.member = member
         self.name = name
