@@ -1,4 +1,5 @@
 """Wiring module."""
+
 import functools
 import inspect
 import importlib
