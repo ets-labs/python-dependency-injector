@@ -92,32 +92,85 @@ Container = Any
 class PatchedRegistry:
 
     def __init__(self):
-        self._callables: Set[Callable[..., Any]] = set()
-        self._attributes: Set[PatchedAttribute] = set()
+        self._patched_callables: Dict[Callable[..., Any], "PatchedCallable"] = {}
+        self._patched_attributes: Set[PatchedAttribute] = set()
 
-    def add_callable(self, patched: Callable[..., Any]) -> None:
-        self._callables.add(patched)
+    def register_callable(self, patched: "PatchedCallable") -> None:
+        self._patched_callables[patched.patched] = patched
 
     def get_callables_from_module(self, module: ModuleType) -> Iterator[Callable[..., Any]]:
-        for patched in self._callables:
-            if patched.__module__ != module.__name__:
+        for patched_callable in self._patched_callables.values():
+            if not patched_callable.is_in_module(module):
                 continue
-            yield patched
+            yield patched_callable.patched
 
-    def add_attribute(self, patched: "PatchedAttribute"):
-        self._attributes.add(patched)
+    def get_callable(self, fn: Callable[..., Any]) -> "PatchedCallable":
+        return self._patched_callables.get(fn)
+
+    def has_callable(self, fn: Callable[..., Any]) -> bool:
+        return fn in self._patched_callables
+
+    def register_attribute(self, patched: "PatchedAttribute"):
+        self._patched_attributes.add(patched)
 
     def get_attributes_from_module(self, module: ModuleType) -> Iterator["PatchedAttribute"]:
-        for attribute in self._attributes:
+        for attribute in self._patched_attributes:
             if not attribute.is_in_module(module):
                 continue
             yield attribute
 
     def clear_module_attributes(self, module: ModuleType):
-        for attribute in self._attributes.copy():
+        for attribute in self._patched_attributes.copy():
             if not attribute.is_in_module(module):
                 continue
-            self._attributes.remove(attribute)
+            self._patched_attributes.remove(attribute)
+
+
+class PatchedCallable:
+
+    __slots__ = (
+        "patched",
+        "original",
+        "reference_injections",
+        "injections",
+        "reference_closing",
+        "closing",
+    )
+
+    def __init__(
+            self,
+            patched: Optional[Callable[..., Any]] = None,
+            original: Optional[Callable[..., Any]] = None,
+            reference_injections: Optional[Dict[Any, Any]] = None,
+            reference_closing: Optional[Dict[Any, Any]] = None,
+    ):
+        self.patched = patched
+        self.original = original
+
+        if reference_injections is None:
+            reference_injections = {}
+        self.reference_injections: Dict[Any, Any] = reference_injections.copy()
+        self.injections: Dict[Any, Any] = {}
+
+        if reference_closing is None:
+            reference_closing = {}
+        self.reference_closing: Dict[Any, Any] = reference_closing.copy()
+        self.closing: Dict[Any, Any] = {}
+
+    def is_in_module(self, module: ModuleType) -> bool:
+        if self.patched is None:
+            return False
+        return self.patched.__module__ == module.__name__
+
+    def add_injection(self, kwarg: Any, injection: Any) -> None:
+        self.injections[kwarg] = injection
+
+    def add_closing(self, kwarg: Any, injection: Any) -> None:
+        self.closing[kwarg] = injection
+
+    def unwind_injections(self) -> None:
+        self.injections = {}
+        self.closing = {}
 
 
 class PatchedAttribute:
@@ -398,7 +451,6 @@ def inject(fn: F) -> F:
     """Decorate callable with injecting decorator."""
     reference_injections, reference_closing = _fetch_reference_injections(fn)
     patched = _get_patched(fn, reference_injections, reference_closing)
-    _patched_registry.add_callable(patched)
     return cast(F, patched)
 
 
@@ -413,7 +465,6 @@ def _patch_fn(
         if not reference_injections:
             return
         fn = _get_patched(fn, reference_injections, reference_closing)
-        _patched_registry.add_callable(fn)
 
     _bind_injections(fn, providers_map)
 
@@ -439,7 +490,6 @@ def _patch_method(
         if not reference_injections:
             return
         fn = _get_patched(fn, reference_injections, reference_closing)
-        _patched_registry.add_callable(fn)
 
     _bind_injections(fn, providers_map)
 
@@ -476,7 +526,7 @@ def _patch_attribute(
     if provider is None:
         return
 
-    _patched_registry.add_attribute(PatchedAttribute(member, name, marker))
+    _patched_registry.register_attribute(PatchedAttribute(member, name, marker))
 
     if isinstance(marker, Provide):
         instance = provider()
@@ -537,27 +587,33 @@ def _fetch_reference_injections(  # noqa: C901
 
 
 def _bind_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> None:
-    for injection, marker in fn.__reference_injections__.items():
+    patched_callable = _patched_registry.get_callable(fn)
+    if patched_callable is None:
+        return
+
+    for injection, marker in patched_callable.reference_injections.items():
         provider = providers_map.resolve_provider(marker.provider, marker.modifier)
 
         if provider is None:
             continue
 
         if isinstance(marker, Provide):
-            fn.__injections__[injection] = provider
+            patched_callable.add_injection(injection, provider)
         elif isinstance(marker, Provider):
             if isinstance(provider, providers.Delegate):
-                fn.__injections__[injection] = provider
+                patched_callable.add_injection(injection, provider)
             else:
-                fn.__injections__[injection] = provider.provider
+                patched_callable.add_injection(injection, provider.provider)
 
-        if injection in fn.__reference_closing__:
-            fn.__closing__[injection] = provider
+        if injection in patched_callable.reference_closing:
+            patched_callable.add_closing(injection, provider)
 
 
 def _unbind_injections(fn: Callable[..., Any]) -> None:
-    fn.__injections__ = {}
-    fn.__closing__ = {}
+    patched_callable = _patched_registry.get_callable(fn)
+    if patched_callable is None:
+        return
+    patched_callable.unwind_injections()
 
 
 def _fetch_modules(package):
@@ -582,17 +638,19 @@ def _is_marker(member):
 
 
 def _get_patched(fn, reference_injections, reference_closing):
-    if inspect.iscoroutinefunction(fn):
-        patched = _get_async_patched(fn)
-    else:
-        patched = _get_sync_patched(fn)
+    patched_object = PatchedCallable(
+        original=fn,
+        reference_injections=reference_injections,
+        reference_closing=reference_closing,
+    )
 
-    patched.__wired__ = True
-    patched.__original__ = fn
-    patched.__injections__ = {}
-    patched.__reference_injections__ = reference_injections
-    patched.__closing__ = {}
-    patched.__reference_closing__ = reference_closing
+    if inspect.iscoroutinefunction(fn):
+        patched = _get_async_patched(fn, patched_object)
+    else:
+        patched = _get_sync_patched(fn, patched_object)
+
+    patched_object.patched = patched
+    _patched_registry.register_callable(patched_object)
 
     return patched
 
@@ -602,7 +660,7 @@ def _is_fastapi_depends(param: Any) -> bool:
 
 
 def _is_patched(fn):
-    return getattr(fn, "__wired__", False) is True
+    return _patched_registry.has_callable(fn)
 
 
 def _is_declarative_container(instance: Any) -> bool:
@@ -900,14 +958,14 @@ from ._cwiring import _async_inject  # noqa
 
 # Wiring uses the following Python wrapper because there is
 # no possibility to compile a first-type citizen coroutine in Cython.
-def _get_async_patched(fn):
+def _get_async_patched(fn, patched: PatchedCallable):
     @functools.wraps(fn)
     async def _patched(*args, **kwargs):
         return await _async_inject(
             fn,
             args,
             kwargs,
-            _patched.__injections__,
-            _patched.__closing__,
+            patched.injections,
+            patched.closing,
         )
     return _patched
