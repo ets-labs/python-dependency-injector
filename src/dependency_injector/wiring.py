@@ -92,38 +92,38 @@ Container = Any
 class PatchedRegistry:
 
     def __init__(self):
-        self._patched_callables: Dict[Callable[..., Any], "PatchedCallable"] = {}
-        self._patched_attributes: Set[PatchedAttribute] = set()
+        self._callables: Dict[Callable[..., Any], "PatchedCallable"] = {}
+        self._attributes: Set[PatchedAttribute] = set()
 
     def register_callable(self, patched: "PatchedCallable") -> None:
-        self._patched_callables[patched.patched] = patched
+        self._callables[patched.patched] = patched
 
     def get_callables_from_module(self, module: ModuleType) -> Iterator[Callable[..., Any]]:
-        for patched_callable in self._patched_callables.values():
+        for patched_callable in self._callables.values():
             if not patched_callable.is_in_module(module):
                 continue
             yield patched_callable.patched
 
     def get_callable(self, fn: Callable[..., Any]) -> "PatchedCallable":
-        return self._patched_callables.get(fn)
+        return self._callables.get(fn)
 
     def has_callable(self, fn: Callable[..., Any]) -> bool:
-        return fn in self._patched_callables
+        return fn in self._callables
 
     def register_attribute(self, patched: "PatchedAttribute"):
-        self._patched_attributes.add(patched)
+        self._attributes.add(patched)
 
     def get_attributes_from_module(self, module: ModuleType) -> Iterator["PatchedAttribute"]:
-        for attribute in self._patched_attributes:
+        for attribute in self._attributes:
             if not attribute.is_in_module(module):
                 continue
             yield attribute
 
     def clear_module_attributes(self, module: ModuleType):
-        for attribute in self._patched_attributes.copy():
+        for attribute in self._attributes.copy():
             if not attribute.is_in_module(module):
                 continue
-            self._patched_attributes.remove(attribute)
+            self._attributes.remove(attribute)
 
 
 class PatchedCallable:
