@@ -1,4 +1,4 @@
-"""Test that @functools.wraps decorator works properly with the wiring.
+"""Test that wiring works properly with @functools.wraps decorator.
 
 See issue #453 for details: https://github.com/ets-labs/python-dependency-injector/issues/454
 """
