@@ -21,7 +21,7 @@ def container():
 def decorator1(func):
     @functools.wraps(func)
     @inject
-    def wrapper(value1: str = Provide[Container.config.value1]):
+    def wrapper(value1: int = Provide[Container.config.value1]):
         result = func()
         return result + value1
     return wrapper
@@ -30,7 +30,7 @@ def decorator1(func):
 def decorator2(func):
     @functools.wraps(func)
     @inject
-    def wrapper(value2: str = Provide[Container.config.value2]):
+    def wrapper(value2: int = Provide[Container.config.value2]):
         result = func()
         return result + value2
     return wrapper
