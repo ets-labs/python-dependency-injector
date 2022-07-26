@@ -1,6 +1,6 @@
 """Test that wiring works properly with @functools.wraps decorator.
 
-See issue #453 for details: https://github.com/ets-labs/python-dependency-injector/issues/454
+See issue for details: https://github.com/ets-labs/python-dependency-injector/issues/454
 """
 
 import functools
@@ -46,4 +46,4 @@ def test_wraps(container: Container):
     container.wire(modules=[__name__])
     container.config.from_dict({"value1": 42, "value2": 15})
 
-    assert sample() == 2+42+15
+    assert sample() == 2 + 42 + 15
