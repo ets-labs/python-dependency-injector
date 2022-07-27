@@ -1657,14 +1657,14 @@ struct __pyx_obj_19dependency_injector_9providers_SingletonFullResetContext {
 /* "dependency_injector/_cwiring.pyx":15
  * 
  * 
- * def _get_sync_patched(fn):             # <<<<<<<<<<<<<<
+ * def _get_sync_patched(fn, patched: PatchedCallable):             # <<<<<<<<<<<<<<
  *     @functools.wraps(fn)
  *     def _patched(*args, **kwargs):
  */
 struct __pyx_obj_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched {
   PyObject_HEAD
-  PyObject *__pyx_v__patched;
   PyObject *__pyx_v_fn;
+  PyObject *__pyx_v_patched;
 };
 
 
@@ -2424,6 +2424,18 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 /* GetBuiltinName.proto */
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
+/* RaiseArgTupleInvalid.proto */
+static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
+    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
+
+/* RaiseDoubleKeywords.proto */
+static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
+
+/* ParseKeywords.proto */
+static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
+    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
+    const char* function_name);
+
 /* KeywordStringCheck.proto */
 static int __Pyx_CheckKeywordStrings(PyObject *kwdict, const char* function_name, int kw_allowed);
 
@@ -2634,18 +2646,6 @@ static PyObject *__Pyx_CyFunction_New(PyMethodDef *ml,
                                       PyObject *closure,
                                       PyObject *module, PyObject *globals,
                                       PyObject* code);
-
-/* RaiseArgTupleInvalid.proto */
-static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
-    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
-
-/* RaiseDoubleKeywords.proto */
-static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
-
-/* ParseKeywords.proto */
-static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
-    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
-    const char* function_name);
 
 /* ArgTypeTest.proto */
 #define __Pyx_ArgTypeTest(obj, type, none_allowed, name, exact)\
@@ -3203,12 +3203,12 @@ static const char __pyx_k_result[] = "result";
 static const char __pyx_k_wiring[] = "wiring";
 static const char __pyx_k_arg_key[] = "arg_key";
 static const char __pyx_k_asyncio[] = "asyncio";
-static const char __pyx_k_closing[] = "__closing__";
+static const char __pyx_k_closing[] = "closing";
 static const char __pyx_k_genexpr[] = "genexpr";
 static const char __pyx_k_gi_code[] = "gi_code";
 static const char __pyx_k_inspect[] = "inspect";
 static const char __pyx_k_partial[] = "partial";
-static const char __pyx_k_patched[] = "_patched";
+static const char __pyx_k_patched[] = "patched";
 static const char __pyx_k_provide[] = "provide";
 static const char __pyx_k_Resource[] = "Resource";
 static const char __pyx_k_closings[] = "closings";
@@ -3218,16 +3218,16 @@ static const char __pyx_k_shutdown[] = "shutdown";
 static const char __pyx_k_Awaitable[] = "Awaitable";
 static const char __pyx_k_functools[] = "functools";
 static const char __pyx_k_injection[] = "injection";
+static const char __pyx_k_patched_2[] = "_patched";
 static const char __pyx_k_providers[] = "providers";
 static const char __pyx_k_to_inject[] = "to_inject";
-static const char __pyx_k_injections[] = "__injections__";
+static const char __pyx_k_injections[] = "injections";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static const char __pyx_k_set_result[] = "set_result";
 static const char __pyx_k_ImportError[] = "ImportError";
 static const char __pyx_k_cfunc_to_py[] = "cfunc.to_py";
 static const char __pyx_k_collections[] = "collections";
 static const char __pyx_k_async_inject[] = "_async_inject";
-static const char __pyx_k_injections_2[] = "injections";
 static const char __pyx_k_stringsource[] = "stringsource";
 static const char __pyx_k_CoroutineType[] = "CoroutineType";
 static const char __pyx_k_GeneratorType[] = "GeneratorType";
@@ -3236,6 +3236,7 @@ static const char __pyx_k_ensure_future[] = "ensure_future";
 static const char __pyx_k_future_result[] = "future_result";
 static const char __pyx_k_set_exception[] = "set_exception";
 static const char __pyx_k_to_close_await[] = "to_close_await";
+static const char __pyx_k_PatchedCallable[] = "PatchedCallable";
 static const char __pyx_k_async_to_inject[] = "async_to_inject";
 static const char __pyx_k_collections_abc[] = "collections.abc";
 static const char __pyx_k_to_inject_await[] = "to_inject_await";
@@ -3262,6 +3263,7 @@ static PyObject *__pyx_n_s_Future;
 static PyObject *__pyx_n_s_GeneratorType;
 static PyObject *__pyx_n_s_ImportError;
 static PyObject *__pyx_n_s_Marker;
+static PyObject *__pyx_n_s_PatchedCallable;
 static PyObject *__pyx_n_s_Pyx_CFunc_object____object;
 static PyObject *__pyx_n_s_Pyx_CFunc_void____object____ob;
 static PyObject *__pyx_n_s_Pyx_CFunc_void____object____ob_2;
@@ -3308,7 +3310,6 @@ static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_index;
 static PyObject *__pyx_n_s_injection;
 static PyObject *__pyx_n_s_injections;
-static PyObject *__pyx_n_s_injections_2;
 static PyObject *__pyx_n_s_inspect;
 static PyObject *__pyx_n_s_items;
 static PyObject *__pyx_n_s_kwargs;
@@ -3316,6 +3317,7 @@ static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_partial;
 static PyObject *__pyx_n_s_patched;
+static PyObject *__pyx_n_s_patched_2;
 static PyObject *__pyx_n_s_provide;
 static PyObject *__pyx_n_s_provider;
 static PyObject *__pyx_n_s_providers;
@@ -3339,7 +3341,7 @@ static PyObject *__pyx_n_s_wrap;
 static PyObject *__pyx_n_s_wraps;
 static PyObject *__pyx_n_s_zip;
 static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__patched(PyObject *__pyx_self, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs); /* proto */
-static PyObject *__pyx_pf_19dependency_injector_8_cwiring__get_sync_patched(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_fn); /* proto */
+static PyObject *__pyx_pf_19dependency_injector_8_cwiring__get_sync_patched(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_fn, PyObject *__pyx_v_patched); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_8_cwiring_13_async_inject_genexpr(PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_pf_19dependency_injector_8_cwiring_2_async_inject(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_fn, PyObject *__pyx_v_args, PyObject *__pyx_v_kwargs, PyObject *__pyx_v_injections, PyObject *__pyx_v_closings); /* proto */
 static PyObject *__pyx_pf_11cfunc_dot_to_py_64__Pyx_CFunc_void____object____object____object____object___to_py_wrap(PyObject *__pyx_self, PyObject *__pyx_v_future_result, PyObject *__pyx_v_args, PyObject *__pyx_v_future_args_kwargs, PyObject *__pyx_v_future); /* proto */
@@ -3374,19 +3376,70 @@ static PyObject *__pyx_codeobj__15;
 /* "dependency_injector/_cwiring.pyx":15
  * 
  * 
- * def _get_sync_patched(fn):             # <<<<<<<<<<<<<<
+ * def _get_sync_patched(fn, patched: PatchedCallable):             # <<<<<<<<<<<<<<
  *     @functools.wraps(fn)
  *     def _patched(*args, **kwargs):
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_19dependency_injector_8_cwiring_1_get_sync_patched(PyObject *__pyx_self, PyObject *__pyx_v_fn); /*proto*/
-static PyMethodDef __pyx_mdef_19dependency_injector_8_cwiring_1_get_sync_patched = {"_get_sync_patched", (PyCFunction)__pyx_pw_19dependency_injector_8_cwiring_1_get_sync_patched, METH_O, 0};
-static PyObject *__pyx_pw_19dependency_injector_8_cwiring_1_get_sync_patched(PyObject *__pyx_self, PyObject *__pyx_v_fn) {
+static PyObject *__pyx_pw_19dependency_injector_8_cwiring_1_get_sync_patched(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_19dependency_injector_8_cwiring_1_get_sync_patched = {"_get_sync_patched", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_19dependency_injector_8_cwiring_1_get_sync_patched, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_19dependency_injector_8_cwiring_1_get_sync_patched(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_fn = 0;
+  PyObject *__pyx_v_patched = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_get_sync_patched (wrapper)", 0);
-  __pyx_r = __pyx_pf_19dependency_injector_8_cwiring__get_sync_patched(__pyx_self, ((PyObject *)__pyx_v_fn));
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_fn,&__pyx_n_s_patched,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_fn)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_patched)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("_get_sync_patched", 1, 2, 2, 1); __PYX_ERR(0, 15, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_get_sync_patched") < 0)) __PYX_ERR(0, 15, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_fn = values[0];
+    __pyx_v_patched = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("_get_sync_patched", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 15, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("dependency_injector._cwiring._get_sync_patched", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_19dependency_injector_8_cwiring__get_sync_patched(__pyx_self, __pyx_v_fn, __pyx_v_patched);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
@@ -3394,7 +3447,7 @@ static PyObject *__pyx_pw_19dependency_injector_8_cwiring_1_get_sync_patched(PyO
 }
 
 /* "dependency_injector/_cwiring.pyx":17
- * def _get_sync_patched(fn):
+ * def _get_sync_patched(fn, patched: PatchedCallable):
  *     @functools.wraps(fn)
  *     def _patched(*args, **kwargs):             # <<<<<<<<<<<<<<
  *         cdef object result
@@ -3455,7 +3508,7 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
  *         cdef Provider provider
  * 
  *         to_inject = kwargs.copy()             # <<<<<<<<<<<<<<
- *         for arg_key, provider in _patched.__injections__.items():
+ *         for arg_key, provider in patched.injections.items():
  *             if arg_key not in kwargs or isinstance(kwargs[arg_key], _Marker):
  */
   __pyx_t_1 = PyDict_Copy(__pyx_v_kwargs); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 23, __pyx_L1_error)
@@ -3466,12 +3519,12 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
   /* "dependency_injector/_cwiring.pyx":24
  * 
  *         to_inject = kwargs.copy()
- *         for arg_key, provider in _patched.__injections__.items():             # <<<<<<<<<<<<<<
+ *         for arg_key, provider in patched.injections.items():             # <<<<<<<<<<<<<<
  *             if arg_key not in kwargs or isinstance(kwargs[arg_key], _Marker):
  *                 to_inject[arg_key] = provider()
  */
-  if (unlikely(!__pyx_cur_scope->__pyx_v__patched)) { __Pyx_RaiseClosureNameError("_patched"); __PYX_ERR(0, 24, __pyx_L1_error) }
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v__patched, __pyx_n_s_injections); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_v_patched)) { __Pyx_RaiseClosureNameError("patched"); __PYX_ERR(0, 24, __pyx_L1_error) }
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_patched, __pyx_n_s_injections); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_items); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 24, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -3585,7 +3638,7 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
 
     /* "dependency_injector/_cwiring.pyx":25
  *         to_inject = kwargs.copy()
- *         for arg_key, provider in _patched.__injections__.items():
+ *         for arg_key, provider in patched.injections.items():
  *             if arg_key not in kwargs or isinstance(kwargs[arg_key], _Marker):             # <<<<<<<<<<<<<<
  *                 to_inject[arg_key] = provider()
  * 
@@ -3610,7 +3663,7 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
     if (__pyx_t_9) {
 
       /* "dependency_injector/_cwiring.pyx":26
- *         for arg_key, provider in _patched.__injections__.items():
+ *         for arg_key, provider in patched.injections.items():
  *             if arg_key not in kwargs or isinstance(kwargs[arg_key], _Marker):
  *                 to_inject[arg_key] = provider()             # <<<<<<<<<<<<<<
  * 
@@ -3641,7 +3694,7 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
 
       /* "dependency_injector/_cwiring.pyx":25
  *         to_inject = kwargs.copy()
- *         for arg_key, provider in _patched.__injections__.items():
+ *         for arg_key, provider in patched.injections.items():
  *             if arg_key not in kwargs or isinstance(kwargs[arg_key], _Marker):             # <<<<<<<<<<<<<<
  *                 to_inject[arg_key] = provider()
  * 
@@ -3651,7 +3704,7 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
     /* "dependency_injector/_cwiring.pyx":24
  * 
  *         to_inject = kwargs.copy()
- *         for arg_key, provider in _patched.__injections__.items():             # <<<<<<<<<<<<<<
+ *         for arg_key, provider in patched.injections.items():             # <<<<<<<<<<<<<<
  *             if arg_key not in kwargs or isinstance(kwargs[arg_key], _Marker):
  *                 to_inject[arg_key] = provider()
  */
@@ -3663,7 +3716,7 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
  * 
  *         result = fn(*args, **to_inject)             # <<<<<<<<<<<<<<
  * 
- *         if _patched.__closing__:
+ *         if patched.closing:
  */
   if (unlikely(!__pyx_cur_scope->__pyx_v_fn)) { __Pyx_RaiseClosureNameError("fn"); __PYX_ERR(0, 28, __pyx_L1_error) }
   if (unlikely(__pyx_v_to_inject == Py_None)) {
@@ -3681,12 +3734,12 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
   /* "dependency_injector/_cwiring.pyx":30
  *         result = fn(*args, **to_inject)
  * 
- *         if _patched.__closing__:             # <<<<<<<<<<<<<<
- *             for arg_key, provider in _patched.__closing__.items():
+ *         if patched.closing:             # <<<<<<<<<<<<<<
+ *             for arg_key, provider in patched.closing.items():
  *                 if arg_key in kwargs and not isinstance(kwargs[arg_key], _Marker):
  */
-  if (unlikely(!__pyx_cur_scope->__pyx_v__patched)) { __Pyx_RaiseClosureNameError("_patched"); __PYX_ERR(0, 30, __pyx_L1_error) }
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v__patched, __pyx_n_s_closing); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
+  if (unlikely(!__pyx_cur_scope->__pyx_v_patched)) { __Pyx_RaiseClosureNameError("patched"); __PYX_ERR(0, 30, __pyx_L1_error) }
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_patched, __pyx_n_s_closing); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 30, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -3694,13 +3747,13 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
 
     /* "dependency_injector/_cwiring.pyx":31
  * 
- *         if _patched.__closing__:
- *             for arg_key, provider in _patched.__closing__.items():             # <<<<<<<<<<<<<<
+ *         if patched.closing:
+ *             for arg_key, provider in patched.closing.items():             # <<<<<<<<<<<<<<
  *                 if arg_key in kwargs and not isinstance(kwargs[arg_key], _Marker):
  *                     continue
  */
-    if (unlikely(!__pyx_cur_scope->__pyx_v__patched)) { __Pyx_RaiseClosureNameError("_patched"); __PYX_ERR(0, 31, __pyx_L1_error) }
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v__patched, __pyx_n_s_closing); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
+    if (unlikely(!__pyx_cur_scope->__pyx_v_patched)) { __Pyx_RaiseClosureNameError("patched"); __PYX_ERR(0, 31, __pyx_L1_error) }
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_patched, __pyx_n_s_closing); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 31, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_items); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 31, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
@@ -3813,8 +3866,8 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
       __pyx_t_2 = 0;
 
       /* "dependency_injector/_cwiring.pyx":32
- *         if _patched.__closing__:
- *             for arg_key, provider in _patched.__closing__.items():
+ *         if patched.closing:
+ *             for arg_key, provider in patched.closing.items():
  *                 if arg_key in kwargs and not isinstance(kwargs[arg_key], _Marker):             # <<<<<<<<<<<<<<
  *                     continue
  *                 if not isinstance(provider, providers.Resource):
@@ -3839,7 +3892,7 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
       if (__pyx_t_9) {
 
         /* "dependency_injector/_cwiring.pyx":33
- *             for arg_key, provider in _patched.__closing__.items():
+ *             for arg_key, provider in patched.closing.items():
  *                 if arg_key in kwargs and not isinstance(kwargs[arg_key], _Marker):
  *                     continue             # <<<<<<<<<<<<<<
  *                 if not isinstance(provider, providers.Resource):
@@ -3848,8 +3901,8 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
         goto __pyx_L11_continue;
 
         /* "dependency_injector/_cwiring.pyx":32
- *         if _patched.__closing__:
- *             for arg_key, provider in _patched.__closing__.items():
+ *         if patched.closing:
+ *             for arg_key, provider in patched.closing.items():
  *                 if arg_key in kwargs and not isinstance(kwargs[arg_key], _Marker):             # <<<<<<<<<<<<<<
  *                     continue
  *                 if not isinstance(provider, providers.Resource):
@@ -3919,8 +3972,8 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
 
       /* "dependency_injector/_cwiring.pyx":31
  * 
- *         if _patched.__closing__:
- *             for arg_key, provider in _patched.__closing__.items():             # <<<<<<<<<<<<<<
+ *         if patched.closing:
+ *             for arg_key, provider in patched.closing.items():             # <<<<<<<<<<<<<<
  *                 if arg_key in kwargs and not isinstance(kwargs[arg_key], _Marker):
  *                     continue
  */
@@ -3931,8 +3984,8 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
     /* "dependency_injector/_cwiring.pyx":30
  *         result = fn(*args, **to_inject)
  * 
- *         if _patched.__closing__:             # <<<<<<<<<<<<<<
- *             for arg_key, provider in _patched.__closing__.items():
+ *         if patched.closing:             # <<<<<<<<<<<<<<
+ *             for arg_key, provider in patched.closing.items():
  *                 if arg_key in kwargs and not isinstance(kwargs[arg_key], _Marker):
  */
   }
@@ -3950,7 +4003,7 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
   goto __pyx_L0;
 
   /* "dependency_injector/_cwiring.pyx":17
- * def _get_sync_patched(fn):
+ * def _get_sync_patched(fn, patched: PatchedCallable):
  *     @functools.wraps(fn)
  *     def _patched(*args, **kwargs):             # <<<<<<<<<<<<<<
  *         cdef object result
@@ -3979,13 +4032,14 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring_17_get_sync_patched__p
 /* "dependency_injector/_cwiring.pyx":15
  * 
  * 
- * def _get_sync_patched(fn):             # <<<<<<<<<<<<<<
+ * def _get_sync_patched(fn, patched: PatchedCallable):             # <<<<<<<<<<<<<<
  *     @functools.wraps(fn)
  *     def _patched(*args, **kwargs):
  */
 
-static PyObject *__pyx_pf_19dependency_injector_8_cwiring__get_sync_patched(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_fn) {
+static PyObject *__pyx_pf_19dependency_injector_8_cwiring__get_sync_patched(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_fn, PyObject *__pyx_v_patched) {
   struct __pyx_obj_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched *__pyx_cur_scope;
+  PyObject *__pyx_v__patched = 0;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -4007,10 +4061,13 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring__get_sync_patched(CYTH
   __pyx_cur_scope->__pyx_v_fn = __pyx_v_fn;
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_fn);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_fn);
+  __pyx_cur_scope->__pyx_v_patched = __pyx_v_patched;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_patched);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_patched);
 
   /* "dependency_injector/_cwiring.pyx":16
  * 
- * def _get_sync_patched(fn):
+ * def _get_sync_patched(fn, patched: PatchedCallable):
  *     @functools.wraps(fn)             # <<<<<<<<<<<<<<
  *     def _patched(*args, **kwargs):
  *         cdef object result
@@ -4037,7 +4094,7 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring__get_sync_patched(CYTH
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "dependency_injector/_cwiring.pyx":17
- * def _get_sync_patched(fn):
+ * def _get_sync_patched(fn, patched: PatchedCallable):
  *     @functools.wraps(fn)
  *     def _patched(*args, **kwargs):             # <<<<<<<<<<<<<<
  *         cdef object result
@@ -4061,8 +4118,7 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring__get_sync_patched(CYTH
   if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_cur_scope->__pyx_v__patched = __pyx_t_1;
+  __pyx_v__patched = __pyx_t_1;
   __pyx_t_1 = 0;
 
   /* "dependency_injector/_cwiring.pyx":39
@@ -4073,14 +4129,14 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring__get_sync_patched(CYTH
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_cur_scope->__pyx_v__patched);
-  __pyx_r = __pyx_cur_scope->__pyx_v__patched;
+  __Pyx_INCREF(__pyx_v__patched);
+  __pyx_r = __pyx_v__patched;
   goto __pyx_L0;
 
   /* "dependency_injector/_cwiring.pyx":15
  * 
  * 
- * def _get_sync_patched(fn):             # <<<<<<<<<<<<<<
+ * def _get_sync_patched(fn, patched: PatchedCallable):             # <<<<<<<<<<<<<<
  *     @functools.wraps(fn)
  *     def _patched(*args, **kwargs):
  */
@@ -4094,6 +4150,7 @@ static PyObject *__pyx_pf_19dependency_injector_8_cwiring__get_sync_patched(CYTH
   __Pyx_AddTraceback("dependency_injector._cwiring._get_sync_patched", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v__patched);
   __Pyx_DECREF(((PyObject *)__pyx_cur_scope));
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
@@ -4125,7 +4182,7 @@ static PyObject *__pyx_pw_19dependency_injector_8_cwiring_3_async_inject(PyObjec
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_async_inject (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_fn,&__pyx_n_s_args,&__pyx_n_s_kwargs,&__pyx_n_s_injections_2,&__pyx_n_s_closings,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_fn,&__pyx_n_s_args,&__pyx_n_s_kwargs,&__pyx_n_s_injections,&__pyx_n_s_closings,0};
     PyObject* values[5] = {0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
@@ -4163,7 +4220,7 @@ static PyObject *__pyx_pw_19dependency_injector_8_cwiring_3_async_inject(PyObjec
         }
         CYTHON_FALLTHROUGH;
         case  3:
-        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_injections_2)) != 0)) kw_args--;
+        if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_injections)) != 0)) kw_args--;
         else {
           __Pyx_RaiseArgtupleInvalid("_async_inject", 1, 5, 5, 3); __PYX_ERR(0, 42, __pyx_L3_error)
         }
@@ -11430,8 +11487,8 @@ static PyObject *__pyx_tp_new_19dependency_injector_8_cwiring___pyx_scope_struct
 static void __pyx_tp_dealloc_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched(PyObject *o) {
   struct __pyx_obj_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched *p = (struct __pyx_obj_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched *)o;
   PyObject_GC_UnTrack(o);
-  Py_CLEAR(p->__pyx_v__patched);
   Py_CLEAR(p->__pyx_v_fn);
+  Py_CLEAR(p->__pyx_v_patched);
   if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched)))) {
     __pyx_freelist_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched[__pyx_freecount_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched++] = ((struct __pyx_obj_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched *)o);
   } else {
@@ -11442,11 +11499,11 @@ static void __pyx_tp_dealloc_19dependency_injector_8_cwiring___pyx_scope_struct_
 static int __pyx_tp_traverse_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched(PyObject *o, visitproc v, void *a) {
   int e;
   struct __pyx_obj_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched *p = (struct __pyx_obj_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched *)o;
-  if (p->__pyx_v__patched) {
-    e = (*v)(p->__pyx_v__patched, a); if (e) return e;
-  }
   if (p->__pyx_v_fn) {
     e = (*v)(p->__pyx_v_fn, a); if (e) return e;
+  }
+  if (p->__pyx_v_patched) {
+    e = (*v)(p->__pyx_v_patched, a); if (e) return e;
   }
   return 0;
 }
@@ -11454,11 +11511,11 @@ static int __pyx_tp_traverse_19dependency_injector_8_cwiring___pyx_scope_struct_
 static int __pyx_tp_clear_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched(PyObject *o) {
   PyObject* tmp;
   struct __pyx_obj_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched *p = (struct __pyx_obj_19dependency_injector_8_cwiring___pyx_scope_struct___get_sync_patched *)o;
-  tmp = ((PyObject*)p->__pyx_v__patched);
-  p->__pyx_v__patched = Py_None; Py_INCREF(Py_None);
-  Py_XDECREF(tmp);
   tmp = ((PyObject*)p->__pyx_v_fn);
   p->__pyx_v_fn = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_patched);
+  p->__pyx_v_patched = Py_None; Py_INCREF(Py_None);
   Py_XDECREF(tmp);
   return 0;
 }
@@ -12266,6 +12323,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_GeneratorType, __pyx_k_GeneratorType, sizeof(__pyx_k_GeneratorType), 0, 0, 1, 1},
   {&__pyx_n_s_ImportError, __pyx_k_ImportError, sizeof(__pyx_k_ImportError), 0, 0, 1, 1},
   {&__pyx_n_s_Marker, __pyx_k_Marker, sizeof(__pyx_k_Marker), 0, 0, 1, 1},
+  {&__pyx_n_s_PatchedCallable, __pyx_k_PatchedCallable, sizeof(__pyx_k_PatchedCallable), 0, 0, 1, 1},
   {&__pyx_n_s_Pyx_CFunc_object____object, __pyx_k_Pyx_CFunc_object____object, sizeof(__pyx_k_Pyx_CFunc_object____object), 0, 0, 1, 1},
   {&__pyx_n_s_Pyx_CFunc_void____object____ob, __pyx_k_Pyx_CFunc_void____object____ob, sizeof(__pyx_k_Pyx_CFunc_void____object____ob), 0, 0, 1, 1},
   {&__pyx_n_s_Pyx_CFunc_void____object____ob_2, __pyx_k_Pyx_CFunc_void____object____ob_2, sizeof(__pyx_k_Pyx_CFunc_void____object____ob_2), 0, 0, 1, 1},
@@ -12312,7 +12370,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_index, __pyx_k_index, sizeof(__pyx_k_index), 0, 0, 1, 1},
   {&__pyx_n_s_injection, __pyx_k_injection, sizeof(__pyx_k_injection), 0, 0, 1, 1},
   {&__pyx_n_s_injections, __pyx_k_injections, sizeof(__pyx_k_injections), 0, 0, 1, 1},
-  {&__pyx_n_s_injections_2, __pyx_k_injections_2, sizeof(__pyx_k_injections_2), 0, 0, 1, 1},
   {&__pyx_n_s_inspect, __pyx_k_inspect, sizeof(__pyx_k_inspect), 0, 0, 1, 1},
   {&__pyx_n_s_items, __pyx_k_items, sizeof(__pyx_k_items), 0, 0, 1, 1},
   {&__pyx_n_s_kwargs, __pyx_k_kwargs, sizeof(__pyx_k_kwargs), 0, 0, 1, 1},
@@ -12320,6 +12377,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_n_s_partial, __pyx_k_partial, sizeof(__pyx_k_partial), 0, 0, 1, 1},
   {&__pyx_n_s_patched, __pyx_k_patched, sizeof(__pyx_k_patched), 0, 0, 1, 1},
+  {&__pyx_n_s_patched_2, __pyx_k_patched_2, sizeof(__pyx_k_patched_2), 0, 0, 1, 1},
   {&__pyx_n_s_provide, __pyx_k_provide, sizeof(__pyx_k_provide), 0, 0, 1, 1},
   {&__pyx_n_s_provider, __pyx_k_provider, sizeof(__pyx_k_provider), 0, 0, 1, 1},
   {&__pyx_n_s_providers, __pyx_k_providers, sizeof(__pyx_k_providers), 0, 0, 1, 1},
@@ -12358,7 +12416,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
   /* "dependency_injector/_cwiring.pyx":17
- * def _get_sync_patched(fn):
+ * def _get_sync_patched(fn, patched: PatchedCallable):
  *     @functools.wraps(fn)
  *     def _patched(*args, **kwargs):             # <<<<<<<<<<<<<<
  *         cdef object result
@@ -12367,7 +12425,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple_ = PyTuple_Pack(6, __pyx_n_s_args, __pyx_n_s_kwargs, __pyx_n_s_result, __pyx_n_s_to_inject, __pyx_n_s_arg_key, __pyx_n_s_provider); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(0, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector__cwiring, __pyx_n_s_patched, 17, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(0, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector__cwiring, __pyx_n_s_patched_2, 17, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 17, __pyx_L1_error)
 
   /* "cfunc.to_py":65
  * @cname("__Pyx_CFunc_void____object____object____object____object___to_py")
@@ -12396,14 +12454,14 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   /* "dependency_injector/_cwiring.pyx":15
  * 
  * 
- * def _get_sync_patched(fn):             # <<<<<<<<<<<<<<
+ * def _get_sync_patched(fn, patched: PatchedCallable):             # <<<<<<<<<<<<<<
  *     @functools.wraps(fn)
  *     def _patched(*args, **kwargs):
  */
-  __pyx_tuple__14 = PyTuple_Pack(3, __pyx_n_s_fn, __pyx_n_s_patched, __pyx_n_s_patched); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_tuple__14 = PyTuple_Pack(4, __pyx_n_s_fn, __pyx_n_s_patched, __pyx_n_s_patched_2, __pyx_n_s_patched_2); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector__cwiring, __pyx_n_s_get_sync_patched, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector__cwiring, __pyx_n_s_get_sync_patched, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 15, __pyx_L1_error)
 
   /* "dependency_injector/_cwiring.pyx":42
  * 
@@ -12412,7 +12470,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *     cdef object result
  *     cdef dict to_inject
  */
-  __pyx_tuple__17 = PyTuple_Pack(18, __pyx_n_s_fn, __pyx_n_s_args, __pyx_n_s_kwargs, __pyx_n_s_injections_2, __pyx_n_s_closings, __pyx_n_s_result, __pyx_n_s_to_inject, __pyx_n_s_to_inject_await, __pyx_n_s_to_close_await, __pyx_n_s_arg_key, __pyx_n_s_provider, __pyx_n_s_provide, __pyx_n_s_async_to_inject, __pyx_n_s_injection, __pyx_n_s__16, __pyx_n_s_shutdown, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(18, __pyx_n_s_fn, __pyx_n_s_args, __pyx_n_s_kwargs, __pyx_n_s_injections, __pyx_n_s_closings, __pyx_n_s_result, __pyx_n_s_to_inject, __pyx_n_s_to_inject_await, __pyx_n_s_to_close_await, __pyx_n_s_arg_key, __pyx_n_s_provider, __pyx_n_s_provide, __pyx_n_s_async_to_inject, __pyx_n_s_injection, __pyx_n_s__16, __pyx_n_s_shutdown, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
   __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(5, 0, 18, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector__cwiring, __pyx_n_s_async_inject, 42, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 42, __pyx_L1_error)
@@ -12994,7 +13052,7 @@ if (!__Pyx_RefNanny) {
  * import types
  * 
  * from . import providers             # <<<<<<<<<<<<<<
- * from .wiring import _Marker
+ * from .wiring import _Marker, PatchedCallable
  * 
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
@@ -13014,15 +13072,18 @@ if (!__Pyx_RefNanny) {
   /* "dependency_injector/_cwiring.pyx":10
  * 
  * from . import providers
- * from .wiring import _Marker             # <<<<<<<<<<<<<<
+ * from .wiring import _Marker, PatchedCallable             # <<<<<<<<<<<<<<
  * 
  * from .providers cimport Provider
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_Marker);
   __Pyx_GIVEREF(__pyx_n_s_Marker);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_Marker);
+  __Pyx_INCREF(__pyx_n_s_PatchedCallable);
+  __Pyx_GIVEREF(__pyx_n_s_PatchedCallable);
+  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_PatchedCallable);
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_wiring, __pyx_t_2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -13030,12 +13091,16 @@ if (!__Pyx_RefNanny) {
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Marker, __pyx_t_2) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_PatchedCallable); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_PatchedCallable, __pyx_t_2) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "dependency_injector/_cwiring.pyx":15
  * 
  * 
- * def _get_sync_patched(fn):             # <<<<<<<<<<<<<<
+ * def _get_sync_patched(fn, patched: PatchedCallable):             # <<<<<<<<<<<<<<
  *     @functools.wraps(fn)
  *     def _patched(*args, **kwargs):
  */
@@ -13143,6 +13208,148 @@ static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
 #endif
     }
     return result;
+}
+
+/* RaiseArgTupleInvalid */
+static void __Pyx_RaiseArgtupleInvalid(
+    const char* func_name,
+    int exact,
+    Py_ssize_t num_min,
+    Py_ssize_t num_max,
+    Py_ssize_t num_found)
+{
+    Py_ssize_t num_expected;
+    const char *more_or_less;
+    if (num_found < num_min) {
+        num_expected = num_min;
+        more_or_less = "at least";
+    } else {
+        num_expected = num_max;
+        more_or_less = "at most";
+    }
+    if (exact) {
+        more_or_less = "exactly";
+    }
+    PyErr_Format(PyExc_TypeError,
+                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
+                 func_name, more_or_less, num_expected,
+                 (num_expected == 1) ? "" : "s", num_found);
+}
+
+/* RaiseDoubleKeywords */
+static void __Pyx_RaiseDoubleKeywordsError(
+    const char* func_name,
+    PyObject* kw_name)
+{
+    PyErr_Format(PyExc_TypeError,
+        #if PY_MAJOR_VERSION >= 3
+        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
+        #else
+        "%s() got multiple values for keyword argument '%s'", func_name,
+        PyString_AsString(kw_name));
+        #endif
+}
+
+/* ParseKeywords */
+static int __Pyx_ParseOptionalKeywords(
+    PyObject *kwds,
+    PyObject **argnames[],
+    PyObject *kwds2,
+    PyObject *values[],
+    Py_ssize_t num_pos_args,
+    const char* function_name)
+{
+    PyObject *key = 0, *value = 0;
+    Py_ssize_t pos = 0;
+    PyObject*** name;
+    PyObject*** first_kw_arg = argnames + num_pos_args;
+    while (PyDict_Next(kwds, &pos, &key, &value)) {
+        name = first_kw_arg;
+        while (*name && (**name != key)) name++;
+        if (*name) {
+            values[name-argnames] = value;
+            continue;
+        }
+        name = first_kw_arg;
+        #if PY_MAJOR_VERSION < 3
+        if (likely(PyString_Check(key))) {
+            while (*name) {
+                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
+                        && _PyString_Eq(**name, key)) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    if ((**argname == key) || (
+                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
+                             && _PyString_Eq(**argname, key))) {
+                        goto arg_passed_twice;
+                    }
+                    argname++;
+                }
+            }
+        } else
+        #endif
+        if (likely(PyUnicode_Check(key))) {
+            while (*name) {
+                int cmp = (**name == key) ? 0 :
+                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                    (__Pyx_PyUnicode_GET_LENGTH(**name) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
+                #endif
+                    PyUnicode_Compare(**name, key);
+                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                if (cmp == 0) {
+                    values[name-argnames] = value;
+                    break;
+                }
+                name++;
+            }
+            if (*name) continue;
+            else {
+                PyObject*** argname = argnames;
+                while (argname != first_kw_arg) {
+                    int cmp = (**argname == key) ? 0 :
+                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
+                        (__Pyx_PyUnicode_GET_LENGTH(**argname) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
+                    #endif
+                        PyUnicode_Compare(**argname, key);
+                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
+                    if (cmp == 0) goto arg_passed_twice;
+                    argname++;
+                }
+            }
+        } else
+            goto invalid_keyword_type;
+        if (kwds2) {
+            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
+        } else {
+            goto invalid_keyword;
+        }
+    }
+    return 0;
+arg_passed_twice:
+    __Pyx_RaiseDoubleKeywordsError(function_name, key);
+    goto bad;
+invalid_keyword_type:
+    PyErr_Format(PyExc_TypeError,
+        "%.200s() keywords must be strings", function_name);
+    goto bad;
+invalid_keyword:
+    PyErr_Format(PyExc_TypeError,
+    #if PY_MAJOR_VERSION < 3
+        "%.200s() got an unexpected keyword argument '%.200s'",
+        function_name, PyString_AsString(key));
+    #else
+        "%s() got an unexpected keyword argument '%U'",
+        function_name, key);
+    #endif
+bad:
+    return -1;
 }
 
 /* KeywordStringCheck */
@@ -14282,148 +14489,6 @@ static PyObject *__Pyx_CyFunction_New(PyMethodDef *ml, int flags, PyObject* qual
         PyObject_GC_Track(op);
     }
     return op;
-}
-
-/* RaiseArgTupleInvalid */
-static void __Pyx_RaiseArgtupleInvalid(
-    const char* func_name,
-    int exact,
-    Py_ssize_t num_min,
-    Py_ssize_t num_max,
-    Py_ssize_t num_found)
-{
-    Py_ssize_t num_expected;
-    const char *more_or_less;
-    if (num_found < num_min) {
-        num_expected = num_min;
-        more_or_less = "at least";
-    } else {
-        num_expected = num_max;
-        more_or_less = "at most";
-    }
-    if (exact) {
-        more_or_less = "exactly";
-    }
-    PyErr_Format(PyExc_TypeError,
-                 "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
-                 func_name, more_or_less, num_expected,
-                 (num_expected == 1) ? "" : "s", num_found);
-}
-
-/* RaiseDoubleKeywords */
-static void __Pyx_RaiseDoubleKeywordsError(
-    const char* func_name,
-    PyObject* kw_name)
-{
-    PyErr_Format(PyExc_TypeError,
-        #if PY_MAJOR_VERSION >= 3
-        "%s() got multiple values for keyword argument '%U'", func_name, kw_name);
-        #else
-        "%s() got multiple values for keyword argument '%s'", func_name,
-        PyString_AsString(kw_name));
-        #endif
-}
-
-/* ParseKeywords */
-static int __Pyx_ParseOptionalKeywords(
-    PyObject *kwds,
-    PyObject **argnames[],
-    PyObject *kwds2,
-    PyObject *values[],
-    Py_ssize_t num_pos_args,
-    const char* function_name)
-{
-    PyObject *key = 0, *value = 0;
-    Py_ssize_t pos = 0;
-    PyObject*** name;
-    PyObject*** first_kw_arg = argnames + num_pos_args;
-    while (PyDict_Next(kwds, &pos, &key, &value)) {
-        name = first_kw_arg;
-        while (*name && (**name != key)) name++;
-        if (*name) {
-            values[name-argnames] = value;
-            continue;
-        }
-        name = first_kw_arg;
-        #if PY_MAJOR_VERSION < 3
-        if (likely(PyString_Check(key))) {
-            while (*name) {
-                if ((CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**name) == PyString_GET_SIZE(key))
-                        && _PyString_Eq(**name, key)) {
-                    values[name-argnames] = value;
-                    break;
-                }
-                name++;
-            }
-            if (*name) continue;
-            else {
-                PyObject*** argname = argnames;
-                while (argname != first_kw_arg) {
-                    if ((**argname == key) || (
-                            (CYTHON_COMPILING_IN_PYPY || PyString_GET_SIZE(**argname) == PyString_GET_SIZE(key))
-                             && _PyString_Eq(**argname, key))) {
-                        goto arg_passed_twice;
-                    }
-                    argname++;
-                }
-            }
-        } else
-        #endif
-        if (likely(PyUnicode_Check(key))) {
-            while (*name) {
-                int cmp = (**name == key) ? 0 :
-                #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
-                    (__Pyx_PyUnicode_GET_LENGTH(**name) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
-                #endif
-                    PyUnicode_Compare(**name, key);
-                if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
-                if (cmp == 0) {
-                    values[name-argnames] = value;
-                    break;
-                }
-                name++;
-            }
-            if (*name) continue;
-            else {
-                PyObject*** argname = argnames;
-                while (argname != first_kw_arg) {
-                    int cmp = (**argname == key) ? 0 :
-                    #if !CYTHON_COMPILING_IN_PYPY && PY_MAJOR_VERSION >= 3
-                        (__Pyx_PyUnicode_GET_LENGTH(**argname) != __Pyx_PyUnicode_GET_LENGTH(key)) ? 1 :
-                    #endif
-                        PyUnicode_Compare(**argname, key);
-                    if (cmp < 0 && unlikely(PyErr_Occurred())) goto bad;
-                    if (cmp == 0) goto arg_passed_twice;
-                    argname++;
-                }
-            }
-        } else
-            goto invalid_keyword_type;
-        if (kwds2) {
-            if (unlikely(PyDict_SetItem(kwds2, key, value))) goto bad;
-        } else {
-            goto invalid_keyword;
-        }
-    }
-    return 0;
-arg_passed_twice:
-    __Pyx_RaiseDoubleKeywordsError(function_name, key);
-    goto bad;
-invalid_keyword_type:
-    PyErr_Format(PyExc_TypeError,
-        "%.200s() keywords must be strings", function_name);
-    goto bad;
-invalid_keyword:
-    PyErr_Format(PyExc_TypeError,
-    #if PY_MAJOR_VERSION < 3
-        "%.200s() got an unexpected keyword argument '%.200s'",
-        function_name, PyString_AsString(key));
-    #else
-        "%s() got an unexpected keyword argument '%U'",
-        function_name, key);
-    #endif
-bad:
-    return -1;
 }
 
 /* ArgTypeTest */

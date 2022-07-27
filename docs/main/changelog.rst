@@ -11,7 +11,13 @@ follows `Semantic versioning`_
 Development
 -----------
 - Add ``Configuration.from_json()`` method to load configuration from a json file.
+- Fix bug with wiring not working properly with functions double wrapped by ``@functools.wraps`` decorator.
+  See issue: `#454 <https://github.com/ets-labs/python-dependency-injector/issues/454>`_.
+  Many thanks to: `@platipo <https://github.com/platipo>`_, `@MatthieuMoreau0 <https://github.com/MatthieuMoreau0>`_,
+  `@fabiocerqueira <https://github.com/fabiocerqueira>`_, `@Jitesh-Khuttan <https://github.com/Jitesh-Khuttan>`_.
+- Refactor wiring module to store all patched callable data in the ``PatchedRegistry``.
 - Improve wording on the "Dependency injection and inversion of control in Python" docs page.
+- Add documentation on the ``@inject`` decorator.
 - Update typing in the main example and cohesion/coupling correlation definition in
   "Dependency injection and inversion of control in Python".
   Thanks to `@illia-v (Illia Volochii) <https://github.com/illia-v>`_ for the
