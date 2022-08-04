@@ -7,6 +7,25 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+4.40.0
+------
+- Add ``Configuration.from_json()`` method to load configuration from a json file.
+- Fix bug with wiring not working properly with functions double wrapped by ``@functools.wraps`` decorator.
+  See issue: `#454 <https://github.com/ets-labs/python-dependency-injector/issues/454>`_.
+  Many thanks to: `@platipo <https://github.com/platipo>`_, `@MatthieuMoreau0 <https://github.com/MatthieuMoreau0>`_,
+  `@fabiocerqueira <https://github.com/fabiocerqueira>`_, `@Jitesh-Khuttan <https://github.com/Jitesh-Khuttan>`_.
+- Refactor wiring module to store all patched callable data in the ``PatchedRegistry``.
+- Improve wording on the "Dependency injection and inversion of control in Python" docs page.
+- Add documentation on the ``@inject`` decorator.
+- Update typing in the main example and cohesion/coupling correlation definition in
+  "Dependency injection and inversion of control in Python".
+  Thanks to `@illia-v (Illia Volochii) <https://github.com/illia-v>`_ for the
+  PR (`#580 <https://github.com/ets-labs/python-dependency-injector/pull/580>`_).
+- Update copyright year.
+- Enable skipped test ``test_schema_with_boto3_session()``.
+- Update pytest configuration.
+- Regenerate C sources using Cython 0.29.30.
+
 4.39.1
 ------
 - Fix bug `#574 <https://github.com/ets-labs/python-dependency-injector/issues/574>`_:

@@ -47,6 +47,11 @@ def test_set_files(config):
     assert config.get_yaml_files() == ["file1.yml", "file2.yml"]
 
 
+def test_copy(config, yaml_config_file_1, yaml_config_file_2):
+    config_copy = providers.deepcopy(config)
+    assert config_copy.get_yaml_files() == [yaml_config_file_1, yaml_config_file_2]
+
+
 def test_file_does_not_exist(config):
     config.set_yaml_files(["./does_not_exist.yml"])
     config.load()

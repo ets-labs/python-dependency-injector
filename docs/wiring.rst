@@ -22,6 +22,82 @@ To use wiring you need:
    :local:
    :backlinks: none
 
+Decorator @inject
+-----------------
+
+Decorator ``@inject`` injects the dependencies. Use it to decorate all functions and methods
+with the injections.
+
+.. code-block:: python
+
+   from dependency_injector.wiring import inject, Provide
+
+
+   @inject
+   def foo(bar: Bar = Provide[Container.bar]):
+       ...
+
+Decorator ``@inject`` must be specified as a very first decorator of a function to ensure that
+the wiring works appropriately. This will also contribute to the performance of the wiring process.
+
+.. code-block:: python
+
+   from dependency_injector.wiring import inject, Provide
+
+
+   @decorator_etc
+   @decorator_2
+   @decorator_1
+   @inject
+   def foo(bar: Bar = Provide[Container.bar]):
+       ...
+
+Specifying the ``@inject`` as a first decorator is also crucial for FastAPI, other frameworks
+using decorators similarly, for closures, and for any types of custom decorators with the injections.
+
+FastAPI example:
+
+.. code-block:: python
+
+   app = FastAPI()
+
+
+   @app.api_route("/")
+   @inject
+   async def index(service: Service = Depends(Provide[Container.service])):
+       value = await service.process()
+       return {"result": value}
+
+Decorators example:
+
+.. code-block:: python
+
+   def decorator1(func):
+       @functools.wraps(func)
+       @inject
+       def wrapper(value1: int = Provide[Container.config.value1]):
+           result = func()
+           return result + value1
+       return wrapper
+
+
+   def decorator2(func):
+       @functools.wraps(func)
+       @inject
+       def wrapper(value2: int = Provide[Container.config.value2]):
+           result = func()
+           return result + value2
+       return wrapper
+
+   @decorator1
+   @decorator2
+   def sample():
+       ...
+
+.. seealso::
+   `Issue #404 <https://github.com/ets-labs/python-dependency-injector/issues/404#issuecomment-785216978>`_
+   explains ``@inject`` decorator in a few more details.
+
 Markers
 -------
 

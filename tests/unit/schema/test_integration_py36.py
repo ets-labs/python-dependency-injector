@@ -4,7 +4,6 @@ import os
 import sqlite3
 
 from dependency_injector import containers
-from pytest import mark
 
 from samples.schema.services import UserService, AuthService, PhotoService
 
@@ -19,18 +18,20 @@ SAMPLES_DIR = os.path.abspath(
 
 def test_single_container_schema(container: containers.DynamicContainer):
     container.from_yaml_schema(f"{SAMPLES_DIR}/schema/container-single.yml")
-    container.config.from_dict({
-        "database": {
-                 "dsn": ":memory:",
-                    },
-        "aws": {
-            "access_key_id": "KEY",
-            "secret_access_key": "SECRET",
-               },
-        "auth": {
-             "token_ttl": 3600,
-                },
-    })
+    container.config.from_dict(
+        {
+            "database": {
+                "dsn": ":memory:",
+            },
+            "aws": {
+                "access_key_id": "KEY",
+                "secret_access_key": "SECRET",
+            },
+            "auth": {
+                "token_ttl": 3600,
+            },
+        },
+    )
 
     # User service
     user_service1 = container.user_service()
@@ -79,18 +80,20 @@ def test_single_container_schema(container: containers.DynamicContainer):
 
 def test_multiple_containers_schema(container: containers.DynamicContainer):
     container.from_yaml_schema(f"{SAMPLES_DIR}/schema/container-multiple.yml")
-    container.core.config.from_dict({
-        "database": {
-            "dsn": ":memory:",
+    container.core.config.from_dict(
+        {
+            "database": {
+                "dsn": ":memory:",
+            },
+            "aws": {
+                "access_key_id": "KEY",
+                "secret_access_key": "SECRET",
+            },
+            "auth": {
+                "token_ttl": 3600,
+            },
         },
-        "aws": {
-            "access_key_id": "KEY",
-            "secret_access_key": "SECRET",
-        },
-        "auth": {
-            "token_ttl": 3600,
-        },
-    })
+    )
 
     # User service
     user_service1 = container.services.user()
@@ -139,18 +142,20 @@ def test_multiple_containers_schema(container: containers.DynamicContainer):
 
 def test_multiple_reordered_containers_schema(container: containers.DynamicContainer):
     container.from_yaml_schema(f"{SAMPLES_DIR}/schema/container-multiple-reordered.yml")
-    container.core.config.from_dict({
-        "database": {
-            "dsn": ":memory:",
+    container.core.config.from_dict(
+        {
+            "database": {
+                "dsn": ":memory:",
+            },
+            "aws": {
+                "access_key_id": "KEY",
+                "secret_access_key": "SECRET",
+            },
+            "auth": {
+                "token_ttl": 3600,
+            },
         },
-        "aws": {
-            "access_key_id": "KEY",
-            "secret_access_key": "SECRET",
-        },
-        "auth": {
-            "token_ttl": 3600,
-        },
-    })
+    )
 
     # User service
     user_service1 = container.services.user()
@@ -199,18 +204,20 @@ def test_multiple_reordered_containers_schema(container: containers.DynamicConta
 
 def test_multiple_containers_with_inline_providers_schema(container: containers.DynamicContainer):
     container.from_yaml_schema(f"{SAMPLES_DIR}/schema/container-multiple-inline.yml")
-    container.core.config.from_dict({
-        "database": {
-            "dsn": ":memory:",
+    container.core.config.from_dict(
+        {
+            "database": {
+                "dsn": ":memory:",
+            },
+            "aws": {
+                "access_key_id": "KEY",
+                "secret_access_key": "SECRET",
+            },
+            "auth": {
+                "token_ttl": 3600,
+            },
         },
-        "aws": {
-            "access_key_id": "KEY",
-            "secret_access_key": "SECRET",
-        },
-        "auth": {
-            "token_ttl": 3600,
-        },
-    })
+    )
 
     # User service
     user_service1 = container.services.user()
@@ -257,7 +264,6 @@ def test_multiple_containers_with_inline_providers_schema(container: containers.
     assert photo_service2.s3 is container.gateways.s3_client()
 
 
-@mark.skip(reason="Boto3 tries to connect to the internet")
 def test_schema_with_boto3_session(container: containers.DynamicContainer):
     container.from_yaml_schema(f"{SAMPLES_DIR}/schema/container-boto3-session.yml")
     container.config.from_dict(

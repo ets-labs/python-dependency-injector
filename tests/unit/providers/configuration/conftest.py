@@ -1,5 +1,6 @@
 """Fixtures module."""
 
+import json
 import os
 
 from dependency_injector import providers
@@ -51,14 +52,14 @@ def ini_config_file_2(tmp_path):
 
 @fixture
 def ini_config_file_3(tmp_path):
-    ini_config_file_3 = str(tmp_path / "config_3.ini")
-    with open(ini_config_file_3, "w") as file:
+    config_file = str(tmp_path / "config_3.ini")
+    with open(config_file, "w") as file:
         file.write(
             "[section1]\n"
             "value1=${CONFIG_TEST_ENV}\n"
             "value2=${CONFIG_TEST_PATH}/path\n"
         )
-    return ini_config_file_3
+    return config_file
 
 
 @fixture
@@ -91,14 +92,70 @@ def yaml_config_file_2(tmp_path):
 
 @fixture
 def yaml_config_file_3(tmp_path):
-    yaml_config_file_3 = str(tmp_path / "config_3.yml")
-    with open(yaml_config_file_3, "w") as file:
+    config_file = str(tmp_path / "config_3.yml")
+    with open(config_file, "w") as file:
         file.write(
             "section1:\n"
             "  value1: ${CONFIG_TEST_ENV}\n"
             "  value2: ${CONFIG_TEST_PATH}/path\n"
         )
-    return yaml_config_file_3
+    return config_file
+
+
+@fixture
+def json_config_file_1(tmp_path):
+    config_file = str(tmp_path / "config_1.json")
+    with open(config_file, "w") as file:
+        file.write(
+            json.dumps(
+                {
+                    "section1": {
+                        "value1": 1,
+                    },
+                    "section2": {
+                        "value2": 2,
+                    },
+                },
+            ),
+        )
+    return config_file
+
+
+@fixture
+def json_config_file_2(tmp_path):
+    config_file = str(tmp_path / "config_2.json")
+    with open(config_file, "w") as file:
+        file.write(
+            json.dumps(
+                {
+                    "section1": {
+                        "value1": 11,
+                        "value11": 11,
+                    },
+                    "section3": {
+                        "value3": 3,
+                    },
+                },
+            ),
+        )
+    return config_file
+
+
+@fixture
+def json_config_file_3(tmp_path):
+    config_file = str(tmp_path / "config_3.json")
+    with open(config_file, "w") as file:
+        file.write(
+            json.dumps(
+                {
+                    "section1": {
+                        "value1": "${CONFIG_TEST_ENV}",
+                        "value2": "${CONFIG_TEST_PATH}/path",
+                    },
+                },
+            ),
+        )
+    return config_file
 
 
 @fixture(autouse=True)

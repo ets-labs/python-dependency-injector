@@ -5,13 +5,14 @@ from __future__ import absolute_import
 import copy
 import errno
 import functools
-import inspect
 import importlib
+import inspect
+import json
 import os
 import re
 import sys
-import types
 import threading
+import types
 import warnings
 
 try:
@@ -1741,6 +1742,44 @@ cdef class ConfigurationOption(Provider):
             current_config = {}
         self.override(merge_dicts(current_config, config))
 
+    def from_json(self, filepath, required=UNDEFINED, envs_required=UNDEFINED):
+        """Load configuration from a json file.
+
+        Loaded configuration is merged recursively over the existing configuration.
+
+        :param filepath: Path to a configuration file.
+        :type filepath: str
+
+        :param required: When required is True, raise an exception if file does not exist.
+        :type required: bool
+
+        :param envs_required: When True, raises an exception on undefined environment variable.
+        :type envs_required: bool
+
+        :rtype: None
+        """
+        try:
+            with open(filepath) as opened_file:
+                config_content = opened_file.read()
+        except IOError as exception:
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True) \
+                    and exception.errno in (errno.ENOENT, errno.EISDIR):
+                exception.strerror = "Unable to load configuration file {0}".format(exception.strerror)
+                raise
+            return
+
+        config_content = _resolve_config_env_markers(
+            config_content,
+            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+        )
+        config = json.loads(config_content)
+
+        current_config = self.__call__()
+        if not current_config:
+            current_config = {}
+        self.override(merge_dicts(current_config, config))
+
     def from_pydantic(self, settings, required=UNDEFINED, **kwargs):
         """Load configuration from pydantic settings.
 
@@ -1886,24 +1925,29 @@ cdef class Configuration(Object):
 
     DEFAULT_NAME = "config"
 
-    def __init__(self, name=DEFAULT_NAME, default=None, strict=False, yaml_files=None, ini_files=None, pydantic_settings=None):
+    def __init__(self, name=DEFAULT_NAME, default=None, strict=False, ini_files=None, yaml_files=None, json_files=None, pydantic_settings=None):
         self.__name = name
         self.__strict = strict
         self.__children = {}
-        self.__yaml_files = []
         self.__ini_files = []
+        self.__yaml_files = []
+        self.__json_files = []
         self.__pydantic_settings = []
 
         super().__init__(provides={})
         self.set_default(default)
 
+        if ini_files is None:
+            ini_files = []
+        self.set_ini_files(ini_files)
+
         if yaml_files is None:
             yaml_files = []
         self.set_yaml_files(yaml_files)
 
-        if ini_files is None:
-            ini_files = []
-        self.set_ini_files(ini_files)
+        if json_files is None:
+            json_files = []
+        self.set_json_files(json_files)
 
         if pydantic_settings is None:
             pydantic_settings = []
@@ -1919,8 +1963,9 @@ cdef class Configuration(Object):
         copied.set_default(self.get_default())
         copied.set_strict(self.get_strict())
         copied.set_children(deepcopy(self.get_children(), memo))
-        copied.set_yaml_files(self.get_yaml_files())
         copied.set_ini_files(self.get_ini_files())
+        copied.set_yaml_files(self.get_yaml_files())
+        copied.set_json_files(self.get_json_files())
         copied.set_pydantic_settings(self.get_pydantic_settings())
 
         self._copy_overridings(copied, memo)
@@ -1995,6 +2040,15 @@ cdef class Configuration(Object):
         self.__children = children
         return self
 
+    def get_ini_files(self):
+        """Return list of INI files."""
+        return list(self.__ini_files)
+
+    def set_ini_files(self, files):
+        """Set list of INI files."""
+        self.__ini_files = list(files)
+        return self
+
     def get_yaml_files(self):
         """Return list of YAML files."""
         return list(self.__yaml_files)
@@ -2004,13 +2058,13 @@ cdef class Configuration(Object):
         self.__yaml_files = list(files)
         return self
 
-    def get_ini_files(self):
-        """Return list of INI files."""
-        return list(self.__ini_files)
+    def get_json_files(self):
+        """Return list of JSON files."""
+        return list(self.__json_files)
 
-    def set_ini_files(self, files):
-        """Set list of INI files."""
-        self.__ini_files = list(files)
+    def set_json_files(self, files):
+        """Set list of JSON files."""
+        self.__json_files = list(files)
         return self
 
     def get_pydantic_settings(self):
@@ -2039,11 +2093,14 @@ cdef class Configuration(Object):
         :param envs_required: When True, raises an error on undefined environment variable.
         :type envs_required: bool
         """
+        for file in self.get_ini_files():
+            self.from_ini(file, required=required, envs_required=envs_required)
+
         for file in self.get_yaml_files():
             self.from_yaml(file, required=required, envs_required=envs_required)
 
-        for file in self.get_ini_files():
-            self.from_ini(file, required=required, envs_required=envs_required)
+        for file in self.get_json_files():
+            self.from_json(file, required=required, envs_required=envs_required)
 
         for settings in self.get_pydantic_settings():
             self.from_pydantic(settings, required=required)
@@ -2248,6 +2305,44 @@ cdef class Configuration(Object):
             envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
         )
         config = yaml.load(config_content, loader)
+
+        current_config = self.__call__()
+        if not current_config:
+            current_config = {}
+        self.override(merge_dicts(current_config, config))
+
+    def from_json(self, filepath, required=UNDEFINED, envs_required=UNDEFINED):
+        """Load configuration from a json file.
+
+        Loaded configuration is merged recursively over the existing configuration.
+
+        :param filepath: Path to a configuration file.
+        :type filepath: str
+
+        :param required: When required is True, raise an exception if file does not exist.
+        :type required: bool
+
+        :param envs_required: When True, raises an exception on undefined environment variable.
+        :type envs_required: bool
+
+        :rtype: None
+        """
+        try:
+            with open(filepath) as opened_file:
+                config_content = opened_file.read()
+        except IOError as exception:
+            if required is not False \
+                    and (self._is_strict_mode_enabled() or required is True) \
+                    and exception.errno in (errno.ENOENT, errno.EISDIR):
+                exception.strerror = "Unable to load configuration file {0}".format(exception.strerror)
+                raise
+            return
+
+        config_content = _resolve_config_env_markers(
+            config_content,
+            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+        )
+        config = json.loads(config_content)
 
         current_config = self.__call__()
         if not current_config:

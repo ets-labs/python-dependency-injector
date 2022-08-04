@@ -136,6 +136,50 @@ To use another loader use ``loader`` argument:
 
    *Don't forget to mirror the changes in the requirements file.*
 
+Loading from a JSON file
+------------------------
+
+``Configuration`` provider can load configuration from a ``json`` file using the
+:py:meth:`Configuration.from_json` method:
+
+.. literalinclude:: ../../examples/providers/configuration/configuration_json.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 12
+
+where ``examples/providers/configuration/config.json`` is:
+
+.. literalinclude:: ../../examples/providers/configuration/config.json
+   :language: json
+
+Alternatively, you can provide a path to a json file over the configuration provider argument. In that case,
+the container will call ``config.from_json()`` automatically:
+
+.. code-block:: python
+   :emphasize-lines: 3
+
+   class Container(containers.DeclarativeContainer):
+
+       config = providers.Configuration(json_files=["./config.json"])
+
+
+   if __name__ == "__main__":
+       container = Container()  # Config is loaded from ./config.json
+
+:py:meth:`Configuration.from_json` method supports environment variables interpolation.
+
+.. code-block:: json
+
+   {
+       "section": {
+           "option1": "${ENV_VAR}",
+           "option2": "${ENV_VAR}/path",
+           "option3": "${ENV_VAR:default}"
+       }
+   }
+
+See also: :ref:`configuration-envs-interpolation`.
+
 Loading from a Pydantic settings
 --------------------------------
 

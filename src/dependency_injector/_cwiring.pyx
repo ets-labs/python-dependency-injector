@@ -7,12 +7,12 @@ import inspect
 import types
 
 from . import providers
-from .wiring import _Marker
+from .wiring import _Marker, PatchedCallable
 
 from .providers cimport Provider
 
 
-def _get_sync_patched(fn):
+def _get_sync_patched(fn, patched: PatchedCallable):
     @functools.wraps(fn)
     def _patched(*args, **kwargs):
         cdef object result
@@ -21,14 +21,14 @@ def _get_sync_patched(fn):
         cdef Provider provider
 
         to_inject = kwargs.copy()
-        for arg_key, provider in _patched.__injections__.items():
+        for arg_key, provider in patched.injections.items():
             if arg_key not in kwargs or isinstance(kwargs[arg_key], _Marker):
                 to_inject[arg_key] = provider()
 
         result = fn(*args, **to_inject)
 
-        if _patched.__closing__:
-            for arg_key, provider in _patched.__closing__.items():
+        if patched.closing:
+            for arg_key, provider in patched.closing.items():
                 if arg_key in kwargs and not isinstance(kwargs[arg_key], _Marker):
                     continue
                 if not isinstance(provider, providers.Resource):
