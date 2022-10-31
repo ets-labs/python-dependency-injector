@@ -1,6 +1,7 @@
 """AbstractCoroutine provider tests."""
 
 import asyncio
+import sys
 
 from dependency_injector import providers, errors
 from pytest import mark, raises
@@ -14,6 +15,7 @@ def test_inheritance():
 
 @mark.asyncio
 @mark.filterwarnings("ignore")
+@mark.skipif(sys.version_info >= (3, 11), reason="Cannot be executed on Python 3.11 or newer")
 async def test_call_overridden_by_coroutine():
     @asyncio.coroutine
     def abstract_example():
@@ -28,6 +30,7 @@ async def test_call_overridden_by_coroutine():
 
 @mark.asyncio
 @mark.filterwarnings("ignore")
+@mark.skipif(sys.version_info >= (3, 11), reason="Cannot be executed on Python 3.11 or newer")
 async def test_call_overridden_by_delegated_coroutine():
     @asyncio.coroutine
     def abstract_example():
