@@ -11,7 +11,7 @@ defined_macros = dict()
 defined_macros["CYTHON_CLINE_IN_TRACEBACK"] = 0
 
 # Getting description:
-with open("README.rst") as readme_file:
+with open("README.rst", encoding="utf-8") as readme_file:
     description = readme_file.read()
 
 # Getting requirements:
