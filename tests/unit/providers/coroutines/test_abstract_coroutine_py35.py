@@ -13,10 +13,9 @@ def test_inheritance():
     assert isinstance(providers.AbstractCoroutine(example), providers.Coroutine)
 
 
-@mark.skipif(sys.version_info > (3, 10), reason="asyncio.coroutine removed in 3.11")
+@mark.skipif(sys.version_info >= (3, 11), reason="asyncio.coroutine removed in Python 3.11")
 @mark.asyncio
 @mark.filterwarnings("ignore")
-@mark.skipif(sys.version_info >= (3, 11), reason="Cannot be executed on Python 3.11 or newer")
 async def test_call_overridden_by_coroutine():
     @asyncio.coroutine
     def abstract_example():
@@ -29,10 +28,9 @@ async def test_call_overridden_by_coroutine():
     assert result == (1, 2, 3, 4)
 
 
-@mark.skipif(sys.version_info > (3, 10), reason="asyncio.coroutine removed in 3.11")
+@mark.skipif(sys.version_info >= (3, 11), reason="asyncio.coroutine removed in Python 3.11")
 @mark.asyncio
 @mark.filterwarnings("ignore")
-@mark.skipif(sys.version_info >= (3, 11), reason="Cannot be executed on Python 3.11 or newer")
 async def test_call_overridden_by_delegated_coroutine():
     @asyncio.coroutine
     def abstract_example():
