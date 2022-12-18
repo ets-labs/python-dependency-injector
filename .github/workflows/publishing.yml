@@ -1,6 +1,7 @@
 name: Publishing
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - '*'
@@ -11,14 +12,14 @@ jobs:
     name: Run tests
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: 3.11
       - run: pip install tox
       - run: tox
         env:
-          TOXENV: "3.11"
+          TOXENV: 3.11
 
   linters:
     name: Run linters
@@ -27,10 +28,10 @@ jobs:
       matrix:
         toxenv: [flake8, pydocstyle, mypy, pylint]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: 3.11
       - run: pip install tox
       - run: tox
         env:
@@ -41,10 +42,10 @@ jobs:
     needs: [tests, linters]
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: 3.11
       - run: python setup.py sdist
       - uses: actions/upload-artifact@v2
         with:
@@ -60,10 +61,10 @@ jobs:
     env:
       CIBW_SKIP: cp27-win*
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: 3.11
       - run: pip install cibuildwheel==2.1.3
       - run: cibuildwheel --output-dir wheelhouse
       - uses: actions/upload-artifact@v2
@@ -75,12 +76,12 @@ jobs:
     needs: [tests, linters]
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: 3.11
       - run: pip install cibuildwheel==2.1.3
       - run: cibuildwheel --archs aarch64 --output-dir wheelhouse
       - uses: actions/upload-artifact@v2
@@ -98,21 +99,21 @@ jobs:
           path: dist
       - uses: pypa/gh-action-pypi-publish@master
         with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
+#          user: __token__
+#          password: ${{ secrets.PYPI_API_TOKEN }}
           # For publishing to Test PyPI, uncomment next two lines:
-          # password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          # repository_url: https://test.pypi.org/legacy/
+          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+          repository_url: https://test.pypi.org/legacy/
 
   publish-docs:
     name: Publish docs
     needs: [publish]
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
-          python-version: "3.11"
+          python-version: 3.11
       - run: pip install -r requirements-doc.txt
       - run: pip install awscli
       - run: pip install -e .
