@@ -90,17 +90,17 @@ jobs:
     needs: [build-sdist, build-wheels, build-wheels-linux-aarch64]
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v3
         with:
           name: artifact
           path: dist
-      - uses: pypa/gh-action-pypi-publish@master
+      - uses: pypa/gh-action-pypi-publish@release/v1
         with:
-#          user: __token__
-#          password: ${{ secrets.PYPI_API_TOKEN }}
-          # For publishing to Test PyPI, uncomment next two lines:
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository_url: https://test.pypi.org/legacy/
+          user: __token__
+          password: ${{ secrets.PYPI_API_TOKEN }}
+#           For publishing to Test PyPI, uncomment next two lines:
+#          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+#          repository_url: https://test.pypi.org/legacy/
 
   publish-docs:
     name: Publish docs
