@@ -14,6 +14,7 @@ Development version
 - Update CI/CD to ``actions/checkout@v3``, ``actions/setup-python@v4``, ``actions/upload-artifact@v3``, ``pypa/cibuildwheel@v2.11.3``,
   and ``actions/download-artifact@v3``.
 - Fix install crash on non-utf8 systems `#644 <https://github.com/ets-labs/python-dependency-injector/pull/644>`_.
+- Update FastAPI Redis example to use ``aioredis`` version 2 `#613 <https://github.com/ets-labs/python-dependency-injector/pull/613>`_.
 - Regenerate C sources using Cython 0.29.32.
 
 4.40.0
