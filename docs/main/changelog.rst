@@ -10,10 +10,14 @@ follows `Semantic versioning`_
 Development version
 -------------------
 - Add support of Python 3.11.
+- Allow Closing to detect dependent resources `#633 <https://github.com/ets-labs/python-dependency-injector/issues/633>`_,
+  `#636 <https://github.com/ets-labs/python-dependency-injector/pull/636>`_. Thanks `Jamie Stumme @StummeJ <https://github.com/StummeJ>`_
+  for the contribution.
 - Update CI/CD to use Ubuntu 22.04.
 - Update CI/CD to ``actions/checkout@v3``, ``actions/setup-python@v4``, ``actions/upload-artifact@v3``, ``pypa/cibuildwheel@v2.11.3``,
   and ``actions/download-artifact@v3``.
 - Fix install crash on non-utf8 systems `#644 <https://github.com/ets-labs/python-dependency-injector/pull/644>`_.
+- Fix a bug in Windows build with default charset `#635 <https://github.com/ets-labs/python-dependency-injector/pull/635>`_.
 - Update FastAPI Redis example to use ``aioredis`` version 2 `#613 <https://github.com/ets-labs/python-dependency-injector/pull/613>`_.
 - Update documentation on creating custom providers `#598 <https://github.com/ets-labs/python-dependency-injector/pull/598>`_.
 - Regenerate C sources using Cython 0.29.32.
