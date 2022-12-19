@@ -593,7 +593,7 @@ def _fetch_reference_injections(  # noqa: C901
     return injections, closing
 
 
-def _locate_dependent_closing_args(provider: providers.Provider) -> dict[str, providers.Provider]:
+def _locate_dependent_closing_args(provider: providers.Provider) -> Dict[str, providers.Provider]:
     if not hasattr(provider, "args"):
         return {}
 
