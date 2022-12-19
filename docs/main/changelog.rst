@@ -21,6 +21,7 @@ Development version
 - Update FastAPI Redis example to use ``aioredis`` version 2 `#613 <https://github.com/ets-labs/python-dependency-injector/pull/613>`_.
 - Update documentation on creating custom providers `#598 <https://github.com/ets-labs/python-dependency-injector/pull/598>`_.
 - Regenerate C sources using Cython 0.29.32.
+- Fix builds badge.
 
 4.40.0
 ------
