@@ -7,8 +7,8 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
-Development version
--------------------
+4.41.0
+------
 - Add support of Python 3.11.
 - Allow Closing to detect dependent resources `#633 <https://github.com/ets-labs/python-dependency-injector/issues/633>`_,
   `#636 <https://github.com/ets-labs/python-dependency-injector/pull/636>`_. Thanks `Jamie Stumme @StummeJ <https://github.com/StummeJ>`_
