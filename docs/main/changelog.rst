@@ -15,6 +15,7 @@ Development version
   and ``actions/download-artifact@v3``.
 - Fix install crash on non-utf8 systems `#644 <https://github.com/ets-labs/python-dependency-injector/pull/644>`_.
 - Update FastAPI Redis example to use ``aioredis`` version 2 `#613 <https://github.com/ets-labs/python-dependency-injector/pull/613>`_.
+- Update documentation on creating custom providers `#598 <https://github.com/ets-labs/python-dependency-injector/pull/598>`_.
 - Regenerate C sources using Cython 0.29.32.
 
 4.40.0

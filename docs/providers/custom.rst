@@ -17,9 +17,10 @@ To create a custom provider you need to follow these rules:
 2. You need to implement the ``Provider._provide()`` method.
 3. You need to implement the ``Provider.__deepcopy__()`` method. It should return an
    equivalent copy of a provider. All providers must be copied with the ``deepcopy()`` function
-   from the ``providers`` module. It's essential to pass ``memo`` into ``deepcopy`` in order to keep the preconfigured ``args`` and ``kwargs`` of stored providers. After the a new provider object is created, use
-   ``Provider._copy_overriding()`` method to copy all overriding providers. See the example
-   below.
+   from the ``providers`` module. It's essential to pass ``memo`` into ``deepcopy`` in order to keep
+   the preconfigured ``args`` and ``kwargs`` of stored providers. After the a new provider object
+   is created, use ``Provider._copy_overriding()`` method to copy all overriding providers. See the
+   example below.
 4. If new provider has a ``__init__()`` method, it should call the parent
    ``Provider.__init__()``.
 5. If new provider stores any other providers, these providers should be listed in
