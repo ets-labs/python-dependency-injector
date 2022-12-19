@@ -20,6 +20,11 @@ class Service:
         cls.shutdown_counter += 1
 
 
+class FactoryService:
+    def __init__(self, service: Service):
+        self.service = service
+
+
 def init_service():
     service = Service()
     service.init()
@@ -30,8 +35,14 @@ def init_service():
 class Container(containers.DeclarativeContainer):
 
     service = providers.Resource(init_service)
+    factory_service = providers.Factory(FactoryService, service)
 
 
 @inject
 def test_function(service: Service = Closing[Provide["service"]]):
     return service
+
+
+@inject
+def test_function_dependency(factory: FactoryService = Closing[Provide["factory_service"]]):
+    return factory

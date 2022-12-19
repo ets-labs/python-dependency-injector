@@ -45,7 +45,7 @@ var4: List[int] = provider4()
 
 # Test 5: to check the return type with async function
 async def init5() -> List[int]:
-    ...
+    return []
 
 
 provider5 = providers.Resource(init5)

@@ -4,15 +4,31 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
 
+  tests-on-legacy-versions:
+    name: Run tests on legacy versions
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        python-version: [2.7, 3.5, 3.6, 3.7, pypy2.7, pypy3.9]
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: pip install tox
+      - run: tox
+        env:
+          TOXENV: ${{ matrix.python-version }}
+
   test-on-different-versions:
     name: Run tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [2.7, 3.5, 3.6, 3.7, 3.8, 3.9, "3.10", pypy2, pypy3]
+        python-version: [3.8, 3.9, "3.10", 3.11]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - run: pip install tox
@@ -28,10 +44,10 @@ jobs:
       COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: 3.11
       - run: pip install tox cython
       - run: make cythonize
       - run: tox
@@ -45,10 +61,10 @@ jobs:
       matrix:
         toxenv: [flake8, pydocstyle, mypy, pylint]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: 3.11
       - run: pip install tox
       - run: tox
         env:

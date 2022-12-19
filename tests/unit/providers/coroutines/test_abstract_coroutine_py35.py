@@ -1,6 +1,7 @@
 """AbstractCoroutine provider tests."""
 
 import asyncio
+import sys
 
 from dependency_injector import providers, errors
 from pytest import mark, raises
@@ -12,6 +13,7 @@ def test_inheritance():
     assert isinstance(providers.AbstractCoroutine(example), providers.Coroutine)
 
 
+@mark.skipif(sys.version_info >= (3, 11), reason="asyncio.coroutine removed in Python 3.11")
 @mark.asyncio
 @mark.filterwarnings("ignore")
 async def test_call_overridden_by_coroutine():
@@ -26,6 +28,7 @@ async def test_call_overridden_by_coroutine():
     assert result == (1, 2, 3, 4)
 
 
+@mark.skipif(sys.version_info >= (3, 11), reason="asyncio.coroutine removed in Python 3.11")
 @mark.asyncio
 @mark.filterwarnings("ignore")
 async def test_call_overridden_by_delegated_coroutine():
