@@ -2,8 +2,15 @@
 
 import os
 import re
+import sys
 
 from setuptools import setup, Extension
+
+
+def _open(filename):
+    if sys.version_info[0] == 2:
+        return open(filename)
+    return open(filename, encoding="utf-8")
 
 
 # Defining setup variables:
@@ -11,15 +18,15 @@ defined_macros = dict()
 defined_macros["CYTHON_CLINE_IN_TRACEBACK"] = 0
 
 # Getting description:
-with open("README.rst", encoding="utf-8") as readme_file:
+with _open("README.rst") as readme_file:
     description = readme_file.read()
 
 # Getting requirements:
-with open("requirements.txt", encoding="utf-8") as requirements_file:
+with _open("requirements.txt") as requirements_file:
     requirements = requirements_file.readlines()
 
 # Getting version:
-with open("src/dependency_injector/__init__.py", encoding="utf-8") as init_file:
+with _open("src/dependency_injector/__init__.py") as init_file:
     version = re.search("__version__ = \"(.*?)\"", init_file.read()).group(1)
 
 # Adding debug options:
