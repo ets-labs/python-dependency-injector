@@ -290,6 +290,23 @@ def test_closing_resource():
 
 
 @mark.usefixtures("resourceclosing_container")
+def test_closing_dependency_resource():
+    resourceclosing.Service.reset_counter()
+
+    result_1 = resourceclosing.test_function_dependency()
+    assert isinstance(result_1, resourceclosing.FactoryService)
+    assert result_1.service.init_counter == 1
+    assert result_1.service.shutdown_counter == 1
+
+    result_2 = resourceclosing.test_function_dependency()
+    assert isinstance(result_2, resourceclosing.FactoryService)
+    assert result_2.service.init_counter == 2
+    assert result_2.service.shutdown_counter == 2
+
+    assert result_1 is not result_2
+
+
+@mark.usefixtures("resourceclosing_container")
 def test_closing_resource_bypass_marker_injection():
     resourceclosing.Service.reset_counter()
 
