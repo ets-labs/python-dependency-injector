@@ -7,6 +7,14 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly 
 follows `Semantic versioning`_
 
+Development version
+-------------------
+- Add support of Python 3.11.
+- Update CI/CD to use Ubuntu 22.04.
+- Update CI/CD to ``actions/checkout@v3``, ``actions/setup-python@v4``, ``actions/upload-artifact@v3``, ``pypa/cibuildwheel@v2.11.3``,
+  and ``actions/download-artifact@v3``.
+- Regenerate C sources using Cython 0.29.32.
+
 4.40.0
 ------
 - Add ``Configuration.from_json()`` method to load configuration from a json file.
