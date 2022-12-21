@@ -303,12 +303,20 @@ def test_closing_dependency_resource():
     assert result_2.service.init_counter == 2
     assert result_2.service.shutdown_counter == 2
 
-    result_3 = resourceclosing.test_function_dependency_kwargs()
-    assert isinstance(result_3, resourceclosing.FactoryService)
-    assert result_3.service.init_counter == 3
-    assert result_3.service.shutdown_counter == 3
 
-    assert result_1 is not result_2 and result_2 is not result_3
+@mark.usefixtures("resourceclosing_container")
+def test_closing_dependency_resource_kwargs():
+    resourceclosing.Service.reset_counter()
+
+    result_1 = resourceclosing.test_function_dependency_kwargs()
+    assert isinstance(result_1, resourceclosing.FactoryService)
+    assert result_1.service.init_counter == 1
+    assert result_1.service.shutdown_counter == 1
+
+    result_2 = resourceclosing.test_function_dependency_kwargs()
+    assert isinstance(result_2, resourceclosing.FactoryService)
+    assert result_2.service.init_counter == 2
+    assert result_2.service.shutdown_counter == 2
 
 
 @mark.usefixtures("resourceclosing_container")
