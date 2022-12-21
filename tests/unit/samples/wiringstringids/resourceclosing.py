@@ -36,6 +36,7 @@ class Container(containers.DeclarativeContainer):
 
     service = providers.Resource(init_service)
     factory_service = providers.Factory(FactoryService, service)
+    factory_service_kwargs = providers.Factory(FactoryService, service=service)
 
 
 @inject
@@ -45,4 +46,9 @@ def test_function(service: Service = Closing[Provide["service"]]):
 
 @inject
 def test_function_dependency(factory: FactoryService = Closing[Provide["factory_service"]]):
+    return factory
+
+
+@inject
+def test_function_dependency_kwargs(factory: FactoryService = Closing[Provide["factory_service_kwargs"]]):
     return factory
