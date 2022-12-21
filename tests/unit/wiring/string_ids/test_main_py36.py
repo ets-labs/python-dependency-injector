@@ -303,7 +303,12 @@ def test_closing_dependency_resource():
     assert result_2.service.init_counter == 2
     assert result_2.service.shutdown_counter == 2
 
-    assert result_1 is not result_2
+    result_3 = resourceclosing.test_function_dependency_kwargs()
+    assert isinstance(result_3, resourceclosing.FactoryService)
+    assert result_3.service.init_counter == 3
+    assert result_3.service.shutdown_counter == 3
+
+    assert result_1 is not result_2 and result_2 is not result_3
 
 
 @mark.usefixtures("resourceclosing_container")
