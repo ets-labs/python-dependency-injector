@@ -1,0 +1,4 @@
+anyio
+dependency-injector
+starlette
+uvicorn

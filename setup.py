@@ -84,6 +84,9 @@ setup(name="dependency-injector",
           "aiohttp": [
               "aiohttp",
           ],
+          "starlette": [
+              "anyio",
+          ],
       },
       zip_safe=True,
       license="BSD New",
