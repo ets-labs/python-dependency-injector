@@ -605,7 +605,7 @@ def _locate_dependent_closing_args(provider: providers.Provider) -> Dict[str, pr
         if not arg.args and isinstance(arg, providers.Resource):
             return {str(id(arg)): arg}
         else:
-            closing_deps += _locate_dependent_closing_args(arg)
+            closing_deps |= _locate_dependent_closing_args(arg)
     return closing_deps
 
 
