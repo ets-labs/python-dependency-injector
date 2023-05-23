@@ -25,6 +25,11 @@ class FactoryService:
         self.service = service
 
 
+class NestedService:
+    def __init__(self, factory_service: FactoryService):
+        self.factory_service = factory_service
+
+
 def init_service():
     service = Service()
     service.init()
@@ -37,6 +42,7 @@ class Container(containers.DeclarativeContainer):
     service = providers.Resource(init_service)
     factory_service = providers.Factory(FactoryService, service)
     factory_service_kwargs = providers.Factory(FactoryService, service=service)
+    nested_service = providers.Factory(NestedService, factory_service)
 
 
 @inject
@@ -52,3 +58,9 @@ def test_function_dependency(factory: FactoryService = Closing[Provide["factory_
 @inject
 def test_function_dependency_kwargs(factory: FactoryService = Closing[Provide["factory_service_kwargs"]]):
     return factory
+
+
+def test_function_nested_dependency(
+    nested: NestedService = Closing[Provide["nested_service"]]
+):
+    return nested

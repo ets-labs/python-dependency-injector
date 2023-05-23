@@ -320,6 +320,23 @@ def test_closing_dependency_resource_kwargs():
 
 
 @mark.usefixtures("resourceclosing_container")
+def test_closing_nested_dependency_resource():
+    resourceclosing.Service.reset_counter()
+
+    result_1 = resourceclosing.test_function_nested_dependency()
+    assert isinstance(result_1, resourceclosing.NestedService)
+    assert result_1.factory_service.service.init_counter == 1
+    assert result_1.factory_service.service.shutdown_counter == 1
+
+    result_2 = resourceclosing.test_function_nested_dependency()
+    assert isinstance(result_2, resourceclosing.NestedService)
+    assert result_2.factory_service.service.init_counter == 2
+    assert result_2.factory_service.service.shutdown_counter == 2
+
+    assert result_1 is not result_2
+
+
+@mark.usefixtures("resourceclosing_container")
 def test_closing_resource_bypass_marker_injection():
     resourceclosing.Service.reset_counter()
 
