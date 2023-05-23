@@ -601,11 +601,11 @@ def _locate_dependent_closing_args(provider: providers.Provider) -> Dict[str, pr
     for arg in [*provider.args, *provider.kwargs.values()]:
         if not isinstance(arg, providers.Provider) or not hasattr(arg, "args"):
             continue
-
-        if not arg.args and isinstance(arg, providers.Resource):
+        if isinstance(arg, providers.Resource):
             return {str(id(arg)): arg}
-        else:
+        if arg.args or arg.kwargs:
             closing_deps |= _locate_dependent_closing_args(arg)
+
     return closing_deps
 
 
