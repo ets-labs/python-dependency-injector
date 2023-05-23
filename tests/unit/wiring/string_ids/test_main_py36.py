@@ -33,9 +33,9 @@ def subcontainer():
     container.unwire()
 
 
-@fixture
-def resourceclosing_container():
-    container = resourceclosing.Container()
+@fixture(params=[resourceclosing.Container, resourceclosing.ContainerSingleton])
+def resourceclosing_container(request):
+    container = request.param()
     container.wire(modules=[resourceclosing])
     yield container
     container.unwire()
