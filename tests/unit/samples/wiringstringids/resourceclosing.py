@@ -2,9 +2,14 @@ from dependency_injector import containers, providers
 from dependency_injector.wiring import inject, Provide, Closing
 
 
+class Singleton:
+    pass
+
+
 class Service:
     init_counter: int = 0
     shutdown_counter: int = 0
+    dependency: Singleton = None
 
     @classmethod
     def reset_counter(cls):
@@ -12,7 +17,9 @@ class Service:
         cls.shutdown_counter = 0
 
     @classmethod
-    def init(cls):
+    def init(cls, dependency: Singleton = None):
+        if dependency:
+            cls.dependency = dependency
         cls.init_counter += 1
 
     @classmethod
@@ -37,11 +44,36 @@ def init_service():
     service.shutdown()
 
 
+def init_service_with_singleton(singleton: Singleton):
+    service = Service()
+    service.init(singleton)
+    yield service
+    service.shutdown()
+
+
 class Container(containers.DeclarativeContainer):
 
     service = providers.Resource(init_service)
     factory_service = providers.Factory(FactoryService, service)
-    factory_service_kwargs = providers.Factory(FactoryService, service=service)
+    factory_service_kwargs = providers.Factory(
+        FactoryService,
+        service=service
+    )
+    nested_service = providers.Factory(NestedService, factory_service)
+
+
+class ContainerSingleton(containers.DeclarativeContainer):
+
+    singleton = providers.Resource(Singleton)
+    service = providers.Resource(
+        init_service_with_singleton,
+        singleton
+    )
+    factory_service = providers.Factory(FactoryService, service)
+    factory_service_kwargs = providers.Factory(
+        FactoryService,
+        service=service
+    )
     nested_service = providers.Factory(NestedService, factory_service)
 
 
