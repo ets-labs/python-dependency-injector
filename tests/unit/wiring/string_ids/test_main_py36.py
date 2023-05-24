@@ -33,7 +33,10 @@ def subcontainer():
     container.unwire()
 
 
-@fixture(params=[resourceclosing.Container, resourceclosing.ContainerSingleton])
+@fixture(params=[
+    resourceclosing.Container,
+    resourceclosing.ContainerSingleton,
+])
 def resourceclosing_container(request):
     container = request.param()
     container.wire(modules=[resourceclosing])

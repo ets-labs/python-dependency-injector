@@ -64,7 +64,7 @@ class Container(containers.DeclarativeContainer):
 
 class ContainerSingleton(containers.DeclarativeContainer):
 
-    singleton = providers.Resource(Singleton)
+    singleton = providers.Singleton(Singleton)
     service = providers.Resource(
         init_service_with_singleton,
         singleton
@@ -83,12 +83,16 @@ def test_function(service: Service = Closing[Provide["service"]]):
 
 
 @inject
-def test_function_dependency(factory: FactoryService = Closing[Provide["factory_service"]]):
+def test_function_dependency(
+    factory: FactoryService = Closing[Provide["factory_service"]]
+):
     return factory
 
 
 @inject
-def test_function_dependency_kwargs(factory: FactoryService = Closing[Provide["factory_service_kwargs"]]):
+def test_function_dependency_kwargs(
+    factory: FactoryService = Closing[Provide["factory_service_kwargs"]]
+):
     return factory
 
 
