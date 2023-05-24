@@ -92,6 +92,7 @@ def test_function_dependency_kwargs(factory: FactoryService = Closing[Provide["f
     return factory
 
 
+@inject
 def test_function_nested_dependency(
     nested: NestedService = Closing[Provide["nested_service"]]
 ):
