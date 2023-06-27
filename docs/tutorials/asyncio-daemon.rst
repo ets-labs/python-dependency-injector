@@ -129,7 +129,7 @@ Put next lines into the ``requirements.txt`` file:
    pytest-cov
 
 Second, we need to create the ``Dockerfile``. It will describe the daemon's build process and
-specify how to run it. We will use ``python:3.9-buster`` as a base image.
+specify how to run it. We will use ``python:3.10-buster`` as a base image.
 
 Put next lines into the ``Dockerfile`` file:
 
