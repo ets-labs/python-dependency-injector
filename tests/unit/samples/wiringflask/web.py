@@ -1,3 +1,5 @@
+from typing_extensions import Annotated
+
 from flask import Flask, jsonify, request, current_app, session, g
 from flask import _request_ctx_stack, _app_ctx_stack
 from dependency_injector import containers, providers
@@ -26,6 +28,13 @@ app = Flask(__name__)
 def index(service: Service = Provide[Container.service]):
     result = service.process()
     return jsonify({"result": result})
+
+
+@app.route("/annotated")
+@inject
+def annotated(service: Annotated[Service, Provide[Container.service]]):
+    result = service.process()
+    return jsonify({'result': result})
 
 
 container = Container()

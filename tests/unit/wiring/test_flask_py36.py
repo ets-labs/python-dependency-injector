@@ -29,3 +29,13 @@ def test_wiring_with_flask():
 
     assert response.status_code == 200
     assert json.loads(response.data) == {"result": "OK"}
+
+
+def test_wiring_with_annotated():
+    client = web.app.test_client()
+
+    with web.app.app_context():
+        response = client.get("/annotated")
+    
+    assert response.status_code == 200
+    assert json.loads(response.data) == {"result": "OK"}
