@@ -34,10 +34,7 @@ kwargs4: Dict[str, Any] = provider4.kwargs
 
 # Test 5: to check the provided instance interface
 provider5 = providers.Callable(Animal)
-provided5: providers.ProvidedInstance = provider5.provided
-attr_getter5: providers.AttributeGetter = provider5.provided.attr
-item_getter5: providers.ItemGetter = provider5.provided["item"]
-method_caller: providers.MethodCaller = provider5.provided.method.call(123, arg=324)
+provided5: Animal = provider5.provided
 
 # Test 6: to check the DelegatedCallable
 provider6 = providers.DelegatedCallable(Cat)
