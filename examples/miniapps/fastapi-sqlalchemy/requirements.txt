@@ -6,3 +6,4 @@ sqlalchemy
 pytest
 requests
 pytest-cov
+httpx
