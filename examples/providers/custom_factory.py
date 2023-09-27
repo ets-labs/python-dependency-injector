@@ -47,6 +47,6 @@ if __name__ == "__main__":
     assert isinstance(object1, object)
 
     object2 = container.factory()
-    assert isinstance(object1, object)
+    assert isinstance(object2, object)
 
     assert object1 is not object2
