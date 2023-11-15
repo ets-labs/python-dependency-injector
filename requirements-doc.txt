@@ -1,8 +1,8 @@
 # TODO: unpin 3.5.0 when this bug is fixed: https://github.com/sphinx-doc/sphinx/issues/8885
-sphinx<3.5.0
+sphinx
 
 # TODO: unpin jinja2 after sphinx update to 4+
-jinja2<3.1
+jinja2
 
 -e git+https://github.com/rmk135/sphinxcontrib-disqus.git#egg=sphinxcontrib-disqus
 

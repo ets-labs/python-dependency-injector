@@ -1,2 +1,3 @@
-flask
-aiohttp
+flask==2.1.3
+werkzeug==2.2.2
+aiohttp==3.9.0b1

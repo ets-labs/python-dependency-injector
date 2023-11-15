@@ -1,11 +1,17 @@
 Changelog
 =========
 
-This document describes all the changes in *Dependency Injector* framework 
+This document describes all the changes in *Dependency Injector* framework
 that were made in every particular version.
 
-From version 0.7.6 *Dependency Injector* framework strictly 
+From version 0.7.6 *Dependency Injector* framework strictly
 follows `Semantic versioning`_
+
+Develop
+-------
+
+- Drop support of Python 2.7, 3.5, and 3.6.
+- Regenerate C sources using Cython 0.29.36.
 
 4.41.0
 ------
@@ -110,7 +116,7 @@ follows `Semantic versioning`_
 - Fix a typo in ``Factory`` provider docs ``service.add_attributes(clent=client)``
   `#499 <https://github.com/ets-labs/python-dependency-injector/issues/499>`_.
   Thanks to `@rajanjha786 <https://github.com/rajanjha786>`_ for the contribution.
-- Fix a typo in ``boto3`` example 
+- Fix a typo in ``boto3`` example
   `#511 <https://github.com/ets-labs/python-dependency-injector/issues/511>`_.
   Thanks to `@whysage <https://github.com/whysage>`_ for the contribution.
 
@@ -1310,24 +1316,24 @@ Misc:
 ------
 - Add ``DependenciesContainer`` provider.
 - Add "use_cases" example miniapp.
-- Update documentation requirements to use fixed version of 
+- Update documentation requirements to use fixed version of
   ``sphinxcontrib-disqus``.
 
 
 3.9.1
 -----
 - Fix docs build problem (``sphinx`` is frozen on ``1.5.6`` version because of
-  incompatibility with ``sphinxcontrib-discus``). 
+  incompatibility with ``sphinxcontrib-discus``).
 - Add badge for docs.
 
 3.9.0
 -----
-- Change initialization of declarative container, so it accepts overriding 
-  providers as keyword arguments - 
+- Change initialization of declarative container, so it accepts overriding
+  providers as keyword arguments -
   ``DeclarativeContainer(**overriding_providers)``.
-- Add method to dynamic catalog for setting groups of providers -  
+- Add method to dynamic catalog for setting groups of providers -
   ``DynamicContainer.set_providers(**providers)``.
-- Add method to dynamic catalog for overriding groups of providers -  
+- Add method to dynamic catalog for overriding groups of providers -
   ``DynamicContainer.set_providers(**overriding_providers)``.
 - Rename ``ExternalDependency`` provider to ``Dependency``.
 - Add default value for ``instance_of`` argument of ``Dependency`` provider -
@@ -1359,7 +1365,7 @@ Misc:
 3.7.0
 -----
 - Add ``FactoryAggregate`` provider.
-- Add ``Provider.provider`` dynamic attribute that return new provider's 
+- Add ``Provider.provider`` dynamic attribute that return new provider's
   delegate (alias of method ``Provider.delegate()``).
 - Add support of six 1.11.0.
 - Regenerate C sources using Cython 0.27.1.
@@ -1376,7 +1382,7 @@ Misc:
 
 3.5.0
 -----
-- Add functionality for initializing ``Configuration`` provider with default 
+- Add functionality for initializing ``Configuration`` provider with default
   values.
 
 3.4.8
@@ -1399,7 +1405,7 @@ Misc:
 
 3.4.4
 -----
-- Add ``Provider.last_overriding`` read-only property that points to last 
+- Add ``Provider.last_overriding`` read-only property that points to last
   overriding provider, if any. If target provider is not overridden, ``None``
   would be returned.
 - Update example of writing custom providers.
@@ -1413,7 +1419,7 @@ Misc:
 3.4.2
 -----
 - Make ``Provider`` overriding methods thread safe:
-  ``Provider.override(provider)``, ``Provider.reset_last_overriding()``, 
+  ``Provider.override(provider)``, ``Provider.reset_last_overriding()``,
   ``Provider.reset_override()``.
 - Refactor storage locking of ``ThreadSafeSingleton`` provider.
 - Fix few ``pydocstyle`` errors in examples.
@@ -1485,8 +1491,8 @@ Misc:
 
 3.2.4
 -----
-- Switch to single version of documentation for getting shorter urls (without 
-  ``/en/stable/``). Add appropriate redirects for compatibility with previous 
+- Switch to single version of documentation for getting shorter urls (without
+  ``/en/stable/``). Add appropriate redirects for compatibility with previous
   links.
 - Update copyright date.
 
@@ -1505,7 +1511,7 @@ Misc:
 
 3.2.0
 -----
-- Add ``Configuration`` provider for late static binding of configuration 
+- Add ``Configuration`` provider for late static binding of configuration
   options.
 
 3.1.5
@@ -1515,7 +1521,7 @@ Misc:
 
 3.1.4
 -----
-- Move ``inline`` functions from class level to module level for removing them 
+- Move ``inline`` functions from class level to module level for removing them
   from virtual table and enable inlining.
 
 3.1.3
@@ -1547,34 +1553,34 @@ Misc:
 
 - **Providers**
 
-  1. All providers from ``dependency_injector.providers`` package are 
+  1. All providers from ``dependency_injector.providers`` package are
      implemented as C extension types using Cython.
   2. Add ``BaseSingleton`` super class for all singleton providers.
-  3. Make ``Singleton`` provider not thread-safe. It makes performance of 
+  3. Make ``Singleton`` provider not thread-safe. It makes performance of
      ``Singleton`` provider  10x times faster.
-  4. Add ``ThreadSafeSingleton`` provider - thread-safe version of 
+  4. Add ``ThreadSafeSingleton`` provider - thread-safe version of
      ``Singleton`` provider.
-  5. Add ``ThreadLocalSingleton`` provider - ``Singleton`` provider that uses 
+  5. Add ``ThreadLocalSingleton`` provider - ``Singleton`` provider that uses
      thread-local storage.
-  6. Remove ``provides`` attribute from ``Factory`` and ``Singleton`` 
+  6. Remove ``provides`` attribute from ``Factory`` and ``Singleton``
      providers.
-  7. Add ``set_args()`` and ``clear_args()`` methods for ``Callable``, 
+  7. Add ``set_args()`` and ``clear_args()`` methods for ``Callable``,
      ``Factory`` and ``Singleton`` providers.
 
 - **Containers**
 
-  1. Module ``dependency_injector.containers`` was split into submodules 
+  1. Module ``dependency_injector.containers`` was split into submodules
      without any functional changes.
 
 - **Utils**
 
-  1. Module ``dependency_injector.utils`` is split into 
+  1. Module ``dependency_injector.utils`` is split into
      ``dependency_injector.containers`` and ``dependency_injector.providers``.
 
 - **Miscellaneous**
 
   1. Remove ``@inject`` decorator.
-  2. Add makefile (``clean``, ``test``, ``build``, ``install``, ``uninstall`` 
+  2. Add makefile (``clean``, ``test``, ``build``, ``install``, ``uninstall``
      & ``publish`` commands).
   3. Update repository structure:
 
@@ -1641,7 +1647,7 @@ Misc:
 
 2.0.0
 ------
-- Introduce new injections style for ``Callable``, ``Factory`` & 
+- Introduce new injections style for ``Callable``, ``Factory`` &
   ``Singleton`` providers.
 - Drop providers: ``Static``, ``Value``, ``Function``, ``Class``, ``Config``.
 - Increase performance of making injections in 2 times (+100%).
@@ -1654,8 +1660,8 @@ Misc:
 
 1.17.0
 ------
-- Add ``add_injections()`` method to ``Callable``, ``DelegatedCallable``, 
-  ``Factory``, ``DelegatedFactory``, ``Singleton`` and ``DelegatedSingleton`` 
+- Add ``add_injections()`` method to ``Callable``, ``DelegatedCallable``,
+  ``Factory``, ``DelegatedFactory``, ``Singleton`` and ``DelegatedSingleton``
   providers.
 - Fix bug with accessing to declarative catalog attributes from instance level.
 
@@ -1683,14 +1689,14 @@ Misc:
 - Add "Examples" section into documentation.
 - Add "Movie Lister" example.
 - Add "Services" example.
-- Move project documentation into organisation's domain 
+- Move project documentation into organisation's domain
   (dependency-injector.ets-labs.org).
 
 1.15.2
 ------
-- [Refactoring] split ``catalogs`` module into smaller modules, 
+- [Refactoring] split ``catalogs`` module into smaller modules,
   ``catalogs`` module become a package.
-- [Refactoring] split ``providers`` module into smaller modules, 
+- [Refactoring] split ``providers`` module into smaller modules,
   ``providers`` module  become a package.
 - Update introduction documentation.
 
@@ -1700,7 +1706,7 @@ Misc:
 
 1.15.0
 ------
-- Add ``Provider.provide()`` method. ``Provider.__call__()`` become a 
+- Add ``Provider.provide()`` method. ``Provider.__call__()`` become a
   reference to ``Provider.provide()``.
 - Add provider overriding context.
 - Update main examples and README.
@@ -1730,7 +1736,7 @@ Misc:
 
 1.14.6
 ------
-- Add ``cls`` alias for ``provides`` attributes of ``Factory``, 
+- Add ``cls`` alias for ``provides`` attributes of ``Factory``,
   ``DelegatedFactory``, ``Singleton`` and ``DelegatedSingleton`` providers.
 
 1.14.5
@@ -1789,27 +1795,27 @@ Misc:
 
 1.11.1
 ------
-Previous state of *Dependency Injector* framework (0.11.0 version) is 
-considered to be production ready / stable, so current release is considered 
+Previous state of *Dependency Injector* framework (0.11.0 version) is
+considered to be production ready / stable, so current release is considered
 to be the first major release.
 
-- Increase major version. 
+- Increase major version.
 - Backward compatibility with all previous versions above 0.7.6 has been saved.
 
 0.11.0
 ------
-- Rename ``AbstractCatalog`` to ``DeclarativeCatalog`` 
+- Rename ``AbstractCatalog`` to ``DeclarativeCatalog``
   (with backward compatibility).
 - Rename ``catalog`` module to ``catalogs`` with backward compatibility.
 - Implement dynamic binding of providers for ``DeclarativeCatalog``.
 - Add ``DynamicCatalog``.
-- Change restrictions for providers-to-catalogs bindings - provider could be 
+- Change restrictions for providers-to-catalogs bindings - provider could be
   bound to several catalogs with different names.
 - Restrict overriding of providers by themselves.
 - Restrict overriding of catalogs by themselves.
-- Make ``DeclarativeCatalog.last_overriding`` attribute to be ``None`` by 
+- Make ``DeclarativeCatalog.last_overriding`` attribute to be ``None`` by
   default.
-- Make ``Provider.last_overriding`` attribute to be ``None`` by 
+- Make ``Provider.last_overriding`` attribute to be ``None`` by
   default.
 - Refactor catalogs and providers modules.
 - Add API documentation
@@ -1817,7 +1823,7 @@ to be the first major release.
 
 0.10.5
 ------
-- Add more representable implementation for ``AbstractCatalog`` and 
+- Add more representable implementation for ``AbstractCatalog`` and
   ``AbstractCatalog.Bundle``.
 
 0.10.4
@@ -1841,17 +1847,17 @@ to be the first major release.
 - Add functionality for creating ``AbstractCatalog`` provider bundles.
 - Improve ``AbstractCatalog`` inheritance.
 - Improve ``AbstractCatalog`` overriding.
-- Add images for catalog "Writing catalogs" and "Operating with catalogs" 
+- Add images for catalog "Writing catalogs" and "Operating with catalogs"
   examples.
-- Add functionality for using positional argument injections with 
-  ``Factory``, ``Singleton``, ``Callable`` providers and 
+- Add functionality for using positional argument injections with
+  ``Factory``, ``Singleton``, ``Callable`` providers and
   ``inject`` decorator.
 - Add functionality for decorating classes with ``@inject``.
-- Add ``Singleton.injections`` attribute that represents a tuple of all 
+- Add ``Singleton.injections`` attribute that represents a tuple of all
   ``Singleton`` injections (including args, kwargs, attributes and methods).
-- Add ``Callable.injections`` attribute that represents a tuple of all 
+- Add ``Callable.injections`` attribute that represents a tuple of all
   ``Callable`` injections (including args and kwargs).
-- Add optimization for ``Injection.value`` property that will compute 
+- Add optimization for ``Injection.value`` property that will compute
   type of injection once, instead of doing this on every call.
 - Add ``VERSION`` constant for verification of currently installed version.
 - Add support of Python 3.5.
@@ -1861,7 +1867,7 @@ to be the first major release.
 0.9.5
 -----
 - Change provider attributes scope to public.
-- Add ``Factory.injections`` attribute that represents a tuple of all 
+- Add ``Factory.injections`` attribute that represents a tuple of all
   ``Factory`` injections (including kwargs, attributes and methods).
 
 0.9.4
@@ -1878,14 +1884,14 @@ to be the first major release.
 
 0.9.1
 -----
-- Add simplified syntax of kwarg injections for ``di.Factory`` and 
-  ``di.Singleton`` providers: 
+- Add simplified syntax of kwarg injections for ``di.Factory`` and
+  ``di.Singleton`` providers:
   ``di.Factory(SomeClass, dependency1=injectable_provider_or_value)``.
 - Add simplified syntax of kwarg injections for ``di.Callable`` provider:
   ``di.Callable(some_callable, dependency1=injectable_provider_or_value)``
 - Add simplified syntax of kwarg injections for ``@di.inject`` decorator:
   ``@di.inject(dependency1=injectable_provider_or_value)``.
-- Optimize ``@di.inject()`` decorations when they were made several times for 
+- Optimize ``@di.inject()`` decorations when they were made several times for
   the same callback.
 - Add minor refactorings.
 - Fix of minor documentation issues.
@@ -1905,21 +1911,21 @@ to be the first major release.
 0.7.6
 -----
 
-- Adding support of six from 1.7.0 to 1.9.0. 
-- Factory / Singleton providers are free from restriction to operate with 
-  classes only. This feature gives a change to use factory method and 
+- Adding support of six from 1.7.0 to 1.9.0.
+- Factory / Singleton providers are free from restriction to operate with
+  classes only. This feature gives a change to use factory method and
   functions with Factory / Singleton providers.
-- All attributes of all entities that have to be protected was renamed using 
-  ``_protected`` manner. 
-- Providers extending was improved by implementing overriding logic in 
-  ``Provider.__call__()`` and moving providing logic into 
+- All attributes of all entities that have to be protected was renamed using
+  ``_protected`` manner.
+- Providers extending was improved by implementing overriding logic in
+  ``Provider.__call__()`` and moving providing logic into
   ``Provider._provide()``.
-- ``NewInstance`` provider was renamed to ``Factory`` provider. 
-  ``NewInstance`` still can be used, but it considered to be deprecated and 
+- ``NewInstance`` provider was renamed to ``Factory`` provider.
+  ``NewInstance`` still can be used, but it considered to be deprecated and
   will be removed in further releases.
-- ``@inject`` decorator was refactored to keep all injections in 
+- ``@inject`` decorator was refactored to keep all injections in
   ``_injections`` attribute of decorated callback. It will give a possibility to
-  track all the injections of particular callbacks and gives some performance 
+  track all the injections of particular callbacks and gives some performance
   boost due minimizing number of calls for doing injections.
 - A lot of documentation updates were made.
 - A lot of examples were added.
