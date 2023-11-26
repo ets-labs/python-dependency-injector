@@ -1,7 +1,11 @@
 from pathlib import Path
 
 from dependency_injector import providers
-from pydantic import BaseSettings as PydanticSettings
+
+try:
+    from pydantic_settings import BaseSettings as PydanticSettings
+except ImportError:
+    from pydantic import BaseSettings as PydanticSettings
 
 
 # Test 1: to check the getattr

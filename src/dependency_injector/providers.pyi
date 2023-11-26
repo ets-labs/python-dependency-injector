@@ -27,9 +27,12 @@ except ImportError:
     yaml = None
 
 try:
-    import pydantic
+    import pydantic_settings
 except ImportError:
-    pydantic = None
+    try:
+        import pydantic as pydantic_settings
+    except ImportError:
+        pydantic_settings = None
 
 from . import resources
 
@@ -544,7 +547,7 @@ if yaml:
 else:
     class YamlLoader: ...
 
-if pydantic:
-    PydanticSettings = pydantic.BaseSettings
+if pydantic_settings:
+    PydanticSettings = pydantic_settings.BaseSettings
 else:
     PydanticSettings = Any
