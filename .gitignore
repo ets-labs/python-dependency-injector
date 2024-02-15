@@ -56,6 +56,8 @@ target/
 
 # Virtualenv
 venv*/
+.venv
+.python-version
 
 # SQLite
 *.db
