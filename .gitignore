@@ -73,3 +73,7 @@ src/dependency_injector/providers/*.so
 
 # Workspace for samples
 .workspace/
+
+
+# pyenv
+.python-version

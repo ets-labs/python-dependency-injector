@@ -48,6 +48,13 @@ try:
 except ImportError:
     yaml = None
 
+
+try:
+    import pydantic_settings
+except ImportError:
+    pydantic_settings = None
+
+
 try:
     import pydantic
 except ImportError:
@@ -59,6 +66,17 @@ from .errors import (
 )
 
 cimport cython
+
+
+if pydantic_settings:
+    pydantic_settings_pkg = pydantic_settings
+    using_pydantic_2 = True
+elif pydantic and pydantic.version.VERSION.startswith("1"):
+    pydantic_settings_pkg = pydantic.settings
+    using_pydantic_2 = False
+else:
+    pydantic_settings_pkg = None
+    using_pydantic_2 = None
 
 
 if sys.version_info[0] == 3:  # pragma: no cover
@@ -1796,26 +1814,27 @@ cdef class ConfigurationOption(Provider):
 
         :rtype: None
         """
-        if pydantic is None:
+        if pydantic_settings_pkg is None:
             raise Error(
-                "Unable to load pydantic configuration - pydantic is not installed. "
-                "Install pydantic or install Dependency Injector with pydantic extras: "
-                "\"pip install dependency-injector[pydantic]\""
+                "Unable to load pydantic-settings configuration - pydantic-settings is not installed. "
+                "Install pydantic-settings or install Dependency Injector with pydantic-settings extras: "
+                "\"pip install dependency-injector[pydantic-settings]\""
             )
 
-        if isinstance(settings, CLASS_TYPES) and issubclass(settings, pydantic.BaseSettings):
+        if isinstance(settings, CLASS_TYPES) and issubclass(settings, pydantic_settings_pkg.BaseSettings):
             raise Error(
                 "Got settings class, but expect instance: "
                 "instead \"{0}\" use \"{0}()\"".format(settings.__name__)
             )
 
-        if not isinstance(settings, pydantic.BaseSettings):
+        if not isinstance(settings, pydantic_settings_pkg.BaseSettings):
             raise Error(
-                "Unable to recognize settings instance, expect \"pydantic.BaseSettings\", "
+                "Unable to recognize settings instance, expect \"pydantic_settings.BaseSettings\", "
                 "got {0} instead".format(settings)
             )
 
-        self.from_dict(settings.dict(**kwargs), required=required)
+        settings_dict = settings.model_dump(**kwargs) if using_pydantic_2 else settings.dict(**kwargs)
+        self.from_dict(settings_dict, required=required)
 
     def from_dict(self, options, required=UNDEFINED):
         """Load configuration from the dictionary.
@@ -2365,26 +2384,27 @@ cdef class Configuration(Object):
 
         :rtype: None
         """
-        if pydantic is None:
+        if pydantic_settings_pkg is None:
             raise Error(
-                "Unable to load pydantic configuration - pydantic is not installed. "
-                "Install pydantic or install Dependency Injector with pydantic extras: "
-                "\"pip install dependency-injector[pydantic]\""
+                "Unable to load pydantic-settings configuration - pydantic-settings is not installed. "
+                "Install pydantic-settings or install Dependency Injector with pydantic-settings extras: "
+                "\"pip install dependency-injector[pydantic-settings]\""
             )
 
-        if isinstance(settings, CLASS_TYPES) and issubclass(settings, pydantic.BaseSettings):
+        if isinstance(settings, CLASS_TYPES) and issubclass(settings, pydantic_settings_pkg.BaseSettings):
             raise Error(
                 "Got settings class, but expect instance: "
                 "instead \"{0}\" use \"{0}()\"".format(settings.__name__)
             )
 
-        if not isinstance(settings, pydantic.BaseSettings):
+        if not isinstance(settings, pydantic_settings_pkg.BaseSettings):
             raise Error(
-                "Unable to recognize settings instance, expect \"pydantic.BaseSettings\", "
+                "Unable to recognize settings instance, expect \"pydantic_settings.BaseSettings\", "
                 "got {0} instead".format(settings)
             )
 
-        self.from_dict(settings.dict(**kwargs), required=required)
+        settings_dict = settings.model_dump(**kwargs) if using_pydantic_2 else settings.dict(**kwargs)
+        self.from_dict(settings_dict, required=required)
 
     def from_dict(self, options, required=UNDEFINED):
         """Load configuration from the dictionary.
