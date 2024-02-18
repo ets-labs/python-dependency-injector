@@ -2,8 +2,11 @@
 
 import os
 
+from typing import Annotated
+
 from dependency_injector import containers, providers
-from pydantic import BaseSettings, Field
+from pydantic import Field
+from pydantic_settings import BaseSettings
 
 # Emulate environment variables
 os.environ["AWS_ACCESS_KEY_ID"] = "KEY"
@@ -12,8 +15,8 @@ os.environ["AWS_SECRET_ACCESS_KEY"] = "SECRET"
 
 class AwsSettings(BaseSettings):
 
-    access_key_id: str = Field(env="aws_access_key_id")
-    secret_access_key: str = Field(env="aws_secret_access_key")
+    access_key_id: str = Field(alias="aws_access_key_id")
+    secret_access_key: str = Field(alias="aws_secret_access_key")
 
 
 class Settings(BaseSettings):
