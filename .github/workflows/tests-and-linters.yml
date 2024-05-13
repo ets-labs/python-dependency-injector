@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, "3.10", 3.11]
+        python-version: [3.8, 3.9, "3.10", 3.11, 3.12]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -47,8 +47,8 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.11
-      - run: pip install tox cython
+          python-version: 3.12
+      - run: pip install tox cython==0.29.36
       - run: make cythonize
       - run: tox
         env:
@@ -64,7 +64,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.11
+          python-version: 3.12
       - run: pip install tox
       - run: tox
         env:
