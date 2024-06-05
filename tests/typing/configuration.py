@@ -6,7 +6,7 @@ from pydantic import BaseSettings as PydanticSettings
 
 
 # Test 1: to check the getattr
-config1: providers.Provider[Any] = providers.Configuration()
+config1: providers.Configuration = providers.Configuration()
 provider1: providers.Provider[dict] = providers.Factory(dict, a=config1.a)
 
 # Test 2: to check the from_*() method
