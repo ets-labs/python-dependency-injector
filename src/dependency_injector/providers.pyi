@@ -27,7 +27,7 @@ except ImportError:
     yaml = None
 
 try:
-    import pydantic
+    import pydantic_settings as pydantic
 except ImportError:
     pydantic = None
 
