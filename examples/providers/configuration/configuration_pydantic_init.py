@@ -3,7 +3,7 @@
 import os
 
 from dependency_injector import containers, providers
-from pydantic import BaseSettings, Field
+from pydantic_settings import BaseSettings, Field
 
 # Emulate environment variables
 os.environ["AWS_ACCESS_KEY_ID"] = "KEY"

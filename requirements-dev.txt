@@ -11,7 +11,7 @@ mypy
 pyyaml
 httpx
 fastapi
-pydantic
+pydantic-settings
 numpy
 scipy
 boto3

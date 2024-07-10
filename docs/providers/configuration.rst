@@ -223,7 +223,7 @@ the container will call ``config.from_pydantic()`` automatically:
 
    or install ``pydantic`` directly::
 
-      pip install pydantic
+      pip install pydantic-settings
 
    *Don't forget to mirror the changes in the requirements file.*
 

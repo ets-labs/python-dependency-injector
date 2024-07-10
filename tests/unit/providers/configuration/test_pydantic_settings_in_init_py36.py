@@ -1,6 +1,6 @@
 """Configuration.from_pydantic() tests."""
 
-import pydantic
+import pydantic_settings as pydantic
 from dependency_injector import providers
 from pytest import fixture, mark, raises
 
