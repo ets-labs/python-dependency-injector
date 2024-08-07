@@ -1,6 +1,7 @@
 """Configuration.from_pydantic() tests."""
 
 import pydantic
+import pydantic_settings
 from dependency_injector import providers, errors
 from pytest import fixture, mark, raises
 
@@ -13,7 +14,7 @@ class Section12(pydantic.BaseModel):
     value2 = 2
 
 
-class Settings1(pydantic.BaseSettings):
+class Settings1(pydantic_settings.BaseSettings):
     section1 = Section11()
     section2 = Section12()
 
@@ -27,7 +28,7 @@ class Section3(pydantic.BaseModel):
     value3 = 3
 
 
-class Settings2(pydantic.BaseSettings):
+class Settings2(pydantic_settings.BaseSettings):
     section1 = Section21()
     section3 = Section3()
 
