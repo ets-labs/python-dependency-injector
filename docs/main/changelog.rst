@@ -10,8 +10,9 @@ follows `Semantic versioning`_
 Develop
 -------
 
+- Add support of Python 3.12.
 - Drop support of Python 2.7, 3.5, and 3.6.
-- Regenerate C sources using Cython 0.29.36.
+- Regenerate C sources using Cython 0.29.37.
 
 4.41.0
 ------
