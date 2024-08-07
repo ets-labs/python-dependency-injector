@@ -7,7 +7,7 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly
 follows `Semantic versioning`_
 
-Develop
+4.42.0b
 -------
 
 - Add support of Python 3.12.
