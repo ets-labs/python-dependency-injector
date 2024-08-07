@@ -6,30 +6,30 @@ from pytest import fixture, mark, raises
 
 
 class Section11(pydantic.BaseModel):
-    value1 = 1
+    value1: int = 1
 
 
 class Section12(pydantic.BaseModel):
-    value2 = 2
+    value2: int = 2
 
 
 class Settings1(pydantic.BaseSettings):
-    section1 = Section11()
-    section2 = Section12()
+    section1: Section11 = Section11()
+    section2: Section12 = Section12()
 
 
 class Section21(pydantic.BaseModel):
-    value1 = 11
-    value11 = 11
+    value1: int = 11
+    value11: int = 11
 
 
 class Section3(pydantic.BaseModel):
-    value3 = 3
+    value3: int = 3
 
 
 class Settings2(pydantic.BaseSettings):
-    section1 = Section21()
-    section3 = Section3()
+    section1: Section21 = Section21()
+    section3: Section3= Section3()
 
 
 @fixture

@@ -1,5 +1,5 @@
 [run]
-source = src/dependency_injector
+source = dependency_injector
 omit = tests/unit
 plugins = Cython.Coverage
 
