@@ -20,3 +20,4 @@ Dependency Injector Contributors
 + Ngo Thanh Loi (Leonn) (loingo95)
 + Thiago Hiromi (thiromi)
 + Felipe Rubio (krouw)
++ Anton Petrov (anton-petrov)
