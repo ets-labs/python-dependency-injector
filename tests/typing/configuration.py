@@ -1,12 +1,12 @@
 from pathlib import Path
 
 from dependency_injector import providers
-from pydantic import BaseSettings as PydanticSettings
+from pydantic_settings import BaseSettings as PydanticSettings
 
 
 # Test 1: to check the getattr
 config1 = providers.Configuration()
-provider1 = providers.Factory(dict, a=config1.a)
+provider1: providers.Factory[dict] = providers.Factory(dict, a=config1.a)
 
 # Test 2: to check the from_*() method
 config2 = providers.Configuration()
