@@ -13,6 +13,7 @@ follows `Semantic versioning`_
 - Add support of Python 3.12.
 - Drop support of Python 2.7, 3.5, and 3.6.
 - Regenerate C sources using Cython 0.29.37.
+- Update ``cibuildwheel`` to version ``2.20.0``.
 
 4.41.0
 ------

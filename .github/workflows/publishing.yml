@@ -65,7 +65,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.11.3
+        uses: pypa/cibuildwheel@v2.20.0
       - uses: actions/upload-artifact@v3
         with:
           path: ./wheelhouse/*.whl
@@ -80,7 +80,7 @@ jobs:
         if: runner.os == 'Linux'
         uses: docker/setup-qemu-action@v2
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.11.3
+        uses: pypa/cibuildwheel@v2.20.0
         env:
           CIBW_ARCHS_LINUX: aarch64
       - uses: actions/upload-artifact@v3
