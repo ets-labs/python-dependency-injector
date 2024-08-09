@@ -115,8 +115,8 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: 3.12
-      - run: pip install -r requirements-doc.txt
       - run: pip install awscli
+      - run: pip install -r requirements-doc.txt
       - run: pip install -e .
       - run: (cd docs && make clean html)
       - run: |
