@@ -20,10 +20,10 @@ cdef tuple __COROUTINE_TYPES
 
 # Base providers
 cdef class Provider(object):
-    cdef tuple __overridden
-    cdef Provider __last_overriding
-    cdef tuple __overrides
-    cdef int __async_mode
+    cdef tuple _overridden
+    cdef Provider _last_overriding
+    cdef tuple _overrides
+    cdef int _async_mode
 
     cpdef bint is_async_mode_enabled(self)
     cpdef bint is_async_mode_disabled(self)
@@ -34,32 +34,32 @@ cdef class Provider(object):
 
 
 cdef class Object(Provider):
-    cdef object __provides
+    cdef object _provides
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
 cdef class Self(Provider):
-    cdef object __container
-    cdef tuple __alt_names
+    cdef object _container
+    cdef tuple _alt_names
 
 
 cdef class Delegate(Provider):
-    cdef object __provides
+    cdef object _provides
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
 cdef class Aggregate(Provider):
-    cdef dict __providers
+    cdef dict _providers
 
     cdef Provider __get_provider(self, object provider_name)
 
 
 cdef class Dependency(Provider):
-    cdef object __instance_of
-    cdef object __default
-    cdef object __parent
+    cdef object _instance_of
+    cdef object _default
+    cdef object _parent
 
 
 cdef class ExternalDependency(Dependency):
@@ -67,21 +67,21 @@ cdef class ExternalDependency(Dependency):
 
 
 cdef class DependenciesContainer(Object):
-    cdef dict __providers
-    cdef object __parent
+    cdef dict _providers
+    cdef object _parent
 
     cpdef object _override_providers(self, object container)
 
 
 # Callable providers
 cdef class Callable(Provider):
-    cdef object __provides
+    cdef object _provides
 
-    cdef tuple __args
-    cdef int __args_len
+    cdef tuple _args
+    cdef int _args_len
 
-    cdef tuple __kwargs
-    cdef int __kwargs_len
+    cdef tuple _kwargs
+    cdef int _kwargs_len
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
@@ -117,11 +117,11 @@ cdef class CoroutineDelegate(Delegate):
 
 # Configuration providers
 cdef class ConfigurationOption(Provider):
-    cdef tuple __name
-    cdef Configuration __root
-    cdef dict __children
-    cdef bint __required
-    cdef object __cache
+    cdef tuple _name
+    cdef Configuration _root
+    cdef dict _children
+    cdef bint _required
+    cdef object _cache
 
 
 cdef class TypedConfigurationOption(Callable):
@@ -129,22 +129,22 @@ cdef class TypedConfigurationOption(Callable):
 
 
 cdef class Configuration(Object):
-    cdef str __name
+    cdef str _name
     cdef bint __strict
-    cdef dict __children
-    cdef list __ini_files
-    cdef list __yaml_files
-    cdef list __json_files
-    cdef list __pydantic_settings
+    cdef dict _children
+    cdef list _ini_files
+    cdef list _yaml_files
+    cdef list _json_files
+    cdef list _pydantic_settings
     cdef object __weakref__
 
 
 # Factory providers
 cdef class Factory(Provider):
-    cdef Callable __instantiator
+    cdef Callable _instantiator
 
-    cdef tuple __attributes
-    cdef int __attributes_len
+    cdef tuple _attributes
+    cdef int _attributes_len
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
@@ -167,8 +167,8 @@ cdef class FactoryAggregate(Aggregate):
 
 # Singleton providers
 cdef class BaseSingleton(Provider):
-    cdef Factory __instantiator
-    cdef object __storage
+    cdef Factory _instantiator
+    cdef object _storage
 
 
 cdef class Singleton(BaseSingleton):
@@ -181,7 +181,7 @@ cdef class DelegatedSingleton(Singleton):
 
 
 cdef class ThreadSafeSingleton(BaseSingleton):
-    cdef object __storage_lock
+    cdef object _storage_lock
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
@@ -215,87 +215,87 @@ cdef class SingletonDelegate(Delegate):
 # Miscellaneous providers
 
 cdef class List(Provider):
-    cdef tuple __args
-    cdef int __args_len
+    cdef tuple _args
+    cdef int _args_len
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
 cdef class Dict(Provider):
-    cdef tuple __kwargs
-    cdef int __kwargs_len
+    cdef tuple _kwargs
+    cdef int _kwargs_len
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
 cdef class Resource(Provider):
-    cdef object __provides
-    cdef bint __initialized
-    cdef object __shutdowner
-    cdef object __resource
+    cdef object _provides
+    cdef bint _initialized
+    cdef object _shutdowner
+    cdef object _resource
 
-    cdef tuple __args
-    cdef int __args_len
+    cdef tuple _args
+    cdef int _args_len
 
-    cdef tuple __kwargs
-    cdef int __kwargs_len
+    cdef tuple _kwargs
+    cdef int _kwargs_len
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
 cdef class Container(Provider):
-    cdef object __container_cls
-    cdef dict __overriding_providers
-    cdef object __container
-    cdef object __parent
+    cdef object _container_cls
+    cdef dict _overriding_providers
+    cdef object _container
+    cdef object _parent
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
 cdef class Selector(Provider):
-    cdef object __selector
-    cdef dict __providers
+    cdef object _selector
+    cdef dict _providers
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
 # Provided instance
 
 cdef class ProvidedInstance(Provider):
-    cdef object __provides
+    cdef object _provides
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
 cdef class AttributeGetter(Provider):
-    cdef object __provides
-    cdef object __name
+    cdef object _provides
+    cdef object _name
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
 cdef class ItemGetter(Provider):
-    cdef object __provides
-    cdef object __name
+    cdef object _provides
+    cdef object _name
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
 cdef class MethodCaller(Provider):
-    cdef object __provides
-    cdef tuple __args
-    cdef int __args_len
-    cdef tuple __kwargs
-    cdef int __kwargs_len
+    cdef object _provides
+    cdef tuple _args
+    cdef int _args_len
+    cdef tuple _kwargs
+    cdef int _kwargs_len
 
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
 # Injections
 cdef class Injection(object):
-    cdef object __value
-    cdef int __is_provider
-    cdef int __is_delegated
-    cdef int __call
+    cdef object _value
+    cdef int _is_provider
+    cdef int _is_delegated
+    cdef int _call
 
 
 cdef class PositionalInjection(Injection):
@@ -303,7 +303,7 @@ cdef class PositionalInjection(Injection):
 
 
 cdef class NamedInjection(Injection):
-    cdef object __name
+    cdef object _name
 
 
 cpdef tuple parse_positional_injections(tuple args)
@@ -314,12 +314,12 @@ cpdef tuple parse_named_injections(dict kwargs)
 
 # Utils
 cdef class OverridingContext(object):
-    cdef Provider __overridden
-    cdef Provider __overriding
+    cdef Provider _overridden
+    cdef Provider _overriding
 
 
 cdef class BaseSingletonResetContext(object):
-    cdef object __singleton
+    cdef object _singleton
 
 
 cdef class SingletonResetContext(BaseSingletonResetContext):
@@ -356,19 +356,19 @@ cpdef object deepcopy(object instance, dict memo=*)
 
 # Inline helper functions
 cdef inline object __get_name(NamedInjection self):
-    return self.__name
+    return self._name
 
 
 cdef inline object __get_value(Injection self):
-    if self.__call == 0:
-        return self.__value
-    return self.__value()
+    if self._call == 0:
+        return self._value
+    return self._value()
 
 
 cdef inline object __get_value_kwargs(Injection self, dict kwargs):
-    if self.__call == 0:
-        return self.__value
-    return self.__value(**kwargs)
+    if self._call == 0:
+        return self._value
+    return self._value(**kwargs)
 
 
 cdef inline tuple __separate_prefixed_kwargs(dict kwargs):
@@ -633,14 +633,14 @@ cdef inline object __async_result_callback(object future_result, object future):
 
 cdef inline object __callable_call(Callable self, tuple args, dict kwargs, ):
     return __call(
-        self.__provides,
+        self._provides,
         args,
-        self.__args,
-        self.__args_len,
+        self._args,
+        self._args_len,
         kwargs,
-        self.__kwargs,
-        self.__kwargs_len,
-        self.__async_mode,
+        self._kwargs,
+        self._kwargs_len,
+        self._async_mode,
     )
 
 
@@ -648,18 +648,18 @@ cdef inline object __factory_call(Factory self, tuple args, dict kwargs):
     cdef object instance
 
     instance = __call(
-        self.__instantiator.__provides,
+        self._instantiator._provides,
         args,
-        self.__instantiator.__args,
-        self.__instantiator.__args_len,
+        self._instantiator._args,
+        self._instantiator._args_len,
         kwargs,
-        self.__instantiator.__kwargs,
-        self.__instantiator.__kwargs_len,
-        self.__async_mode,
+        self._instantiator._kwargs,
+        self._instantiator._kwargs_len,
+        self._async_mode,
     )
 
-    if self.__attributes_len > 0:
-        attributes = __provide_attributes(self.__attributes, self.__attributes_len)
+    if self._attributes_len > 0:
+        attributes = __provide_attributes(self._attributes, self._attributes_len)
 
         is_future_instance = __is_future_or_coroutine(instance)
         is_future_attributes = __is_future_or_coroutine(attributes)
