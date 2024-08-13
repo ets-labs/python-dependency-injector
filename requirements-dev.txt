@@ -1,4 +1,4 @@
-cython==0.29.37
+cython>=3,<4
 pytest
 pytest-asyncio
 tox

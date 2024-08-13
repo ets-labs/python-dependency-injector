@@ -40,8 +40,7 @@ jobs:
     name: Run tests with coverage
     runs-on: ubuntu-latest
     env:
-      # Cython's version <3 issue with tracing: "error: no member named 'use_tracing' in 'struct _PyCFrame'"
-      # DEPENDENCY_INJECTOR_DEBUG_MODE: 1
+      DEPENDENCY_INJECTOR_DEBUG_MODE: 1
       COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -49,7 +48,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: 3.12
-      - run: pip install tox cython==0.29.37
+      - run: pip install tox 'cython>=3,<4'
       - run: make cythonize
       - run: tox
         env:
