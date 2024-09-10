@@ -37,6 +37,20 @@ async def test_depends_marker_injection(async_client: AsyncClient):
 
 
 @mark.asyncio
+async def test_depends_with_annotated(async_client: AsyncClient):
+    class ServiceMock:
+        async def process(self):
+            return "Foo"
+
+    with web.container.service.override(ServiceMock()):
+        response = await async_client.get("/")
+
+    assert response.status_code == 200
+    assert response.json() == {"result": "Foo"}
+
+
+
+@mark.asyncio
 async def test_depends_injection(async_client: AsyncClient):
     response = await async_client.get("/auth", auth=("john_smith", "secret"))
     assert response.status_code == 200
