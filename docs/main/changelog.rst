@@ -7,6 +7,11 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly
 follows `Semantic versioning`_
 
+4.42.0
+--------
+- Promote release ``4.42.0b1`` to a production release.
+- Fix the Disqus comment widget.
+
 4.42.0b1
 --------
 

@@ -17,4 +17,6 @@ Listing of ``boto3_session_example.py``:
 .. literalinclude:: ../../examples/miniapps/boto3-session/boto3_session_example.py
    :language: python
 
+.. include:: ../sponsor.rst
+
 .. disqus::

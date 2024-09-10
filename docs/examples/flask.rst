@@ -84,4 +84,6 @@ Sources
 
 Explore the sources on the `Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/flask>`_.
 
+.. include:: ../sponsor.rst
+
 .. disqus::
