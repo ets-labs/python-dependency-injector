@@ -956,8 +956,8 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "src/dependency_injector/_cwiring.pyx",
-  "src/dependency_injector/providers.pxd",
+  "_cwiring.pyx",
+  "providers.pxd",
   "stringsource",
 };
 
@@ -3289,6 +3289,7 @@ static const char __pyx_k_set_result[] = "set_result";
 static const char __pyx_k_ImportError[] = "ImportError";
 static const char __pyx_k_cfunc_to_py[] = "cfunc.to_py";
 static const char __pyx_k_collections[] = "collections";
+static const char __pyx_k_cwiring_pyx[] = "_cwiring.pyx";
 static const char __pyx_k_async_inject[] = "_async_inject";
 static const char __pyx_k_stringsource[] = "stringsource";
 static const char __pyx_k_CoroutineType[] = "CoroutineType";
@@ -3317,7 +3318,6 @@ static const char __pyx_k_Pyx_CFunc_void____object____ob[] = "__Pyx_CFunc_void__
 static const char __pyx_k_get_sync_patched_locals__patche[] = "_get_sync_patched.<locals>._patched";
 static const char __pyx_k_Pyx_CFunc_void____object____ob_2[] = "__Pyx_CFunc_void____object____object___to_py.<locals>.wrap";
 static const char __pyx_k_Pyx_CFunc_void____object____ob_3[] = "__Pyx_CFunc_void____object____object____object___to_py.<locals>.wrap";
-static const char __pyx_k_src_dependency_injector__cwiring[] = "src/dependency_injector/_cwiring.pyx";
 static PyObject *__pyx_n_s_Awaitable;
 static PyObject *__pyx_n_s_CO_ITERABLE_COROUTINE;
 static PyObject *__pyx_n_s_CoroutineType;
@@ -3356,6 +3356,7 @@ static PyObject *__pyx_n_s_closings;
 static PyObject *__pyx_n_s_co_flags;
 static PyObject *__pyx_n_s_collections;
 static PyObject *__pyx_n_s_collections_abc;
+static PyObject *__pyx_kp_s_cwiring_pyx;
 static PyObject *__pyx_n_s_dependency_injector__cwiring;
 static PyObject *__pyx_n_s_ensure_future;
 static PyObject *__pyx_n_s_fn;
@@ -3390,7 +3391,6 @@ static PyObject *__pyx_n_s_send;
 static PyObject *__pyx_n_s_set_exception;
 static PyObject *__pyx_n_s_set_result;
 static PyObject *__pyx_n_s_shutdown;
-static PyObject *__pyx_kp_s_src_dependency_injector__cwiring;
 static PyObject *__pyx_kp_s_stringsource;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_throw;
@@ -12416,6 +12416,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_co_flags, __pyx_k_co_flags, sizeof(__pyx_k_co_flags), 0, 0, 1, 1},
   {&__pyx_n_s_collections, __pyx_k_collections, sizeof(__pyx_k_collections), 0, 0, 1, 1},
   {&__pyx_n_s_collections_abc, __pyx_k_collections_abc, sizeof(__pyx_k_collections_abc), 0, 0, 1, 1},
+  {&__pyx_kp_s_cwiring_pyx, __pyx_k_cwiring_pyx, sizeof(__pyx_k_cwiring_pyx), 0, 0, 1, 0},
   {&__pyx_n_s_dependency_injector__cwiring, __pyx_k_dependency_injector__cwiring, sizeof(__pyx_k_dependency_injector__cwiring), 0, 0, 1, 1},
   {&__pyx_n_s_ensure_future, __pyx_k_ensure_future, sizeof(__pyx_k_ensure_future), 0, 0, 1, 1},
   {&__pyx_n_s_fn, __pyx_k_fn, sizeof(__pyx_k_fn), 0, 0, 1, 1},
@@ -12450,7 +12451,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_set_exception, __pyx_k_set_exception, sizeof(__pyx_k_set_exception), 0, 0, 1, 1},
   {&__pyx_n_s_set_result, __pyx_k_set_result, sizeof(__pyx_k_set_result), 0, 0, 1, 1},
   {&__pyx_n_s_shutdown, __pyx_k_shutdown, sizeof(__pyx_k_shutdown), 0, 0, 1, 1},
-  {&__pyx_kp_s_src_dependency_injector__cwiring, __pyx_k_src_dependency_injector__cwiring, sizeof(__pyx_k_src_dependency_injector__cwiring), 0, 0, 1, 0},
   {&__pyx_kp_s_stringsource, __pyx_k_stringsource, sizeof(__pyx_k_stringsource), 0, 0, 1, 0},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_throw, __pyx_k_throw, sizeof(__pyx_k_throw), 0, 0, 1, 1},
@@ -12487,7 +12487,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple_ = PyTuple_Pack(6, __pyx_n_s_args, __pyx_n_s_kwargs, __pyx_n_s_result, __pyx_n_s_to_inject, __pyx_n_s_arg_key, __pyx_n_s_provider); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 17, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(0, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector__cwiring, __pyx_n_s_patched_2, 17, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 17, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(0, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS|CO_VARARGS|CO_VARKEYWORDS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cwiring_pyx, __pyx_n_s_patched_2, 17, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 17, __pyx_L1_error)
 
   /* "cfunc.to_py":65
  * @cname("__Pyx_CFunc_void____object____object____object____object___to_py")
@@ -12523,7 +12523,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__14 = PyTuple_Pack(4, __pyx_n_s_fn, __pyx_n_s_patched, __pyx_n_s_patched_2, __pyx_n_s_patched_2); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 15, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__14);
   __Pyx_GIVEREF(__pyx_tuple__14);
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector__cwiring, __pyx_n_s_get_sync_patched, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cwiring_pyx, __pyx_n_s_get_sync_patched, 15, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) __PYX_ERR(0, 15, __pyx_L1_error)
 
   /* "dependency_injector/_cwiring.pyx":42
  * 
@@ -12535,7 +12535,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __pyx_tuple__17 = PyTuple_Pack(18, __pyx_n_s_fn, __pyx_n_s_args, __pyx_n_s_kwargs, __pyx_n_s_injections, __pyx_n_s_closings, __pyx_n_s_result, __pyx_n_s_to_inject, __pyx_n_s_to_inject_await, __pyx_n_s_to_close_await, __pyx_n_s_arg_key, __pyx_n_s_provider, __pyx_n_s_provide, __pyx_n_s_async_to_inject, __pyx_n_s_injection, __pyx_n_s__16, __pyx_n_s_shutdown, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(5, 0, 18, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_src_dependency_injector__cwiring, __pyx_n_s_async_inject, 42, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_codeobj__3 = (PyObject*)__Pyx_PyCode_New(5, 0, 18, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_cwiring_pyx, __pyx_n_s_async_inject, 42, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__3)) __PYX_ERR(0, 42, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
