@@ -1,0 +1,9 @@
+.no-border {
+    border: 0 !important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+}
+.no-border td {
+    border: 0px !important;
+    padding: 0px 10px 0px 0px !important;
+}

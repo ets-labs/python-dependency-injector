@@ -84,4 +84,6 @@ Run the application
 
 You can find the source code and instructions for running on the `Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/application-multiple-containers>`_.
 
+.. include:: ../sponsor.rst
+
 .. disqus::
