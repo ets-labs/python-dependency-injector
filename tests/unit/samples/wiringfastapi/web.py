@@ -1,5 +1,7 @@
 import sys
 
+from typing_extensions import Annotated
+
 from fastapi import FastAPI, Depends
 from fastapi import Request  # See: https://github.com/ets-labs/python-dependency-injector/issues/398
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
@@ -27,6 +29,11 @@ async def index(service: Service = Depends(Provide[Container.service])):
     result = await service.process()
     return {"result": result}
 
+@app.api_route('/annotated')
+@inject
+async def annotated(service: Annotated[Service, Depends(Provide[Container.service])]):
+    result = await service.process()
+    return {'result': result}
 
 @app.get("/auth")
 @inject
