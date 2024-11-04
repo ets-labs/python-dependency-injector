@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly
 follows `Semantic versioning`_
 
+4.43.0
+--------
+- Add support for Python 3.13.
+- Migrate to Cython 3 (version 3.0.11). Many thanks to `ZipFile <https://github.com/ZipFile>`_ for
+  this contribution `#813 <https://github.com/ets-labs/python-dependency-injector/pull/813>`_.
+
 4.42.0
 --------
 - Promote release ``4.42.0b1`` to a production release.

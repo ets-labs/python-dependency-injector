@@ -21,3 +21,4 @@ Dependency Injector Contributors
 + Thiago Hiromi (thiromi)
 + Felipe Rubio (krouw)
 + Anton Petrov (anton-petrov)
++ ZipFile (ZipFile)
