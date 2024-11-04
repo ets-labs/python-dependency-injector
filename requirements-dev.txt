@@ -1,4 +1,5 @@
 cython==3.0.11
+setuptools
 pytest
 pytest-asyncio
 tox
