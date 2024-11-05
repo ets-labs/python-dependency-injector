@@ -77,3 +77,25 @@ dependency_injector = ["*.pxd", "*.pyi", "py.typed"]
 
 [tool.setuptools.dynamic]
 version = {attr = "dependency_injector.__version__"}
+
+[tool.coverage.run]
+branch = false
+relative_files = true
+source_pkgs = ["dependency_injector"]
+plugins = ["Cython.Coverage"]
+
+[tool.coverage.html]
+directory = "reports/unittests/"
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.isort]
+profile = "black"
+
+[tool.pylint.main]
+ignore = ["tests"]
+
+[tool.pylint.design]
+min-public-methods = 0
+max-public-methods = 30

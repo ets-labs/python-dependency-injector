@@ -1,5 +1,6 @@
 VERSION := $(shell python setup.py --version)
 
+export COVERAGE_RCFILE := pyproject.toml
 
 clean:
 	# Clean sources
@@ -35,9 +36,9 @@ uninstall:
 test:
 	# Unit tests with coverage report
 	coverage erase
-	coverage run --rcfile=./.coveragerc -m pytest -c tests/.configs/pytest.ini
-	coverage report --rcfile=./.coveragerc
-	coverage html --rcfile=./.coveragerc
+	coverage run -m pytest -c tests/.configs/pytest.ini
+	coverage report
+	coverage html
 
 check:
 	flake8 src/dependency_injector/
