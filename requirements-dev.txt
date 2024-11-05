@@ -5,6 +5,7 @@ pytest-asyncio
 tox
 coverage
 flake8
+flake8-pyproject
 pydocstyle
 sphinx_autobuild
 pip

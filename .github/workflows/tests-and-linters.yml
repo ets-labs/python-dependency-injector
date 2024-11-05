@@ -50,7 +50,6 @@ jobs:
         with:
           python-version: 3.12
       - run: pip install tox 'cython>=3,<4'
-      - run: make cythonize
       - run: tox -vv
         env:
           TOXENV: coveralls
