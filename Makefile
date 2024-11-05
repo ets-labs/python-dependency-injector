@@ -1,14 +1,5 @@
 VERSION := $(shell python setup.py --version)
 
-CYTHON_SRC := $(shell find src/dependency_injector -name '*.pyx')
-
-CYTHON_DIRECTIVES = -Xlanguage_level=3
-
-ifdef DEPENDENCY_INJECTOR_DEBUG_MODE
-	CYTHON_DIRECTIVES += -Xprofile=True
-	CYTHON_DIRECTIVES += -Xlinetrace=True
-endif
-
 
 clean:
 	# Clean sources
@@ -25,21 +16,17 @@ clean:
 	find examples -name '*.py[co]' -delete
 	find examples -name '__pycache__' -delete
 
-cythonize:
-	# Compile Cython to C
-	cython -a $(CYTHON_DIRECTIVES) $(CYTHON_SRC)
+build: clean
+	# Compile C extensions
+	python setup.py build_ext --inplace
 	# Move all Cython html reports
 	mkdir -p reports/cython/
 	find src -name '*.html' -exec mv {}  reports/cython/  \;
 
-build: clean cythonize
-	# Compile C extensions
-	python setup.py build_ext --inplace
-
 docs-live:
 	sphinx-autobuild docs docs/_build/html
 
-install: uninstall clean cythonize
+install: uninstall clean build
 	pip install -ve .
 
 uninstall:
@@ -61,9 +48,9 @@ check:
 
 	mypy tests/typing
 
-test-publish: cythonize
+test-publish: build
 	# Create distributions
-	python setup.py sdist
+	python -m build --sdist
 	# Upload distributions to PyPI
 	twine upload --repository testpypi dist/dependency-injector-$(VERSION)*
 
