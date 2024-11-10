@@ -7,6 +7,12 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly
 follows `Semantic versioning`_
 
+Development
+--------
+- Implement `PEP-517 <https://peps.python.org/pep-0517/>`_, `PEP-518 <https://peps.python.org/pep-0518/>`_, and
+  `PEP-621 <https://peps.python.org/pep-0621/>`_. Many thanks to `ZipFile <https://github.com/ZipFile>`_ for
+  this contribution `#829 <https://github.com/ets-labs/python-dependency-injector/pull/829>`_
+
 4.43.0
 --------
 - Add support for Python 3.13.
