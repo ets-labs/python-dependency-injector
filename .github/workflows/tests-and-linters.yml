@@ -36,6 +36,17 @@ jobs:
         env:
           TOXENV: ${{ matrix.python-version }}
 
+  test-different-pydantic-versions:
+    name: Run tests with different pydantic versions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+      - run: pip install tox
+      - run: tox -e pydantic-v1,pydantic-v2
+
   test-coverage:
     name: Run tests with coverage
     runs-on: ubuntu-latest
