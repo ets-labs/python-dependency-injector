@@ -47,8 +47,8 @@ jobs:
         with:
           python-version: 3.13
       - run: |
-          python -m pip install --upgrade pip setuptools
-          python setup.py sdist
+          python -m pip install --upgrade build
+          python -m build --sdist
       - uses: actions/upload-artifact@v3
         with:
           path: ./dist/*
