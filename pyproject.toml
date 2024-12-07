@@ -58,6 +58,7 @@ dependencies = ["six"]
 [project.optional-dependencies]
 yaml = ["pyyaml"]
 pydantic = ["pydantic"]
+pydantic2 = ["pydantic-settings"]
 flask = ["flask"]
 aiohttp = ["aiohttp"]
 

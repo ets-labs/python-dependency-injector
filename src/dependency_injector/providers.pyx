@@ -48,10 +48,25 @@ try:
 except ImportError:
     yaml = None
 
+has_pydantic_settings = True
+cdef bint pydantic_v1 = False
+cdef str pydantic_module = "pydantic_settings"
+cdef str pydantic_extra = "pydantic2"
+
 try:
-    import pydantic
+    from pydantic_settings import BaseSettings as PydanticSettings
 except ImportError:
-    pydantic = None
+    try:
+        # pydantic-settings requires pydantic v2,
+        # so it is safe to assume that we're dealing with v1:
+        from pydantic import BaseSettings as PydanticSettings
+        pydantic_v1 = True
+        pydantic_module = "pydantic"
+        pydantic_extra = "pydantic"
+    except ImportError:
+        # if it is present, ofc
+        has_pydantic_settings = False
+
 
 from .errors import (
     Error,
@@ -148,6 +163,31 @@ cdef int ASYNC_MODE_DISABLED = 2
 
 cdef set __iscoroutine_typecache = set()
 cdef tuple __COROUTINE_TYPES = asyncio.coroutines._COROUTINE_TYPES if asyncio else tuple()
+
+cdef dict pydantic_settings_to_dict(settings, dict kwargs):
+    if not has_pydantic_settings:
+        raise Error(
+            f"Unable to load pydantic configuration - {pydantic_module} is not installed. "
+            "Install pydantic or install Dependency Injector with pydantic extras: "
+            f"\"pip install dependency-injector[{pydantic_extra}]\""
+        )
+
+    if isinstance(settings, CLASS_TYPES) and issubclass(settings, PydanticSettings):
+        raise Error(
+            "Got settings class, but expect instance: "
+            "instead \"{0}\" use \"{0}()\"".format(settings.__name__)
+        )
+
+    if not isinstance(settings, PydanticSettings):
+        raise Error(
+            f"Unable to recognize settings instance, expect \"{pydantic_module}.BaseSettings\", "
+            f"got {settings} instead"
+        )
+
+    if pydantic_v1:
+        return settings.dict(**kwargs)
+
+    return settings.model_dump(mode="python", **kwargs)
 
 
 cdef class Provider(object):
@@ -1786,36 +1826,20 @@ cdef class ConfigurationOption(Provider):
         Loaded configuration is merged recursively over existing configuration.
 
         :param settings: Pydantic settings instances.
-        :type settings: :py:class:`pydantic.BaseSettings`
+        :type settings: :py:class:`pydantic.BaseSettings` (pydantic v1) or
+            :py:class:`pydantic_settings.BaseSettings` (pydantic v2 and onwards)
 
         :param required: When required is True, raise an exception if settings dict is empty.
         :type required: bool
 
-        :param kwargs: Keyword arguments forwarded to ``pydantic.BaseSettings.dict()`` call.
+        :param kwargs: Keyword arguments forwarded to ``pydantic.BaseSettings.dict()`` or
+            ``pydantic_settings.BaseSettings.model_dump()`` call (based on pydantic version).
         :type kwargs: Dict[Any, Any]
 
         :rtype: None
         """
-        if pydantic is None:
-            raise Error(
-                "Unable to load pydantic configuration - pydantic is not installed. "
-                "Install pydantic or install Dependency Injector with pydantic extras: "
-                "\"pip install dependency-injector[pydantic]\""
-            )
 
-        if isinstance(settings, CLASS_TYPES) and issubclass(settings, pydantic.BaseSettings):
-            raise Error(
-                "Got settings class, but expect instance: "
-                "instead \"{0}\" use \"{0}()\"".format(settings.__name__)
-            )
-
-        if not isinstance(settings, pydantic.BaseSettings):
-            raise Error(
-                "Unable to recognize settings instance, expect \"pydantic.BaseSettings\", "
-                "got {0} instead".format(settings)
-            )
-
-        self.from_dict(settings.dict(**kwargs), required=required)
+        self.from_dict(pydantic_settings_to_dict(settings, kwargs), required=required)
 
     def from_dict(self, options, required=UNDEFINED):
         """Load configuration from the dictionary.
@@ -2355,7 +2379,8 @@ cdef class Configuration(Object):
         Loaded configuration is merged recursively over existing configuration.
 
         :param settings: Pydantic settings instances.
-        :type settings: :py:class:`pydantic.BaseSettings`
+        :type settings: :py:class:`pydantic.BaseSettings` (pydantic v1) or
+            :py:class:`pydantic_settings.BaseSettings` (pydantic v2 and onwards)
 
         :param required: When required is True, raise an exception if settings dict is empty.
         :type required: bool
@@ -2365,26 +2390,8 @@ cdef class Configuration(Object):
 
         :rtype: None
         """
-        if pydantic is None:
-            raise Error(
-                "Unable to load pydantic configuration - pydantic is not installed. "
-                "Install pydantic or install Dependency Injector with pydantic extras: "
-                "\"pip install dependency-injector[pydantic]\""
-            )
 
-        if isinstance(settings, CLASS_TYPES) and issubclass(settings, pydantic.BaseSettings):
-            raise Error(
-                "Got settings class, but expect instance: "
-                "instead \"{0}\" use \"{0}()\"".format(settings.__name__)
-            )
-
-        if not isinstance(settings, pydantic.BaseSettings):
-            raise Error(
-                "Unable to recognize settings instance, expect \"pydantic.BaseSettings\", "
-                "got {0} instead".format(settings)
-            )
-
-        self.from_dict(settings.dict(**kwargs), required=required)
+        self.from_dict(pydantic_settings_to_dict(settings, kwargs), required=required)
 
     def from_dict(self, options, required=UNDEFINED):
         """Load configuration from the dictionary.
