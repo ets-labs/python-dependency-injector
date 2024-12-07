@@ -7,11 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly
 follows `Semantic versioning`_
 
-Development
+4.44.0
 --------
+- Implement support for Pydantic 2. PR: `#832 <https://github.com/ets-labs/python-dependency-injector/pull/832>`_.
 - Implement `PEP-517 <https://peps.python.org/pep-0517/>`_, `PEP-518 <https://peps.python.org/pep-0518/>`_, and
-  `PEP-621 <https://peps.python.org/pep-0621/>`_. Many thanks to `ZipFile <https://github.com/ZipFile>`_ for
-  this contribution `#829 <https://github.com/ets-labs/python-dependency-injector/pull/829>`_
+  `PEP-621 <https://peps.python.org/pep-0621/>`_. PR: `#829 <https://github.com/ets-labs/python-dependency-injector/pull/829>`_.
+
+Many thanks to `ZipFile <https://github.com/ZipFile>`_ for both contributions.
 
 4.43.0
 --------
