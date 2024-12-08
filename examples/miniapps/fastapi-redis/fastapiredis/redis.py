@@ -1,6 +1,6 @@
 from typing import AsyncIterator
 
-from aioredis import from_url, Redis
+from redis.asyncio import from_url, Redis
 
 
 async def init_redis_pool(host: str, password: str) -> AsyncIterator[Redis]:

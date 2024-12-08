@@ -3,13 +3,14 @@
 from unittest import mock
 
 import pytest
+import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
 
 from giphynavigator.application import app
 from giphynavigator.giphy import GiphyClient
 
 
-@pytest.fixture
+@pytest_asyncio.fixture
 async def client():
     async with AsyncClient(
         transport=ASGITransport(app=app),

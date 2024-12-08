@@ -58,8 +58,8 @@ The output should be something like:
 
 .. code-block::
 
-   platform darwin -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
-   plugins: cov-3.0.0
+   platform linux -- Python 3.12.3, pytest-8.3.2, pluggy-1.5.0
+   plugins: cov-6.0.0
    collected 2 items
 
    movies/tests.py ..                                              [100%]
