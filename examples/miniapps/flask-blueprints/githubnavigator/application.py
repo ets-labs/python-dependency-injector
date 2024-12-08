@@ -1,7 +1,7 @@
 """Application module."""
 
 from flask import Flask
-from flask_bootstrap import Bootstrap
+from flask_bootstrap import Bootstrap4
 
 from .containers import Container
 from .blueprints import example
@@ -15,7 +15,7 @@ def create_app() -> Flask:
     app.container = container
     app.register_blueprint(example.blueprint)
 
-    bootstrap = Bootstrap()
+    bootstrap = Bootstrap4()
     bootstrap.init_app(app)
 
     return app

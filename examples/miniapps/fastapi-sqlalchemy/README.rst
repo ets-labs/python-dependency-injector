@@ -15,13 +15,13 @@ Build the Docker image:
 
 .. code-block:: bash
 
-   docker-compose build
+   docker compose build
 
 Run the docker-compose environment:
 
 .. code-block:: bash
 
-    docker-compose up
+    docker compose up
 
 The output should be something like:
 
@@ -67,15 +67,15 @@ To run the tests do:
 
 .. code-block:: bash
 
-   docker-compose run --rm webapp py.test webapp/tests.py --cov=webapp
+   docker compose run --rm webapp py.test webapp/tests.py --cov=webapp
 
 The output should be something like:
 
 .. code-block::
 
-   platform linux -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
+   platform linux -- Python 3.13.1, pytest-8.3.4, pluggy-1.5.0
    rootdir: /code
-   plugins: cov-3.0.0
+   plugins: cov-6.0.0, anyio-4.7.0
    collected 7 items
 
    webapp/tests.py .......                                         [100%]

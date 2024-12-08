@@ -1,4 +1,4 @@
-FROM python:3.10-buster
+FROM python:3.13-bookworm
 
 ENV PYTHONUNBUFFERED=1
 ENV HOST=0.0.0.0
