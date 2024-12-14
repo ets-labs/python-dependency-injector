@@ -18,8 +18,6 @@ try:
 except ImportError:
     yaml = None
 
-import six
-
 from . import providers, errors
 from .providers cimport __is_future_or_coroutine
 
@@ -201,7 +199,7 @@ class DynamicContainer(Container):
 
         :rtype: None
         """
-        for name, provider in six.iteritems(providers):
+        for name, provider in providers.items():
             setattr(self, name, provider)
 
     def set_provider(self, name, provider):
@@ -234,7 +232,7 @@ class DynamicContainer(Container):
 
         self.overridden += (overriding,)
 
-        for name, provider in six.iteritems(overriding.providers):
+        for name, provider in overriding.providers.items():
             try:
                 getattr(self, name).override(provider)
             except AttributeError:
@@ -250,7 +248,7 @@ class DynamicContainer(Container):
         :rtype: None
         """
         overridden_providers = []
-        for name, overriding_provider in six.iteritems(overriding_providers):
+        for name, overriding_provider in overriding_providers.items():
             container_provider = getattr(self, name)
             container_provider.override(overriding_provider)
             overridden_providers.append(container_provider)
@@ -266,7 +264,7 @@ class DynamicContainer(Container):
 
         self.overridden = self.overridden[:-1]
 
-        for provider in six.itervalues(self.providers):
+        for provider in self.providers.values():
             provider.reset_last_overriding()
 
     def reset_override(self):
@@ -276,7 +274,7 @@ class DynamicContainer(Container):
         """
         self.overridden = tuple()
 
-        for provider in six.itervalues(self.providers):
+        for provider in self.providers.values():
             provider.reset_override()
 
     def is_auto_wiring_enabled(self):
@@ -495,13 +493,13 @@ class DeclarativeContainerMetaClass(type):
 
         containers = {
             name: container
-            for name, container in six.iteritems(attributes)
+            for name, container in attributes.items()
             if is_container(container)
         }
 
         cls_providers = {
             name: provider
-            for name, provider in six.iteritems(attributes)
+            for name, provider in attributes.items()
             if isinstance(provider, providers.Provider) and not isinstance(provider, providers.Self)
         }
 
@@ -509,7 +507,7 @@ class DeclarativeContainerMetaClass(type):
             name: provider
             for base in bases
             if is_container(base) and base is not DynamicContainer
-            for name, provider in six.iteritems(base.providers)
+            for name, provider in base.providers.items()
         }
 
         all_providers = {}
@@ -536,10 +534,10 @@ class DeclarativeContainerMetaClass(type):
         self.set_container(cls)
         cls.__self__ = self
 
-        for provider in six.itervalues(cls.providers):
+        for provider in cls.providers.values():
             _check_provider_type(cls, provider)
 
-        for provider in six.itervalues(cls.cls_providers):
+        for provider in cls.cls_providers.values():
             if isinstance(provider, providers.CHILD_PROVIDERS):
                 provider.assign_parent(cls)
 
@@ -641,8 +639,7 @@ class DeclarativeContainerMetaClass(type):
         return self
 
 
-@six.add_metaclass(DeclarativeContainerMetaClass)
-class DeclarativeContainer(Container):
+class DeclarativeContainer(Container, metaclass=DeclarativeContainerMetaClass):
     """Declarative inversion of control container.
 
     .. code-block:: python
@@ -767,7 +764,7 @@ class DeclarativeContainer(Container):
 
         cls.overridden += (overriding,)
 
-        for name, provider in six.iteritems(overriding.cls_providers):
+        for name, provider in overriding.cls_providers.items():
             try:
                 getattr(cls, name).override(provider)
             except AttributeError:
@@ -784,7 +781,7 @@ class DeclarativeContainer(Container):
 
         cls.overridden = cls.overridden[:-1]
 
-        for provider in six.itervalues(cls.providers):
+        for provider in cls.providers.values():
             provider.reset_last_overriding()
 
     @classmethod
@@ -795,7 +792,7 @@ class DeclarativeContainer(Container):
         """
         cls.overridden = tuple()
 
-        for provider in six.itervalues(cls.providers):
+        for provider in cls.providers.values():
             provider.reset_override()
 
 
@@ -858,7 +855,7 @@ def copy(object base_container):
     """
     def _get_memo_for_matching_names(new_providers, base_providers):
         memo = {}
-        for new_provider_name, new_provider in six.iteritems(new_providers):
+        for new_provider_name, new_provider in new_providers.items():
             if new_provider_name not in base_providers:
                 continue
             source_provider = base_providers[new_provider_name]
@@ -877,7 +874,7 @@ def copy(object base_container):
         new_providers.update(providers.deepcopy(base_container.providers, memo))
         new_providers.update(providers.deepcopy(new_container.cls_providers, memo))
 
-        for name, provider in six.iteritems(new_providers):
+        for name, provider in new_providers.items():
             setattr(new_container, name, provider)
         return new_container
 
