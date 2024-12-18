@@ -3221,8 +3221,8 @@ cdef class ThreadLocalSingleton(BaseSingleton):
                 return future_result
 
             self._storage.instance = instance
-        finally:
-            return instance
+        
+        return instance
 
     def _async_init_instance(self, future_result, result):
         try:
