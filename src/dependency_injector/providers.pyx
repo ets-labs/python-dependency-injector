@@ -71,6 +71,7 @@ except ImportError:
 from .errors import (
     Error,
     NoSuchProviderError,
+    NonCopyableArgumentError,
 )
 
 cimport cython
@@ -1252,8 +1253,8 @@ cdef class Callable(Provider):
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy(self.args, memo))
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
+        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
         self._copy_overridings(copied, memo)
         return copied
 
@@ -2539,8 +2540,8 @@ cdef class Factory(Provider):
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy(self.args, memo))
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
+        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
         self._copy_overridings(copied, memo)
         return copied
@@ -2838,8 +2839,8 @@ cdef class BaseSingleton(Provider):
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy(self.args, memo))
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
+        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
         self._copy_overridings(copied, memo)
         return copied
@@ -3221,8 +3222,8 @@ cdef class ThreadLocalSingleton(BaseSingleton):
                 return future_result
 
             self._storage.instance = instance
-        finally:
-            return instance
+        
+        return instance
 
     def _async_init_instance(self, future_result, result):
         try:
@@ -3451,7 +3452,7 @@ cdef class List(Provider):
             return copied
 
         copied = _memorized_duplicate(self, memo)
-        copied.set_args(*deepcopy(self.args, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
         self._copy_overridings(copied, memo)
         return copied
 
@@ -3674,8 +3675,8 @@ cdef class Resource(Provider):
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy(self.args, memo))
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
+        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
 
         self._copy_overridings(copied, memo)
 
@@ -4525,8 +4526,8 @@ cdef class MethodCaller(Provider):
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy(self.args, memo))
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
+        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
         self._copy_overridings(copied, memo)
         return copied
 
@@ -4925,6 +4926,48 @@ cpdef object deepcopy(object instance, dict memo=None):
     __add_sys_streams(memo)
 
     return copy.deepcopy(instance, memo)
+
+
+cpdef tuple deepcopy_args(
+    Provider provider,
+    tuple args,
+    dict[int, object] memo = None,
+):
+    """A wrapper for deepcopy for positional arguments.
+
+    Used to improve debugability of objects that cannot be deep-copied.
+    """
+
+    cdef list[object] out = []
+
+    for i, arg in enumerate(args):
+        try:
+            out.append(copy.deepcopy(arg, memo))
+        except Exception as e:
+            raise NonCopyableArgumentError(provider, index=i) from e
+
+    return tuple(out)
+
+
+cpdef dict[str, object] deepcopy_kwargs(
+    Provider provider,
+    dict[str, object] kwargs,
+    dict[int, object] memo = None,
+):
+    """A wrapper for deepcopy for keyword arguments.
+
+    Used to improve debugability of objects that cannot be deep-copied.
+    """
+
+    cdef dict[str, object] out = {}
+
+    for name, arg in kwargs.items():
+        try:
+            out[name] = copy.deepcopy(arg, memo)
+        except Exception as e:
+            raise NonCopyableArgumentError(provider, keyword=name) from e
+
+    return out
 
 
 def __add_sys_streams(memo):

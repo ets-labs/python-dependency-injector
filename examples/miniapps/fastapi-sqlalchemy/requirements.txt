@@ -1,5 +1,5 @@
 dependency-injector
-fastapi
+fastapi[standard]
 uvicorn
 pyyaml
 sqlalchemy
