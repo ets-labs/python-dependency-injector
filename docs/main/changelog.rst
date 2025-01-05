@@ -7,6 +7,21 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly
 follows `Semantic versioning`_
 
+4.45.0
+--------
+- Add Starlette lifespan handler implementation (`#683 <https://github.com/ets-labs/python-dependency-injector/pull/683>`_).
+- Raise exception in ``ThreadLocalSingleton`` instead of hiding it in finally (`#845 <https://github.com/ets-labs/python-dependency-injector/pull/845>`_).
+- Improve debuggability of ``deepcopy`` errors (`#839 <https://github.com/ets-labs/python-dependency-injector/pull/839>`_).
+- Update examples (`#838 <https://github.com/ets-labs/python-dependency-injector/pull/838>`_).
+- Upgrade testing dependencies (`#837 <https://github.com/ets-labs/python-dependency-injector/pull/837>`_).
+- Add minor fixes to the documentation (`#709 <https://github.com/ets-labs/python-dependency-injector/pull/709>`_).
+- Remove ``six`` from the dependencies (`3ba4704 <https://github.com/ets-labs/python-dependency-injector/commit/3ba4704bc1cb00310749fd2eda0c8221167c313c>`_).
+
+Many thanks for the contributions to:
+-  `ZipFile <https://github.com/ZipFile>`_
+- `František Trebuňa <https://github.com/gortibaldik>`_
+- `JC (Jonathan Chen) <https://github.com/dijonkitchen>`_
+
 4.44.0
 --------
 - Implement support for Pydantic 2. PR: `#832 <https://github.com/ets-labs/python-dependency-injector/pull/832>`_.
