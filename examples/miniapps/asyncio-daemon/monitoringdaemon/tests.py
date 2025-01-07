@@ -61,7 +61,7 @@ async def test_example_monitor(container, caplog):
 
 
 @pytest.mark.asyncio
-async def test_dispatcher(container, caplog, event_loop):
+async def test_dispatcher(container, caplog):
     caplog.set_level("INFO")
 
     example_monitor_mock = mock.AsyncMock()
@@ -72,6 +72,7 @@ async def test_dispatcher(container, caplog, event_loop):
             httpbin_monitor=httpbin_monitor_mock,
     ):
         dispatcher = container.dispatcher()
+        event_loop = asyncio.get_running_loop()
         event_loop.create_task(dispatcher.start())
         await asyncio.sleep(0.1)
         dispatcher.stop()

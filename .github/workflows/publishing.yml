@@ -15,11 +15,11 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.11
+          python-version: 3.13
       - run: pip install tox
       - run: tox
         env:
-          TOXENV: 3.11
+          TOXENV: 3.13
 
   linters:
     name: Run linters
@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.11
+          python-version: 3.13
       - run: pip install tox
       - run: tox
         env:
@@ -45,8 +45,10 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.11
-      - run: python setup.py sdist
+          python-version: 3.13
+      - run: |
+          python -m pip install --upgrade build
+          python -m build --sdist
       - uses: actions/upload-artifact@v3
         with:
           path: ./dist/*
@@ -57,13 +59,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04, windows-2019, macos-11]
+        os: [ubuntu-22.04, windows-2019, macos-14]
     env:
-      CIBW_SKIP: cp27-win*
+      CIBW_SKIP: cp27-*
     steps:
       - uses: actions/checkout@v3
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.11.3
+        uses: pypa/cibuildwheel@v2.20.0
       - uses: actions/upload-artifact@v3
         with:
           path: ./wheelhouse/*.whl
@@ -72,13 +74,15 @@ jobs:
     name: Build wheels (ubuntu-22.04-aarch64)
     needs: [tests, linters]
     runs-on: ubuntu-22.04
+    env:
+      CIBW_SKIP: cp27-*
     steps:
       - uses: actions/checkout@v3
       - name: Set up QEMU
         if: runner.os == 'Linux'
         uses: docker/setup-qemu-action@v2
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.11.3
+        uses: pypa/cibuildwheel@v2.20.0
         env:
           CIBW_ARCHS_LINUX: aarch64
       - uses: actions/upload-artifact@v3
@@ -110,9 +114,9 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.11
-      - run: pip install -r requirements-doc.txt
+          python-version: 3.13
       - run: pip install awscli
+      - run: pip install -r requirements-doc.txt
       - run: pip install -e .
       - run: (cd docs && make clean html)
       - run: |

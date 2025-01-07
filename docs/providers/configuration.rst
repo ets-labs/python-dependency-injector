@@ -183,22 +183,22 @@ See also: :ref:`configuration-envs-interpolation`.
 Loading from a Pydantic settings
 --------------------------------
 
-``Configuration`` provider can load configuration from a ``pydantic`` settings object using the
+``Configuration`` provider can load configuration from a ``pydantic_settings.BaseSettings`` object using the
 :py:meth:`Configuration.from_pydantic` method:
 
 .. literalinclude:: ../../examples/providers/configuration/configuration_pydantic.py
    :language: python
    :lines: 3-
-   :emphasize-lines: 31
+   :emphasize-lines: 32
 
-To get the data from pydantic settings ``Configuration`` provider calls ``Settings.dict()`` method.
+To get the data from pydantic settings ``Configuration`` provider calls its ``model_dump()`` method.
 If you need to pass an argument to this call, use ``.from_pydantic()`` keyword arguments.
 
 .. code-block:: python
 
    container.config.from_pydantic(Settings(), exclude={"optional"})
 
-Alternatively, you can provide a ``pydantic`` settings object over the configuration provider argument. In that case,
+Alternatively, you can provide a ``pydantic_settings.BaseSettings`` object over the configuration provider argument. In that case,
 the container will call ``config.from_pydantic()`` automatically:
 
 .. code-block:: python
@@ -215,17 +215,22 @@ the container will call ``config.from_pydantic()`` automatically:
 
 .. note::
 
-   ``Dependency Injector`` doesn't install ``pydantic`` by default.
+   ``Dependency Injector`` doesn't install ``pydantic-settings`` by default.
 
    You can install the ``Dependency Injector`` with an extra dependency::
 
-      pip install dependency-injector[pydantic]
+      pip install dependency-injector[pydantic2]
 
-   or install ``pydantic`` directly::
+   or install ``pydantic-settings`` directly::
 
-      pip install pydantic
+      pip install pydantic-settings
 
    *Don't forget to mirror the changes in the requirements file.*
+
+.. note::
+
+   For backward-compatibility, Pydantic v1 is still supported.
+   Passing ``pydantic.BaseSettings`` instances will work just as fine as ``pydantic_settings.BaseSettings``.
 
 Loading from a dictionary
 -------------------------

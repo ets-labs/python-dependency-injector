@@ -116,4 +116,6 @@ Sources
 
 The source code is available on the `Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/fastapi-sqlalchemy>`_.
 
+.. include:: ../sponsor.rst
+
 .. disqus::
