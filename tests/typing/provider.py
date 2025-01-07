@@ -3,7 +3,7 @@ from dependency_injector import providers
 
 # Test 1: to check .provided attribute
 provider1: providers.Provider[int] = providers.Object(1)
-provided: int = provider1.provided
+provided: int = provider1.provided()
 
 # Test 2: to check async mode API
 provider2: providers.Provider = providers.Provider()

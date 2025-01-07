@@ -23,7 +23,7 @@ provider3 = providers.List(
     providers.Factory(object),
     providers.Factory(object),
 )
-provided3: List[Any] = provider3.provided
+provided3: List[Any] = provider3.provided()
 
 # Test 4: to check the return type with await
 provider4 = providers.List(

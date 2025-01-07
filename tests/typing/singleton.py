@@ -37,7 +37,7 @@ attributes4: Dict[str, Any] = provider4.attributes
 
 # Test 5: to check the provided instance interface
 provider5 = providers.Singleton(Animal)
-provided5: Animal = provider5.provided
+provided5: Animal = provider5.provided()
 
 # Test 6: to check the DelegatedSingleton
 provider6 = providers.DelegatedSingleton(Cat)

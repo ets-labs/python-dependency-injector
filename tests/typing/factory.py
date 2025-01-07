@@ -37,7 +37,7 @@ attributes4: Dict[str, Any] = provider4.attributes
 
 # Test 5: to check the provided instance interface
 provider5 = providers.Factory(Animal)
-provided5: Animal = provider5.provided
+provided5: Animal = provider5.provided()
 
 # Test 6: to check the DelegatedFactory
 provider6 = providers.DelegatedFactory(Cat)

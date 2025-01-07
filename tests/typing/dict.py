@@ -34,7 +34,7 @@ provider5 = providers.Dict(
     a1=providers.Factory(object),
     a2=providers.Factory(object),
 )
-provided5: dict[Any, Any] = provider5.provided
+provided5: dict[Any, Any] = provider5.provided()
 
 
 # Test 6: to check the return type with await
