@@ -859,4 +859,6 @@ What's next?
 - Know more about the :ref:`providers`
 - Go to the :ref:`contents`
 
+.. include:: ../sponsor.rst
+
 .. disqus::

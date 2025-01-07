@@ -4,6 +4,7 @@ from aiohttp import web, test_utils
 from dependency_injector import containers, providers
 from dependency_injector.ext import aiohttp
 from pytest import fixture, mark
+from pytest_asyncio import fixture as aio_fixture
 
 
 async def index_view(_):
@@ -63,7 +64,7 @@ def app():
     return app
 
 
-@fixture
+@aio_fixture
 async def client(app):
     async with test_utils.TestClient(test_utils.TestServer(app)) as client:
         yield client

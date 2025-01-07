@@ -12,13 +12,13 @@ Build the Docker image:
 
 .. code-block:: bash
 
-   docker-compose build
+   docker compose build
 
 Run the docker-compose environment:
 
 .. code-block:: bash
 
-    docker-compose up
+    docker compose up
 
 The output should be something like:
 
@@ -54,16 +54,16 @@ To run the tests do:
 
 .. code-block:: bash
 
-   docker-compose run --rm example py.test fastapiredis/tests.py --cov=fastapiredis
+   docker compose run --rm example py.test fastapiredis/tests.py --cov=fastapiredis
 
 The output should be something like:
 
 .. code-block::
 
-   platform linux -- Python 3.10.9, pytest-7.2.0, pluggy-1.0.0
+   platform linux -- Python 3.13.1, pytest-8.3.4, pluggy-1.5.0
    rootdir: /code
-   plugins: cov-4.0.0, asyncio-0.20.3
-   collected 1 item
+   plugins: cov-6.0.0, asyncio-0.24.0, anyio-4.7.0
+   asyncio: mode=Mode.STRICT, default_loop_scope=None
 
    fastapiredis/tests.py .                                         [100%]
 

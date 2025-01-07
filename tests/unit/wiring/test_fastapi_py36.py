@@ -1,5 +1,6 @@
-from httpx import AsyncClient
+from httpx import ASGITransport, AsyncClient
 from pytest import fixture, mark
+from pytest_asyncio import fixture as aio_fixture
 
 # Runtime import to avoid syntax errors in samples on Python < 3.5 and reach top-dir
 import os
@@ -16,9 +17,9 @@ sys.path.append(_SAMPLES_DIR)
 from wiringfastapi import web
 
 
-@fixture
+@aio_fixture
 async def async_client():
-    client = AsyncClient(app=web.app, base_url="http://test")
+    client = AsyncClient(transport=ASGITransport(app=web.app), base_url="http://test")
     yield client
     await client.aclose()
 
