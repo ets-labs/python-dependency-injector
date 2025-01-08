@@ -23,7 +23,7 @@ provider3 = providers.List(
     providers.Factory(object),
     providers.Factory(object),
 )
-provided3: providers.ProvidedInstance = provider3.provided
+provided3: List[Any] = provider3.provided()
 attr_getter3: providers.AttributeGetter = provider3.provided.attr
 item_getter3: providers.ItemGetter = provider3.provided["item"]
 method_caller3: providers.MethodCaller = provider3.provided.method.call(123, arg=324)
