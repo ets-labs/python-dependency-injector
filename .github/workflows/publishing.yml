@@ -10,7 +10,7 @@ jobs:
 
   tests:
     name: Run tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -23,7 +23,7 @@ jobs:
 
   linters:
     name: Run linters
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         toxenv: [flake8, pydocstyle, mypy, pylint]
@@ -40,7 +40,7 @@ jobs:
   build-sdist:
     name: Build source tarball
     needs: [tests, linters]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -60,7 +60,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-22.04, windows-2019, macos-14]
+        os: [ubuntu-24.04, windows-2019, macos-14]
     env:
       CIBW_SKIP: cp27-*
     steps:
@@ -73,9 +73,9 @@ jobs:
           path: ./wheelhouse/*.whl
 
   build-wheels-linux-aarch64:
-    name: Build wheels (ubuntu-22.04-aarch64)
+    name: Build wheels (ubuntu-24.04-aarch64)
     needs: [tests, linters]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     env:
       CIBW_SKIP: cp27-*
     steps:
@@ -95,7 +95,7 @@ jobs:
   publish:
     name: Publish on PyPI
     needs: [build-sdist, build-wheels, build-wheels-linux-aarch64]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -113,7 +113,7 @@ jobs:
   publish-docs:
     name: Publish docs
     needs: [publish]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
