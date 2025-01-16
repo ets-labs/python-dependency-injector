@@ -60,7 +60,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-24.04, windows-2019, macos-14]
+        os: [ubuntu-24.04, ubuntu-24.04-arm, windows-2019, macos-14]
     env:
       CIBW_SKIP: cp27-*
     steps:
@@ -72,29 +72,9 @@ jobs:
           name: cibw-wheels-x86-${{ matrix.os }}-${{ strategy.job-index }}
           path: ./wheelhouse/*.whl
 
-  build-wheels-linux-aarch64:
-    name: Build wheels (ubuntu-24.04-aarch64)
-    needs: [tests, linters]
-    runs-on: ubuntu-24.04
-    env:
-      CIBW_SKIP: cp27-*
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up QEMU
-        if: runner.os == 'Linux'
-        uses: docker/setup-qemu-action@v2
-      - name: Build wheels
-        uses: pypa/cibuildwheel@v2.20.0
-        env:
-          CIBW_ARCHS_LINUX: aarch64
-      - uses: actions/upload-artifact@v4
-        with:
-          name: cibw-wheels-arm-${{ matrix.os }}-${{ strategy.job-index }}
-          path: ./wheelhouse/*.whl
-
   publish:
     name: Publish on PyPI
-    needs: [build-sdist, build-wheels, build-wheels-linux-aarch64]
+    needs: [build-sdist, build-wheels]
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/download-artifact@v4
