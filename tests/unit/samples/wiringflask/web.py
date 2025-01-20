@@ -34,7 +34,7 @@ def index(service: Service = Provide[Container.service]):
 @inject
 def annotated(service: Annotated[Service, Provide[Container.service]]):
     result = service.process()
-    return jsonify({'result': result})
+    return jsonify({"result": result})
 
 
 container = Container()

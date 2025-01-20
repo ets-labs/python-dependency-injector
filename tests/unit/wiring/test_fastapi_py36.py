@@ -3,13 +3,17 @@ from pytest import fixture, mark
 
 # Runtime import to avoid syntax errors in samples on Python < 3.5 and reach top-dir
 import os
+
 _SAMPLES_DIR = os.path.abspath(
-    os.path.sep.join((
-        os.path.dirname(__file__),
-        "../samples/",
-    )),
+    os.path.sep.join(
+        (
+            os.path.dirname(__file__),
+            "../samples/",
+        )
+    ),
 )
 import sys
+
 sys.path.append(_SAMPLES_DIR)
 
 
@@ -47,7 +51,6 @@ async def test_depends_with_annotated(async_client: AsyncClient):
 
     assert response.status_code == 200
     assert response.json() == {"result": "Foo"}
-
 
 
 @mark.asyncio
