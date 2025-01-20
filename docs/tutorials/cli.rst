@@ -911,7 +911,7 @@ Create ``tests.py`` in the ``movies`` package:
 and put next into it:
 
 .. code-block:: python
-   :emphasize-lines: 36,51
+   :emphasize-lines: 41,50
 
    """Tests module."""
 
@@ -941,13 +941,18 @@ and put next into it:
        return container
 
 
-   def test_movies_directed_by(container):
+   @pytest.fixture
+   def finder_mock(container):
        finder_mock = mock.Mock()
        finder_mock.find_all.return_value = [
            container.movie("The 33", 2015, "Patricia Riggen"),
            container.movie("The Jungle Book", 2016, "Jon Favreau"),
        ]
 
+       return finder_mock
+
+
+   def test_movies_directed_by(container, finder_mock):
        with container.finder.override(finder_mock):
            lister = container.lister()
            movies = lister.movies_directed_by("Jon Favreau")
@@ -956,13 +961,7 @@ and put next into it:
        assert movies[0].title == "The Jungle Book"
 
 
-   def test_movies_released_in(container):
-       finder_mock = mock.Mock()
-       finder_mock.find_all.return_value = [
-           container.movie("The 33", 2015, "Patricia Riggen"),
-           container.movie("The Jungle Book", 2016, "Jon Favreau"),
-       ]
-
+   def test_movies_released_in(container, finder_mock):
        with container.finder.override(finder_mock):
            lister = container.lister()
            movies = lister.movies_released_in(2015)
@@ -995,9 +994,9 @@ You should see:
    movies/entities.py         7      1    86%
    movies/finders.py         26     13    50%
    movies/listers.py          8      0   100%
-   movies/tests.py           23      0   100%
+   movies/tests.py           24      0   100%
    ------------------------------------------
-   TOTAL                     89     30    66%
+   TOTAL                     90     30    67%
 
 .. note::
 
@@ -1033,5 +1032,7 @@ What's next?
 - Look at the other :ref:`tutorials`
 - Know more about the :ref:`providers`
 - Go to the :ref:`contents`
+
+.. include:: ../sponsor.rst
 
 .. disqus::

@@ -1,0 +1,101 @@
+[build-system]
+requires = ["setuptools", "Cython"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dependency-injector"
+authors = [
+    {name = "Roman Mogylatov", email = "rmogilatov@gmail.com"},
+]
+maintainers = [
+    {name = "Roman Mogylatov", email = "rmogilatov@gmail.com"},
+]
+description = "Dependency injection framework for Python"
+readme = {file = "README.rst", content-type = "text/x-rst"}
+license = {file = "LICENSE.rst", content-type = "text/x-rst"}
+requires-python = ">=3.7"
+keywords = [
+    "Dependency injection",
+    "DI",
+    "Inversion of Control",
+    "IoC",
+    "Factory",
+    "Singleton",
+    "Design patterns",
+    "Flask",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Framework :: AsyncIO",
+    "Framework :: Bottle",
+    "Framework :: Django",
+    "Framework :: Flask",
+    "Framework :: Pylons",
+    "Framework :: Pyramid",
+    "Framework :: Pytest",
+    "Framework :: TurboGears",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+yaml = ["pyyaml"]
+pydantic = ["pydantic"]
+pydantic2 = ["pydantic-settings"]
+flask = ["flask"]
+aiohttp = ["aiohttp"]
+
+[project.urls]
+Homepage = "https://github.com/ets-labs/python-dependency-injector"
+Documentation = "https://python-dependency-injector.ets-labs.org/"
+Download = "https://pypi.python.org/pypi/dependency_injector"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+dependency_injector = ["*.pxd", "*.pyi", "py.typed"]
+
+[tool.setuptools.dynamic]
+version = {attr = "dependency_injector.__version__"}
+
+[tool.coverage.run]
+branch = false
+relative_files = true
+source_pkgs = ["dependency_injector"]
+plugins = ["Cython.Coverage"]
+
+[tool.coverage.html]
+directory = "reports/unittests/"
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.isort]
+profile = "black"
+
+[tool.pylint.main]
+ignore = ["tests"]
+
+[tool.pylint.design]
+min-public-methods = 0
+max-public-methods = 30

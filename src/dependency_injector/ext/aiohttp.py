@@ -38,9 +38,11 @@ class View(providers.Callable):
 
     def as_view(self):
         """Return aiohttp view function."""
+
         @functools.wraps(self.provides)
         async def _view(request, *args, **kwargs):
             return await self.__call__(request, *args, **kwargs)
+
         return _view
 
 
@@ -49,6 +51,8 @@ class ClassBasedView(providers.Factory):
 
     def as_view(self):
         """Return aiohttp view function."""
+
         async def _view(request, *args, **kwargs):
             return await self.__call__(request, *args, **kwargs)
+
         return _view

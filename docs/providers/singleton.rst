@@ -24,7 +24,7 @@ returns it on the rest of the calls.
 
 .. note::
 
-   ``Singleton`` provider makes dependencies injection only when creates an object. When an object
+   ``Singleton`` provider makes dependencies injection only when it creates an object. When an object
    is created and memorized ``Singleton`` provider just returns it without applying injections.
 
 Specialization of the provided type and abstract singletons work the same like like for the

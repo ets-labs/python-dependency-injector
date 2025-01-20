@@ -81,8 +81,9 @@ The output should be something like:
 
 .. code-block::
 
-   platform darwin -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
-   plugins: cov-3.0.0, flask-1.2.0
+   platform linux -- Python 3.12.3, pytest-8.3.2, pluggy-1.5.0
+   plugins: cov-6.0.0, flask-1.3.0
+   asyncio: mode=Mode.STRICT, default_loop_scope=None
    collected 2 items
 
    githubnavigator/tests.py ..                                     [100%]

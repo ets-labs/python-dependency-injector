@@ -8,6 +8,8 @@ from sanic import Sanic
 from giphynavigator.application import create_app
 from giphynavigator.giphy import GiphyClient
 
+pytestmark = pytest.mark.asyncio
+
 
 @pytest.fixture
 def app():
@@ -17,12 +19,7 @@ def app():
     app.ctx.container.unwire()
 
 
-@pytest.fixture
-def test_client(loop, app, sanic_client):
-    return loop.run_until_complete(sanic_client(app))
-
-
-async def test_index(app, test_client):
+async def test_index(app):
     giphy_client_mock = mock.AsyncMock(spec=GiphyClient)
     giphy_client_mock.search.return_value = {
         "data": [
@@ -32,7 +29,7 @@ async def test_index(app, test_client):
     }
 
     with app.ctx.container.giphy_client.override(giphy_client_mock):
-        response = await test_client.get(
+        _, response = await app.asgi_client.get(
             "/",
             params={
                 "query": "test",
@@ -41,7 +38,7 @@ async def test_index(app, test_client):
         )
 
     assert response.status_code == 200
-    data = response.json()
+    data = response.json
     assert data == {
         "query": "test",
         "limit": 10,
@@ -52,30 +49,30 @@ async def test_index(app, test_client):
     }
 
 
-async def test_index_no_data(app, test_client):
+async def test_index_no_data(app):
     giphy_client_mock = mock.AsyncMock(spec=GiphyClient)
     giphy_client_mock.search.return_value = {
         "data": [],
     }
 
     with app.ctx.container.giphy_client.override(giphy_client_mock):
-        response = await test_client.get("/")
+        _, response = await app.asgi_client.get("/")
 
     assert response.status_code == 200
-    data = response.json()
+    data = response.json
     assert data["gifs"] == []
 
 
-async def test_index_default_params(app, test_client):
+async def test_index_default_params(app):
     giphy_client_mock = mock.AsyncMock(spec=GiphyClient)
     giphy_client_mock.search.return_value = {
         "data": [],
     }
 
     with app.ctx.container.giphy_client.override(giphy_client_mock):
-        response = await test_client.get("/")
+        _, response = await app.asgi_client.get("/")
 
     assert response.status_code == 200
-    data = response.json()
+    data = response.json
     assert data["query"] == app.ctx.container.config.default.query()
     assert data["limit"] == app.ctx.container.config.default.limit()

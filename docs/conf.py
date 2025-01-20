@@ -33,7 +33,7 @@ sys.path.insert(0, os.path.abspath(".."))
 extensions = [
     "alabaster",
     "sphinx.ext.autodoc",
-    "sphinxcontrib.disqus",
+    "sphinx_disqus.disqus",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -52,7 +52,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "Dependency Injector"
-copyright = "2022, Roman Mogylatov"
+copyright = "2024, Roman Mogylatov"
 author = "Roman Mogylatov"
 
 # The version info for the project you"re documenting, acts as replacement for
@@ -147,6 +147,9 @@ html_favicon = "favicon.ico"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+html_css_files = [
+    "custom.css",
+]
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
@@ -306,4 +309,5 @@ html_theme_options = {
     "description": "Dependency injection framework for Python by Roman Mogylatov",
     "code_font_size": "10pt",
     "analytics_id": "UA-67012059-1",
+    "donate_url": "https://github.com/sponsors/rmk135",
 }

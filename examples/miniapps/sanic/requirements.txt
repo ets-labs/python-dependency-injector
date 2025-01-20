@@ -1,6 +1,6 @@
 dependency-injector
-sanic<=21.6
+sanic
+sanic-testing
 aiohttp
 pyyaml
-pytest-sanic
 pytest-cov

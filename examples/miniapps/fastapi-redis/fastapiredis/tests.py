@@ -3,7 +3,7 @@
 from unittest import mock
 
 import pytest
-from httpx import AsyncClient
+from httpx import ASGITransport, AsyncClient
 
 from .application import app, container
 from .services import Service
@@ -11,7 +11,10 @@ from .services import Service
 
 @pytest.fixture
 def client(event_loop):
-    client = AsyncClient(app=app, base_url="http://test")
+    client = AsyncClient(
+        transport=ASGITransport(app=app),
+        base_url="http://test",
+    )
     yield client
     event_loop.run_until_complete(client.aclose())
 
