@@ -98,8 +98,9 @@ The output should be something like:
 
 .. code-block::
 
-   platform darwin -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
-   plugins: asyncio-0.16.0, anyio-3.3.4, aiohttp-0.3.0, cov-3.0.0
+   platform linux -- Python 3.12.3, pytest-8.3.2, pluggy-1.5.0
+   plugins: cov-6.0.0, anyio-4.4.0, asyncio-0.24.0, aiohttp-1.0.5
+   asyncio: mode=Mode.STRICT, default_loop_scope=None
    collected 3 items
 
    giphynavigator/tests.py ...                                     [100%]

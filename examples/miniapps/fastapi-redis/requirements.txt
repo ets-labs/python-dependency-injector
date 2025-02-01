@@ -1,7 +1,7 @@
 dependency-injector
 fastapi
 uvicorn
-aioredis
+redis>=4.2
 
 # For testing:
 pytest

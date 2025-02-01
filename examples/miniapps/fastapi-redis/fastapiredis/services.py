@@ -1,6 +1,6 @@
 """Services module."""
 
-from aioredis import Redis
+from redis.asyncio import Redis
 
 
 class Service:
