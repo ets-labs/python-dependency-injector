@@ -1,26 +1,26 @@
 """Wiring module."""
 
 import functools
-import inspect
 import importlib
 import importlib.machinery
+import inspect
 import pkgutil
-import warnings
 import sys
+import warnings
 from types import ModuleType
 from typing import (
-    Optional,
-    Iterable,
-    Iterator,
-    Callable,
     Any,
-    Tuple,
+    Callable,
     Dict,
     Generic,
-    TypeVar,
-    Type,
-    Union,
+    Iterable,
+    Iterator,
+    Optional,
     Set,
+    Tuple,
+    Type,
+    TypeVar,
+    Union,
     cast,
 )
 
@@ -643,21 +643,18 @@ def _fetch_reference_injections(  # noqa: C901
 
 
 def _locate_dependent_closing_args(
-    provider: providers.Provider,
+    provider: providers.Provider, closing_deps: Dict[str, providers.Provider]
 ) -> Dict[str, providers.Provider]:
-    if not hasattr(provider, "args"):
-        return {}
-
-    closing_deps = {}
-    for arg in [*provider.args, *provider.kwargs.values()]:
-        if not isinstance(arg, providers.Provider) or not hasattr(arg, "args"):
+    for arg in [
+        *getattr(provider, "args", []),
+        *getattr(provider, "kwargs", {}).values(),
+    ]:
+        if not isinstance(arg, providers.Provider):
             continue
         if isinstance(arg, providers.Resource):
-            return {str(id(arg)): arg}
-        if arg.args or arg.kwargs:
-            closing_deps |= _locate_dependent_closing_args(arg)
+            closing_deps[str(id(arg))] = arg
 
-    return closing_deps
+        _locate_dependent_closing_args(arg, closing_deps)
 
 
 def _bind_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> None:
@@ -681,7 +678,8 @@ def _bind_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> Non
 
         if injection in patched_callable.reference_closing:
             patched_callable.add_closing(injection, provider)
-            deps = _locate_dependent_closing_args(provider)
+            deps = {}
+            _locate_dependent_closing_args(provider, deps)
             for key, dep in deps.items():
                 patched_callable.add_closing(key, dep)
 
@@ -1030,8 +1028,8 @@ _inspect_filter = InspectFilter()
 _loader = AutoLoader()
 
 # Optimizations
-from ._cwiring import _get_sync_patched  # noqa
 from ._cwiring import _async_inject  # noqa
+from ._cwiring import _get_sync_patched  # noqa
 
 
 # Wiring uses the following Python wrapper because there is
