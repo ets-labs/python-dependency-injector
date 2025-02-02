@@ -1,14 +1,18 @@
 from unittest import mock
 
 import pytest
-from httpx import AsyncClient
+import pytest_asyncio
+from httpx import ASGITransport, AsyncClient
 
 from fastapi_di_example import app, container, Service
 
 
-@pytest.fixture
-async def client(event_loop):
-    async with AsyncClient(app=app, base_url="http://test") as client:
+@pytest_asyncio.fixture
+async def client():
+    async with AsyncClient(
+        transport=ASGITransport(app=app),
+        base_url="http://test",
+    ) as client:
         yield client
 
 

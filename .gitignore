@@ -63,13 +63,13 @@ venv*/
 # Vim Rope
 .ropeproject/
 
-# C extensions
-src/dependency_injector/*.h
-src/dependency_injector/*.so
-src/dependency_injector/containers/*.h
-src/dependency_injector/containers/*.so
-src/dependency_injector/providers/*.h
-src/dependency_injector/providers/*.so
+# Cython artifacts
+src/**/*.c
+src/**/*.h
+src/**/*.so
+src/**/*.html
 
 # Workspace for samples
 .workspace/
+
+.vscode/

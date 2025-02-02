@@ -77,4 +77,6 @@ Sources
 
 Explore the sources on the `Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/sanic>`_.
 
+.. include:: ../sponsor.rst
+
 .. disqus::

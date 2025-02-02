@@ -18,7 +18,7 @@ In this tutorial we will use:
 
 - Python 3
 - Docker
-- Docker-compose
+- Docker Compose
 
 Start from the scratch or jump to the section:
 
@@ -47,28 +47,27 @@ response it will log:
 Prerequisites
 -------------
 
-We will use `Docker <https://www.docker.com/>`_ and
-`docker-compose <https://docs.docker.com/compose/>`_ in this tutorial. Let's check the versions:
+We will use `docker compose <https://docs.docker.com/compose/>`_ in this tutorial. Let's check the versions:
 
 .. code-block:: bash
 
    docker --version
-   docker-compose --version
+   docker compose version
 
 The output should look something like:
 
 .. code-block:: bash
 
-   Docker version 20.10.5, build 55c4c88
-   docker-compose version 1.29.0, build 07737305
+   Docker version 27.3.1, build ce12230
+   Docker Compose version v2.29.7
 
 .. note::
 
-   If you don't have ``Docker`` or ``docker-compose`` you need to install them before proceeding.
+   If you don't have ``Docker`` or ``docker compose`` you need to install them before proceeding.
    Follow these installation guides:
 
    - `Install Docker <https://docs.docker.com/get-docker/>`_
-   - `Install docker-compose <https://docs.docker.com/compose/install/>`_
+   - `Install docker compose <https://docs.docker.com/compose/install/>`_
 
 The prerequisites are satisfied. Let's get started with the project layout.
 
@@ -129,13 +128,13 @@ Put next lines into the ``requirements.txt`` file:
    pytest-cov
 
 Second, we need to create the ``Dockerfile``. It will describe the daemon's build process and
-specify how to run it. We will use ``python:3.9-buster`` as a base image.
+specify how to run it. We will use ``python:3.13-bookworm`` as a base image.
 
 Put next lines into the ``Dockerfile`` file:
 
 .. code-block:: bash
 
-   FROM python:3.10-buster
+   FROM python:3.13-bookworm
 
    ENV PYTHONUNBUFFERED=1
 
@@ -155,8 +154,6 @@ Put next lines into the ``docker-compose.yml`` file:
 
 .. code-block:: yaml
 
-   version: "3.7"
-
    services:
 
      monitor:
@@ -171,7 +168,7 @@ Run in the terminal:
 
 .. code-block:: bash
 
-   docker-compose build
+   docker compose build
 
 The build process may take a couple of minutes. You should see something like this in the end:
 
@@ -184,7 +181,7 @@ After the build is done run the container:
 
 .. code-block:: bash
 
-   docker-compose up
+   docker compose up
 
 The output should look like:
 
@@ -461,7 +458,7 @@ Run in the terminal:
 
 .. code-block:: bash
 
-   docker-compose up
+   docker compose up
 
 The output should look like:
 
@@ -705,7 +702,7 @@ Run in the terminal:
 
 .. code-block:: bash
 
-   docker-compose up
+   docker compose up
 
 You should see:
 
@@ -813,7 +810,7 @@ Run in the terminal:
 
 .. code-block:: bash
 
-   docker-compose up
+   docker compose up
 
 You should see:
 
@@ -965,15 +962,16 @@ Run in the terminal:
 
 .. code-block:: bash
 
-   docker-compose run --rm monitor py.test monitoringdaemon/tests.py --cov=monitoringdaemon
+   docker compose run --rm monitor py.test monitoringdaemon/tests.py --cov=monitoringdaemon
 
 You should see:
 
 .. code-block:: bash
 
-   platform linux -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
+   platform linux -- Python 3.13.1, pytest-8.3.4, pluggy-1.5.0
    rootdir: /code
-   plugins: asyncio-0.16.0, cov-3.0.0
+   plugins: cov-6.0.0, asyncio-0.24.0
+   asyncio: mode=Mode.STRICT, default_loop_scope=None
    collected 2 items
 
    monitoringdaemon/tests.py ..                                    [100%]
@@ -1027,5 +1025,7 @@ What's next?
 - Look at the other :ref:`tutorials`
 - Know more about the :ref:`providers`
 - Go to the :ref:`contents`
+
+.. include:: ../sponsor.rst
 
 .. disqus::

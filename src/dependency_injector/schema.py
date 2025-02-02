@@ -27,9 +27,9 @@ class SchemaProcessorV1:
         return self._container.providers
 
     def _create_providers(
-            self,
-            provider_schema: ProviderSchema,
-            container: Optional[containers.Container] = None,
+        self,
+        provider_schema: ProviderSchema,
+        container: Optional[containers.Container] = None,
     ) -> None:
         if container is None:
             container = self._container
@@ -57,9 +57,9 @@ class SchemaProcessorV1:
                 self._create_providers(provider_schema=data, container=provider)
 
     def _setup_injections(  # noqa: C901
-            self,
-            provider_schema: ProviderSchema,
-            container: Optional[containers.Container] = None,
+        self,
+        provider_schema: ProviderSchema,
+        container: Optional[containers.Container] = None,
     ) -> None:
         if container is None:
             container = self._container
@@ -72,7 +72,7 @@ class SchemaProcessorV1:
             provides = data.get("provides")
             if provides:
                 if isinstance(provides, str) and provides.startswith("container."):
-                    provides = self._resolve_provider(provides[len("container."):])
+                    provides = self._resolve_provider(provides[len("container.") :])
                 else:
                     provides = _import_string(provides)
                 provider.set_provides(provides)
@@ -83,7 +83,7 @@ class SchemaProcessorV1:
                     injection = None
 
                     if isinstance(arg, str) and arg.startswith("container."):
-                        injection = self._resolve_provider(arg[len("container."):])
+                        injection = self._resolve_provider(arg[len("container.") :])
 
                     # TODO: refactoring
                     if isinstance(arg, dict):
@@ -91,16 +91,23 @@ class SchemaProcessorV1:
                         provider_type = _get_provider_cls(arg.get("provider"))
                         provides = arg.get("provides")
                         if provides:
-                            if isinstance(provides, str) and provides.startswith("container."):
-                                provides = self._resolve_provider(provides[len("container."):])
+                            if isinstance(provides, str) and provides.startswith(
+                                "container."
+                            ):
+                                provides = self._resolve_provider(
+                                    provides[len("container.") :]
+                                )
                             else:
                                 provides = _import_string(provides)
                             provider_args.append(provides)
                         for provider_arg in arg.get("args", []):
-                            if isinstance(provider_arg, str) \
-                                    and provider_arg.startswith("container."):
+                            if isinstance(
+                                provider_arg, str
+                            ) and provider_arg.startswith("container."):
                                 provider_args.append(
-                                    self._resolve_provider(provider_arg[len("container."):]),
+                                    self._resolve_provider(
+                                        provider_arg[len("container.") :]
+                                    ),
                                 )
                         injection = provider_type(*provider_args)
 
@@ -117,7 +124,7 @@ class SchemaProcessorV1:
                     injection = None
 
                     if isinstance(arg, str) and arg.startswith("container."):
-                        injection = self._resolve_provider(arg[len("container."):])
+                        injection = self._resolve_provider(arg[len("container.") :])
 
                     # TODO: refactoring
                     if isinstance(arg, dict):
@@ -125,16 +132,23 @@ class SchemaProcessorV1:
                         provider_type = _get_provider_cls(arg.get("provider"))
                         provides = arg.get("provides")
                         if provides:
-                            if isinstance(provides, str) and provides.startswith("container."):
-                                provides = self._resolve_provider(provides[len("container."):])
+                            if isinstance(provides, str) and provides.startswith(
+                                "container."
+                            ):
+                                provides = self._resolve_provider(
+                                    provides[len("container.") :]
+                                )
                             else:
                                 provides = _import_string(provides)
                             provider_args.append(provides)
                         for provider_arg in arg.get("args", []):
-                            if isinstance(provider_arg, str) \
-                                    and provider_arg.startswith("container."):
+                            if isinstance(
+                                provider_arg, str
+                            ) and provider_arg.startswith("container."):
                                 provider_args.append(
-                                    self._resolve_provider(provider_arg[len("container."):]),
+                                    self._resolve_provider(
+                                        provider_arg[len("container.") :]
+                                    ),
                                 )
                         injection = provider_type(*provider_args)
 
@@ -158,7 +172,7 @@ class SchemaProcessorV1:
         for segment in segments[1:]:
             parentheses = ""
             if "(" in segment and ")" in segment:
-                parentheses = segment[segment.find("("):segment.rfind(")")+1]
+                parentheses = segment[segment.find("(") : segment.rfind(")") + 1]
                 segment = segment.replace(parentheses, "")
 
             try:
@@ -190,10 +204,12 @@ def _get_provider_cls(provider_cls_name: str) -> Type[providers.Provider]:
     if custom_provider_type:
         return custom_provider_type
 
-    raise SchemaError(f"Undefined provider class \"{provider_cls_name}\"")
+    raise SchemaError(f'Undefined provider class "{provider_cls_name}"')
 
 
-def _fetch_provider_cls_from_std(provider_cls_name: str) -> Optional[Type[providers.Provider]]:
+def _fetch_provider_cls_from_std(
+    provider_cls_name: str,
+) -> Optional[Type[providers.Provider]]:
     return getattr(providers, provider_cls_name, None)
 
 
@@ -201,12 +217,16 @@ def _import_provider_cls(provider_cls_name: str) -> Optional[Type[providers.Prov
     try:
         cls = _import_string(provider_cls_name)
     except (ImportError, ValueError) as exception:
-        raise SchemaError(f"Can not import provider \"{provider_cls_name}\"") from exception
+        raise SchemaError(
+            f'Can not import provider "{provider_cls_name}"'
+        ) from exception
     except AttributeError:
         return None
     else:
         if isinstance(cls, type) and not issubclass(cls, providers.Provider):
-            raise SchemaError(f"Provider class \"{cls}\" is not a subclass of providers base class")
+            raise SchemaError(
+                f'Provider class "{cls}" is not a subclass of providers base class'
+            )
         return cls
 
 
