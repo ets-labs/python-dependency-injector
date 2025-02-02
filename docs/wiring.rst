@@ -64,7 +64,7 @@ FastAPI example:
 
    @app.api_route("/")
    @inject
-   async def index(service: Service = Depends(Provide[Container.service])):
+   async def index(service: Annotated[Service, Depends(Provide[Container.service])]):
        value = await service.process()
        return {"result": value}
 
