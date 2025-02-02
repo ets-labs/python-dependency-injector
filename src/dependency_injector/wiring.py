@@ -1047,7 +1047,8 @@ def _get_async_patched(fn: F, patched: PatchedCallable) -> F:
             patched.closing,
         )
 
-    return _patched
+    return cast(F, _patched)
+
 
 def _get_sync_patched(fn: F, patched: PatchedCallable) -> F:
     @functools.wraps(fn)
@@ -1059,4 +1060,4 @@ def _get_sync_patched(fn: F, patched: PatchedCallable) -> F:
             patched.injections,
             patched.closing,
         )
-    return _patched
+    return cast(F, _patched)
