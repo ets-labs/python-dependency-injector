@@ -2,17 +2,15 @@
 
 import asyncio
 import collections.abc
-import functools
 import inspect
 import types
 
-from . import providers
-from .wiring import _Marker, PatchedCallable
+from .wiring import _Marker
 
-from .providers cimport Provider
+from .providers cimport Provider, Resource
 
 
-def _sync_inject(object fn, tuple args, dict kwargs, dict injections, dict closings):
+def _sync_inject(object fn, tuple args, dict kwargs, dict injections, dict closings, /):
     cdef object result
     cdef dict to_inject
     cdef object arg_key
@@ -29,14 +27,14 @@ def _sync_inject(object fn, tuple args, dict kwargs, dict injections, dict closi
         for arg_key, provider in closings.items():
             if arg_key in kwargs and not isinstance(kwargs[arg_key], _Marker):
                 continue
-            if not isinstance(provider, providers.Resource):
+            if not isinstance(provider, Resource):
                 continue
             provider.shutdown()
 
     return result
 
 
-async def _async_inject(object fn, tuple args, dict kwargs, dict injections, dict closings):
+async def _async_inject(object fn, tuple args, dict kwargs, dict injections, dict closings, /):
     cdef object result
     cdef dict to_inject
     cdef list to_inject_await = []
@@ -66,7 +64,7 @@ async def _async_inject(object fn, tuple args, dict kwargs, dict injections, dic
         for arg_key, provider in closings.items():
             if arg_key in kwargs and isinstance(kwargs[arg_key], _Marker):
                 continue
-            if not isinstance(provider, providers.Resource):
+            if not isinstance(provider, Resource):
                 continue
             shutdown = provider.shutdown()
             if _isawaitable(shutdown):
