@@ -6,6 +6,13 @@ import inspect
 from dependency_injector.wiring import inject
 
 
+def test_isfunction():
+    @inject
+    def foo(): ...
+
+    assert inspect.isfunction(foo)
+
+
 def test_asyncio_iscoroutinefunction():
     @inject
     async def foo():
