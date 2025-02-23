@@ -2,13 +2,13 @@
 
 from decimal import Decimal
 
+from pytest import fixture, mark, raises
+from samples.wiringstringids import module, package, resourceclosing
+from samples.wiringstringids.container import Container, SubContainer
+from samples.wiringstringids.service import Service
+
 from dependency_injector import errors
 from dependency_injector.wiring import Closing, Provide, Provider, wire
-from pytest import fixture, mark, raises
-
-from samples.wiringstringids import module, package, resourceclosing
-from samples.wiringstringids.service import Service
-from samples.wiringstringids.container import Container, SubContainer
 
 
 @fixture(autouse=True)
@@ -34,10 +34,11 @@ def subcontainer():
 
 
 @fixture
-def resourceclosing_container():
+def resourceclosing_container(request):
     container = resourceclosing.Container()
     container.wire(modules=[resourceclosing])
-    yield container
+    with container.reset_singletons():
+        yield container
     container.unwire()
 
 
@@ -274,42 +275,65 @@ def test_wire_multiple_containers():
 
 @mark.usefixtures("resourceclosing_container")
 def test_closing_resource():
-    resourceclosing.Service.reset_counter()
-
     result_1 = resourceclosing.test_function()
     assert isinstance(result_1, resourceclosing.Service)
     assert result_1.init_counter == 1
     assert result_1.shutdown_counter == 1
+    assert result_1.dependencies == {"_list": [1, 2], "_dict": {"a": 3, "b": 4}}
 
     result_2 = resourceclosing.test_function()
     assert isinstance(result_2, resourceclosing.Service)
     assert result_2.init_counter == 2
     assert result_2.shutdown_counter == 2
+    assert result_1.dependencies == {"_list": [1, 2], "_dict": {"a": 3, "b": 4}}
 
     assert result_1 is not result_2
 
 
 @mark.usefixtures("resourceclosing_container")
 def test_closing_dependency_resource():
-    resourceclosing.Service.reset_counter()
-
     result_1 = resourceclosing.test_function_dependency()
     assert isinstance(result_1, resourceclosing.FactoryService)
-    assert result_1.service.init_counter == 1
-    assert result_1.service.shutdown_counter == 1
+    assert result_1.service.init_counter == 2
+    assert result_1.service.shutdown_counter == 2
 
     result_2 = resourceclosing.test_function_dependency()
+
     assert isinstance(result_2, resourceclosing.FactoryService)
-    assert result_2.service.init_counter == 2
-    assert result_2.service.shutdown_counter == 2
+    assert result_2.service.init_counter == 4
+    assert result_2.service.shutdown_counter == 4
+
+
+@mark.usefixtures("resourceclosing_container")
+def test_closing_dependency_resource_kwargs():
+    result_1 = resourceclosing.test_function_dependency_kwargs()
+    assert isinstance(result_1, resourceclosing.FactoryService)
+    assert result_1.service.init_counter == 2
+    assert result_1.service.shutdown_counter == 2
+
+    result_2 = resourceclosing.test_function_dependency_kwargs()
+    assert isinstance(result_2, resourceclosing.FactoryService)
+    assert result_2.service.init_counter == 4
+    assert result_2.service.shutdown_counter == 4
+
+
+@mark.usefixtures("resourceclosing_container")
+def test_closing_nested_dependency_resource():
+    result_1 = resourceclosing.test_function_nested_dependency()
+    assert isinstance(result_1, resourceclosing.NestedService)
+    assert result_1.factory_service.service.init_counter == 2
+    assert result_1.factory_service.service.shutdown_counter == 2
+
+    result_2 = resourceclosing.test_function_nested_dependency()
+    assert isinstance(result_2, resourceclosing.NestedService)
+    assert result_2.factory_service.service.init_counter == 4
+    assert result_2.factory_service.service.shutdown_counter == 4
 
     assert result_1 is not result_2
 
 
 @mark.usefixtures("resourceclosing_container")
 def test_closing_resource_bypass_marker_injection():
-    resourceclosing.Service.reset_counter()
-
     result_1 = resourceclosing.test_function(service=Closing[Provide["service"]])
     assert isinstance(result_1, resourceclosing.Service)
     assert result_1.init_counter == 1
@@ -325,7 +349,6 @@ def test_closing_resource_bypass_marker_injection():
 
 @mark.usefixtures("resourceclosing_container")
 def test_closing_resource_context():
-    resourceclosing.Service.reset_counter()
     service = resourceclosing.Service()
 
     result_1 = resourceclosing.test_function(service=service)
