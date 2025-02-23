@@ -1030,7 +1030,7 @@ _inspect_filter = InspectFilter()
 _loader = AutoLoader()
 
 # Optimizations
-from ._cwiring import _get_sync_patched  # noqa
+from ._cwiring import _sync_inject  # noqa
 from ._cwiring import _async_inject  # noqa
 
 
@@ -1047,4 +1047,17 @@ def _get_async_patched(fn: F, patched: PatchedCallable) -> F:
             patched.closing,
         )
 
-    return _patched
+    return cast(F, _patched)
+
+
+def _get_sync_patched(fn: F, patched: PatchedCallable) -> F:
+    @functools.wraps(fn)
+    def _patched(*args, **kwargs):
+        return _sync_inject(
+            fn,
+            args,
+            kwargs,
+            patched.injections,
+            patched.closing,
+        )
+    return cast(F, _patched)
