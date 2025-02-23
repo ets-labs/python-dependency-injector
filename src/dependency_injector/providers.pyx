@@ -15,6 +15,7 @@ import sys
 import threading
 import types
 import warnings
+from configparser import ConfigParser as IniConfigParser
 
 try:
     import contextvars
@@ -40,11 +41,6 @@ try:
     from asyncio.coroutines import _is_coroutine
 except ImportError:
     _is_coroutine = True
-
-try:
-    import ConfigParser as iniconfigparser
-except ImportError:
-    import configparser as iniconfigparser
 
 try:
     import yaml
@@ -102,7 +98,7 @@ config_env_marker_pattern = re.compile(
     r"\${(?P<name>[^}^{:]+)(?P<separator>:?)(?P<default>.*?)}",
 )
 
-def _resolve_config_env_markers(config_content, envs_required=False):
+cdef str _resolve_config_env_markers(config_content: str, envs_required: bool):
     """Replace environment variable markers with their values."""
     findings = list(config_env_marker_pattern.finditer(config_content))
 
@@ -121,28 +117,19 @@ def _resolve_config_env_markers(config_content, envs_required=False):
     return config_content
 
 
-if sys.version_info[0] == 3:
-    def _parse_ini_file(filepath, envs_required=False):
-        parser = iniconfigparser.ConfigParser()
-        with open(filepath) as config_file:
-            config_string = _resolve_config_env_markers(
-                config_file.read(),
-                envs_required=envs_required,
-            )
-        parser.read_string(config_string)
-        return parser
-else:
-    import StringIO
+cdef object _parse_ini_file(filepath, envs_required: bool | None):
+    parser = IniConfigParser()
 
-    def _parse_ini_file(filepath, envs_required=False):
-        parser = iniconfigparser.ConfigParser()
-        with open(filepath) as config_file:
+    with open(filepath) as config_file:
+        config_string = config_file.read()
+
+        if envs_required is not None:
             config_string = _resolve_config_env_markers(
-                config_file.read(),
+                config_string,
                 envs_required=envs_required,
             )
-        parser.readfp(StringIO.StringIO(config_string))
-        return parser
+    parser.read_string(config_string)
+    return parser
 
 
 if yaml:
@@ -1717,7 +1704,7 @@ cdef class ConfigurationOption(Provider):
         try:
             parser = _parse_ini_file(
                 filepath,
-                envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
             )
         except IOError as exception:
             if required is not False \
@@ -1776,10 +1763,11 @@ cdef class ConfigurationOption(Provider):
                 raise
             return
 
-        config_content = _resolve_config_env_markers(
-            config_content,
-            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
-        )
+        if envs_required is not None:
+            config_content = _resolve_config_env_markers(
+                config_content,
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+            )
         config = yaml.load(config_content, loader)
 
         current_config = self.__call__()
@@ -1814,10 +1802,11 @@ cdef class ConfigurationOption(Provider):
                 raise
             return
 
-        config_content = _resolve_config_env_markers(
-            config_content,
-            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
-        )
+        if envs_required is not None:
+            config_content = _resolve_config_env_markers(
+                config_content,
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+            )
         config = json.loads(config_content)
 
         current_config = self.__call__()
@@ -2270,7 +2259,7 @@ cdef class Configuration(Object):
         try:
             parser = _parse_ini_file(
                 filepath,
-                envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
             )
         except IOError as exception:
             if required is not False \
@@ -2329,10 +2318,11 @@ cdef class Configuration(Object):
                 raise
             return
 
-        config_content = _resolve_config_env_markers(
-            config_content,
-            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
-        )
+        if envs_required is not None:
+            config_content = _resolve_config_env_markers(
+                config_content,
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+            )
         config = yaml.load(config_content, loader)
 
         current_config = self.__call__()
@@ -2367,10 +2357,11 @@ cdef class Configuration(Object):
                 raise
             return
 
-        config_content = _resolve_config_env_markers(
-            config_content,
-            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
-        )
+        if envs_required is not None:
+            config_content = _resolve_config_env_markers(
+                config_content,
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+            )
         config = json.loads(config_content)
 
         current_config = self.__call__()

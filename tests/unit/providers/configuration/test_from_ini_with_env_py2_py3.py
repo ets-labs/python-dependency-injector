@@ -5,6 +5,23 @@ import os
 from pytest import mark, raises
 
 
+def test_no_env_variable_interpolation(config, ini_config_file_3):
+    config.from_ini(ini_config_file_3, envs_required=None)
+
+    assert config() == {
+        "section1": {
+            "value1": "${CONFIG_TEST_ENV}",
+            "value2": "${CONFIG_TEST_PATH}/path",
+        },
+    }
+    assert config.section1() == {
+        "value1": "${CONFIG_TEST_ENV}",
+        "value2": "${CONFIG_TEST_PATH}/path",
+    }
+    assert config.section1.value1() == "${CONFIG_TEST_ENV}"
+    assert config.section1.value2() == "${CONFIG_TEST_PATH}/path"
+
+
 def test_env_variable_interpolation(config, ini_config_file_3):
     config.from_ini(ini_config_file_3)
 
