@@ -225,20 +225,20 @@ class ConfigurationOption(Provider[Any]):
         self,
         filepath: Union[Path, str],
         required: bool = False,
-        envs_required: bool = False,
+        envs_required: Optional[bool] = False,
     ) -> None: ...
     def from_yaml(
         self,
         filepath: Union[Path, str],
         required: bool = False,
         loader: Optional[Any] = None,
-        envs_required: bool = False,
+        envs_required: Optional[bool] = False,
     ) -> None: ...
     def from_json(
         self,
         filepath: Union[Path, str],
         required: bool = False,
-        envs_required: bool = False,
+        envs_required: Optional[bool] = False,
     ) -> None: ...
     def from_pydantic(
         self, settings: PydanticSettings, required: bool = False, **kwargs: Any
