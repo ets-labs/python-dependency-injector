@@ -1,18 +1,22 @@
 """Application module."""
 
-from dependency_injector.wiring import inject, Provide
-from fastapi import FastAPI, Depends
+from typing import Annotated
+
+from fastapi import Depends, FastAPI
+
+from dependency_injector.wiring import Provide, inject
 
 from .containers import Container
 from .services import Service
-
 
 app = FastAPI()
 
 
 @app.api_route("/")
 @inject
-async def index(service: Service = Depends(Provide[Container.service])):
+async def index(
+    service: Annotated[Service, Depends(Provide[Container.service])]
+) -> dict[str, str]:
     value = await service.process()
     return {"result": value}
 

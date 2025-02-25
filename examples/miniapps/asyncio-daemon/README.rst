@@ -13,13 +13,13 @@ Build the Docker image:
 
 .. code-block:: bash
 
-   docker-compose build
+   docker compose build
 
 Run the docker-compose environment:
 
 .. code-block:: bash
 
-    docker-compose up
+    docker compose up
 
 The output should be something like:
 
@@ -59,15 +59,16 @@ To run the tests do:
 
 .. code-block:: bash
 
-   docker-compose run --rm monitor py.test monitoringdaemon/tests.py --cov=monitoringdaemon
+   docker compose run --rm monitor py.test monitoringdaemon/tests.py --cov=monitoringdaemon
 
 The output should be something like:
 
 .. code-block::
 
-   platform linux -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
+   platform linux -- Python 3.13.1, pytest-8.3.4, pluggy-1.5.0
    rootdir: /code
-   plugins: asyncio-0.16.0, cov-3.0.0
+   plugins: cov-6.0.0, asyncio-0.24.0
+   asyncio: mode=Mode.STRICT, default_loop_scope=None
    collected 2 items
 
    monitoringdaemon/tests.py ..                                    [100%]

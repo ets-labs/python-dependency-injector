@@ -2,6 +2,7 @@
 
 from __future__ import absolute_import
 
+import asyncio
 import copy
 import errno
 import functools
@@ -14,6 +15,7 @@ import sys
 import threading
 import types
 import warnings
+from configparser import ConfigParser as IniConfigParser
 
 try:
     import contextvars
@@ -27,21 +29,18 @@ except ImportError:
     import __builtin__ as builtins
 
 try:
-    import asyncio
+    from inspect import _is_coroutine_mark as _is_coroutine_marker
 except ImportError:
-    asyncio = None
-    _is_coroutine_marker = None
-else:
-    if sys.version_info >= (3, 5, 3):
-        import asyncio.coroutines
-        _is_coroutine_marker = asyncio.coroutines._is_coroutine
-    else:
+    try:
+        # Python >=3.12.0,<3.12.5
+        from inspect import _is_coroutine_marker
+    except ImportError:
         _is_coroutine_marker = True
 
 try:
-    import ConfigParser as iniconfigparser
+    from asyncio.coroutines import _is_coroutine
 except ImportError:
-    import configparser as iniconfigparser
+    _is_coroutine = True
 
 try:
     import yaml
@@ -71,6 +70,7 @@ except ImportError:
 from .errors import (
     Error,
     NoSuchProviderError,
+    NonCopyableArgumentError,
 )
 
 cimport cython
@@ -98,7 +98,7 @@ config_env_marker_pattern = re.compile(
     r"\${(?P<name>[^}^{:]+)(?P<separator>:?)(?P<default>.*?)}",
 )
 
-def _resolve_config_env_markers(config_content, envs_required=False):
+cdef str _resolve_config_env_markers(config_content: str, envs_required: bool):
     """Replace environment variable markers with their values."""
     findings = list(config_env_marker_pattern.finditer(config_content))
 
@@ -117,28 +117,19 @@ def _resolve_config_env_markers(config_content, envs_required=False):
     return config_content
 
 
-if sys.version_info[0] == 3:
-    def _parse_ini_file(filepath, envs_required=False):
-        parser = iniconfigparser.ConfigParser()
-        with open(filepath) as config_file:
-            config_string = _resolve_config_env_markers(
-                config_file.read(),
-                envs_required=envs_required,
-            )
-        parser.read_string(config_string)
-        return parser
-else:
-    import StringIO
+cdef object _parse_ini_file(filepath, envs_required: bool | None):
+    parser = IniConfigParser()
 
-    def _parse_ini_file(filepath, envs_required=False):
-        parser = iniconfigparser.ConfigParser()
-        with open(filepath) as config_file:
+    with open(filepath) as config_file:
+        config_string = config_file.read()
+
+        if envs_required is not None:
             config_string = _resolve_config_env_markers(
-                config_file.read(),
+                config_string,
                 envs_required=envs_required,
             )
-        parser.readfp(StringIO.StringIO(config_string))
-        return parser
+    parser.read_string(config_string)
+    return parser
 
 
 if yaml:
@@ -1252,8 +1243,8 @@ cdef class Callable(Provider):
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy(self.args, memo))
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
+        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
         self._copy_overridings(copied, memo)
         return copied
 
@@ -1474,7 +1465,8 @@ cdef class Coroutine(Callable):
         some_coroutine.add_kwargs(keyword_argument1=3, keyword_argument=4)
     """
 
-    _is_coroutine = _is_coroutine_marker
+    _is_coroutine_marker = _is_coroutine_marker  # Python >=3.12
+    _is_coroutine = _is_coroutine  # Python <3.16
 
     def set_provides(self, provides):
         """Set provider provides."""
@@ -1712,7 +1704,7 @@ cdef class ConfigurationOption(Provider):
         try:
             parser = _parse_ini_file(
                 filepath,
-                envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
             )
         except IOError as exception:
             if required is not False \
@@ -1771,10 +1763,11 @@ cdef class ConfigurationOption(Provider):
                 raise
             return
 
-        config_content = _resolve_config_env_markers(
-            config_content,
-            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
-        )
+        if envs_required is not None:
+            config_content = _resolve_config_env_markers(
+                config_content,
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+            )
         config = yaml.load(config_content, loader)
 
         current_config = self.__call__()
@@ -1809,10 +1802,11 @@ cdef class ConfigurationOption(Provider):
                 raise
             return
 
-        config_content = _resolve_config_env_markers(
-            config_content,
-            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
-        )
+        if envs_required is not None:
+            config_content = _resolve_config_env_markers(
+                config_content,
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+            )
         config = json.loads(config_content)
 
         current_config = self.__call__()
@@ -2265,7 +2259,7 @@ cdef class Configuration(Object):
         try:
             parser = _parse_ini_file(
                 filepath,
-                envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
             )
         except IOError as exception:
             if required is not False \
@@ -2324,10 +2318,11 @@ cdef class Configuration(Object):
                 raise
             return
 
-        config_content = _resolve_config_env_markers(
-            config_content,
-            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
-        )
+        if envs_required is not None:
+            config_content = _resolve_config_env_markers(
+                config_content,
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+            )
         config = yaml.load(config_content, loader)
 
         current_config = self.__call__()
@@ -2362,10 +2357,11 @@ cdef class Configuration(Object):
                 raise
             return
 
-        config_content = _resolve_config_env_markers(
-            config_content,
-            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
-        )
+        if envs_required is not None:
+            config_content = _resolve_config_env_markers(
+                config_content,
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+            )
         config = json.loads(config_content)
 
         current_config = self.__call__()
@@ -2539,8 +2535,8 @@ cdef class Factory(Provider):
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy(self.args, memo))
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
+        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
         self._copy_overridings(copied, memo)
         return copied
@@ -2838,8 +2834,8 @@ cdef class BaseSingleton(Provider):
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy(self.args, memo))
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
+        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
         self._copy_overridings(copied, memo)
         return copied
@@ -3221,8 +3217,8 @@ cdef class ThreadLocalSingleton(BaseSingleton):
                 return future_result
 
             self._storage.instance = instance
-        finally:
-            return instance
+        
+        return instance
 
     def _async_init_instance(self, future_result, result):
         try:
@@ -3451,7 +3447,7 @@ cdef class List(Provider):
             return copied
 
         copied = _memorized_duplicate(self, memo)
-        copied.set_args(*deepcopy(self.args, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
         self._copy_overridings(copied, memo)
         return copied
 
@@ -3674,8 +3670,8 @@ cdef class Resource(Provider):
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy(self.args, memo))
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
+        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
 
         self._copy_overridings(copied, memo)
 
@@ -4525,8 +4521,8 @@ cdef class MethodCaller(Provider):
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy(self.args, memo))
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
+        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
         self._copy_overridings(copied, memo)
         return copied
 
@@ -4925,6 +4921,48 @@ cpdef object deepcopy(object instance, dict memo=None):
     __add_sys_streams(memo)
 
     return copy.deepcopy(instance, memo)
+
+
+cpdef tuple deepcopy_args(
+    Provider provider,
+    tuple args,
+    dict[int, object] memo = None,
+):
+    """A wrapper for deepcopy for positional arguments.
+
+    Used to improve debugability of objects that cannot be deep-copied.
+    """
+
+    cdef list[object] out = []
+
+    for i, arg in enumerate(args):
+        try:
+            out.append(copy.deepcopy(arg, memo))
+        except Exception as e:
+            raise NonCopyableArgumentError(provider, index=i) from e
+
+    return tuple(out)
+
+
+cpdef dict[str, object] deepcopy_kwargs(
+    Provider provider,
+    dict[str, object] kwargs,
+    dict[int, object] memo = None,
+):
+    """A wrapper for deepcopy for keyword arguments.
+
+    Used to improve debugability of objects that cannot be deep-copied.
+    """
+
+    cdef dict[str, object] out = {}
+
+    for name, arg in kwargs.items():
+        try:
+            out[name] = copy.deepcopy(arg, memo)
+        except Exception as e:
+            raise NonCopyableArgumentError(provider, keyword=name) from e
+
+    return out
 
 
 def __add_sys_streams(memo):

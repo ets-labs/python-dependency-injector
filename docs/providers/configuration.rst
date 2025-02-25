@@ -366,6 +366,19 @@ See also: :ref:`configuration-strict-mode`.
 
       assert container.config.section.option() is None
 
+If you want to disable environment variables interpolation, pass ``envs_required=None``:
+
+.. code-block:: yaml
+   :caption: templates.yml
+
+   template_string: 'Hello, ${name}!'
+
+.. code-block:: python
+
+   >>> container.config.from_yaml("templates.yml", envs_required=None)
+   >>> container.config.template_string()
+   'Hello, ${name}!'
+
 Mandatory and optional sources
 ------------------------------
 
