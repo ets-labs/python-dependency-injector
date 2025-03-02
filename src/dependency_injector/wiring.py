@@ -6,7 +6,6 @@ import importlib.machinery
 import inspect
 import pkgutil
 import sys
-import warnings
 from types import ModuleType
 from typing import (
     Any,
@@ -23,12 +22,6 @@ from typing import (
     Union,
     cast,
 )
-
-if sys.version_info < (3, 7):
-    from typing import GenericMeta
-else:
-
-    class GenericMeta(type): ...
 
 
 # Hotfix, see: https://github.com/ets-labs/python-dependency-injector/issues/362
@@ -73,13 +66,6 @@ except ImportError:
 
 from . import providers
 
-if sys.version_info[:2] == (3, 5):
-    warnings.warn(
-        "Dependency Injector will drop support of Python 3.5 after Jan 1st of 2022. "
-        "This does not mean that there will be any immediate breaking changes, "
-        "but tests will no longer be executed on Python 3.5, and bugs will not be addressed.",
-        category=DeprecationWarning,
-    )
 
 __all__ = (
     "wire",
@@ -888,15 +874,7 @@ def provided() -> ProvidedInstance:
     return ProvidedInstance()
 
 
-class ClassGetItemMeta(GenericMeta):
-    def __getitem__(cls, item):
-        # Spike for Python 3.6
-        if isinstance(item, tuple):
-            return cls(*item)
-        return cls(item)
-
-
-class _Marker(Generic[T], metaclass=ClassGetItemMeta):
+class _Marker(Generic[T]):
 
     __IS_MARKER__ = True
 
