@@ -3,6 +3,8 @@
 from __future__ import absolute_import
 
 import asyncio
+import builtins
+import contextvars
 import copy
 import errno
 import functools
@@ -13,20 +15,8 @@ import os
 import re
 import sys
 import threading
-import types
 import warnings
 from configparser import ConfigParser as IniConfigParser
-
-try:
-    import contextvars
-except ImportError:
-    contextvars = None
-
-try:
-    import builtins
-except ImportError:
-    # Python 2.7
-    import __builtin__ as builtins
 
 try:
     from inspect import _is_coroutine_mark as _is_coroutine_marker
@@ -75,24 +65,6 @@ from .errors import (
 
 cimport cython
 
-
-if sys.version_info[0] == 3:  # pragma: no cover
-    CLASS_TYPES = (type,)
-else:  # pragma: no cover
-    CLASS_TYPES = (type, types.ClassType)
-
-    copy._deepcopy_dispatch[types.MethodType] = \
-        lambda obj, memo: type(obj)(obj.im_func,
-                                    copy.deepcopy(obj.im_self, memo),
-                                    obj.im_class)
-
-if sys.version_info[:2] == (3, 5):
-    warnings.warn(
-        "Dependency Injector will drop support of Python 3.5 after Jan 1st of 2022. "
-        "This does not mean that there will be any immediate breaking changes, "
-        "but tests will no longer be executed on Python 3.5, and bugs will not be addressed.",
-        category=DeprecationWarning,
-    )
 
 config_env_marker_pattern = re.compile(
     r"\${(?P<name>[^}^{:]+)(?P<separator>:?)(?P<default>.*?)}",
@@ -153,7 +125,7 @@ cdef int ASYNC_MODE_ENABLED = 1
 cdef int ASYNC_MODE_DISABLED = 2
 
 cdef set __iscoroutine_typecache = set()
-cdef tuple __COROUTINE_TYPES = asyncio.coroutines._COROUTINE_TYPES if asyncio else tuple()
+cdef tuple __COROUTINE_TYPES = asyncio.coroutines._COROUTINE_TYPES
 
 cdef dict pydantic_settings_to_dict(settings, dict kwargs):
     if not has_pydantic_settings:
@@ -163,7 +135,7 @@ cdef dict pydantic_settings_to_dict(settings, dict kwargs):
             f"\"pip install dependency-injector[{pydantic_extra}]\""
         )
 
-    if isinstance(settings, CLASS_TYPES) and issubclass(settings, PydanticSettings):
+    if isinstance(settings, type) and issubclass(settings, PydanticSettings):
         raise Error(
             "Got settings class, but expect instance: "
             "instead \"{0}\" use \"{0}()\"".format(settings.__name__)
@@ -181,7 +153,7 @@ cdef dict pydantic_settings_to_dict(settings, dict kwargs):
     return settings.model_dump(mode="python", **kwargs)
 
 
-cdef class Provider(object):
+cdef class Provider:
     """Base provider class.
 
     :py:class:`Provider` is callable (implements ``__call__`` method). Every
@@ -903,12 +875,9 @@ cdef class Dependency(Provider):
 
     def set_instance_of(self, instance_of):
         """Set type."""
-        if not isinstance(instance_of, CLASS_TYPES):
+        if not isinstance(instance_of, type):
             raise TypeError(
-                "\"instance_of\" has incorrect type (expected {0}, got {1}))".format(
-                    CLASS_TYPES,
-                    instance_of,
-                ),
+                f"\"instance_of\" is not a class (got {instance_of!r}))",
             )
         self._instance_of = instance_of
         return self
@@ -1470,8 +1439,6 @@ cdef class Coroutine(Callable):
 
     def set_provides(self, provides):
         """Set provider provides."""
-        if not asyncio:
-            raise Error("Package asyncio is not available")
         provides = _resolve_string_import(provides)
         if provides and not asyncio.iscoroutinefunction(provides):
             raise Error(f"Provider {_class_qualname(self)} expected to get coroutine function, "
@@ -3970,18 +3937,14 @@ cdef class Resource(Provider):
 
     @staticmethod
     def _is_resource_subclass(instance):
-        if  sys.version_info < (3, 5):
-            return False
-        if not isinstance(instance, CLASS_TYPES):
+        if not isinstance(instance, type):
             return
         from . import resources
         return issubclass(instance, resources.Resource)
 
     @staticmethod
     def _is_async_resource_subclass(instance):
-        if  sys.version_info < (3, 5):
-            return False
-        if not isinstance(instance, CLASS_TYPES):
+        if not isinstance(instance, type):
             return
         from . import resources
         return issubclass(instance, resources.AsyncResource)
@@ -4639,7 +4602,7 @@ cdef class MethodCaller(Provider):
             future_result.set_result(result)
 
 
-cdef class Injection(object):
+cdef class Injection:
     """Abstract injection class."""
 
 
@@ -4766,7 +4729,7 @@ cpdef tuple parse_named_injections(dict kwargs):
     return tuple(injections)
 
 
-cdef class OverridingContext(object):
+cdef class OverridingContext:
     """Provider overriding context.
 
     :py:class:`OverridingContext` is used by :py:meth:`Provider.override` for
@@ -4802,7 +4765,7 @@ cdef class OverridingContext(object):
         self._overridden.reset_last_overriding()
 
 
-cdef class BaseSingletonResetContext(object):
+cdef class BaseSingletonResetContext:
 
     def __init__(self, Provider provider):
         self._singleton = provider
@@ -4838,7 +4801,7 @@ cpdef bint is_provider(object instance):
 
     :rtype: bool
     """
-    return (not isinstance(instance, CLASS_TYPES) and
+    return (not isinstance(instance, type) and
             getattr(instance, "__IS_PROVIDER__", False) is True)
 
 
@@ -4866,7 +4829,7 @@ cpdef bint is_delegated(object instance):
 
     :rtype: bool
     """
-    return (not isinstance(instance, CLASS_TYPES) and
+    return (not isinstance(instance, type) and
             getattr(instance, "__IS_DELEGATED__", False) is True)
 
 
@@ -4897,7 +4860,7 @@ cpdef bint is_container_instance(object instance):
 
     :rtype: bool
     """
-    return (not isinstance(instance, CLASS_TYPES) and
+    return (not isinstance(instance, type) and
             getattr(instance, "__IS_CONTAINER__", False) is True)
 
 
@@ -4909,7 +4872,7 @@ cpdef bint is_container_class(object instance):
 
     :rtype: bool
     """
-    return (isinstance(instance, CLASS_TYPES) and
+    return (isinstance(instance, type) and
             getattr(instance, "__IS_CONTAINER__", False) is True)
 
 

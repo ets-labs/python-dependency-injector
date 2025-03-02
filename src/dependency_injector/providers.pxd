@@ -1,10 +1,6 @@
 """Providers module."""
 
-try:
-    import asyncio
-except ImportError:
-    asyncio = None
-
+import asyncio
 import functools
 
 cimport cython
@@ -19,7 +15,7 @@ cdef tuple __COROUTINE_TYPES
 
 
 # Base providers
-cdef class Provider(object):
+cdef class Provider:
     cdef tuple _overridden
     cdef Provider _last_overriding
     cdef tuple _overrides
@@ -291,7 +287,7 @@ cdef class MethodCaller(Provider):
 
 
 # Injections
-cdef class Injection(object):
+cdef class Injection:
     cdef object _value
     cdef int _is_provider
     cdef int _is_delegated
@@ -313,12 +309,12 @@ cpdef tuple parse_named_injections(dict kwargs)
 
 
 # Utils
-cdef class OverridingContext(object):
+cdef class OverridingContext:
     cdef Provider _overridden
     cdef Provider _overriding
 
 
-cdef class BaseSingletonResetContext(object):
+cdef class BaseSingletonResetContext:
     cdef object _singleton
 
 
