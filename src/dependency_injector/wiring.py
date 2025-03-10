@@ -628,21 +628,6 @@ def _fetch_reference_injections(  # noqa: C901
     return injections, closing
 
 
-def _locate_dependent_closing_args(
-    provider: providers.Provider, closing_deps: Dict[str, providers.Provider]
-) -> Dict[str, providers.Provider]:
-    for arg in [
-        *getattr(provider, "args", []),
-        *getattr(provider, "kwargs", {}).values(),
-    ]:
-        if not isinstance(arg, providers.Provider):
-            continue
-        if isinstance(arg, providers.Resource):
-            closing_deps[str(id(arg))] = arg
-
-        _locate_dependent_closing_args(arg, closing_deps)
-
-
 def _bind_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> None:
     patched_callable = _patched_registry.get_callable(fn)
     if patched_callable is None:
@@ -664,10 +649,9 @@ def _bind_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> Non
 
         if injection in patched_callable.reference_closing:
             patched_callable.add_closing(injection, provider)
-            deps = {}
-            _locate_dependent_closing_args(provider, deps)
-            for key, dep in deps.items():
-                patched_callable.add_closing(key, dep)
+
+            for resource in provider.traverse(types=[providers.Resource]):
+                patched_callable.add_closing(str(id(resource)), resource)
 
 
 def _unbind_injections(fn: Callable[..., Any]) -> None:

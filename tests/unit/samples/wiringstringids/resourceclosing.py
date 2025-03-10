@@ -59,12 +59,13 @@ def init_service(counter: Counter, _list: List[int], _dict: Dict[str, int]):
 
 
 class Container(containers.DeclarativeContainer):
+    config = providers.Configuration(default={"a": 1, "b": 4})
     counter = providers.Singleton(Counter)
     _list = providers.List(
-        providers.Callable(lambda a: a, a=1), providers.Callable(lambda b: b, 2)
+        providers.Callable(lambda a: a, a=config.a), providers.Callable(lambda b: b, 2)
     )
     _dict = providers.Dict(
-        a=providers.Callable(lambda a: a, a=3), b=providers.Callable(lambda b: b, 4)
+        a=providers.Callable(lambda a: a, a=3), b=providers.Callable(lambda b: b, config.b)
     )
     service = providers.Resource(init_service, counter, _list, _dict=_dict)
     service2 = providers.Resource(init_service, counter, _list, _dict=_dict)
