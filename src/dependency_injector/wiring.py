@@ -314,7 +314,7 @@ class ProvidersMap:
         original: providers.ConfigurationOption,
         as_: Any = None,
     ) -> Optional[providers.Provider]:
-        original_root = original.root
+        original_root = original._get_root()
         new = self._resolve_provider(original_root)
         if new is None:
             return None

@@ -1592,8 +1592,7 @@ cdef class ConfigurationOption(Provider):
             segment() if is_provider(segment) else segment for segment in self._name
         )
 
-    @property
-    def root(self):
+    def _get_root(self):
         return self._root
 
     def get_name(self):
