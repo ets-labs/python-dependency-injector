@@ -36,7 +36,7 @@ uninstall:
 test:
 	# Unit tests with coverage report
 	coverage erase
-	coverage run -m pytest -c tests/.configs/pytest.ini
+	coverage run -m pytest
 	coverage report
 	coverage html
 

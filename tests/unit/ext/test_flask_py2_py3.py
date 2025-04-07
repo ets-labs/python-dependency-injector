@@ -11,7 +11,7 @@ def index():
     return "Hello World!"
 
 
-def test():
+def _test():
     return "Test!"
 
 
@@ -25,7 +25,7 @@ class ApplicationContainer(containers.DeclarativeContainer):
     app = flask.Application(Flask, __name__)
 
     index_view = flask.View(index)
-    test_view = flask.View(test)
+    test_view = flask.View(_test)
     test_class_view = flask.ClassBasedView(Test)
 
 
