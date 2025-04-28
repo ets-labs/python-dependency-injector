@@ -591,9 +591,18 @@ def _extract_marker(parameter: inspect.Parameter) -> Optional["_Marker"]:
     return marker
 
 
-def _fetch_reference_injections(  # noqa: C901
+_signature_cache: Dict[int, Tuple[Dict[str, Any], Dict[str, Any]]] = {}
+
+
+def _fetch_reference_injections(
     fn: Callable[..., Any],
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
+    """Get reference injections with caching."""
+    # Use the function's id as cache key
+    fn_id = id(fn)
+    if fn_id in _signature_cache:
+        return _signature_cache[fn_id]
+
     # Hotfix, see:
     # - https://github.com/ets-labs/python-dependency-injector/issues/362
     # - https://github.com/ets-labs/python-dependency-injector/issues/398
@@ -606,9 +615,13 @@ def _fetch_reference_injections(  # noqa: C901
         signature = inspect.signature(fn)
     except ValueError as exception:
         if "no signature found" in str(exception):
-            return {}, {}
+            result = {}, {}
+            _signature_cache[fn_id] = result
+            return result
         elif "not supported by signature" in str(exception):
-            return {}, {}
+            result = {}, {}
+            _signature_cache[fn_id] = result
+            return result
         else:
             raise exception
 
@@ -625,7 +638,11 @@ def _fetch_reference_injections(  # noqa: C901
             closing[parameter_name] = marker
 
         injections[parameter_name] = marker
-    return injections, closing
+
+    # Cache the result
+    result = (injections, closing)
+    _signature_cache[fn_id] = result
+    return result
 
 
 def _locate_dependent_closing_args(
@@ -1036,4 +1053,5 @@ def _get_sync_patched(fn: F, patched: PatchedCallable) -> F:
             patched.injections,
             patched.closing,
         )
+
     return cast(F, _patched)
