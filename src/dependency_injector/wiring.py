@@ -594,7 +594,7 @@ def _extract_marker(parameter: inspect.Parameter) -> Optional["_Marker"]:
 _signature_cache: Dict[int, Tuple[Dict[str, Any], Dict[str, Any]]] = {}
 
 
-def _fetch_reference_injections(
+def _fetch_reference_injections(  # noqa: C901
     fn: Callable[..., Any],
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """Get reference injections with caching."""
@@ -639,7 +639,6 @@ def _fetch_reference_injections(
 
         injections[parameter_name] = marker
 
-    # Cache the result
     result = (injections, closing)
     _signature_cache[fn_id] = result
     return result
