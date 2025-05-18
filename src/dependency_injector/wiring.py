@@ -523,6 +523,10 @@ def _patch_method(
 
     _bind_injections(fn, providers_map)
 
+    if fn is method:
+        # Hotfix, see: https://github.com/ets-labs/python-dependency-injector/issues/884
+        return
+
     if isinstance(method, (classmethod, staticmethod)):
         fn = type(method)(fn)
 
