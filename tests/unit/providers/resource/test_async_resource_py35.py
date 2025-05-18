@@ -34,7 +34,6 @@ async def test_init_async_function():
 
 
 @mark.asyncio
-@mark.skipif(sys.version_info < (3, 6), reason="requires Python 3.6+")
 async def test_init_async_generator():
     resource = object()
 

@@ -4,7 +4,6 @@ from __future__ import absolute_import
 
 import asyncio
 import builtins
-import contextvars
 import copy
 import errno
 import functools
@@ -17,6 +16,7 @@ import sys
 import threading
 import warnings
 from configparser import ConfigParser as IniConfigParser
+from contextvars import ContextVar
 
 try:
     from inspect import _is_coroutine_mark as _is_coroutine_marker
@@ -3223,15 +3223,10 @@ cdef class ContextLocalSingleton(BaseSingleton):
         :param provides: Provided type.
         :type provides: type
         """
-        if not contextvars:
-            raise RuntimeError(
-                "Contextvars library not found. This provider "
-                "requires Python 3.7 or a backport of contextvars. "
-                "To install a backport run \"pip install contextvars\"."
-            )
+
 
         super(ContextLocalSingleton, self).__init__(provides, *args, **kwargs)
-        self._storage = contextvars.ContextVar("_storage", default=self._none)
+        self._storage = ContextVar("_storage", default=self._none)
 
     def reset(self):
         """Reset cached instance, if any.
