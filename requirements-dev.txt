@@ -1,4 +1,4 @@
-cython==3.1.0
+cython==3.1.1
 setuptools
 pytest
 pytest-asyncio
@@ -13,7 +13,8 @@ mypy
 pyyaml
 httpx
 fastapi
-pydantic==1.10.17
+pydantic
+pydantic-settings
 numpy
 scipy
 boto3
