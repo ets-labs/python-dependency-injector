@@ -102,6 +102,7 @@ max-public-methods = 30
 [tool.pytest.ini_options]
 testpaths = ["tests/unit/"]
 asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
 markers = [
     "pydantic: Tests with Pydantic as a dependency",
 ]
