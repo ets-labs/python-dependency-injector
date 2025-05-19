@@ -44,7 +44,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: 3.12
-      - run: pip install tox 'cython>=3,<4'
+      - run: pip install tox
       - run: tox -vv
         env:
           TOXENV: coveralls
