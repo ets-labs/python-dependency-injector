@@ -1,13 +1,17 @@
 """`Dependency injector` setup script."""
 
 import os
+import sys
 
 from Cython.Build import cythonize
 from Cython.Compiler import Options
 from setuptools import Extension, setup
 
 debug = os.environ.get("DEPENDENCY_INJECTOR_DEBUG_MODE") == "1"
-limited_api = os.environ.get("DEPENDENCY_INJECTOR_LIMITED_API") == "1"
+limited_api = (
+    os.environ.get("DEPENDENCY_INJECTOR_LIMITED_API") == "1"
+    and sys.implementation.name == "cpython"
+)
 defined_macros = []
 options = {}
 compiler_directives = {
@@ -31,7 +35,7 @@ if debug:
 if limited_api:
     options.setdefault("bdist_wheel", {})
     options["bdist_wheel"]["py_limited_api"] = "cp38"
-    defined_macros.append(("Py_LIMITED_API", 0x03080000))
+    defined_macros.append(("Py_LIMITED_API", "0x03080000"))
 
 setup(
     options=options,
