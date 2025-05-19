@@ -62,11 +62,14 @@ jobs:
       matrix:
         os: [ubuntu-24.04, ubuntu-24.04-arm, windows-2019, macos-14]
     env:
-      CIBW_SKIP: cp27-*
+      CIBW_ENABLE: pypy
+      CIBW_ENVIRONMENT: >-
+        PIP_CONFIG_SETTINGS="build_ext=-j4"
+        DEPENDENCY_INJECTOR_LIMITED_API="1"
     steps:
       - uses: actions/checkout@v3
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.20.0
+        uses: pypa/cibuildwheel@v2.23.3
       - uses: actions/upload-artifact@v4
         with:
           name: cibw-wheels-x86-${{ matrix.os }}-${{ strategy.job-index }}
