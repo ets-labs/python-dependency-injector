@@ -73,3 +73,6 @@ src/**/*.html
 .workspace/
 
 .vscode/
+
+# Cursor project files
+.cursor
