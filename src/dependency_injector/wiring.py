@@ -1031,10 +1031,11 @@ def _get_sync_patched(fn: F, patched: PatchedCallable) -> F:
     return cast(F, _patched)
 
 
-def _get_annotations(obj: Any) -> Dict[str, Any]:
-    if sys.version_info >= (3, 10):
+if sys.version_info >= (3, 10):
+    def _get_annotations(obj: Any) -> Dict[str, Any]:
         return inspect.get_annotations(obj)
-    else:
+else:
+    def _get_annotations(obj: Any) -> Dict[str, Any]:
         return getattr(obj, "__annotations__", {})
 
 
