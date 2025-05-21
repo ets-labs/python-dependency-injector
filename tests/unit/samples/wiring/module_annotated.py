@@ -1,5 +1,11 @@
 """Test module for wiring with Annotated."""
 
+import sys
+import pytest
+
+if sys.version_info < (3, 9):
+    pytest.skip("Annotated is only available in Python 3.9+", allow_module_level=True)
+
 from decimal import Decimal
 from typing import Callable, Annotated
 
