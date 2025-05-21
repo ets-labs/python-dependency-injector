@@ -1027,7 +1027,7 @@ def _get_sync_patched(fn: F, patched: PatchedCallable) -> F:
     return cast(F, _patched)
 
 
-def _get_members_and_annotated(obj: Any) -> Iterable[tuple[str, Any]]:
+def _get_members_and_annotated(obj: Any) -> Iterable[Tuple[str, Any]]:
     members = inspect.getmembers(obj)
     try:
         annotations = inspect.get_annotations(obj)
