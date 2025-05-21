@@ -578,8 +578,13 @@ def _unpatch_attribute(patched: PatchedAttribute) -> None:
 
 
 def _extract_marker(parameter: inspect.Parameter) -> Optional["_Marker"]:
-    if get_origin(parameter.annotation) is Annotated:
-        marker = get_args(parameter.annotation)[1]
+    is_annotated = (
+        isinstance(annotation, type(Annotated))
+        and get_origin(annotation) is not None
+        and get_origin(annotation) is get_origin(Annotated)
+    )
+    if is_annotated:
+        marker = get_args(annotation)[1]
     else:
         marker = parameter.default
 
@@ -1034,7 +1039,12 @@ def _get_members_and_annotated(obj: Any) -> Iterable[Tuple[str, Any]]:
     except Exception:
         annotations = {}
     for annotation_name, annotation in annotations.items():
-        if get_origin(annotation) is Annotated:
+        is_annotated = (
+            isinstance(annotation, type(Annotated))
+            and get_origin(annotation) is not None
+            and get_origin(annotation) is get_origin(Annotated)
+        )
+        if is_annotated:
             args = get_args(annotation)
             if len(args) > 1:
                 member = args[1]
