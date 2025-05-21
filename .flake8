@@ -1,4 +1,0 @@
-[flake8]
-exclude = .git,__pycache__,.venv,venv
-per-file-ignores =
-    examples/*: F821
