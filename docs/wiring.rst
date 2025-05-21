@@ -254,12 +254,42 @@ To inject a container use special identifier ``<container>``:
 Making injections into modules and class attributes
 ---------------------------------------------------
 
-You can use wiring to make injections into modules and class attributes.
+You can use wiring to make injections into modules and class attributes. Both the classic marker
+syntax and the ``Annotated`` form are supported.
+
+Classic marker syntax:
+
+.. code-block:: python
+
+   service: Service = Provide[Container.service]
+
+   class Main:
+       service: Service = Provide[Container.service]
+
+Full example of the classic marker syntax:
 
 .. literalinclude:: ../examples/wiring/example_attribute.py
    :language: python
    :lines: 3-
    :emphasize-lines: 14,19
+
+Annotated form (Python 3.9+):
+
+.. code-block:: python
+
+   from typing import Annotated
+
+   service: Annotated[Service, Provide[Container.service]]
+
+   class Main:
+       service: Annotated[Service, Provide[Container.service]]
+
+Full example of the annotated form:
+
+.. literalinclude:: ../examples/wiring/example_attribute_annotated.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 16,21
 
 You could also use string identifiers to avoid a dependency on a container:
 
