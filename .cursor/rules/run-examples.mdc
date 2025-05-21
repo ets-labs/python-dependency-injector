@@ -1,0 +1,8 @@
+---
+description: Run examples
+globs:
+alwaysApply: false
+---
+- When you run an example from the ``examples/`` folder, switch to the example folder and run it from there.
+- If there are instructions on running the examples or its tests in readme, follow them
+- Activate virtualenv before running any commands by ``. venv/bin/actvate``

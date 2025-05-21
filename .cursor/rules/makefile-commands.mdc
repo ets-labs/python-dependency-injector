@@ -1,0 +1,7 @@
+---
+description: Build and run tests
+globs:
+alwaysApply: false
+---
+- Use Makefile commands to build, test, lint and other similar operations when they are available.
+- Activate virtualenv before running any commands by ``. venv/bin/actvate``
