@@ -7,6 +7,14 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly
 follows `Semantic versioning`_
 
+Develop
+-------
+
+- Add support for ``Annotated`` type for module and class attribute injection in wiring,
+  with updated documentation and examples.
+  See discussion:
+  https://github.com/ets-labs/python-dependency-injector/pull/721#issuecomment-2025263718
+
 4.46.0
 ------
 

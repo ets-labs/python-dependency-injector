@@ -415,7 +415,7 @@ def wire(  # noqa: C901
     providers_map = ProvidersMap(container)
 
     for module in modules:
-        for member_name, member in inspect.getmembers(module):
+        for member_name, member in _get_members_and_annotated(module):
             if _inspect_filter.is_excluded(member):
                 continue
 
@@ -426,7 +426,7 @@ def wire(  # noqa: C901
             elif inspect.isclass(member):
                 cls = member
                 try:
-                    cls_members = inspect.getmembers(cls)
+                    cls_members = _get_members_and_annotated(cls)
                 except Exception:  # noqa
                     # Hotfix, see: https://github.com/ets-labs/python-dependency-injector/issues/441
                     continue
@@ -579,7 +579,11 @@ def _unpatch_attribute(patched: PatchedAttribute) -> None:
 
 def _extract_marker(parameter: inspect.Parameter) -> Optional["_Marker"]:
     if get_origin(parameter.annotation) is Annotated:
-        marker = get_args(parameter.annotation)[1]
+        args = get_args(parameter.annotation)
+        if len(args) > 1:
+            marker = args[1]
+        else:
+            marker = None
     else:
         marker = parameter.default
 
@@ -1025,3 +1029,23 @@ def _get_sync_patched(fn: F, patched: PatchedCallable) -> F:
             patched.closing,
         )
     return cast(F, _patched)
+
+
+if sys.version_info >= (3, 10):
+    def _get_annotations(obj: Any) -> Dict[str, Any]:
+        return inspect.get_annotations(obj)
+else:
+    def _get_annotations(obj: Any) -> Dict[str, Any]:
+        return getattr(obj, "__annotations__", {})
+
+
+def _get_members_and_annotated(obj: Any) -> Iterable[Tuple[str, Any]]:
+    members = inspect.getmembers(obj)
+    annotations = _get_annotations(obj)
+    for annotation_name, annotation in annotations.items():
+        if get_origin(annotation) is Annotated:
+            args = get_args(annotation)
+            if len(args) > 1:
+                member = args[1]
+                members.append((annotation_name, member))
+    return members
