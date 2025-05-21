@@ -11,6 +11,7 @@ class Service:
 
 
 class Container(containers.DeclarativeContainer):
+
     service = providers.Factory(Service)
 
 
@@ -18,6 +19,7 @@ service: Annotated[Service, Provide[Container.service]]
 
 
 class Main:
+
     service: Annotated[Service, Provide[Container.service]]
 
 
