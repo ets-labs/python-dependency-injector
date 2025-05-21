@@ -578,13 +578,12 @@ def _unpatch_attribute(patched: PatchedAttribute) -> None:
 
 
 def _extract_marker(parameter: inspect.Parameter) -> Optional["_Marker"]:
-    is_annotated = (
-        isinstance(annotation, type(Annotated))
-        and get_origin(annotation) is not None
-        and get_origin(annotation) is get_origin(Annotated)
-    )
-    if is_annotated:
-        marker = get_args(annotation)[1]
+    if get_origin(parameter.annotation) is Annotated:
+        args = get_args(parameter.annotation)
+        if len(args) > 1:
+            marker = args[1]
+        else:
+            marker = None
     else:
         marker = parameter.default
 
@@ -1032,19 +1031,18 @@ def _get_sync_patched(fn: F, patched: PatchedCallable) -> F:
     return cast(F, _patched)
 
 
+def _get_annotations(obj: Any) -> Dict[str, Any]:
+    if sys.version_info >= (3, 10):
+        return inspect.get_annotations(obj)
+    else:
+        return getattr(obj, "__annotations__", {})
+
+
 def _get_members_and_annotated(obj: Any) -> Iterable[Tuple[str, Any]]:
     members = inspect.getmembers(obj)
-    try:
-        annotations = inspect.get_annotations(obj)
-    except Exception:
-        annotations = {}
+    annotations = _get_annotations(obj)
     for annotation_name, annotation in annotations.items():
-        is_annotated = (
-            isinstance(annotation, type(Annotated))
-            and get_origin(annotation) is not None
-            and get_origin(annotation) is get_origin(Annotated)
-        )
-        if is_annotated:
+        if get_origin(annotation) is Annotated:
             args = get_args(annotation)
             if len(args) > 1:
                 member = args[1]
