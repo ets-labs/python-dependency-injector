@@ -75,10 +75,13 @@ jobs:
           name: cibw-wheels-x86-${{ matrix.os }}-${{ strategy.job-index }}
           path: ./wheelhouse/*.whl
 
-  publish:
-    name: Publish on PyPI
+  test-publish:
+    name: Upload release to TestPyPI
     needs: [build-sdist, build-wheels]
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
+    environment: test-pypi
+    permissions:
+      id-token: write
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -87,11 +90,22 @@ jobs:
           merge-multiple: true
       - uses: pypa/gh-action-pypi-publish@release/v1
         with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
-#           For publishing to Test PyPI, uncomment next two lines:
-#          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-#          repository_url: https://test.pypi.org/legacy/
+          repository-url: https://test.pypi.org/legacy/
+
+  publish:
+    name: Upload release to PyPI
+    needs: [build-sdist, build-wheels, test-publish]
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: cibw-*
+          path: dist
+          merge-multiple: true
+      - uses: pypa/gh-action-pypi-publish@release/v1
 
   publish-docs:
     name: Publish docs
