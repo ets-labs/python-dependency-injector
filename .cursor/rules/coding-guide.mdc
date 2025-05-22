@@ -16,7 +16,7 @@ class Container(containers.DeclarativeContainer):
     service = providers.Factory(Service)
 ```
 
-- Avoid shortcuts in names unless absolutely necessarry, exceptions:
+- Avoid shortcuts in names unless absolutely necessary, exceptions:
 ```
 arg
 args
@@ -26,4 +26,4 @@ obj
 cls
 ```
 
-- Avoid inline comments unless absolutely necessarry
+- Avoid inline comments unless absolutely necessary
