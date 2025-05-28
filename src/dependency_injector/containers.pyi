@@ -30,12 +30,14 @@ class WiringConfiguration:
     packages: List[Any]
     from_package: Optional[str]
     auto_wire: bool
+    keep_cache: bool
     def __init__(
         self,
         modules: Optional[Iterable[Any]] = None,
         packages: Optional[Iterable[Any]] = None,
         from_package: Optional[str] = None,
         auto_wire: bool = True,
+        keep_cache: bool = False,
     ) -> None: ...
 
 class Container:

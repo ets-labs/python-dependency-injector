@@ -26,6 +26,13 @@ from typing import (
 
 from typing_extensions import Self
 
+try:
+    from functools import cache
+except ImportError:
+    from functools import lru_cache
+
+    cache = lru_cache(maxsize=None)
+
 # Hotfix, see: https://github.com/ets-labs/python-dependency-injector/issues/362
 if sys.version_info >= (3, 9):
     from types import GenericAlias
@@ -409,6 +416,7 @@ def wire(  # noqa: C901
     *,
     modules: Optional[Iterable[ModuleType]] = None,
     packages: Optional[Iterable[ModuleType]] = None,
+    keep_cache: bool = False,
 ) -> None:
     """Wire container providers with provided packages and modules."""
     modules = [*modules] if modules else []
@@ -448,6 +456,9 @@ def wire(  # noqa: C901
 
         for patched in _patched_registry.get_callables_from_module(module):
             _bind_injections(patched, providers_map)
+
+    if not keep_cache:
+        clear_cache()
 
 
 def unwire(  # noqa: C901
@@ -604,6 +615,7 @@ def _extract_marker(parameter: inspect.Parameter) -> Optional["_Marker"]:
     return marker
 
 
+@cache
 def _fetch_reference_injections(  # noqa: C901
     fn: Callable[..., Any],
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
@@ -1078,3 +1090,8 @@ def _get_members_and_annotated(obj: Any) -> Iterable[Tuple[str, Any]]:
                 member = args[1]
                 members.append((annotation_name, member))
     return members
+
+
+def clear_cache() -> None:
+    """Clear all caches used by :func:`wire`."""
+    _fetch_reference_injections.cache_clear()
