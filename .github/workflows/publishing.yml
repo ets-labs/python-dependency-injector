@@ -66,6 +66,7 @@ jobs:
       CIBW_ENVIRONMENT: >-
         PIP_CONFIG_SETTINGS="build_ext=-j4"
         DEPENDENCY_INJECTOR_LIMITED_API="1"
+        CFLAGS="-g0"
     steps:
       - uses: actions/checkout@v3
       - name: Build wheels
