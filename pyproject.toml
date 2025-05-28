@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools", "Cython"]
+requires = ["setuptools", "Cython>=3.1.1"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -13,7 +13,7 @@ maintainers = [
 description = "Dependency injection framework for Python"
 readme = {file = "README.rst", content-type = "text/x-rst"}
 license = {file = "LICENSE.rst", content-type = "text/x-rst"}
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 keywords = [
     "Dependency injection",
     "DI",
@@ -31,7 +31,6 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -99,3 +98,18 @@ ignore = ["tests"]
 [tool.pylint.design]
 min-public-methods = 0
 max-public-methods = 30
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit/"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+markers = [
+    "pydantic: Tests with Pydantic as a dependency",
+]
+filterwarnings = [
+    "ignore:Module \"dependency_injector.ext.aiohttp\" is deprecated since version 4\\.0\\.0:DeprecationWarning",
+    "ignore:Module \"dependency_injector.ext.flask\" is deprecated since version 4\\.0\\.0:DeprecationWarning",
+    "ignore:Please use \\`.*?\\` from the \\`scipy.*?\\`(.*?)namespace is deprecated\\.:DeprecationWarning",
+    "ignore:Please import \\`.*?\\` from the \\`scipy(.*?)\\` namespace(.*):DeprecationWarning",
+    "ignore:\\`scipy(.*?)\\` is deprecated(.*):DeprecationWarning",
+]

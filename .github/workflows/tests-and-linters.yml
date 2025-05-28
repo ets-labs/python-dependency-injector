@@ -4,28 +4,12 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
 
-  tests-on-legacy-versions:
-    name: Run tests on legacy versions
-    runs-on: ubuntu-20.04
-    strategy:
-      matrix:
-        python-version: [3.7]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-      - run: pip install tox
-      - run: tox
-        env:
-          TOXENV: ${{ matrix.python-version }}
-
   test-on-different-versions:
     name: Run tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, "3.10", 3.11, 3.12, 3.13]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -34,6 +18,7 @@ jobs:
       - run: pip install tox
       - run: tox
         env:
+          DEPENDENCY_INJECTOR_LIMITED_API: 1
           TOXENV: ${{ matrix.python-version }}
 
   test-different-pydantic-versions:
@@ -60,7 +45,7 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: 3.12
-      - run: pip install tox 'cython>=3,<4'
+      - run: pip install tox
       - run: tox -vv
         env:
           TOXENV: coveralls

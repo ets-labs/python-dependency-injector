@@ -7,6 +7,18 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly
 follows `Semantic versioning`_
 
+4.47.0
+-------
+
+- Add support for ``Annotated`` type for module and class attribute injection in wiring,
+  with updated documentation and examples.
+  See discussion:
+  https://github.com/ets-labs/python-dependency-injector/pull/721#issuecomment-2025263718
+- Fix ``root`` property shadowing in ``ConfigurationOption`` (`#875 https://github.com/ets-labs/python-dependency-injector/pull/875`_)
+- Fix incorrect monkeypatching during ``wire()`` that could violate MRO in some classes (`#886 https://github.com/ets-labs/python-dependency-injector/pull/886`_)
+- ABI3 wheels are now published for CPython.
+- Drop support of Python 3.7.
+
 4.46.0
 ------
 

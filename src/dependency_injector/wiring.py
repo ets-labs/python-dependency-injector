@@ -314,7 +314,7 @@ class ProvidersMap:
         original: providers.ConfigurationOption,
         as_: Any = None,
     ) -> Optional[providers.Provider]:
-        original_root = original.root
+        original_root = original._get_root()
         new = self._resolve_provider(original_root)
         if new is None:
             return None
@@ -415,7 +415,7 @@ def wire(  # noqa: C901
     providers_map = ProvidersMap(container)
 
     for module in modules:
-        for member_name, member in inspect.getmembers(module):
+        for member_name, member in _get_members_and_annotated(module):
             if _inspect_filter.is_excluded(member):
                 continue
 
@@ -426,7 +426,7 @@ def wire(  # noqa: C901
             elif inspect.isclass(member):
                 cls = member
                 try:
-                    cls_members = inspect.getmembers(cls)
+                    cls_members = _get_members_and_annotated(cls)
                 except Exception:  # noqa
                     # Hotfix, see: https://github.com/ets-labs/python-dependency-injector/issues/441
                     continue
@@ -523,6 +523,10 @@ def _patch_method(
 
     _bind_injections(fn, providers_map)
 
+    if fn is method:
+        # Hotfix, see: https://github.com/ets-labs/python-dependency-injector/issues/884
+        return
+
     if isinstance(method, (classmethod, staticmethod)):
         fn = type(method)(fn)
 
@@ -575,7 +579,11 @@ def _unpatch_attribute(patched: PatchedAttribute) -> None:
 
 def _extract_marker(parameter: inspect.Parameter) -> Optional["_Marker"]:
     if get_origin(parameter.annotation) is Annotated:
-        marker = get_args(parameter.annotation)[1]
+        args = get_args(parameter.annotation)
+        if len(args) > 1:
+            marker = args[1]
+        else:
+            marker = None
     else:
         marker = parameter.default
 
@@ -628,21 +636,6 @@ def _fetch_reference_injections(  # noqa: C901
     return injections, closing
 
 
-def _locate_dependent_closing_args(
-    provider: providers.Provider, closing_deps: Dict[str, providers.Provider]
-) -> Dict[str, providers.Provider]:
-    for arg in [
-        *getattr(provider, "args", []),
-        *getattr(provider, "kwargs", {}).values(),
-    ]:
-        if not isinstance(arg, providers.Provider):
-            continue
-        if isinstance(arg, providers.Resource):
-            closing_deps[str(id(arg))] = arg
-
-        _locate_dependent_closing_args(arg, closing_deps)
-
-
 def _bind_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> None:
     patched_callable = _patched_registry.get_callable(fn)
     if patched_callable is None:
@@ -664,10 +657,9 @@ def _bind_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> Non
 
         if injection in patched_callable.reference_closing:
             patched_callable.add_closing(injection, provider)
-            deps = {}
-            _locate_dependent_closing_args(provider, deps)
-            for key, dep in deps.items():
-                patched_callable.add_closing(key, dep)
+
+            for resource in provider.traverse(types=[providers.Resource]):
+                patched_callable.add_closing(str(id(resource)), resource)
 
 
 def _unbind_injections(fn: Callable[..., Any]) -> None:
@@ -1037,3 +1029,23 @@ def _get_sync_patched(fn: F, patched: PatchedCallable) -> F:
             patched.closing,
         )
     return cast(F, _patched)
+
+
+if sys.version_info >= (3, 10):
+    def _get_annotations(obj: Any) -> Dict[str, Any]:
+        return inspect.get_annotations(obj)
+else:
+    def _get_annotations(obj: Any) -> Dict[str, Any]:
+        return getattr(obj, "__annotations__", {})
+
+
+def _get_members_and_annotated(obj: Any) -> Iterable[Tuple[str, Any]]:
+    members = inspect.getmembers(obj)
+    annotations = _get_annotations(obj)
+    for annotation_name, annotation in annotations.items():
+        if get_origin(annotation) is Annotated:
+            args = get_args(annotation)
+            if len(args) > 1:
+                member = args[1]
+                members.append((annotation_name, member))
+    return members
