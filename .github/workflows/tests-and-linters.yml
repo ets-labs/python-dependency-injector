@@ -18,6 +18,7 @@ jobs:
       - run: pip install tox
       - run: tox
         env:
+          DEPENDENCY_INJECTOR_LIMITED_API: 1
           TOXENV: ${{ matrix.python-version }}
 
   test-different-pydantic-versions:
