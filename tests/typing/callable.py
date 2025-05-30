@@ -1,10 +1,9 @@
-from typing import Callable, Optional, Tuple, Any, Dict, Type
+from typing import Any, Callable, Dict, Optional, Tuple, Type
 
 from dependency_injector import providers
 
 
-class Animal:
-    ...
+class Animal: ...
 
 
 class Cat(Animal):
@@ -53,9 +52,12 @@ provider8 = providers.CallableDelegate(providers.Callable(lambda: None))
 
 # Test 9: to check the return type with await
 provider9 = providers.Callable(Cat)
+
+
 async def _async9() -> None:
     animal1: Animal = await provider9(1, 2, 3, b="1", c=2, e=0.0)  # type: ignore
     animal2: Animal = await provider9.async_(1, 2, 3, b="1", c=2, e=0.0)
+
 
 # Test 10: to check the .provides
 provider10 = providers.Callable(Cat)
@@ -68,5 +70,5 @@ provides11: Optional[Callable[..., Animal]] = provider11.provides
 assert provides11 is Cat
 
 # Test 12: to check string imports
-provider12: providers.Callable[dict] = providers.Callable("builtins.dict")
+provider12: providers.Callable[Dict[Any, Any]] = providers.Callable("builtins.dict")
 provider12.set_provides("builtins.dict")

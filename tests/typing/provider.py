@@ -1,5 +1,6 @@
-from dependency_injector import providers
+from typing import Any
 
+from dependency_injector import providers
 
 # Test 1: to check .provided attribute
 provider1: providers.Provider[int] = providers.Object(1)
@@ -7,7 +8,7 @@ provided: int = provider1.provided()
 provider1_delegate: providers.Provider[int] = provider1.provider
 
 # Test 2: to check async mode API
-provider2: providers.Provider = providers.Provider()
+provider2: providers.Provider[Any] = providers.Provider()
 provider2.enable_async_mode()
 provider2.disable_async_mode()
 provider2.reset_async_mode()

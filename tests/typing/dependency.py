@@ -1,15 +1,14 @@
-from typing import Type
+from typing import Any, Type
 
 from dependency_injector import providers
 
 
-class Animal:
-    ...
+class Animal: ...
 
 
 class Cat(Animal):
 
-    def __init__(self, *_, **__): ...
+    def __init__(self, *a: Any, **kw: Any) -> None: ...
 
 
 # Test 1: to check the return type
@@ -23,6 +22,8 @@ var2: Type[Animal] = provider2.instance_of
 
 # Test 3: to check the return type with await
 provider3 = providers.Dependency(instance_of=Animal)
+
+
 async def _async3() -> None:
     var1: Animal = await provider3()  # type: ignore
     var2: Animal = await provider3.async_()

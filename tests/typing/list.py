@@ -1,7 +1,6 @@
-from typing import Tuple, Any, List
+from typing import Any, List, Tuple
 
 from dependency_injector import providers
-
 
 # Test 1: to check the return type (class)
 provider1 = providers.List(
@@ -33,6 +32,8 @@ provider4 = providers.List(
     providers.Factory(object),
     providers.Factory(object),
 )
+
+
 async def _async4() -> None:
     var1: List[Any] = await provider4()  # type: ignore
     var2: List[Any] = await provider4.async_()
