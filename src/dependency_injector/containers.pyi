@@ -41,7 +41,7 @@ class WiringConfiguration:
 class Container:
     provider_type: Type[Provider] = Provider
     providers: Dict[str, Provider]
-    dependencies: Dict[str, Provider]
+    dependencies: Dict[str, Provider[Any]]
     overridden: Tuple[Provider]
     wiring_config: WiringConfiguration
     auto_load_config: bool = True
