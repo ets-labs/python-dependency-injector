@@ -2,7 +2,6 @@ from typing import Any, Dict
 
 from dependency_injector import providers
 
-
 # Test 1: to check the return type (class)
 provider1 = providers.Dict(
     a1=providers.Factory(object),
@@ -17,7 +16,9 @@ var2: Dict[Any, Any] = provider2()
 
 
 # Test 3: to check init with non-string keys
-provider3 = providers.Dict({object(): providers.Factory(object)}, a2=providers.Factory(object))
+provider3 = providers.Dict(
+    {object(): providers.Factory(object)}, a2=providers.Factory(object)
+)
 var3: Dict[Any, Any] = provider3()
 
 
@@ -42,6 +43,8 @@ provider6 = providers.Dict(
     a1=providers.Factory(object),
     a2=providers.Factory(object),
 )
+
+
 async def _async3() -> None:
     var1: Dict[Any, Any] = await provider6()  # type: ignore
     var2: Dict[Any, Any] = await provider6.async_()

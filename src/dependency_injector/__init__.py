@@ -1,6 +1,6 @@
 """Top-level package."""
 
-__version__ = "4.47.0"
+__version__ = "4.47.1"
 """Version number.
 
 :type: str

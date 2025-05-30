@@ -1,15 +1,14 @@
-from typing import Callable, Optional, Tuple, Any, Dict, Type
+from typing import Any, Callable, Dict, Optional, Tuple, Type
 
 from dependency_injector import providers
 
 
-class Animal:
-    ...
+class Animal: ...
 
 
 class Cat(Animal):
 
-    def __init__(self, *_, **__): ...
+    def __init__(self, *a: Any, **kw: Any) -> None: ...
 
     @classmethod
     def create(cls) -> Animal:
@@ -63,17 +62,29 @@ factory_a_9: providers.Factory[str] = provider9.a
 factory_b_9: providers.Factory[str] = provider9.b
 val9: str = provider9("a")
 
-provider9_set_non_string_keys: providers.FactoryAggregate[str] = providers.FactoryAggregate()
-provider9_set_non_string_keys.set_factories({Cat: providers.Factory(str, "str")})
-factory_set_non_string_9: providers.Factory[str] = provider9_set_non_string_keys.factories[Cat]
-
-provider9_new_non_string_keys: providers.FactoryAggregate[str] = providers.FactoryAggregate(
-    {Cat: providers.Factory(str, "str")},
+provider9_set_non_string_keys: providers.FactoryAggregate[str] = (
+    providers.FactoryAggregate()
 )
-factory_new_non_string_9: providers.Factory[str] = provider9_new_non_string_keys.factories[Cat]
+provider9_set_non_string_keys.set_factories({Cat: providers.Factory(str, "str")})
+factory_set_non_string_9: providers.Factory[str] = (
+    provider9_set_non_string_keys.factories[Cat]
+)
 
-provider9_no_explicit_typing = providers.FactoryAggregate(a=providers.Factory(str, "str"))
-provider9_no_explicit_typing_factory: providers.Factory[str] = provider9_no_explicit_typing.factories["a"]
+provider9_new_non_string_keys: providers.FactoryAggregate[str] = (
+    providers.FactoryAggregate(
+        {Cat: providers.Factory(str, "str")},
+    )
+)
+factory_new_non_string_9: providers.Factory[str] = (
+    provider9_new_non_string_keys.factories[Cat]
+)
+
+provider9_no_explicit_typing = providers.FactoryAggregate(
+    a=providers.Factory(str, "str")
+)
+provider9_no_explicit_typing_factory: providers.Factory[str] = (
+    provider9_no_explicit_typing.factories["a"]
+)
 provider9_no_explicit_typing_object: str = provider9_no_explicit_typing("a")
 
 # Test 10: to check the explicit typing
@@ -82,9 +93,12 @@ animal10: Animal = factory10()
 
 # Test 11: to check the return type with await
 provider11 = providers.Factory(Cat)
+
+
 async def _async11() -> None:
     animal1: Animal = await provider11(1, 2, 3, b="1", c=2, e=0.0)  # type: ignore
     animal2: Animal = await provider11.async_(1, 2, 3, b="1", c=2, e=0.0)
+
 
 # Test 12: to check class type from .provides
 provider12 = providers.Factory(Cat)
@@ -101,5 +115,5 @@ provided_provides13: Optional[Callable[..., Animal]] = provider13.provides
 assert provided_provides13 is not None and provided_provides13() == Cat()
 
 # Test 14: to check string imports
-provider14: providers.Factory[dict] = providers.Factory("builtins.dict")
+provider14: providers.Factory[Dict[Any, Any]] = providers.Factory("builtins.dict")
 provider14.set_provides("builtins.dict")
