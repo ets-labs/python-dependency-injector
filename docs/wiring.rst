@@ -631,6 +631,36 @@ or with a single container ``register_loader_containers(container)`` multiple ti
 To unregister a container use ``unregister_loader_containers(container)``.
 Wiring module will uninstall the import hook when unregister last container.
 
+Few notes on performance
+------------------------
+
+``.wire()`` utilize caching to speed up the wiring process. At the end it clears the cache to avoid memory leaks.
+But this may not always be desirable, when you want to keep the cache for the next wiring
+(e.g. due to usage of multiple containers or during unit tests).
+
+To keep the cache after wiring, you can set flag ``keep_cache=True`` (works with ``WiringConfiguration`` too):
+
+.. code-block:: python
+
+   container1.wire(
+       modules=["yourapp.module1", "yourapp.module2"],
+       keep_cache=True,
+   )
+   container2.wire(
+       modules=["yourapp.module2", "yourapp.module3"],
+       keep_cache=True,
+   )
+   ...
+
+and then clear it manually when you need it:
+
+.. code-block:: python
+
+   from dependency_injector.wiring import clear_cache
+
+   clear_cache()
+
+
 Integration with other frameworks
 ---------------------------------
 
