@@ -18,10 +18,9 @@ SQLITE_FILE = DIR / "movies.db"
 
 
 def create_csv(movies_data, path):
-    with open(path, "w") as opened_file:
+    with open(path, "w", newline="") as opened_file:
         writer = csv.writer(opened_file)
-        for row in movies_data:
-            writer.writerow(row)
+        writer.writerows(movies_data)
 
 
 def create_sqlite(movies_data, path):
