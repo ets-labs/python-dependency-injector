@@ -257,7 +257,7 @@ Let's check that it works. Open another terminal session and use ``httpie``:
 
 You should see:
 
-.. code-block:: json
+.. code-block:: http
 
    HTTP/1.1 200 OK
    Content-Length: 844
@@ -596,7 +596,7 @@ and make a request to the API in the terminal:
 
 You should see:
 
-.. code-block:: json
+.. code-block:: http
 
    HTTP/1.1 200 OK
    Content-Length: 492

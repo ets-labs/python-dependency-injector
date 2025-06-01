@@ -127,6 +127,7 @@ To inject the provider itself use ``Provide[foo.provider]``:
    def foo(bar_provider: Factory[Bar] = Provide[Container.bar.provider]):
        bar = bar_provider(argument="baz")
        ...
+
 You can also use ``Provider[foo]`` for injecting the provider itself:
 
 .. code-block:: python
