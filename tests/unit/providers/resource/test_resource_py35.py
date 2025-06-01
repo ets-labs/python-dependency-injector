@@ -2,10 +2,12 @@
 
 import decimal
 import sys
+from contextlib import contextmanager
 from typing import Any
 
-from dependency_injector import containers, providers, resources, errors
-from pytest import raises, mark
+from pytest import mark, raises
+
+from dependency_injector import containers, errors, providers, resources
 
 
 def init_fn(*args, **kwargs):
@@ -123,6 +125,41 @@ def test_init_generator():
     assert _init.shutdown_counter == 2
 
 
+def test_init_context_manager() -> None:
+    init_counter, shutdown_counter = 0, 0
+
+    @contextmanager
+    def _init():
+        nonlocal init_counter, shutdown_counter
+
+        init_counter += 1
+        yield
+        shutdown_counter += 1
+
+    init_counter = 0
+    shutdown_counter = 0
+
+    provider = providers.Resource(_init)
+
+    result1 = provider()
+    assert result1 is None
+    assert init_counter == 1
+    assert shutdown_counter == 0
+
+    provider.shutdown()
+    assert init_counter == 1
+    assert shutdown_counter == 1
+
+    result2 = provider()
+    assert result2 is None
+    assert init_counter == 2
+    assert shutdown_counter == 1
+
+    provider.shutdown()
+    assert init_counter == 2
+    assert shutdown_counter == 2
+
+
 def test_init_class():
     class TestResource(resources.Resource):
         init_counter = 0
@@ -190,7 +227,7 @@ def test_init_class_abc_shutdown_definition_is_not_required():
 
 def test_init_not_callable():
     provider = providers.Resource(1)
-    with raises(errors.Error):
+    with raises(TypeError, match=r"object is not callable"):
         provider.init()
 
 

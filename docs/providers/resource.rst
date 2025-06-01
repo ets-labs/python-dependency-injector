@@ -61,11 +61,12 @@ When you call ``.shutdown()`` method on a resource provider, it will remove the 
 if any, and switch to uninitialized state. Some of resource initializer types support specifying custom
 resource shutdown.
 
-Resource provider supports 3 types of initializers:
+Resource provider supports 4 types of initializers:
 
 - Function
-- Generator
-- Subclass of ``resources.Resource``
+- Context Manager
+- Generator (legacy)
+- Subclass of ``resources.Resource`` (legacy)
 
 Function initializer
 --------------------
@@ -103,8 +104,44 @@ you configure global resource:
 
 Function initializer does not provide a way to specify custom resource shutdown.
 
-Generator initializer
----------------------
+Context Manager initializer
+---------------------------
+
+This is an extension to the Function initializer. Resource provider automatically detects if the initializer returns a
+context manager and uses it to manage the resource lifecycle.
+
+.. code-block:: python
+
+   from dependency_injector import containers, providers
+
+   class DatabaseConnection:
+       def __init__(self, host, port, user, password):
+           self.host = host
+           self.port = port
+           self.user = user
+           self.password = password
+
+       def __enter__(self):
+           print(f"Connecting to {self.host}:{self.port} as {self.user}")
+           return self
+
+       def __exit__(self, exc_type, exc_val, exc_tb):
+           print("Closing connection")
+
+
+   class Container(containers.DeclarativeContainer):
+
+       config = providers.Configuration()
+       db = providers.Resource(
+           DatabaseConnection,
+           host=config.db.host,
+           port=config.db.port,
+           user=config.db.user,
+           password=config.db.password,
+       )
+
+Generator initializer (legacy)
+------------------------------
 
 Resource provider can use 2-step generators:
 
@@ -154,8 +191,13 @@ object is not mandatory. You can leave ``yield`` statement empty:
            argument2=...,
        )
 
-Subclass initializer
---------------------
+.. note::
+
+   Generator initializers are automatically wrapped with ``contextmanager`` or ``asynccontextmanager`` decorator when
+   provided to a ``Resource`` provider.
+
+Subclass initializer (legacy)
+-----------------------------
 
 You can create resource initializer by implementing a subclass of the ``resources.Resource``:
 
@@ -263,10 +305,11 @@ Asynchronous function initializer:
            argument2=...,
        )
 
-Asynchronous generator initializer:
+Asynchronous Context Manager initializer:
 
 .. code-block:: python
 
+   @asynccontextmanager
    async def init_async_resource(argument1=..., argument2=...):
        connection = await connect()
        yield connection
