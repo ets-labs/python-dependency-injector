@@ -697,3 +697,10 @@ cdef inline object __future_result(object instance):
     future_result = asyncio.Future()
     future_result.set_result(instance)
     return future_result
+
+
+cdef class NullAwaitable:
+    pass
+
+
+cdef NullAwaitable NULL_AWAITABLE
