@@ -1046,9 +1046,9 @@ from ._cwiring import DependencyResolver  # noqa: E402
 def _get_async_patched(fn: F, patched: PatchedCallable) -> F:
     @functools.wraps(fn)
     async def _patched(*args: Any, **raw_kwargs: Any) -> Any:
-        dr = DependencyResolver(raw_kwargs, patched.injections, patched.closing)
+        resolver = DependencyResolver(raw_kwargs, patched.injections, patched.closing)
 
-        async with dr as kwargs:
+        async with resolver as kwargs:
             return await fn(*args, **kwargs)
 
     return cast(F, _patched)
@@ -1058,9 +1058,9 @@ def _get_async_patched(fn: F, patched: PatchedCallable) -> F:
 def _get_async_gen_patched(fn: F, patched: PatchedCallable) -> F:
     @functools.wraps(fn)
     async def _patched(*args: Any, **raw_kwargs: Any) -> AsyncIterator[Any]:
-        dr = DependencyResolver(raw_kwargs, patched.injections, patched.closing)
+        resolver = DependencyResolver(raw_kwargs, patched.injections, patched.closing)
 
-        async with dr as kwargs:
+        async with resolver as kwargs:
             async for obj in fn(*args, **kwargs):
                 yield obj
 
@@ -1070,9 +1070,9 @@ def _get_async_gen_patched(fn: F, patched: PatchedCallable) -> F:
 def _get_sync_patched(fn: F, patched: PatchedCallable) -> F:
     @functools.wraps(fn)
     def _patched(*args: Any, **raw_kwargs: Any) -> Any:
-        dr = DependencyResolver(raw_kwargs, patched.injections, patched.closing)
+        resolver = DependencyResolver(raw_kwargs, patched.injections, patched.closing)
 
-        with dr as kwargs:
+        with resolver as kwargs:
             return fn(*args, **kwargs)
 
     return cast(F, _patched)

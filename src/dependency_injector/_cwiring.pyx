@@ -11,6 +11,7 @@ from .wiring import _Marker
 cimport cython
 
 
+@cython.internal
 @cython.no_gc
 cdef class KWPair:
     cdef str name
