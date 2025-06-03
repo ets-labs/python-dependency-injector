@@ -14,8 +14,8 @@ follows `Semantic versioning`_
   with updated documentation and examples.
   See discussion:
   https://github.com/ets-labs/python-dependency-injector/pull/721#issuecomment-2025263718
-- Fix ``root`` property shadowing in ``ConfigurationOption`` (`#875 https://github.com/ets-labs/python-dependency-injector/pull/875`_)
-- Fix incorrect monkeypatching during ``wire()`` that could violate MRO in some classes (`#886 https://github.com/ets-labs/python-dependency-injector/pull/886`_)
+- Fix ``root`` property shadowing in ``ConfigurationOption`` (`#875 <https://github.com/ets-labs/python-dependency-injector/pull/875>`_)
+- Fix incorrect monkeypatching during ``wire()`` that could violate MRO in some classes (`#886 <https://github.com/ets-labs/python-dependency-injector/pull/886>`_)
 - ABI3 wheels are now published for CPython.
 - Drop support of Python 3.7.
 
@@ -371,8 +371,8 @@ Many thanks to `ZipFile <https://github.com/ZipFile>`_ for both contributions.
 - Make refactoring of wiring module and tests.
   See PR # `#406 <https://github.com/ets-labs/python-dependency-injector/issues/406>`_.
   Thanks to `@withshubh <https://github.com/withshubh>`_ for the contribution:
-    - Remove unused imports in tests.
-    - Use literal syntax to create data structure in tests.
+  - Remove unused imports in tests.
+  - Use literal syntax to create data structure in tests.
 - Add integration with a static analysis tool `DeepSource <https://deepsource.io/>`_.
 
 4.26.0
