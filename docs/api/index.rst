@@ -9,3 +9,4 @@ API Documentation
    containers
    wiring
    errors
+   asgi-lifespan

@@ -401,5 +401,54 @@ See also:
 - Wiring :ref:`async-injections-wiring`
 - :ref:`fastapi-redis-example`
 
+ASGI Lifespan Protocol Support
+------------------------------
+
+The :mod:`dependency_injector.ext.starlette` module provides a :class:`~dependency_injector.ext.starlette.Lifespan`
+class that integrates resource providers with ASGI applications using the `Lifespan Protocol`_. This allows resources to
+be automatically initialized at application startup and properly shut down when the application stops.
+
+.. code-block:: python
+
+    from contextlib import asynccontextmanager
+    from dependency_injector import containers, providers
+    from dependency_injector.wiring import Provide, inject
+    from dependency_injector.ext.starlette import Lifespan
+    from fastapi import FastAPI, Request, Depends, APIRouter
+
+    class Connection: ...
+
+    @asynccontextmanager
+    async def init_database():
+        print("opening database connection")
+        yield Connection()
+        print("closing database connection")
+
+    router = APIRouter()
+
+    @router.get("/")
+    @inject
+    async def index(request: Request, db: Connection = Depends(Provide["db"])):
+        # use the database connection here
+        return "OK!"
+
+    class Container(containers.DeclarativeContainer):
+        __self__ = providers.Self()
+        db = providers.Resource(init_database)
+        lifespan = providers.Singleton(Lifespan, __self__)
+        app = providers.Singleton(FastAPI, lifespan=lifespan)
+        _include_router = providers.Resource(
+            app.provided.include_router.call(),
+            router,
+        )
+
+    if __name__ == "__main__":
+        import uvicorn
+
+        container = Container()
+        app = container.app()
+        uvicorn.run(app, host="localhost", port=8000)
+
+.. _Lifespan Protocol: https://asgi.readthedocs.io/en/latest/specs/lifespan.html
 
 .. disqus::
