@@ -33,6 +33,23 @@ async def test_async_injections():
 
 
 @mark.asyncio
+async def test_async_generator_injections() -> None:
+    resources = []
+
+    async for resource in asyncinjections.async_generator_injection():
+        resources.append(resource)
+
+    assert len(resources) == 2
+    assert resources[0] is asyncinjections.resource1
+    assert asyncinjections.resource1.init_counter == 1
+    assert asyncinjections.resource1.shutdown_counter == 0
+
+    assert resources[1] is asyncinjections.resource2
+    assert asyncinjections.resource2.init_counter == 1
+    assert asyncinjections.resource2.shutdown_counter == 1
+
+
+@mark.asyncio
 async def test_async_injections_with_closing():
     resource1, resource2 = await asyncinjections.async_injection_with_closing()
 

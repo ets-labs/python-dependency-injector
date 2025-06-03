@@ -10,6 +10,7 @@ from types import ModuleType
 from typing import (
     TYPE_CHECKING,
     Any,
+    AsyncIterator,
     Callable,
     Dict,
     Iterable,
@@ -720,6 +721,8 @@ def _get_patched(
 
     if inspect.iscoroutinefunction(fn):
         patched = _get_async_patched(fn, patched_object)
+    elif inspect.isasyncgenfunction(fn):
+        patched = _get_async_gen_patched(fn, patched_object)
     else:
         patched = _get_sync_patched(fn, patched_object)
 
@@ -1035,36 +1038,41 @@ _inspect_filter = InspectFilter()
 _loader = AutoLoader()
 
 # Optimizations
-from ._cwiring import _async_inject  # noqa
-from ._cwiring import _sync_inject  # noqa
+from ._cwiring import DependencyResolver  # noqa: E402
 
 
 # Wiring uses the following Python wrapper because there is
 # no possibility to compile a first-type citizen coroutine in Cython.
 def _get_async_patched(fn: F, patched: PatchedCallable) -> F:
     @functools.wraps(fn)
-    async def _patched(*args, **kwargs):
-        return await _async_inject(
-            fn,
-            args,
-            kwargs,
-            patched.injections,
-            patched.closing,
-        )
+    async def _patched(*args: Any, **raw_kwargs: Any) -> Any:
+        resolver = DependencyResolver(raw_kwargs, patched.injections, patched.closing)
+
+        async with resolver as kwargs:
+            return await fn(*args, **kwargs)
+
+    return cast(F, _patched)
+
+
+def _get_async_gen_patched(fn: F, patched: PatchedCallable) -> F:
+    @functools.wraps(fn)
+    async def _patched(*args: Any, **raw_kwargs: Any) -> AsyncIterator[Any]:
+        resolver = DependencyResolver(raw_kwargs, patched.injections, patched.closing)
+
+        async with resolver as kwargs:
+            async for obj in fn(*args, **kwargs):
+                yield obj
 
     return cast(F, _patched)
 
 
 def _get_sync_patched(fn: F, patched: PatchedCallable) -> F:
     @functools.wraps(fn)
-    def _patched(*args, **kwargs):
-        return _sync_inject(
-            fn,
-            args,
-            kwargs,
-            patched.injections,
-            patched.closing,
-        )
+    def _patched(*args: Any, **raw_kwargs: Any) -> Any:
+        resolver = DependencyResolver(raw_kwargs, patched.injections, patched.closing)
+
+        with resolver as kwargs:
+            return fn(*args, **kwargs)
 
     return cast(F, _patched)
 
