@@ -38,8 +38,8 @@ cdef class DependencyResolver:
         self.injections = injections
         self.closings = closings
 
-    async def _await_injection(self, p: KWPair, /) -> None:
-        self.to_inject[p.name] = await p.value
+    async def _await_injection(self, kw_pair: KWPair, /) -> None:
+        self.to_inject[kw_pair.name] = await kw_pair.value
 
     cdef object _await_injections(self, to_await: list):
         return gather(*map(self._await_injection, to_await))

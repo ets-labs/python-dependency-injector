@@ -1054,7 +1054,6 @@ def _get_async_patched(fn: F, patched: PatchedCallable) -> F:
     return cast(F, _patched)
 
 
-# Async generators too...
 def _get_async_gen_patched(fn: F, patched: PatchedCallable) -> F:
     @functools.wraps(fn)
     async def _patched(*args: Any, **raw_kwargs: Any) -> AsyncIterator[Any]:
