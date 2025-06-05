@@ -17,7 +17,10 @@ from typing import (
     overload,
 )
 
-from typing_extensions import Self as _Self
+try:
+    from typing import Self as _Self
+except ImportError:
+    from typing_extensions import Self as _Self
 
 from .providers import Provider, ProviderParent, Self
 
