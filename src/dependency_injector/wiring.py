@@ -77,6 +77,12 @@ except ImportError:
     werkzeug = None
 
 
+try:
+    import fast_depends.dependencies
+except ImportError:
+    fast_depends = None
+
+
 from . import providers
 
 __all__ = (
@@ -106,6 +112,23 @@ if TYPE_CHECKING:
     from .containers import Container
 else:
     Container = Any
+
+def _is_fastapi_depends(param: Any) -> bool:
+    return fastapi and isinstance(param, fastapi.params.Depends)
+
+
+if fast_depends:
+    def _is_fast_stream_depends(param: Any) -> bool:
+        return isinstance(param, fast_depends.dependencies.Depends)
+else:
+    def _is_fast_stream_depends(param: Any) -> bool:
+        return False
+
+
+_DEPENDS_CHECKERS = (
+    _is_fastapi_depends,
+    _is_fast_stream_depends,
+)
 
 
 class PatchedRegistry:
@@ -598,6 +621,8 @@ def _unpatch_attribute(patched: PatchedAttribute) -> None:
 
 
 def _extract_marker(parameter: inspect.Parameter) -> Optional["_Marker"]:
+    depends_available = False
+
     if get_origin(parameter.annotation) is Annotated:
         args = get_args(parameter.annotation)
         if len(args) > 1:
@@ -607,10 +632,13 @@ def _extract_marker(parameter: inspect.Parameter) -> Optional["_Marker"]:
     else:
         marker = parameter.default
 
-    if not isinstance(marker, _Marker) and not _is_fastapi_depends(marker):
+    if any(depends_checker(marker) for depends_checker in _DEPENDS_CHECKERS):
+        depends_available = True
+
+    if not isinstance(marker, _Marker) and not depends_available:
         return None
 
-    if _is_fastapi_depends(marker):
+    if depends_available:
         marker = marker.dependency
 
         if not isinstance(marker, _Marker):
@@ -733,10 +761,6 @@ def _get_patched(
     _patched_registry.register_callable(patched_object)
 
     return patched
-
-
-def _is_fastapi_depends(param: Any) -> bool:
-    return fastapi and isinstance(param, fastapi.params.Depends)
 
 
 def _is_patched(fn) -> bool:
