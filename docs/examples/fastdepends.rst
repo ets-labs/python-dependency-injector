@@ -10,8 +10,6 @@ FastDepends example
 
 This example shows how to use ``Dependency Injector`` with `FastDepends <https://github.com/Lancetnik/FastDepends>`_.
 
-The example application is a REST API that searches for funny GIFs on the `Giphy <https://giphy.com/>`_.
-
 Example code is available on `Github <https://github.com/ets-labs/python-dependency-injector/tree/master/tests/unit/wiringfastdepends>`_.
 
 Quick sample
