@@ -58,11 +58,19 @@ else:
         def get_origin(tp):
             return None
 
+MARKER_EXTRACTORS = []
 
 try:
-    import fastapi.params
+    from fastapi.params import Depends as FastApiDepends
 except ImportError:
-    fastapi = None
+    pass
+else:
+    def extract_marker_from_fastapi(param: Any) -> Any:
+        if isinstance(param, FastApiDepends):
+            return param.dependency
+        return None
+
+    MARKER_EXTRACTORS.append(extract_marker_from_fastapi)
 
 
 try:
@@ -76,6 +84,18 @@ try:
 except ImportError:
     werkzeug = None
 
+
+try:
+    from fast_depends.dependencies import Depends as FastDepends
+except ImportError:
+    pass
+else:
+    def extract_marker_from_fast_depends(param: Any) -> Any:
+        if isinstance(param, FastDepends):
+            return param.dependency
+        return None
+
+    MARKER_EXTRACTORS.append(extract_marker_from_fast_depends)
 
 from . import providers
 
@@ -607,14 +627,13 @@ def _extract_marker(parameter: inspect.Parameter) -> Optional["_Marker"]:
     else:
         marker = parameter.default
 
-    if not isinstance(marker, _Marker) and not _is_fastapi_depends(marker):
+    for marker_extractor in MARKER_EXTRACTORS:
+        if _marker := marker_extractor(marker):
+            marker = _marker
+            break
+
+    if not isinstance(marker, _Marker):
         return None
-
-    if _is_fastapi_depends(marker):
-        marker = marker.dependency
-
-        if not isinstance(marker, _Marker):
-            return None
 
     return marker
 
@@ -733,10 +752,6 @@ def _get_patched(
     _patched_registry.register_callable(patched_object)
 
     return patched
-
-
-def _is_fastapi_depends(param: Any) -> bool:
-    return fastapi and isinstance(param, fastapi.params.Depends)
 
 
 def _is_patched(fn) -> bool:
