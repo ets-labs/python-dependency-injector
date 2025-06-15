@@ -1,9 +1,18 @@
 import sys
 
+from dependency_injector import containers, providers
 from dependency_injector.wiring import inject, Provide
 from fast_depends import Depends
-from wiringfastdepends.sample import CoefficientService, Container
 
+
+class CoefficientService:
+    @staticmethod
+    def get_coefficient() -> float:
+        return 1.2
+
+
+class Container(containers.DeclarativeContainer):
+    service = providers.Factory(CoefficientService)
 
 
 @inject
@@ -16,7 +25,3 @@ def apply_coefficient(
 
 container = Container()
 container.wire(modules=[sys.modules[__name__]])
-
-
-def test_wire_positive() -> None:
-    assert apply_coefficient(100) == 120.0
