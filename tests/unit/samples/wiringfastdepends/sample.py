@@ -1,22 +1,7 @@
-from dependency_injector.wiring import inject, Provide
-from fast_depends import Depends
-
-# Runtime import to avoid syntax errors in samples on Python < 3.5 and reach top-dir
-import os
-
-_SAMPLES_DIR = os.path.abspath(
-    os.path.sep.join(
-        (
-            os.path.dirname(__file__),
-            "../samples/",
-        )
-    ),
-)
 import sys
 
-sys.path.append(_SAMPLES_DIR)
-
-
+from dependency_injector.wiring import inject, Provide
+from fast_depends import Depends
 from wiringfastdepends.sample import CoefficientService, Container
 
 

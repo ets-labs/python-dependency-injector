@@ -47,6 +47,6 @@ Just use it within ``Depends``
     container = Container()
     container.wire(modules=[sys.modules[__name__]])
 
-    assert apply_coefficient(100) == 120.0
+    apply_coefficient(100) == 120.0
 
 

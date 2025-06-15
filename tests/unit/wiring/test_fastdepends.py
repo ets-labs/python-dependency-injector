@@ -27,4 +27,5 @@ def apply_coefficient(
 container = Container()
 container.wire(modules=[sys.modules[__name__]])
 
-assert apply_coefficient(100) == 120.0
+def test_apply_coefficient():
+    assert apply_coefficient(100) == 120.0
