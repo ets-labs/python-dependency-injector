@@ -47,11 +47,19 @@ else:
         def get_origin(tp):
             return None
 
+MARKER_EXTRACTORS = []
 
 try:
-    import fastapi.params
+    from fastapi.params import Depends as FastApiDepends
 except ImportError:
-    fastapi = None
+    pass
+else:
+    def extract_marker_from_fastapi(param: Any) -> Any:
+        if isinstance(param, FastApiDepends):
+            return param.dependency
+        return None
+
+    MARKER_EXTRACTORS.append(extract_marker_from_fastapi)
 
 
 try:
@@ -67,10 +75,16 @@ except ImportError:
 
 
 try:
-    import fast_depends.dependencies
+    from fast_depends.dependencies import Depends as FastDepends
 except ImportError:
-    fast_depends = None
+    pass
+else:
+    def extract_marker_from_fast_depends(param: Any) -> Any:
+        if isinstance(param, FastDepends):
+            return param.dependency
+        return None
 
+    MARKER_EXTRACTORS.append(extract_marker_from_fast_depends)
 
 from . import providers
 
@@ -101,23 +115,6 @@ if TYPE_CHECKING:
     from .containers import Container
 else:
     Container = Any
-
-def _is_fastapi_depends(param: Any) -> bool:
-    return fastapi and isinstance(param, fastapi.params.Depends)
-
-
-if fast_depends:
-    def _is_fast_stream_depends(param: Any) -> bool:
-        return isinstance(param, fast_depends.dependencies.Depends)
-else:
-    def _is_fast_stream_depends(param: Any) -> bool:
-        return False
-
-
-_DEPENDS_CHECKERS = (
-    _is_fastapi_depends,
-    _is_fast_stream_depends,
-)
 
 
 class PatchedRegistry:
@@ -606,8 +603,6 @@ def _unpatch_attribute(patched: PatchedAttribute) -> None:
 
 
 def _extract_marker(parameter: inspect.Parameter) -> Optional["_Marker"]:
-    depends_available = False
-
     if get_origin(parameter.annotation) is Annotated:
         args = get_args(parameter.annotation)
         if len(args) > 1:
@@ -617,17 +612,13 @@ def _extract_marker(parameter: inspect.Parameter) -> Optional["_Marker"]:
     else:
         marker = parameter.default
 
-    if any(depends_checker(marker) for depends_checker in _DEPENDS_CHECKERS):
-        depends_available = True
+    for marker_extractor in MARKER_EXTRACTORS:
+        if _marker := marker_extractor(marker):
+            marker = _marker
+            break
 
-    if not isinstance(marker, _Marker) and not depends_available:
+    if not isinstance(marker, _Marker):
         return None
-
-    if depends_available:
-        marker = marker.dependency
-
-        if not isinstance(marker, _Marker):
-            return None
 
     return marker
 
