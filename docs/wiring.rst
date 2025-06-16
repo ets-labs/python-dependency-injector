@@ -693,5 +693,6 @@ Take a look at other application examples:
 - :ref:`fastapi-example`
 - :ref:`fastapi-redis-example`
 - :ref:`fastapi-sqlalchemy-example`
+- :ref:`fastdepends-example`
 
 .. disqus::

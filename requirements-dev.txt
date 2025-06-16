@@ -20,5 +20,6 @@ scipy
 boto3
 mypy_boto3_s3
 typing_extensions
+fast-depends
 
 -r requirements-ext.txt
