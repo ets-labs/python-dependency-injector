@@ -317,6 +317,10 @@ class DynamicContainer(Container):
 
     def init_resources(self, resource_type=providers.Resource):
         """Initialize all container resources."""
+
+        if not issubclass(resource_type, providers.Resource):
+            raise TypeError("resource_type must be a subclass of Resource provider")
+
         futures = []
 
         for provider in self.traverse(types=[resource_type]):
@@ -330,6 +334,10 @@ class DynamicContainer(Container):
 
     def shutdown_resources(self, resource_type=providers.Resource):
         """Shutdown all container resources."""
+
+        if not issubclass(resource_type, providers.Resource):
+            raise TypeError("resource_type must be a subclass of Resource provider")
+
         def _independent_resources(resources):
             for resource in resources:
                 for other_resource in resources:
