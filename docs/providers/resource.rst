@@ -314,7 +314,7 @@ And to initialize all resources you can use ``init_resources()`` and ``shutdown_
        # >>> Shutdown generic
 
 
-It works using the :ref:`traverse` method to find all resources of the specified type, selecting all resources
+It works using the ``traverse()`` method to find all resources of the specified type, selecting all resources
 which are instances of the specified type.
 
 
