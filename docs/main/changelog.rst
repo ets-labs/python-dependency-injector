@@ -7,8 +7,24 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly
 follows `Semantic versioning`_
 
+4.48.0
+------
+
+- Improve performance of wiring (`#897 <https://github.com/ets-labs/python-dependency-injector/pull/897>`_)
+- Add Context Manager support to Resource provider (`#899 <https://github.com/ets-labs/python-dependency-injector/pull/899>`_)
+- Add support for async generator injections (`#900 <https://github.com/ets-labs/python-dependency-injector/pull/900>`_)
+- Fix unintended dependency on ``typing_extensions`` (`#902 <https://github.com/ets-labs/python-dependency-injector/pull/902>`_)
+- Add support for Fast Depends (`#898 <https://github.com/ets-labs/python-dependency-injector/pull/898>`_)
+- Add ``resource_type`` parameter to init and shutdown resources using specialized providers (`#858 <https://github.com/ets-labs/python-dependency-injector/pull/858>`_)
+
+4.47.1
+------
+
+- Fix typing for wiring marker (`#892 <https://github.com/ets-labs/python-dependency-injector/pull/896>`_)
+- Strip debug symbols in wheels
+
 4.47.0
--------
+------
 
 - Add support for ``Annotated`` type for module and class attribute injection in wiring,
   with updated documentation and examples.
