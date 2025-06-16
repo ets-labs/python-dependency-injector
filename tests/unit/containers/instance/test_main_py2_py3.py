@@ -325,6 +325,19 @@ def test_init_shutdown_nested_resources():
     assert _init2.shutdown_counter == 2
 
 
+def test_init_shutdown_resources_wrong_type() -> None:
+    class Container(containers.DeclarativeContainer):
+        pass
+
+    c = Container()
+
+    with raises(TypeError, match=r"resource_type must be a subclass of Resource provider"):
+        c.init_resources(int)  # type: ignore[arg-type]
+
+    with raises(TypeError, match=r"resource_type must be a subclass of Resource provider"):
+        c.shutdown_resources(int)  # type: ignore[arg-type]
+
+
 def test_reset_singletons():
     class SubSubContainer(containers.DeclarativeContainer):
         singleton = providers.Singleton(object)
