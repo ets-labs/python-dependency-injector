@@ -1,12 +1,12 @@
 """Flask extension module."""
 
 from __future__ import absolute_import
+
 import warnings
 
 from flask import request as flask_request
 
-from dependency_injector import providers, errors
-
+from dependency_injector import errors, providers
 
 warnings.warn(
     'Module "dependency_injector.ext.flask" is deprecated since '

@@ -10,6 +10,7 @@ from types import ModuleType
 from typing import (
     TYPE_CHECKING,
     Any,
+    AsyncIterator,
     Callable,
     Dict,
     Iterable,
@@ -24,7 +25,17 @@ from typing import (
     cast,
 )
 
-from typing_extensions import Self
+try:
+    from typing import Self
+except ImportError:
+    from typing_extensions import Self
+
+try:
+    from functools import cache
+except ImportError:
+    from functools import lru_cache
+
+    cache = lru_cache(maxsize=None)
 
 # Hotfix, see: https://github.com/ets-labs/python-dependency-injector/issues/362
 if sys.version_info >= (3, 9):
@@ -48,10 +59,33 @@ else:
             return None
 
 
+MARKER_EXTRACTORS = []
+
 try:
-    import fastapi.params
+    from fastapi.params import Depends as FastAPIDepends
 except ImportError:
-    fastapi = None
+    pass
+else:
+
+    def extract_marker_from_fastapi(param: Any) -> Any:
+        if isinstance(param, FastAPIDepends):
+            return param.dependency
+        return None
+
+    MARKER_EXTRACTORS.append(extract_marker_from_fastapi)
+
+try:
+    from fast_depends.dependencies import Depends as FastDepends
+except ImportError:
+    pass
+else:
+
+    def extract_marker_from_fast_depends(param: Any) -> Any:
+        if isinstance(param, FastDepends):
+            return param.dependency
+        return None
+
+    MARKER_EXTRACTORS.append(extract_marker_from_fast_depends)
 
 
 try:
@@ -65,8 +99,7 @@ try:
 except ImportError:
     werkzeug = None
 
-
-from . import providers
+from . import providers  # noqa: E402
 
 __all__ = (
     "wire",
@@ -409,6 +442,7 @@ def wire(  # noqa: C901
     *,
     modules: Optional[Iterable[ModuleType]] = None,
     packages: Optional[Iterable[ModuleType]] = None,
+    keep_cache: bool = False,
 ) -> None:
     """Wire container providers with provided packages and modules."""
     modules = [*modules] if modules else []
@@ -448,6 +482,9 @@ def wire(  # noqa: C901
 
         for patched in _patched_registry.get_callables_from_module(module):
             _bind_injections(patched, providers_map)
+
+    if not keep_cache:
+        clear_cache()
 
 
 def unwire(  # noqa: C901
@@ -592,18 +629,18 @@ def _extract_marker(parameter: inspect.Parameter) -> Optional["_Marker"]:
     else:
         marker = parameter.default
 
-    if not isinstance(marker, _Marker) and not _is_fastapi_depends(marker):
+    for marker_extractor in MARKER_EXTRACTORS:
+        if _marker := marker_extractor(marker):
+            marker = _marker
+            break
+
+    if not isinstance(marker, _Marker):
         return None
-
-    if _is_fastapi_depends(marker):
-        marker = marker.dependency
-
-        if not isinstance(marker, _Marker):
-            return None
 
     return marker
 
 
+@cache
 def _fetch_reference_injections(  # noqa: C901
     fn: Callable[..., Any],
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
@@ -708,6 +745,8 @@ def _get_patched(
 
     if inspect.iscoroutinefunction(fn):
         patched = _get_async_patched(fn, patched_object)
+    elif inspect.isasyncgenfunction(fn):
+        patched = _get_async_gen_patched(fn, patched_object)
     else:
         patched = _get_sync_patched(fn, patched_object)
 
@@ -715,10 +754,6 @@ def _get_patched(
     _patched_registry.register_callable(patched_object)
 
     return patched
-
-
-def _is_fastapi_depends(param: Any) -> bool:
-    return fastapi and isinstance(param, fastapi.params.Depends)
 
 
 def _is_patched(fn) -> bool:
@@ -1023,36 +1058,41 @@ _inspect_filter = InspectFilter()
 _loader = AutoLoader()
 
 # Optimizations
-from ._cwiring import _async_inject  # noqa
-from ._cwiring import _sync_inject  # noqa
+from ._cwiring import DependencyResolver  # noqa: E402
 
 
 # Wiring uses the following Python wrapper because there is
 # no possibility to compile a first-type citizen coroutine in Cython.
 def _get_async_patched(fn: F, patched: PatchedCallable) -> F:
     @functools.wraps(fn)
-    async def _patched(*args, **kwargs):
-        return await _async_inject(
-            fn,
-            args,
-            kwargs,
-            patched.injections,
-            patched.closing,
-        )
+    async def _patched(*args: Any, **raw_kwargs: Any) -> Any:
+        resolver = DependencyResolver(raw_kwargs, patched.injections, patched.closing)
+
+        async with resolver as kwargs:
+            return await fn(*args, **kwargs)
+
+    return cast(F, _patched)
+
+
+def _get_async_gen_patched(fn: F, patched: PatchedCallable) -> F:
+    @functools.wraps(fn)
+    async def _patched(*args: Any, **raw_kwargs: Any) -> AsyncIterator[Any]:
+        resolver = DependencyResolver(raw_kwargs, patched.injections, patched.closing)
+
+        async with resolver as kwargs:
+            async for obj in fn(*args, **kwargs):
+                yield obj
 
     return cast(F, _patched)
 
 
 def _get_sync_patched(fn: F, patched: PatchedCallable) -> F:
     @functools.wraps(fn)
-    def _patched(*args, **kwargs):
-        return _sync_inject(
-            fn,
-            args,
-            kwargs,
-            patched.injections,
-            patched.closing,
-        )
+    def _patched(*args: Any, **raw_kwargs: Any) -> Any:
+        resolver = DependencyResolver(raw_kwargs, patched.injections, patched.closing)
+
+        with resolver as kwargs:
+            return fn(*args, **kwargs)
 
     return cast(F, _patched)
 
@@ -1078,3 +1118,8 @@ def _get_members_and_annotated(obj: Any) -> Iterable[Tuple[str, Any]]:
                 member = args[1]
                 members.append((annotation_name, member))
     return members
+
+
+def clear_cache() -> None:
+    """Clear all caches used by :func:`wire`."""
+    _fetch_reference_injections.cache_clear()

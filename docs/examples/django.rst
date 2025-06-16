@@ -78,7 +78,7 @@ Container is wired to the ``views`` module in the app config ``web/apps.py``:
 
 .. literalinclude:: ../../examples/miniapps/django/web/apps.py
    :language: python
-   :emphasize-lines: 13
+   :emphasize-lines: 12
 
 Tests
 -----

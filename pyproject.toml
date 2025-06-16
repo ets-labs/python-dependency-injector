@@ -91,6 +91,7 @@ show_missing = true
 
 [tool.isort]
 profile = "black"
+combine_as_imports = true
 
 [tool.pylint.main]
 ignore = ["tests"]

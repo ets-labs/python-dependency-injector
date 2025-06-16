@@ -15,8 +15,11 @@ import re
 import sys
 import threading
 import warnings
+from asyncio import ensure_future
 from configparser import ConfigParser as IniConfigParser
+from contextlib import asynccontextmanager, contextmanager
 from contextvars import ContextVar
+from inspect import isasyncgenfunction, isgeneratorfunction
 
 try:
     from inspect import _is_coroutine_mark as _is_coroutine_marker
@@ -3598,6 +3601,17 @@ cdef class Dict(Provider):
         return __provide_keyword_args(kwargs, self._kwargs, self._kwargs_len, self._async_mode)
 
 
+@cython.no_gc
+cdef class NullAwaitable:
+    def __next__(self):
+        raise StopIteration from None
+
+    def __await__(self):
+        return self
+
+
+cdef NullAwaitable NULL_AWAITABLE = NullAwaitable()
+
 
 cdef class Resource(Provider):
     """Resource provider provides a component with initialization and shutdown."""
@@ -3653,6 +3667,12 @@ cdef class Resource(Provider):
     def set_provides(self, provides):
         """Set provider provides."""
         provides = _resolve_string_import(provides)
+
+        if isasyncgenfunction(provides):
+            provides = asynccontextmanager(provides)
+        elif isgeneratorfunction(provides):
+            provides = contextmanager(provides)
+
         self._provides = provides
         return self
 
@@ -3753,28 +3773,21 @@ cdef class Resource(Provider):
         """Shutdown resource."""
         if not self._initialized:
             if self._async_mode == ASYNC_MODE_ENABLED:
-                result = asyncio.Future()
-                result.set_result(None)
-                return result
+                return NULL_AWAITABLE
             return
 
         if self._shutdowner:
-            try:
-                shutdown = self._shutdowner(self._resource)
-            except StopIteration:
-                pass
-            else:
-                if inspect.isawaitable(shutdown):
-                    return self._create_shutdown_future(shutdown)
+            future = self._shutdowner(None, None, None)
+
+            if __is_future_or_coroutine(future):
+                return ensure_future(self._shutdown_async(future))
 
         self._resource = None
         self._initialized = False
         self._shutdowner = None
 
         if self._async_mode == ASYNC_MODE_ENABLED:
-            result = asyncio.Future()
-            result.set_result(None)
-            return result
+            return NULL_AWAITABLE
 
     @property
     def related(self):
@@ -3784,164 +3797,74 @@ cdef class Resource(Provider):
         yield from filter(is_provider, self.kwargs.values())
         yield from super().related
 
+    async def _shutdown_async(self, future) -> None:
+        try:
+            await future
+        finally:
+            self._resource = None
+            self._initialized = False
+            self._shutdowner = None
+
+    async def _handle_async_cm(self, obj) -> None:
+        try:
+            self._resource = resource = await obj.__aenter__()
+            self._shutdowner = obj.__aexit__
+            return resource
+        except:
+            self._initialized = False
+            raise
+
+    async def _provide_async(self, future) -> None:
+        try:
+            obj = await future
+
+            if hasattr(obj, '__aenter__') and hasattr(obj, '__aexit__'):
+                self._resource = await obj.__aenter__()
+                self._shutdowner = obj.__aexit__
+            elif hasattr(obj, '__enter__') and hasattr(obj, '__exit__'):
+                self._resource = obj.__enter__()
+                self._shutdowner = obj.__exit__
+            else:
+                self._resource = obj
+                self._shutdowner = None
+
+            return self._resource
+        except:
+            self._initialized = False
+            raise
+
     cpdef object _provide(self, tuple args, dict kwargs):
         if self._initialized:
             return self._resource
 
-        if self._is_resource_subclass(self._provides):
-            initializer = self._provides()
-            self._resource = __call(
-                initializer.init,
-                args,
-                self._args,
-                self._args_len,
-                kwargs,
-                self._kwargs,
-                self._kwargs_len,
-                self._async_mode,
-            )
-            self._shutdowner = initializer.shutdown
-        elif self._is_async_resource_subclass(self._provides):
-            initializer = self._provides()
-            async_init = __call(
-                initializer.init,
-                args,
-                self._args,
-                self._args_len,
-                kwargs,
-                self._kwargs,
-                self._kwargs_len,
-                self._async_mode,
-            )
+        obj = __call(
+            self._provides,
+            args,
+            self._args,
+            self._args_len,
+            kwargs,
+            self._kwargs,
+            self._kwargs_len,
+            self._async_mode,
+        )
+
+        if __is_future_or_coroutine(obj):
             self._initialized = True
-            return self._create_init_future(async_init, initializer.shutdown)
-        elif inspect.isgeneratorfunction(self._provides):
-            initializer = __call(
-                self._provides,
-                args,
-                self._args,
-                self._args_len,
-                kwargs,
-                self._kwargs,
-                self._kwargs_len,
-                self._async_mode,
-            )
-            self._resource = next(initializer)
-            self._shutdowner = initializer.send
-        elif iscoroutinefunction(self._provides):
-            initializer = __call(
-                self._provides,
-                args,
-                self._args,
-                self._args_len,
-                kwargs,
-                self._kwargs,
-                self._kwargs_len,
-                self._async_mode,
-            )
+            self._resource = resource = ensure_future(self._provide_async(obj))
+            return resource
+        elif hasattr(obj, '__enter__') and hasattr(obj, '__exit__'):
+            self._resource = obj.__enter__()
+            self._shutdowner = obj.__exit__
+        elif hasattr(obj, '__aenter__') and hasattr(obj, '__aexit__'):
             self._initialized = True
-            return self._create_init_future(initializer)
-        elif isasyncgenfunction(self._provides):
-            initializer = __call(
-                self._provides,
-                args,
-                self._args,
-                self._args_len,
-                kwargs,
-                self._kwargs,
-                self._kwargs_len,
-                self._async_mode,
-            )
-            self._initialized = True
-            return self._create_async_gen_init_future(initializer)
-        elif callable(self._provides):
-            self._resource = __call(
-                self._provides,
-                args,
-                self._args,
-                self._args_len,
-                kwargs,
-                self._kwargs,
-                self._kwargs_len,
-                self._async_mode,
-            )
+            self._resource = resource = ensure_future(self._handle_async_cm(obj))
+            return resource
         else:
-            raise Error("Unknown type of resource initializer")
+            self._resource = obj
+            self._shutdowner = None
 
         self._initialized = True
         return self._resource
-
-    def _create_init_future(self, future, shutdowner=None):
-        callback = self._async_init_callback
-        if shutdowner:
-            callback = functools.partial(callback, shutdowner=shutdowner)
-
-        future = asyncio.ensure_future(future)
-        future.add_done_callback(callback)
-        self._resource = future
-
-        return future
-
-    def _create_async_gen_init_future(self, initializer):
-        if inspect.isasyncgen(initializer):
-            return self._create_init_future(initializer.__anext__(), initializer.asend)
-
-        future = asyncio.Future()
-
-        create_initializer = asyncio.ensure_future(initializer)
-        create_initializer.add_done_callback(functools.partial(self._async_create_gen_callback, future))
-        self._resource = future
-
-        return future
-
-    def _async_init_callback(self, initializer, shutdowner=None):
-        try:
-            resource = initializer.result()
-        except Exception:
-            self._initialized = False
-        else:
-            self._resource = resource
-            self._shutdowner = shutdowner
-
-    def _async_create_gen_callback(self, future, initializer_future):
-        initializer = initializer_future.result()
-        init_future = self._create_init_future(initializer.__anext__(), initializer.asend)
-        init_future.add_done_callback(functools.partial(self._async_trigger_result, future))
-
-    def _async_trigger_result(self, future, future_result):
-        future.set_result(future_result.result())
-
-    def _create_shutdown_future(self, shutdown_future):
-        future = asyncio.Future()
-        shutdown_future = asyncio.ensure_future(shutdown_future)
-        shutdown_future.add_done_callback(functools.partial(self._async_shutdown_callback, future))
-        return future
-
-    def _async_shutdown_callback(self, future_result, shutdowner):
-        try:
-            shutdowner.result()
-        except StopAsyncIteration:
-            pass
-
-        self._resource = None
-        self._initialized = False
-        self._shutdowner = None
-
-        future_result.set_result(None)
-
-    @staticmethod
-    def _is_resource_subclass(instance):
-        if not isinstance(instance, type):
-            return
-        from . import resources
-        return issubclass(instance, resources.Resource)
-
-    @staticmethod
-    def _is_async_resource_subclass(instance):
-        if not isinstance(instance, type):
-            return
-        from . import resources
-        return issubclass(instance, resources.AsyncResource)
 
 
 cdef class Container(Provider):
@@ -4989,14 +4912,6 @@ def iscoroutinefunction(obj):
     """Check if object is a coroutine function."""
     try:
         return inspect.iscoroutinefunction(obj)
-    except AttributeError:
-        return False
-
-
-def isasyncgenfunction(obj):
-    """Check if object is an asynchronous generator function."""
-    try:
-        return inspect.isasyncgenfunction(obj)
     except AttributeError:
         return False
 

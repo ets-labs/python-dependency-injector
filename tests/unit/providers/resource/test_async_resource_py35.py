@@ -2,11 +2,12 @@
 
 import asyncio
 import inspect
-import sys
+from contextlib import asynccontextmanager
 from typing import Any
 
-from dependency_injector import containers, providers, resources
 from pytest import mark, raises
+
+from dependency_injector import containers, providers, resources
 
 
 @mark.asyncio
@@ -68,6 +69,46 @@ async def test_init_async_generator():
     await provider.shutdown()
     assert _init.init_counter == 2
     assert _init.shutdown_counter == 2
+
+
+@mark.asyncio
+async def test_init_async_context_manager() -> None:
+    resource = object()
+
+    init_counter = 0
+    shutdown_counter = 0
+
+    @asynccontextmanager
+    async def _init():
+        nonlocal init_counter, shutdown_counter
+
+        await asyncio.sleep(0.001)
+        init_counter += 1
+
+        yield resource
+
+        await asyncio.sleep(0.001)
+        shutdown_counter += 1
+
+    provider = providers.Resource(_init)
+
+    result1 = await provider()
+    assert result1 is resource
+    assert init_counter == 1
+    assert shutdown_counter == 0
+
+    await provider.shutdown()
+    assert init_counter == 1
+    assert shutdown_counter == 1
+
+    result2 = await provider()
+    assert result2 is resource
+    assert init_counter == 2
+    assert shutdown_counter == 1
+
+    await provider.shutdown()
+    assert init_counter == 2
+    assert shutdown_counter == 2
 
 
 @mark.asyncio

@@ -3,10 +3,12 @@
 import sys
 import logging
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import contextmanager
 
 from dependency_injector import containers, providers
 
 
+@contextmanager
 def init_thread_pool(max_workers: int):
     thread_pool = ThreadPoolExecutor(max_workers=max_workers)
     yield thread_pool

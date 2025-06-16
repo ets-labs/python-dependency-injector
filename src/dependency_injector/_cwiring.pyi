@@ -1,23 +1,18 @@
-from typing import Any, Awaitable, Callable, Dict, Tuple, TypeVar
+from typing import Any, Dict
 
 from .providers import Provider
 
-T = TypeVar("T")
+class DependencyResolver:
+    def __init__(
+        self,
+        kwargs: Dict[str, Any],
+        injections: Dict[str, Provider[Any]],
+        closings: Dict[str, Provider[Any]],
+        /,
+    ) -> None: ...
+    def __enter__(self) -> Dict[str, Any]: ...
+    def __exit__(self, *exc_info: Any) -> None: ...
+    async def __aenter__(self) -> Dict[str, Any]: ...
+    async def __aexit__(self, *exc_info: Any) -> None: ...
 
-def _sync_inject(
-    fn: Callable[..., T],
-    args: Tuple[Any, ...],
-    kwargs: Dict[str, Any],
-    injections: Dict[str, Provider[Any]],
-    closings: Dict[str, Provider[Any]],
-    /,
-) -> T: ...
-async def _async_inject(
-    fn: Callable[..., Awaitable[T]],
-    args: Tuple[Any, ...],
-    kwargs: Dict[str, Any],
-    injections: Dict[str, Provider[Any]],
-    closings: Dict[str, Provider[Any]],
-    /,
-) -> T: ...
 def _isawaitable(instance: Any) -> bool: ...
