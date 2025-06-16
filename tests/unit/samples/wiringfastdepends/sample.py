@@ -1,9 +1,10 @@
 import sys
 
-from dependency_injector import containers, providers
-from dependency_injector.wiring import inject, Provide
 from fast_depends import Depends
 from typing_extensions import Annotated
+
+from dependency_injector import containers, providers
+from dependency_injector.wiring import Provide, inject
 
 
 class CoefficientService:
@@ -27,7 +28,9 @@ def apply_coefficient(
 @inject
 def apply_coefficient_annotated(
     a: int,
-    coefficient_provider: Annotated[CoefficientService, Depends(Provide[Container.service])],
+    coefficient_provider: Annotated[
+        CoefficientService, Depends(Provide[Container.service])
+    ],
 ) -> float:
     return a * coefficient_provider.get_coefficient()
 

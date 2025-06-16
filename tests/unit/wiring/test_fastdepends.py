@@ -1,5 +1,3 @@
-from dependency_injector.wiring import inject, Provide
-
 from wiringfastdepends import sample
 
 

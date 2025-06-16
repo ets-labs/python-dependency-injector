@@ -48,5 +48,3 @@ Just use it within ``Depends``
     container.wire(modules=[sys.modules[__name__]])
 
     apply_coefficient(100) == 120.0
-
-

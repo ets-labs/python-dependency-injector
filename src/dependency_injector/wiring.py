@@ -47,19 +47,34 @@ else:
         def get_origin(tp):
             return None
 
+
 MARKER_EXTRACTORS = []
 
 try:
-    from fastapi.params import Depends as FastApiDepends
+    from fastapi.params import Depends as FastAPIDepends
 except ImportError:
     pass
 else:
+
     def extract_marker_from_fastapi(param: Any) -> Any:
-        if isinstance(param, FastApiDepends):
+        if isinstance(param, FastAPIDepends):
             return param.dependency
         return None
 
     MARKER_EXTRACTORS.append(extract_marker_from_fastapi)
+
+try:
+    from fast_depends.dependencies import Depends as FastDepends
+except ImportError:
+    pass
+else:
+
+    def extract_marker_from_fast_depends(param: Any) -> Any:
+        if isinstance(param, FastDepends):
+            return param.dependency
+        return None
+
+    MARKER_EXTRACTORS.append(extract_marker_from_fast_depends)
 
 
 try:
@@ -73,20 +88,7 @@ try:
 except ImportError:
     werkzeug = None
 
-
-try:
-    from fast_depends.dependencies import Depends as FastDepends
-except ImportError:
-    pass
-else:
-    def extract_marker_from_fast_depends(param: Any) -> Any:
-        if isinstance(param, FastDepends):
-            return param.dependency
-        return None
-
-    MARKER_EXTRACTORS.append(extract_marker_from_fast_depends)
-
-from . import providers
+from . import providers  # noqa: E402
 
 __all__ = (
     "wire",
