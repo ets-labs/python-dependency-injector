@@ -8,14 +8,12 @@ FastDepends example
    :description: This example demonstrates a usage of the FastDepends and Dependency Injector.
 
 
-This example shows how to use ``Dependency Injector`` with `FastDepends <https://github.com/Lancetnik/FastDepends>`_.
+This example demonstrates how to use ``Dependency Injector`` with `FastDepends <https://github.com/Lancetnik/FastDepends>`_, a lightweight dependency injection framework inspired by FastAPI's dependency system, but without the web framework components.
 
-Example code is available on `Github <https://github.com/ets-labs/python-dependency-injector/tree/master/tests/unit/wiringfastdepends>`_.
+Basic Usage
+-----------
 
-Quick sample
-------------
-
-Just use it within ``Depends``
+The integration between FastDepends and Dependency Injector is straightforward. Simply use Dependency Injector's ``Provide`` marker within FastDepends' ``Depends`` function:
 
 .. code-block:: python
 
