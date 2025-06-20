@@ -52,6 +52,11 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dynamic = ["version"]
+dependencies = [
+    # typing.Annotated since v3.9
+    # typing.Self since v3.11
+    "typing-extensions; python_version<'3.11'",
+]
 
 [project.optional-dependencies]
 yaml = ["pyyaml"]
