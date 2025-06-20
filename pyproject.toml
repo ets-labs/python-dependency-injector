@@ -108,6 +108,7 @@ markers = [
     "pydantic: Tests with Pydantic as a dependency",
 ]
 filterwarnings = [
+    "ignore::dependency_injector.wiring.DIWiringWarning",
     "ignore:Module \"dependency_injector.ext.aiohttp\" is deprecated since version 4\\.0\\.0:DeprecationWarning",
     "ignore:Module \"dependency_injector.ext.flask\" is deprecated since version 4\\.0\\.0:DeprecationWarning",
     "ignore:Please use \\`.*?\\` from the \\`scipy.*?\\`(.*?)namespace is deprecated\\.:DeprecationWarning",

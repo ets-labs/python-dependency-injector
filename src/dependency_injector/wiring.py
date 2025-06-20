@@ -24,6 +24,7 @@ from typing import (
     Union,
     cast,
 )
+from warnings import warn
 
 try:
     from typing import Self
@@ -128,6 +129,10 @@ if TYPE_CHECKING:
     from .containers import Container
 else:
     Container = Any
+
+
+class DIWiringWarning(RuntimeWarning):
+    """Base class for all warnings raised by the wiring module."""
 
 
 class PatchedRegistry:
@@ -520,6 +525,11 @@ def unwire(  # noqa: C901
 def inject(fn: F) -> F:
     """Decorate callable with injecting decorator."""
     reference_injections, reference_closing = _fetch_reference_injections(fn)
+
+    if not reference_injections:
+        warn("@inject is not required here", DIWiringWarning, stacklevel=2)
+        return fn
+
     patched = _get_patched(fn, reference_injections, reference_closing)
     return cast(F, patched)
 
