@@ -52,6 +52,11 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dynamic = ["version"]
+dependencies = [
+    # typing.Annotated since v3.9
+    # typing.Self since v3.11
+    "typing-extensions; python_version<'3.11'",
+]
 
 [project.optional-dependencies]
 yaml = ["pyyaml"]
@@ -108,6 +113,7 @@ markers = [
     "pydantic: Tests with Pydantic as a dependency",
 ]
 filterwarnings = [
+    "ignore::dependency_injector.wiring.DIWiringWarning",
     "ignore:Module \"dependency_injector.ext.aiohttp\" is deprecated since version 4\\.0\\.0:DeprecationWarning",
     "ignore:Module \"dependency_injector.ext.flask\" is deprecated since version 4\\.0\\.0:DeprecationWarning",
     "ignore:Please use \\`.*?\\` from the \\`scipy.*?\\`(.*?)namespace is deprecated\\.:DeprecationWarning",

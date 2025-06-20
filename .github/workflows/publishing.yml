@@ -70,10 +70,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.23.3
+        uses: pypa/cibuildwheel@v3.0.0
       - uses: actions/upload-artifact@v4
         with:
-          name: cibw-wheels-x86-${{ matrix.os }}-${{ strategy.job-index }}
+          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
           path: ./wheelhouse/*.whl
 
   test-publish:

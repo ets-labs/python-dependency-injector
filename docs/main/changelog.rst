@@ -7,6 +7,14 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly
 follows `Semantic versioning`_
 
+4.48.1
+------
+
+* Improve performance of ``dependency_injector._cwiring.DependencyResolver``
+* Add ``typing-extensions`` as a dependency for older Python versions (<3.11)
+* Produce warning on ``@inject``s without ``Provide[...]`` marks
+* Add support for `resource_type` in ``Lifespan``s
+
 4.48.0
 ------
 

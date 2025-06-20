@@ -6,6 +6,8 @@ import importlib.machinery
 import inspect
 import pkgutil
 import sys
+from contextlib import suppress
+from inspect import isbuiltin, isclass
 from types import ModuleType
 from typing import (
     TYPE_CHECKING,
@@ -15,6 +17,7 @@ from typing import (
     Dict,
     Iterable,
     Iterator,
+    List,
     Optional,
     Protocol,
     Set,
@@ -24,6 +27,7 @@ from typing import (
     Union,
     cast,
 )
+from warnings import warn
 
 try:
     from typing import Self
@@ -59,13 +63,11 @@ else:
             return None
 
 
-MARKER_EXTRACTORS = []
+MARKER_EXTRACTORS: List[Callable[[Any], Any]] = []
+INSPECT_EXCLUSION_FILTERS: List[Callable[[Any], bool]] = [isbuiltin]
 
-try:
+with suppress(ImportError):
     from fastapi.params import Depends as FastAPIDepends
-except ImportError:
-    pass
-else:
 
     def extract_marker_from_fastapi(param: Any) -> Any:
         if isinstance(param, FastAPIDepends):
@@ -74,11 +76,8 @@ else:
 
     MARKER_EXTRACTORS.append(extract_marker_from_fastapi)
 
-try:
+with suppress(ImportError):
     from fast_depends.dependencies import Depends as FastDepends
-except ImportError:
-    pass
-else:
 
     def extract_marker_from_fast_depends(param: Any) -> Any:
         if isinstance(param, FastDepends):
@@ -88,16 +87,22 @@ else:
     MARKER_EXTRACTORS.append(extract_marker_from_fast_depends)
 
 
-try:
-    import starlette.requests
-except ImportError:
-    starlette = None
+with suppress(ImportError):
+    from starlette.requests import Request as StarletteRequest
+
+    def is_starlette_request_cls(obj: Any) -> bool:
+        return isclass(obj) and _safe_is_subclass(obj, StarletteRequest)
+
+    INSPECT_EXCLUSION_FILTERS.append(is_starlette_request_cls)
 
 
-try:
-    import werkzeug.local
-except ImportError:
-    werkzeug = None
+with suppress(ImportError):
+    from werkzeug.local import LocalProxy as WerkzeugLocalProxy
+
+    def is_werkzeug_local_proxy(obj: Any) -> bool:
+        return isinstance(obj, WerkzeugLocalProxy)
+
+    INSPECT_EXCLUSION_FILTERS.append(is_werkzeug_local_proxy)
 
 from . import providers  # noqa: E402
 
@@ -128,6 +133,10 @@ if TYPE_CHECKING:
     from .containers import Container
 else:
     Container = Any
+
+
+class DIWiringWarning(RuntimeWarning):
+    """Base class for all warnings raised by the wiring module."""
 
 
 class PatchedRegistry:
@@ -411,30 +420,11 @@ class ProvidersMap:
         return providers_map
 
 
-class InspectFilter:
-
-    def is_excluded(self, instance: object) -> bool:
-        if self._is_werkzeug_local_proxy(instance):
+def is_excluded_from_inspect(obj: Any) -> bool:
+    for is_excluded in INSPECT_EXCLUSION_FILTERS:
+        if is_excluded(obj):
             return True
-        elif self._is_starlette_request_cls(instance):
-            return True
-        elif self._is_builtin(instance):
-            return True
-        else:
-            return False
-
-    def _is_werkzeug_local_proxy(self, instance: object) -> bool:
-        return werkzeug and isinstance(instance, werkzeug.local.LocalProxy)
-
-    def _is_starlette_request_cls(self, instance: object) -> bool:
-        return (
-            starlette
-            and isinstance(instance, type)
-            and _safe_is_subclass(instance, starlette.requests.Request)
-        )
-
-    def _is_builtin(self, instance: object) -> bool:
-        return inspect.isbuiltin(instance)
+    return False
 
 
 def wire(  # noqa: C901
@@ -455,7 +445,7 @@ def wire(  # noqa: C901
 
     for module in modules:
         for member_name, member in _get_members_and_annotated(module):
-            if _inspect_filter.is_excluded(member):
+            if is_excluded_from_inspect(member):
                 continue
 
             if _is_marker(member):
@@ -520,6 +510,11 @@ def unwire(  # noqa: C901
 def inject(fn: F) -> F:
     """Decorate callable with injecting decorator."""
     reference_injections, reference_closing = _fetch_reference_injections(fn)
+
+    if not reference_injections:
+        warn("@inject is not required here", DIWiringWarning, stacklevel=2)
+        return fn
+
     patched = _get_patched(fn, reference_injections, reference_closing)
     return cast(F, patched)
 
@@ -1054,7 +1049,6 @@ def is_loader_installed() -> bool:
 
 
 _patched_registry = PatchedRegistry()
-_inspect_filter = InspectFilter()
 _loader = AutoLoader()
 
 # Optimizations

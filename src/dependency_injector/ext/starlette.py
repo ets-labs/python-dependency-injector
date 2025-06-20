@@ -1,5 +1,5 @@
 import sys
-from typing import Any
+from typing import Any, Type
 
 if sys.version_info >= (3, 11):  # pragma: no cover
     from typing import Self
@@ -7,6 +7,7 @@ else:  # pragma: no cover
     from typing_extensions import Self
 
 from dependency_injector.containers import Container
+from dependency_injector.providers import Resource
 
 
 class Lifespan:
@@ -29,24 +30,32 @@ class Lifespan:
             app = Factory(Starlette, lifespan=lifespan)
 
     :param container: container instance
+    :param resource_type: A :py:class:`~dependency_injector.resources.Resource`
+        subclass. Limits the resources to be initialized and shutdown.
     """
 
     container: Container
+    resource_type: Type[Resource[Any]]
 
-    def __init__(self, container: Container) -> None:
+    def __init__(
+        self,
+        container: Container,
+        resource_type: Type[Resource[Any]] = Resource,
+    ) -> None:
         self.container = container
+        self.resource_type = resource_type
 
     def __call__(self, app: Any) -> Self:
         return self
 
     async def __aenter__(self) -> None:
-        result = self.container.init_resources()
+        result = self.container.init_resources(self.resource_type)
 
         if result is not None:
             await result
 
     async def __aexit__(self, *exc_info: Any) -> None:
-        result = self.container.shutdown_resources()
+        result = self.container.shutdown_resources(self.resource_type)
 
         if result is not None:
             await result
