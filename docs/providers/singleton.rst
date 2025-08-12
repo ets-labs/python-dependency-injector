@@ -33,8 +33,8 @@ factories:
 - :ref:`factory-specialize-provided-type`
 - :ref:`abstract-factory`
 
-``Singleton`` provider scope is tied to the container. Two different containers will provider
-two different singleton objects:
+Since ``Singleton`` scope is container-specific, each container will create and manage its own ``Singleton`` instance. 
+Therefore, two containers will provide two distinct ``Singleton`` objects.
 
 .. literalinclude:: ../../examples/providers/singleton_multiple_containers.py
    :language: python
