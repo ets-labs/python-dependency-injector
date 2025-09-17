@@ -251,6 +251,32 @@ To inject a container use special identifier ``<container>``:
    def foo(container: Container = Provide["<container>"]) -> None:
        ...
 
+Caveats
+~~~~~~~
+
+While using string identifiers you may not notice a typo in the identifier until the code is executed.
+In order to aid with catching such errors early, you may pass `warn_unresolved=True` to the ``wire`` method and/or :class:`WiringConfiguration`:
+
+.. code-block:: python
+   :emphasize-lines: 4
+
+   class Container(containers.DeclarativeContainer):
+       wiring_config = containers.WiringConfiguration(
+           modules=["yourapp.module"],
+           warn_unresolved=True,
+       )
+
+Or:
+
+.. code-block:: python
+   :emphasize-lines: 4
+
+   container = Container()
+   container.wire(
+       modules=["yourapp.module"],
+       warn_unresolved=True,
+   )
+
 
 Making injections into modules and class attributes
 ---------------------------------------------------

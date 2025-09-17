@@ -54,7 +54,7 @@ classifiers = [
 dynamic = ["version"]
 dependencies = [
     # typing.Annotated since v3.9
-    # typing.Self since v3.11
+    # typing.Self and typing.assert_never since v3.11
     "typing-extensions; python_version<'3.11'",
 ]
 
