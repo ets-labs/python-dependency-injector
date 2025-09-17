@@ -25,6 +25,7 @@ from typing import (
     Type,
     TypeVar,
     Union,
+    assert_never,
     cast,
 )
 from warnings import warn
@@ -791,6 +792,9 @@ class TypeModifier(Modifier):
     ) -> providers.Provider:
         return provider.as_(self.type_)
 
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.type_!r})"
+
 
 def as_int() -> TypeModifier:
     """Return int type modifier."""
@@ -809,8 +813,8 @@ def as_(type_: Type) -> TypeModifier:
 
 class RequiredModifier(Modifier):
 
-    def __init__(self) -> None:
-        self.type_modifier = None
+    def __init__(self, type_modifier: Optional[TypeModifier] = None) -> None:
+        self.type_modifier = type_modifier
 
     def as_int(self) -> Self:
         self.type_modifier = TypeModifier(int)
@@ -834,6 +838,11 @@ class RequiredModifier(Modifier):
             provider = provider.as_(self.type_modifier.type_)
         return provider
 
+    def __repr__(self) -> str:
+        if self.type_modifier:
+            return f"{self.__class__.__name__}({self.type_modifier!r})"
+        return f"{self.__class__.__name__}()"
+
 
 def required() -> RequiredModifier:
     """Return required modifier."""
@@ -852,6 +861,9 @@ class InvariantModifier(Modifier):
     ) -> providers.Provider:
         invariant_segment = providers_map.resolve_provider(self.id)
         return provider[invariant_segment]
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.id!r})"
 
 
 def invariant(id: str) -> InvariantModifier:
@@ -893,7 +905,27 @@ class ProvidedInstance(Modifier):
                 provider = provider[value]
             elif type_ == ProvidedInstance.TYPE_CALL:
                 provider = provider.call()
+            else:
+                assert_never(type_)
         return provider
+
+    def _format_segments(self) -> str:
+        segments = []
+        for type_, value in self.segments:
+            if type_ == ProvidedInstance.TYPE_ATTRIBUTE:
+                segments.append(f".{value}")
+            elif type_ == ProvidedInstance.TYPE_ITEM:
+                segments.append(f"[{value!r}]")
+            elif type_ == ProvidedInstance.TYPE_CALL:
+                segments.append(".call()")
+            else:
+                assert_never(type_)
+        return "".join(segments)
+
+    __str__ = _format_segments
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(){self._format_segments()}"
 
 
 def provided() -> ProvidedInstance:
@@ -910,7 +942,7 @@ MarkerItem = Union[
 ]
 
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # noqa
 
     class _Marker(Protocol):
         __IS_MARKER__: bool
@@ -918,6 +950,7 @@ if TYPE_CHECKING:
         def __call__(self) -> Self: ...
         def __getattr__(self, item: str) -> Self: ...
         def __getitem__(self, item: Any) -> Any: ...
+        def __repr__(self) -> str: ...
 
     Provide: _Marker
     Provider: _Marker
@@ -945,6 +978,12 @@ else:
 
         def __call__(self) -> Self:
             return self
+
+        def __repr__(self) -> str:
+            cls_name = self.__class__.__name__
+            if self.modifier:
+                return f"{cls_name}[{self.provider!r}, {self.modifier!r}]"
+            return f"{cls_name}[{self.provider!r}]"
 
     class Provide(_Marker): ...
 

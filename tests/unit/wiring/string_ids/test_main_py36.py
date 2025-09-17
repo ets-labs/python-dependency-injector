@@ -1,5 +1,6 @@
 """Main wiring tests."""
 
+import re
 from decimal import Decimal
 
 from pytest import fixture, mark, raises
@@ -68,7 +69,7 @@ def test_module_attributes_wiring():
 
 def test_module_attribute_wiring_with_invalid_marker(container: Container):
     from samples.wiringstringids import module_invalid_attr_injection
-    with raises(Exception, match="Unknown type of marker {0}".format(module_invalid_attr_injection.service)):
+    with raises(Exception, match=re.escape("Unknown type of marker {0}".format(module_invalid_attr_injection.service))):
         container.wire(modules=[module_invalid_attr_injection])
 
 
