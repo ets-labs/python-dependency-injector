@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools", "Cython>=3.1.1"]
+requires = ["setuptools", "Cython>=3.1.4"]
 build-backend = "setuptools.build_meta"
 
 [project]
