@@ -1599,7 +1599,7 @@ cdef class ConfigurationOption(Provider):
         return self._root
 
     def get_name(self):
-        return ".".join((self._root.get_name(), self._get_self_name()))
+        return f"{self._root.get_name()}.{self._get_self_name()}"
 
     def get_name_segments(self):
         return self._name

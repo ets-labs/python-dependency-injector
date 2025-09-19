@@ -20,15 +20,31 @@ from .wiring import wire, unwire
 class WiringConfiguration:
     """Container wiring configuration."""
 
-    def __init__(self, modules=None, packages=None, from_package=None, auto_wire=True, keep_cache=False):
+    def __init__(
+        self,
+        modules=None,
+        packages=None,
+        from_package=None,
+        auto_wire=True,
+        keep_cache=False,
+        warn_unresolved=False,
+    ):
         self.modules = [*modules] if modules else []
         self.packages = [*packages] if packages else []
         self.from_package = from_package
         self.auto_wire = auto_wire
         self.keep_cache = keep_cache
+        self.warn_unresolved = warn_unresolved
 
     def __deepcopy__(self, memo=None):
-        return self.__class__(self.modules, self.packages, self.from_package, self.auto_wire, self.keep_cache)
+        return self.__class__(
+            self.modules,
+            self.packages,
+            self.from_package,
+            self.auto_wire,
+            self.keep_cache,
+            self.warn_unresolved,
+        )
 
 
 class Container:
@@ -259,7 +275,14 @@ class DynamicContainer(Container):
         """Check if auto wiring is needed."""
         return self.wiring_config.auto_wire is True
 
-    def wire(self, modules=None, packages=None, from_package=None, keep_cache=None):
+    def wire(
+        self,
+        modules=None,
+        packages=None,
+        from_package=None,
+        keep_cache=None,
+        warn_unresolved=False,
+    ):
         """Wire container providers with provided packages and modules.
 
         :rtype: None
@@ -298,6 +321,7 @@ class DynamicContainer(Container):
             modules=modules,
             packages=packages,
             keep_cache=keep_cache,
+            warn_unresolved=warn_unresolved,
         )
 
         if modules:

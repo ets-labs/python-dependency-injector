@@ -1,14 +1,21 @@
 """Main wiring tests."""
 
+import re
 from decimal import Decimal
 
-from pytest import fixture, mark, raises
+from pytest import fixture, mark, raises, warns
 from samples.wiringstringids import module, package, resourceclosing
 from samples.wiringstringids.container import Container, SubContainer
 from samples.wiringstringids.service import Service
 
 from dependency_injector import errors
-from dependency_injector.wiring import Closing, Provide, Provider, wire
+from dependency_injector.wiring import (
+    Closing,
+    Provide,
+    Provider,
+    UnresolvedMarkerWarning,
+    wire,
+)
 
 
 @fixture(autouse=True)
@@ -68,8 +75,18 @@ def test_module_attributes_wiring():
 
 def test_module_attribute_wiring_with_invalid_marker(container: Container):
     from samples.wiringstringids import module_invalid_attr_injection
-    with raises(Exception, match="Unknown type of marker {0}".format(module_invalid_attr_injection.service)):
+    with raises(Exception, match=re.escape("Unknown type of marker {0}".format(module_invalid_attr_injection.service))):
         container.wire(modules=[module_invalid_attr_injection])
+
+
+def test_warn_unresolved_marker(container: Container):
+    from samples.wiringstringids import missing
+
+    with warns(
+        UnresolvedMarkerWarning,
+        match=r"^Unresolved marker .+ in .+$",
+    ):
+        container.wire(modules=[missing], warn_unresolved=True)
 
 
 def test_class_wiring():

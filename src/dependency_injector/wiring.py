@@ -30,9 +30,9 @@ from typing import (
 from warnings import warn
 
 try:
-    from typing import Self
+    from typing import Self, assert_never
 except ImportError:
-    from typing_extensions import Self
+    from typing_extensions import Self, assert_never
 
 try:
     from functools import cache
@@ -137,6 +137,10 @@ else:
 
 class DIWiringWarning(RuntimeWarning):
     """Base class for all warnings raised by the wiring module."""
+
+
+class UnresolvedMarkerWarning(DIWiringWarning):
+    """Warning raised when a marker with string identifier cannot be resolved against container."""
 
 
 class PatchedRegistry:
@@ -433,6 +437,7 @@ def wire(  # noqa: C901
     modules: Optional[Iterable[ModuleType]] = None,
     packages: Optional[Iterable[ModuleType]] = None,
     keep_cache: bool = False,
+    warn_unresolved: bool = False,
 ) -> None:
     """Wire container providers with provided packages and modules."""
     modules = [*modules] if modules else []
@@ -449,9 +454,23 @@ def wire(  # noqa: C901
                 continue
 
             if _is_marker(member):
-                _patch_attribute(module, member_name, member, providers_map)
+                _patch_attribute(
+                    module,
+                    member_name,
+                    member,
+                    providers_map,
+                    warn_unresolved=warn_unresolved,
+                    warn_unresolved_stacklevel=1,
+                )
             elif inspect.isfunction(member):
-                _patch_fn(module, member_name, member, providers_map)
+                _patch_fn(
+                    module,
+                    member_name,
+                    member,
+                    providers_map,
+                    warn_unresolved=warn_unresolved,
+                    warn_unresolved_stacklevel=1,
+                )
             elif inspect.isclass(member):
                 cls = member
                 try:
@@ -463,15 +482,30 @@ def wire(  # noqa: C901
                     for cls_member_name, cls_member in cls_members:
                         if _is_marker(cls_member):
                             _patch_attribute(
-                                cls, cls_member_name, cls_member, providers_map
+                                cls,
+                                cls_member_name,
+                                cls_member,
+                                providers_map,
+                                warn_unresolved=warn_unresolved,
+                                warn_unresolved_stacklevel=1,
                             )
                         elif _is_method(cls_member):
                             _patch_method(
-                                cls, cls_member_name, cls_member, providers_map
+                                cls,
+                                cls_member_name,
+                                cls_member,
+                                providers_map,
+                                warn_unresolved=warn_unresolved,
+                                warn_unresolved_stacklevel=1,
                             )
 
         for patched in _patched_registry.get_callables_from_module(module):
-            _bind_injections(patched, providers_map)
+            _bind_injections(
+                patched,
+                providers_map,
+                warn_unresolved=warn_unresolved,
+                warn_unresolved_stacklevel=1,
+            )
 
     if not keep_cache:
         clear_cache()
@@ -524,6 +558,8 @@ def _patch_fn(
     name: str,
     fn: Callable[..., Any],
     providers_map: ProvidersMap,
+    warn_unresolved: bool = False,
+    warn_unresolved_stacklevel: int = 0,
 ) -> None:
     if not _is_patched(fn):
         reference_injections, reference_closing = _fetch_reference_injections(fn)
@@ -531,7 +567,12 @@ def _patch_fn(
             return
         fn = _get_patched(fn, reference_injections, reference_closing)
 
-    _bind_injections(fn, providers_map)
+    _bind_injections(
+        fn,
+        providers_map,
+        warn_unresolved=warn_unresolved,
+        warn_unresolved_stacklevel=warn_unresolved_stacklevel + 1,
+    )
 
     setattr(module, name, fn)
 
@@ -541,6 +582,8 @@ def _patch_method(
     name: str,
     method: Callable[..., Any],
     providers_map: ProvidersMap,
+    warn_unresolved: bool = False,
+    warn_unresolved_stacklevel: int = 0,
 ) -> None:
     if (
         hasattr(cls, "__dict__")
@@ -558,7 +601,12 @@ def _patch_method(
             return
         fn = _get_patched(fn, reference_injections, reference_closing)
 
-    _bind_injections(fn, providers_map)
+    _bind_injections(
+        fn,
+        providers_map,
+        warn_unresolved=warn_unresolved,
+        warn_unresolved_stacklevel=warn_unresolved_stacklevel + 1,
+    )
 
     if fn is method:
         # Hotfix, see: https://github.com/ets-labs/python-dependency-injector/issues/884
@@ -594,9 +642,17 @@ def _patch_attribute(
     name: str,
     marker: "_Marker",
     providers_map: ProvidersMap,
+    warn_unresolved: bool = False,
+    warn_unresolved_stacklevel: int = 0,
 ) -> None:
     provider = providers_map.resolve_provider(marker.provider, marker.modifier)
     if provider is None:
+        if warn_unresolved:
+            warn(
+                f"Unresolved marker {name} in {member!r}",
+                UnresolvedMarkerWarning,
+                stacklevel=warn_unresolved_stacklevel + 2,
+            )
         return
 
     _patched_registry.register_attribute(PatchedAttribute(member, name, marker))
@@ -673,7 +729,12 @@ def _fetch_reference_injections(  # noqa: C901
     return injections, closing
 
 
-def _bind_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> None:
+def _bind_injections(
+    fn: Callable[..., Any],
+    providers_map: ProvidersMap,
+    warn_unresolved: bool = False,
+    warn_unresolved_stacklevel: int = 0,
+) -> None:
     patched_callable = _patched_registry.get_callable(fn)
     if patched_callable is None:
         return
@@ -682,6 +743,12 @@ def _bind_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> Non
         provider = providers_map.resolve_provider(marker.provider, marker.modifier)
 
         if provider is None:
+            if warn_unresolved:
+                warn(
+                    f"Unresolved marker {injection} in {fn.__qualname__}",
+                    UnresolvedMarkerWarning,
+                    stacklevel=warn_unresolved_stacklevel + 2,
+                )
             continue
 
         if isinstance(marker, Provide):
@@ -791,6 +858,9 @@ class TypeModifier(Modifier):
     ) -> providers.Provider:
         return provider.as_(self.type_)
 
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.type_!r})"
+
 
 def as_int() -> TypeModifier:
     """Return int type modifier."""
@@ -809,8 +879,8 @@ def as_(type_: Type) -> TypeModifier:
 
 class RequiredModifier(Modifier):
 
-    def __init__(self) -> None:
-        self.type_modifier = None
+    def __init__(self, type_modifier: Optional[TypeModifier] = None) -> None:
+        self.type_modifier = type_modifier
 
     def as_int(self) -> Self:
         self.type_modifier = TypeModifier(int)
@@ -834,6 +904,11 @@ class RequiredModifier(Modifier):
             provider = provider.as_(self.type_modifier.type_)
         return provider
 
+    def __repr__(self) -> str:
+        if self.type_modifier:
+            return f"{self.__class__.__name__}({self.type_modifier!r})"
+        return f"{self.__class__.__name__}()"
+
 
 def required() -> RequiredModifier:
     """Return required modifier."""
@@ -852,6 +927,9 @@ class InvariantModifier(Modifier):
     ) -> providers.Provider:
         invariant_segment = providers_map.resolve_provider(self.id)
         return provider[invariant_segment]
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.id!r})"
 
 
 def invariant(id: str) -> InvariantModifier:
@@ -893,7 +971,27 @@ class ProvidedInstance(Modifier):
                 provider = provider[value]
             elif type_ == ProvidedInstance.TYPE_CALL:
                 provider = provider.call()
+            else:
+                assert_never(type_)
         return provider
+
+    def _format_segments(self) -> str:
+        segments = []
+        for type_, value in self.segments:
+            if type_ == ProvidedInstance.TYPE_ATTRIBUTE:
+                segments.append(f".{value}")
+            elif type_ == ProvidedInstance.TYPE_ITEM:
+                segments.append(f"[{value!r}]")
+            elif type_ == ProvidedInstance.TYPE_CALL:
+                segments.append(".call()")
+            else:
+                assert_never(type_)
+        return "".join(segments)
+
+    __str__ = _format_segments
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(){self._format_segments()}"
 
 
 def provided() -> ProvidedInstance:
@@ -910,7 +1008,7 @@ MarkerItem = Union[
 ]
 
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # noqa
 
     class _Marker(Protocol):
         __IS_MARKER__: bool
@@ -918,6 +1016,7 @@ if TYPE_CHECKING:
         def __call__(self) -> Self: ...
         def __getattr__(self, item: str) -> Self: ...
         def __getitem__(self, item: Any) -> Any: ...
+        def __repr__(self) -> str: ...
 
     Provide: _Marker
     Provider: _Marker
@@ -945,6 +1044,12 @@ else:
 
         def __call__(self) -> Self:
             return self
+
+        def __repr__(self) -> str:
+            cls_name = self.__class__.__name__
+            if self.modifier:
+                return f"{cls_name}[{self.provider!r}, {self.modifier!r}]"
+            return f"{cls_name}[{self.provider!r}]"
 
     class Provide(_Marker): ...
 

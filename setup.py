@@ -2,6 +2,7 @@
 
 import os
 import sys
+import sysconfig
 
 from Cython.Build import cythonize
 from Cython.Compiler import Options
@@ -11,6 +12,8 @@ debug = os.environ.get("DEPENDENCY_INJECTOR_DEBUG_MODE") == "1"
 limited_api = (
     os.environ.get("DEPENDENCY_INJECTOR_LIMITED_API") == "1"
     and sys.implementation.name == "cpython"
+    and sys.version_info >= (3, 10)
+    and not sysconfig.get_config_var("Py_GIL_DISABLED")
 )
 defined_macros = []
 options = {}
@@ -34,8 +37,8 @@ if debug:
 
 if limited_api:
     options.setdefault("bdist_wheel", {})
-    options["bdist_wheel"]["py_limited_api"] = "cp38"
-    defined_macros.append(("Py_LIMITED_API", "0x03080000"))
+    options["bdist_wheel"]["py_limited_api"] = "cp310"
+    defined_macros.append(("Py_LIMITED_API", "0x030A0000"))
 
 setup(
     options=options,
