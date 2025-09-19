@@ -7,6 +7,13 @@ that were made in every particular version.
 From version 0.7.6 *Dependency Injector* framework strictly
 follows `Semantic versioning`_
 
+4.48.2
+------
+
+- Add ``warn_unresolved=True`` to ``WiringConfiguration`` and ``container.wire()``
+  to produce warnings on unresolved string identifiers.
+- ABI3 wheels are now built only for CPython version >=3.10 (see issue `#919 <https://github.com/ets-labs/python-dependency-injector/issues/919>`_).
+
 4.48.1
 ------
 
