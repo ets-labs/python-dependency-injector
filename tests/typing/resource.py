@@ -1,4 +1,13 @@
-from typing import List, Iterator, Generator, AsyncIterator, AsyncGenerator, Optional
+from typing import (
+    Any,
+    AsyncGenerator,
+    AsyncIterator,
+    Dict,
+    Generator,
+    Iterator,
+    List,
+    Optional,
+)
 
 from dependency_injector import providers, resources
 
@@ -32,11 +41,10 @@ var3: List[int] = provider3()
 
 # Test 4: to check the return type with resource subclass
 class MyResource4(resources.Resource[List[int]]):
-    def init(self, *args, **kwargs) -> List[int]:
+    def init(self, *args: Any, **kwargs: Any) -> List[int]:
         return []
 
-    def shutdown(self, resource: Optional[List[int]]) -> None:
-        ...
+    def shutdown(self, resource: Optional[List[int]]) -> None: ...
 
 
 provider4 = providers.Resource(MyResource4)
@@ -84,11 +92,10 @@ async def _provide7() -> None:
 
 # Test 8: to check the return type with async resource subclass
 class MyResource8(resources.AsyncResource[List[int]]):
-    async def init(self, *args, **kwargs) -> List[int]:
+    async def init(self, *args: Any, **kwargs: Any) -> List[int]:
         return []
 
-    async def shutdown(self, resource: Optional[List[int]]) -> None:
-        ...
+    async def shutdown(self, resource: Optional[List[int]]) -> None: ...
 
 
 provider8 = providers.Resource(MyResource8)
@@ -100,5 +107,5 @@ async def _provide8() -> None:
 
 
 # Test 9: to check string imports
-provider9: providers.Resource[dict] = providers.Resource("builtins.dict")
+provider9: providers.Resource[Dict[Any, Any]] = providers.Resource("builtins.dict")
 provider9.set_provides("builtins.dict")

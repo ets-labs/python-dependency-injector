@@ -3,7 +3,7 @@
 import os
 
 from dependency_injector import containers, providers
-from pydantic import BaseSettings, Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Emulate environment variables
 os.environ["AWS_ACCESS_KEY_ID"] = "KEY"
@@ -11,15 +11,16 @@ os.environ["AWS_SECRET_ACCESS_KEY"] = "SECRET"
 
 
 class AwsSettings(BaseSettings):
+    model_config = SettingsConfigDict(env_prefix="aws_")
 
-    access_key_id: str = Field(env="aws_access_key_id")
-    secret_access_key: str = Field(env="aws_secret_access_key")
+    access_key_id: str
+    secret_access_key: str
 
 
 class Settings(BaseSettings):
 
     aws: AwsSettings = AwsSettings()
-    optional: str = Field(default="default_value")
+    optional: str = "default_value"
 
 
 class Container(containers.DeclarativeContainer):

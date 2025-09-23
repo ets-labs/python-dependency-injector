@@ -1,7 +1,6 @@
-from typing import Dict
+from typing import Any, Dict
 
 from dependency_injector import containers, providers
-
 
 # Test 1: to check setattr
 container1 = containers.DynamicContainer()
@@ -23,7 +22,7 @@ container4.set_providers(a=providers.Provider())
 
 # Test 5: to check .dependencies attribute
 container5 = containers.DynamicContainer()
-dependencies: Dict[str, providers.Provider] = container5.dependencies
+dependencies: Dict[str, providers.Provider[Any]] = container5.dependencies
 
 # Test 6: to check base class
 container6: containers.Container = containers.DynamicContainer()

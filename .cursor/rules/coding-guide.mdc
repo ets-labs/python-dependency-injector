@@ -1,0 +1,29 @@
+---
+description: Code in Python and Cython
+globs:
+alwaysApply: false
+---
+- Follow PEP 8 rules
+- When you write imports, split system, 3rd-party, and local imports with a new line
+- Have two empty lines between the import block and the rest of the code
+- Have an empty line (\n) at the end of every file
+- If a file is supposed to be run, always add ``if __name__ == 'main'``
+- Always follow a consistent pattern of using double or single quotes
+- When there is a class without a docblock, leave one blank line before its members, e.g.:
+```python
+class Container(containers.DeclarativeContainer):
+
+    service = providers.Factory(Service)
+```
+
+- Avoid shortcuts in names unless absolutely necessary, exceptions:
+```
+arg
+args
+kwarg
+kwargs
+obj
+cls
+```
+
+- Avoid inline comments unless absolutely necessary

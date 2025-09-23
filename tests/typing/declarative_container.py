@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Any, Dict
 
 from dependency_injector import containers, providers
 
@@ -10,7 +10,7 @@ class Container1(containers.DeclarativeContainer):
 
 container1 = Container1()
 container1_type: containers.Container = Container1()
-provider1: providers.Provider = container1.provider
+provider1: providers.Provider[int] = container1.provider
 val1: int = container1.provider(3)
 
 
@@ -20,8 +20,7 @@ class Container21(containers.DeclarativeContainer):
 
 
 @containers.override(Container21)
-class Container22(containers.DeclarativeContainer):
-    ...
+class Container22(containers.DeclarativeContainer): ...
 
 
 # Test 3: to check @copy decorator
@@ -30,13 +29,13 @@ class Container31(containers.DeclarativeContainer):
 
 
 @containers.copy(Container31)
-class Container32(containers.DeclarativeContainer):
-    ...
+class Container32(containers.DeclarativeContainer): ...
 
 
 # Test 4: to override()
 class Container4(containers.DeclarativeContainer):
     provider = providers.Factory(int)
+
 
 container4 = Container4()
 container4.override(Container4())
@@ -47,7 +46,7 @@ class Container5(containers.DeclarativeContainer):
     provider = providers.Factory(int)
 
 
-dependencies: Dict[str, providers.Provider] = Container5.dependencies
+dependencies: Dict[str, providers.Provider[Any]] = Container5.dependencies
 
 
 # Test 6: to check base class
@@ -61,6 +60,7 @@ container6: containers.Container = Container6()
 # Test 7: to override_providers()
 class Container7(containers.DeclarativeContainer):
     provider = providers.Factory(str)
+
 
 container7 = Container7()
 container7.override_providers(provider="new_value")

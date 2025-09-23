@@ -1,7 +1,6 @@
-from typing import Tuple, Any, List
+from typing import Any, List, Tuple
 
 from dependency_injector import providers
-
 
 # Test 1: to check the return type (class)
 provider1 = providers.List(
@@ -23,13 +22,18 @@ provider3 = providers.List(
     providers.Factory(object),
     providers.Factory(object),
 )
-provided3: List[Any] = provider3.provided
+provided3: List[Any] = provider3.provided()
+attr_getter3: providers.AttributeGetter = provider3.provided.attr
+item_getter3: providers.ItemGetter = provider3.provided["item"]
+method_caller3: providers.MethodCaller = provider3.provided.method.call(123, arg=324)
 
 # Test 4: to check the return type with await
 provider4 = providers.List(
     providers.Factory(object),
     providers.Factory(object),
 )
+
+
 async def _async4() -> None:
     var1: List[Any] = await provider4()  # type: ignore
     var2: List[Any] = await provider4.async_()

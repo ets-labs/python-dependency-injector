@@ -78,7 +78,7 @@ Container is wired to the ``views`` module in the app config ``web/apps.py``:
 
 .. literalinclude:: ../../examples/miniapps/django/web/apps.py
    :language: python
-   :emphasize-lines: 13
+   :emphasize-lines: 12
 
 Tests
 -----
@@ -93,5 +93,7 @@ Sources
 -------
 
 Explore the sources on the `Github <https://github.com/ets-labs/python-dependency-injector/tree/master/examples/miniapps/django>`_.
+
+.. include:: ../sponsor.rst
 
 .. disqus::

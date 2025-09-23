@@ -2,7 +2,6 @@ from typing import Any
 
 from dependency_injector import providers
 
-
 # Test 1: to check the return type
 provider1 = providers.Selector(
     lambda: "a",
@@ -28,7 +27,7 @@ provider3 = providers.Selector(
     a=providers.Factory(object),
     b=providers.Factory(object),
 )
-attr3: providers.Provider = provider3.a
+attr3: providers.Provider[Any] = provider3.a
 
 # Test 4: to check the return type with await
 provider4 = providers.Selector(
@@ -36,6 +35,8 @@ provider4 = providers.Selector(
     a=providers.Factory(object),
     b=providers.Factory(object),
 )
+
+
 async def _async4() -> None:
-    var1: Any = await provider4()  # type: ignore
+    var1: Any = await provider4()
     var2: Any = await provider4.async_()

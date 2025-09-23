@@ -3,9 +3,13 @@
 from unittest import mock
 
 import pytest
+import pytest_asyncio
 
 from giphynavigator.application import create_app
 from giphynavigator.giphy import GiphyClient
+
+
+pytestmark = pytest.mark.asyncio
 
 
 @pytest.fixture
@@ -15,9 +19,9 @@ def app():
     app.container.unwire()
 
 
-@pytest.fixture
-def client(app, aiohttp_client, loop):
-    return loop.run_until_complete(aiohttp_client(app))
+@pytest_asyncio.fixture
+async def client(app, aiohttp_client):
+    return await aiohttp_client(app)
 
 
 async def test_index(client, app):

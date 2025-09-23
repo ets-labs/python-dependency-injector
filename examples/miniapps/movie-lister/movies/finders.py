@@ -29,7 +29,7 @@ class CsvMovieFinder(MovieFinder):
         super().__init__(movie_factory)
 
     def find_all(self) -> List[Movie]:
-        with open(self._csv_file_path) as csv_file:
+        with open(self._csv_file_path, newline="") as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=self._delimiter)
             return [self._movie_factory(*row) for row in csv_reader]
 

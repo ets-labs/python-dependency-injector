@@ -2,6 +2,8 @@
 
 from __future__ import absolute_import
 
+import asyncio
+import builtins
 import copy
 import errno
 import functools
@@ -12,78 +14,66 @@ import os
 import re
 import sys
 import threading
-import types
 import warnings
+from asyncio import ensure_future
+from configparser import ConfigParser as IniConfigParser
+from contextlib import asynccontextmanager, contextmanager
+from contextvars import ContextVar
+from inspect import isasyncgenfunction, isgeneratorfunction
 
 try:
-    import contextvars
+    from inspect import _is_coroutine_mark as _is_coroutine_marker
 except ImportError:
-    contextvars = None
-
-try:
-    import builtins
-except ImportError:
-    # Python 2.7
-    import __builtin__ as builtins
-
-try:
-    import asyncio
-except ImportError:
-    asyncio = None
-    _is_coroutine_marker = None
-else:
-    if sys.version_info >= (3, 5, 3):
-        import asyncio.coroutines
-        _is_coroutine_marker = asyncio.coroutines._is_coroutine
-    else:
+    try:
+        # Python >=3.12.0,<3.12.5
+        from inspect import _is_coroutine_marker
+    except ImportError:
         _is_coroutine_marker = True
 
 try:
-    import ConfigParser as iniconfigparser
+    from asyncio.coroutines import _is_coroutine
 except ImportError:
-    import configparser as iniconfigparser
+    _is_coroutine = True
 
 try:
     import yaml
 except ImportError:
     yaml = None
 
+has_pydantic_settings = True
+cdef bint pydantic_v1 = False
+cdef str pydantic_module = "pydantic_settings"
+cdef str pydantic_extra = "pydantic2"
+
 try:
-    import pydantic
+    from pydantic_settings import BaseSettings as PydanticSettings
 except ImportError:
-    pydantic = None
+    try:
+        # pydantic-settings requires pydantic v2,
+        # so it is safe to assume that we're dealing with v1:
+        from pydantic import BaseSettings as PydanticSettings
+        pydantic_v1 = True
+        pydantic_module = "pydantic"
+        pydantic_extra = "pydantic"
+    except ImportError:
+        # if it is present, ofc
+        has_pydantic_settings = False
+
 
 from .errors import (
     Error,
     NoSuchProviderError,
+    NonCopyableArgumentError,
 )
 
 cimport cython
 
 
-if sys.version_info[0] == 3:  # pragma: no cover
-    CLASS_TYPES = (type,)
-else:  # pragma: no cover
-    CLASS_TYPES = (type, types.ClassType)
-
-    copy._deepcopy_dispatch[types.MethodType] = \
-        lambda obj, memo: type(obj)(obj.im_func,
-                                    copy.deepcopy(obj.im_self, memo),
-                                    obj.im_class)
-
-if sys.version_info[:2] == (3, 5):
-    warnings.warn(
-        "Dependency Injector will drop support of Python 3.5 after Jan 1st of 2022. "
-        "This does not mean that there will be any immediate breaking changes, "
-        "but tests will no longer be executed on Python 3.5, and bugs will not be addressed.",
-        category=DeprecationWarning,
-    )
-
 config_env_marker_pattern = re.compile(
     r"\${(?P<name>[^}^{:]+)(?P<separator>:?)(?P<default>.*?)}",
 )
 
-def _resolve_config_env_markers(config_content, envs_required=False):
+cdef str _resolve_config_env_markers(config_content: str, envs_required: bool):
     """Replace environment variable markers with their values."""
     findings = list(config_env_marker_pattern.finditer(config_content))
 
@@ -102,28 +92,19 @@ def _resolve_config_env_markers(config_content, envs_required=False):
     return config_content
 
 
-if sys.version_info[0] == 3:
-    def _parse_ini_file(filepath, envs_required=False):
-        parser = iniconfigparser.ConfigParser()
-        with open(filepath) as config_file:
-            config_string = _resolve_config_env_markers(
-                config_file.read(),
-                envs_required=envs_required,
-            )
-        parser.read_string(config_string)
-        return parser
-else:
-    import StringIO
+cdef object _parse_ini_file(filepath, envs_required: bool | None):
+    parser = IniConfigParser()
 
-    def _parse_ini_file(filepath, envs_required=False):
-        parser = iniconfigparser.ConfigParser()
-        with open(filepath) as config_file:
+    with open(filepath) as config_file:
+        config_string = config_file.read()
+
+        if envs_required is not None:
             config_string = _resolve_config_env_markers(
-                config_file.read(),
+                config_string,
                 envs_required=envs_required,
             )
-        parser.readfp(StringIO.StringIO(config_string))
-        return parser
+    parser.read_string(config_string)
+    return parser
 
 
 if yaml:
@@ -147,10 +128,35 @@ cdef int ASYNC_MODE_ENABLED = 1
 cdef int ASYNC_MODE_DISABLED = 2
 
 cdef set __iscoroutine_typecache = set()
-cdef tuple __COROUTINE_TYPES = asyncio.coroutines._COROUTINE_TYPES if asyncio else tuple()
+cdef tuple __COROUTINE_TYPES = asyncio.coroutines._COROUTINE_TYPES
+
+cdef dict pydantic_settings_to_dict(settings, dict kwargs):
+    if not has_pydantic_settings:
+        raise Error(
+            f"Unable to load pydantic configuration - {pydantic_module} is not installed. "
+            "Install pydantic or install Dependency Injector with pydantic extras: "
+            f"\"pip install dependency-injector[{pydantic_extra}]\""
+        )
+
+    if isinstance(settings, type) and issubclass(settings, PydanticSettings):
+        raise Error(
+            "Got settings class, but expect instance: "
+            "instead \"{0}\" use \"{0}()\"".format(settings.__name__)
+        )
+
+    if not isinstance(settings, PydanticSettings):
+        raise Error(
+            f"Unable to recognize settings instance, expect \"{pydantic_module}.BaseSettings\", "
+            f"got {settings} instead"
+        )
+
+    if pydantic_v1:
+        return settings.dict(**kwargs)
+
+    return settings.model_dump(mode="python", **kwargs)
 
 
-cdef class Provider(object):
+cdef class Provider:
     """Base provider class.
 
     :py:class:`Provider` is callable (implements ``__call__`` method). Every
@@ -208,10 +214,10 @@ cdef class Provider(object):
 
     def __init__(self):
         """Initializer."""
-        self.__overridden = tuple()
-        self.__last_overriding = None
-        self.__overrides = tuple()
-        self.__async_mode = ASYNC_MODE_UNDEFINED
+        self._overridden = tuple()
+        self._last_overriding = None
+        self._overrides = tuple()
+        self._async_mode = ASYNC_MODE_UNDEFINED
         super(Provider, self).__init__()
 
     def __call__(self, *args, **kwargs):
@@ -219,18 +225,18 @@ cdef class Provider(object):
 
         Callable interface implementation.
         """
-        if self.__last_overriding is not None:
-            result = self.__last_overriding(*args, **kwargs)
+        if self._last_overriding is not None:
+            result = self._last_overriding(*args, **kwargs)
         else:
             result = self._provide(args, kwargs)
 
-        if self.__async_mode == ASYNC_MODE_DISABLED:
+        if self._async_mode == ASYNC_MODE_DISABLED:
             return result
-        elif self.__async_mode == ASYNC_MODE_ENABLED:
+        elif self._async_mode == ASYNC_MODE_ENABLED:
             if __is_future_or_coroutine(result):
                 return result
             return __future_result(result)
-        elif self.__async_mode == ASYNC_MODE_UNDEFINED:
+        elif self._async_mode == ASYNC_MODE_UNDEFINED:
             if __is_future_or_coroutine(result):
                 self.enable_async_mode()
             else:
@@ -269,7 +275,7 @@ cdef class Provider(object):
     def overridden(self):
         """Return tuple of overriding providers."""
         with self.overriding_lock:
-            return self.__overridden
+            return self._overridden
 
     @property
     def last_overriding(self):
@@ -277,7 +283,7 @@ cdef class Provider(object):
 
         If provider is not overridden, then None is returned.
         """
-        return self.__last_overriding
+        return self._last_overriding
 
     def override(self, provider):
         """Override provider with another provider.
@@ -297,8 +303,8 @@ cdef class Provider(object):
             provider = Object(provider)
 
         with self.overriding_lock:
-            self.__overridden += (provider,)
-            self.__last_overriding = provider
+            self._overridden += (provider,)
+            self._last_overriding = provider
             provider.register_overrides(self)
 
         return OverridingContext(self, provider)
@@ -312,16 +318,16 @@ cdef class Provider(object):
         :rtype: None
         """
         with self.overriding_lock:
-            if len(self.__overridden) == 0:
+            if len(self._overridden) == 0:
                 raise Error("Provider {0} is not overridden".format(str(self)))
 
-            self.__last_overriding.unregister_overrides(self)
+            self._last_overriding.unregister_overrides(self)
 
-            self.__overridden = self.__overridden[:-1]
+            self._overridden = self._overridden[:-1]
             try:
-                self.__last_overriding = self.__overridden[-1]
+                self._last_overriding = self._overridden[-1]
             except IndexError:
-                self.__last_overriding = None
+                self._last_overriding = None
 
     def reset_override(self):
         """Reset all overriding providers.
@@ -329,26 +335,26 @@ cdef class Provider(object):
         :rtype: None
         """
         with self.overriding_lock:
-            for provider in self.__overridden:
+            for provider in self._overridden:
                 provider.unregister_overrides(self)
-            self.__overridden = tuple()
-            self.__last_overriding = None
+            self._overridden = tuple()
+            self._last_overriding = None
 
     @property
     def overrides(self):
         """Return providers that are overridden by the current provider."""
-        return self.__overrides
+        return self._overrides
 
     def register_overrides(self, provider):
         """Register provider that overrides current provider."""
-        self.__overrides =  tuple(set(self.__overrides + (provider,)))
+        self._overrides =  tuple(set(self._overrides + (provider,)))
 
     def unregister_overrides(self, provider):
         """Unregister provider that overrides current provider."""
-        overrides = set(self.__overrides)
+        overrides = set(self._overrides)
         if provider in overrides:
             overrides.remove(provider)
-        self.__overrides = tuple(overrides)
+        self._overrides = tuple(overrides)
 
     def async_(self, *args, **kwargs):
         """Return provided object asynchronously.
@@ -394,30 +400,30 @@ cdef class Provider(object):
 
     def enable_async_mode(self):
         """Enable async mode."""
-        self.__async_mode = ASYNC_MODE_ENABLED
+        self._async_mode = ASYNC_MODE_ENABLED
 
     def disable_async_mode(self):
         """Disable async mode."""
-        self.__async_mode = ASYNC_MODE_DISABLED
+        self._async_mode = ASYNC_MODE_DISABLED
 
     def reset_async_mode(self):
         """Reset async mode.
 
         Provider will automatically set the mode on the next call.
         """
-        self.__async_mode = ASYNC_MODE_UNDEFINED
+        self._async_mode = ASYNC_MODE_UNDEFINED
 
     cpdef bint is_async_mode_enabled(self):
         """Check if async mode is enabled."""
-        return self.__async_mode == ASYNC_MODE_ENABLED
+        return self._async_mode == ASYNC_MODE_ENABLED
 
     cpdef bint is_async_mode_disabled(self):
         """Check if async mode is disabled."""
-        return self.__async_mode == ASYNC_MODE_DISABLED
+        return self._async_mode == ASYNC_MODE_DISABLED
 
     cpdef bint is_async_mode_undefined(self):
         """Check if async mode is undefined."""
-        return self.__async_mode == ASYNC_MODE_UNDEFINED
+        return self._async_mode == ASYNC_MODE_UNDEFINED
 
     @property
     def related(self):
@@ -439,9 +445,9 @@ cdef class Provider(object):
 
     cpdef void _copy_overridings(self, Provider copied, dict memo):
         """Copy provider overridings to a newly copied provider."""
-        copied.__overridden = deepcopy(self.__overridden, memo)
-        copied.__last_overriding = deepcopy(self.__last_overriding, memo)
-        copied.__overrides = deepcopy(self.__overrides, memo)
+        copied._overridden = deepcopy(self._overridden, memo)
+        copied._last_overriding = deepcopy(self._last_overriding, memo)
+        copied._overrides = deepcopy(self._overrides, memo)
 
 
 cdef class Object(Provider):
@@ -456,7 +462,7 @@ cdef class Object(Provider):
 
     def __init__(self, provides=None):
         """Initialize provider."""
-        self.__provides = None
+        self._provides = None
         self.set_provides(provides)
         super(Object, self).__init__()
 
@@ -478,7 +484,7 @@ cdef class Object(Provider):
 
         :rtype: str
         """
-        return represent_provider(provider=self, provides=self.__provides)
+        return represent_provider(provider=self, provides=self._provides)
 
     def __repr__(self):
         """Return string representation of provider.
@@ -490,18 +496,18 @@ cdef class Object(Provider):
     @property
     def provides(self):
         """Return provider provides."""
-        return self.__provides
+        return self._provides
 
     def set_provides(self, provides):
         """Set provider provides."""
-        self.__provides = provides
+        self._provides = provides
         return self
 
     @property
     def related(self):
         """Return related providers generator."""
-        if isinstance(self.__provides, Provider):
-            yield self.__provides
+        if isinstance(self._provides, Provider):
+            yield self._provides
         yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
@@ -515,7 +521,7 @@ cdef class Object(Provider):
 
         :rtype: object
         """
-        return self.__provides
+        return self._provides
 
 
 cdef class Self(Provider):
@@ -523,8 +529,8 @@ cdef class Self(Provider):
 
     def __init__(self, container=None):
         """Initialize provider."""
-        self.__container = container
-        self.__alt_names = tuple()
+        self._container = container
+        self._alt_names = tuple()
         super().__init__()
 
     def __deepcopy__(self, memo):
@@ -534,8 +540,8 @@ cdef class Self(Provider):
             return copied
 
         copied = _memorized_duplicate(self, memo)
-        copied.set_container(deepcopy(self.__container, memo))
-        copied.set_alt_names(self.__alt_names)
+        copied.set_container(deepcopy(self._container, memo))
+        copied.set_alt_names(self._alt_names)
         self._copy_overridings(copied, memo)
         return copied
 
@@ -544,7 +550,7 @@ cdef class Self(Provider):
 
         :rtype: str
         """
-        return represent_provider(provider=self, provides=self.__container)
+        return represent_provider(provider=self, provides=self._container)
 
     def __repr__(self):
         """Return string representation of provider.
@@ -554,17 +560,17 @@ cdef class Self(Provider):
         return self.__str__()
 
     def set_container(self, container):
-        self.__container = container
+        self._container = container
 
     def set_alt_names(self, alt_names):
-        self.__alt_names = tuple(set(alt_names))
+        self._alt_names = tuple(set(alt_names))
 
     @property
     def alt_names(self):
-        return self.__alt_names
+        return self._alt_names
 
     cpdef object _provide(self, tuple args, dict kwargs):
-        return self.__container
+        return self._container
 
 
 cdef class Delegate(Provider):
@@ -579,7 +585,7 @@ cdef class Delegate(Provider):
 
     def __init__(self, provides=None):
         """Initialize provider."""
-        self.__provides = None
+        self._provides = None
         self.set_provides(provides)
         super(Delegate, self).__init__()
 
@@ -600,7 +606,7 @@ cdef class Delegate(Provider):
 
         :rtype: str
         """
-        return represent_provider(provider=self, provides=self.__provides)
+        return represent_provider(provider=self, provides=self._provides)
 
     def __repr__(self):
         """Return string representation of provider.
@@ -612,19 +618,19 @@ cdef class Delegate(Provider):
     @property
     def provides(self):
         """Return provider provides."""
-        return self.__provides
+        return self._provides
 
     def set_provides(self, provides):
         """Set provider provides."""
         if provides:
             provides = ensure_is_provider(provides)
-        self.__provides = provides
+        self._provides = provides
         return self
 
     @property
     def related(self):
         """Return related providers generator."""
-        yield self.__provides
+        yield self._provides
         yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
@@ -638,7 +644,7 @@ cdef class Delegate(Provider):
 
         :rtype: object
         """
-        return self.__provides
+        return self._provides
 
 
 cdef class Aggregate(Provider):
@@ -656,7 +662,7 @@ cdef class Aggregate(Provider):
 
     def __init__(self, provider_dict=None, **provider_kwargs):
         """Initialize provider."""
-        self.__providers = {}
+        self._providers = {}
         self.set_providers(provider_dict, **provider_kwargs)
         super().__init__()
 
@@ -690,7 +696,7 @@ cdef class Aggregate(Provider):
 
         Alias for ``.factories`` attribute.
         """
-        return dict(self.__providers)
+        return dict(self._providers)
 
     def set_providers(self, provider_dict=None, **provider_kwargs):
         """Set providers.
@@ -712,7 +718,7 @@ cdef class Aggregate(Provider):
                     ),
                 )
 
-        self.__providers = providers
+        self._providers = providers
         return self
 
     def override(self, _):
@@ -728,7 +734,7 @@ cdef class Aggregate(Provider):
     @property
     def related(self):
         """Return related providers generator."""
-        yield from self.__providers.values()
+        yield from self._providers.values()
         yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
@@ -745,9 +751,9 @@ cdef class Aggregate(Provider):
         return self.__get_provider(provider_name)(*args, **kwargs)
 
     cdef Provider __get_provider(self, object provider_name):
-        if provider_name not in self.__providers:
+        if provider_name not in self._providers:
             raise NoSuchProviderError("{0} does not contain provider with name {1}".format(self, provider_name))
-        return <Provider> self.__providers[provider_name]
+        return <Provider> self._providers[provider_name]
 
 
 cdef class Dependency(Provider):
@@ -775,13 +781,13 @@ cdef class Dependency(Provider):
 
     def __init__(self, object instance_of=object, default=None):
         """Initialize provider."""
-        self.__instance_of = None
+        self._instance_of = None
         self.set_instance_of(instance_of)
 
-        self.__default = None
+        self._default = None
         self.set_default(default)
 
-        self.__parent = None
+        self._parent = None
 
         super(Dependency, self).__init__()
 
@@ -807,17 +813,17 @@ cdef class Dependency(Provider):
 
         :rtype: object
         """
-        if self.__last_overriding:
-            result = self.__last_overriding(*args, **kwargs)
-        elif self.__default:
-            result = self.__default(*args, **kwargs)
+        if self._last_overriding:
+            result = self._last_overriding(*args, **kwargs)
+        elif self._default:
+            result = self._default(*args, **kwargs)
         else:
             self._raise_undefined_error()
 
-        if self.__async_mode == ASYNC_MODE_DISABLED:
+        if self._async_mode == ASYNC_MODE_DISABLED:
             self._check_instance_type(result)
             return result
-        elif self.__async_mode == ASYNC_MODE_ENABLED:
+        elif self._async_mode == ASYNC_MODE_ENABLED:
             if __is_future_or_coroutine(result):
                 future_result = asyncio.Future()
                 result = asyncio.ensure_future(result)
@@ -826,7 +832,7 @@ cdef class Dependency(Provider):
             else:
                 self._check_instance_type(result)
                 return __future_result(result)
-        elif self.__async_mode == ASYNC_MODE_UNDEFINED:
+        elif self._async_mode == ASYNC_MODE_UNDEFINED:
             if __is_future_or_coroutine(result):
                 self.enable_async_mode()
 
@@ -840,10 +846,10 @@ cdef class Dependency(Provider):
                 return result
 
     def __getattr__(self, name):
-        if self.__last_overriding:
-            return getattr(self.__last_overriding, name)
-        elif self.__default:
-            return getattr(self.__default, name)
+        if self._last_overriding:
+            return getattr(self._last_overriding, name)
+        elif self._default:
+            return getattr(self._default, name)
         raise AttributeError(f"Provider \"{self.__class__.__name__}\" has no attribute \"{name}\"")
 
     def __str__(self):
@@ -852,7 +858,7 @@ cdef class Dependency(Provider):
         :rtype: str
         """
         name = f"<{self.__class__.__module__}.{self.__class__.__name__}"
-        name += f"({repr(self.__instance_of)}) at {hex(id(self))}"
+        name += f"({repr(self._instance_of)}) at {hex(id(self))}"
         if self.parent_name:
             name += f", container name: \"{self.parent_name}\""
         name += f">"
@@ -868,36 +874,33 @@ cdef class Dependency(Provider):
     @property
     def instance_of(self):
         """Return type."""
-        return self.__instance_of
+        return self._instance_of
 
     def set_instance_of(self, instance_of):
         """Set type."""
-        if not isinstance(instance_of, CLASS_TYPES):
+        if not isinstance(instance_of, type):
             raise TypeError(
-                "\"instance_of\" has incorrect type (expected {0}, got {1}))".format(
-                    CLASS_TYPES,
-                    instance_of,
-                ),
+                f"\"instance_of\" is not a class (got {instance_of!r}))",
             )
-        self.__instance_of = instance_of
+        self._instance_of = instance_of
         return self
 
     @property
     def default(self):
         """Return default provider."""
-        return self.__default
+        return self._default
 
     def set_default(self, default):
         """Set type."""
         if default is not None and not isinstance(default, Provider):
             default = Object(default)
-        self.__default = default
+        self._default = default
         return self
 
     @property
     def is_defined(self):
         """Return True if dependency is defined."""
-        return self.__last_overriding is not None or self.__default is not None
+        return self._last_overriding is not None or self._default is not None
 
     def provided_by(self, provider):
         """Set external dependency provider.
@@ -912,31 +915,31 @@ cdef class Dependency(Provider):
     @property
     def related(self):
         """Return related providers generator."""
-        if self.__default:
-            yield self.__default
+        if self._default:
+            yield self._default
         yield from super().related
 
     @property
     def parent(self):
         """Return parent."""
-        return self.__parent
+        return self._parent
 
     @property
     def parent_name(self):
         """Return parent name."""
-        if not self.__parent:
+        if not self._parent:
             return None
 
         name = ""
-        if self.__parent.parent_name:
-            name += f"{self.__parent.parent_name}."
-        name += f"{self.__parent.resolve_provider_name(self)}"
+        if self._parent.parent_name:
+            name += f"{self._parent.parent_name}."
+        name += f"{self._parent.resolve_provider_name(self)}"
 
         return name
 
     def assign_parent(self, parent):
         """Assign parent."""
-        self.__parent = parent
+        self._parent = parent
 
     def _copy_parent(self, copied, memo):
         _copy_parent(self, copied, memo)
@@ -1028,8 +1031,8 @@ cdef class DependenciesContainer(Object):
             if isinstance(provider, CHILD_PROVIDERS):
                 provider.assign_parent(self)
 
-        self.__providers = dependencies
-        self.__parent = None
+        self._providers = dependencies
+        self._parent = None
 
         super(DependenciesContainer, self).__init__(None)
 
@@ -1042,8 +1045,8 @@ cdef class DependenciesContainer(Object):
             return copied
 
         copied = <DependenciesContainer> _memorized_duplicate(self, memo)
-        copied.__provides = deepcopy(self.__provides, memo)
-        copied.__providers = deepcopy(self.__providers, memo)
+        copied._provides = deepcopy(self._provides, memo)
+        copied._providers = deepcopy(self._providers, memo)
         self._copy_parent(copied, memo)
         self._copy_overridings(copied, memo)
 
@@ -1057,12 +1060,12 @@ cdef class DependenciesContainer(Object):
                 "'{attribute_name}'".format(cls=self.__class__.__name__, attribute_name=name)
             )
 
-        provider = self.__providers.get(name)
+        provider = self._providers.get(name)
         if not provider:
             provider = Dependency()
             provider.assign_parent(self)
 
-            self.__providers[name] = provider
+            self._providers[name] = provider
 
             container = self.__call__()
             if container:
@@ -1075,7 +1078,7 @@ cdef class DependenciesContainer(Object):
     @property
     def providers(self):
         """Read-only dictionary of dependency providers."""
-        return self.__providers
+        return self._providers
 
     def override(self, provider):
         """Override provider with another provider.
@@ -1099,7 +1102,7 @@ cdef class DependenciesContainer(Object):
 
         :rtype: None
         """
-        for child in self.__providers.values():
+        for child in self._providers.values():
             try:
                 child.reset_last_overriding()
             except Error:
@@ -1111,7 +1114,7 @@ cdef class DependenciesContainer(Object):
 
         :rtype: None
         """
-        for child in self.__providers.values():
+        for child in self._providers.values():
             child.reset_override()
         super(DependenciesContainer, self).reset_override()
 
@@ -1132,24 +1135,24 @@ cdef class DependenciesContainer(Object):
     @property
     def parent(self):
         """Return parent."""
-        return self.__parent
+        return self._parent
 
     @property
     def parent_name(self):
         """Return parent name."""
-        if not self.__parent:
+        if not self._parent:
             return None
 
         name = ""
-        if self.__parent.parent_name:
-            name += f"{self.__parent.parent_name}."
-        name += f"{self.__parent.resolve_provider_name(self)}"
+        if self._parent.parent_name:
+            name += f"{self._parent.parent_name}."
+        name += f"{self._parent.resolve_provider_name(self)}"
 
         return name
 
     def assign_parent(self, parent):
         """Assign parent."""
-        self.__parent = parent
+        self._parent = parent
 
     def _copy_parent(self, copied, memo):
         _copy_parent(self, copied, memo)
@@ -1191,15 +1194,15 @@ cdef class Callable(Provider):
 
     def __init__(self, provides=None, *args, **kwargs):
         """Initialize provider."""
-        self.__provides = None
+        self._provides = None
         self.set_provides(provides)
 
-        self.__args = tuple()
-        self.__args_len = 0
+        self._args = tuple()
+        self._args_len = 0
         self.set_args(*args)
 
-        self.__kwargs = tuple()
-        self.__kwargs_len = 0
+        self._kwargs = tuple()
+        self._kwargs_len = 0
         self.set_kwargs(**kwargs)
 
         super(Callable, self).__init__()
@@ -1212,8 +1215,8 @@ cdef class Callable(Provider):
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy(self.args, memo))
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
+        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
         self._copy_overridings(copied, memo)
         return copied
 
@@ -1222,12 +1225,12 @@ cdef class Callable(Provider):
 
         :rtype: str
         """
-        return represent_provider(provider=self, provides=self.__provides)
+        return represent_provider(provider=self, provides=self._provides)
 
     @property
     def provides(self):
         """Return provider provides."""
-        return self.__provides
+        return self._provides
 
     def set_provides(self, provides):
         """Set provider provides."""
@@ -1239,7 +1242,7 @@ cdef class Callable(Provider):
                     provides,
                 ),
             )
-        self.__provides = provides
+        self._provides = provides
         return self
 
     @property
@@ -1250,9 +1253,9 @@ cdef class Callable(Provider):
         cdef list args
 
         args = list()
-        for index in range(self.__args_len):
-            arg = self.__args[index]
-            args.append(arg.__value)
+        for index in range(self._args_len):
+            arg = self._args[index]
+            args.append(arg._value)
         return tuple(args)
 
     def add_args(self, *args):
@@ -1260,8 +1263,8 @@ cdef class Callable(Provider):
 
         :return: Reference ``self``
         """
-        self.__args += parse_positional_injections(args)
-        self.__args_len = len(self.__args)
+        self._args += parse_positional_injections(args)
+        self._args_len = len(self._args)
         return self
 
     def set_args(self, *args):
@@ -1271,8 +1274,8 @@ cdef class Callable(Provider):
 
         :return: Reference ``self``
         """
-        self.__args = parse_positional_injections(args)
-        self.__args_len = len(self.__args)
+        self._args = parse_positional_injections(args)
+        self._args_len = len(self._args)
         return self
 
     def clear_args(self):
@@ -1280,8 +1283,8 @@ cdef class Callable(Provider):
 
         :return: Reference ``self``
         """
-        self.__args = tuple()
-        self.__args_len = len(self.__args)
+        self._args = tuple()
+        self._args_len = len(self._args)
         return self
 
     @property
@@ -1292,9 +1295,9 @@ cdef class Callable(Provider):
         cdef dict kwargs
 
         kwargs = dict()
-        for index in range(self.__kwargs_len):
-            kwarg = self.__kwargs[index]
-            kwargs[kwarg.__name] = kwarg.__value
+        for index in range(self._kwargs_len):
+            kwarg = self._kwargs[index]
+            kwargs[kwarg._name] = kwarg._value
         return kwargs
 
     def add_kwargs(self, **kwargs):
@@ -1302,8 +1305,8 @@ cdef class Callable(Provider):
 
         :return: Reference ``self``
         """
-        self.__kwargs += parse_named_injections(kwargs)
-        self.__kwargs_len = len(self.__kwargs)
+        self._kwargs += parse_named_injections(kwargs)
+        self._kwargs_len = len(self._kwargs)
         return self
 
     def set_kwargs(self, **kwargs):
@@ -1313,8 +1316,8 @@ cdef class Callable(Provider):
 
         :return: Reference ``self``
         """
-        self.__kwargs = parse_named_injections(kwargs)
-        self.__kwargs_len = len(self.__kwargs)
+        self._kwargs = parse_named_injections(kwargs)
+        self._kwargs_len = len(self._kwargs)
         return self
 
     def clear_kwargs(self):
@@ -1322,8 +1325,8 @@ cdef class Callable(Provider):
 
         :return: Reference ``self``
         """
-        self.__kwargs = tuple()
-        self.__kwargs_len = len(self.__kwargs)
+        self._kwargs = tuple()
+        self._kwargs_len = len(self._kwargs)
         return self
 
     @property
@@ -1363,7 +1366,7 @@ cdef class AbstractCallable(Callable):
 
         Callable interface implementation.
         """
-        if self.__last_overriding is None:
+        if self._last_overriding is None:
             raise Error("{0} must be overridden before calling".format(self))
         return super().__call__(*args, **kwargs)
 
@@ -1434,12 +1437,11 @@ cdef class Coroutine(Callable):
         some_coroutine.add_kwargs(keyword_argument1=3, keyword_argument=4)
     """
 
-    _is_coroutine = _is_coroutine_marker
+    _is_coroutine_marker = _is_coroutine_marker  # Python >=3.12
+    _is_coroutine = _is_coroutine  # Python <3.16
 
     def set_provides(self, provides):
         """Set provider provides."""
-        if not asyncio:
-            raise Error("Package asyncio is not available")
         provides = _resolve_string_import(provides)
         if provides and not asyncio.iscoroutinefunction(provides):
             raise Error(f"Provider {_class_qualname(self)} expected to get coroutine function, "
@@ -1471,7 +1473,7 @@ cdef class AbstractCoroutine(Coroutine):
 
         Callable interface implementation.
         """
-        if self.__last_overriding is None:
+        if self._last_overriding is None:
             raise Error("{0} must be overridden before calling".format(self))
         return super().__call__(*args, **kwargs)
 
@@ -1526,11 +1528,11 @@ cdef class ConfigurationOption(Provider):
     """
 
     def __init__(self, name=None, Configuration root=None, required=False):
-        self.__name = name
-        self.__root = root
-        self.__children = {}
-        self.__required = required
-        self.__cache = UNDEFINED
+        self._name = name
+        self._root = root
+        self._children = {}
+        self._required = required
+        self._cache = UNDEFINED
         super().__init__()
 
     def __deepcopy__(self, memo):
@@ -1541,10 +1543,10 @@ cdef class ConfigurationOption(Provider):
             return copied
 
         copied = <ConfigurationOption> _memorized_duplicate(self, memo)
-        copied.__name = deepcopy(self.__name, memo)
-        copied.__root = deepcopy(self.__root, memo)
-        copied.__children = deepcopy(self.__children, memo)
-        copied.__required = self.__required
+        copied._name = deepcopy(self._name, memo)
+        copied._root = deepcopy(self._root, memo)
+        copied._children = deepcopy(self._children, memo)
+        copied._required = self._required
         self._copy_overridings(copied, memo)
         return copied
 
@@ -1564,44 +1566,43 @@ cdef class ConfigurationOption(Provider):
                 "'{attribute_name}'".format(cls=self.__class__.__name__, attribute_name=item)
             )
 
-        child = self.__children.get(item)
+        child = self._children.get(item)
         if child is None:
-            child_name = self.__name + (item,)
-            child = ConfigurationOption(child_name, self.__root)
-            self.__children[item] = child
+            child_name = self._name + (item,)
+            child = ConfigurationOption(child_name, self._root)
+            self._children[item] = child
         return child
 
     def __getitem__(self, item):
-        child = self.__children.get(item)
+        child = self._children.get(item)
         if child is None:
-            child_name = self.__name + (item,)
-            child = ConfigurationOption(child_name, self.__root)
-            self.__children[item] = child
+            child_name = self._name + (item,)
+            child = ConfigurationOption(child_name, self._root)
+            self._children[item] = child
         return child
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return new instance."""
-        if self.__cache is not UNDEFINED:
-            return self.__cache
+        if self._cache is not UNDEFINED:
+            return self._cache
 
-        value = self.__root.get(self._get_self_name(), self.__required)
-        self.__cache = value
+        value = self._root.get(self._get_self_name(), self._required)
+        self._cache = value
         return value
 
     def _get_self_name(self):
         return ".".join(
-            segment() if is_provider(segment) else segment for segment in self.__name
+            segment() if is_provider(segment) else segment for segment in self._name
         )
 
-    @property
-    def root(self):
-        return self.__root
+    def _get_root(self):
+        return self._root
 
     def get_name(self):
-        return ".".join((self.__root.get_name(), self._get_self_name()))
+        return f"{self._root.get_name()}.{self._get_self_name()}"
 
     def get_name_segments(self):
-        return self.__name
+        return self._name
 
     def as_int(self):
         return TypedConfigurationOption(int, self)
@@ -1613,15 +1614,15 @@ cdef class ConfigurationOption(Provider):
         return TypedConfigurationOption(callback, self, *args, **kwargs)
 
     def required(self):
-        return self.__class__(self.__name, self.__root, required=True)
+        return self.__class__(self._name, self._root, required=True)
 
     def is_required(self):
-        return self.__required
+        return self._required
 
     def override(self, value):
         if isinstance(value, Provider):
             raise Error("Configuration option can only be overridden by a value")
-        return self.__root.set(self._get_self_name(), value)
+        return self._root.set(self._get_self_name(), value)
 
     def reset_last_overriding(self):
         raise Error("Configuration option does not support this method")
@@ -1630,9 +1631,9 @@ cdef class ConfigurationOption(Provider):
         raise Error("Configuration option does not support this method")
 
     def reset_cache(self):
-        self.__cache = UNDEFINED
+        self._cache = UNDEFINED
 
-        for provider in self.__children.values():
+        for provider in self._children.values():
             provider.reset_cache()
 
         for provider in self.overrides:
@@ -1672,7 +1673,7 @@ cdef class ConfigurationOption(Provider):
         try:
             parser = _parse_ini_file(
                 filepath,
-                envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
             )
         except IOError as exception:
             if required is not False \
@@ -1731,10 +1732,11 @@ cdef class ConfigurationOption(Provider):
                 raise
             return
 
-        config_content = _resolve_config_env_markers(
-            config_content,
-            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
-        )
+        if envs_required is not None:
+            config_content = _resolve_config_env_markers(
+                config_content,
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+            )
         config = yaml.load(config_content, loader)
 
         current_config = self.__call__()
@@ -1769,10 +1771,11 @@ cdef class ConfigurationOption(Provider):
                 raise
             return
 
-        config_content = _resolve_config_env_markers(
-            config_content,
-            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
-        )
+        if envs_required is not None:
+            config_content = _resolve_config_env_markers(
+                config_content,
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+            )
         config = json.loads(config_content)
 
         current_config = self.__call__()
@@ -1786,36 +1789,20 @@ cdef class ConfigurationOption(Provider):
         Loaded configuration is merged recursively over existing configuration.
 
         :param settings: Pydantic settings instances.
-        :type settings: :py:class:`pydantic.BaseSettings`
+        :type settings: :py:class:`pydantic.BaseSettings` (pydantic v1) or
+            :py:class:`pydantic_settings.BaseSettings` (pydantic v2 and onwards)
 
         :param required: When required is True, raise an exception if settings dict is empty.
         :type required: bool
 
-        :param kwargs: Keyword arguments forwarded to ``pydantic.BaseSettings.dict()`` call.
+        :param kwargs: Keyword arguments forwarded to ``pydantic.BaseSettings.dict()`` or
+            ``pydantic_settings.BaseSettings.model_dump()`` call (based on pydantic version).
         :type kwargs: Dict[Any, Any]
 
         :rtype: None
         """
-        if pydantic is None:
-            raise Error(
-                "Unable to load pydantic configuration - pydantic is not installed. "
-                "Install pydantic or install Dependency Injector with pydantic extras: "
-                "\"pip install dependency-injector[pydantic]\""
-            )
 
-        if isinstance(settings, CLASS_TYPES) and issubclass(settings, pydantic.BaseSettings):
-            raise Error(
-                "Got settings class, but expect instance: "
-                "instead \"{0}\" use \"{0}()\"".format(settings.__name__)
-            )
-
-        if not isinstance(settings, pydantic.BaseSettings):
-            raise Error(
-                "Unable to recognize settings instance, expect \"pydantic.BaseSettings\", "
-                "got {0} instead".format(settings)
-            )
-
-        self.from_dict(settings.dict(**kwargs), required=required)
+        self.from_dict(pydantic_settings_to_dict(settings, kwargs), required=required)
 
     def from_dict(self, options, required=UNDEFINED):
         """Load configuration from the dictionary.
@@ -1888,12 +1875,12 @@ cdef class ConfigurationOption(Provider):
     @property
     def related(self):
         """Return related providers generator."""
-        yield from filter(is_provider, self.__name)
-        yield from self.__children.values()
+        yield from filter(is_provider, self._name)
+        yield from self._children.values()
         yield from super().related
 
     def _is_strict_mode_enabled(self):
-        return self.__root.__strict
+        return self._root.__strict
 
 
 cdef class TypedConfigurationOption(Callable):
@@ -1926,13 +1913,13 @@ cdef class Configuration(Object):
     DEFAULT_NAME = "config"
 
     def __init__(self, name=DEFAULT_NAME, default=None, strict=False, ini_files=None, yaml_files=None, json_files=None, pydantic_settings=None):
-        self.__name = name
+        self._name = name
         self.__strict = strict
-        self.__children = {}
-        self.__ini_files = []
-        self.__yaml_files = []
-        self.__json_files = []
-        self.__pydantic_settings = []
+        self._children = {}
+        self._ini_files = []
+        self._yaml_files = []
+        self._json_files = []
+        self._pydantic_settings = []
 
         super().__init__(provides={})
         self.set_default(default)
@@ -1978,7 +1965,7 @@ cdef class Configuration(Object):
         pass
 
     def __str__(self):
-        return represent_provider(provider=self, provides=self.__name)
+        return represent_provider(provider=self, provides=self._name)
 
     def __getattr__(self, item):
         if item.startswith("__") and item.endswith("__"):
@@ -1987,26 +1974,26 @@ cdef class Configuration(Object):
                 "'{attribute_name}'".format(cls=self.__class__.__name__, attribute_name=item)
             )
 
-        child = self.__children.get(item)
+        child = self._children.get(item)
         if child is None:
             child = ConfigurationOption((item,), self)
-            self.__children[item] = child
+            self._children[item] = child
         return child
 
     def __getitem__(self, item):
-        child = self.__children.get(item)
+        child = self._children.get(item)
         if child is None:
             child = ConfigurationOption(item, self)
-            self.__children[item] = child
+            self._children[item] = child
         return child
 
     def get_name(self):
         """Return name."""
-        return self.__name
+        return self._name
 
     def set_name(self, name):
         """Set name."""
-        self.__name = name
+        self._name = name
         return self
 
     def get_default(self):
@@ -2033,47 +2020,47 @@ cdef class Configuration(Object):
 
     def get_children(self):
         """Return children options."""
-        return self.__children
+        return self._children
 
     def set_children(self, children):
         """Set children options."""
-        self.__children = children
+        self._children = children
         return self
 
     def get_ini_files(self):
         """Return list of INI files."""
-        return list(self.__ini_files)
+        return list(self._ini_files)
 
     def set_ini_files(self, files):
         """Set list of INI files."""
-        self.__ini_files = list(files)
+        self._ini_files = list(files)
         return self
 
     def get_yaml_files(self):
         """Return list of YAML files."""
-        return list(self.__yaml_files)
+        return list(self._yaml_files)
 
     def set_yaml_files(self, files):
         """Set list of YAML files."""
-        self.__yaml_files = list(files)
+        self._yaml_files = list(files)
         return self
 
     def get_json_files(self):
         """Return list of JSON files."""
-        return list(self.__json_files)
+        return list(self._json_files)
 
     def set_json_files(self, files):
         """Set list of JSON files."""
-        self.__json_files = list(files)
+        self._json_files = list(files)
         return self
 
     def get_pydantic_settings(self):
         """Return list of Pydantic settings."""
-        return list(self.__pydantic_settings)
+        return list(self._pydantic_settings)
 
     def set_pydantic_settings(self, settings):
         """Set list of Pydantic settings."""
-        self.__pydantic_settings = list(settings)
+        self._pydantic_settings = list(settings)
         return self
 
     def load(self, required=UNDEFINED, envs_required=UNDEFINED):
@@ -2121,7 +2108,7 @@ cdef class Configuration(Object):
 
         if value is None:
             if self._is_strict_mode_enabled() or required:
-                raise Error("Undefined configuration option \"{0}.{1}\"".format(self.__name, selector))
+                raise Error("Undefined configuration option \"{0}.{1}\"".format(self._name, selector))
             return None
 
         keys = selector.split(".")
@@ -2131,7 +2118,7 @@ cdef class Configuration(Object):
 
             if value is UNDEFINED:
                 if self._is_strict_mode_enabled() or required:
-                    raise Error("Undefined configuration option \"{0}.{1}\"".format(self.__name, selector))
+                    raise Error("Undefined configuration option \"{0}.{1}\"".format(self._name, selector))
                 return None
 
         return value
@@ -2201,7 +2188,7 @@ cdef class Configuration(Object):
 
         :rtype: None
         """
-        for provider in self.__children.values():
+        for provider in self._children.values():
             provider.reset_cache()
 
         for provider in self.overrides:
@@ -2241,7 +2228,7 @@ cdef class Configuration(Object):
         try:
             parser = _parse_ini_file(
                 filepath,
-                envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
             )
         except IOError as exception:
             if required is not False \
@@ -2300,10 +2287,11 @@ cdef class Configuration(Object):
                 raise
             return
 
-        config_content = _resolve_config_env_markers(
-            config_content,
-            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
-        )
+        if envs_required is not None:
+            config_content = _resolve_config_env_markers(
+                config_content,
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+            )
         config = yaml.load(config_content, loader)
 
         current_config = self.__call__()
@@ -2338,10 +2326,11 @@ cdef class Configuration(Object):
                 raise
             return
 
-        config_content = _resolve_config_env_markers(
-            config_content,
-            envs_required=envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
-        )
+        if envs_required is not None:
+            config_content = _resolve_config_env_markers(
+                config_content,
+                envs_required if envs_required is not UNDEFINED else self._is_strict_mode_enabled(),
+            )
         config = json.loads(config_content)
 
         current_config = self.__call__()
@@ -2355,7 +2344,8 @@ cdef class Configuration(Object):
         Loaded configuration is merged recursively over existing configuration.
 
         :param settings: Pydantic settings instances.
-        :type settings: :py:class:`pydantic.BaseSettings`
+        :type settings: :py:class:`pydantic.BaseSettings` (pydantic v1) or
+            :py:class:`pydantic_settings.BaseSettings` (pydantic v2 and onwards)
 
         :param required: When required is True, raise an exception if settings dict is empty.
         :type required: bool
@@ -2365,26 +2355,8 @@ cdef class Configuration(Object):
 
         :rtype: None
         """
-        if pydantic is None:
-            raise Error(
-                "Unable to load pydantic configuration - pydantic is not installed. "
-                "Install pydantic or install Dependency Injector with pydantic extras: "
-                "\"pip install dependency-injector[pydantic]\""
-            )
 
-        if isinstance(settings, CLASS_TYPES) and issubclass(settings, pydantic.BaseSettings):
-            raise Error(
-                "Got settings class, but expect instance: "
-                "instead \"{0}\" use \"{0}()\"".format(settings.__name__)
-            )
-
-        if not isinstance(settings, pydantic.BaseSettings):
-            raise Error(
-                "Unable to recognize settings instance, expect \"pydantic.BaseSettings\", "
-                "got {0} instead".format(settings)
-            )
-
-        self.from_dict(settings.dict(**kwargs), required=required)
+        self.from_dict(pydantic_settings_to_dict(settings, kwargs), required=required)
 
     def from_dict(self, options, required=UNDEFINED):
         """Load configuration from the dictionary.
@@ -2452,7 +2424,7 @@ cdef class Configuration(Object):
     @property
     def related(self):
         """Return related providers generator."""
-        yield from self.__children.values()
+        yield from self._children.values()
         yield from super().related
 
     def _is_strict_mode_enabled(self):
@@ -2514,13 +2486,13 @@ cdef class Factory(Provider):
 
     def __init__(self, provides=None, *args, **kwargs):
         """Initialize provider."""
-        self.__instantiator = Callable()
+        self._instantiator = Callable()
         self.set_provides(provides)
         self.set_args(*args)
         self.set_kwargs(**kwargs)
 
-        self.__attributes = tuple()
-        self.__attributes_len = 0
+        self._attributes = tuple()
+        self._attributes_len = 0
 
         super(Factory, self).__init__()
 
@@ -2532,8 +2504,8 @@ cdef class Factory(Provider):
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy(self.args, memo))
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
+        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
         self._copy_overridings(copied, memo)
         return copied
@@ -2544,7 +2516,7 @@ cdef class Factory(Provider):
         :rtype: str
         """
         return represent_provider(provider=self,
-                                  provides=self.__instantiator.provides)
+                                  provides=self._instantiator.provides)
 
     @property
     def cls(self):
@@ -2554,7 +2526,7 @@ cdef class Factory(Provider):
     @property
     def provides(self):
         """Return provider provides."""
-        return self.__instantiator.provides
+        return self._instantiator.provides
 
     def set_provides(self, provides):
         """Set provider provides."""
@@ -2568,20 +2540,20 @@ cdef class Factory(Provider):
                     self.__class__.provided_type,
                 ),
             )
-        self.__instantiator.set_provides(provides)
+        self._instantiator.set_provides(provides)
         return self
 
     @property
     def args(self):
         """Return positional argument injections."""
-        return self.__instantiator.args
+        return self._instantiator.args
 
     def add_args(self, *args):
         """Add __init__ positional argument injections.
 
         :return: Reference ``self``
         """
-        self.__instantiator.add_args(*args)
+        self._instantiator.add_args(*args)
         return self
 
     def set_args(self, *args):
@@ -2591,7 +2563,7 @@ cdef class Factory(Provider):
 
         :return: Reference ``self``
         """
-        self.__instantiator.set_args(*args)
+        self._instantiator.set_args(*args)
         return self
 
     def clear_args(self):
@@ -2599,20 +2571,20 @@ cdef class Factory(Provider):
 
         :return: Reference ``self``
         """
-        self.__instantiator.clear_args()
+        self._instantiator.clear_args()
         return self
 
     @property
     def kwargs(self):
         """Return keyword argument injections."""
-        return self.__instantiator.kwargs
+        return self._instantiator.kwargs
 
     def add_kwargs(self, **kwargs):
         """Add __init__ keyword argument injections.
 
         :return: Reference ``self``
         """
-        self.__instantiator.add_kwargs(**kwargs)
+        self._instantiator.add_kwargs(**kwargs)
         return self
 
     def set_kwargs(self, **kwargs):
@@ -2622,7 +2594,7 @@ cdef class Factory(Provider):
 
         :return: Reference ``self``
         """
-        self.__instantiator.set_kwargs(**kwargs)
+        self._instantiator.set_kwargs(**kwargs)
         return self
 
     def clear_kwargs(self):
@@ -2630,7 +2602,7 @@ cdef class Factory(Provider):
 
         :return: Reference ``self``
         """
-        self.__instantiator.clear_kwargs()
+        self._instantiator.clear_kwargs()
         return self
 
     @property
@@ -2641,9 +2613,9 @@ cdef class Factory(Provider):
         cdef dict attributes
 
         attributes = dict()
-        for index in range(self.__attributes_len):
-            attribute = self.__attributes[index]
-            attributes[attribute.__name] = attribute.__value
+        for index in range(self._attributes_len):
+            attribute = self._attributes[index]
+            attributes[attribute._name] = attribute._value
         return attributes
 
     def add_attributes(self, **kwargs):
@@ -2651,8 +2623,8 @@ cdef class Factory(Provider):
 
         :return: Reference ``self``
         """
-        self.__attributes += parse_named_injections(kwargs)
-        self.__attributes_len = len(self.__attributes)
+        self._attributes += parse_named_injections(kwargs)
+        self._attributes_len = len(self._attributes)
         return self
 
     def set_attributes(self, **kwargs):
@@ -2662,8 +2634,8 @@ cdef class Factory(Provider):
 
         :return: Reference ``self``
         """
-        self.__attributes = parse_named_injections(kwargs)
-        self.__attributes_len = len(self.__attributes)
+        self._attributes = parse_named_injections(kwargs)
+        self._attributes_len = len(self._attributes)
         return self
 
     def clear_attributes(self):
@@ -2671,8 +2643,8 @@ cdef class Factory(Provider):
 
         :return: Reference ``self``
         """
-        self.__attributes = tuple()
-        self.__attributes_len = len(self.__attributes)
+        self._attributes = tuple()
+        self._attributes_len = len(self._attributes)
         return self
 
     @property
@@ -2726,7 +2698,7 @@ cdef class AbstractFactory(Factory):
 
         Callable interface implementation.
         """
-        if self.__last_overriding is None:
+        if self._last_overriding is None:
             raise Error("{0} must be overridden before calling".format(self))
         return super().__call__(*args, **kwargs)
 
@@ -2809,7 +2781,7 @@ cdef class BaseSingleton(Provider):
 
     def __init__(self, provides=None, *args, **kwargs):
         """Initialize provider."""
-        self.__instantiator = Factory()
+        self._instantiator = Factory()
         self.set_provides(provides)
         self.set_args(*args)
         self.set_kwargs(**kwargs)
@@ -2821,7 +2793,7 @@ cdef class BaseSingleton(Provider):
         :rtype: str
         """
         return represent_provider(provider=self,
-                                  provides=self.__instantiator.cls)
+                                  provides=self._instantiator.cls)
 
     def __deepcopy__(self, memo):
         """Create and return full copy of provider."""
@@ -2831,8 +2803,8 @@ cdef class BaseSingleton(Provider):
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy(self.args, memo))
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
+        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
         copied.set_attributes(**deepcopy(self.attributes, memo))
         self._copy_overridings(copied, memo)
         return copied
@@ -2845,7 +2817,7 @@ cdef class BaseSingleton(Provider):
     @property
     def provides(self):
         """Return provider provides."""
-        return self.__instantiator.provides
+        return self._instantiator.provides
 
     def set_provides(self, provides):
         """Set provider provides."""
@@ -2859,20 +2831,20 @@ cdef class BaseSingleton(Provider):
                     self.__class__.provided_type,
                 ),
             )
-        self.__instantiator.set_provides(provides)
+        self._instantiator.set_provides(provides)
         return self
 
     @property
     def args(self):
         """Return positional argument injections."""
-        return self.__instantiator.args
+        return self._instantiator.args
 
     def add_args(self, *args):
         """Add __init__ positional argument injections.
 
         :return: Reference ``self``
         """
-        self.__instantiator.add_args(*args)
+        self._instantiator.add_args(*args)
         return self
 
     def set_args(self, *args):
@@ -2882,7 +2854,7 @@ cdef class BaseSingleton(Provider):
 
         :return: Reference ``self``
         """
-        self.__instantiator.set_args(*args)
+        self._instantiator.set_args(*args)
         return self
 
     def clear_args(self):
@@ -2890,20 +2862,20 @@ cdef class BaseSingleton(Provider):
 
         :return: Reference ``self``
         """
-        self.__instantiator.clear_args()
+        self._instantiator.clear_args()
         return self
 
     @property
     def kwargs(self):
         """Return keyword argument injections."""
-        return self.__instantiator.kwargs
+        return self._instantiator.kwargs
 
     def add_kwargs(self, **kwargs):
         """Add __init__ keyword argument injections.
 
         :return: Reference ``self``
         """
-        self.__instantiator.add_kwargs(**kwargs)
+        self._instantiator.add_kwargs(**kwargs)
         return self
 
     def set_kwargs(self, **kwargs):
@@ -2913,7 +2885,7 @@ cdef class BaseSingleton(Provider):
 
         :return: Reference ``self``
         """
-        self.__instantiator.set_kwargs(**kwargs)
+        self._instantiator.set_kwargs(**kwargs)
         return self
 
     def clear_kwargs(self):
@@ -2921,20 +2893,20 @@ cdef class BaseSingleton(Provider):
 
         :return: Reference ``self``
         """
-        self.__instantiator.clear_kwargs()
+        self._instantiator.clear_kwargs()
         return self
 
     @property
     def attributes(self):
         """Return attribute injections."""
-        return self.__instantiator.attributes
+        return self._instantiator.attributes
 
     def add_attributes(self, **kwargs):
         """Add attribute injections.
 
         :return: Reference ``self``
         """
-        self.__instantiator.add_attributes(**kwargs)
+        self._instantiator.add_attributes(**kwargs)
         return self
 
     def set_attributes(self, **kwargs):
@@ -2944,7 +2916,7 @@ cdef class BaseSingleton(Provider):
 
         :return: Reference ``self``
         """
-        self.__instantiator.set_attributes(**kwargs)
+        self._instantiator.set_attributes(**kwargs)
         return self
 
     def clear_attributes(self):
@@ -2952,7 +2924,7 @@ cdef class BaseSingleton(Provider):
 
         :return: Reference ``self``
         """
-        self.__instantiator.clear_attributes()
+        self._instantiator.clear_attributes()
         return self
 
     def reset(self):
@@ -2975,7 +2947,7 @@ cdef class BaseSingleton(Provider):
     @property
     def related(self):
         """Return related providers generator."""
-        yield from filter(is_provider, [self.__instantiator.provides])
+        yield from filter(is_provider, [self._instantiator.provides])
         yield from filter(is_provider, self.args)
         yield from filter(is_provider, self.kwargs.values())
         yield from filter(is_provider, self.attributes.values())
@@ -2985,10 +2957,10 @@ cdef class BaseSingleton(Provider):
         try:
             instance = result.result()
         except Exception as exception:
-            self.__storage = None
+            self._storage = None
             future_result.set_exception(exception)
         else:
-            self.__storage = instance
+            self._storage = instance
             future_result.set_result(instance)
 
 
@@ -3030,7 +3002,7 @@ cdef class Singleton(BaseSingleton):
         :param provides: Provided type.
         :type provides: type
         """
-        self.__storage = None
+        self._storage = None
         super(Singleton, self).__init__(provides, *args, **kwargs)
 
     def reset(self):
@@ -3038,26 +3010,26 @@ cdef class Singleton(BaseSingleton):
 
         :rtype: None
         """
-        if __is_future_or_coroutine(self.__storage):
-            asyncio.ensure_future(self.__storage).cancel()
-        self.__storage = None
+        if __is_future_or_coroutine(self._storage):
+            asyncio.ensure_future(self._storage).cancel()
+        self._storage = None
         return SingletonResetContext(self)
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
-        if self.__storage is None:
-            instance = __factory_call(self.__instantiator, args, kwargs)
+        if self._storage is None:
+            instance = __factory_call(self._instantiator, args, kwargs)
 
             if __is_future_or_coroutine(instance):
                 future_result = asyncio.Future()
                 instance = asyncio.ensure_future(instance)
                 instance.add_done_callback(functools.partial(self._async_init_instance, future_result))
-                self.__storage = future_result
+                self._storage = future_result
                 return future_result
 
-            self.__storage = instance
+            self._storage = instance
 
-        return self.__storage
+        return self._storage
 
 
 cdef class DelegatedSingleton(Singleton):
@@ -3097,8 +3069,8 @@ cdef class ThreadSafeSingleton(BaseSingleton):
         :param provides: Provided type.
         :type provides: type
         """
-        self.__storage = None
-        self.__storage_lock = self.__class__.storage_lock
+        self._storage = None
+        self._storage_lock = self.__class__.storage_lock
         super(ThreadSafeSingleton, self).__init__(provides, *args, **kwargs)
 
     def reset(self):
@@ -3106,27 +3078,27 @@ cdef class ThreadSafeSingleton(BaseSingleton):
 
         :rtype: None
         """
-        with self.__storage_lock:
-            if __is_future_or_coroutine(self.__storage):
-                asyncio.ensure_future(self.__storage).cancel()
-            self.__storage = None
+        with self._storage_lock:
+            if __is_future_or_coroutine(self._storage):
+                asyncio.ensure_future(self._storage).cancel()
+            self._storage = None
         return SingletonResetContext(self)
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
-        instance = self.__storage
+        instance = self._storage
 
         if instance is None:
-            with self.__storage_lock:
-                if self.__storage is None:
-                    result = __factory_call(self.__instantiator, args, kwargs)
+            with self._storage_lock:
+                if self._storage is None:
+                    result = __factory_call(self._instantiator, args, kwargs)
                     if __is_future_or_coroutine(result):
                         future_result = asyncio.Future()
                         result = asyncio.ensure_future(result)
                         result.add_done_callback(functools.partial(self._async_init_instance, future_result))
                         result = future_result
-                    self.__storage = result
-                instance = self.__storage
+                    self._storage = result
+                instance = self._storage
         return instance
 
 
@@ -3177,7 +3149,7 @@ cdef class ThreadLocalSingleton(BaseSingleton):
         :param provides: Provided type.
         :type provides: type
         """
-        self.__storage = threading.local()
+        self._storage = threading.local()
         super(ThreadLocalSingleton, self).__init__(provides, *args, **kwargs)
 
     def reset(self):
@@ -3186,14 +3158,14 @@ cdef class ThreadLocalSingleton(BaseSingleton):
         :rtype: None
         """
         try:
-            instance = self.__storage.instance
+            instance = self._storage.instance
         except AttributeError:
             return SingletonResetContext(self)
 
         if __is_future_or_coroutine(instance):
             asyncio.ensure_future(instance).cancel()
 
-        del self.__storage.instance
+        del self._storage.instance
 
         return SingletonResetContext(self)
 
@@ -3202,29 +3174,29 @@ cdef class ThreadLocalSingleton(BaseSingleton):
         cdef object instance
 
         try:
-            instance = self.__storage.instance
+            instance = self._storage.instance
         except AttributeError:
-            instance = __factory_call(self.__instantiator, args, kwargs)
+            instance = __factory_call(self._instantiator, args, kwargs)
 
             if __is_future_or_coroutine(instance):
                 future_result = asyncio.Future()
                 instance = asyncio.ensure_future(instance)
                 instance.add_done_callback(functools.partial(self._async_init_instance, future_result))
-                self.__storage.instance = future_result
+                self._storage.instance = future_result
                 return future_result
 
-            self.__storage.instance = instance
-        finally:
-            return instance
+            self._storage.instance = instance
+        
+        return instance
 
     def _async_init_instance(self, future_result, result):
         try:
             instance = result.result()
         except Exception as exception:
-            del self.__storage.instance
+            del self._storage.instance
             future_result.set_exception(exception)
         else:
-            self.__storage.instance = instance
+            self._storage.instance = instance
             future_result.set_result(instance)
 
 
@@ -3254,29 +3226,24 @@ cdef class ContextLocalSingleton(BaseSingleton):
         :param provides: Provided type.
         :type provides: type
         """
-        if not contextvars:
-            raise RuntimeError(
-                "Contextvars library not found. This provider "
-                "requires Python 3.7 or a backport of contextvars. "
-                "To install a backport run \"pip install contextvars\"."
-            )
+
 
         super(ContextLocalSingleton, self).__init__(provides, *args, **kwargs)
-        self.__storage = contextvars.ContextVar("__storage", default=self._none)
+        self._storage = ContextVar("_storage", default=self._none)
 
     def reset(self):
         """Reset cached instance, if any.
 
         :rtype: None
         """
-        instance = self.__storage.get()
+        instance = self._storage.get()
         if instance is self._none:
             return SingletonResetContext(self)
 
         if __is_future_or_coroutine(instance):
             asyncio.ensure_future(instance).cancel()
 
-        self.__storage.set(self._none)
+        self._storage.set(self._none)
 
         return SingletonResetContext(self)
 
@@ -3284,19 +3251,19 @@ cdef class ContextLocalSingleton(BaseSingleton):
         """Return single instance."""
         cdef object instance
 
-        instance = self.__storage.get()
+        instance = self._storage.get()
 
         if instance is self._none:
-            instance = __factory_call(self.__instantiator, args, kwargs)
+            instance = __factory_call(self._instantiator, args, kwargs)
 
             if __is_future_or_coroutine(instance):
                 future_result = asyncio.Future()
                 instance = asyncio.ensure_future(instance)
                 instance.add_done_callback(functools.partial(self._async_init_instance, future_result))
-                self.__storage.set(future_result)
+                self._storage.set(future_result)
                 return future_result
 
-            self.__storage.set(instance)
+            self._storage.set(instance)
 
         return instance
 
@@ -3304,10 +3271,10 @@ cdef class ContextLocalSingleton(BaseSingleton):
         try:
             instance = result.result()
         except Exception as exception:
-            self.__storage.set(self._none)
+            self._storage.set(self._none)
             future_result.set_exception(exception)
         else:
-            self.__storage.set(instance)
+            self._storage.set(instance)
             future_result.set_result(instance)
 
 
@@ -3348,7 +3315,7 @@ cdef class AbstractSingleton(BaseSingleton):
 
         Callable interface implementation.
         """
-        if self.__last_overriding is None:
+        if self._last_overriding is None:
             raise Error("{0} must be overridden before calling".format(self))
         return super().__call__(*args, **kwargs)
 
@@ -3373,9 +3340,9 @@ cdef class AbstractSingleton(BaseSingleton):
 
         :rtype: None
         """
-        if self.__last_overriding is None:
+        if self._last_overriding is None:
             raise Error("{0} must be overridden before calling".format(self))
-        return self.__last_overriding.reset()
+        return self._last_overriding.reset()
 
 
 cdef class SingletonDelegate(Delegate):
@@ -3432,8 +3399,8 @@ cdef class List(Provider):
 
     def __init__(self, *args):
         """Initializer."""
-        self.__args = tuple()
-        self.__args_len = 0
+        self._args = tuple()
+        self._args_len = 0
         self.set_args(*args)
         super(List, self).__init__()
 
@@ -3444,7 +3411,7 @@ cdef class List(Provider):
             return copied
 
         copied = _memorized_duplicate(self, memo)
-        copied.set_args(*deepcopy(self.args, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
         self._copy_overridings(copied, memo)
         return copied
 
@@ -3463,9 +3430,9 @@ cdef class List(Provider):
         cdef list args
 
         args = list()
-        for index in range(self.__args_len):
-            arg = self.__args[index]
-            args.append(arg.__value)
+        for index in range(self._args_len):
+            arg = self._args[index]
+            args.append(arg._value)
         return tuple(args)
 
     def add_args(self, *args):
@@ -3473,8 +3440,8 @@ cdef class List(Provider):
 
         :return: Reference ``self``
         """
-        self.__args += parse_positional_injections(args)
-        self.__args_len = len(self.__args)
+        self._args += parse_positional_injections(args)
+        self._args_len = len(self._args)
         return self
 
     def set_args(self, *args):
@@ -3484,8 +3451,8 @@ cdef class List(Provider):
 
         :return: Reference ``self``
         """
-        self.__args = parse_positional_injections(args)
-        self.__args_len = len(self.__args)
+        self._args = parse_positional_injections(args)
+        self._args_len = len(self._args)
         return self
 
     def clear_args(self):
@@ -3493,8 +3460,8 @@ cdef class List(Provider):
 
         :return: Reference ``self``
         """
-        self.__args = tuple()
-        self.__args_len = len(self.__args)
+        self._args = tuple()
+        self._args_len = len(self._args)
         return self
 
     @property
@@ -3505,7 +3472,7 @@ cdef class List(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable call."""
-        return __provide_positional_args(args, self.__args, self.__args_len, self.__async_mode)
+        return __provide_positional_args(args, self._args, self._args_len, self._async_mode)
 
 
 cdef class Dict(Provider):
@@ -3540,8 +3507,8 @@ cdef class Dict(Provider):
 
     def __init__(self, dict_=None, **kwargs):
         """Initializer."""
-        self.__kwargs = tuple()
-        self.__kwargs_len = 0
+        self._kwargs = tuple()
+        self._kwargs_len = 0
         self.add_kwargs(dict_, **kwargs)
         super(Dict, self).__init__()
 
@@ -3571,9 +3538,9 @@ cdef class Dict(Provider):
         cdef dict kwargs
 
         kwargs = dict()
-        for index in range(self.__kwargs_len):
-            kwarg = self.__kwargs[index]
-            kwargs[kwarg.__name] = kwarg.__value
+        for index in range(self._kwargs_len):
+            kwarg = self._kwargs[index]
+            kwargs[kwarg._name] = kwarg._value
         return kwargs
 
     def add_kwargs(self, dict_=None, **kwargs):
@@ -3584,9 +3551,9 @@ cdef class Dict(Provider):
         if dict_ is None:
             dict_ = {}
 
-        self.__kwargs += parse_named_injections(dict_)
-        self.__kwargs += parse_named_injections(kwargs)
-        self.__kwargs_len = len(self.__kwargs)
+        self._kwargs += parse_named_injections(dict_)
+        self._kwargs += parse_named_injections(kwargs)
+        self._kwargs_len = len(self._kwargs)
 
         return self
 
@@ -3600,9 +3567,9 @@ cdef class Dict(Provider):
         if dict_ is None:
             dict_ = {}
 
-        self.__kwargs = parse_named_injections(dict_)
-        self.__kwargs += parse_named_injections(kwargs)
-        self.__kwargs_len = len(self.__kwargs)
+        self._kwargs = parse_named_injections(dict_)
+        self._kwargs += parse_named_injections(kwargs)
+        self._kwargs_len = len(self._kwargs)
 
         return self
 
@@ -3611,8 +3578,8 @@ cdef class Dict(Provider):
 
         :return: Reference ``self``
         """
-        self.__kwargs = tuple()
-        self.__kwargs_len = len(self.__kwargs)
+        self._kwargs = tuple()
+        self._kwargs_len = len(self._kwargs)
         return self
 
     @property
@@ -3631,27 +3598,38 @@ cdef class Dict(Provider):
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return result of provided callable call."""
-        return __provide_keyword_args(kwargs, self.__kwargs, self.__kwargs_len, self.__async_mode)
+        return __provide_keyword_args(kwargs, self._kwargs, self._kwargs_len, self._async_mode)
 
+
+@cython.no_gc
+cdef class NullAwaitable:
+    def __next__(self):
+        raise StopIteration from None
+
+    def __await__(self):
+        return self
+
+
+cdef NullAwaitable NULL_AWAITABLE = NullAwaitable()
 
 
 cdef class Resource(Provider):
     """Resource provider provides a component with initialization and shutdown."""
 
     def __init__(self, provides=None, *args, **kwargs):
-        self.__provides = None
+        self._provides = None
         self.set_provides(provides)
 
-        self.__initialized = False
-        self.__resource = None
-        self.__shutdowner = None
+        self._initialized = False
+        self._resource = None
+        self._shutdowner = None
 
-        self.__args = tuple()
-        self.__args_len = 0
+        self._args = tuple()
+        self._args_len = 0
         self.set_args(*args)
 
-        self.__kwargs = tuple()
-        self.__kwargs_len = 0
+        self._kwargs = tuple()
+        self._kwargs_len = 0
         self.set_kwargs(**kwargs)
 
         super().__init__()
@@ -3662,13 +3640,13 @@ cdef class Resource(Provider):
         if copied is not None:
             return copied
 
-        if self.__initialized:
+        if self._initialized:
             raise Error("Can not copy initialized resource")
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy(self.args, memo))
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
+        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
 
         self._copy_overridings(copied, memo)
 
@@ -3684,12 +3662,18 @@ cdef class Resource(Provider):
     @property
     def provides(self):
         """Return provider provides."""
-        return self.__provides
+        return self._provides
 
     def set_provides(self, provides):
         """Set provider provides."""
         provides = _resolve_string_import(provides)
-        self.__provides = provides
+
+        if isasyncgenfunction(provides):
+            provides = asynccontextmanager(provides)
+        elif isgeneratorfunction(provides):
+            provides = contextmanager(provides)
+
+        self._provides = provides
         return self
 
     @property
@@ -3700,9 +3684,9 @@ cdef class Resource(Provider):
         cdef list args
 
         args = list()
-        for index in range(self.__args_len):
-            arg = self.__args[index]
-            args.append(arg.__value)
+        for index in range(self._args_len):
+            arg = self._args[index]
+            args.append(arg._value)
         return tuple(args)
 
     def add_args(self, *args):
@@ -3710,8 +3694,8 @@ cdef class Resource(Provider):
 
         :return: Reference ``self``
         """
-        self.__args += parse_positional_injections(args)
-        self.__args_len = len(self.__args)
+        self._args += parse_positional_injections(args)
+        self._args_len = len(self._args)
         return self
 
     def set_args(self, *args):
@@ -3721,8 +3705,8 @@ cdef class Resource(Provider):
 
         :return: Reference ``self``
         """
-        self.__args = parse_positional_injections(args)
-        self.__args_len = len(self.__args)
+        self._args = parse_positional_injections(args)
+        self._args_len = len(self._args)
         return self
 
     def clear_args(self):
@@ -3730,8 +3714,8 @@ cdef class Resource(Provider):
 
         :return: Reference ``self``
         """
-        self.__args = tuple()
-        self.__args_len = len(self.__args)
+        self._args = tuple()
+        self._args_len = len(self._args)
         return self
 
     @property
@@ -3742,9 +3726,9 @@ cdef class Resource(Provider):
         cdef dict kwargs
 
         kwargs = dict()
-        for index in range(self.__kwargs_len):
-            kwarg = self.__kwargs[index]
-            kwargs[kwarg.__name] = kwarg.__value
+        for index in range(self._kwargs_len):
+            kwarg = self._kwargs[index]
+            kwargs[kwarg._name] = kwarg._value
         return kwargs
 
     def add_kwargs(self, **kwargs):
@@ -3752,8 +3736,8 @@ cdef class Resource(Provider):
 
         :return: Reference ``self``
         """
-        self.__kwargs += parse_named_injections(kwargs)
-        self.__kwargs_len = len(self.__kwargs)
+        self._kwargs += parse_named_injections(kwargs)
+        self._kwargs_len = len(self._kwargs)
         return self
 
     def set_kwargs(self, **kwargs):
@@ -3763,8 +3747,8 @@ cdef class Resource(Provider):
 
         :return: Reference ``self``
         """
-        self.__kwargs = parse_named_injections(kwargs)
-        self.__kwargs_len = len(self.__kwargs)
+        self._kwargs = parse_named_injections(kwargs)
+        self._kwargs_len = len(self._kwargs)
         return self
 
     def clear_kwargs(self):
@@ -3772,14 +3756,14 @@ cdef class Resource(Provider):
 
         :return: Reference ``self``
         """
-        self.__kwargs = tuple()
-        self.__kwargs_len = len(self.__kwargs)
+        self._kwargs = tuple()
+        self._kwargs_len = len(self._kwargs)
         return self
 
     @property
     def initialized(self):
         """Check if resource is initialized."""
-        return self.__initialized
+        return self._initialized
 
     def init(self):
         """Initialize resource."""
@@ -3787,30 +3771,23 @@ cdef class Resource(Provider):
 
     def shutdown(self):
         """Shutdown resource."""
-        if not self.__initialized:
-            if self.__async_mode == ASYNC_MODE_ENABLED:
-                result = asyncio.Future()
-                result.set_result(None)
-                return result
+        if not self._initialized:
+            if self._async_mode == ASYNC_MODE_ENABLED:
+                return NULL_AWAITABLE
             return
 
-        if self.__shutdowner:
-            try:
-                shutdown = self.__shutdowner(self.__resource)
-            except StopIteration:
-                pass
-            else:
-                if inspect.isawaitable(shutdown):
-                    return self._create_shutdown_future(shutdown)
+        if self._shutdowner:
+            future = self._shutdowner(None, None, None)
 
-        self.__resource = None
-        self.__initialized = False
-        self.__shutdowner = None
+            if __is_future_or_coroutine(future):
+                return ensure_future(self._shutdown_async(future))
 
-        if self.__async_mode == ASYNC_MODE_ENABLED:
-            result = asyncio.Future()
-            result.set_result(None)
-            return result
+        self._resource = None
+        self._initialized = False
+        self._shutdowner = None
+
+        if self._async_mode == ASYNC_MODE_ENABLED:
+            return NULL_AWAITABLE
 
     @property
     def related(self):
@@ -3820,168 +3797,74 @@ cdef class Resource(Provider):
         yield from filter(is_provider, self.kwargs.values())
         yield from super().related
 
+    async def _shutdown_async(self, future) -> None:
+        try:
+            await future
+        finally:
+            self._resource = None
+            self._initialized = False
+            self._shutdowner = None
+
+    async def _handle_async_cm(self, obj) -> None:
+        try:
+            self._resource = resource = await obj.__aenter__()
+            self._shutdowner = obj.__aexit__
+            return resource
+        except:
+            self._initialized = False
+            raise
+
+    async def _provide_async(self, future) -> None:
+        try:
+            obj = await future
+
+            if hasattr(obj, '__aenter__') and hasattr(obj, '__aexit__'):
+                self._resource = await obj.__aenter__()
+                self._shutdowner = obj.__aexit__
+            elif hasattr(obj, '__enter__') and hasattr(obj, '__exit__'):
+                self._resource = obj.__enter__()
+                self._shutdowner = obj.__exit__
+            else:
+                self._resource = obj
+                self._shutdowner = None
+
+            return self._resource
+        except:
+            self._initialized = False
+            raise
+
     cpdef object _provide(self, tuple args, dict kwargs):
-        if self.__initialized:
-            return self.__resource
+        if self._initialized:
+            return self._resource
 
-        if self._is_resource_subclass(self.__provides):
-            initializer = self.__provides()
-            self.__resource = __call(
-                initializer.init,
-                args,
-                self.__args,
-                self.__args_len,
-                kwargs,
-                self.__kwargs,
-                self.__kwargs_len,
-                self.__async_mode,
-            )
-            self.__shutdowner = initializer.shutdown
-        elif self._is_async_resource_subclass(self.__provides):
-            initializer = self.__provides()
-            async_init = __call(
-                initializer.init,
-                args,
-                self.__args,
-                self.__args_len,
-                kwargs,
-                self.__kwargs,
-                self.__kwargs_len,
-                self.__async_mode,
-            )
-            self.__initialized = True
-            return self._create_init_future(async_init, initializer.shutdown)
-        elif inspect.isgeneratorfunction(self.__provides):
-            initializer = __call(
-                self.__provides,
-                args,
-                self.__args,
-                self.__args_len,
-                kwargs,
-                self.__kwargs,
-                self.__kwargs_len,
-                self.__async_mode,
-            )
-            self.__resource = next(initializer)
-            self.__shutdowner = initializer.send
-        elif iscoroutinefunction(self.__provides):
-            initializer = __call(
-                self.__provides,
-                args,
-                self.__args,
-                self.__args_len,
-                kwargs,
-                self.__kwargs,
-                self.__kwargs_len,
-                self.__async_mode,
-            )
-            self.__initialized = True
-            return self._create_init_future(initializer)
-        elif isasyncgenfunction(self.__provides):
-            initializer = __call(
-                self.__provides,
-                args,
-                self.__args,
-                self.__args_len,
-                kwargs,
-                self.__kwargs,
-                self.__kwargs_len,
-                self.__async_mode,
-            )
-            self.__initialized = True
-            return self._create_async_gen_init_future(initializer)
-        elif callable(self.__provides):
-            self.__resource = __call(
-                self.__provides,
-                args,
-                self.__args,
-                self.__args_len,
-                kwargs,
-                self.__kwargs,
-                self.__kwargs_len,
-                self.__async_mode,
-            )
+        obj = __call(
+            self._provides,
+            args,
+            self._args,
+            self._args_len,
+            kwargs,
+            self._kwargs,
+            self._kwargs_len,
+            self._async_mode,
+        )
+
+        if __is_future_or_coroutine(obj):
+            self._initialized = True
+            self._resource = resource = ensure_future(self._provide_async(obj))
+            return resource
+        elif hasattr(obj, '__enter__') and hasattr(obj, '__exit__'):
+            self._resource = obj.__enter__()
+            self._shutdowner = obj.__exit__
+        elif hasattr(obj, '__aenter__') and hasattr(obj, '__aexit__'):
+            self._initialized = True
+            self._resource = resource = ensure_future(self._handle_async_cm(obj))
+            return resource
         else:
-            raise Error("Unknown type of resource initializer")
+            self._resource = obj
+            self._shutdowner = None
 
-        self.__initialized = True
-        return self.__resource
-
-    def _create_init_future(self, future, shutdowner=None):
-        callback = self._async_init_callback
-        if shutdowner:
-            callback = functools.partial(callback, shutdowner=shutdowner)
-
-        future = asyncio.ensure_future(future)
-        future.add_done_callback(callback)
-        self.__resource = future
-
-        return future
-
-    def _create_async_gen_init_future(self, initializer):
-        if inspect.isasyncgen(initializer):
-            return self._create_init_future(initializer.__anext__(), initializer.asend)
-
-        future = asyncio.Future()
-
-        create_initializer = asyncio.ensure_future(initializer)
-        create_initializer.add_done_callback(functools.partial(self._async_create_gen_callback, future))
-        self.__resource = future
-
-        return future
-
-    def _async_init_callback(self, initializer, shutdowner=None):
-        try:
-            resource = initializer.result()
-        except Exception:
-            self.__initialized = False
-        else:
-            self.__resource = resource
-            self.__shutdowner = shutdowner
-
-    def _async_create_gen_callback(self, future, initializer_future):
-        initializer = initializer_future.result()
-        init_future = self._create_init_future(initializer.__anext__(), initializer.asend)
-        init_future.add_done_callback(functools.partial(self._async_trigger_result, future))
-
-    def _async_trigger_result(self, future, future_result):
-        future.set_result(future_result.result())
-
-    def _create_shutdown_future(self, shutdown_future):
-        future = asyncio.Future()
-        shutdown_future = asyncio.ensure_future(shutdown_future)
-        shutdown_future.add_done_callback(functools.partial(self._async_shutdown_callback, future))
-        return future
-
-    def _async_shutdown_callback(self, future_result, shutdowner):
-        try:
-            shutdowner.result()
-        except StopAsyncIteration:
-            pass
-
-        self.__resource = None
-        self.__initialized = False
-        self.__shutdowner = None
-
-        future_result.set_result(None)
-
-    @staticmethod
-    def _is_resource_subclass(instance):
-        if  sys.version_info < (3, 5):
-            return False
-        if not isinstance(instance, CLASS_TYPES):
-            return
-        from . import resources
-        return issubclass(instance, resources.Resource)
-
-    @staticmethod
-    def _is_async_resource_subclass(instance):
-        if  sys.version_info < (3, 5):
-            return False
-        if not isinstance(instance, CLASS_TYPES):
-            return
-        from . import resources
-        return issubclass(instance, resources.AsyncResource)
+        self._initialized = True
+        return self._resource
 
 
 cdef class Container(Provider):
@@ -3993,18 +3876,18 @@ cdef class Container(Provider):
 
     def __init__(self, container_cls=None, container=None, **overriding_providers):
         """Initialize provider."""
-        self.__container_cls = container_cls
-        self.__overriding_providers = overriding_providers
+        self._container_cls = container_cls
+        self._overriding_providers = overriding_providers
 
         if container is None and container_cls:
             container = container_cls()
             container.assign_parent(self)
-        self.__container = container
+        self._container = container
 
-        if self.__container and self.__overriding_providers:
+        if self._container and self._overriding_providers:
             self.apply_overridings()
 
-        self.__parent = None
+        self._parent = None
 
         super(Container, self).__init__()
 
@@ -4017,9 +3900,9 @@ cdef class Container(Provider):
             return copied
 
         copied = <Container> _memorized_duplicate(self, memo)
-        copied.__container_cls = self.__container_cls
-        copied.__container = deepcopy(self.__container, memo)
-        copied.__overriding_providers = deepcopy(self.__overriding_providers, memo)
+        copied._container_cls = self._container_cls
+        copied._container = deepcopy(self._container, memo)
+        copied._overriding_providers = deepcopy(self._overriding_providers, memo)
         self._copy_parent(copied, memo)
         self._copy_overridings(copied, memo)
         return copied
@@ -4030,22 +3913,22 @@ cdef class Container(Provider):
             raise AttributeError(
                 "'{cls}' object has no attribute "
                 "'{attribute_name}'".format(cls=self.__class__.__name__, attribute_name=name))
-        return getattr(self.__container, name)
+        return getattr(self._container, name)
 
     @property
     def providers(self):
-        return self.__container.providers
+        return self._container.providers
 
     @property
     def container(self):
-        return self.__container
+        return self._container
 
     def override(self, provider):
         """Override provider with another provider."""
         if not hasattr(provider, "providers"):
             raise Error("Container provider {0} can be overridden only by providers container".format(self))
 
-        self.__container.override_providers(**provider.providers)
+        self._container.override_providers(**provider.providers)
         return super().override(provider)
 
     def reset_last_overriding(self):
@@ -4057,7 +3940,7 @@ cdef class Container(Provider):
         :rtype: None
         """
         super().reset_last_overriding()
-        for provider in self.__container.providers.values():
+        for provider in self._container.providers.values():
             if not provider.overridden:
                 continue
             provider.reset_last_overriding()
@@ -4068,7 +3951,7 @@ cdef class Container(Provider):
         :rtype: None
         """
         super().reset_override()
-        for provider in self.__container.providers.values():
+        for provider in self._container.providers.values():
             if not provider.overridden:
                 continue
             provider.reset_override()
@@ -4078,7 +3961,7 @@ cdef class Container(Provider):
 
         This method should not be called directly. It is called on
         declarative container initialization."""
-        self.__container.override_providers(**self.__overriding_providers)
+        self._container.override_providers(**self._overriding_providers)
 
     @property
     def related(self):
@@ -4097,31 +3980,31 @@ cdef class Container(Provider):
     @property
     def parent(self):
         """Return parent."""
-        return self.__parent
+        return self._parent
 
     @property
     def parent_name(self):
         """Return parent name."""
-        if not self.__parent:
+        if not self._parent:
             return None
 
         name = ""
-        if self.__parent.parent_name:
-            name += f"{self.__parent.parent_name}."
-        name += f"{self.__parent.resolve_provider_name(self)}"
+        if self._parent.parent_name:
+            name += f"{self._parent.parent_name}."
+        name += f"{self._parent.resolve_provider_name(self)}"
 
         return name
 
     def assign_parent(self, parent):
         """Assign parent."""
-        self.__parent = parent
+        self._parent = parent
 
     def _copy_parent(self, copied, memo):
         _copy_parent(self, copied, memo)
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
-        return self.__container
+        return self._container
 
 
 cdef class Selector(Provider):
@@ -4157,10 +4040,10 @@ cdef class Selector(Provider):
 
     def __init__(self, selector=None, **providers):
         """Initialize provider."""
-        self.__selector = None
+        self._selector = None
         self.set_selector(selector)
 
-        self.__providers = {}
+        self._providers = {}
         self.set_providers(**providers)
 
         super(Selector, self).__init__()
@@ -4172,8 +4055,8 @@ cdef class Selector(Provider):
             return copied
 
         copied = _memorized_duplicate(self, memo)
-        copied.set_selector(deepcopy(self.__selector, memo))
-        copied.set_providers(**deepcopy(self.__providers, memo))
+        copied.set_selector(deepcopy(self._selector, memo))
+        copied.set_providers(**deepcopy(self._providers, memo))
 
         self._copy_overridings(copied, memo)
 
@@ -4185,10 +4068,10 @@ cdef class Selector(Provider):
             raise AttributeError(
                 "'{cls}' object has no attribute "
                 "'{attribute_name}'".format(cls=self.__class__.__name__, attribute_name=name))
-        if name not in self.__providers:
+        if name not in self._providers:
             raise AttributeError("Selector has no \"{0}\" provider".format(name))
 
-        return self.__providers[name]
+        return self._providers[name]
 
     def __str__(self):
         """Return string representation of provider.
@@ -4198,10 +4081,10 @@ cdef class Selector(Provider):
 
         return "<{provider}({selector}, {providers}) at {address}>".format(
             provider=".".join(( self.__class__.__module__, self.__class__.__name__)),
-            selector=self.__selector,
+            selector=self._selector,
             providers=", ".join((
                 "{0}={1}".format(name, provider)
-                for name, provider in self.__providers.items()
+                for name, provider in self._providers.items()
             )),
             address=hex(id(self)),
         )
@@ -4209,41 +4092,41 @@ cdef class Selector(Provider):
     @property
     def selector(self):
         """Return selector."""
-        return self.__selector
+        return self._selector
 
     def set_selector(self, selector):
         """Set selector."""
-        self.__selector = selector
+        self._selector = selector
         return self
 
     @property
     def providers(self):
         """Return providers."""
-        return dict(self.__providers)
+        return dict(self._providers)
 
     def set_providers(self, **providers: Provider):
         """Set providers."""
-        self.__providers = providers
+        self._providers = providers
         return self
 
     @property
     def related(self):
         """Return related providers generator."""
-        yield from filter(is_provider, [self.__selector])
+        yield from filter(is_provider, [self._selector])
         yield from self.providers.values()
         yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
         """Return single instance."""
-        selector_value = self.__selector()
+        selector_value = self._selector()
 
         if selector_value is None:
             raise Error("Selector value is undefined")
 
-        if selector_value not in self.__providers:
+        if selector_value not in self._providers:
             raise Error("Selector has no \"{0}\" provider".format(selector_value))
 
-        return self.__providers[selector_value](*args, **kwargs)
+        return self._providers[selector_value](*args, **kwargs)
 
 
 cdef class ProvidedInstance(Provider):
@@ -4278,12 +4161,12 @@ cdef class ProvidedInstance(Provider):
     """
 
     def __init__(self, provides=None):
-        self.__provides = None
+        self._provides = None
         self.set_provides(provides)
         super().__init__()
 
     def __repr__(self):
-        return f"{self.__class__.__name__}(\"{self.__provides}\")"
+        return f"{self.__class__.__name__}(\"{self._provides}\")"
 
     def __deepcopy__(self, memo):
         copied = memo.get(id(self))
@@ -4303,11 +4186,11 @@ cdef class ProvidedInstance(Provider):
     @property
     def provides(self):
         """Return provider provides."""
-        return self.__provides
+        return self._provides
 
     def set_provides(self, provides):
         """Set provider provides."""
-        self.__provides = provides
+        self._provides = provides
         return self
 
     def call(self, *args, **kwargs):
@@ -4321,7 +4204,7 @@ cdef class ProvidedInstance(Provider):
         yield from super().related
 
     cpdef object _provide(self, tuple args, dict kwargs):
-        return self.__provides(*args, **kwargs)
+        return self._provides(*args, **kwargs)
 
 
 cdef class AttributeGetter(Provider):
@@ -4331,10 +4214,10 @@ cdef class AttributeGetter(Provider):
     """
 
     def __init__(self, provides=None, name=None):
-        self.__provides = None
+        self._provides = None
         self.set_provides(provides)
 
-        self.__name = None
+        self._name = None
         self.set_name(name)
         super().__init__()
 
@@ -4360,21 +4243,21 @@ cdef class AttributeGetter(Provider):
     @property
     def provides(self):
         """Return provider provides."""
-        return self.__provides
+        return self._provides
 
     def set_provides(self, provides):
         """Set provider provides."""
-        self.__provides = provides
+        self._provides = provides
         return self
 
     @property
     def name(self):
         """Return name of the attribute."""
-        return self.__name
+        return self._name
 
     def set_name(self, name):
         """Set name of the attribute."""
-        self.__name = name
+        self._name = name
         return self
 
     def call(self, *args, **kwargs):
@@ -4413,10 +4296,10 @@ cdef class ItemGetter(Provider):
     """
 
     def __init__(self, provides=None, name=None):
-        self.__provides = None
+        self._provides = None
         self.set_provides(provides)
 
-        self.__name = None
+        self._name = None
         self.set_name(name)
         super().__init__()
 
@@ -4442,21 +4325,21 @@ cdef class ItemGetter(Provider):
     @property
     def provides(self):
         """Return provider"s provides."""
-        return self.__provides
+        return self._provides
 
     def set_provides(self, provides):
         """Set provider"s provides."""
-        self.__provides = provides
+        self._provides = provides
         return self
 
     @property
     def name(self):
         """Return name of the item."""
-        return self.__name
+        return self._name
 
     def set_name(self, name):
         """Set name of the item."""
-        self.__name = name
+        self._name = name
         return self
 
     def call(self, *args, **kwargs):
@@ -4495,15 +4378,15 @@ cdef class MethodCaller(Provider):
     """
 
     def __init__(self, provides=None, *args, **kwargs):
-        self.__provides = None
+        self._provides = None
         self.set_provides(provides)
 
-        self.__args = tuple()
-        self.__args_len = 0
+        self._args = tuple()
+        self._args_len = 0
         self.set_args(*args)
 
-        self.__kwargs = tuple()
-        self.__kwargs_len = 0
+        self._kwargs = tuple()
+        self._kwargs_len = 0
         self.set_kwargs(**kwargs)
 
         super().__init__()
@@ -4518,8 +4401,8 @@ cdef class MethodCaller(Provider):
 
         copied = _memorized_duplicate(self, memo)
         copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy(self.args, memo))
-        copied.set_kwargs(**deepcopy(self.kwargs, memo))
+        copied.set_args(*deepcopy_args(self, self.args, memo))
+        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
         self._copy_overridings(copied, memo)
         return copied
 
@@ -4535,11 +4418,11 @@ cdef class MethodCaller(Provider):
     @property
     def provides(self):
         """Return provider provides."""
-        return self.__provides
+        return self._provides
 
     def set_provides(self, provides):
         """Set provider provides."""
-        self.__provides = provides
+        self._provides = provides
         return self
 
     @property
@@ -4550,9 +4433,9 @@ cdef class MethodCaller(Provider):
         cdef list args
 
         args = list()
-        for index in range(self.__args_len):
-            arg = self.__args[index]
-            args.append(arg.__value)
+        for index in range(self._args_len):
+            arg = self._args[index]
+            args.append(arg._value)
         return tuple(args)
 
     def set_args(self, *args):
@@ -4562,8 +4445,8 @@ cdef class MethodCaller(Provider):
 
         :return: Reference ``self``
         """
-        self.__args = parse_positional_injections(args)
-        self.__args_len = len(self.__args)
+        self._args = parse_positional_injections(args)
+        self._args_len = len(self._args)
         return self
 
     @property
@@ -4574,9 +4457,9 @@ cdef class MethodCaller(Provider):
         cdef dict kwargs
 
         kwargs = dict()
-        for index in range(self.__kwargs_len):
-            kwarg = self.__kwargs[index]
-            kwargs[kwarg.__name] = kwarg.__value
+        for index in range(self._kwargs_len):
+            kwarg = self._kwargs[index]
+            kwargs[kwarg._name] = kwarg._value
         return kwargs
 
     def set_kwargs(self, **kwargs):
@@ -4586,8 +4469,8 @@ cdef class MethodCaller(Provider):
 
         :return: Reference ``self``
         """
-        self.__kwargs = parse_named_injections(kwargs)
-        self.__kwargs_len = len(self.__kwargs)
+        self._kwargs = parse_named_injections(kwargs)
+        self._kwargs_len = len(self._kwargs)
         return self
 
     @property
@@ -4609,12 +4492,12 @@ cdef class MethodCaller(Provider):
         return __call(
             call,
             args,
-            self.__args,
-            self.__args_len,
+            self._args,
+            self._args_len,
             kwargs,
-            self.__kwargs,
-            self.__kwargs_len,
-            self.__async_mode,
+            self._kwargs,
+            self._kwargs_len,
+            self._async_mode,
         )
 
     def _async_provide(self, future_result, args, kwargs, future):
@@ -4623,12 +4506,12 @@ cdef class MethodCaller(Provider):
             result = __call(
                 call,
                 args,
-                self.__args,
-                self.__args_len,
+                self._args,
+                self._args_len,
                 kwargs,
-                self.__kwargs,
-                self.__kwargs_len,
-                self.__async_mode,
+                self._kwargs,
+                self._kwargs_len,
+                self._async_mode,
             )
         except Exception as exception:
             future_result.set_exception(exception)
@@ -4636,7 +4519,7 @@ cdef class MethodCaller(Provider):
             future_result.set_result(result)
 
 
-cdef class Injection(object):
+cdef class Injection:
     """Abstract injection class."""
 
 
@@ -4645,10 +4528,10 @@ cdef class PositionalInjection(Injection):
 
     def __init__(self, value=None):
         """Initializer."""
-        self.__value = None
-        self.__is_provider = 0
-        self.__is_delegated = 0
-        self.__call = 0
+        self._value = None
+        self._is_provider = 0
+        self._is_delegated = 0
+        self._call = 0
         self.set(value)
         super(PositionalInjection, self).__init__()
 
@@ -4658,7 +4541,7 @@ cdef class PositionalInjection(Injection):
         if copied is not None:
             return copied
         copied = _memorized_duplicate(self, memo)
-        copied.set(_copy_if_provider(self.__value, memo))
+        copied.set(_copy_if_provider(self._value, memo))
         return copied
 
     def get_value(self):
@@ -4667,14 +4550,14 @@ cdef class PositionalInjection(Injection):
 
     def get_original_value(self):
         """Return original value."""
-        return self.__value
+        return self._value
 
     def set(self, value):
         """Set injection."""
-        self.__value = value
-        self.__is_provider = <int>is_provider(value)
-        self.__is_delegated = <int>is_delegated(value)
-        self.__call = <int>(self.__is_provider == 1 and self.__is_delegated == 0)
+        self._value = value
+        self._is_provider = <int>is_provider(value)
+        self._is_delegated = <int>is_delegated(value)
+        self._call = <int>(self._is_provider == 1 and self._is_delegated == 0)
 
 
 cdef class NamedInjection(Injection):
@@ -4682,13 +4565,13 @@ cdef class NamedInjection(Injection):
 
     def __init__(self, name=None, value=None):
         """Initializer."""
-        self.__name = name
+        self._name = name
         self.set_name(name)
 
-        self.__value = None
-        self.__is_provider = 0
-        self.__is_delegated = 0
-        self.__call = 0
+        self._value = None
+        self._is_provider = 0
+        self._is_delegated = 0
+        self._call = 0
         self.set(value)
 
         super(NamedInjection, self).__init__()
@@ -4700,7 +4583,7 @@ cdef class NamedInjection(Injection):
             return copied
         copied = _memorized_duplicate(self, memo)
         copied.set_name(self.get_name())
-        copied.set(_copy_if_provider(self.__value, memo))
+        copied.set(_copy_if_provider(self._value, memo))
         return copied
 
     def get_name(self):
@@ -4709,7 +4592,7 @@ cdef class NamedInjection(Injection):
 
     def set_name(self, name):
         """Set injection name."""
-        self.__name = name
+        self._name = name
 
     def get_value(self):
         """Return injection value."""
@@ -4717,14 +4600,14 @@ cdef class NamedInjection(Injection):
 
     def get_original_value(self):
         """Return original value."""
-        return self.__value
+        return self._value
 
     def set(self, value):
         """Set injection."""
-        self.__value = value
-        self.__is_provider = <int>is_provider(value)
-        self.__is_delegated = <int>is_delegated(value)
-        self.__call = <int>(self.__is_provider == 1 and self.__is_delegated == 0)
+        self._value = value
+        self._is_provider = <int>is_provider(value)
+        self._is_delegated = <int>is_delegated(value)
+        self._call = <int>(self._is_provider == 1 and self._is_delegated == 0)
 
 
 @cython.boundscheck(False)
@@ -4763,7 +4646,7 @@ cpdef tuple parse_named_injections(dict kwargs):
     return tuple(injections)
 
 
-cdef class OverridingContext(object):
+cdef class OverridingContext:
     """Provider overriding context.
 
     :py:class:`OverridingContext` is used by :py:meth:`Provider.override` for
@@ -4786,27 +4669,27 @@ cdef class OverridingContext(object):
         :param overriding: Overriding provider.
         :type overriding: :py:class:`Provider`
         """
-        self.__overridden = overridden
-        self.__overriding = overriding
+        self._overridden = overridden
+        self._overriding = overriding
         super(OverridingContext, self).__init__()
 
     def __enter__(self):
         """Do nothing."""
-        return self.__overriding
+        return self._overriding
 
     def __exit__(self, *_):
         """Exit overriding context."""
-        self.__overridden.reset_last_overriding()
+        self._overridden.reset_last_overriding()
 
 
-cdef class BaseSingletonResetContext(object):
+cdef class BaseSingletonResetContext:
 
     def __init__(self, Provider provider):
-        self.__singleton = provider
+        self._singleton = provider
         super().__init__()
 
     def __enter__(self):
-        return self.__singleton
+        return self._singleton
 
     def __exit__(self, *_):
         raise NotImplementedError()
@@ -4815,13 +4698,13 @@ cdef class BaseSingletonResetContext(object):
 cdef class SingletonResetContext(BaseSingletonResetContext):
 
     def __exit__(self, *_):
-        return self.__singleton.reset()
+        return self._singleton.reset()
 
 
 cdef class SingletonFullResetContext(BaseSingletonResetContext):
 
     def __exit__(self, *_):
-        return self.__singleton.full_reset()
+        return self._singleton.full_reset()
 
 
 CHILD_PROVIDERS = (Dependency, DependenciesContainer, Container)
@@ -4835,7 +4718,7 @@ cpdef bint is_provider(object instance):
 
     :rtype: bool
     """
-    return (not isinstance(instance, CLASS_TYPES) and
+    return (not isinstance(instance, type) and
             getattr(instance, "__IS_PROVIDER__", False) is True)
 
 
@@ -4863,7 +4746,7 @@ cpdef bint is_delegated(object instance):
 
     :rtype: bool
     """
-    return (not isinstance(instance, CLASS_TYPES) and
+    return (not isinstance(instance, type) and
             getattr(instance, "__IS_DELEGATED__", False) is True)
 
 
@@ -4894,7 +4777,7 @@ cpdef bint is_container_instance(object instance):
 
     :rtype: bool
     """
-    return (not isinstance(instance, CLASS_TYPES) and
+    return (not isinstance(instance, type) and
             getattr(instance, "__IS_CONTAINER__", False) is True)
 
 
@@ -4906,7 +4789,7 @@ cpdef bint is_container_class(object instance):
 
     :rtype: bool
     """
-    return (isinstance(instance, CLASS_TYPES) and
+    return (isinstance(instance, type) and
             getattr(instance, "__IS_CONTAINER__", False) is True)
 
 
@@ -4918,6 +4801,48 @@ cpdef object deepcopy(object instance, dict memo=None):
     __add_sys_streams(memo)
 
     return copy.deepcopy(instance, memo)
+
+
+cpdef tuple deepcopy_args(
+    Provider provider,
+    tuple args,
+    dict[int, object] memo = None,
+):
+    """A wrapper for deepcopy for positional arguments.
+
+    Used to improve debugability of objects that cannot be deep-copied.
+    """
+
+    cdef list[object] out = []
+
+    for i, arg in enumerate(args):
+        try:
+            out.append(copy.deepcopy(arg, memo))
+        except Exception as e:
+            raise NonCopyableArgumentError(provider, index=i) from e
+
+    return tuple(out)
+
+
+cpdef dict[str, object] deepcopy_kwargs(
+    Provider provider,
+    dict[str, object] kwargs,
+    dict[int, object] memo = None,
+):
+    """A wrapper for deepcopy for keyword arguments.
+
+    Used to improve debugability of objects that cannot be deep-copied.
+    """
+
+    cdef dict[str, object] out = {}
+
+    for name, arg in kwargs.items():
+        try:
+            out[name] = copy.deepcopy(arg, memo)
+        except Exception as e:
+            raise NonCopyableArgumentError(provider, keyword=name) from e
+
+    return out
 
 
 def __add_sys_streams(memo):
@@ -4987,14 +4912,6 @@ def iscoroutinefunction(obj):
     """Check if object is a coroutine function."""
     try:
         return inspect.iscoroutinefunction(obj)
-    except AttributeError:
-        return False
-
-
-def isasyncgenfunction(obj):
-    """Check if object is an asynchronous generator function."""
-    try:
-        return inspect.isasyncgenfunction(obj)
     except AttributeError:
         return False
 

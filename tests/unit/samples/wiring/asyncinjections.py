@@ -1,7 +1,9 @@
 import asyncio
 
+from typing_extensions import Annotated
+
 from dependency_injector import containers, providers
-from dependency_injector.wiring import inject, Provide, Closing
+from dependency_injector.wiring import Closing, Provide, inject
 
 
 class TestResource:
@@ -40,6 +42,15 @@ async def async_injection(
         resource2: object = Provide[Container.resource2],
 ):
     return resource1, resource2
+
+
+@inject
+async def async_generator_injection(
+        resource1: object = Provide[Container.resource1],
+        resource2: object = Closing[Provide[Container.resource2]],
+):
+    yield resource1
+    yield resource2
 
 
 @inject

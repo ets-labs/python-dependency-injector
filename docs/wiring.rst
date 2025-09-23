@@ -64,7 +64,7 @@ FastAPI example:
 
    @app.api_route("/")
    @inject
-   async def index(service: Service = Depends(Provide[Container.service])):
+   async def index(service: Annotated[Service, Depends(Provide[Container.service])]):
        value = await service.process()
        return {"result": value}
 
@@ -127,6 +127,7 @@ To inject the provider itself use ``Provide[foo.provider]``:
    def foo(bar_provider: Factory[Bar] = Provide[Container.bar.provider]):
        bar = bar_provider(argument="baz")
        ...
+
 You can also use ``Provider[foo]`` for injecting the provider itself:
 
 .. code-block:: python
@@ -250,16 +251,72 @@ To inject a container use special identifier ``<container>``:
    def foo(container: Container = Provide["<container>"]) -> None:
        ...
 
+Caveats
+~~~~~~~
+
+While using string identifiers you may not notice a typo in the identifier until the code is executed.
+In order to aid with catching such errors early, you may pass `warn_unresolved=True` to the ``wire`` method and/or :class:`WiringConfiguration`:
+
+.. code-block:: python
+   :emphasize-lines: 4
+
+   class Container(containers.DeclarativeContainer):
+       wiring_config = containers.WiringConfiguration(
+           modules=["yourapp.module"],
+           warn_unresolved=True,
+       )
+
+Or:
+
+.. code-block:: python
+   :emphasize-lines: 4
+
+   container = Container()
+   container.wire(
+       modules=["yourapp.module"],
+       warn_unresolved=True,
+   )
+
 
 Making injections into modules and class attributes
 ---------------------------------------------------
 
-You can use wiring to make injections into modules and class attributes.
+You can use wiring to make injections into modules and class attributes. Both the classic marker
+syntax and the ``Annotated`` form are supported.
+
+Classic marker syntax:
+
+.. code-block:: python
+
+   service: Service = Provide[Container.service]
+
+   class Main:
+       service: Service = Provide[Container.service]
+
+Full example of the classic marker syntax:
 
 .. literalinclude:: ../examples/wiring/example_attribute.py
    :language: python
    :lines: 3-
    :emphasize-lines: 14,19
+
+Annotated form (Python 3.9+):
+
+.. code-block:: python
+
+   from typing import Annotated
+
+   service: Annotated[Service, Provide[Container.service]]
+
+   class Main:
+       service: Annotated[Service, Provide[Container.service]]
+
+Full example of the annotated form:
+
+.. literalinclude:: ../examples/wiring/example_attribute_annotated.py
+   :language: python
+   :lines: 3-
+   :emphasize-lines: 16,21
 
 You could also use string identifiers to avoid a dependency on a container:
 
@@ -601,6 +658,36 @@ or with a single container ``register_loader_containers(container)`` multiple ti
 To unregister a container use ``unregister_loader_containers(container)``.
 Wiring module will uninstall the import hook when unregister last container.
 
+Few notes on performance
+------------------------
+
+``.wire()`` utilize caching to speed up the wiring process. At the end it clears the cache to avoid memory leaks.
+But this may not always be desirable, when you want to keep the cache for the next wiring
+(e.g. due to usage of multiple containers or during unit tests).
+
+To keep the cache after wiring, you can set flag ``keep_cache=True`` (works with ``WiringConfiguration`` too):
+
+.. code-block:: python
+
+   container1.wire(
+       modules=["yourapp.module1", "yourapp.module2"],
+       keep_cache=True,
+   )
+   container2.wire(
+       modules=["yourapp.module2", "yourapp.module3"],
+       keep_cache=True,
+   )
+   ...
+
+and then clear it manually when you need it:
+
+.. code-block:: python
+
+   from dependency_injector.wiring import clear_cache
+
+   clear_cache()
+
+
 Integration with other frameworks
 ---------------------------------
 
@@ -632,5 +719,6 @@ Take a look at other application examples:
 - :ref:`fastapi-example`
 - :ref:`fastapi-redis-example`
 - :ref:`fastapi-sqlalchemy-example`
+- :ref:`fastdepends-example`
 
 .. disqus::

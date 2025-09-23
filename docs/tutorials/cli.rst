@@ -84,7 +84,7 @@ Create next structure in the project root directory. All files are empty. That's
 
 Initial project layout:
 
-.. code-block:: bash
+.. code-block:: text
 
    ./
    ├── movies/
@@ -109,7 +109,7 @@ Now it's time to install the project requirements. We will use next packages:
 
 Put next lines into the ``requirements.txt`` file:
 
-.. code-block:: bash
+.. code-block:: text
 
    dependency-injector
    pyyaml
@@ -134,7 +134,7 @@ We will create a script that creates database files.
 First add the folder ``data/`` in the root of the project and then add the file
 ``fixtures.py`` inside of it:
 
-.. code-block:: bash
+.. code-block:: text
    :emphasize-lines: 2-3
 
    ./
@@ -205,13 +205,13 @@ Now run in the terminal:
 
 You should see:
 
-.. code-block:: bash
+.. code-block:: text
 
    OK
 
 Check that files ``movies.csv`` and ``movies.db`` have appeared in the ``data/`` folder:
 
-.. code-block:: bash
+.. code-block:: text
    :emphasize-lines: 4-5
 
    ./
@@ -289,7 +289,7 @@ After each step we will add the provider to the container.
 
 Create the ``entities.py`` in the ``movies`` package:
 
-.. code-block:: bash
+.. code-block:: text
    :emphasize-lines: 10
 
    ./
@@ -356,7 +356,7 @@ Let's move on to the finders.
 
 Create the ``finders.py`` in the ``movies`` package:
 
-.. code-block:: bash
+.. code-block:: text
    :emphasize-lines: 11
 
    ./
@@ -465,7 +465,7 @@ The configuration file is ready. Move on to the lister.
 
 Create the ``listers.py`` in the ``movies`` package:
 
-.. code-block:: bash
+.. code-block:: text
    :emphasize-lines: 12
 
    ./
@@ -613,7 +613,7 @@ Run in the terminal:
 
 You should see:
 
-.. code-block:: plain
+.. code-block:: text
 
    Francis Lawrence movies:
        - Movie(title='The Hunger Games: Mockingjay - Part 2', year=2015, director='Francis Lawrence')
@@ -752,7 +752,7 @@ Run in the terminal:
 
 You should see:
 
-.. code-block:: plain
+.. code-block:: text
 
    Francis Lawrence movies:
        - Movie(title='The Hunger Games: Mockingjay - Part 2', year=2015, director='Francis Lawrence')
@@ -868,7 +868,7 @@ Run in the terminal line by line:
 
 The output should be similar for each command:
 
-.. code-block:: plain
+.. code-block:: text
 
    Francis Lawrence movies:
        - Movie(title='The Hunger Games: Mockingjay - Part 2', year=2015, director='Francis Lawrence')
@@ -888,7 +888,7 @@ We will use `pytest <https://docs.pytest.org/en/stable/>`_ and
 
 Create ``tests.py`` in the ``movies`` package:
 
-.. code-block:: bash
+.. code-block:: text
    :emphasize-lines: 13
 
    ./
@@ -911,7 +911,7 @@ Create ``tests.py`` in the ``movies`` package:
 and put next into it:
 
 .. code-block:: python
-   :emphasize-lines: 36,51
+   :emphasize-lines: 41,50
 
    """Tests module."""
 
@@ -941,13 +941,18 @@ and put next into it:
        return container
 
 
-   def test_movies_directed_by(container):
+   @pytest.fixture
+   def finder_mock(container):
        finder_mock = mock.Mock()
        finder_mock.find_all.return_value = [
            container.movie("The 33", 2015, "Patricia Riggen"),
            container.movie("The Jungle Book", 2016, "Jon Favreau"),
        ]
 
+       return finder_mock
+
+
+   def test_movies_directed_by(container, finder_mock):
        with container.finder.override(finder_mock):
            lister = container.lister()
            movies = lister.movies_directed_by("Jon Favreau")
@@ -956,13 +961,7 @@ and put next into it:
        assert movies[0].title == "The Jungle Book"
 
 
-   def test_movies_released_in(container):
-       finder_mock = mock.Mock()
-       finder_mock.find_all.return_value = [
-           container.movie("The 33", 2015, "Patricia Riggen"),
-           container.movie("The Jungle Book", 2016, "Jon Favreau"),
-       ]
-
+   def test_movies_released_in(container, finder_mock):
        with container.finder.override(finder_mock):
            lister = container.lister()
            movies = lister.movies_released_in(2015)
@@ -978,7 +977,7 @@ Run in the terminal:
 
 You should see:
 
-.. code-block::
+.. code-block:: text
 
    platform darwin -- Python 3.10.0, pytest-6.2.5, py-1.10.0, pluggy-1.0.0
    plugins: cov-3.0.0
@@ -995,9 +994,9 @@ You should see:
    movies/entities.py         7      1    86%
    movies/finders.py         26     13    50%
    movies/listers.py          8      0   100%
-   movies/tests.py           23      0   100%
+   movies/tests.py           24      0   100%
    ------------------------------------------
-   TOTAL                     89     30    66%
+   TOTAL                     90     30    67%
 
 .. note::
 
@@ -1033,5 +1032,7 @@ What's next?
 - Look at the other :ref:`tutorials`
 - Know more about the :ref:`providers`
 - Go to the :ref:`contents`
+
+.. include:: ../sponsor.rst
 
 .. disqus::

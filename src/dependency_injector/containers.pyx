@@ -1,61 +1,53 @@
 """Containers module."""
 
+import asyncio
 import contextlib
 import copy as copy_module
 import json
-import sys
 import importlib
 import inspect
-import warnings
-
-try:
-    import asyncio
-except ImportError:
-    asyncio = None
 
 try:
     import yaml
 except ImportError:
     yaml = None
 
-import six
-
 from . import providers, errors
 from .providers cimport __is_future_or_coroutine
-
-
-if sys.version_info[:2] >= (3, 6):
-    from .wiring import wire, unwire
-else:
-    def wire(*args, **kwargs):
-        raise NotImplementedError("Wiring requires Python 3.6 or above")
-
-    def unwire(*args, **kwargs):
-        raise NotImplementedError("Wiring requires Python 3.6 or above")
-
-if sys.version_info[:2] == (3, 5):
-    warnings.warn(
-        "Dependency Injector will drop support of Python 3.5 after Jan 1st of 2022. "
-        "This does not mean that there will be any immediate breaking changes, "
-        "but tests will no longer be executed on Python 3.5, and bugs will not be addressed.",
-        category=DeprecationWarning,
-    )
+from .wiring import wire, unwire
 
 
 class WiringConfiguration:
     """Container wiring configuration."""
 
-    def __init__(self, modules=None, packages=None, from_package=None, auto_wire=True):
+    def __init__(
+        self,
+        modules=None,
+        packages=None,
+        from_package=None,
+        auto_wire=True,
+        keep_cache=False,
+        warn_unresolved=False,
+    ):
         self.modules = [*modules] if modules else []
         self.packages = [*packages] if packages else []
         self.from_package = from_package
         self.auto_wire = auto_wire
+        self.keep_cache = keep_cache
+        self.warn_unresolved = warn_unresolved
 
     def __deepcopy__(self, memo=None):
-        return self.__class__(self.modules, self.packages, self.from_package, self.auto_wire)
+        return self.__class__(
+            self.modules,
+            self.packages,
+            self.from_package,
+            self.auto_wire,
+            self.keep_cache,
+            self.warn_unresolved,
+        )
 
 
-class Container(object):
+class Container:
     """Abstract container."""
 
 
@@ -201,7 +193,7 @@ class DynamicContainer(Container):
 
         :rtype: None
         """
-        for name, provider in six.iteritems(providers):
+        for name, provider in providers.items():
             setattr(self, name, provider)
 
     def set_provider(self, name, provider):
@@ -234,7 +226,7 @@ class DynamicContainer(Container):
 
         self.overridden += (overriding,)
 
-        for name, provider in six.iteritems(overriding.providers):
+        for name, provider in overriding.providers.items():
             try:
                 getattr(self, name).override(provider)
             except AttributeError:
@@ -250,7 +242,7 @@ class DynamicContainer(Container):
         :rtype: None
         """
         overridden_providers = []
-        for name, overriding_provider in six.iteritems(overriding_providers):
+        for name, overriding_provider in overriding_providers.items():
             container_provider = getattr(self, name)
             container_provider.override(overriding_provider)
             overridden_providers.append(container_provider)
@@ -266,7 +258,7 @@ class DynamicContainer(Container):
 
         self.overridden = self.overridden[:-1]
 
-        for provider in six.itervalues(self.providers):
+        for provider in self.providers.values():
             provider.reset_last_overriding()
 
     def reset_override(self):
@@ -276,14 +268,21 @@ class DynamicContainer(Container):
         """
         self.overridden = tuple()
 
-        for provider in six.itervalues(self.providers):
+        for provider in self.providers.values():
             provider.reset_override()
 
     def is_auto_wiring_enabled(self):
         """Check if auto wiring is needed."""
         return self.wiring_config.auto_wire is True
 
-    def wire(self, modules=None, packages=None, from_package=None):
+    def wire(
+        self,
+        modules=None,
+        packages=None,
+        from_package=None,
+        keep_cache=None,
+        warn_unresolved=False,
+    ):
         """Wire container providers with provided packages and modules.
 
         :rtype: None
@@ -314,10 +313,15 @@ class DynamicContainer(Container):
         if not modules and not packages:
             return
 
+        if keep_cache is None:
+            keep_cache = self.wiring_config.keep_cache
+
         wire(
             container=self,
             modules=modules,
             packages=packages,
+            keep_cache=keep_cache,
+            warn_unresolved=warn_unresolved,
         )
 
         if modules:
@@ -335,11 +339,15 @@ class DynamicContainer(Container):
         self.wired_to_modules.clear()
         self.wired_to_packages.clear()
 
-    def init_resources(self):
+    def init_resources(self, resource_type=providers.Resource):
         """Initialize all container resources."""
+
+        if not issubclass(resource_type, providers.Resource):
+            raise TypeError("resource_type must be a subclass of Resource provider")
+
         futures = []
 
-        for provider in self.traverse(types=[providers.Resource]):
+        for provider in self.traverse(types=[resource_type]):
             resource = provider.init()
 
             if __is_future_or_coroutine(resource):
@@ -348,8 +356,12 @@ class DynamicContainer(Container):
         if futures:
             return asyncio.gather(*futures)
 
-    def shutdown_resources(self):
+    def shutdown_resources(self, resource_type=providers.Resource):
         """Shutdown all container resources."""
+
+        if not issubclass(resource_type, providers.Resource):
+            raise TypeError("resource_type must be a subclass of Resource provider")
+
         def _independent_resources(resources):
             for resource in resources:
                 for other_resource in resources:
@@ -380,7 +392,7 @@ class DynamicContainer(Container):
                 for resource in resources_to_shutdown:
                     resource.shutdown()
 
-        resources = list(self.traverse(types=[providers.Resource]))
+        resources = list(self.traverse(types=[resource_type]))
         if any(resource.is_async_mode_enabled() for resource in resources):
             return _async_ordered_shutdown(resources)
         else:
@@ -495,13 +507,13 @@ class DeclarativeContainerMetaClass(type):
 
         containers = {
             name: container
-            for name, container in six.iteritems(attributes)
+            for name, container in attributes.items()
             if is_container(container)
         }
 
         cls_providers = {
             name: provider
-            for name, provider in six.iteritems(attributes)
+            for name, provider in attributes.items()
             if isinstance(provider, providers.Provider) and not isinstance(provider, providers.Self)
         }
 
@@ -509,7 +521,7 @@ class DeclarativeContainerMetaClass(type):
             name: provider
             for base in bases
             if is_container(base) and base is not DynamicContainer
-            for name, provider in six.iteritems(base.providers)
+            for name, provider in base.providers.items()
         }
 
         all_providers = {}
@@ -536,10 +548,10 @@ class DeclarativeContainerMetaClass(type):
         self.set_container(cls)
         cls.__self__ = self
 
-        for provider in six.itervalues(cls.providers):
+        for provider in cls.providers.values():
             _check_provider_type(cls, provider)
 
-        for provider in six.itervalues(cls.cls_providers):
+        for provider in cls.cls_providers.values():
             if isinstance(provider, providers.CHILD_PROVIDERS):
                 provider.assign_parent(cls)
 
@@ -641,8 +653,7 @@ class DeclarativeContainerMetaClass(type):
         return self
 
 
-@six.add_metaclass(DeclarativeContainerMetaClass)
-class DeclarativeContainer(Container):
+class DeclarativeContainer(Container, metaclass=DeclarativeContainerMetaClass):
     """Declarative inversion of control container.
 
     .. code-block:: python
@@ -767,7 +778,7 @@ class DeclarativeContainer(Container):
 
         cls.overridden += (overriding,)
 
-        for name, provider in six.iteritems(overriding.cls_providers):
+        for name, provider in overriding.cls_providers.items():
             try:
                 getattr(cls, name).override(provider)
             except AttributeError:
@@ -784,7 +795,7 @@ class DeclarativeContainer(Container):
 
         cls.overridden = cls.overridden[:-1]
 
-        for provider in six.itervalues(cls.providers):
+        for provider in cls.providers.values():
             provider.reset_last_overriding()
 
     @classmethod
@@ -795,7 +806,7 @@ class DeclarativeContainer(Container):
         """
         cls.overridden = tuple()
 
-        for provider in six.itervalues(cls.providers):
+        for provider in cls.providers.values():
             provider.reset_override()
 
 
@@ -858,7 +869,7 @@ def copy(object base_container):
     """
     def _get_memo_for_matching_names(new_providers, base_providers):
         memo = {}
-        for new_provider_name, new_provider in six.iteritems(new_providers):
+        for new_provider_name, new_provider in new_providers.items():
             if new_provider_name not in base_providers:
                 continue
             source_provider = base_providers[new_provider_name]
@@ -877,7 +888,7 @@ def copy(object base_container):
         new_providers.update(providers.deepcopy(base_container.providers, memo))
         new_providers.update(providers.deepcopy(new_container.cls_providers, memo))
 
-        for name, provider in six.iteritems(new_providers):
+        for name, provider in new_providers.items():
             setattr(new_container, name, provider)
         return new_container
 

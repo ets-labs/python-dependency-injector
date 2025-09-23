@@ -1,34 +1,45 @@
 """Wiring module."""
 
 import functools
-import inspect
 import importlib
 import importlib.machinery
+import inspect
 import pkgutil
-import warnings
 import sys
+from contextlib import suppress
+from inspect import isbuiltin, isclass
 from types import ModuleType
 from typing import (
-    Optional,
+    TYPE_CHECKING,
+    Any,
+    AsyncIterator,
+    Callable,
+    Dict,
     Iterable,
     Iterator,
-    Callable,
-    Any,
-    Tuple,
-    Dict,
-    Generic,
-    TypeVar,
-    Type,
-    Union,
+    List,
+    Optional,
+    Protocol,
     Set,
+    Tuple,
+    Type,
+    TypeVar,
+    Union,
     cast,
 )
+from warnings import warn
 
-if sys.version_info < (3, 7):
-    from typing import GenericMeta
-else:
-    class GenericMeta(type):
-        ...
+try:
+    from typing import Self, assert_never
+except ImportError:
+    from typing_extensions import Self, assert_never
+
+try:
+    from functools import cache
+except ImportError:
+    from functools import lru_cache
+
+    cache = lru_cache(maxsize=None)
 
 # Hotfix, see: https://github.com/ets-labs/python-dependency-injector/issues/362
 if sys.version_info >= (3, 9):
@@ -36,34 +47,64 @@ if sys.version_info >= (3, 9):
 else:
     GenericAlias = None
 
+if sys.version_info >= (3, 9):
+    from typing import Annotated, get_args, get_origin
+else:
+    try:
+        from typing_extensions import Annotated, get_args, get_origin
+    except ImportError:
+        Annotated = object()
 
-try:
-    import fastapi.params
-except ImportError:
-    fastapi = None
+        # For preventing NameError. Never executes
+        def get_args(hint):
+            return ()
 
-
-try:
-    import starlette.requests
-except ImportError:
-    starlette = None
-
-
-try:
-    import werkzeug.local
-except ImportError:
-    werkzeug = None
+        def get_origin(tp):
+            return None
 
 
-from . import providers
+MARKER_EXTRACTORS: List[Callable[[Any], Any]] = []
+INSPECT_EXCLUSION_FILTERS: List[Callable[[Any], bool]] = [isbuiltin]
 
-if sys.version_info[:2] == (3, 5):
-    warnings.warn(
-        "Dependency Injector will drop support of Python 3.5 after Jan 1st of 2022. "
-        "This does not mean that there will be any immediate breaking changes, "
-        "but tests will no longer be executed on Python 3.5, and bugs will not be addressed.",
-        category=DeprecationWarning,
-    )
+with suppress(ImportError):
+    from fastapi.params import Depends as FastAPIDepends
+
+    def extract_marker_from_fastapi(param: Any) -> Any:
+        if isinstance(param, FastAPIDepends):
+            return param.dependency
+        return None
+
+    MARKER_EXTRACTORS.append(extract_marker_from_fastapi)
+
+with suppress(ImportError):
+    from fast_depends.dependencies import Depends as FastDepends
+
+    def extract_marker_from_fast_depends(param: Any) -> Any:
+        if isinstance(param, FastDepends):
+            return param.dependency
+        return None
+
+    MARKER_EXTRACTORS.append(extract_marker_from_fast_depends)
+
+
+with suppress(ImportError):
+    from starlette.requests import Request as StarletteRequest
+
+    def is_starlette_request_cls(obj: Any) -> bool:
+        return isclass(obj) and _safe_is_subclass(obj, StarletteRequest)
+
+    INSPECT_EXCLUSION_FILTERS.append(is_starlette_request_cls)
+
+
+with suppress(ImportError):
+    from werkzeug.local import LocalProxy as WerkzeugLocalProxy
+
+    def is_werkzeug_local_proxy(obj: Any) -> bool:
+        return isinstance(obj, WerkzeugLocalProxy)
+
+    INSPECT_EXCLUSION_FILTERS.append(is_werkzeug_local_proxy)
+
+from . import providers  # noqa: E402
 
 __all__ = (
     "wire",
@@ -87,7 +128,19 @@ __all__ = (
 
 T = TypeVar("T")
 F = TypeVar("F", bound=Callable[..., Any])
-Container = Any
+
+if TYPE_CHECKING:
+    from .containers import Container
+else:
+    Container = Any
+
+
+class DIWiringWarning(RuntimeWarning):
+    """Base class for all warnings raised by the wiring module."""
+
+
+class UnresolvedMarkerWarning(DIWiringWarning):
+    """Warning raised when a marker with string identifier cannot be resolved against container."""
 
 
 class PatchedRegistry:
@@ -99,7 +152,9 @@ class PatchedRegistry:
     def register_callable(self, patched: "PatchedCallable") -> None:
         self._callables[patched.patched] = patched
 
-    def get_callables_from_module(self, module: ModuleType) -> Iterator[Callable[..., Any]]:
+    def get_callables_from_module(
+        self, module: ModuleType
+    ) -> Iterator[Callable[..., Any]]:
         for patched_callable in self._callables.values():
             if not patched_callable.is_in_module(module):
                 continue
@@ -114,7 +169,9 @@ class PatchedRegistry:
     def register_attribute(self, patched: "PatchedAttribute") -> None:
         self._attributes.add(patched)
 
-    def get_attributes_from_module(self, module: ModuleType) -> Iterator["PatchedAttribute"]:
+    def get_attributes_from_module(
+        self, module: ModuleType
+    ) -> Iterator["PatchedAttribute"]:
         for attribute in self._attributes:
             if not attribute.is_in_module(module):
                 continue
@@ -139,11 +196,11 @@ class PatchedCallable:
     )
 
     def __init__(
-            self,
-            patched: Optional[Callable[..., Any]] = None,
-            original: Optional[Callable[..., Any]] = None,
-            reference_injections: Optional[Dict[Any, Any]] = None,
-            reference_closing: Optional[Dict[Any, Any]] = None,
+        self,
+        patched: Optional[Callable[..., Any]] = None,
+        original: Optional[Callable[..., Any]] = None,
+        reference_injections: Optional[Dict[Any, Any]] = None,
+        reference_closing: Optional[Dict[Any, Any]] = None,
     ) -> None:
         self.patched = patched
         self.original = original
@@ -214,18 +271,21 @@ class ProvidersMap:
         )
 
     def resolve_provider(
-            self,
-            provider: Union[providers.Provider, str],
-            modifier: Optional["Modifier"] = None,
+        self,
+        provider: Union[providers.Provider, str],
+        modifier: Optional["Modifier"] = None,
     ) -> Optional[providers.Provider]:
         if isinstance(provider, providers.Delegate):
             return self._resolve_delegate(provider)
-        elif isinstance(provider, (
-            providers.ProvidedInstance,
-            providers.AttributeGetter,
-            providers.ItemGetter,
-            providers.MethodCaller,
-        )):
+        elif isinstance(
+            provider,
+            (
+                providers.ProvidedInstance,
+                providers.AttributeGetter,
+                providers.ItemGetter,
+                providers.MethodCaller,
+            ),
+        ):
             return self._resolve_provided_instance(provider)
         elif isinstance(provider, providers.ConfigurationOption):
             return self._resolve_config_option(provider)
@@ -237,9 +297,9 @@ class ProvidersMap:
             return self._resolve_provider(provider)
 
     def _resolve_string_id(
-            self,
-            id: str,
-            modifier: Optional["Modifier"] = None,
+        self,
+        id: str,
+        modifier: Optional["Modifier"] = None,
     ) -> Optional[providers.Provider]:
         if id == self.CONTAINER_STRING_ID:
             return self._container.__self__
@@ -256,16 +316,19 @@ class ProvidersMap:
         return provider
 
     def _resolve_provided_instance(
-            self,
-            original: providers.Provider,
+        self,
+        original: providers.Provider,
     ) -> Optional[providers.Provider]:
         modifiers = []
-        while isinstance(original, (
+        while isinstance(
+            original,
+            (
                 providers.ProvidedInstance,
                 providers.AttributeGetter,
                 providers.ItemGetter,
                 providers.MethodCaller,
-        )):
+            ),
+        ):
             modifiers.insert(0, original)
             original = original.provides
 
@@ -289,8 +352,8 @@ class ProvidersMap:
         return new
 
     def _resolve_delegate(
-            self,
-            original: providers.Delegate,
+        self,
+        original: providers.Delegate,
     ) -> Optional[providers.Provider]:
         provider = self._resolve_provider(original.provides)
         if provider:
@@ -298,11 +361,11 @@ class ProvidersMap:
         return provider
 
     def _resolve_config_option(
-            self,
-            original: providers.ConfigurationOption,
-            as_: Any = None,
+        self,
+        original: providers.ConfigurationOption,
+        as_: Any = None,
     ) -> Optional[providers.Provider]:
-        original_root = original.root
+        original_root = original._get_root()
         new = self._resolve_provider(original_root)
         if new is None:
             return None
@@ -324,8 +387,8 @@ class ProvidersMap:
         return new
 
     def _resolve_provider(
-            self,
-            original: providers.Provider,
+        self,
+        original: providers.Provider,
     ) -> Optional[providers.Provider]:
         try:
             return self._map[original]
@@ -334,9 +397,9 @@ class ProvidersMap:
 
     @classmethod
     def _create_providers_map(
-            cls,
-            current_container: Container,
-            original_container: Container,
+        cls,
+        current_container: Container,
+        original_container: Container,
     ) -> Dict[providers.Provider, providers.Provider]:
         current_providers = current_container.providers
         current_providers["__self__"] = current_container.__self__
@@ -349,8 +412,9 @@ class ProvidersMap:
             original_provider = original_providers[provider_name]
             providers_map[original_provider] = current_provider
 
-            if isinstance(current_provider, providers.Container) \
-                    and isinstance(original_provider, providers.Container):
+            if isinstance(current_provider, providers.Container) and isinstance(
+                original_provider, providers.Container
+            ):
                 subcontainer_map = cls._create_providers_map(
                     current_container=current_provider.container,
                     original_container=original_provider.container,
@@ -360,35 +424,20 @@ class ProvidersMap:
         return providers_map
 
 
-class InspectFilter:
-
-    def is_excluded(self, instance: object) -> bool:
-        if self._is_werkzeug_local_proxy(instance):
+def is_excluded_from_inspect(obj: Any) -> bool:
+    for is_excluded in INSPECT_EXCLUSION_FILTERS:
+        if is_excluded(obj):
             return True
-        elif self._is_starlette_request_cls(instance):
-            return True
-        elif self._is_builtin(instance):
-            return True
-        else:
-            return False
-
-    def _is_werkzeug_local_proxy(self, instance: object) -> bool:
-        return werkzeug and isinstance(instance, werkzeug.local.LocalProxy)
-
-    def _is_starlette_request_cls(self, instance: object) -> bool:
-        return starlette \
-               and isinstance(instance, type) \
-               and _safe_is_subclass(instance, starlette.requests.Request)
-
-    def _is_builtin(self, instance: object) -> bool:
-        return inspect.isbuiltin(instance)
+    return False
 
 
 def wire(  # noqa: C901
-        container: Container,
-        *,
-        modules: Optional[Iterable[ModuleType]] = None,
-        packages: Optional[Iterable[ModuleType]] = None,
+    container: Container,
+    *,
+    modules: Optional[Iterable[ModuleType]] = None,
+    packages: Optional[Iterable[ModuleType]] = None,
+    keep_cache: bool = False,
+    warn_unresolved: bool = False,
 ) -> None:
     """Wire container providers with provided packages and modules."""
     modules = [*modules] if modules else []
@@ -400,36 +449,72 @@ def wire(  # noqa: C901
     providers_map = ProvidersMap(container)
 
     for module in modules:
-        for member_name, member in inspect.getmembers(module):
-            if _inspect_filter.is_excluded(member):
+        for member_name, member in _get_members_and_annotated(module):
+            if is_excluded_from_inspect(member):
                 continue
 
             if _is_marker(member):
-                _patch_attribute(module, member_name, member, providers_map)
+                _patch_attribute(
+                    module,
+                    member_name,
+                    member,
+                    providers_map,
+                    warn_unresolved=warn_unresolved,
+                    warn_unresolved_stacklevel=1,
+                )
             elif inspect.isfunction(member):
-                _patch_fn(module, member_name, member, providers_map)
+                _patch_fn(
+                    module,
+                    member_name,
+                    member,
+                    providers_map,
+                    warn_unresolved=warn_unresolved,
+                    warn_unresolved_stacklevel=1,
+                )
             elif inspect.isclass(member):
                 cls = member
                 try:
-                    cls_members = inspect.getmembers(cls)
+                    cls_members = _get_members_and_annotated(cls)
                 except Exception:  # noqa
                     # Hotfix, see: https://github.com/ets-labs/python-dependency-injector/issues/441
                     continue
                 else:
                     for cls_member_name, cls_member in cls_members:
                         if _is_marker(cls_member):
-                            _patch_attribute(cls, cls_member_name, cls_member, providers_map)
+                            _patch_attribute(
+                                cls,
+                                cls_member_name,
+                                cls_member,
+                                providers_map,
+                                warn_unresolved=warn_unresolved,
+                                warn_unresolved_stacklevel=1,
+                            )
                         elif _is_method(cls_member):
-                            _patch_method(cls, cls_member_name, cls_member, providers_map)
+                            _patch_method(
+                                cls,
+                                cls_member_name,
+                                cls_member,
+                                providers_map,
+                                warn_unresolved=warn_unresolved,
+                                warn_unresolved_stacklevel=1,
+                            )
 
         for patched in _patched_registry.get_callables_from_module(module):
-            _bind_injections(patched, providers_map)
+            _bind_injections(
+                patched,
+                providers_map,
+                warn_unresolved=warn_unresolved,
+                warn_unresolved_stacklevel=1,
+            )
+
+    if not keep_cache:
+        clear_cache()
 
 
 def unwire(  # noqa: C901
-        *,
-        modules: Optional[Iterable[ModuleType]] = None,
-        packages: Optional[Iterable[ModuleType]] = None,
+    *,
+    modules: Optional[Iterable[ModuleType]] = None,
+    packages: Optional[Iterable[ModuleType]] = None,
 ) -> None:
     """Wire provided packages and modules with previous wired providers."""
     modules = [*modules] if modules else []
@@ -443,7 +528,9 @@ def unwire(  # noqa: C901
             if inspect.isfunction(member):
                 _unpatch(module, name, member)
             elif inspect.isclass(member):
-                for method_name, method in inspect.getmembers(member, inspect.isfunction):
+                for method_name, method in inspect.getmembers(
+                    member, inspect.isfunction
+                ):
                     _unpatch(member, method_name, method)
 
         for patched in _patched_registry.get_callables_from_module(module):
@@ -457,15 +544,22 @@ def unwire(  # noqa: C901
 def inject(fn: F) -> F:
     """Decorate callable with injecting decorator."""
     reference_injections, reference_closing = _fetch_reference_injections(fn)
+
+    if not reference_injections:
+        warn("@inject is not required here", DIWiringWarning, stacklevel=2)
+        return fn
+
     patched = _get_patched(fn, reference_injections, reference_closing)
     return cast(F, patched)
 
 
 def _patch_fn(
-        module: ModuleType,
-        name: str,
-        fn: Callable[..., Any],
-        providers_map: ProvidersMap,
+    module: ModuleType,
+    name: str,
+    fn: Callable[..., Any],
+    providers_map: ProvidersMap,
+    warn_unresolved: bool = False,
+    warn_unresolved_stacklevel: int = 0,
 ) -> None:
     if not _is_patched(fn):
         reference_injections, reference_closing = _fetch_reference_injections(fn)
@@ -473,20 +567,29 @@ def _patch_fn(
             return
         fn = _get_patched(fn, reference_injections, reference_closing)
 
-    _bind_injections(fn, providers_map)
+    _bind_injections(
+        fn,
+        providers_map,
+        warn_unresolved=warn_unresolved,
+        warn_unresolved_stacklevel=warn_unresolved_stacklevel + 1,
+    )
 
     setattr(module, name, fn)
 
 
 def _patch_method(
-        cls: Type,
-        name: str,
-        method: Callable[..., Any],
-        providers_map: ProvidersMap,
+    cls: Type,
+    name: str,
+    method: Callable[..., Any],
+    providers_map: ProvidersMap,
+    warn_unresolved: bool = False,
+    warn_unresolved_stacklevel: int = 0,
 ) -> None:
-    if hasattr(cls, "__dict__") \
-            and name in cls.__dict__ \
-            and isinstance(cls.__dict__[name], (classmethod, staticmethod)):
+    if (
+        hasattr(cls, "__dict__")
+        and name in cls.__dict__
+        and isinstance(cls.__dict__[name], (classmethod, staticmethod))
+    ):
         method = cls.__dict__[name]
         fn = method.__func__
     else:
@@ -498,7 +601,16 @@ def _patch_method(
             return
         fn = _get_patched(fn, reference_injections, reference_closing)
 
-    _bind_injections(fn, providers_map)
+    _bind_injections(
+        fn,
+        providers_map,
+        warn_unresolved=warn_unresolved,
+        warn_unresolved_stacklevel=warn_unresolved_stacklevel + 1,
+    )
+
+    if fn is method:
+        # Hotfix, see: https://github.com/ets-labs/python-dependency-injector/issues/884
+        return
 
     if isinstance(method, (classmethod, staticmethod)):
         fn = type(method)(fn)
@@ -507,13 +619,15 @@ def _patch_method(
 
 
 def _unpatch(
-        module: ModuleType,
-        name: str,
-        fn: Callable[..., Any],
+    module: ModuleType,
+    name: str,
+    fn: Callable[..., Any],
 ) -> None:
-    if hasattr(module, "__dict__") \
-            and name in module.__dict__ \
-            and isinstance(module.__dict__[name], (classmethod, staticmethod)):
+    if (
+        hasattr(module, "__dict__")
+        and name in module.__dict__
+        and isinstance(module.__dict__[name], (classmethod, staticmethod))
+    ):
         method = module.__dict__[name]
         fn = method.__func__
 
@@ -524,13 +638,21 @@ def _unpatch(
 
 
 def _patch_attribute(
-        member: Any,
-        name: str,
-        marker: "_Marker",
-        providers_map: ProvidersMap,
+    member: Any,
+    name: str,
+    marker: "_Marker",
+    providers_map: ProvidersMap,
+    warn_unresolved: bool = False,
+    warn_unresolved_stacklevel: int = 0,
 ) -> None:
     provider = providers_map.resolve_provider(marker.provider, marker.modifier)
     if provider is None:
+        if warn_unresolved:
+            warn(
+                f"Unresolved marker {name} in {member!r}",
+                UnresolvedMarkerWarning,
+                stacklevel=warn_unresolved_stacklevel + 2,
+            )
         return
 
     _patched_registry.register_attribute(PatchedAttribute(member, name, marker))
@@ -548,16 +670,37 @@ def _unpatch_attribute(patched: PatchedAttribute) -> None:
     setattr(patched.member, patched.name, patched.marker)
 
 
+def _extract_marker(parameter: inspect.Parameter) -> Optional["_Marker"]:
+    if get_origin(parameter.annotation) is Annotated:
+        args = get_args(parameter.annotation)
+        if len(args) > 1:
+            marker = args[1]
+        else:
+            marker = None
+    else:
+        marker = parameter.default
+
+    for marker_extractor in MARKER_EXTRACTORS:
+        if _marker := marker_extractor(marker):
+            marker = _marker
+            break
+
+    if not isinstance(marker, _Marker):
+        return None
+
+    return marker
+
+
+@cache
 def _fetch_reference_injections(  # noqa: C901
-        fn: Callable[..., Any],
+    fn: Callable[..., Any],
 ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     # Hotfix, see:
     # - https://github.com/ets-labs/python-dependency-injector/issues/362
     # - https://github.com/ets-labs/python-dependency-injector/issues/398
-    if GenericAlias and any((
-                fn is GenericAlias,
-                getattr(fn, "__func__", None) is GenericAlias
-            )):
+    if GenericAlias and any(
+        (fn is GenericAlias, getattr(fn, "__func__", None) is GenericAlias)
+    ):
         fn = fn.__init__
 
     try:
@@ -573,17 +716,10 @@ def _fetch_reference_injections(  # noqa: C901
     injections = {}
     closing = {}
     for parameter_name, parameter in signature.parameters.items():
-        if not isinstance(parameter.default, _Marker) \
-                and not _is_fastapi_depends(parameter.default):
+        marker = _extract_marker(parameter)
+
+        if marker is None:
             continue
-
-        marker = parameter.default
-
-        if _is_fastapi_depends(marker):
-            marker = marker.dependency
-
-            if not isinstance(marker, _Marker):
-                continue
 
         if isinstance(marker, Closing):
             marker = marker.provider
@@ -593,23 +729,12 @@ def _fetch_reference_injections(  # noqa: C901
     return injections, closing
 
 
-def _locate_dependent_closing_args(provider: providers.Provider) -> Dict[str, providers.Provider]:
-    if not hasattr(provider, "args"):
-        return {}
-
-    closing_deps = {}
-    for arg in provider.args:
-        if not isinstance(arg, providers.Provider) or not hasattr(arg, "args"):
-            continue
-
-        if not arg.args and isinstance(arg, providers.Resource):
-            return {str(id(arg)): arg}
-        else:
-            closing_deps += _locate_dependent_closing_args(arg)
-    return closing_deps
-
-
-def _bind_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> None:
+def _bind_injections(
+    fn: Callable[..., Any],
+    providers_map: ProvidersMap,
+    warn_unresolved: bool = False,
+    warn_unresolved_stacklevel: int = 0,
+) -> None:
     patched_callable = _patched_registry.get_callable(fn)
     if patched_callable is None:
         return
@@ -618,6 +743,12 @@ def _bind_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> Non
         provider = providers_map.resolve_provider(marker.provider, marker.modifier)
 
         if provider is None:
+            if warn_unresolved:
+                warn(
+                    f"Unresolved marker {injection} in {fn.__qualname__}",
+                    UnresolvedMarkerWarning,
+                    stacklevel=warn_unresolved_stacklevel + 2,
+                )
             continue
 
         if isinstance(marker, Provide):
@@ -630,9 +761,9 @@ def _bind_injections(fn: Callable[..., Any], providers_map: ProvidersMap) -> Non
 
         if injection in patched_callable.reference_closing:
             patched_callable.add_closing(injection, provider)
-            deps = _locate_dependent_closing_args(provider)
-            for key, dep in deps.items():
-                patched_callable.add_closing(key, dep)
+
+            for resource in provider.traverse(types=[providers.Resource]):
+                patched_callable.add_closing(str(id(resource)), resource)
 
 
 def _unbind_injections(fn: Callable[..., Any]) -> None:
@@ -647,8 +778,8 @@ def _fetch_modules(package):
     if not hasattr(package, "__path__") or not hasattr(package, "__name__"):
         return modules
     for module_info in pkgutil.walk_packages(
-            path=package.__path__,
-            prefix=package.__name__ + ".",
+        path=package.__path__,
+        prefix=package.__name__ + ".",
     ):
         module = importlib.import_module(module_info.name)
         modules.append(module)
@@ -664,9 +795,9 @@ def _is_marker(member) -> bool:
 
 
 def _get_patched(
-        fn: F,
-        reference_injections: Dict[Any, Any],
-        reference_closing: Dict[Any, Any],
+    fn: F,
+    reference_injections: Dict[Any, Any],
+    reference_closing: Dict[Any, Any],
 ) -> F:
     patched_object = PatchedCallable(
         original=fn,
@@ -676,6 +807,8 @@ def _get_patched(
 
     if inspect.iscoroutinefunction(fn):
         patched = _get_async_patched(fn, patched_object)
+    elif inspect.isasyncgenfunction(fn):
+        patched = _get_async_gen_patched(fn, patched_object)
     else:
         patched = _get_sync_patched(fn, patched_object)
 
@@ -685,18 +818,16 @@ def _get_patched(
     return patched
 
 
-def _is_fastapi_depends(param: Any) -> bool:
-    return fastapi and isinstance(param, fastapi.params.Depends)
-
-
 def _is_patched(fn) -> bool:
     return _patched_registry.has_callable(fn)
 
 
 def _is_declarative_container(instance: Any) -> bool:
-    return (isinstance(instance, type)
-            and getattr(instance, "__IS_CONTAINER__", False) is True
-            and getattr(instance, "declarative_parent", None) is None)
+    return (
+        isinstance(instance, type)
+        and getattr(instance, "__IS_CONTAINER__", False) is True
+        and getattr(instance, "declarative_parent", None) is None
+    )
 
 
 def _safe_is_subclass(instance: Any, cls: Type) -> bool:
@@ -709,11 +840,10 @@ def _safe_is_subclass(instance: Any, cls: Type) -> bool:
 class Modifier:
 
     def modify(
-            self,
-            provider: providers.ConfigurationOption,
-            providers_map: ProvidersMap,
-    ) -> providers.Provider:
-        ...
+        self,
+        provider: providers.ConfigurationOption,
+        providers_map: ProvidersMap,
+    ) -> providers.Provider: ...
 
 
 class TypeModifier(Modifier):
@@ -722,11 +852,14 @@ class TypeModifier(Modifier):
         self.type_ = type_
 
     def modify(
-            self,
-            provider: providers.ConfigurationOption,
-            providers_map: ProvidersMap,
+        self,
+        provider: providers.ConfigurationOption,
+        providers_map: ProvidersMap,
     ) -> providers.Provider:
         return provider.as_(self.type_)
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.type_!r})"
 
 
 def as_int() -> TypeModifier:
@@ -746,30 +879,35 @@ def as_(type_: Type) -> TypeModifier:
 
 class RequiredModifier(Modifier):
 
-    def __init__(self) -> None:
-        self.type_modifier = None
+    def __init__(self, type_modifier: Optional[TypeModifier] = None) -> None:
+        self.type_modifier = type_modifier
 
-    def as_int(self) -> "RequiredModifier":
+    def as_int(self) -> Self:
         self.type_modifier = TypeModifier(int)
         return self
 
-    def as_float(self) -> "RequiredModifier":
+    def as_float(self) -> Self:
         self.type_modifier = TypeModifier(float)
         return self
 
-    def as_(self, type_: Type) -> "RequiredModifier":
+    def as_(self, type_: Type) -> Self:
         self.type_modifier = TypeModifier(type_)
         return self
 
     def modify(
-            self,
-            provider: providers.ConfigurationOption,
-            providers_map: ProvidersMap,
+        self,
+        provider: providers.ConfigurationOption,
+        providers_map: ProvidersMap,
     ) -> providers.Provider:
         provider = provider.required()
         if self.type_modifier:
             provider = provider.as_(self.type_modifier.type_)
         return provider
+
+    def __repr__(self) -> str:
+        if self.type_modifier:
+            return f"{self.__class__.__name__}({self.type_modifier!r})"
+        return f"{self.__class__.__name__}()"
 
 
 def required() -> RequiredModifier:
@@ -783,12 +921,15 @@ class InvariantModifier(Modifier):
         self.id = id
 
     def modify(
-            self,
-            provider: providers.ConfigurationOption,
-            providers_map: ProvidersMap,
+        self,
+        provider: providers.ConfigurationOption,
+        providers_map: ProvidersMap,
     ) -> providers.Provider:
         invariant_segment = providers_map.resolve_provider(self.id)
         return provider[invariant_segment]
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.id!r})"
 
 
 def invariant(id: str) -> InvariantModifier:
@@ -805,22 +946,22 @@ class ProvidedInstance(Modifier):
     def __init__(self) -> None:
         self.segments = []
 
-    def __getattr__(self, item):
+    def __getattr__(self, item: str) -> Self:
         self.segments.append((self.TYPE_ATTRIBUTE, item))
         return self
 
-    def __getitem__(self, item):
+    def __getitem__(self, item) -> Self:
         self.segments.append((self.TYPE_ITEM, item))
         return self
 
-    def call(self):
+    def call(self) -> Self:
         self.segments.append((self.TYPE_CALL, None))
         return self
 
     def modify(
-            self,
-            provider: providers.Provider,
-            providers_map: ProvidersMap,
+        self,
+        provider: providers.Provider,
+        providers_map: ProvidersMap,
     ) -> providers.Provider:
         provider = provider.provided
         for type_, value in self.segments:
@@ -830,7 +971,27 @@ class ProvidedInstance(Modifier):
                 provider = provider[value]
             elif type_ == ProvidedInstance.TYPE_CALL:
                 provider = provider.call()
+            else:
+                assert_never(type_)
         return provider
+
+    def _format_segments(self) -> str:
+        segments = []
+        for type_, value in self.segments:
+            if type_ == ProvidedInstance.TYPE_ATTRIBUTE:
+                segments.append(f".{value}")
+            elif type_ == ProvidedInstance.TYPE_ITEM:
+                segments.append(f"[{value!r}]")
+            elif type_ == ProvidedInstance.TYPE_CALL:
+                segments.append(".call()")
+            else:
+                assert_never(type_)
+        return "".join(segments)
+
+    __str__ = _format_segments
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}(){self._format_segments()}"
 
 
 def provided() -> ProvidedInstance:
@@ -838,47 +999,63 @@ def provided() -> ProvidedInstance:
     return ProvidedInstance()
 
 
-class ClassGetItemMeta(GenericMeta):
-    def __getitem__(cls, item):
-        # Spike for Python 3.6
-        if isinstance(item, tuple):
-            return cls(*item)
-        return cls(item)
+MarkerItem = Union[
+    str,
+    providers.Provider[Any],
+    Tuple[str, TypeModifier],
+    Type[Container],
+    "_Marker",
+]
 
 
-class _Marker(Generic[T], metaclass=ClassGetItemMeta):
+if TYPE_CHECKING:  # noqa
 
-    __IS_MARKER__ = True
+    class _Marker(Protocol):
+        __IS_MARKER__: bool
 
-    def __init__(
+        def __call__(self) -> Self: ...
+        def __getattr__(self, item: str) -> Self: ...
+        def __getitem__(self, item: Any) -> Any: ...
+        def __repr__(self) -> str: ...
+
+    Provide: _Marker
+    Provider: _Marker
+    Closing: _Marker
+else:
+
+    class _Marker:
+
+        __IS_MARKER__ = True
+
+        def __init__(
             self,
             provider: Union[providers.Provider, Container, str],
             modifier: Optional[Modifier] = None,
-    ) -> None:
-        if _is_declarative_container(provider):
-            provider = provider.__self__
-        self.provider = provider
-        self.modifier = modifier
+        ) -> None:
+            if _is_declarative_container(provider):
+                provider = provider.__self__
+            self.provider = provider
+            self.modifier = modifier
 
-    def __class_getitem__(cls, item) -> T:
-        if isinstance(item, tuple):
-            return cls(*item)
-        return cls(item)
+        def __class_getitem__(cls, item: MarkerItem) -> Self:
+            if isinstance(item, tuple):
+                return cls(*item)
+            return cls(item)
 
-    def __call__(self) -> T:
-        return self
+        def __call__(self) -> Self:
+            return self
 
+        def __repr__(self) -> str:
+            cls_name = self.__class__.__name__
+            if self.modifier:
+                return f"{cls_name}[{self.provider!r}, {self.modifier!r}]"
+            return f"{cls_name}[{self.provider!r}]"
 
-class Provide(_Marker):
-    ...
+    class Provide(_Marker): ...
 
+    class Provider(_Marker): ...
 
-class Provider(_Marker):
-    ...
-
-
-class Closing(_Marker):
-    ...
+    class Closing(_Marker): ...
 
 
 class AutoLoader:
@@ -928,8 +1105,7 @@ class AutoLoader:
                 super().exec_module(module)
                 loader.wire_module(module)
 
-        class ExtensionFileLoader(importlib.machinery.ExtensionFileLoader):
-            ...
+        class ExtensionFileLoader(importlib.machinery.ExtensionFileLoader): ...
 
         loader_details = [
             (SourcelessFileLoader, importlib.machinery.BYTECODE_SUFFIXES),
@@ -978,24 +1154,71 @@ def is_loader_installed() -> bool:
 
 
 _patched_registry = PatchedRegistry()
-_inspect_filter = InspectFilter()
 _loader = AutoLoader()
 
 # Optimizations
-from ._cwiring import _get_sync_patched  # noqa
-from ._cwiring import _async_inject  # noqa
+from ._cwiring import DependencyResolver  # noqa: E402
 
 
 # Wiring uses the following Python wrapper because there is
 # no possibility to compile a first-type citizen coroutine in Cython.
 def _get_async_patched(fn: F, patched: PatchedCallable) -> F:
     @functools.wraps(fn)
-    async def _patched(*args, **kwargs):
-        return await _async_inject(
-            fn,
-            args,
-            kwargs,
-            patched.injections,
-            patched.closing,
-        )
-    return _patched
+    async def _patched(*args: Any, **raw_kwargs: Any) -> Any:
+        resolver = DependencyResolver(raw_kwargs, patched.injections, patched.closing)
+
+        async with resolver as kwargs:
+            return await fn(*args, **kwargs)
+
+    return cast(F, _patched)
+
+
+def _get_async_gen_patched(fn: F, patched: PatchedCallable) -> F:
+    @functools.wraps(fn)
+    async def _patched(*args: Any, **raw_kwargs: Any) -> AsyncIterator[Any]:
+        resolver = DependencyResolver(raw_kwargs, patched.injections, patched.closing)
+
+        async with resolver as kwargs:
+            async for obj in fn(*args, **kwargs):
+                yield obj
+
+    return cast(F, _patched)
+
+
+def _get_sync_patched(fn: F, patched: PatchedCallable) -> F:
+    @functools.wraps(fn)
+    def _patched(*args: Any, **raw_kwargs: Any) -> Any:
+        resolver = DependencyResolver(raw_kwargs, patched.injections, patched.closing)
+
+        with resolver as kwargs:
+            return fn(*args, **kwargs)
+
+    return cast(F, _patched)
+
+
+if sys.version_info >= (3, 10):
+
+    def _get_annotations(obj: Any) -> Dict[str, Any]:
+        return inspect.get_annotations(obj)
+
+else:
+
+    def _get_annotations(obj: Any) -> Dict[str, Any]:
+        return getattr(obj, "__annotations__", {})
+
+
+def _get_members_and_annotated(obj: Any) -> Iterable[Tuple[str, Any]]:
+    members = inspect.getmembers(obj)
+    annotations = _get_annotations(obj)
+    for annotation_name, annotation in annotations.items():
+        if get_origin(annotation) is Annotated:
+            args = get_args(annotation)
+            if len(args) > 1:
+                member = args[1]
+                members.append((annotation_name, member))
+    return members
+
+
+def clear_cache() -> None:
+    """Clear all caches used by :func:`wire`."""
+    _fetch_reference_injections.cache_clear()

@@ -1,12 +1,13 @@
 from pathlib import Path
+from typing import Any, Dict
+
+from pydantic_settings import BaseSettings as PydanticSettings
 
 from dependency_injector import providers
-from pydantic import BaseSettings as PydanticSettings
-
 
 # Test 1: to check the getattr
-config1 = providers.Configuration()
-provider1 = providers.Factory(dict, a=config1.a)
+config1: providers.Configuration = providers.Configuration()
+provider1: providers.Provider[Dict[str, Any]] = providers.Factory(dict, a=config1.a)
 
 # Test 2: to check the from_*() method
 config2 = providers.Configuration()
@@ -67,7 +68,9 @@ config5_pydantic = providers.Configuration(
     pydantic_settings=[PydanticSettings()],
 )
 config5_pydantic.set_pydantic_settings([PydanticSettings()])
-config5_pydantic_settings: list[PydanticSettings] = config5_pydantic.get_pydantic_settings()
+config5_pydantic_settings: list[PydanticSettings] = (
+    config5_pydantic.get_pydantic_settings()
+)
 
 # Test 6: to check init arguments
 config6 = providers.Configuration(

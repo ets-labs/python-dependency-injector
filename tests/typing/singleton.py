@@ -1,15 +1,14 @@
-from typing import Callable, Optional, Tuple, Any, Dict, Type
+from typing import Any, Callable, Dict, Optional, Tuple, Type
 
 from dependency_injector import providers
 
 
-class Animal:
-    ...
+class Animal: ...
 
 
 class Cat(Animal):
 
-    def __init__(self, *_, **__): ...
+    def __init__(self, *a: Any, **kw: Any) -> None: ...
 
     @classmethod
     def create(cls) -> Animal:
@@ -37,7 +36,10 @@ attributes4: Dict[str, Any] = provider4.attributes
 
 # Test 5: to check the provided instance interface
 provider5 = providers.Singleton(Animal)
-provided5: Animal = provider5.provided
+provided5: Animal = provider5.provided()
+attr_getter5: providers.AttributeGetter = provider5.provided.attr
+item_getter5: providers.ItemGetter = provider5.provided["item"]
+method_caller5: providers.MethodCaller = provider5.provided.method.call(123, arg=324)
 
 # Test 6: to check the DelegatedSingleton
 provider6 = providers.DelegatedSingleton(Cat)
@@ -69,9 +71,12 @@ provider12 = providers.SingletonDelegate(providers.Singleton(object))
 
 # Test 13: to check the return type with await
 provider13 = providers.Singleton(Cat)
+
+
 async def _async13() -> None:
     animal1: Animal = await provider13(1, 2, 3, b="1", c=2, e=0.0)  # type: ignore
     animal2: Animal = await provider13.async_(1, 2, 3, b="1", c=2, e=0.0)
+
 
 # Test 14: to check class from .provides
 provider14 = providers.Singleton(Cat)
@@ -88,5 +93,5 @@ provided_provides15: Optional[Callable[..., Animal]] = provider15.provides
 assert provided_provides15 is not None and provided_provides15() == Cat()
 
 # Test 16: to check string imports
-provider16: providers.Singleton[dict] = providers.Singleton("builtins.dict")
+provider16: providers.Singleton[Dict[Any, Any]] = providers.Singleton("builtins.dict")
 provider16.set_provides("builtins.dict")

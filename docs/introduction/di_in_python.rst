@@ -310,4 +310,6 @@ A few useful links related to a dependency injection design pattern for further 
 + https://github.com/ets-labs/python-dependency-injector
 + https://pypi.org/project/dependency-injector/
 
+.. include:: ../sponsor.rst
+
 .. disqus::

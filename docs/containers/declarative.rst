@@ -16,7 +16,7 @@ The declarative container providers should only be used when you have the contai
 Working with the providers of the container on the class level will influence all further
 instances.
 
-The declarative container can not have any methods or any other attributes then providers.
+A declarative container cannot have any methods or attributes other than providers.
 
 The container class provides next attributes:
 

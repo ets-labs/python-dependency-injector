@@ -280,7 +280,7 @@ Now let's fill in the layout.
 
 Put next into the ``base.html``:
 
-.. code-block:: html
+.. code-block:: jinja
 
    <!doctype html>
    <html lang="en">
@@ -313,7 +313,7 @@ And put something to the index page.
 
 Put next into the ``index.html``:
 
-.. code-block:: html
+.. code-block:: jinja
 
    {% extends "base.html" %}
 
@@ -998,5 +998,6 @@ What's next?
 - Know more about the :ref:`providers`
 - Go to the :ref:`contents`
 
+.. include:: ../sponsor.rst
 
 .. disqus::

@@ -7,7 +7,6 @@ import warnings
 
 from dependency_injector import providers
 
-
 warnings.warn(
     'Module "dependency_injector.ext.aiohttp" is deprecated since '
     'version 4.0.0. Use "dependency_injector.wiring" module instead.',
@@ -38,9 +37,11 @@ class View(providers.Callable):
 
     def as_view(self):
         """Return aiohttp view function."""
+
         @functools.wraps(self.provides)
         async def _view(request, *args, **kwargs):
             return await self.__call__(request, *args, **kwargs)
+
         return _view
 
 
@@ -49,6 +50,8 @@ class ClassBasedView(providers.Factory):
 
     def as_view(self):
         """Return aiohttp view function."""
+
         async def _view(request, *args, **kwargs):
             return await self.__call__(request, *args, **kwargs)
+
         return _view

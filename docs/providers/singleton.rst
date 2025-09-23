@@ -24,7 +24,7 @@ returns it on the rest of the calls.
 
 .. note::
 
-   ``Singleton`` provider makes dependencies injection only when creates an object. When an object
+   ``Singleton`` provider makes dependencies injection only when it creates an object. When an object
    is created and memorized ``Singleton`` provider just returns it without applying injections.
 
 Specialization of the provided type and abstract singletons work the same like like for the
@@ -33,7 +33,7 @@ factories:
 - :ref:`factory-specialize-provided-type`
 - :ref:`abstract-factory`
 
-``Singleton`` provider scope is tied to the container. Two different containers will provider
+``Singleton`` provider scope is tied to the container. Two different containers will provide
 two different singleton objects:
 
 .. literalinclude:: ../../examples/providers/singleton_multiple_containers.py

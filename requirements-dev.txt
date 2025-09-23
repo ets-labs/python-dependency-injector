@@ -1,9 +1,11 @@
-cython==0.29.32
+cython==3.1.4
+setuptools
 pytest
 pytest-asyncio
 tox
 coverage
 flake8
+flake8-pyproject
 pydocstyle
 sphinx_autobuild
 pip
@@ -12,9 +14,12 @@ pyyaml
 httpx
 fastapi
 pydantic
+pydantic-settings
 numpy
 scipy
 boto3
 mypy_boto3_s3
+typing_extensions
+fast-depends
 
 -r requirements-ext.txt

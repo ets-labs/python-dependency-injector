@@ -95,4 +95,6 @@ See also:
 - Resource provider :ref:`resource-async-initializers`
 - Wiring :ref:`async-injections-wiring`
 
+.. include:: ../sponsor.rst
+
 .. disqus::
