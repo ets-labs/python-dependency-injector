@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from contextlib import AbstractContextManager, AbstractAsyncContextManager
 from pathlib import Path
 from typing import (
     Awaitable,
@@ -461,6 +462,20 @@ class Resource(Provider[T]):
     def __init__(
         self,
         provides: Optional[Type[resources.AsyncResource[T]]] = None,
+        *args: Injection,
+        **kwargs: Injection,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self,
+        provides: Optional[_Callable[..., AbstractContextManager[T]]] = None,
+        *args: Injection,
+        **kwargs: Injection,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self,
+        provides: Optional[_Callable[..., AbstractAsyncContextManager[T]]] = None,
         *args: Injection,
         **kwargs: Injection,
     ) -> None: ...
