@@ -3910,7 +3910,7 @@ cdef class ContextLocalResource(Resource):
             if self._async_mode == ASYNC_MODE_ENABLED:
                 return NULL_AWAITABLE
             return
-        if self._shutdowner_context_var.get():
+        if self._shutdowner_context_var.get() != self._none:
             future = self._shutdowner_context_var.get()(None, None, None)
             if __is_future_or_coroutine(future):
                 self._reset_all_contex_vars()
@@ -3982,7 +3982,7 @@ cdef class ContextLocalResource(Resource):
             return resource
         else:
             self._resource_context_var.set(obj)
-            self._shutdowner_context_var.set(None)
+            self._shutdowner_context_var.set(self._none)
 
         return self._resource_context_var.get()
 
