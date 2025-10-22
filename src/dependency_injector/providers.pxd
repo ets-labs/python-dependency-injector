@@ -239,6 +239,13 @@ cdef class Resource(Provider):
     cpdef object _provide(self, tuple args, dict kwargs)
 
 
+cdef class ContextLocalResource(Resource):
+    cdef object _resource_context_var
+    cdef object _shutdowner_context_var
+
+    cpdef object _provide(self, tuple args, dict kwargs)
+
+
 cdef class Container(Provider):
     cdef object _container_cls
     cdef dict _overriding_providers
