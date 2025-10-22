@@ -1,7 +1,8 @@
 """Async injection tests."""
 
-from pytest import fixture, mark
+import asyncio
 
+from pytest import fixture, mark
 from samples.wiring import asyncinjections
 
 
@@ -51,7 +52,7 @@ async def test_async_generator_injections() -> None:
 
 @mark.asyncio
 async def test_async_injections_with_closing():
-    resource1, resource2 = await asyncinjections.async_injection_with_closing()
+    resource1, resource2, context_local_resource = await asyncinjections.async_injection_with_closing()
 
     assert resource1 is asyncinjections.resource1
     assert asyncinjections.resource1.init_counter == 1
@@ -61,7 +62,11 @@ async def test_async_injections_with_closing():
     assert asyncinjections.resource2.init_counter == 1
     assert asyncinjections.resource2.shutdown_counter == 1
 
-    resource1, resource2 = await asyncinjections.async_injection_with_closing()
+    assert context_local_resource is asyncinjections.resource3
+    assert asyncinjections.resource3.init_counter == 1
+    assert asyncinjections.resource3.shutdown_counter == 1
+
+    resource1, resource2, context_local_resource = await asyncinjections.async_injection_with_closing()
 
     assert resource1 is asyncinjections.resource1
     assert asyncinjections.resource1.init_counter == 2
@@ -70,3 +75,19 @@ async def test_async_injections_with_closing():
     assert resource2 is asyncinjections.resource2
     assert asyncinjections.resource2.init_counter == 2
     assert asyncinjections.resource2.shutdown_counter == 2
+
+    assert context_local_resource is asyncinjections.resource3
+    assert asyncinjections.resource3.init_counter == 2
+    assert asyncinjections.resource3.shutdown_counter == 2
+
+
+@mark.asyncio
+async def test_async_injections_with_closing_concurrently():
+    resource1, resource2 = await asyncio.gather(asyncinjections.async_injection_with_closing_context_local_resources(),
+                                                asyncinjections.async_injection_with_closing_context_local_resources())
+    assert resource1 != resource2
+
+    resource1 = await asyncinjections.Container.context_local_resource_with_factory_object()
+    resource2 = await asyncinjections.Container.context_local_resource_with_factory_object()
+
+    assert resource1 == resource2

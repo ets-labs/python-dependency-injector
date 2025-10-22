@@ -18,6 +18,7 @@ class TestResource:
 
 resource1 = TestResource()
 resource2 = TestResource()
+resource3 = TestResource()
 
 
 async def async_resource(resource):
@@ -34,6 +35,8 @@ class Container(containers.DeclarativeContainer):
 
     resource1 = providers.Resource(async_resource, providers.Object(resource1))
     resource2 = providers.Resource(async_resource, providers.Object(resource2))
+    context_local_resource = providers.ContextLocalResource(async_resource, providers.Object(resource3))
+    context_local_resource_with_factory_object = providers.ContextLocalResource(async_resource, providers.Factory(TestResource))
 
 
 @inject
@@ -57,5 +60,13 @@ async def async_generator_injection(
 async def async_injection_with_closing(
         resource1: object = Closing[Provide[Container.resource1]],
         resource2: object = Closing[Provide[Container.resource2]],
+        context_local_resource: object = Closing[Provide[Container.context_local_resource]],
 ):
-    return resource1, resource2
+    return resource1, resource2, context_local_resource
+
+
+@inject
+async def async_injection_with_closing_context_local_resources(
+        context_local_resource1: object = Closing[Provide[Container.context_local_resource_with_factory_object]],
+):
+    return context_local_resource1
