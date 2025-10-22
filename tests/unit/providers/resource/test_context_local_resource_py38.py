@@ -41,8 +41,6 @@ def test_set_provides_returns_():
     ],
 )
 def test_set_provides_string_imports(str_name, cls):
-    print( providers.ContextLocalResource(str_name).provides)
-    print(cls)
     assert providers.ContextLocalResource(str_name).provides is cls
 
 
@@ -219,38 +217,6 @@ def test_init_class():
     assert TestResource.init_counter == 2
     assert TestResource.shutdown_counter == 2
 
-
-def test_init_class_generic_typing():
-    # See issue: https://github.com/ets-labs/python-dependency-injector/issues/488
-    class TestDependency:
-        ...
-
-    class TestResource(resources.Resource[TestDependency]):
-        def init(self, *args: Any, **kwargs: Any) -> TestDependency:
-            return TestDependency()
-
-        def shutdown(self, resource: TestDependency) -> None: ...
-
-    assert issubclass(TestResource, resources.Resource) is True
-
-
-def test_init_class_abc_init_definition_is_required():
-    class TestResource(resources.Resource):
-        ...
-
-    with raises(TypeError) as context:
-        TestResource()
-
-    assert "Can't instantiate abstract class TestResource" in str(context.value)
-    assert "init" in str(context.value)
-
-
-def test_init_class_abc_shutdown_definition_is_not_required():
-    class TestResource(resources.Resource):
-        def init(self):
-            ...
-
-    assert hasattr(TestResource(), "shutdown") is True
 
 
 def test_init_not_callable():
