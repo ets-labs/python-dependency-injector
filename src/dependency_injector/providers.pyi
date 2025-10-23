@@ -4,7 +4,6 @@ from contextlib import AbstractContextManager, AbstractAsyncContextManager
 from pathlib import Path
 from typing import (
     Awaitable,
-    TypeVar,
     Generic,
     Type,
     Callable as _Callable,
@@ -22,6 +21,8 @@ from typing import (
     overload,
 )
 
+from typing_extensions import TypeVar
+
 try:
     import yaml
 except ImportError:
@@ -38,6 +39,7 @@ Injection = Any
 ProviderParent = Union["Provider", Any]
 T = TypeVar("T")
 TT = TypeVar("TT")
+T_Any = TypeVar("T_Any", default=Any)
 P = TypeVar("P", bound="Provider")
 BS = TypeVar("BS", bound="BaseSingleton")
 
@@ -542,17 +544,17 @@ class Container(Provider[T]):
     def parent_name(self) -> Optional[str]: ...
     def assign_parent(self, parent: ProviderParent) -> None: ...
 
-class Selector(Provider[Any]):
+class Selector(Provider[T_Any]):
     def __init__(
         self, selector: Optional[_Callable[..., Any]] = None, **providers: Provider
     ): ...
     def __getattr__(self, name: str) -> Provider: ...
     @property
     def selector(self) -> Optional[_Callable[..., Any]]: ...
-    def set_selector(self, selector: Optional[_Callable[..., Any]]) -> Selector: ...
+    def set_selector(self, selector: Optional[_Callable[..., Any]]) -> Selector[T_Any]: ...
     @property
     def providers(self) -> _Dict[str, Provider]: ...
-    def set_providers(self, **providers: Provider) -> Selector: ...
+    def set_providers(self, **providers: Provider) -> Selector[TT]: ...
 
 class ProvidedInstanceFluentInterface:
     def __getattr__(self, item: Any) -> AttributeGetter: ...
