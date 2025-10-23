@@ -76,29 +76,21 @@ with suppress(ImportError):
 
     MARKER_EXTRACTORS.append(extract_marker_from_fastapi)
 
-# Fast-depends support for both old and new versions
-FastDepends = None
-FastDependant = None
-
-# Try to import from different locations to support both versions
-with suppress(ImportError):
-    # Try version 3.0.0+ first (Dependant from model)
-    from fast_depends.dependencies.model import Dependant as FastDependant
+with suppress(ImportError):  # fast_depends >=3.0.0
+    from fast_depends.dependencies.model import Dependant as FastDependant  # type: ignore[attr-defined]
 
     def extract_marker_from_dependant_fast_depends(param: Any) -> Any:
-        # Check for Dependant (3.0.0+)
-        if FastDependant is not None and isinstance(param, FastDependant):
+        if isinstance(param, FastDependant):
             return param.dependency
         return None
 
     MARKER_EXTRACTORS.append(extract_marker_from_dependant_fast_depends)
 
-with suppress(ImportError):
-    # Try version < 3.0.0 (Depends class)
-    from fast_depends.dependencies import Depends as FastDepends
+with suppress(ImportError):  # fast_depends <3.0.0
+    from fast_depends.dependencies import Depends as FastDepends  # type: ignore[attr-defined]
 
     def extract_marker_from_fast_depends(param: Any) -> Any:
-        if FastDepends is not None and isinstance(param, FastDepends):
+        if isinstance(param, FastDepends):
             return param.dependency
         return None
 
