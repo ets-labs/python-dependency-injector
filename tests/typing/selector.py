@@ -40,3 +40,14 @@ provider4 = providers.Selector(
 async def _async4() -> None:
     var1: Any = await provider4()
     var2: Any = await provider4.async_()
+
+
+# Test 5: to check explicit typing
+
+provider5 = providers.Selector[bool](lambda: "a", a=providers.Factory(bool), b=providers.Factory(int))
+var5: bool = provider5()
+attr5: providers.Provider[Any] = provider5.a
+provider5_after_set_selector: providers.Selector[bool] = provider5.set_selector(lambda: "a")
+provider5_after_set_providers: providers.Selector[Any] = provider5.set_providers(
+    c=providers.Factory(str)
+)  # Selector[Any] for now since Provider is invariant
