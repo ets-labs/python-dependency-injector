@@ -48,6 +48,6 @@ provider5 = providers.Selector[bool](lambda: "a", a=providers.Factory(bool), b=p
 var5: bool = provider5()
 attr5: providers.Provider[Any] = provider5.a
 provider5_after_set_selector: providers.Selector[bool] = provider5.set_selector(lambda: "a")
-provider5_after_set_providers: providers.Selector[Any] = provider5.set_providers(
+provider5_after_set_providers: providers.Selector[bool] = provider5.set_providers(
     c=providers.Factory(str)
-)  # Selector[Any] for now since Provider is invariant
+) # We don't require Provider of subclass of bool yet since Provider is invariant
