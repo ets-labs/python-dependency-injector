@@ -55,7 +55,8 @@ dynamic = ["version"]
 dependencies = [
     # typing.Annotated since v3.9
     # typing.Self and typing.assert_never since v3.11
-    "typing-extensions; python_version<'3.11'",
+    # typing.TypeVar default since v3.13
+    "typing-extensions; python_version<'3.13'",
 ]
 
 [project.optional-dependencies]
