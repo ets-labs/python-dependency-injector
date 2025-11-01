@@ -3806,23 +3806,26 @@ cdef class Resource(Provider):
 
     def shutdown(self):
         """Shutdown resource."""
-        if not self._initialized:
+        if not self._initialized :
+            self._reset_all_contex_vars()
             if self._async_mode == ASYNC_MODE_ENABLED:
                 return NULL_AWAITABLE
             return
 
         if self._shutdowner:
             future = self._shutdowner(None, None, None)
-
             if __is_future_or_coroutine(future):
-                return ensure_future(self._shutdown_async(future))
+                self._reset_all_contex_vars()
+                return ensure_future(future)
 
-        self._resource = None
-        self._initialized = False
-        self._shutdowner = None
-
+        self._reset_all_contex_vars()
         if self._async_mode == ASYNC_MODE_ENABLED:
             return NULL_AWAITABLE
+
+    def _reset_all_contex_vars(self):
+        self._initialized = False
+        self._resource = None
+        self._shutdowner = None
 
     @property
     def related(self):
@@ -3831,14 +3834,6 @@ cdef class Resource(Provider):
         yield from filter(is_provider, self.args)
         yield from filter(is_provider, self.kwargs.values())
         yield from super().related
-
-    async def _shutdown_async(self, future) -> None:
-        try:
-            await future
-        finally:
-            self._resource = None
-            self._initialized = False
-            self._shutdowner = None
 
     async def _handle_async_cm(self, obj) -> None:
         try:
@@ -3863,7 +3858,6 @@ cdef class Resource(Provider):
 
         return resource, shutdowner
 
-    
     cpdef object _provide(self, tuple args, dict kwargs):
         if self._initialized:
             return self._resource
@@ -3916,8 +3910,6 @@ cdef class Resource(Provider):
 
 
 cdef class ContextLocalResource(Resource):
-    _none = object()
-
     def __init__(self, provides=None, *args, **kwargs):
         self._initialized_context_var = ContextVar("_initialized_context_var", default=False)
         self._resource_context_var = ContextVar("_resource_context_var", default=None)
@@ -3953,31 +3945,6 @@ cdef class ContextLocalResource(Resource):
     def _shutdowner(self, value):
         """Set shutdowner."""
         self._shutdowner_context_var.set(value)
-
-
-    def shutdown(self):
-        """Shutdown resource."""
-        if not self._initialized :
-            self._reset_all_contex_vars()
-            if self._async_mode == ASYNC_MODE_ENABLED:
-                return NULL_AWAITABLE
-            return
-
-        if self._shutdowner != None:
-            future = self._shutdowner(None, None, None)
-            if __is_future_or_coroutine(future):
-                self._reset_all_contex_vars()
-                return ensure_future(future)
-
-
-        self._reset_all_contex_vars()
-        if self._async_mode == ASYNC_MODE_ENABLED:
-            return NULL_AWAITABLE
-
-    def _reset_all_contex_vars(self):
-        self._initialized=False
-        self._resource = None
-        self._shutdowner = None
 
 
 cdef class Container(Provider):

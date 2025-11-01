@@ -244,8 +244,6 @@ cdef class ContextLocalResource(Resource):
     cdef object _initialized_context_var
     cdef object _shutdowner_context_var
 
-    cpdef object _provide(self, tuple args, dict kwargs)
-
 
 cdef class Container(Provider):
     cdef object _container_cls
