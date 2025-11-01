@@ -46,6 +46,7 @@ Providers module API docs - :py:mod:`dependency_injector.providers`
     dict
     configuration
     resource
+    context_local_resource
     aggregate
     selector
     dependency

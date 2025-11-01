@@ -21,6 +21,9 @@ Resource provider
 Resource providers help to initialize and configure logging, event loop, thread or process pool, etc.
 
 Resource provider is similar to ``Singleton``. Resource initialization happens only once.
+If you need a context local singleton (where each execution context has its own instance),
+see :ref:`context-local-resource-provider`.
+
 You can make injections and use provided instance the same way like you do with any other provider.
 
 .. code-block:: python
