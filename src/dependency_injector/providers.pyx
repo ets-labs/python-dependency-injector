@@ -3625,9 +3625,9 @@ cdef class Resource(Provider):
         self._provides = None
         self.set_provides(provides)
 
-        self._initialized = False
-        self._resource = None
-        self._shutdowner = None
+        self.__initialized = False
+        self.__resource = None
+        self.__shutdowner = None
 
         self._args = tuple()
         self._args_len = 0
@@ -3766,6 +3766,36 @@ cdef class Resource(Provider):
         return self
 
     @property
+    def _initialized(self):
+        """Get initialized state."""
+        return self.__initialized
+
+    @_initialized.setter
+    def _initialized(self, value):
+        """Set initialized state."""
+        self.__initialized = value
+
+    @property
+    def _resource(self):
+        """Get resource."""
+        return self.__resource
+
+    @_resource.setter
+    def _resource(self, value):
+        """Set resource."""
+        self.__resource = value
+
+    @property
+    def _shutdowner(self):
+        """Get shutdowner."""
+        return self.__shutdowner
+
+    @_shutdowner.setter
+    def _shutdowner(self, value):
+        """Set shutdowner."""
+        self.__shutdowner = value
+
+    @property
     def initialized(self):
         """Check if resource is initialized."""
         return self._initialized
@@ -3876,45 +3906,55 @@ cdef class ContextLocalResource(Resource):
     _none = object()
 
     def __init__(self, provides=None, *args, **kwargs):
+        self._initialized_context_var = ContextVar("_initialized_context_var", default=False)
         self._resource_context_var = ContextVar("_resource_context_var", default=self._none)
         self._shutdowner_context_var = ContextVar("_shutdowner_context_var", default=self._none)
         super().__init__(provides, *args, **kwargs)
 
-    def __deepcopy__(self, memo):
-        """Create and return full copy of provider."""
-        copied = memo.get(id(self))
-        if copied is not None:
-            return copied
+    @property
+    def _initialized(self):
+        """Get initialized state."""
+        return self._initialized_context_var.get()
 
-        if self._resource_context_var.get() != self._none:
-            raise Error("Can not copy initialized resource")
-        copied = _memorized_duplicate(self, memo)
-        copied.set_provides(_copy_if_provider(self.provides, memo))
-        copied.set_args(*deepcopy_args(self, self.args, memo))
-        copied.set_kwargs(**deepcopy_kwargs(self, self.kwargs, memo))
-
-        self._copy_overridings(copied, memo)
-
-        return copied
+    @_initialized.setter
+    def _initialized(self, value):
+        """Set initialized state."""
+        self._initialized_context_var.set(value)
 
     @property
-    def initialized(self):
-        """Check if resource is initialized."""
-        return self._resource_context_var.get() != self._none
+    def _resource(self):
+        """Get resource."""
+        return self._resource_context_var.get()
+
+    @_resource.setter
+    def _resource(self, value):
+        """Set resource."""
+        self._resource_context_var.set(value)
+
+    @property
+    def _shutdowner(self):
+        """Get shutdowner."""
+        return self._shutdowner_context_var.get()
+
+    @_shutdowner.setter
+    def _shutdowner(self, value):
+        """Set shutdowner."""
+        self._shutdowner_context_var.set(value)
 
 
     def shutdown(self):
         """Shutdown resource."""
-        if self._resource_context_var.get() == self._none :
+        if not self._initialized :
             self._reset_all_contex_vars()
             if self._async_mode == ASYNC_MODE_ENABLED:
                 return NULL_AWAITABLE
             return
-        if self._shutdowner_context_var.get() != self._none:
-            future = self._shutdowner_context_var.get()(None, None, None)
+
+        if self._shutdowner != self._none:
+            future = self._shutdowner(None, None, None)
             if __is_future_or_coroutine(future):
                 self._reset_all_contex_vars()
-                return ensure_future(self._shutdown_async(future))
+                return ensure_future(future)
 
 
         self._reset_all_contex_vars()
@@ -3922,39 +3962,33 @@ cdef class ContextLocalResource(Resource):
             return NULL_AWAITABLE
 
     def _reset_all_contex_vars(self):
-        self._resource_context_var.set(self._none)
-        self._shutdowner_context_var.set(self._none)
-
-
-    async def _shutdown_async(self, future) -> None:
-        await future
-
+        self._initialized=False
+        self._resource = self._none
+        self._shutdowner = self._none
 
     async def _handle_async_cm(self, obj) -> None:
         resource = await obj.__aenter__()
         return resource
 
     async def _provide_async(self, future):
-        try:
-            obj = await future
+        obj = await future
 
-            if hasattr(obj, '__aenter__') and hasattr(obj, '__aexit__'):
-                resource = await obj.__aenter__()
-                shutdowner = obj.__aexit__
-            elif hasattr(obj, '__enter__') and hasattr(obj, '__exit__'):
-                resource = obj.__enter__()
-                shutdowner = obj.__exit__
-            else:
-                resource = obj
-                shutdowner = None
+        if hasattr(obj, '__aenter__') and hasattr(obj, '__aexit__'):
+            resource = await obj.__aenter__()
+            shutdowner = obj.__aexit__
+        elif hasattr(obj, '__enter__') and hasattr(obj, '__exit__'):
+            resource = obj.__enter__()
+            shutdowner = obj.__exit__
+        else:
+            resource = obj
+            shutdowner = self._none
 
-            return resource, shutdowner
-        except:
-            raise
+        return resource, shutdowner
 
+    
     cpdef object _provide(self, tuple args, dict kwargs):
-        if self._resource_context_var.get() != self._none:
-            return self._resource_context_var.get()
+        if self._initialized:
+            return self._resource
         obj = __call(
             self._provides,
             args,
@@ -3973,29 +4007,34 @@ cdef class ContextLocalResource(Resource):
             return future_result
         elif hasattr(obj, '__enter__') and hasattr(obj, '__exit__'):
             resource = obj.__enter__()
-            self._resource_context_var.set(resource)
-            self._shutdowner_context_var.set(obj.__exit__)
+            self._resource = resource
+            self._initialized = True
+            self._shutdowner = obj.__exit__
         elif hasattr(obj, '__aenter__') and hasattr(obj, '__aexit__'):
             resource = ensure_future(self._handle_async_cm(obj))
-            self._resource_context_var.set(resource)
-            self._shutdowner_context_var.set(obj.__aexit__)
+            self._resource = resource
+            self._initialized = True
+            self._shutdowner = obj.__aexit__
             return resource
         else:
-            self._resource_context_var.set(obj)
-            self._shutdowner_context_var.set(self._none)
+            self._resource = obj
+            self._initialized = True
+            self._shutdowner = self._none
 
-        return self._resource_context_var.get()
+        return self._resource
 
     def _async_init_instance(self, future_result, result):
         try:
             resource, shutdowner = result.result()
         except Exception as exception:
-            self._resource_context_var.set(self._none)
-            self._shutdowner_context_var.set(self._none)
+            self._resource = self._none
+            self._shutdowner = self._none
+            self._initialized = False
             future_result.set_exception(exception)
         else:
-            self._resource_context_var.set(resource)
-            self._shutdowner_context_var.set(shutdowner)
+            self._resource = resource
+            self._initialized = True
+            self._shutdowner = shutdowner
             future_result.set_result(resource)
 
 

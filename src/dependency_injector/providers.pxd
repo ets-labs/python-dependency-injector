@@ -226,9 +226,9 @@ cdef class Dict(Provider):
 
 cdef class Resource(Provider):
     cdef object _provides
-    cdef bint _initialized
-    cdef object _shutdowner
-    cdef object _resource
+    cdef bint __initialized
+    cdef object __shutdowner
+    cdef object __resource
 
     cdef tuple _args
     cdef int _args_len
@@ -241,6 +241,7 @@ cdef class Resource(Provider):
 
 cdef class ContextLocalResource(Resource):
     cdef object _resource_context_var
+    cdef object _initialized_context_var
     cdef object _shutdowner_context_var
 
     cpdef object _provide(self, tuple args, dict kwargs)
