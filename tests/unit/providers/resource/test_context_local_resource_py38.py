@@ -88,15 +88,26 @@ async def test_injection_in_different_context():
         context_local_resource = providers.ContextLocalResource(_init)
         async_context_local_resource = providers.ContextLocalResource(_async_init)
 
+    async def run_in_context():
+        obj = await container.async_context_local_resource()
+        return obj
+
     container = Container()
-    obj1 = await container.async_context_local_resource()
-    obj2 = await container.async_context_local_resource()
+
+    obj1, obj2 = await asyncio.gather(run_in_context(), run_in_context())
     assert obj1 != obj2
 
-    obj3 = container.context_local_resource()
-    obj4 = container.context_local_resource()
-
+    obj3 = await container.async_context_local_resource()
+    obj4 = await container.async_context_local_resource()
     assert obj3 == obj4
+
+    obj5, obj6 = await asyncio.gather(run_in_context(), run_in_context())
+    assert obj5 == obj6  # as context is copied from the current one where async_context_local_resource was initialized
+
+    obj7 = container.context_local_resource()
+    obj8 = container.context_local_resource()
+
+    assert obj7 == obj8
 
 
 def test_init_function():
@@ -329,37 +340,27 @@ def test_call_with_context_args():
 
 
 def test_fluent_interface():
-    provider = providers.ContextLocalResource(init_fn) \
-        .add_args(1, 2) \
-        .add_kwargs(a3=3, a4=4)
+    provider = providers.ContextLocalResource(init_fn).add_args(1, 2).add_kwargs(a3=3, a4=4)
     assert provider() == ((1, 2), {"a3": 3, "a4": 4})
 
 
 def test_set_args():
-    provider = providers.ContextLocalResource(init_fn) \
-        .add_args(1, 2) \
-        .set_args(3, 4)
+    provider = providers.ContextLocalResource(init_fn).add_args(1, 2).set_args(3, 4)
     assert provider.args == (3, 4)
 
 
 def test_clear_args():
-    provider = providers.ContextLocalResource(init_fn) \
-        .add_args(1, 2) \
-        .clear_args()
+    provider = providers.ContextLocalResource(init_fn).add_args(1, 2).clear_args()
     assert provider.args == tuple()
 
 
 def test_set_kwargs():
-    provider = providers.ContextLocalResource(init_fn) \
-        .add_kwargs(a1="i1", a2="i2") \
-        .set_kwargs(a3="i3", a4="i4")
+    provider = providers.ContextLocalResource(init_fn).add_kwargs(a1="i1", a2="i2").set_kwargs(a3="i3", a4="i4")
     assert provider.kwargs == {"a3": "i3", "a4": "i4"}
 
 
 def test_clear_kwargs():
-    provider = providers.ContextLocalResource(init_fn) \
-        .add_kwargs(a1="i1", a2="i2") \
-        .clear_kwargs()
+    provider = providers.ContextLocalResource(init_fn).add_kwargs(a1="i1", a2="i2").clear_kwargs()
     assert provider.kwargs == {}
 
 
