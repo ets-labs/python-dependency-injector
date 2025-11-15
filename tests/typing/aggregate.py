@@ -27,8 +27,7 @@ provider_set_non_string_1 = provider1_set_non_string_keys.providers[Cat]
 assert_type(provider_set_non_string_1, providers.Provider[str])
 
 
-# TODO: Change providers.Aggregate to accept Mapping? Then remove explicit typing here
-provider1_new_non_string_keys = providers.Aggregate[str](
+provider1_new_non_string_keys = providers.Aggregate(
     {Cat: providers.Object("str")},
 )
 factory_new_non_string_1 = provider1_new_non_string_keys.providers[Cat]

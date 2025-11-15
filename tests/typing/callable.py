@@ -33,8 +33,7 @@ provider4 = providers.Callable(Animal)
 args4 = provider4.args
 kwargs4 = provider4.kwargs
 assert_type(args4, Tuple[Any])
-# TODO: Change Callable.kwargs to Dict[str, Any]? Then adjust test back to Dict[str, Any]
-assert_type(kwargs4, Dict[Any, Any])
+assert_type(kwargs4, Dict[str, Any])
 
 # Test 5: to check the provided instance interface
 provider5 = providers.Callable(Animal)
@@ -42,7 +41,6 @@ provided_val5 = provider5.provided()
 attr_getter5 = provider5.provided.attr
 item_getter5 = provider5.provided["item"]
 method_caller5 = provider5.provided.method.call(123, arg=324)
-# TODO: Remove explicit typing of Provider.provided return type
 assert_type(provided_val5, Any)
 assert_type(attr_getter5, providers.AttributeGetter)
 assert_type(item_getter5, providers.ItemGetter)
@@ -84,6 +82,5 @@ assert_type(provides11, Optional[Callable[..., Animal]])
 
 
 # Test 12: to check string imports
-# TODO: Use T_Any as Callable typevar? Then remove type-ignore
-provider12 = providers.Callable("builtins.dict") # type: ignore[var-annotated]
+provider12 = providers.Callable("builtins.dict")
 provider12.set_provides("builtins.dict")
