@@ -77,6 +77,7 @@ with suppress(ImportError):
     MARKER_EXTRACTORS.append(extract_marker_from_fastapi)
 
 with suppress(ImportError):
+    # fast-depends v2.x
     from fast_depends.dependencies import Depends as FastDepends
 
     def extract_marker_from_fast_depends(param: Any) -> Any:
@@ -85,6 +86,17 @@ with suppress(ImportError):
         return None
 
     MARKER_EXTRACTORS.append(extract_marker_from_fast_depends)
+
+with suppress(ImportError):
+    # fast-depends v3.x (Depends() returns Dependant instances)
+    from fast_depends.dependencies.model import Dependant as FastDependant
+
+    def extract_marker_from_fast_dependant(param: Any) -> Any:
+        if isinstance(param, FastDependant):
+            return param.dependency
+        return None
+
+    MARKER_EXTRACTORS.append(extract_marker_from_fast_dependant)
 
 
 with suppress(ImportError):
