@@ -174,3 +174,14 @@ def test_class_decorator():
 def test_container():
     service = module.test_container()
     assert isinstance(service, Service)
+
+
+def test_annotated_with_non_di_metadata_first():
+    """Test that Annotated works when DI marker is not the first metadata item.
+
+    This tests the case where Annotated has other metadata (like docstrings or
+    other annotations) before the Provide marker, e.g.:
+        Annotated[Service, "some doc", Provide[Container.service]]
+    """
+    service = module.test_annotated_with_non_di_metadata_first()
+    assert isinstance(service, Service)

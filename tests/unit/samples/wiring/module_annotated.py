@@ -124,3 +124,10 @@ def test_class_decorator(service: Annotated[Service, Provide[Container.service]]
 
 def test_container(container: Annotated[Container, Provide[Container]]):
     return container.service()
+
+
+@inject
+def test_annotated_with_non_di_metadata_first(
+    service: Annotated[Service, "some other annotated value", Provide[Container.service]],
+):
+    return service

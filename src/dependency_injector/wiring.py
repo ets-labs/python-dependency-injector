@@ -682,23 +682,18 @@ def _unpatch_attribute(patched: PatchedAttribute) -> None:
 
 def _extract_marker(parameter: inspect.Parameter) -> Optional["_Marker"]:
     if get_origin(parameter.annotation) is Annotated:
-        args = get_args(parameter.annotation)
-        if len(args) > 1:
-            marker = args[1]
-        else:
-            marker = None
+        candidates = get_args(parameter.annotation)[1:]
     else:
-        marker = parameter.default
+        candidates = (parameter.default,)
 
-    for marker_extractor in MARKER_EXTRACTORS:
-        if _marker := marker_extractor(marker):
-            marker = _marker
-            break
-
-    if not isinstance(marker, _Marker):
-        return None
-
-    return marker
+    for marker in candidates:
+        for marker_extractor in MARKER_EXTRACTORS:
+            if _marker := marker_extractor(marker):
+                marker = _marker
+                break
+        if _is_marker(marker):
+            return marker
+    return None
 
 
 @cache
@@ -1223,9 +1218,11 @@ def _get_members_and_annotated(obj: Any) -> Iterable[Tuple[str, Any]]:
     for annotation_name, annotation in annotations.items():
         if get_origin(annotation) is Annotated:
             args = get_args(annotation)
-            if len(args) > 1:
-                member = args[1]
-                members.append((annotation_name, member))
+            # Search through all metadata items (args[1:]) for a DI marker
+            for arg in args[1:]:
+                if _is_marker(arg):
+                    members.append((annotation_name, arg))
+                    break
     return members
 
 
