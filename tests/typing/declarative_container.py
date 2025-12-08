@@ -9,6 +9,7 @@ class Container1(containers.DeclarativeContainer):
     provider = providers.Factory(int)
 
 
+# NOTE: Using assignment to check base class instead of exact type
 container1 = Container1()
 container1_type: containers.Container = Container1()
 provider1: providers.Provider[int] = container1.provider

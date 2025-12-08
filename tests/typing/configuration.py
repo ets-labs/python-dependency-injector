@@ -79,6 +79,8 @@ config5_pydantic = providers.Configuration(
     pydantic_settings=[PydanticSettings()],
 )
 config5_pydantic.set_pydantic_settings([PydanticSettings()])
+
+# NOTE: Using assignment since PydanticSettings is context-sensitive: conditional on whether pydantic is installed
 config5_pydantic_settings: list[PydanticSettings] = (config5_pydantic.get_pydantic_settings())
 
 # Test 6: to check init arguments
