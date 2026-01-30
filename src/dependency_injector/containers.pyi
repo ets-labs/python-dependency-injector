@@ -43,6 +43,7 @@ class WiringConfiguration:
         from_package: Optional[str] = None,
         auto_wire: bool = True,
         keep_cache: bool = False,
+        warn_unresolved: bool = False,
     ) -> None: ...
 
 class Container:
