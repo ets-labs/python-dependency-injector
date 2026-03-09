@@ -44,6 +44,7 @@ provider3 = providers.Resource(init3)
 var3 = provider3()
 assert_type(var3, List[int])
 
+
 # Test 4: to check the return type with resource subclass
 class MyResource4(resources.Resource[List[int]]):
     def init(self, *args: Any, **kwargs: Any) -> List[int]:
@@ -125,10 +126,10 @@ provider9.set_provides("builtins.dict")
 class MyResource10:
     def __init__(self) -> None:
         pass
-    
+
     def __enter__(self) -> Self:
         return self
-    
+
     def __exit__(self, *args: Any, **kwargs: Any) -> None:
         return None
 
@@ -153,10 +154,10 @@ assert_type(var11, int)
 class MyResource12:
     def __init__(self) -> None:
         pass
-    
+
     async def __aenter__(self) -> Self:
         return self
-    
+
     async def __aexit__(self, *args: Any, **kwargs: Any) -> None:
         return None
 
@@ -177,6 +178,7 @@ async def init13() -> AsyncIterator[int]:
 
 
 provider13 = providers.Resource(init13)
+
 
 async def _provide13() -> None:
     var1 = await provider13()  # type: ignore

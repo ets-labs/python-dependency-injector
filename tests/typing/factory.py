@@ -35,7 +35,7 @@ with provider3.override(providers.Factory(Cat)):
 # Test 4: to check the .args, .kwargs, .attributes attributes
 provider4 = providers.Factory(Animal)
 args4 = provider4.args
-kwargs4  = provider4.kwargs
+kwargs4 = provider4.kwargs
 attributes4 = provider4.attributes
 assert_type(args4, Tuple[Any])
 assert_type(kwargs4, Dict[str, Any])
@@ -81,33 +81,23 @@ assert_type(factory_a_9, providers.Factory[str])
 assert_type(factory_b_9, providers.Factory[str])
 assert_type(val9, str)
 
-provider9_set_non_string_keys = (
-    providers.FactoryAggregate[str]()
-)
+provider9_set_non_string_keys = providers.FactoryAggregate[str]()
 provider9_set_non_string_keys.set_factories({Cat: providers.Factory(str, "str")})
-factory_set_non_string_9 = (
-    provider9_set_non_string_keys.factories[Cat]
-)
+factory_set_non_string_9 = provider9_set_non_string_keys.factories[Cat]
 assert_type(provider9_set_non_string_keys, providers.FactoryAggregate[str])
 assert_type(factory_set_non_string_9, providers.Factory[str])
 
-provider9_new_non_string_keys = (
-    providers.FactoryAggregate(
-        {Cat: providers.Factory(str, "str")},
-    )
+provider9_new_non_string_keys = providers.FactoryAggregate(
+    {Cat: providers.Factory(str, "str")},
 )
-factory_new_non_string_9 = (
-    provider9_new_non_string_keys.factories[Cat]
-)
+factory_new_non_string_9 = provider9_new_non_string_keys.factories[Cat]
 assert_type(provider9_new_non_string_keys, providers.FactoryAggregate[str])
 assert_type(factory_new_non_string_9, providers.Factory[str])
 
 provider9_no_explicit_typing = providers.FactoryAggregate(
     a=providers.Factory(str, "str")
 )
-provider9_no_explicit_typing_factory = (
-    provider9_no_explicit_typing.factories["a"]
-)
+provider9_no_explicit_typing_factory = provider9_no_explicit_typing.factories["a"]
 provider9_no_explicit_typing_object = provider9_no_explicit_typing("a")
 assert_type(provider9_no_explicit_typing, providers.FactoryAggregate[str])
 assert_type(provider9_no_explicit_typing_factory, providers.Factory[str])

@@ -77,7 +77,9 @@ assert_type(providers6, Dict[str, providers.Provider[Any]])
 assert_type(provider6_after_set_providers, providers.Selector[Any])
 
 # Test 7: to check explicit typing: return type, getattr, getter/setter of providers and selectors
-provider7 = providers.Selector[bool](lambda: "a", a=providers.Factory(bool), b=providers.Factory(int))
+provider7 = providers.Selector[bool](
+    lambda: "a", a=providers.Factory(bool), b=providers.Factory(int)
+)
 var7 = provider7()
 attr7 = provider7.a
 assert_type(var7, bool)

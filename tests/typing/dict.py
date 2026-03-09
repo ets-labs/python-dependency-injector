@@ -12,7 +12,6 @@ var1 = provider1()
 assert_type(var1, Dict[Any, Any])
 
 
-
 # Test 2: to check init with non-string keys
 provider2 = providers.Dict({object(): providers.Factory(object)})
 var2 = provider2()
@@ -42,7 +41,7 @@ provider5 = providers.Dict(
     a2=providers.Factory(object),
 )
 provided5 = provider5.provided()
-assert_type(provided5,  Any)
+assert_type(provided5, Any)
 
 
 # Test 6: to check the return type with await

@@ -52,6 +52,7 @@ class Container5(containers.DeclarativeContainer):
 dependencies = Container5.dependencies
 assert_type(dependencies, Dict[str, providers.Provider[Any]])
 
+
 # Test 6: to check base class
 class Container6(containers.DeclarativeContainer):
     provider = providers.Factory(int)
