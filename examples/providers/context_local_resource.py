@@ -33,9 +33,8 @@ class Container(containers.DeclarativeContainer):
 @app.get("/")
 @inject
 async def index(db: AsyncSessionLocal = Depends(Closing[Provide["db_session"]])):
-    global global_list
     if db.id in global_list:
-        raise Exception("The db session is already used")  # never reaches here
+        raise Exception("The db session was already used")  # never reaches here
     global_list.append(db.id)
     res = await db.execute("SELECT 1")
     return str(res)
