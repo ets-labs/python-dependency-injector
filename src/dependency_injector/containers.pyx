@@ -339,10 +339,10 @@ class DynamicContainer(Container):
         self.wired_to_modules.clear()
         self.wired_to_packages.clear()
 
-    def init_resources(self, resource_type=providers.Resource):
+    def init_resources(self, resource_type=providers.BaseResource):
         """Initialize all container resources."""
 
-        if not issubclass(resource_type, providers.Resource):
+        if not issubclass(resource_type, providers.BaseResource):
             raise TypeError("resource_type must be a subclass of Resource provider")
 
         futures = []
@@ -356,10 +356,10 @@ class DynamicContainer(Container):
         if futures:
             return asyncio.gather(*futures)
 
-    def shutdown_resources(self, resource_type=providers.Resource):
+    def shutdown_resources(self, resource_type=providers.BaseResource):
         """Shutdown all container resources."""
 
-        if not issubclass(resource_type, providers.Resource):
+        if not issubclass(resource_type, providers.BaseResource):
             raise TypeError("resource_type must be a subclass of Resource provider")
 
         def _independent_resources(resources):

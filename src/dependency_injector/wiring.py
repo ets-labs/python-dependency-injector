@@ -767,7 +767,7 @@ def _bind_injections(
         if injection in patched_callable.reference_closing:
             patched_callable.add_closing(injection, provider)
 
-            for resource in provider.traverse(types=[providers.Resource]):
+            for resource in provider.traverse(types=[providers.BaseResource]):
                 patched_callable.add_closing(str(id(resource)), resource)
 
 

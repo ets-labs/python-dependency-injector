@@ -5,7 +5,7 @@ from collections.abc import Awaitable
 from inspect import CO_ITERABLE_COROUTINE
 from types import CoroutineType, GeneratorType
 
-from .providers cimport Provider, Resource
+from .providers cimport Provider, BaseResource
 from .wiring import _Marker
 
 
@@ -54,7 +54,7 @@ cdef class DependencyResolver:
         cdef Provider provider
 
         for name, provider in self.closings.items():
-            if _is_injectable(self.kwargs, name) and isinstance(provider, Resource):
+            if _is_injectable(self.kwargs, name) and isinstance(provider, BaseResource):
                 provider.shutdown()
 
     cdef list _handle_closings_async(self):
@@ -62,7 +62,7 @@ cdef class DependencyResolver:
         cdef Provider provider
 
         for name, provider in self.closings.items():
-            if _is_injectable(self.kwargs, name) and isinstance(provider, Resource):
+            if _is_injectable(self.kwargs, name) and isinstance(provider, BaseResource):
                 if _isawaitable(shutdown := provider.shutdown()):
                     to_await.append(shutdown)
 
