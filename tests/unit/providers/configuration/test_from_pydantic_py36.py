@@ -168,21 +168,23 @@ def test_option_not_instance_of_settings(config):
 
 
 def test_subclass_instead_of_instance(config):
-    with raises(errors.Error) as error:
-        config.from_pydantic(Settings1)
-    assert error.value.args[0] == (
-        "Got settings class, but expect instance: "
-        "instead \"Settings1\" use \"Settings1()\""
-    )
+    config.from_pydantic(Settings1)
+
+    assert config() == {"section1": {"value1": 1}, "section2": {"value2": 2}}
+    assert config.section1() == {"value1": 1}
+    assert config.section1.value1() == 1
+    assert config.section2() == {"value2": 2}
+    assert config.section2.value2() == 2
 
 
 def test_option_subclass_instead_of_instance(config):
-    with raises(errors.Error) as error:
-        config.option.from_pydantic(Settings1)
-    assert error.value.args[0] == (
-        "Got settings class, but expect instance: "
-        "instead \"Settings1\" use \"Settings1()\""
-    )
+    config.option.from_pydantic(Settings1)
+
+    assert config.option() == {"section1": {"value1": 1}, "section2": {"value2": 2}}
+    assert config.option.section1() == {"value1": 1}
+    assert config.option.section1.value1() == 1
+    assert config.option.section2() == {"value2": 2}
+    assert config.option.section2.value2() == 2
 
 
 @mark.usefixtures("no_pydantic_module_installed")

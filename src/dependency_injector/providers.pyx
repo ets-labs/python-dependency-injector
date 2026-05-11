@@ -157,10 +157,7 @@ cdef dict pydantic_settings_to_dict(settings, dict kwargs):
         )
 
     if isinstance(settings, type) and issubclass(settings, PydanticSettings):
-        raise Error(
-            "Got settings class, but expect instance: "
-            "instead \"{0}\" use \"{0}()\"".format(settings.__name__)
-        )
+        settings = settings()
 
     if not isinstance(settings, PydanticSettings):
         raise Error(
