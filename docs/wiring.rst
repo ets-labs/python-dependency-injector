@@ -658,6 +658,48 @@ or with a single container ``register_loader_containers(container)`` multiple ti
 To unregister a container use ``unregister_loader_containers(container)``.
 Wiring module will uninstall the import hook when unregister last container.
 
+Wiring of Cython-compiled modules
+---------------------------------
+
+Modules compiled with Cython (e.g. to ship business logic as ``.so``
+extensions in source-protected container images) are wired transparently
+provided the compile sets two directives:
+
+* ``binding=True`` — preserve descriptor / bound-method semantics so
+  :func:`inspect.signature` and the wiring discovery pass work as they do
+  for pure-Python functions.
+* ``embedsignature=True`` — embed the Python-style signature so
+  :func:`inspect.signature` can recover parameter names, annotations, and
+  ``Provide[...]`` / ``Provider[...]`` markers from the compiled function.
+
+A typical ``cythonize`` invocation that produces wiring-compatible
+extensions for a FastAPI / dependency-injector codebase:
+
+.. code-block:: python
+
+   from Cython.Build import cythonize
+
+   cythonize(
+       ["my_package/handlers/*.py"],
+       compiler_directives={
+           "language_level": 3,
+           "binding": True,
+           "embedsignature": True,
+           # Keep annotation_typing=False for FastAPI handlers using
+           # `param: str = Header(...)` / `dep: Service = Depends(...)`:
+           # with annotation_typing=True (the Cython 3.x default!) Cython
+           # generates a C-level isinstance check against the default
+           # sentinel and raises `TypeError: Expected str, got Header` at
+           # import time.
+           "annotation_typing": False,
+       },
+   )
+
+No public API change in *Dependency Injector* is required to consume
+compiled modules — ``container.wire(packages=[my_package])`` /
+``container.wire(modules=[my_compiled_module])`` discover and patch
+cyfunctions alongside pure-Python functions in the same package tree.
+
 Few notes on performance
 ------------------------
 
