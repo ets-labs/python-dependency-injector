@@ -212,6 +212,19 @@ the container will call ``config.from_pydantic()`` automatically:
    if __name__ == "__main__":
        container = Container()  # Config is loaded from Settings()
 
+In addition, if you need the pydantic instance to be initialized on use, you can provide ``pydantic_settings.BaseSettings`` type instead.
+The container will initialize a pydantic instance on load without kwargs.
+
+.. code-block:: python
+   :emphasize-lines: 3
+
+   class Container(containers.DeclarativeContainer):
+
+       config = providers.Configuration(pydantic_settings=[Settings])
+
+
+   if __name__ == "__main__":
+       container = Container()  # Config is loaded from Settings instance that is initialized
 
 .. note::
 

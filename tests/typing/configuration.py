@@ -33,6 +33,8 @@ config2.from_env("ENV", as_=lambda env: str(env))
 
 config2.from_pydantic(PydanticSettings())
 
+config2.from_pydantic(PydanticSettings)
+
 # Test 3: to check as_*() methods
 config3 = providers.Configuration()
 int3 = config3.option.as_int()
@@ -90,4 +92,9 @@ config6 = providers.Configuration(
     name="config",
     strict=True,
     default={},
+)
+
+# Test 7: pydantic class
+config7_pydantic_class = providers.Configuration(
+    pydantic_settings=[PydanticSettings]
 )
