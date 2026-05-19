@@ -695,11 +695,6 @@ extensions for a FastAPI / dependency-injector codebase:
        },
    )
 
-No public API change in *Dependency Injector* is required to consume
-compiled modules — ``container.wire(packages=[my_package])`` /
-``container.wire(modules=[my_compiled_module])`` discover and patch
-cyfunctions alongside pure-Python functions in the same package tree.
-
 Few notes on performance
 ------------------------
 
