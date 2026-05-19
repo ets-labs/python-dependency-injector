@@ -6,8 +6,6 @@ from contextlib import suppress
 from functools import wraps
 from importlib import import_module, invalidate_caches as invalidate_import_caches
 from inspect import (
-    CO_ASYNC_GENERATOR,
-    CO_COROUTINE,
     Parameter,
     getmembers,
     isasyncgenfunction,
@@ -131,74 +129,13 @@ with suppress(ImportError):
 
 
 def _is_cyfunction(obj: Any) -> bool:
-    """Return True for Cython-compiled functions/methods.
-
-    Cython-compiled callables (built with ``binding=True`` and
-    ``embedsignature=True``) are not recognised by :func:`inspect.isfunction`
-    because they are instances of ``cython_function_or_method`` rather than
-    ``types.FunctionType``. They are nevertheless safe targets for wiring:
-    dep-injector only *reads* ``inspect.signature`` (which works on
-    cyfunctions with ``embedsignature=True``) and wraps the original via
-    ``functools.wraps``; no writes are performed on ``__code__``,
-    ``__defaults__`` or ``__globals__``.
-
-    Recognises ``cython_function_or_method`` only. Fused-function templates
-    (``fused_cython_function``) dispatch per call and are intentionally
-    excluded — wrapping the template would inject before type dispatch,
-    which has not been validated. Fused support is potential follow-up
-    work.
-
-    Cython >= 3.1.0 is the tested floor. Earlier versions may work but
-    the ``co_flags`` fallbacks in :func:`_iscoroutinefunction_compat` and
-    :func:`_isasyncgenfunction_compat` exist specifically because
-    Cython < 3.0 did not surface coroutine / async-generator status via
-    :mod:`inspect`.
-    """
+    """Return True for Cython-compiled functions/methods (non-fused)."""
     return type(obj).__name__ == "cython_function_or_method"
 
 
 def _is_function_like(obj: Any) -> bool:
-    """Return True for pure-Python functions and Cython-compiled functions.
-
-    Wiring's discovery pass must accept both so that codebases compiled to
-    ``.so`` extensions (e.g. for source-protected container images) can be
-    wired transparently.
-    """
+    """Return True for pure-Python functions and Cython-compiled functions."""
     return isfunction(obj) or _is_cyfunction(obj)
-
-
-def _iscoroutinefunction_compat(fn: Any) -> bool:
-    """Coroutine-function check that also handles Cython-compiled ``async def``.
-
-    Cython 3.x exposes coroutine cyfunctions correctly via
-    :func:`inspect.iscoroutinefunction`. Cython < 3.0 did not — for those
-    versions the underlying ``__code__.co_flags`` still carries the
-    ``CO_COROUTINE`` bit, so fall back to that.
-    """
-    if iscoroutinefunction(fn):
-        return True
-    code = getattr(fn, "__code__", None)
-    if code is None:
-        return False
-    return bool(getattr(code, "co_flags", 0) & CO_COROUTINE)
-
-
-def _isasyncgenfunction_compat(fn: Any) -> bool:
-    """Async-generator check that also handles Cython-compiled ``async def`` w/ yield.
-
-    Symmetric to :func:`_iscoroutinefunction_compat`: Cython < 3.0
-    async-generator cyfunctions are not recognised by
-    :func:`inspect.isasyncgenfunction`, but the ``CO_ASYNC_GENERATOR`` bit
-    is still present in ``__code__.co_flags``. Without this helper, async-
-    gen cyfunctions would fall through to ``_get_sync_patched`` and break
-    at first ``await`` / ``async for``.
-    """
-    if isasyncgenfunction(fn):
-        return True
-    code = getattr(fn, "__code__", None)
-    if code is None:
-        return False
-    return bool(getattr(code, "co_flags", 0) & CO_ASYNC_GENERATOR)
 
 
 from . import providers  # noqa: E402
@@ -895,9 +832,9 @@ def _get_patched(
         reference_closing=reference_closing,
     )
 
-    if _iscoroutinefunction_compat(fn):
+    if iscoroutinefunction(fn):
         patched = _get_async_patched(fn, patched_object)
-    elif _isasyncgenfunction_compat(fn):
+    elif isasyncgenfunction(fn):
         patched = _get_async_gen_patched(fn, patched_object)
     else:
         patched = _get_sync_patched(fn, patched_object)
