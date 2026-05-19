@@ -685,13 +685,6 @@ extensions for a FastAPI / dependency-injector codebase:
            "language_level": 3,
            "binding": True,
            "embedsignature": True,
-           # Keep annotation_typing=False for FastAPI handlers using
-           # `param: str = Header(...)` / `dep: Service = Depends(...)`:
-           # with annotation_typing=True (the Cython 3.x default!) Cython
-           # generates a C-level isinstance check against the default
-           # sentinel and raises `TypeError: Expected str, got Header` at
-           # import time.
-           "annotation_typing": False,
        },
    )
 
