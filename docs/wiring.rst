@@ -688,6 +688,27 @@ extensions for a FastAPI / dependency-injector codebase:
        },
    )
 
+FastAPI views and dependencies that rely on parameter defaults as
+markers (``param: str = Header(...)``, ``svc: Service = Depends(...)``,
+``Provide[Container.x]``) need Cython's C-level annotation typing
+disabled. The default in Cython 3.x is ``annotation_typing=True``, which
+generates ``isinstance`` checks against the annotated types and rejects
+the marker objects at call time. Opt out per-function:
+
+.. code-block:: python
+
+   import cython
+
+   @cython.annotation_typing(False)
+   async def list_users(
+       svc: UserService = Depends(Provide[Container.user_service]),
+   ) -> list[User]:
+       return await svc.list()
+
+Apply the decorator to every FastAPI view or dependency callable that
+takes a marker-style default. Module-level ``annotation_typing=False``
+works too if the whole module is FastAPI-bound.
+
 Few notes on performance
 ------------------------
 
