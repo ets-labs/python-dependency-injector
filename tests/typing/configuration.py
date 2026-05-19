@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Type
 from typing_extensions import assert_type
 
 from pydantic_settings import BaseSettings as PydanticSettings
@@ -82,10 +82,9 @@ config5_pydantic = providers.Configuration(
 )
 config5_pydantic.set_pydantic_settings([PydanticSettings()])
 
-# NOTE: Using assignment since PydanticSettings is context-sensitive: conditional on whether pydantic is installed
-config5_pydantic_settings: list[PydanticSettings] = (
-    config5_pydantic.get_pydantic_settings()
-)
+config5_pydantic_settings = config5_pydantic.get_pydantic_settings()
+
+assert_type(config5_pydantic_settings, list[PydanticSettings | Type[PydanticSettings]])
 
 # Test 6: to check init arguments
 config6 = providers.Configuration(

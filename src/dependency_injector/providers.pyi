@@ -30,9 +30,12 @@ except ImportError:
     yaml = None
 
 try:
-    import pydantic
+    from pydantic_settings import BaseSettings as PydanticSettings
 except ImportError:
-    pydantic = None
+    try:
+        from pydantic import BaseSettings as PydanticSettings
+    except ImportError:
+        PydanticSettings = Any
 
 from . import resources
 
@@ -630,8 +633,3 @@ if yaml:
 
 else:
     class YamlLoader: ...
-
-if pydantic:
-    PydanticSettings = pydantic.BaseSettings
-else:
-    PydanticSettings = Any
