@@ -2,6 +2,12 @@
 
 import pytest
 
+pytest.importorskip("Cython")
+
+import pyximport  # noqa: E402
+
+pyximport.install(language_level=3)
+
 cythonmodule = pytest.importorskip(
     "samples.wiringcython.cythonmodule",
     reason="Cython fixture not built (Cython / C toolchain missing)",
