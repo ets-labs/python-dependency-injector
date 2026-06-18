@@ -227,6 +227,7 @@ cdef class Dict(Provider):
 cdef class ResourceState:
     cdef object resource
     cdef object shutdowner
+    cdef bint shutdowner_is_async
     cdef bint is_async
     cdef bint async_done
 

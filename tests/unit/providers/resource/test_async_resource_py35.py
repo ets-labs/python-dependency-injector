@@ -2,7 +2,7 @@
 
 import asyncio
 import inspect
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, contextmanager
 from typing import Any
 
 from pytest import mark, raises
@@ -346,3 +346,22 @@ async def test_concurrent_init():
 
     assert result2 is resource
     assert _init.counter == 1
+
+
+@mark.asyncio
+async def test_sync_resource_with_async_deps():
+    @asynccontextmanager
+    async def resource_async(v):
+        await asyncio.sleep(0)
+        yield v
+
+    @contextmanager
+    def resource_sync(_async):
+        yield _async + 1
+
+    _async = providers.Resource(resource_async, 1)
+    _sync = providers.Resource(resource_sync, _async)
+
+    assert (await _sync()) == 2
+    await _async.shutdown()
+    await _sync.shutdown()

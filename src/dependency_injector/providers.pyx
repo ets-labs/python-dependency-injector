@@ -3591,8 +3591,19 @@ cdef class ResourceState:
     def __cinit__(self, obj, error_callback, /):
         self.resource = None
         self.shutdowner = None
+        self.shutdowner_is_async = False
         self.is_async = False
         self.async_done = False
+
+    def __repr__(self):
+        return (
+            f"{self.__class__.__name__}("
+            f"resource={self.resource!r}, "
+            f"shutdowner={self.shutdowner!r}, "
+            f"shutdowner_is_async={self.shutdowner_is_async}, "
+            f"is_async={self.is_async}, "
+            f"async_done={self.async_done})"
+        )
 
     def __init__(self, obj, error_callback, /):
         if __is_future_or_coroutine(obj):
@@ -3612,7 +3623,10 @@ cdef class ResourceState:
         self.shutdowner = None
 
         if shutdowner is not None:
-            await shutdowner(None, None, None)
+            future = shutdowner(None, None, None)
+
+            if self.shutdowner_is_async:
+                await future
 
     async def from_awaitable(self, awaitable, error_callback, /):
         try:
@@ -3644,6 +3658,7 @@ cdef class ResourceState:
             raise
 
         self.shutdowner = acm.__aexit__
+        self.shutdowner_is_async = True
         self.async_done = True
         return resource
 
@@ -3835,7 +3850,9 @@ cdef class BaseResource(Provider):
             if state.is_async:
                 return state.async_shutdown()
             elif state.shutdowner is not None:
-                state.shutdowner(None, None, None)
+                result = state.shutdowner(None, None, None)
+
+                assert not __isfuture(result), "sync resource with async shutdowner"
 
         if self._async_mode == ASYNC_MODE_ENABLED:
             return NULL_AWAITABLE
