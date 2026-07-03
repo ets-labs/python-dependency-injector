@@ -29,3 +29,7 @@ assert_type(dependencies, Dict[str, providers.Provider[Any]])
 # Test 6: to check base class
 # NOTE: Using assignment to check base class instead of exact type
 container6: containers.Container = containers.DynamicContainer()
+
+# Test 7: dynamic attribute access resolves to a Provider (see issue #910)
+container7 = containers.DynamicContainer()
+assert_type(container7.some_provider, providers.Provider[Any])
