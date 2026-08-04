@@ -625,6 +625,13 @@ def _patch_method(
         method = cls.__dict__[name]
         fn = method.__func__
     else:
+        # For inherited methods, check if the underlying function is already
+        # patched on a parent class. If so, skip to preserve the classmethod
+        # descriptor protocol (cls binding) for subclasses.
+        # See: https://github.com/ets-labs/python-dependency-injector/issues/947
+        underlying = getattr(method, "__func__", None)
+        if underlying is not None and _is_patched(underlying):
+            return
         fn = method
 
     if not _is_patched(fn):

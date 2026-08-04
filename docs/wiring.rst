@@ -55,6 +55,11 @@ the wiring works appropriately. This will also contribute to the performance of 
 Specifying the ``@inject`` as a first decorator is also crucial for FastAPI, other frameworks
 using decorators similarly, for closures, and for any types of custom decorators with the injections.
 
+.. note:: Note on complex class hierarchies
+
+    If you have complex class hierarchies with ``@inject``, when wiring modules, make sure to include all
+    modules with decorator. Otherwise partially wired classes might violate Liskov Substitution Principle.
+
 FastAPI example:
 
 .. code-block:: python
