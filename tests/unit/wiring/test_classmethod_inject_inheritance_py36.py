@@ -5,10 +5,12 @@ See issue for details: https://github.com/ets-labs/python-dependency-injector/is
 
 import sys
 
+from pytest import fixture
+from typing_extensions import Annotated
+
 from dependency_injector import providers
 from dependency_injector.containers import DeclarativeContainer
-from dependency_injector.wiring import inject, Provide
-from pytest import fixture
+from dependency_injector.wiring import Provide, inject
 
 
 class Container(DeclarativeContainer):
@@ -18,8 +20,8 @@ class Container(DeclarativeContainer):
 class Base:
     @classmethod
     @inject
-    def injected_factory(cls, container: Container = Provide[Container]):
-        return cls()
+    def injected_factory(cls, singleton: Annotated[object, Provide["singleton"]]):
+        return cls, singleton
 
 
 class Sub1(Base):
@@ -38,20 +40,9 @@ def container():
     container.unwire()
 
 
-def test_base_injected_classmethod_returns_base(container):
-    result = Base.injected_factory()
-    assert isinstance(result, Base)
-    assert type(result) is Base
+def test_base_injected_classmethod(container):
+    sentinel = container.singleton()
 
-
-def test_sub1_injected_classmethod_returns_sub1(container):
-    result = Sub1.injected_factory()
-    assert isinstance(result, Sub1)
-    assert type(result) is Sub1
-
-
-def test_sub2_injected_classmethod_returns_sub2(container):
-    """Regression: Sub2.injected_factory() must return Sub2, not Sub1."""
-    result = Sub2.injected_factory()
-    assert isinstance(result, Sub2)
-    assert type(result) is Sub2
+    for cls in [Sub2, Sub1, Base]:
+        result = cls.injected_factory()
+        assert result == (cls, sentinel)
