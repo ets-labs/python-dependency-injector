@@ -9,7 +9,6 @@ from typing import (
     Callable as _Callable,
     Coroutine as _Coroutine,
     Dict as _Dict,
-    Generator as _Generator,
     Generic,
     Iterable as _Iterable,
     Iterator as _Iterator,

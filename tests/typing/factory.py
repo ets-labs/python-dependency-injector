@@ -1,4 +1,4 @@
-from typing import Any, Callable, Dict, Optional, Tuple, Type
+from typing import Any, Callable, Dict, Tuple, Type
 from typing_extensions import assert_type
 
 from dependency_injector import providers

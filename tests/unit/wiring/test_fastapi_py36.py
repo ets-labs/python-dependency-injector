@@ -1,5 +1,5 @@
 from httpx import ASGITransport, AsyncClient
-from pytest import fixture, mark
+from pytest import mark
 from pytest_asyncio import fixture as aio_fixture
 
 # Runtime import to avoid syntax errors in samples on Python < 3.5 and reach top-dir

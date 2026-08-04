@@ -1,6 +1,5 @@
 import asyncio
 
-from typing_extensions import Annotated
 
 from dependency_injector import containers, providers
 from dependency_injector.wiring import Closing, Provide, inject

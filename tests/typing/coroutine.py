@@ -1,4 +1,4 @@
-from typing import Awaitable, Coroutine, Any
+from typing import Coroutine, Any
 from typing_extensions import assert_type
 
 from dependency_injector import providers

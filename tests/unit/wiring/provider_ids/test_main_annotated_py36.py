@@ -4,8 +4,7 @@ from decimal import Decimal
 import typing
 
 from dependency_injector import errors
-from dependency_injector.wiring import Closing, Provide, Provider, wire
-from pytest import fixture, mark, raises
+from pytest import fixture, raises
 
 from samples.wiring import module_annotated as module, package, resourceclosing
 from samples.wiring.service import Service

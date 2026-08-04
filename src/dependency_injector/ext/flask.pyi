@@ -1,4 +1,4 @@
-from typing import Any, Callable as _Callable, Optional, TypeVar, Union
+from typing import Callable as _Callable, Optional, TypeVar, Union
 
 from flask.wrappers import Request
 

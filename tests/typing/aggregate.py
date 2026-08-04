@@ -1,5 +1,5 @@
 from dependency_injector import providers
-from typing_extensions import assert_type, Any
+from typing_extensions import assert_type
 
 
 class Animal: ...

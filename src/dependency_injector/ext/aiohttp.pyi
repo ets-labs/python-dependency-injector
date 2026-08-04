@@ -1,4 +1,4 @@
-from typing import Any, Awaitable as _Awaitable, TypeVar
+from typing import Awaitable as _Awaitable, TypeVar
 
 from dependency_injector import providers
 
