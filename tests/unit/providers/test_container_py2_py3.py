@@ -264,3 +264,17 @@ def test_resolve_provider_name_no_provider():
     container = providers.Container(Core)
     with raises(errors.Error):
         container.resolve_provider_name(providers.Provider())
+
+def test_subcontainer_wiring():
+    class SC(containers.DeclarativeContainer):
+        wiring_config = containers.WiringConfiguration(modules=["samples.wiring.module"])
+    
+    subcontainer = SC()
+    assert len(subcontainer.wired_to_modules) == 1
+    
+    class PC(containers.DeclarativeContainer):
+        subcontainer = providers.Container(SC)
+    
+    parentcontainer = PC()
+    
+    assert len(parentcontainer.subcontainer().wired_to_modules) == 1
