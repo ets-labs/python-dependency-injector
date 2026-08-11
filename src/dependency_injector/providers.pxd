@@ -117,6 +117,7 @@ cdef class ConfigurationOption(Provider):
     cdef Configuration _root
     cdef dict _children
     cdef bint _required
+    cdef object _required_option
     cdef object _cache
 
 

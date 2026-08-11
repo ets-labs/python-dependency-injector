@@ -1522,6 +1522,7 @@ cdef class ConfigurationOption(Provider):
         self._root = root
         self._children = {}
         self._required = required
+        self._required_option = None
         self._cache = UNDEFINED
         super().__init__()
 
@@ -1537,6 +1538,7 @@ cdef class ConfigurationOption(Provider):
         copied._root = deepcopy(self._root, memo)
         copied._children = deepcopy(self._children, memo)
         copied._required = self._required
+        copied._required_option = deepcopy(self._required_option, memo)
         self._copy_overridings(copied, memo)
         return copied
 
@@ -1604,7 +1606,11 @@ cdef class ConfigurationOption(Provider):
         return TypedConfigurationOption(callback, self, *args, **kwargs)
 
     def required(self):
-        return self.__class__(self._name, self._root, required=True)
+        if self._required:
+            return self
+        if self._required_option is None:
+            self._required_option = self.__class__(self._name, self._root, required=True)
+        return self._required_option
 
     def is_required(self):
         return self._required
@@ -1625,6 +1631,9 @@ cdef class ConfigurationOption(Provider):
 
         for provider in self._children.values():
             provider.reset_cache()
+
+        if self._required_option is not None:
+            self._required_option.reset_cache()
 
         for provider in self.overrides:
             if isinstance(provider, (Configuration, ConfigurationOption)):

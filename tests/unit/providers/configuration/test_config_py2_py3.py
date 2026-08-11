@@ -121,6 +121,24 @@ def test_required(config):
         provider()
 
 
+def test_required_cache_is_reset_after_option_override():
+    class Container(containers.DeclarativeContainer):
+        config = providers.Configuration()
+        singleton = providers.Singleton(dict, value=config.a.required())
+
+    container = Container()
+    container.config.a.from_value("initial")
+
+    assert container.singleton() == {"value": "initial"}
+
+    with container.config.a.override("overridden"):
+        container.singleton.reset()
+        assert container.singleton() == {"value": "overridden"}
+
+    container.singleton.reset()
+    assert container.singleton() == {"value": "initial"}
+
+
 def test_required_defined_none(config):
     provider = providers.Callable(
         lambda value: value,
