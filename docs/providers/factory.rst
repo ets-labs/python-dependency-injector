@@ -40,6 +40,11 @@ injected following these rules:
    :language: python
    :lines: 3-
 
+Calling ``.add_kwargs()`` or ``.add_attributes()`` with an existing name replaces
+the previous injection. The replaced provider is not called, including when it
+is asynchronous. Call-time keyword arguments still take precedence over
+registered keyword injections.
+
 ``Factory`` provider can inject attributes. Use ``.add_attributes()`` method to specify
 attribute injections.
 

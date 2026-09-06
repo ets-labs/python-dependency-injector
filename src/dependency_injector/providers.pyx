@@ -1311,7 +1311,7 @@ cdef class Callable(Provider):
 
         :return: Reference ``self``
         """
-        self._kwargs += parse_named_injections(kwargs)
+        self._kwargs = _merge_named_injections(self._kwargs, kwargs)
         self._kwargs_len = len(self._kwargs)
         return self
 
@@ -2622,7 +2622,7 @@ cdef class Factory(Provider):
 
         :return: Reference ``self``
         """
-        self._attributes += parse_named_injections(kwargs)
+        self._attributes = _merge_named_injections(self._attributes, kwargs)
         self._attributes_len = len(self._attributes)
         return self
 
@@ -3534,8 +3534,8 @@ cdef class Dict(Provider):
         if dict_ is None:
             dict_ = {}
 
-        self._kwargs += parse_named_injections(dict_)
-        self._kwargs += parse_named_injections(kwargs)
+        self._kwargs = _merge_named_injections(self._kwargs, dict_)
+        self._kwargs = _merge_named_injections(self._kwargs, kwargs)
         self._kwargs_len = len(self._kwargs)
 
         return self
@@ -3551,7 +3551,7 @@ cdef class Dict(Provider):
             dict_ = {}
 
         self._kwargs = parse_named_injections(dict_)
-        self._kwargs += parse_named_injections(kwargs)
+        self._kwargs = _merge_named_injections(self._kwargs, kwargs)
         self._kwargs_len = len(self._kwargs)
 
         return self
@@ -3815,7 +3815,7 @@ cdef class BaseResource(Provider):
 
         :return: Reference ``self``
         """
-        self._kwargs += parse_named_injections(kwargs)
+        self._kwargs = _merge_named_injections(self._kwargs, kwargs)
         self._kwargs_len = len(self._kwargs)
         return self
 
@@ -4695,6 +4695,20 @@ cpdef tuple parse_named_injections(dict kwargs):
         injections.append(injection)
 
     return tuple(injections)
+
+
+cdef tuple _merge_named_injections(tuple injections, dict kwargs):
+    """Replace named injections before any superseded provider is evaluated."""
+    cdef dict merged = {}
+    cdef NamedInjection injection
+    cdef object name
+    cdef object value
+
+    for injection in injections:
+        merged[injection._name] = injection
+    for name, value in kwargs.items():
+        merged[name] = NamedInjection(name, value)
+    return tuple(merged.values())
 
 
 cdef class OverridingContext:
