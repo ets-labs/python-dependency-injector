@@ -8,5 +8,6 @@ API Documentation
    providers
    containers
    wiring
+   deploy
    errors
    asgi-lifespan
