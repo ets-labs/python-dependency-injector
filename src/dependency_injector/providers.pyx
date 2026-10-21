@@ -1311,9 +1311,9 @@ cdef class Callable(Provider):
 
         :return: Reference ``self``
         """
-        self._kwargs += parse_named_injections(kwargs)
-        self._kwargs_len = len(self._kwargs)
-        return self
+        existing_kwargs = self.kwargs
+        existing_kwargs.update(kwargs)
+        return self.set_kwargs(**existing_kwargs)
 
     def set_kwargs(self, **kwargs):
         """Set keyword argument injections.

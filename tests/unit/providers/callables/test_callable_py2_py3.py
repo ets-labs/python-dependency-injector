@@ -223,3 +223,13 @@ def test_repr():
         "<dependency_injector.providers."
         "Callable({0}) at {1}>".format(repr(example), hex(id(provider)))
     )
+
+
+def test_add_kwargs_replaces_dependency():
+    calls = []
+    original = providers.Callable(lambda: calls.append("original"))
+    provider = providers.Callable(dict, value=original, other=2)
+    provider.add_kwargs(value=20)
+
+    assert provider() == {"value": 20, "other": 2}
+    assert calls == []

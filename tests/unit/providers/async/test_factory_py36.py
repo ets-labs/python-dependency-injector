@@ -421,3 +421,30 @@ async def test_async_instance_and_sync_attributes_injection():
     assert service2.client.resource2 is RESOURCE2
 
     assert service1.client is not service2.client
+
+
+@mark.asyncio
+@mark.parametrize("provider_type", [providers.Callable, providers.Factory, providers.Singleton])
+@mark.parametrize("call_kwargs, expected", [({}, 20), ({"extra": 3}, 20), ({"value": 30}, 30)])
+async def test_add_kwargs_replaces_async_dependency(provider_type, call_kwargs, expected):
+    calls = []
+
+    async def original():
+        calls.append("original")
+        return 1
+
+    async def other():
+        return 2
+
+    provider = provider_type(
+        dict, value=providers.Callable(original), other=providers.Callable(other)
+    )
+    provider.add_kwargs(value=20)
+
+    result = await provider(**call_kwargs)
+
+    assert result["value"] == expected
+    assert result["other"] == 2
+    if "extra" in call_kwargs:
+        assert result["extra"] == 3
+    assert calls == []
