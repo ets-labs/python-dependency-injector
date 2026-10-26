@@ -45,7 +45,7 @@ except ImportError:
 
 has_pydantic_settings = False
 cdef bint pydantic_v1 = False
-cdef object PydanticSettings = None
+PydanticSettings = None
 cdef str pydantic_module = "pydantic_settings"
 cdef str pydantic_extra = "pydantic2"
 
