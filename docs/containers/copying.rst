@@ -10,6 +10,7 @@ You can create declarative container copies using ``@containers.copy()`` decorat
 
 Decorator ``@containers.copy()`` copies providers from source container to destination container.
 Destination container provider will replace source provider, if names match.
+Dependencies on the source container's ``Self`` provider refer to the destination container.
 
 Decorator ``@containers.copy()`` helps you when you create derived declarative containers
 from the base one. Base container often keeps default dependencies while derived containers define
