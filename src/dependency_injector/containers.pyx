@@ -883,7 +883,10 @@ def copy(object base_container):
         return memo
 
     def _decorator(new_container):
-        memo = {}
+        memo = {
+            id(base_container.__self__): new_container.__self__,
+            id(new_container.__self__): new_container.__self__,
+        }
         memo.update(_get_memo_for_matching_names(new_container.cls_providers, base_container.providers))
 
         new_providers = {}
