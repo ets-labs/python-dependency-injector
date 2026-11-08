@@ -624,6 +624,11 @@ def _patch_method(
     ):
         method = cls.__dict__[name]
         fn = method.__func__
+        if not callable(fn):
+            # The wrapped object is another descriptor, e.g.
+            # ``functools.singledispatchmethod``, there is nothing to inject.
+            # See: https://github.com/ets-labs/python-dependency-injector/issues/950
+            return
     else:
         # For inherited methods, check if the underlying function is already
         # patched on a parent class. If so, skip to preserve the classmethod
